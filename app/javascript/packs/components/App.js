@@ -21,10 +21,10 @@ let { store, persistor } = configureStore();
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#000',
+      main: '#222',
     },
     secondary: {
-      main: '#000',
+      main: '#333',
     },
   },
 });

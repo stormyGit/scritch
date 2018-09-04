@@ -47,7 +47,7 @@ const styles = theme => ({
     lineHeight: '56px',
   },
   brand: {
-    fontFamily: "'Gloria Hallelujah', cursive",
+    fontFamily: "'Monoton', cursive",
     fontSize: '2.5em'
   },
   toolBar: {

@@ -1,6 +1,6 @@
 module Types
   class QueryType < Types::BaseObject
-    field :medium, MediumType, null: true do
+    field :medium, MediumType, null: false do
       description "Find a medium by ID"
       argument :id, ID, required: true
     end
@@ -9,8 +9,8 @@ module Types
       description "List media"
     end
 
-    def medium(id)
-      Medium.find(id)
+    def medium(arguments)
+      Medium.find(arguments[:id])
     end
 
     def media

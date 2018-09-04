@@ -3,8 +3,10 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+
 import CustomAppBar from './CustomAppBar';
 import MediumCard from './MediumCard';
+import SearchBar from './SearchBar';
 
 const styles = theme => ({
   root: {
@@ -38,6 +40,7 @@ class Media extends React.Component {
     return (
       <React.Fragment>
         <CustomAppBar>
+          <SearchBar />
         </CustomAppBar>
         <Grid container alignItems="flex-start" justify="space-around" className={classes.root} spacing={8}>
           <Query query={GET_MEDIA}>

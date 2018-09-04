@@ -8,42 +8,51 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { Link, withRouter } from 'react-router-dom';
 
-const styles = {
+const styles = theme => ({
   card: {
     width: '100%',
-    borderRadius: 0
+    borderRadius: 0,
+    backgroundColor: theme.palette.primary.main,
   },
   media: {
     height: 260,
   },
-};
+  text: {
+    color: theme.palette.common.white
+  }
+});
 
 function MediumCard(props) {
   const { classes, medium } = props;
+
   return (
-    <Card className={classes.card}>
-      <CardActionArea className={classes.card}>
+    <Card className={classes.card} elevation={0}>
+      <CardActionArea
+        className={classes.card}
+        component={(props) => <Link to={`/${medium.id}`} {...props} />}
+      >
         <CardMedia
           className={classes.media}
-          image="http://2ap93t1x1l6e2f6gfo3ag4vw.wpengine.netdna-cdn.com/wp-content/uploads/2017/09/5_Harp-seal-1000x480.jpg"
+          image={`https://placeimg.com/640/480/${medium.id}`}
           title={medium.title}
         >
         </CardMedia>
         <CardContent>
-          <Typography gutterBottom variant="headline" component="h2">
+          <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
             {medium.title}
           </Typography>
-          <Typography component="p">
+          <Typography component="p" className={classes.text} noWrap>
             {medium.description}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        <Button size="small" className={classes.text}>
           Share
         </Button>
-        <Button size="small" color="primary">
+        <Button size="small" className={classes.text}>
           Learn More
         </Button>
       </CardActions>

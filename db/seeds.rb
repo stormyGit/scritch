@@ -13,10 +13,10 @@ user = User.create({
   name: "Test user"
 })
 
-10.times do |index|
+100.times do |index|
   Medium.create({
-    title: "Medium #{index}",
-    description: "Medium description #{index}",
+    title: Faker::Book.title,
+    description: 4.times.map { Faker::Movie.quote }.join(" "),
     user: user
   })
 end

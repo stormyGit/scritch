@@ -11,6 +11,7 @@ import SearchBar from 'material-ui-search-bar'
 
 import AppDrawer from './AppDrawer';
 import Media from './Media';
+import Medium from './Medium';
 
 const styles = theme => ({
   root: {
@@ -19,7 +20,7 @@ const styles = theme => ({
     overflow: 'hidden',
     position: 'relative',
     display: 'flex',
-    backgroundColor: theme.palette.primary.light,
+    backgroundColor: theme.palette.secondary.main,
     minHeight: '100vh'
   },
   appBar: {
@@ -54,7 +55,9 @@ function Layout(props) {
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <Switch>
-              <Route exact path='/' component={Media}/>
+              <Route exact path='/' component={Media} />
+              <Route exact path='/media' component={Media} />
+              <Route exact path='/:id' component={Medium} />
             </Switch>
           </main>
         </div>
