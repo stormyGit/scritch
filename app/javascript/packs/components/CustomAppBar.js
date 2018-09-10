@@ -5,10 +5,14 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { Link, withRouter } from 'react-router-dom'
 
 import UserAvatar from './UserAvatar';
+
+import { showSignInDialog } from '../actions/signInDialog';
+import { showSignUpDialog } from '../actions/signUpDialog';
 
 const styles = theme => ({
   root: {
@@ -20,7 +24,6 @@ const styles = theme => ({
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: theme.palette.primary.main,
     position: 'fixed',
   },
   titleZone: {
@@ -35,7 +38,6 @@ const styles = theme => ({
   pageTitle: {
     marginLeft: theme.spacing.unit * 2,
     paddingLeft: theme.spacing.unit * 2,
-    color: theme.palette.background.paper,
     marginTop: 5,
     marginBottom: 5,
     lineHeight: '36px',
@@ -43,7 +45,6 @@ const styles = theme => ({
   },
   userName: {
     marginRight: theme.spacing.unit,
-    color: theme.palette.background.paper,
     lineHeight: '56px',
   },
   brand: {
@@ -53,7 +54,11 @@ const styles = theme => ({
   toolBar: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    backgroundColor: theme.palette.background.paper,
+  },
+  button: {
+    marginRight: theme.spacing.unit,
   },
   toolbar: theme.mixins.toolbar,
 });
@@ -98,6 +103,24 @@ function Layout(props) {
               <UserAvatar user={props.currentUser} />
             </ButtonBase>
         }
+        {
+          !currentUser &&
+            <div>
+              <Button
+                onClick={() => props.showSignInDialog()}
+                variant="outlined"
+                className={classes.button}
+              >
+                Sign in
+              </Button>
+              <Button
+                onClick={() => props.showSignUpDialog()}
+                variant="contained"
+              >
+                Join Murrtube
+              </Button>
+            </div>
+        }
       </Toolbar>
     </AppBar>
   );
@@ -107,6 +130,10 @@ const ConnectedLayout = connect(
   ({ pageTitle }) => ({
     currentUser: null,
     pageTitle
+  }),
+  (dispatch) => ({
+    showSignInDialog: () => dispatch(showSignInDialog()),
+    showSignUpDialog: () => dispatch(showSignUpDialog()),
   })
 )(Layout)
 

@@ -27,7 +27,6 @@ const styles = theme => ({
     height: 'calc(100vh - 128px)',
   },
   text: {
-    color: theme.palette.common.white
   }
 });
 

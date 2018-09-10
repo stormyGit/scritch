@@ -45,7 +45,7 @@ class Media extends React.Component {
         <Grid container alignItems="flex-start" justify="space-around" className={classes.root} spacing={8}>
           <Query query={GET_MEDIA}>
             {({ data, loading }) => {
-              if (!data.media) {
+              if (loading) {
                 return (null);
               }
 

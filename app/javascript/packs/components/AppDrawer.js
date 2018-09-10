@@ -47,10 +47,9 @@ const styles = theme => {
       position: 'relative',
       width: drawerWidth,
       position: 'fixed',
-      backgroundColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.background.default,
     },
     text: {
-      color: theme.palette.background.paper
     },
     toolbar: theme.mixins.toolbar,
   })
@@ -80,7 +79,7 @@ const AppDrawer = (props) => {
                 selected={location.pathname === '/'}
                 component={(props) => <Link to='/' {...props} />}
               >
-                <ListItemIcon className={classes.text}>
+                <ListItemIcon className={classes.text} color='secondary'>
                   <OnDemandVideoIcon />
                 </ListItemIcon>
                 <ListItemText primary="All videos" primaryTypographyProps={{ className: classes.text }} />

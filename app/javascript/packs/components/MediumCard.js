@@ -13,14 +13,12 @@ import { Link, withRouter } from 'react-router-dom';
 const styles = theme => ({
   card: {
     width: '100%',
-    borderRadius: 0,
-    backgroundColor: theme.palette.primary.main,
+    borderRadius: 0
   },
   media: {
     height: 260,
   },
   text: {
-    color: theme.palette.common.white
   }
 });
 

@@ -12,6 +12,8 @@ import SearchBar from 'material-ui-search-bar'
 import AppDrawer from './AppDrawer';
 import Media from './Media';
 import Medium from './Medium';
+import SignInDialog from './SignInDialog';
+import SignUpDialog from './SignUpDialog';
 
 const styles = theme => ({
   root: {
@@ -20,12 +22,10 @@ const styles = theme => ({
     overflow: 'hidden',
     position: 'relative',
     display: 'flex',
-    backgroundColor: theme.palette.secondary.main,
     minHeight: '100vh'
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
-    backgroundColor: theme.palette.primary.main,
     position: 'fixed',
   },
   brand: {
@@ -61,6 +61,8 @@ function Layout(props) {
             </Switch>
           </main>
         </div>
+        <SignInDialog />
+        <SignUpDialog />
       </div>
     </HashRouter>
   );
