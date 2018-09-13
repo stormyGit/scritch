@@ -11,7 +11,6 @@ import { Link, withRouter } from 'react-router-dom'
 
 import UserAvatar from './UserAvatar';
 
-import { showSignInDialog } from '../actions/signInDialog';
 import { showSignUpDialog } from '../actions/signUpDialog';
 
 const styles = theme => ({
@@ -107,15 +106,9 @@ function Layout(props) {
           !currentUser &&
             <div>
               <Button
-                onClick={() => props.showSignInDialog()}
-                variant="outlined"
-                className={classes.button}
-              >
-                Sign in
-              </Button>
-              <Button
                 onClick={() => props.showSignUpDialog()}
                 variant="contained"
+                size="large"
               >
                 Join Murrtube
               </Button>
@@ -132,7 +125,6 @@ const ConnectedLayout = connect(
     pageTitle
   }),
   (dispatch) => ({
-    showSignInDialog: () => dispatch(showSignInDialog()),
     showSignUpDialog: () => dispatch(showSignUpDialog()),
   })
 )(Layout)

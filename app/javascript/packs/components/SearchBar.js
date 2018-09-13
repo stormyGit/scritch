@@ -42,7 +42,6 @@ const styles = theme => ({
   },
   input: {
     width: '100%',
-    color: theme.palette.background.paper,
   }
 })
 

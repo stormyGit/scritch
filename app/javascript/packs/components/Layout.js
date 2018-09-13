@@ -12,7 +12,6 @@ import SearchBar from 'material-ui-search-bar'
 import AppDrawer from './AppDrawer';
 import Media from './Media';
 import Medium from './Medium';
-import SignInDialog from './SignInDialog';
 import SignUpDialog from './SignUpDialog';
 
 const styles = theme => ({
@@ -61,7 +60,6 @@ function Layout(props) {
             </Switch>
           </main>
         </div>
-        <SignInDialog />
         <SignUpDialog />
       </div>
     </HashRouter>

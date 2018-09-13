@@ -82,7 +82,7 @@ const AppDrawer = (props) => {
                 <ListItemIcon className={classes.text} color='secondary'>
                   <OnDemandVideoIcon />
                 </ListItemIcon>
-                <ListItemText primary="All videos" primaryTypographyProps={{ className: classes.text }} />
+                <ListItemText primary="Last videos" primaryTypographyProps={{ className: classes.text }} />
               </ListItem>
               <ListItem
                 button
@@ -108,16 +108,6 @@ const AppDrawer = (props) => {
           </div>
           <div>
             <List>
-              <ListItem
-                button
-                selected={location.pathname === '/settings'}
-                component={(props) => <Link to='/settings' {...props} />}
-              >
-                <ListItemIcon className={classes.text}>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Settings" primaryTypographyProps={{ className: classes.text }} />
-              </ListItem>
               <ListItem
                 button
                 onClick={() => props.showIssueModal()}

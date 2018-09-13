@@ -29,6 +29,10 @@ const GET_MEDIA = gql`
       id
       title
       description
+      user {
+        id
+        name
+      }
     }
   }
 `;
@@ -44,8 +48,11 @@ class Media extends React.Component {
         </CustomAppBar>
         <Grid container alignItems="flex-start" justify="space-around" className={classes.root} spacing={8}>
           <Query query={GET_MEDIA}>
-            {({ data, loading }) => {
+            {({ data, loading, error }) => {
               if (loading) {
+                return (null);
+              }
+              if (error) {
                 return (null);
               }
 
