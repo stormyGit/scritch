@@ -13,6 +13,7 @@ import AppDrawer from './AppDrawer';
 import Media from './Media';
 import Medium from './Medium';
 import SignUpDialog from './SignUpDialog';
+import UploadDialog from './UploadDialog';
 
 const styles = theme => ({
   root: {
@@ -61,6 +62,7 @@ function Layout(props) {
           </main>
         </div>
         <SignUpDialog />
+        <UploadDialog />
       </div>
     </HashRouter>
   );

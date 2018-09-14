@@ -12,6 +12,7 @@ import { Link, withRouter } from 'react-router-dom'
 import UserAvatar from './UserAvatar';
 
 import { showSignUpDialog } from '../actions/signUpDialog';
+import { showUploadDialog } from '../actions/uploadDialog';
 
 const styles = theme => ({
   root: {
@@ -103,7 +104,18 @@ function Layout(props) {
             </ButtonBase>
         }
         {
-          !currentUser &&
+          <div>
+            <Button
+              onClick={() => props.showUploadDialog()}
+              variant="contained"
+              size="large"
+            >
+              Upload
+            </Button>
+          </div>
+        }
+        {
+          !currentUser && false &&
             <div>
               <Button
                 onClick={() => props.showSignUpDialog()}
@@ -126,6 +138,7 @@ const ConnectedLayout = connect(
   }),
   (dispatch) => ({
     showSignUpDialog: () => dispatch(showSignUpDialog()),
+    showUploadDialog: () => dispatch(showUploadDialog())
   })
 )(Layout)
 

@@ -69,3 +69,4 @@ gem 'graphiql-rails', group: :development
 gem 'figaro'
 gem 'devise'
 gem 'activeadmin'
+gem 'ruby-hmac'
