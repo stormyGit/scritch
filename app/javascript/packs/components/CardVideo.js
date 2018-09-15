@@ -18,7 +18,7 @@ class CardVideo extends React.Component {
   componentDidMount() {
     if (Hls.isSupported()) {
       this.hls = new Hls();
-      this.hls.loadSource('https://video-dev.github.io/streams/x36xhzz/x36xhzz.m3u8');
+      this.hls.loadSource(`${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET}/${this.props.medium.key}`);
       this.hls.attachMedia(this.refs.video);
       this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
         this.refs.video.play();

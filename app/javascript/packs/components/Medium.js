@@ -34,6 +34,7 @@ const GET_MEDIUM = gql`
       id
       title
       description
+      key
     }
   }
 `;

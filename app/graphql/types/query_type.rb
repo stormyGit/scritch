@@ -14,7 +14,7 @@ module Types
     end
 
     def media
-      Medium.all
+      Medium.where.not(key: nil)
     end
   end
 end
