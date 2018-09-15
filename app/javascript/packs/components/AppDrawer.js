@@ -110,30 +110,12 @@ const AppDrawer = (props) => {
             <List>
               <ListItem
                 button
-                onClick={() => props.showIssueModal()}
-              >
-                <ListItemIcon className={classes.text}>
-                  <BugReportIcon />
-                </ListItemIcon>
-                <ListItemText primary="Issues or suggestions" primaryTypographyProps={{ className: classes.text }} />
-              </ListItem>
-              <ListItem
-                button
                 component={(props) => <a href='https://lab.howlr.im' target="_blank" {...props} />}
               >
                 <ListItemIcon className={classes.text}>
                   <ToysIcon />
                 </ListItemIcon>
                 <ListItemText primary="More projects" primaryTypographyProps={{ className: classes.text }} />
-              </ListItem>
-              <ListItem
-                button
-                component={(props) => <a href='https://t.me/HowlrCrew' target="_blank" {...props} />}
-              >
-                <ListItemIcon className={classes.text}>
-                  <QuestionAnswerIcon />
-                </ListItemIcon>
-                <ListItemText primary="Contact us" primaryTypographyProps={{ className: classes.text }} />
               </ListItem>
               <ListItem
                 button

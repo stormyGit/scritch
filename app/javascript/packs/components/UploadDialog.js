@@ -65,8 +65,8 @@ class DropZoneField extends React.Component {
         progress: (p, stats) => {
           this.setState({ progress: stats });
         }
-      }).then((key) => {
-        this.props.input.onChange(key);
+      }).then((temporary_key) => {
+        this.props.input.onChange(temporary_key);
       });
     })
   }
@@ -140,13 +140,12 @@ class UploadDialog extends React.Component {
         <DialogContent>
           <Field
             component={DropZoneFieldWithStyle}
-            name="key"
+            name="temporary_key"
             validate={[required]}
           />
           <Field
             component={TextField}
             name="title"
-            autoFocus
             margin="dense"
             label="Title"
             type="text"
