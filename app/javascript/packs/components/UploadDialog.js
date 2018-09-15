@@ -11,31 +11,36 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FormControl from '@material-ui/core/FormControl';
 
 import uuidv4 from 'uuid/v4';
 
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-import {
-  TextField
-} from 'redux-form-material-ui';
+import { TextField } from 'redux-form-material-ui';
 import Dropzone from 'react-dropzone';
 
 import { hideUploadDialog } from '../actions/uploadDialog';
 import fileUploadService from '../fileUploadService';
 
+const required = value => (value ? undefined : 'This field is required.')
+
 const dropZoneStyles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    marginBottom: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit * 2,
     padding: theme.spacing.unit * 4,
     borderRadius: 2,
     textAlign: "center",
     color: theme.palette.text.primary,
     background: theme.palette.primary.light,
     fontFamily: theme.typography.fontFamily,
-    cursor: "pointer"
+    cursor: "pointer",
+    height: 220,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   uploadIcon: {
     marginBottom: theme.spacing.unit * 2,
@@ -110,28 +115,43 @@ class DropZoneField extends React.Component {
 
 const DropZoneFieldWithStyle = withStyles(dropZoneStyles)(DropZoneField);
 
+const styles = theme => ({
+  moderationExplanation: {
+    marginTop: theme.spacing.unit * 2,
+  }
+});
+
 class UploadDialog extends React.Component {
+  handleSubmit() {
+    this.props.handleSubmit();
+    this.props.handleClose();
+  }
+
   render() {
+    const { classes } = this.props;
+
     return (
       <Dialog
         open={this.props.open}
         onClose={this.props.handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Upload a new video</DialogTitle>
+        <DialogTitle id="form-dialog-title">Upload video</DialogTitle>
         <DialogContent>
           <Field
             component={DropZoneFieldWithStyle}
             name="key"
+            validate={[required]}
           />
           <Field
             component={TextField}
-            name="name"
+            name="title"
             autoFocus
             margin="dense"
             label="Title"
             type="text"
             fullWidth
+            validate={[required]}
           />
           <Field
             component={TextField}
@@ -143,17 +163,15 @@ class UploadDialog extends React.Component {
             multiline
             rows={4}
           />
-          <DialogContentText>
-            <Typography variant="body2" color="inherit">
-              After you submit a video it will be reviewed by our team of moderators. We will let you know as soon as your video is ready!
-            </Typography>
+          <DialogContentText variant="body2" className={classes.moderationExplanation}>
+            After you submit a video it will be reviewed by our team of moderators. We will let you know as soon as your video is published.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={this.props.handleClose}>
             Cancel
           </Button>
-          <Button onClick={() => this.props.handleSubmit()}>
+          <Button onClick={() => this.handleSubmit()} disabled={!this.props.valid}>
             Submit
           </Button>
         </DialogActions>
@@ -163,9 +181,11 @@ class UploadDialog extends React.Component {
 }
 
 const CREATE_MEDIUM = gql`
-  mutation createMedium($name: String!, $description: String!, $key: String!) {
-    createMedium(name: $name, description: $description, key: $key) {
-      id
+  mutation createMedium($input: CreateMediumInput!) {
+    createMedium(input: $input) {
+      medium {
+        id
+      }
     }
   }
 `;
@@ -177,16 +197,19 @@ const Connected = connect(
   })
 )(UploadDialog);
 const Form = reduxForm({ form: 'UploadDialog' })(Connected);
+const StyledForm = withStyles(styles)(Form);
 const FormWithMutation = () => (
   <Mutation mutation={CREATE_MEDIUM}>
     {
-      (createMedium, { data }) => (
-        <Form onSubmit={(variables) => {
-          console.log(variables);
-            // createUser({ variables });
-          }}
-        />
-      )
+      (createMedium, { called }) => {
+        return (
+          <StyledForm
+            onSubmit={(input) => {
+              createMedium({ variables: { input } });
+            }}
+          />
+        )
+      }
     }
   </Mutation>
 )
