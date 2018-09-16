@@ -25,12 +25,6 @@ const theme = createMuiTheme({
       default: "#333"
     },
     type: 'dark'
-    // primary: {
-    //   main: '#222',
-    // },
-    // secondary: {
-    //   main: '#333',
-    // },
   },
 });
 

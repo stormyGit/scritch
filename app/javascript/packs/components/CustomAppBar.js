@@ -10,6 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import { Link, withRouter } from 'react-router-dom'
 
 import UserAvatar from './UserAvatar';
+import Logo from './Logo';
 
 import { showSignUpDialog } from '../actions/signUpDialog';
 import { showUploadDialog } from '../actions/uploadDialog';
@@ -21,6 +22,10 @@ const styles = theme => ({
     overflow: 'hidden',
     position: 'relative',
     display: 'flex',
+  },
+  rootLink: {
+    color: theme.palette.text.primary,
+    textDecoration: 'none',
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -47,10 +52,6 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     lineHeight: '56px',
   },
-  brand: {
-    fontFamily: "'Monoton', cursive",
-    fontSize: '2.5em'
-  },
   toolBar: {
     display: 'flex',
     flexDirection: 'row',
@@ -70,13 +71,9 @@ function Layout(props) {
     <AppBar position="absolute" className={classes.appBar}>
       <Toolbar className={classes.toolBar}>
         <div className={classes.titleZone}>
-          <ButtonBase
-            component={(props) => <Link to='/' {...props} />}
-          >
-            <Typography variant="title" color="inherit" noWrap className={classes.brand}>
-              Murrtube
-            </Typography>
-          </ButtonBase>
+          <Link to='/' className={classes.rootLink}>
+            <Logo />
+          </Link>
           { pageTitle && <Typography variant="headline" className={classes.pageTitle}>
             {pageTitle}
           </Typography>}
@@ -104,18 +101,19 @@ function Layout(props) {
             </ButtonBase>
         }
         {
-          <div>
-            <Button
-              onClick={() => props.showUploadDialog()}
-              variant="contained"
-              size="large"
-            >
-              Upload
-            </Button>
-          </div>
+          currentUser &&
+            <div>
+              <Button
+                onClick={() => props.showUploadDialog()}
+                variant="contained"
+                size="large"
+              >
+                Upload
+              </Button>
+            </div>
         }
         {
-          !currentUser && false &&
+          !currentUser &&
             <div>
               <Button
                 onClick={() => props.showSignUpDialog()}

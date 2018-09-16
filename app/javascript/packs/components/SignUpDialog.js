@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -9,24 +10,42 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
-import {
-  TextField
-} from 'redux-form-material-ui'
+import { TextField } from 'redux-form-material-ui'
 
 import { hideSignUpDialog } from '../actions/signUpDialog';
 
+import Logo from './Logo';
+
+const styles = theme => ({
+  brand: {
+    textAlign: 'center'
+  }
+})
+
 class SignUpDialog extends React.Component {
   render() {
+    const { classes } = this.props;
+
     return (
       <Dialog
         open={this.props.open}
         onClose={this.props.handleClose}
-        aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Join Murrtube</DialogTitle>
+        <DialogTitle className={classes.brand}>
+          <Logo />
+        </DialogTitle>
         <DialogContent>
           <DialogContentText>
           </DialogContentText>
+          <Field
+            component={TextField}
+            name="username"
+            autoFocus
+            margin="dense"
+            label="Username"
+            type="text"
+            fullWidth
+          />
           <Field
             component={TextField}
             name="email"
@@ -41,14 +60,6 @@ class SignUpDialog extends React.Component {
             name="password"
             margin="dense"
             label="Password"
-            type="password"
-            fullWidth
-          />
-          <Field
-            component={TextField}
-            name="password_confirmation"
-            margin="dense"
-            label="Password confirmation"
             type="password"
             fullWidth
           />
@@ -79,7 +90,7 @@ const Connected = connect(
   (dispatch) => ({
     handleClose: () => dispatch(hideSignUpDialog())
   })
-)(SignUpDialog);
+)(withStyles(styles)(SignUpDialog));
 const Form = reduxForm({ form: 'SignUpDialog' })(Connected);
 const FormWithMutation = () => (
   <Mutation mutation={CREATE_USER}>

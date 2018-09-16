@@ -56,6 +56,7 @@ function Layout(props) {
             <div className={classes.toolbar} />
             <Switch>
               <Route exact path='/' component={Media} />
+              <Route exact path='/videos' component={Media} />
               <Route exact path='/media' component={Media} />
               <Route exact path='/:id' component={Medium} />
             </Switch>

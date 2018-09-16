@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import queryString from 'query-string';
 
 import CustomAppBar from './CustomAppBar';
 import MediumCard from './MediumCard';
 import SearchBar from './SearchBar';
-
-import { setMediaCriteria } from '../actions/mediaCriteria';
+import GlobalProgress from './GlobalProgress';
+import EmptyList from './EmptyList';
 
 const styles = theme => ({
   root: {
@@ -23,7 +24,7 @@ const styles = theme => ({
   },
   settingsPaper: {
     width: '100%',
-  }
+  },
 });
 
 const GET_MEDIA = gql`
@@ -34,6 +35,7 @@ const GET_MEDIA = gql`
       description
       previewKey
       thumbnailKey
+      createdAt
       user {
         id
         name
@@ -44,57 +46,68 @@ const GET_MEDIA = gql`
 
 class Media extends React.Component {
   handleRequestSearch(q) {
-    this.props.setMediaCriteria({ q });
+    this.props.history.push({
+      pathname: '/videos',
+      search: queryString.stringify({ q })
+    });
+  }
+
+  renderResults({ data, horizontal }) {
+    if (data.media.length === 0) {
+      const { location } = this.props;
+      const query = queryString.parse(location.search)
+
+      return (
+        <EmptyList
+          label={`No results were found for your search term: ${query.q}`}
+        />
+      )
+    }
+    if (horizontal) {
+      return (
+        data.media.map((medium) => (
+          <Grid item item xs={12} lg={8} key={medium.id} style={{ marginLeft: 'auto', marginRight: 'auto'}}>
+            <MediumCard medium={medium} horizontal />
+          </Grid>
+        ))
+      );
+    }
+
+    return (
+      data.media.map((medium) => (
+        <Grid item xs={12} md={6} lg={4} key={medium.id}>
+          <MediumCard medium={medium} />
+        </Grid>
+      ))
+    );
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, location } = this.props;
+    const query = queryString.parse(location.search)
 
     return (
-      <React.Fragment>
-        <CustomAppBar>
-          <SearchBar cancelOnEscape onRequestSearch={(q) => this.handleRequestSearch(q)} />
-        </CustomAppBar>
-        <Grid container alignItems="center" justify="space-around" className={classes.root} spacing={8}>
-          <Query query={GET_MEDIA} variables={{ q: this.props.mediaCriteria.q }}>
-            {({ data, loading, error }) => {
-              if (loading) {
-                return (null);
-              }
-              if (error) {
-                return (null);
-              }
-
-              if (this.props.mediaCriteria.q) {
-                return (
-                  data.media.map((medium) => (
-                    <Grid item item xs={12} lg={8} key={medium.id}>
-                      <MediumCard medium={medium} />
-                    </Grid>
-                  ))
-                );
-              }
-
-              return (
-                data.media.map((medium) => (
-                  <Grid item xs={12} md={6} lg={4} key={medium.id}>
-                    <MediumCard medium={medium} />
-                  </Grid>
-                ))
-              );
-            }}
-          </Query>
-        </Grid>
-      </React.Fragment>
+      <Query query={GET_MEDIA} variables={{ q: query.q }}>
+        {({ data, loading, error }) => (
+          <React.Fragment>
+            <CustomAppBar>
+              <SearchBar
+                cancelOnEscape
+                value={query.q}
+                onRequestSearch={(q) => this.handleRequestSearch(q)}
+              />
+            </CustomAppBar>
+            <Grid container className={classes.root} spacing={8}>
+              {loading && <GlobalProgress />}
+              {!loading && this.renderResults({ data, horizontal: (query.q && query.q.length > 0) })}
+            </Grid>
+          </React.Fragment>
+        )}
+      </Query>
     );
   }
 }
 
-const ConnectedMedia = connect(
-  ({ mediaCriteria }) => ({ mediaCriteria }),
-  (dispatch) => ({
-    setMediaCriteria: (payload) => dispatch(setMediaCriteria(payload))
-  })
-)(Media);
+const ConnectedMedia = connect()(Media);
 
 export default withStyles(styles)(ConnectedMedia);
