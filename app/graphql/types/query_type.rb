@@ -7,14 +7,21 @@ module Types
 
     field :media, [MediumType], null: false do
       description "List media"
+      argument :q, String, required: false
     end
 
-    def medium(arguments)
-      Medium.find(arguments[:id])
+    def medium(params = {})
+      Medium.find(params[:id])
     end
 
-    def media
-      Medium.where.not(key: nil)
+    def media(params = {})
+      medium = Medium.where.not(key: nil)
+
+      if params[:q].present?
+        medium = medium.where("media.title @@ ?", params[:q])
+      end
+
+      medium
     end
   end
 end

@@ -20,7 +20,7 @@ const styles = theme => ({
     borderRadius: 0
   },
   media: {
-    height: 260,
+    height: 300
   },
   text: {
   }

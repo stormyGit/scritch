@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_15_204930) do
+ActiveRecord::Schema.define(version: 2018_09_16_083224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 2018_09_15_204930) do
     t.string "key"
     t.string "video_encoding_job_id"
     t.string "temporary_key"
+    t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
   end
 
   create_table "users", force: :cascade do |t|
