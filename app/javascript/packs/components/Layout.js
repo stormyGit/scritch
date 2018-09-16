@@ -5,6 +5,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Chip from '@material-ui/core/Chip';
+import Hidden from '@material-ui/core/Hidden';
+
 import { HashRouter, Route, Switch } from 'react-router-dom'
 
 import SearchBar from 'material-ui-search-bar'
@@ -54,7 +56,9 @@ function Layout(props) {
     <HashRouter>
       <div className="App">
         <div className={classes.root}>
-          <AppDrawer />
+          <Hidden mdDown>
+            <AppDrawer />
+          </Hidden>
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <Switch>

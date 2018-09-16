@@ -30,7 +30,7 @@ const GET_MEDIA = gql`
   query User($id: ID!) {
     user(id: $id) {
       name
-      media {
+      publishedMedia {
         id
         title
         description
@@ -57,7 +57,7 @@ class User extends React.Component {
   }
 
   renderResults({ data }) {
-    if (data.user.media.length === 0) {
+    if (data.user.publishedMedia.length === 0) {
       return (
         <EmptyList
           label={`${data.user.name} doesn't have any videos.`}
@@ -65,7 +65,7 @@ class User extends React.Component {
       )
     }
     return (
-      data.user.media.map((medium) => (
+      data.user.publishedMedia.map((medium) => (
         <Grid item item xs={12} lg={8} key={medium.id} style={{ marginLeft: 'auto', marginRight: 'auto'}}>
           <MediumCard medium={medium} horizontal />
         </Grid>
@@ -96,6 +96,10 @@ class User extends React.Component {
         {({ data, loading, error }) => (
           <React.Fragment>
             <CustomAppBar>
+              <SearchBar
+                cancelOnEscape
+                onRequestSearch={(q) => this.handleRequestSearch(q)}
+              />
             </CustomAppBar>
             {loading && <GlobalProgress />}
             {

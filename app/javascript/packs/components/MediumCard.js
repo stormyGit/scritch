@@ -26,7 +26,8 @@ const styles = theme => ({
   },
   horizontalContent: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    flexGrow: 1
   },
   verticalMedia: {
     width: '100%',
@@ -34,7 +35,8 @@ const styles = theme => ({
     position: 'relative',
   },
   horizontalMediaContainer: {
-    width: '60%',
+    maxWidth: '46%',
+    minWidth: '46%',
     height: 340,
   },
   horizontalMedia: {
@@ -43,7 +45,7 @@ const styles = theme => ({
     position: 'relative',
   },
   horizontalInfos: {
-    flex: 1
+    flex: 1,
   },
   duration: {
     position: 'absolute',
@@ -57,6 +59,8 @@ const styles = theme => ({
   userLink: {
     color: theme.palette.text.primary,
     textDecoration: 'none'
+  },
+  content: {
   }
 });
 
@@ -126,11 +130,11 @@ class MediumCard extends React.Component {
 
     return (
       <CardContent className={classes.content}>
-        <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
+        <Typography gutterBottom variant="headline" component="h2" className={classes.text}  noWrap={!horizontal}>
           {medium.title}
         </Typography>
         <Typography component="p" className={classes.text} noWrap={!horizontal}>
-          {medium.description}
+          {medium.description || `No description`}
         </Typography>
       </CardContent>
     );

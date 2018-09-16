@@ -91,7 +91,7 @@ class DropZoneField extends React.Component {
         {
           this.state.progress && this.state.progress.remainingSize > 0 &&
             <div>
-              <CircularProgress className={classes.progress} />
+              <CircularProgress className={classes.progress} variant={"static"} value={parseInt(this.state.progress.totalUploaded / this.state.progress.fileSize * 95) + 5} />
               <Typography variant="title" color="inherit" noWrap>
                 {
                   this.state.progress.secondsLeft >= 0 ? `${this.state.progress.secondsLeft}s. remaining` : `Uploading`
