@@ -27,6 +27,9 @@ import AsssistantPhotoIcon from '@material-ui/icons/AssistantPhoto';
 
 import { Link, withRouter } from 'react-router-dom'
 
+import { showTermsDialog } from '../actions/termsDialog';
+import { showPrivacyPolicyDialog } from '../actions/privacyPolicyDialog';
+
 const drawerWidth = 287;
 
 const styles = theme => {
@@ -127,7 +130,7 @@ const AppDrawer = (props) => {
               </ListItem>
               <ListItem
                 button
-                component={(props) => <a href='https://howlr.im/terms-and-conditions' target="_blank" {...props} />}
+                onClick={() => props.showTermsDialog()}
               >
                 <ListItemIcon className={classes.text}>
                   <VerifiedUserIcon />
@@ -136,7 +139,7 @@ const AppDrawer = (props) => {
               </ListItem>
               <ListItem
                 button
-                component={(props) => <a href='https://howlr.im/privacy-policy' target="_blank" {...props} />}
+                onClick={() => props.showPrivacyPolicyDialog()}
               >
                 <ListItemIcon className={classes.text}>
                   <AsssistantPhotoIcon />
@@ -154,6 +157,8 @@ const AppDrawer = (props) => {
 const ConnectedAppDrawer = connect(
   ({ currentUser }) => ({ currentUser }),
   (dispatch) => ({
+    showTermsDialog: () => dispatch(showTermsDialog()),
+    showPrivacyPolicyDialog: () => dispatch(showPrivacyPolicyDialog()),
   })
 )(AppDrawer);
 

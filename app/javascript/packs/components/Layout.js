@@ -15,6 +15,8 @@ import Medium from './Medium';
 import User from './User';
 import SignUpDialog from './SignUpDialog';
 import UploadDialog from './UploadDialog';
+import TermsDialog from './TermsDialog';
+import PrivacyPolicyDialog from './PrivacyPolicyDialog';
 
 const styles = theme => ({
   root: {
@@ -65,6 +67,8 @@ function Layout(props) {
         </div>
         <SignUpDialog />
         <UploadDialog />
+        <TermsDialog />
+        <PrivacyPolicyDialog />
       </div>
     </HashRouter>
   );

@@ -101,7 +101,7 @@ function Layout(props) {
             </ButtonBase>
         }
         {
-          currentUser &&
+          !currentUser &&
             <div>
               <Button
                 onClick={() => props.showUploadDialog()}
@@ -113,7 +113,7 @@ function Layout(props) {
             </div>
         }
         {
-          !currentUser &&
+          !currentUser && false &&
             <div>
               <Button
                 onClick={() => props.showSignUpDialog()}

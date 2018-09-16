@@ -122,14 +122,14 @@ class MediumCard extends React.Component {
   }
 
   renderContent() {
-    const { classes, medium } = this.props;
+    const { classes, medium, horizontal } = this.props;
 
     return (
       <CardContent className={classes.content}>
         <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
           {medium.title}
         </Typography>
-        <Typography component="p" className={classes.text}>
+        <Typography component="p" className={classes.text} noWrap={!horizontal}>
           {medium.description}
         </Typography>
       </CardContent>
