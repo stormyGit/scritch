@@ -58,7 +58,7 @@ class Media extends React.Component {
 
               return (
                 data.media.map((medium) => (
-                  <Grid container item xs={12} lg={4} key={medium.id}>
+                  <Grid container item xs={12} md={6} lg={4} key={medium.id}>
                     <MediumCard medium={medium} />
                   </Grid>
                 ))

@@ -6,11 +6,11 @@ class Mutations::CreateMedium < Mutations::BaseMutation
   field :medium, Types::MediumType, null: true
   field :errors, [String], null: false
 
-  def resolve(title:, description:, temporary_key:)
+  def resolve(arguments)
     medium = Medium.new({
-      title: title,
-      description: description,
-      temporary_key: temporary_key,
+      title: arguments[:title],
+      description: arguments[:description],
+      temporary_key: arguments[:temporary_key],
       user: User.first
     })
 

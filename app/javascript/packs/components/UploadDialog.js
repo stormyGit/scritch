@@ -61,7 +61,7 @@ class DropZoneField extends React.Component {
     fileUploadService.then((evaporate) => {
       evaporate.add({
         file: file,
-        name: `${uuidv4()}/${file.name}`,
+        name: uuidv4(),
         progress: (p, stats) => {
           this.setState({ progress: stats });
         }
@@ -122,11 +122,6 @@ const styles = theme => ({
 });
 
 class UploadDialog extends React.Component {
-  handleSubmit() {
-    this.props.handleSubmit();
-    this.props.handleClose();
-  }
-
   render() {
     const { classes } = this.props;
 
@@ -140,7 +135,7 @@ class UploadDialog extends React.Component {
         <DialogContent>
           <Field
             component={DropZoneFieldWithStyle}
-            name="temporary_key"
+            name="temporaryKey"
             validate={[required]}
           />
           <Field
@@ -170,7 +165,7 @@ class UploadDialog extends React.Component {
           <Button onClick={this.props.handleClose}>
             Cancel
           </Button>
-          <Button onClick={() => this.handleSubmit()} disabled={!this.props.valid}>
+          <Button onClick={this.props.handleSubmit} disabled={!this.props.valid}>
             Submit
           </Button>
         </DialogActions>
@@ -189,20 +184,19 @@ const CREATE_MEDIUM = gql`
   }
 `;
 
-const Connected = connect(
-  ({ uploadDialog }) => ({ open: uploadDialog }),
-  (dispatch) => ({
-    handleClose: () => dispatch(hideUploadDialog())
-  })
-)(UploadDialog);
-const Form = reduxForm({ form: 'UploadDialog' })(Connected);
-const StyledForm = withStyles(styles)(Form);
-const FormWithMutation = () => (
+const Form = reduxForm({ form: 'UploadDialog' })(UploadDialog);
+const FormWithMutation = (props) => (
   <Mutation mutation={CREATE_MEDIUM}>
     {
       (createMedium, { called }) => {
+        if (called) {
+          props.handleClose();
+          return (null);
+        }
+
         return (
-          <StyledForm
+          <Form
+            {...props}
             onSubmit={(input) => {
               createMedium({ variables: { input } });
             }}
@@ -212,4 +206,13 @@ const FormWithMutation = () => (
     }
   </Mutation>
 )
-export default FormWithMutation;
+
+const Connected = connect(
+  ({ uploadDialog }) => ({ open: uploadDialog }),
+  (dispatch) => ({
+    handleClose: () => dispatch(hideUploadDialog())
+  })
+)(FormWithMutation);
+const StyledForm = withStyles(styles)(Connected);
+
+export default StyledForm;
