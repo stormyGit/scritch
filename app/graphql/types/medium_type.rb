@@ -8,6 +8,7 @@ module Types
     field :thumbnail_key, String, null: true
     field :preview_key, String, null: true
     field :temporary_key, String, null: false
+    field :duration, Integer, null: false
     field :createdAt, String, null: false
     field :updatedAt, String, null: false
     field :user, UserType, null: true

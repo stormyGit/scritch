@@ -30,24 +30,56 @@ const styles = theme => ({
   },
   verticalMedia: {
     width: '100%',
-    height: 300
+    height: 300,
+    position: 'relative',
   },
   horizontalMediaContainer: {
     width: '60%',
-    height: 340
+    height: 340,
   },
   horizontalMedia: {
     width: '100%',
     height: '100%',
+    position: 'relative',
   },
   horizontalInfos: {
     flex: 1
+  },
+  duration: {
+    position: 'absolute',
+    right: theme.spacing.unit,
+    bottom: theme.spacing.unit,
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    paddingLeft: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    borderRadius: 3
   }
 });
 
 class MediumCard extends React.Component {
   state = {
     thumbnailKey: this.props.medium.thumbnailKey
+  }
+
+  formatDuration(duration) {
+    var date = new Date(duration * 1000);
+    var hh = date.getUTCHours();
+    var mm = date.getUTCMinutes();
+    var ss = date.getSeconds();
+
+    if (duration < 60) {
+      return (`${ss}s`);
+    }
+
+    if (hh < 10) {hh = "0"+hh;}
+    if (mm < 10) {mm = "0"+mm;}
+    if (ss < 10) {ss = "0"+ss;}
+
+    if (duration < 3600) {
+      return (`${mm}:${ss}`);
+    }
+
+    return (`${hh}:${mm}:${ss}`);
   }
 
   renderHeader() {
@@ -68,7 +100,6 @@ class MediumCard extends React.Component {
 
   renderMedia() {
     const { classes, medium, horizontal } = this.props;
-
     return (
       <CardMedia
         className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
@@ -76,7 +107,11 @@ class MediumCard extends React.Component {
         title={medium.title}
         onMouseEnter={() => this.setState({ thumbnailKey: medium.previewKey })}
         onMouseLeave={() => this.setState({ thumbnailKey: medium.thumbnailKey })}
-      />
+      >
+        <Typography variant="body2" className={classes.duration}>
+          {this.formatDuration(medium.duration)}
+        </Typography>
+      </CardMedia>
     );
   }
 

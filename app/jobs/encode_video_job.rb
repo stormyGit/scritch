@@ -32,6 +32,7 @@ class EncodeVideoJob < ApplicationJob
       perform_video_encoding!
       get_thumbnail!
       get_preview!
+      get_duration!
     end
   end
 
@@ -76,6 +77,14 @@ class EncodeVideoJob < ApplicationJob
 
     upload(preview_path, "#{root_dir}/preview.gif")
     @medium.update(preview_key: "#{root_dir}/preview.gif")
+  end
+
+  def get_duration!
+    output = JSON.parse(`ffprobe -of json -show_format_entry name -show_format #{input_path} -loglevel quiet`)
+
+    @medium.update({
+      duration: output["format"]["duration"].to_i
+    })
   end
 
   protected

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_16_114814) do
+ActiveRecord::Schema.define(version: 2018_09_16_195706) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,7 @@ ActiveRecord::Schema.define(version: 2018_09_16_114814) do
     t.string "temporary_key"
     t.string "thumbnail_key"
     t.string "preview_key"
+    t.integer "duration"
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
   end
 

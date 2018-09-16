@@ -36,6 +36,7 @@ const GET_MEDIA = gql`
       previewKey
       thumbnailKey
       createdAt
+      duration
       user {
         id
         name

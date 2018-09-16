@@ -8,6 +8,7 @@
     "apollo-boost": "^0.1.15",
     "aws-sdk": "^2.315.0",
     "babel-preset-react": "^6.24.1",
+    "dayjs": "^1.7.5",
     "dotenv": "^6.0.0",
     "evaporate": "^2.1.4",
     "graphql": "^14.0.0",
