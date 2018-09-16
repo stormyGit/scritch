@@ -12,6 +12,7 @@ import SearchBar from 'material-ui-search-bar'
 import AppDrawer from './AppDrawer';
 import Media from './Media';
 import Medium from './Medium';
+import User from './User';
 import SignUpDialog from './SignUpDialog';
 import UploadDialog from './UploadDialog';
 
@@ -57,8 +58,8 @@ function Layout(props) {
             <Switch>
               <Route exact path='/' component={Media} />
               <Route exact path='/videos' component={Media} />
-              <Route exact path='/media' component={Media} />
-              <Route exact path='/:id' component={Medium} />
+              <Route exact path='/videos/:id' component={Medium} />
+              <Route exact path='/:id' component={User} />
             </Switch>
           </main>
         </div>

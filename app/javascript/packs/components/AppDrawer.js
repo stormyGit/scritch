@@ -56,7 +56,7 @@ const styles = theme => {
 };
 
 const AppDrawer = (props) => {
-  const { classes, location } = props;
+  const { classes, location, currentUser } = props;
 
   return (
     <div>
@@ -84,27 +84,35 @@ const AppDrawer = (props) => {
                 </ListItemIcon>
                 <ListItemText primary="Last videos" primaryTypographyProps={{ className: classes.text }} />
               </ListItem>
-              <ListItem
-                button
-                selected={location.pathname === '/likes'}
-                component={(props) => <Link to='/likes' {...props} />}
-              >
-                <ListItemIcon className={classes.text}>
-                  <FavoriteIcon />
-                </ListItemIcon>
-                <ListItemText primary="Favorites" primaryTypographyProps={{ className: classes.text }} />
-              </ListItem>
-              <ListItem
-                button
-                selected={location.pathname === '/groups'}
-                component={(props) => <Link to='/groups' {...props} />}
-              >
-                <ListItemIcon className={classes.text}>
-                  <SubscriptionsIcon />
-                </ListItemIcon>
-                <ListItemText primary="My subscriptions" primaryTypographyProps={{ className: classes.text }} />
-              </ListItem>
             </List>
+            {
+              currentUser &&
+                <React.Fragment>
+                  <Divider />
+                  <List>
+                    <ListItem
+                      button
+                      selected={location.pathname === '/likes'}
+                      component={(props) => <Link to='/likes' {...props} />}
+                    >
+                      <ListItemIcon className={classes.text}>
+                        <FavoriteIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Favorites" primaryTypographyProps={{ className: classes.text }} />
+                    </ListItem>
+                    <ListItem
+                      button
+                      selected={location.pathname === '/groups'}
+                      component={(props) => <Link to='/groups' {...props} />}
+                    >
+                      <ListItemIcon className={classes.text}>
+                        <SubscriptionsIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="My subscriptions" primaryTypographyProps={{ className: classes.text }} />
+                    </ListItem>
+                  </List>
+                </React.Fragment>
+            }
           </div>
           <div>
             <List>
@@ -144,7 +152,7 @@ const AppDrawer = (props) => {
 }
 
 const ConnectedAppDrawer = connect(
-  undefined,
+  ({ currentUser }) => ({ currentUser }),
   (dispatch) => ({
   })
 )(AppDrawer);

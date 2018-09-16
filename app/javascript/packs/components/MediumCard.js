@@ -53,6 +53,10 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
     borderRadius: 3
+  },
+  userLink: {
+    color: theme.palette.text.primary,
+    textDecoration: 'none'
   }
 });
 
@@ -88,11 +92,13 @@ class MediumCard extends React.Component {
     return (
       <CardHeader
         avatar={
-          <Avatar aria-label="Recipe" className={classes.avatar}>
-            R
-          </Avatar>
+          <Link to={`/${medium.user.slug}`} className={classes.userLink}>
+            <Avatar aria-label="Recipe" className={classes.avatar}>
+              R
+            </Avatar>
+          </Link>
         }
-        title={medium.user.name}
+        title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}
         subheader={timeAgo.format(new Date(medium.createdAt))}
       />
     );
@@ -115,22 +121,30 @@ class MediumCard extends React.Component {
     );
   }
 
+  renderContent() {
+    const { classes, medium } = this.props;
+
+    return (
+      <CardContent className={classes.content}>
+        <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
+          {medium.title}
+        </Typography>
+        <Typography component="p" className={classes.text}>
+          {medium.description}
+        </Typography>
+      </CardContent>
+    );
+  }
+
   renderVertical() {
     const { classes, medium } = this.props;
 
     return (
       <Card className={classes.card} elevation={0}>
         {this.renderHeader()}
-        <CardActionArea component={(props) => <Link to={`/${medium.id}`} {...props} />}>
+        <CardActionArea component={(props) => <Link to={`/videos/${medium.id}`} {...props} />}>
           {this.renderMedia()}
-          <CardContent className={classes.content}>
-            <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
-              {medium.title}
-            </Typography>
-            <Typography component="p" className={classes.text}>
-              {medium.description}
-            </Typography>
-          </CardContent>
+          {this.renderContent()}
         </CardActionArea>
       </Card>
     )
@@ -140,21 +154,14 @@ class MediumCard extends React.Component {
     const { classes, medium } = this.props;
 
     return (
-      <Card className={[classes.card, classes.horizontalCard]} elevation={0}>
-        <CardActionArea component={(props) => <Link to={`/${medium.id}`} {...props} />} className={classes.horizontalMediaContainer}>
+      <Card className={[classes.card, classes.horizontalCard].join(' ')} elevation={0}>
+        <CardActionArea component={(props) => <Link to={`/videos/${medium.id}`} {...props} />} className={classes.horizontalMediaContainer}>
           {this.renderMedia()}
         </CardActionArea>
         <div className={classes.horizontalContent}>
           {this.renderHeader()}
-          <CardActionArea component={(props) => <Link to={`/${medium.id}`} {...props} />} className={classes.horizontalInfos}>
-            <CardContent className={classes.content}>
-              <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
-                {medium.title}
-              </Typography>
-              <Typography component="p" className={classes.text}>
-                {medium.description}
-              </Typography>
-            </CardContent>
+          <CardActionArea component={(props) => <Link to={`/videos/${medium.id}`} {...props} />} className={classes.horizontalInfos}>
+            {this.renderContent()}
           </CardActionArea>
         </div>
       </Card>

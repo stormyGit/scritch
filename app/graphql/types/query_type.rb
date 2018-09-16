@@ -10,6 +10,11 @@ module Types
       argument :q, String, required: false
     end
 
+    field :user, UserType, null: false do
+      description "Find a user by ID"
+      argument :id, ID, required: true
+    end
+
     def medium(params = {})
       Medium.find(params[:id])
     end
@@ -22,6 +27,10 @@ module Types
       end
 
       medium
+    end
+
+    def user(params = {})
+      User.find(params[:id])
     end
   end
 end

@@ -49,7 +49,6 @@ class SignUpDialog extends React.Component {
           <Field
             component={TextField}
             name="email"
-            autoFocus
             margin="dense"
             label="Email Address"
             type="email"

@@ -18,13 +18,6 @@ const styles = theme => ({
     padding: theme.spacing.unit * 1,
     paddingRight: 0
   },
-  title: {
-    marginBottom: theme.spacing.unit * 1,
-    fontSize: '0.8em'
-  },
-  settingsPaper: {
-    width: '100%',
-  },
 });
 
 const GET_MEDIA = gql`
@@ -39,6 +32,7 @@ const GET_MEDIA = gql`
       duration
       user {
         id
+        slug
         name
       }
     }
