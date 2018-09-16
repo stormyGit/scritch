@@ -13,6 +13,7 @@ import Avatar from '@material-ui/core/Avatar';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Typography from '@material-ui/core/Typography';
 import { Link, withRouter } from 'react-router-dom';
+import { keyToUrl } from '../mediaService';
 
 const styles = theme => ({
   card: {
@@ -26,54 +27,62 @@ const styles = theme => ({
   }
 });
 
-function MediumCard(props) {
-  const { classes, medium } = props;
+class MediumCard extends React.Component {
+  state = {
+    thumbnailKey: this.props.medium.thumbnailKey
+  }
 
-  return (
-    <Card className={classes.card} elevation={0}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="Recipe" className={classes.avatar}>
-            R
-          </Avatar>
-        }
-        action={
-          <IconButton>
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={medium.user.name}
-        subheader="September 14, 2016"
-      />
-      <CardActionArea
-        className={classes.card}
-        component={(props) => <Link to={`/${medium.id}`} {...props} />}
-      >
-        <CardMedia
-          className={classes.media}
-          image={`https://placeimg.com/640/480/${medium.id}`}
-          title={medium.title}
+  render() {
+    const { classes, medium } = this.props;
+
+    return (
+      <Card className={classes.card} elevation={0}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="Recipe" className={classes.avatar}>
+              R
+            </Avatar>
+          }
+          action={
+            <IconButton>
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={medium.user.name}
+          subheader="September 14, 2016"
+        />
+        <CardActionArea
+          className={classes.card}
+          component={(props) => <Link to={`/${medium.id}`} {...props} />}
         >
-        </CardMedia>
-        <CardContent>
-          <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
-            {medium.title}
-          </Typography>
-          <Typography component="p" className={classes.text} noWrap>
-            {medium.description}
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" className={classes.text}>
-          Share
-        </Button>
-        <Button size="small" className={classes.text}>
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
-  );
+          <CardMedia
+            className={classes.media}
+            image={keyToUrl(this.state.thumbnailKey)}
+            title={medium.title}
+            onMouseEnter={() => this.setState({ thumbnailKey: medium.previewKey })}
+            onMouseLeave={() => this.setState({ thumbnailKey: medium.thumbnailKey })}
+          >
+          </CardMedia>
+          <CardContent>
+            <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
+              {medium.title}
+            </Typography>
+            <Typography component="p" className={classes.text} noWrap>
+              {medium.description}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Button size="small" className={classes.text}>
+            Share
+          </Button>
+          <Button size="small" className={classes.text}>
+            Learn More
+          </Button>
+        </CardActions>
+      </Card>
+    );
+  }
 }
 
 MediumCard.propTypes = {

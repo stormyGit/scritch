@@ -8,6 +8,8 @@ import 'mediaelement/build/mediaelementplayer.min.css';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import { keyToUrl } from '../mediaService';
+
 const styles = theme => ({
   video: {
     height: '100%',
@@ -43,7 +45,7 @@ class CardVideo extends React.Component {
     return (
       <div className={classes.container}>
         <video ref="video" className={classes.video} height="100%">
-          <source src={`${process.env.S3_ENDPOINT}/${process.env.S3_BUCKET}/${this.props.medium.key}`} />
+          <source src={keyToUrl(this.props.medium.key)} />
         </video>
       </div>
     );
