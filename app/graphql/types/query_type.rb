@@ -15,7 +15,7 @@ module Types
     end
 
     def media(params = {})
-      medium = Medium.where.not(key: nil)
+      medium = Medium.joins(:video_encoding_job).where("chronofage_jobs.completed_at IS NOT NULL AND chronofage_jobs.failed_at IS NULL")
 
       if params[:q].present?
         medium = medium.where("media.title @@ ?", params[:q])

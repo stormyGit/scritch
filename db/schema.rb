@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_16_195706) do
+ActiveRecord::Schema.define(version: 2018_09_16_203649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -61,6 +61,21 @@ ActiveRecord::Schema.define(version: 2018_09_16_195706) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "chronofage_jobs", id: :serial, force: :cascade do |t|
+    t.string "job_class"
+    t.string "job_id"
+    t.string "queue_name"
+    t.text "arguments"
+    t.integer "priority", default: 0
+    t.string "host"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.datetime "failed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "output"
   end
 
   create_table "media", force: :cascade do |t|
