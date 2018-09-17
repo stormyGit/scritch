@@ -13,5 +13,6 @@ module Types
     field :updatedAt, String, null: false
     field :user, UserType, null: true
     field :comments, [CommentType], null: false
+    field :related_media, [MediumType], null: false
   end
 end

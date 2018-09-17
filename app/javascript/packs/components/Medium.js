@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 
+import RelatedMediumCard from './RelatedMediumCard';
 import CustomAppBar from './CustomAppBar';
 import SearchBar from './SearchBar';
 import CardVideo from './CardVideo';
@@ -29,9 +30,11 @@ const styles = theme => ({
   text: {
   },
   comment: {
-    borderBottom: `1px solid rgba(255, 255, 255, 0.2)`,
-    paddingTop: theme.spacing.unit,
+    paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit
+  },
+  relatedMedia: {
+    marginBottom: theme.spacing.unit
   }
 });
 
@@ -50,6 +53,20 @@ const GET_MEDIUM = gql`
       comments {
         id
         body
+        user {
+          id
+          slug
+          name
+        }
+      }
+      relatedMedia {
+        id
+        title
+        description
+        thumbnailKey
+        previewKey
+        duration
+        createdAt
         user {
           id
           slug
@@ -88,16 +105,16 @@ class Medium extends React.Component {
               <div className={classes.container}>
                 <Card className={classes.card}>
                   <CardVideo medium={data.medium} />
-                  <CardContent>
-                    <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
-                      {data.medium.title}
-                    </Typography>
-                    <Typography component="p" className={classes.text}>
-                      {data.medium.description || 'No description'}
-                    </Typography>
-                  </CardContent>
                   <Grid container spacing={8}>
                     <Grid item lg={8} xs={12}>
+                      <CardContent>
+                        <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
+                          {data.medium.title}
+                        </Typography>
+                        <Typography component="p" className={classes.text}>
+                          {data.medium.description || 'No description'}
+                        </Typography>
+                      </CardContent>
                       <CardContent>
                         <Typography gutterBottom variant="title" component="h3">
                           {this.renderCommentsCount(data.medium.comments.length)}
@@ -119,6 +136,13 @@ class Medium extends React.Component {
                         <Typography gutterBottom variant="title" component="h3">
                           Related videos
                         </Typography>
+                        {
+                          data.medium.relatedMedia.map((medium) => (
+                            <div className={classes.relatedMedia} key={medium.id}>
+                              <RelatedMediumCard medium={medium} horizontal/>
+                            </div>
+                          ))
+                        }
                       </CardContent>
                     </Grid>
                   </Grid>

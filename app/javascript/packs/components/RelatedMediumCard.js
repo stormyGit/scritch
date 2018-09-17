@@ -30,15 +30,10 @@ const styles = theme => ({
     flexDirection: 'column',
     flexGrow: 1
   },
-  verticalMedia: {
-    width: '100%',
-    height: 300,
-    position: 'relative',
-  },
   horizontalMediaContainer: {
     maxWidth: '46%',
     minWidth: '46%',
-    height: 340,
+    height: 160,
   },
   horizontalMedia: {
     width: '100%',
@@ -53,6 +48,10 @@ const styles = theme => ({
     textDecoration: 'none'
   },
   content: {
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
   }
 });
 
@@ -61,29 +60,11 @@ class MediumCard extends React.Component {
     thumbnailKey: this.props.medium.thumbnailKey
   }
 
-  renderHeader() {
-    const { classes, medium } = this.props;
-
-    return (
-      <CardHeader
-        avatar={
-          <Link to={`/${medium.user.slug}`} className={classes.userLink}>
-            <Avatar aria-label="Recipe" className={classes.avatar}>
-              R
-            </Avatar>
-          </Link>
-        }
-        title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}
-        subheader={timeAgo.format(new Date(medium.createdAt))}
-      />
-    );
-  }
-
   renderMedia() {
     const { classes, medium, horizontal } = this.props;
     return (
       <CardMedia
-        className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
+        className={classes.horizontalMedia}
         image={keyToUrl(this.state.thumbnailKey)}
         title={medium.title}
         onMouseEnter={() => this.setState({ thumbnailKey: medium.previewKey })}
@@ -95,35 +76,28 @@ class MediumCard extends React.Component {
   }
 
   renderContent() {
-    const { classes, medium, horizontal } = this.props;
+    const { classes, medium } = this.props;
 
     return (
       <CardContent className={classes.content}>
-        <Typography gutterBottom variant="headline" component="h2" className={classes.text}  noWrap={!horizontal}>
-          {medium.title}
-        </Typography>
-        <Typography component="p" className={classes.text} noWrap={!horizontal}>
-          {medium.description || `No description`}
-        </Typography>
+        <div>
+          <Typography gutterBottom variant="body2" component="h2" className={classes.text}  noWrap>
+            {medium.title}
+          </Typography>
+          <Typography gutterBottom variant="caption" component="h2" className={classes.text}  noWrap>
+            {medium.user.name}
+          </Typography>
+        </div>
+        <div>
+          <Typography gutterBottom variant="body2" component="h2" className={classes.text}  noWrap>
+            {timeAgo.format(new Date(medium.createdAt))}
+          </Typography>
+        </div>
       </CardContent>
     );
   }
 
-  renderVertical() {
-    const { classes, medium } = this.props;
-
-    return (
-      <Card className={classes.card} elevation={0}>
-        {this.renderHeader()}
-        <CardActionArea component={(props) => <Link to={`/videos/${medium.id}`} {...props} />}>
-          {this.renderMedia()}
-          {this.renderContent()}
-        </CardActionArea>
-      </Card>
-    )
-  }
-
-  renderHorizontal() {
+  render() {
     const { classes, medium } = this.props;
 
     return (
@@ -132,22 +106,12 @@ class MediumCard extends React.Component {
           {this.renderMedia()}
         </CardActionArea>
         <div className={classes.horizontalContent}>
-          {this.renderHeader()}
           <CardActionArea component={(props) => <Link to={`/videos/${medium.id}`} {...props} />} className={classes.horizontalInfos}>
             {this.renderContent()}
           </CardActionArea>
         </div>
       </Card>
     )
-  }
-
-  render() {
-    const { horizontal } = this.props;
-
-    if (horizontal) {
-      return this.renderHorizontal();
-    }
-    return this.renderVertical();
   }
 }
 
