@@ -12,5 +12,6 @@ module Types
     field :createdAt, String, null: false
     field :updatedAt, String, null: false
     field :user, UserType, null: true
+    field :comments, [CommentType], null: false
   end
 end

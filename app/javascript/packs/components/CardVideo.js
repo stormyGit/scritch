@@ -41,7 +41,7 @@ class CardVideo extends React.Component {
 
   render() {
     const { medium, classes } = this.props;
-    console.log(this.state);
+
     return (
       <div className={classes.container}>
         <video ref="video" className={classes.video} height="100%">

@@ -7,4 +7,6 @@ class Medium < ApplicationRecord
   def push_video_encoding_job!
     update(video_encoding_job_id: EncodeVideoJob.perform_later(self).job_id)
   end
+
+  has_many :comments
 end
