@@ -9,11 +9,11 @@ module Types
     field :banner, String, null: true
 
     def banner
-      object.banner&.service_url
+      object.banner.attached? ?  Rails.application.routes.url_helpers.rails_blob_path(object.banner, only_path: true) : nil
     end
 
     def avatar
-      object.avatar&.service_url
+      object.avatar.attached? ?  Rails.application.routes.url_helpers.rails_blob_path(object.avatar, only_path: true) : nil
     end
   end
 end
