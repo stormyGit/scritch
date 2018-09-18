@@ -4,6 +4,7 @@ export const GET_MEDIA = gql`
   query Media($q: String) {
     media(q: $q) {
       id
+      slug
       title
       description
       previewKey
@@ -42,9 +43,11 @@ export const GET_MEDIUM = gql`
   query Medium($id: ID!) {
     medium(id: $id) {
       id
+      slug
       title
       description
       key
+      duration
       user {
         id
         slug
@@ -64,6 +67,7 @@ export const GET_MEDIUM = gql`
       }
       relatedMedia {
         id
+        slug
         title
         description
         thumbnailKey
@@ -80,12 +84,15 @@ export const GET_MEDIUM = gql`
   }
 `;
 
-export const GET_MEDIA_BY_USER = gql`
+export const GET_USER = gql`
   query User($id: ID!) {
     user(id: $id) {
       name
+      avatar
+      banner
       publishedMedia {
         id
+        slug
         title
         description
         previewKey
@@ -108,6 +115,7 @@ export const CREATE_MEDIUM = gql`
     createMedium(input: $input) {
       medium {
         id
+        slug
       }
     }
   }

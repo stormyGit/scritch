@@ -1,6 +1,9 @@
 class Medium < ApplicationRecord
   self.primary_key = :uuid
 
+  extend FriendlyId
+  friendly_id :title, use: :slugged
+
   belongs_to :user
   belongs_to :video_encoding_job, class_name: "Chronofage::Job", primary_key: :job_id, dependent: :destroy, optional: true
 
@@ -11,6 +14,6 @@ class Medium < ApplicationRecord
   end
 
   def related_media
-    Medium.all
+    Medium.joins(:video_encoding_job).where("chronofage_jobs.completed_at IS NOT NULL AND chronofage_jobs.failed_at IS NULL")
   end
 end

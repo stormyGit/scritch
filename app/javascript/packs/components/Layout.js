@@ -66,6 +66,7 @@ function Layout(props) {
               <Route exact path='/videos' component={Media} />
               <Route exact path='/videos/:id' component={Medium} />
               <Route exact path='/:id' component={User} />
+              <Route exact path='/:id/:tab' component={User} />
             </Switch>
           </main>
         </div>
