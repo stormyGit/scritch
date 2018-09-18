@@ -11,6 +11,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import queryString from 'query-string';
 
+import { GET_MEDIA_BY_USER } from '../queries';
+
 import CustomAppBar from './CustomAppBar';
 import MediumCard from './MediumCard';
 import SearchBar from './SearchBar';
@@ -27,28 +29,6 @@ const styles = theme => ({
     width: '100%',
   },
 });
-
-const GET_MEDIA = gql`
-  query User($id: ID!) {
-    user(id: $id) {
-      name
-      publishedMedia {
-        id
-        title
-        description
-        previewKey
-        thumbnailKey
-        createdAt
-        duration
-        user {
-          id
-          slug
-          name
-        }
-      }
-    }
-  }
-`;
 
 class User extends React.Component {
   handleRequestSearch(q) {
@@ -94,7 +74,7 @@ class User extends React.Component {
     const { classes, match } = this.props;
 
     return (
-      <Query query={GET_MEDIA} variables={{ id: match.params.id }}>
+      <Query query={GET_MEDIA_BY_USER} variables={{ id: match.params.id }}>
         {({ data, loading, error }) => (
           <React.Fragment>
             <CustomAppBar>

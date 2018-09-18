@@ -2,17 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { withStyles } from '@material-ui/core/styles';
+import gql from "graphql-tag";
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import gql from "graphql-tag";
 import { Mutation } from "react-apollo";
 import { TextField } from 'redux-form-material-ui'
 
 import { hideSignUpDialog } from '../actions/signUpDialog';
+import { CREATE_COMMENT, GET_MEDIUM } from '../queries';
 
 import Logo from './Logo';
 
@@ -58,20 +59,20 @@ class CommentForm extends React.Component {
   }
 }
 
-const CREATE_COMMENT = gql`
-  mutation createComment($input: CreateCommentInput!) {
-    createComment(input: $input) {
-      comment {
-        id        
-      }
-    }
-  }
-`;
-
 const Connected = connect()(withStyles(styles)(CommentForm));
 const Form = reduxForm({ form: 'SignUpDialog' })(Connected);
 const FormWithMutation = (props) => (
-  <Mutation mutation={CREATE_COMMENT}>
+  <Mutation
+    mutation={CREATE_COMMENT}
+    update={(cache, { data: { createComment } }) => {
+      const { medium } = cache.readQuery({ query: GET_MEDIUM, variables: { id: props.mediumId } });
+      cache.writeQuery({
+        query: GET_MEDIUM,
+        variables: { id: props.mediumId },
+        data: { medium: { ...medium, comments: [ createComment.comment, ...medium.comments ] } }
+      });
+    }}
+  >
     {( createComment, { data }) => (<Form  {...props} onSubmit={(input) => { console.log(input); createComment({ variables: { input } })}} />)}
   </Mutation>
 )

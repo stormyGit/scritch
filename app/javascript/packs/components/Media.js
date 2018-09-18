@@ -6,6 +6,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import queryString from 'query-string';
 
+import { GET_MEDIA } from '../queries';
+
 import CustomAppBar from './CustomAppBar';
 import MediumCard from './MediumCard';
 import SearchBar from './SearchBar';
@@ -19,25 +21,6 @@ const styles = theme => ({
     paddingRight: 0
   },
 });
-
-const GET_MEDIA = gql`
-  query Media($q: String) {
-    media(q: $q) {
-      id
-      title
-      description
-      previewKey
-      thumbnailKey
-      createdAt
-      duration
-      user {
-        id
-        slug
-        name
-      }
-    }
-  }
-`;
 
 class Media extends React.Component {
   handleRequestSearch(q) {

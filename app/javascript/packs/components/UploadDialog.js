@@ -20,6 +20,7 @@ import { Mutation } from "react-apollo";
 import { TextField } from 'redux-form-material-ui';
 import Dropzone from 'react-dropzone';
 
+import { CREATE_MEDIUM } from '../queries';
 import { hideUploadDialog } from '../actions/uploadDialog';
 import fileUploadService from '../fileUploadService';
 
@@ -173,16 +174,6 @@ class UploadDialog extends React.Component {
     );
   }
 }
-
-const CREATE_MEDIUM = gql`
-  mutation createMedium($input: CreateMediumInput!) {
-    createMedium(input: $input) {
-      medium {
-        id
-      }
-    }
-  }
-`;
 
 const Form = reduxForm({ form: 'UploadDialog' })(UploadDialog);
 const FormWithMutation = (props) => (

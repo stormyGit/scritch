@@ -55,7 +55,7 @@ const TermsDialog = ({ classes, open, handleClose }) => (
           <ListItemIcon>
             <CheckIcon />
           </ListItemIcon>
-          <ListItemText inset primary="Offensive or pornographic materials are forbidden." />
+          <ListItemText inset primary="Offensive materials, material displaying people under 18 or animals are forbidden." />
         </ListItem>
         <ListItem>
           <ListItemIcon>

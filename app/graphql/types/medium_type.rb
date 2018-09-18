@@ -14,5 +14,9 @@ module Types
     field :user, UserType, null: true
     field :comments, [CommentType], null: false
     field :related_media, [MediumType], null: false
+
+    def comments
+      object.comments.order(created_at: :desc)
+    end
   end
 end

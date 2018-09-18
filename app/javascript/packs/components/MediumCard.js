@@ -16,6 +16,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { keyToUrl } from '../mediaService';
 import timeAgo from '../timeAgo';
 import Duration from './Duration';
+import UserAvatar from './UserAvatar';
 
 const styles = theme => ({
   card: {
@@ -68,9 +69,7 @@ class MediumCard extends React.Component {
       <CardHeader
         avatar={
           <Link to={`/${medium.user.slug}`} className={classes.userLink}>
-            <Avatar aria-label="Recipe" className={classes.avatar}>
-              R
-            </Avatar>
+            <UserAvatar user={medium.user} />
           </Link>
         }
         title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}

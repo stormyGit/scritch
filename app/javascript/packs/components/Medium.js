@@ -10,12 +10,20 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
+import CardHeader from '@material-ui/core/CardHeader';
+
+import { Link} from 'react-router-dom';
+import timeAgo from '../timeAgo';
+import UserAvatar from './UserAvatar';
+
+import { GET_MEDIUM } from '../queries';
 
 import RelatedMediumCard from './RelatedMediumCard';
 import CustomAppBar from './CustomAppBar';
 import SearchBar from './SearchBar';
 import CardVideo from './CardVideo';
 import CommentForm from './CommentForm';
+import FormattedText from './FormattedText';
 
 const styles = theme => ({
   container: {
@@ -35,47 +43,16 @@ const styles = theme => ({
   },
   relatedMedia: {
     marginBottom: theme.spacing.unit
+  },
+  userLink: {
+    color: theme.palette.text.primary,
+    textDecoration: 'none'
+  },
+  commentHeader: {
+    padding: 0,
+    paddingBottom: theme.spacing.unit,
   }
 });
-
-const GET_MEDIUM = gql`
-  query Medium($id: ID!) {
-    medium(id: $id) {
-      id
-      title
-      description
-      key
-      user {
-        id
-        slug
-        name
-      }
-      comments {
-        id
-        body
-        user {
-          id
-          slug
-          name
-        }
-      }
-      relatedMedia {
-        id
-        title
-        description
-        thumbnailKey
-        previewKey
-        duration
-        createdAt
-        user {
-          id
-          slug
-          name
-        }
-      }
-    }
-  }
-`;
 
 class Medium extends React.Component {
   renderCommentsCount(count) {
@@ -123,9 +100,17 @@ class Medium extends React.Component {
                         {
                           data.medium.comments.map((comment) => (
                             <div key={comment.id} className={classes.comment}>
-                              <Typography gutterBottom variant="body1">
-                                {comment.body}
-                              </Typography>
+                              <CardHeader
+                                className={classes.commentHeader}
+                                avatar={
+                                  <Link to={`/${comment.user.slug}`} className={classes.userLink}>
+                                    <UserAvatar user={comment.user} />
+                                  </Link>
+                                }
+                                title={<Link to={`/${comment.user.slug}`} className={classes.userLink}>{comment.user.name}</Link>}
+                                subheader={timeAgo.format(new Date(comment.createdAt))}
+                              />
+                              <FormattedText text={comment.body} />
                             </div>
                           ))
                         }
