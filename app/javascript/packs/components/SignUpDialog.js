@@ -32,15 +32,18 @@ const styles = theme => ({
   },
   loginButton: {
     textAlign: 'center',
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing.unit * 2
   }
 })
 
 class SignUpDialog extends React.Component {
   handleTelegramResponse(response) {
+    console.log(response);
     this.props.onSubmit({
       telegramId: response.id,
       telegramFirstName: response.first_name,
+      telegramLastName: response.last_name,
+      telegramUserName: response.username,
       telegramAuthDate: response.auth_date,
       telegramHash: response.hash
     });

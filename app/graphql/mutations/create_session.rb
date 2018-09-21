@@ -1,19 +1,33 @@
 class Mutations::CreateSession < Mutations::BaseMutation
   argument :telegram_id, Integer, required: true
   argument :telegram_first_name, String, required: true
+  argument :telegram_last_name, String, required: false
+  argument :telegram_username, String, required: false
   argument :telegram_auth_date, Integer, required: true
   argument :telegram_hash, String, required: true
 
   field :session, Types::SessionType, null: true
   field :errors, [String], null: false
 
-  def resolve(telegram_id:, telegram_first_name:, telegram_auth_date:, telegram_hash:)
-    user = User.find_or_create_by(telegram_id: telegram_id) do |user|
-      user.telegram_id = telegram_id
-      user.name = telegram_first_name
+  def resolve(params)
+    telegram_hash = params.delete :telegram_hash
+
+    check_string = params.to_a.sort_by { |k, _| k }.map { |k, v| "#{k.to_s.gsub(/^telegram_/, '')}=#{v}" }.join("\n")
+    if OpenSSL::HMAC.hexdigest("SHA256", check_string, Digest::SHA256.hexdigest(Telegram.bot.token)) != telegram_hash
+      puts "NON"
+    end
+
+    user = User.find_or_create_by(telegram_id: params[:telegram_id]) do |user|
+      user.telegram_id = params[:telegram_id]
+
+      if params[:telegram_last_name].present?
+        user.name = "#{params[:telegram_first_name]} #{params[:telegram_last_name]}"
+      else
+        user.name = params[:telegram_first_name]
+      end
 
       begin
-        profile_photos = Telegram.bot.get_user_profile_photos(user_id: telegram_id, limit: 1)
+        profile_photos = Telegram.bot.get_user_profile_photos(user_id: params[:telegram_id], limit: 1)
         return if profile_photos["result"]["total_count"] == 0
 
         profile_photo_file = profile_photos["result"]["photos"][0].sort_by do |profile_photo|
