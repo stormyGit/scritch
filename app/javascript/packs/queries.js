@@ -90,6 +90,7 @@ export const GET_USER = gql`
       name
       avatar
       banner
+      bio
       publishedMedia {
         id
         slug

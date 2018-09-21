@@ -25,6 +25,10 @@ const styles = theme => ({
 })
 
 class CommentForm extends React.Component {
+  state = {
+    showAction: false
+  }
+
   render() {
     const { classes } = this.props;
 
@@ -40,20 +44,24 @@ class CommentForm extends React.Component {
           multiline
           rows={4}
           rowsMax={12}
+          onFocus={() => this.setState({ showAction: true })}
         />
         <Field
           component='input'
           name="mediumId"
           type="hidden"
         />
-        <div className={classes.actions}>
-          <Button onClick={this.props.handleClose}>
-            Cancel
-          </Button>
-          <Button color={'primary'} variant={"contained"} onClick={() => this.props.handleSubmit()}>
-            Submit
-          </Button>
-        </div>
+        {
+          this.state.showAction &&
+            <div className={classes.actions}>
+              <Button onClick={this.props.handleClose}>
+                Cancel
+              </Button>
+              <Button color={'primary'} variant={"contained"} onClick={() => this.props.handleSubmit()}>
+                Submit
+              </Button>
+            </div>
+        }
       </React.Fragment>
     );
   }
@@ -73,7 +81,7 @@ const FormWithMutation = (props) => (
       });
     }}
   >
-    {( createComment, { data }) => (<Form  {...props} onSubmit={(input) => { console.log(input); createComment({ variables: { input } })}} />)}
+    {( createComment, { data }) => (<Form  {...props} onSubmit={(input) => { createComment({ variables: { input } })}} />)}
   </Mutation>
 )
 export default FormWithMutation;

@@ -7,6 +7,7 @@ module Types
     field :published_media, [MediumType], null: false
     field :avatar, String, null: true
     field :banner, String, null: true
+    field :bio, String, null: true
 
     def banner
       object.banner.attached? ?  Rails.application.routes.url_helpers.rails_blob_path(object.banner, only_path: true) : nil

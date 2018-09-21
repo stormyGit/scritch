@@ -9,12 +9,16 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
   paper: {
     backgroundColor: 'black',
-    border: '8px solid white',
-    borderRadius: 200
+    border: '2px solid white',
+    borderRadius: '100%',
+    width: 64,
+    height: 64,
+    overflow: 'hidden'
   },
   avatar: {
-    width: 200,
-    height: 200,
+    fontSize: 60,
+    width: 64,
+    height: 64,
   }
 });
 
@@ -23,7 +27,7 @@ const ProfileAvatar = ({ user, classes, className }) => (
     <Paper className={classes.paper}>
       {user.avatar ?
         <Avatar src={user.avatar} className={classes.avatar} /> :
-        <DefaultAvatar text={(user.name || "").replace(/[\W_]+/g, "")[0] || "*"} size={56} key="avatar" />}
+        <DefaultAvatar className={classes.avatar} text={(user.name || "").replace(/[\W_]+/g, "")[0] || "*"} size={56} key="avatar" />}
     </Paper>
   </div>
 )

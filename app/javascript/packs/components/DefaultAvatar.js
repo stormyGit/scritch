@@ -9,19 +9,18 @@ const styles = theme => ({
     color: theme.palette.text.primary,
     width: 48,
     height: 48,
-    borderRadius: 24
   },
 });
 
-const DefaultAvatar = (props) => {
+const DefaultAvatar = ({ classes, text, className }) => {
   return (
     <Avatar
-      className={props.classes.avatar}
+      className={[classes.avatar, className].join(' ')}
       style={{
-        backgroundColor: randomColor({ luminosity: 'dark', seed: props.text, hue: 'red' }),
+        backgroundColor: randomColor({ luminosity: 'dark', seed: text, hue: 'red' }),
       }}
     >
-      {props.text[0]}
+      {text[0]}
     </Avatar>
   );
 }

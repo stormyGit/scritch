@@ -42,13 +42,20 @@ const styles = theme => ({
     overflow: 'visible'
   },
   userAvatar: {
-    position: 'absolute',
-    bottom: -90,
-    left: 16,
-    zIndex: 1,
+    marginRight: theme.spacing.unit * 2,
   },
   titleBar: {
-    paddingLeft: 230,
+    height: 'auto',
+    paddingTop: theme.spacing.unit * 1,
+    paddingBottom: theme.spacing.unit * 1,
+  },
+  titleBarContainer: {
+    display: 'flex',
+    maxWidth: 100,
+    alignItems: 'center'
+  },
+  userColumn: {
+    minWidth: 200
   }
 });
 
@@ -91,11 +98,15 @@ class User extends React.Component {
       )
     }
     return (
-      data.user.publishedMedia.map((medium) => (
-        <Grid item item xs={12} lg={8} key={medium.id} style={{ marginLeft: 'auto', marginRight: 'auto'}}>
-          <MediumCard medium={medium} horizontal />
-        </Grid>
-      ))
+      <Grid container spacing={8}>
+        {
+          data.user.publishedMedia.map((medium) => (
+            <Grid item xs={12} key={medium.id}>
+              <MediumCard medium={medium} horizontal />
+            </Grid>
+          ))
+        }
+      </Grid>
     );
   }
 
@@ -104,17 +115,22 @@ class User extends React.Component {
 
     return (
       <GridList cellHeight={430} cols={1} spacing={0} className={classes.userProfile}>
-        <Hidden mdDown>
-          <ProfileAvatar user={data.user} className={classes.userAvatar} />
-        </Hidden>
         <GridListTile cols={1}>
            <img src={data.user.banner || 'https://www.fillmurray.com/640/360'} />
            <GridListTileBar
              className={classes.titleBar}
              title={
-               <Typography variant="headline">
-                {data.user.name}
-              </Typography>
+               <div className={classes.titleBarContainer}>
+                 <ProfileAvatar user={data.user} className={classes.userAvatar} />
+                 <div>
+                   <Typography variant="title">
+                    {data.user.name}
+                  </Typography>
+                  <Typography variant="body2">
+                   {data.user.bio}
+                 </Typography>
+                </div>
+              </div>
              }
            />
          </GridListTile>
@@ -142,8 +158,10 @@ class User extends React.Component {
                   <React.Fragment>
                     {this.renderUserProfile({ data })}
                     <Paper className={classes.tabsContainer} elevation={0}>
-                      <Grid containerspacing={8}>
-                        <Grid item item xs={12} lg={8} style={{ marginLeft: 'auto', marginRight: 'auto'}}>
+                      <Grid container spacing={0}>
+                        <Grid item xs lg>
+                        </Grid>
+                        <Grid item xs={12} lg={8}>
                           <Tabs
                             value={this.state.tab}
                             onChange={(e, value) => this.handleTabChange(value)}
@@ -153,16 +171,40 @@ class User extends React.Component {
                             textColor="secondary"
                             fullWidth
                           >
-                            <Tab value="videos" label={data.user.publishedMedia.length} icon="Videos" />
-                            <Tab value="following" label="12" icon="Following "/>
-                            <Tab value="followers" label="14" icon="Followers" />
-                            <Tab value="likes" label="123" icon="Likes" />
+                            <Tab
+                              value="videos"
+                              label={data.user.publishedMedia.length}
+                              icon="Videos"
+                            />
+                            <Tab
+                              value="following"
+                              label="12"
+                              icon="Following"
+                            />
+                            <Tab
+                              value="followers"
+                              label="14"
+                              icon="Followers"
+                            />
+                            <Tab
+                              value="likes"
+                              label="123"
+                              icon="Likes"
+                            />
                           </Tabs>
+                        </Grid>
+                        <Grid item xs lg>
                         </Grid>
                       </Grid>
                     </Paper>
                     <Grid container className={classes.root} spacing={8}>
-                      {this.state.tab === 'videos' && this.renderVideos({ data })}
+                      <Grid item xs lg>
+                      </Grid>
+                      <Grid item item xs={12} lg={8}>
+                        {this.state.tab === 'videos' && this.renderVideos({ data })}
+                      </Grid>
+                      <Grid item xs lg>
+                      </Grid>
                     </Grid>
                   </React.Fragment>
               }

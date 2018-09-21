@@ -9,6 +9,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import gql from "graphql-tag";
+import uuid from 'uuid/v4';
+
 import { Mutation } from "react-apollo";
 import { TextField } from 'redux-form-material-ui'
 
@@ -19,7 +21,12 @@ import Logo from './Logo';
 const styles = theme => ({
   brand: {
     textAlign: 'center'
-  }
+  },
+  qrCode: {
+    marginTop: theme.spacing.unit * 1,
+    background: theme.palette.background.paper,
+    borderRadius: 4
+  },
 })
 
 class SignUpDialog extends React.Component {
@@ -36,41 +43,9 @@ class SignUpDialog extends React.Component {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
+            Open Howlr on your phone and scan this code to sign in
           </DialogContentText>
-          <Field
-            component={TextField}
-            name="username"
-            autoFocus
-            margin="dense"
-            label="Username"
-            type="text"
-            fullWidth
-          />
-          <Field
-            component={TextField}
-            name="email"
-            margin="dense"
-            label="Email Address"
-            type="email"
-            fullWidth
-          />
-          <Field
-            component={TextField}
-            name="password"
-            margin="dense"
-            label="Password"
-            type="password"
-            fullWidth
-          />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={this.props.handleClose}>
-            Cancel
-          </Button>
-          <Button onClick={() => this.props.handleSubmit()}>
-            Submit
-          </Button>
-        </DialogActions>
       </Dialog>
     );
   }

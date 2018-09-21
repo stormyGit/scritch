@@ -4,6 +4,9 @@ class User < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  acts_as_followable
+  acts_as_follower
+
   has_one_attached :avatar
   has_one_attached :banner
 

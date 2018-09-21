@@ -8,6 +8,7 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { Link, withRouter } from 'react-router-dom'
+import TelegramLoginButton from 'react-telegram-login';
 
 import UserAvatar from './UserAvatar';
 import Logo from './Logo';
@@ -64,72 +65,80 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
-function Layout(props) {
-  const { classes, pageTitle, settingsLayout, children, currentUser } = props;
+class CustomAppBar extends React.Component {
+  handleTelegramResponse(response) {
+    console.log(response);
+  }
 
-  return (
-    <AppBar position="absolute" className={classes.appBar}>
-      <Toolbar className={classes.toolBar}>
-        <div className={classes.titleZone}>
-          <Link to='/' className={classes.rootLink}>
-            <Logo />
-          </Link>
-          { pageTitle && <Typography variant="headline" className={classes.pageTitle}>
-            {pageTitle}
-          </Typography>}
-        </div>
-        {
-          settingsLayout ?
-            <div className={classes.settingsLayoutContainer}>
-              <Grid container alignItems="center" justify="center">
-                <Grid container item xs={6}>
-                  {children}
+  render() {
+    const { classes, pageTitle, settingsLayout, children, currentUser } = this.props;
+
+    return (
+      <AppBar position="absolute" className={classes.appBar}>
+        <Toolbar className={classes.toolBar}>
+          <div className={classes.titleZone}>
+            <Link to='/' className={classes.rootLink}>
+              <Logo />
+            </Link>
+            { pageTitle && <Typography variant="headline" className={classes.pageTitle}>
+              {pageTitle}
+            </Typography>}
+          </div>
+          {
+            settingsLayout ?
+              <div className={classes.settingsLayoutContainer}>
+                <Grid container alignItems="center" justify="center">
+                  <Grid container item xs={6}>
+                    {children}
+                  </Grid>
                 </Grid>
-              </Grid>
-            </div> : children
-        }
-        {
-          currentUser &&
-            <ButtonBase
-              component={(props) => <Link to='/profile' {...props} />}
-              focusRipple
-            >
-              <Typography variant="subheading" className={classes.userName}>
-                {props.currentUser.name}
-              </Typography>
-              <UserAvatar user={props.currentUser} />
-            </ButtonBase>
-        }
-        {
-          !currentUser &&
-            <div>
-              <Button
-                onClick={() => props.showUploadDialog()}
-                variant="contained"
-                size="large"
+              </div> : children
+          }
+          {
+            currentUser &&
+              <ButtonBase
+                component={(props) => <Link to='/profile' {...props} />}
+                focusRipple
               >
-                Upload
-              </Button>
-            </div>
-        }
-        {
-          !currentUser && false &&
-            <div>
-              <Button
-                onClick={() => props.showSignUpDialog()}
-                variant="contained"
-                size="large"
-              >
-                Join Murrtube
-              </Button>
-            </div>
-        }
-      </Toolbar>
-    </AppBar>
-  );
+                <Typography variant="subheading" className={classes.userName}>
+                  {currentUser.name}
+                </Typography>
+                <UserAvatar user={currentUser} />
+              </ButtonBase>
+          }
+          {
+            currentUser &&
+              <div>
+                <Button
+                  onClick={() => props.showUploadDialog()}
+                  variant="contained"
+                  size="large"
+                >
+                  Upload
+                </Button>
+              </div>
+          }
+          {
+            !currentUser &&
+              <div>
+                <TelegramLoginButton dataOnauth={(response) => this.handleTelegramResponse(response)} botName="MurrtubeBot" />
+              </div>
+          }
+        </Toolbar>
+      </AppBar>
+    );
+  }
 }
 
-const ConnectedLayout = connect(
+// <script async src="https://telegram.org/js/telegram-widget.js?4" data-telegram-login="MurrtubeBot" data-size="large" data-radius="6" data-onauth="onTelegramAuth(user)"></script>
+// <script type="text/javascript">
+//   function onTelegramAuth(user) {
+//     alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
+//   }
+// </script>
+
+
+const ConnectedCustomAppBar = connect(
   ({ pageTitle }) => ({
     currentUser: null,
     pageTitle
@@ -138,6 +147,6 @@ const ConnectedLayout = connect(
     showSignUpDialog: () => dispatch(showSignUpDialog()),
     showUploadDialog: () => dispatch(showUploadDialog())
   })
-)(Layout)
+)(CustomAppBar)
 
-export default withStyles(styles)(withRouter(ConnectedLayout));
+export default withStyles(styles)(withRouter(ConnectedCustomAppBar));
