@@ -4,8 +4,8 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      # Query context goes here, for example:
-      # current_user: current_user,
+      current_session: current_session,
+      current_user: current_user,
     }
     result = MurrsuitSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
@@ -15,6 +15,18 @@ class GraphqlController < ApplicationController
   end
 
   private
+
+  def current_session
+    @current_session ||= Session.find_by(uuid: authorization_token)
+  end
+
+  def current_user
+    @current_user ||= current_session.try(:user)
+  end
+
+  def authorization_token
+    request.headers["Authorization"]&.split(" ").try(:[], 1)
+  end
 
   # Handle form data, JSON body, or a blank value
   def ensure_hash(ambiguous_param)

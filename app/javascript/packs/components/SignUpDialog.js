@@ -16,6 +16,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
 import CheckIcon from '@material-ui/icons/Check';
 import TelegramLoginButton from 'react-telegram-login';
+import { withApollo } from 'react-apollo';
+
 import GlobalProgress from './GlobalProgress';
 
 import { Mutation, Query } from "react-apollo";
@@ -77,13 +79,13 @@ class SignUpDialog extends React.Component {
              <ListItemIcon>
                <CheckIcon />
              </ListItemIcon>
-             <ListItemText inset primary="Telegram will share your first name, avatar, bio and ID." />
+             <ListItemText inset primary="Telegram will share your name, username, avatar, bio and ID." />
             </ListItem>
             <ListItem>
              <ListItemIcon>
                <CheckIcon />
              </ListItemIcon>
-             <ListItemText inset primary="Telegram will not share your username, phone number, contacts and messages." />
+             <ListItemText inset primary="Telegram will not share your phone number, contacts and messages." />
             </ListItem>
           </List>
           {
@@ -112,13 +114,9 @@ const FormWithMutation = (props) => (
           <Mutation
             mutation={CREATE_SESSION}
             update={(cache, { data: { createSession } }) => {
-              const { session } = cache.readQuery({ query: GET_SESSION });
               cache.writeQuery({
                 query: GET_SESSION,
                 data: { session: createSession.session }
-              });
-              cache.writeData({
-                data: { sessionToken: createSession.session.id }
               });
             }}
           >
@@ -126,7 +124,12 @@ const FormWithMutation = (props) => (
               return (
                 <SignUpDialog
                   loading={loading}
-                  onSubmit={(input) => createSession({ variables: { input } })} open={isSignupDialogOpen}
+                  onSubmit={(input) => {
+                    createSession({ variables: { input } }).then(({ data: { createSession: { session }}}) => {
+                      localStorage.setItem('token', session.id);
+                    })
+                  }}
+                  open={isSignupDialogOpen}
                   handleClose={() => toggleSignupDialog({ variables: { isSignupDialogOpen: false }})}
                   {...props}
                 />
@@ -139,4 +142,4 @@ const FormWithMutation = (props) => (
   </Query>
 )
 
-export default withStyles(styles)(FormWithMutation);
+export default withStyles(styles)(withApollo(FormWithMutation));

@@ -15,9 +15,8 @@ module Types
       argument :id, ID, required: true
     end
 
-    field :session, SessionType, null: false do
-      description "Find a session by ID"
-      argument :id, ID, required: true
+    field :session, SessionType, null: true do
+      description "Find current session"
     end
 
     def medium(params = {})
@@ -39,7 +38,7 @@ module Types
     end
 
     def session(params = {})
-      Session.find(params[:id])
+      context[:current_session]
     end
   end
 end

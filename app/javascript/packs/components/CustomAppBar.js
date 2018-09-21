@@ -88,58 +88,62 @@ class CustomAppBar extends React.Component {
     const { classes, pageTitle, settingsLayout, children, currentUser, showUploadDialog, showSignUpDialog } = this.props;
 
     return (
-      <AppBar position="absolute" className={classes.appBar}>
-        <Toolbar className={classes.toolBar}>
-          <div className={classes.titleZone}>
-            <Link to='/' className={classes.rootLink}>
-              <Logo />
-            </Link>
-            { pageTitle && <Typography variant="headline" className={classes.pageTitle}>
-              {pageTitle}
-            </Typography>}
-          </div>
-          {
-            settingsLayout ?
-              <div className={classes.settingsLayoutContainer}>
-                <Grid container alignItems="center" justify="center">
-                  <Grid container item xs={6}>
-                    {children}
-                  </Grid>
-                </Grid>
-              </div> : children
-          }
-          {
-            currentUser &&
-              <ButtonBase
-                component={(props) => <Link to='/profile' {...props} />}
-                focusRipple
-              >
-                <Typography variant="subheading" className={classes.userName}>
-                  {currentUser.name}
-                </Typography>
-                <UserAvatar user={currentUser} />
-              </ButtonBase>
-          }
-          {
-            currentUser &&
-              <div>
-                <Button
-                  onClick={() => showUploadDialog()}
-                  variant="contained"
-                  size="large"
-                >
-                  Upload
-                </Button>
+      <Query query={GET_SESSION}>
+        {({ data, loading, error }) => (
+          <AppBar position="absolute" className={classes.appBar}>
+            <Toolbar className={classes.toolBar}>
+              <div className={classes.titleZone}>
+                <Link to='/' className={classes.rootLink}>
+                  <Logo />
+                </Link>
+                { pageTitle && <Typography variant="headline" className={classes.pageTitle}>
+                  {pageTitle}
+                </Typography>}
               </div>
-          }
-          {
-            !currentUser &&
-              <div>
-                <SignUpDialogButtonTrigger />
-              </div>
-          }
-        </Toolbar>
-      </AppBar>
+              {
+                settingsLayout ?
+                  <div className={classes.settingsLayoutContainer}>
+                    <Grid container alignItems="center" justify="center">
+                      <Grid container item xs={6}>
+                        {children}
+                      </Grid>
+                    </Grid>
+                  </div> : children
+              }
+              {
+                currentUser &&
+                  <ButtonBase
+                    component={(props) => <Link to='/profile' {...props} />}
+                    focusRipple
+                  >
+                    <Typography variant="subheading" className={classes.userName}>
+                      {currentUser.name}
+                    </Typography>
+                    <UserAvatar user={currentUser} />
+                  </ButtonBase>
+              }
+              {
+                !loading && data.session &&
+                  <div>
+                    <Button
+                      onClick={() => showUploadDialog()}
+                      variant="contained"
+                      size="large"
+                    >
+                      Upload
+                    </Button>
+                  </div>
+              }
+              {
+                !loading && !data.session &&
+                  <div>
+                    <SignUpDialogButtonTrigger />
+                  </div>
+              }
+            </Toolbar>
+          </AppBar>
+        )}
+      </Query>
     );
   }
 }

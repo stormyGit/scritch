@@ -142,8 +142,8 @@ export const GET_USER = gql`
 `;
 
 export const GET_SESSION = gql`
-  query Session($id: ID!) {
-    session(id: $id) {
+  query Session {
+    session {
       user {
         name
         avatar
