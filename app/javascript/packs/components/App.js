@@ -12,16 +12,6 @@ import Layout from './Layout';
 
 import { GET_SESSION } from '../queries';
 
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import { persistCache } from 'apollo-cache-persist';
-const cache = new InMemoryCache();
-
-// persistCache({
-//   cache,
-//   storage: window.localStorage,
-// });
-
-
 const client = new ApolloClient({
   uri: '/graphql',
   request: (operation) => {
@@ -31,26 +21,8 @@ const client = new ApolloClient({
         authorization: token ? `Bearer ${token}` : "",
       }
     });
-  },
-  cache,
-  clientState: {
-    defaults: {
-      isSignupDialogOpen: false,
-      isSignupDialogOpen: false,
-    },
-    resolvers: {
-      Mutation: {
-        toggleSignUpDialog: (_, { isSignupDialogOpen }, { cache }) => {
-          cache.writeData({ data: { isSignupDialogOpen }});
-          return null;
-        },
-        toggleUploadDialog: (_, { isSignupDialogOpen }, { cache }) => {
-          cache.writeData({ data: { isSignupDialogOpen }});
-          return null;
-        }
-      }
-    }
-}});
+  }
+});
 
 let { store, persistor } = configureStore();
 

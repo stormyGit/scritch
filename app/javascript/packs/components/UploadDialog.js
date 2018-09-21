@@ -16,12 +16,11 @@ import FormControl from '@material-ui/core/FormControl';
 import uuidv4 from 'uuid/v4';
 
 import gql from "graphql-tag";
-import { Mutation } from "react-apollo";
+import { Mutation, Query } from "react-apollo";
 import { TextField } from 'redux-form-material-ui';
 import Dropzone from 'react-dropzone';
 
 import { CREATE_MEDIUM } from '../queries';
-import { hideUploadDialog } from '../actions/uploadDialog';
 import fileUploadService from '../fileUploadService';
 
 const required = value => (value ? undefined : 'This field is required.')
@@ -129,7 +128,7 @@ class UploadDialog extends React.Component {
     return (
       <Dialog
         open={this.props.open}
-        onClose={this.props.handleClose}
+        onClose={this.props.onClose}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">Upload video</DialogTitle>
@@ -163,7 +162,7 @@ class UploadDialog extends React.Component {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.handleClose}>
+          <Button onClick={this.props.onClose}>
             Cancel
           </Button>
           <Button onClick={this.props.handleSubmit} disabled={!this.props.valid}>
@@ -180,17 +179,12 @@ const FormWithMutation = (props) => (
   <Mutation mutation={CREATE_MEDIUM}>
     {
       (createMedium, { called }) => {
-        if (called) {
-          props.handleClose();
-          return (null);
-        }
-
         return (
           <Form
-            {...props}
             onSubmit={(input) => {
-              createMedium({ variables: { input } });
+              createMedium({ variables: { input } }).then(() => props.onClose())
             }}
+            {...props}
           />
         )
       }
@@ -198,12 +192,4 @@ const FormWithMutation = (props) => (
   </Mutation>
 )
 
-const Connected = connect(
-  ({ uploadDialog }) => ({ open: uploadDialog }),
-  (dispatch) => ({
-    handleClose: () => dispatch(hideUploadDialog())
-  })
-)(FormWithMutation);
-const StyledForm = withStyles(styles)(Connected);
-
-export default StyledForm;
+export default withStyles(styles)(FormWithMutation);

@@ -7,8 +7,6 @@ const styles = theme => ({
   avatar: {
     display: 'flex',
     color: theme.palette.text.primary,
-    width: 48,
-    height: 48,
   },
 });
 

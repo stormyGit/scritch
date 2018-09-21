@@ -23,7 +23,7 @@ import GlobalProgress from './GlobalProgress';
 import { Mutation, Query } from "react-apollo";
 
 import Logo from './Logo';
-import { CREATE_SESSION, GET_SIGNUP_DIALOG, TOGGLE_SIGNUP_DIALOG, GET_SESSION } from '../queries';
+import { CREATE_SESSION, GET_SESSION } from '../queries';
 
 const styles = theme => ({
   brand: {
@@ -51,12 +51,12 @@ class SignUpDialog extends React.Component {
   }
 
   render() {
-    const { classes, open, handleClose, loading } = this.props;
+    const { classes, open, onClose, loading } = this.props;
 
     return (
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={onClose}
       >
         {loading && <GlobalProgress />}
         <DialogTitle className={classes.brand}>
@@ -107,39 +107,30 @@ class SignUpDialog extends React.Component {
 }
 
 const FormWithMutation = (props) => (
-  <Query query={GET_SIGNUP_DIALOG}>
-    {({ data: { isSignupDialogOpen }, loading }) => (
-      <Mutation mutation={TOGGLE_SIGNUP_DIALOG}>
-        {(toggleSignupDialog) => (
-          <Mutation
-            mutation={CREATE_SESSION}
-            update={(cache, { data: { createSession } }) => {
-              cache.writeQuery({
-                query: GET_SESSION,
-                data: { session: createSession.session }
-              });
-            }}
-          >
-            {(createSession, { data, loading, called }) => {
-              return (
-                <SignUpDialog
-                  loading={loading}
-                  onSubmit={(input) => {
-                    createSession({ variables: { input } }).then(({ data: { createSession: { session }}}) => {
-                      localStorage.setItem('token', session.id);
-                    })
-                  }}
-                  open={isSignupDialogOpen}
-                  handleClose={() => toggleSignupDialog({ variables: { isSignupDialogOpen: false }})}
-                  {...props}
-                />
-              );
-            }}
-          </Mutation>
-        )}
-      </Mutation>
-    )}
-  </Query>
+  <Mutation
+    mutation={CREATE_SESSION}
+    update={(cache, { data: { createSession } }) => {
+      cache.writeQuery({
+        query: GET_SESSION,
+        data: { session: createSession.session }
+      });
+    }}
+  >
+    {(createSession, { data, loading, called }) => {
+      return (
+        <SignUpDialog
+          loading={loading}
+          onSubmit={(input) => {
+            createSession({ variables: { input } }).then(({ data: { createSession: { session }}}) => {
+              localStorage.setItem('token', session.id);
+              props.onClose();
+            })
+          }}
+          {...props}
+        />
+      );
+    }}
+  </Mutation>
 )
 
 export default withStyles(styles)(withApollo(FormWithMutation));

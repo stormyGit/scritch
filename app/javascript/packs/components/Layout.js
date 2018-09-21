@@ -15,8 +15,6 @@ import AppDrawer from './AppDrawer';
 import Media from './Media';
 import Medium from './Medium';
 import User from './User';
-import SignUpDialog from './SignUpDialog';
-import UploadDialog from './UploadDialog';
 import TermsDialog from './TermsDialog';
 import PrivacyPolicyDialog from './PrivacyPolicyDialog';
 
@@ -70,8 +68,6 @@ function Layout(props) {
             </Switch>
           </main>
         </div>
-        <SignUpDialog />
-        <UploadDialog />
         <TermsDialog />
         <PrivacyPolicyDialog />
       </div>

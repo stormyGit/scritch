@@ -1,18 +1,5 @@
 import gql from "graphql-tag";
 
-export const TOGGLE_SIGNUP_DIALOG = gql`
-  mutation toggleSignUpDialog($isSignupDialogOpen: Boolean) {
-    toggleSignUpDialog(isSignupDialogOpen: $isSignupDialogOpen) @client
-  }
-`;
-
-export const GET_SIGNUP_DIALOG = gql`
-  query getSignupDialog @client {
-    isSignupDialogOpen
-  }
-`;
-
-
 export const CREATE_SESSION = gql`
   mutation createSession($input: CreateSessionInput!) {
     createSession(input: $input) {
@@ -20,13 +7,13 @@ export const CREATE_SESSION = gql`
         id
         user {
           name
+          slug
           avatar
           banner
           bio
         }
       }
     }
-    toggleSignUpDialog(isSignupDialogOpen: false) @client
   }
 `;
 
@@ -146,6 +133,7 @@ export const GET_SESSION = gql`
     session {
       user {
         name
+        slug
         avatar
         banner
         bio

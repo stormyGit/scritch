@@ -36,7 +36,7 @@ class Mutations::CreateSession < Mutations::BaseMutation
         if profile_photo_file.present?
           profile_photo_file_path = Telegram.bot.get_file(file_id: profile_photo_file['file_id'])["result"]["file_path"]
 
-          user.avatar.attach(io: open("https://api.telegram.org/file/bot#{Telegram.bot.token}/#{profile_photo_file_path}"), filename: "avatar")
+          user.remote_avatar_url = "https://api.telegram.org/file/bot#{Telegram.bot.token}/#{profile_photo_file_path}"
         end
 
       rescue => error

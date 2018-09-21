@@ -16,9 +16,9 @@ const styles = theme => ({
     overflow: 'hidden'
   },
   avatar: {
-    fontSize: 60,
-    width: 64,
-    height: 64,
+    fontSize: 30,
+    width: 60,
+    height: 60,
   }
 });
 

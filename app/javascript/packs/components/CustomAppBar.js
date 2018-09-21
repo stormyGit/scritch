@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,6 +9,8 @@ import Grid from '@material-ui/core/Grid';
 import { Link, withRouter } from 'react-router-dom'
 import TelegramLoginButton from 'react-telegram-login';
 import { Mutation, Query } from "react-apollo";
+import SignUpDialog from './SignUpDialog';
+import UploadDialog from './UploadDialog';
 
 import UserAvatar from './UserAvatar';
 import Logo from './Logo';
@@ -50,10 +51,6 @@ const styles = theme => ({
     lineHeight: '36px',
     borderLeft: '1px solid rgba(255, 255, 255, 0.3)'
   },
-  userName: {
-    marginRight: theme.spacing.unit,
-    lineHeight: '56px',
-  },
   toolBar: {
     display: 'flex',
     flexDirection: 'row',
@@ -63,96 +60,87 @@ const styles = theme => ({
   button: {
     marginRight: theme.spacing.unit,
   },
+  avatar: {
+    marginLeft: theme.spacing.unit * 2
+  },
   toolbar: theme.mixins.toolbar,
 });
 
-const SignUpDialogButtonTrigger = (props) => (
-  <Mutation mutation={TOGGLE_SIGNUP_DIALOG}>
-    {( toggleSignUpDialog, { ...other }) => {
-      return (
-        <Button
-          onClick={() => toggleSignUpDialog({ variables: { isSignupDialogOpen: true }})}
-          variant="contained"
-          size="large"
-          color="primary"
-        >
-          Login with Telegram
-        </Button>
-      );
-    }}
-  </Mutation>
-)
-
 class CustomAppBar extends React.Component {
+  state = {
+    uploadDialog: false,
+    signUpDialog: false
+  }
   render() {
-    const { classes, pageTitle, settingsLayout, children, currentUser, showUploadDialog, showSignUpDialog } = this.props;
+    const { classes, pageTitle, settingsLayout, children, currentUser } = this.props;
 
     return (
-      <Query query={GET_SESSION}>
-        {({ data, loading, error }) => (
-          <AppBar position="absolute" className={classes.appBar}>
-            <Toolbar className={classes.toolBar}>
-              <div className={classes.titleZone}>
-                <Link to='/' className={classes.rootLink}>
-                  <Logo />
-                </Link>
-                { pageTitle && <Typography variant="headline" className={classes.pageTitle}>
-                  {pageTitle}
-                </Typography>}
-              </div>
-              {
-                settingsLayout ?
-                  <div className={classes.settingsLayoutContainer}>
-                    <Grid container alignItems="center" justify="center">
-                      <Grid container item xs={6}>
-                        {children}
+      <React.Fragment>
+        <Query query={GET_SESSION}>
+          {({ data, loading, error }) => (
+            <AppBar position="absolute" className={classes.appBar}>
+              <Toolbar className={classes.toolBar}>
+                <div className={classes.titleZone}>
+                  <Link to='/' className={classes.rootLink}>
+                    <Logo />
+                  </Link>
+                  { pageTitle && <Typography variant="headline" className={classes.pageTitle}>
+                    {pageTitle}
+                  </Typography>}
+                </div>
+                {
+                  settingsLayout ?
+                    <div className={classes.settingsLayoutContainer}>
+                      <Grid container alignItems="center" justify="center">
+                        <Grid container item xs={6}>
+                          {children}
+                        </Grid>
                       </Grid>
-                    </Grid>
-                  </div> : children
-              }
-              {
-                currentUser &&
-                  <ButtonBase
-                    component={(props) => <Link to='/profile' {...props} />}
-                    focusRipple
-                  >
-                    <Typography variant="subheading" className={classes.userName}>
-                      {currentUser.name}
-                    </Typography>
-                    <UserAvatar user={currentUser} />
-                  </ButtonBase>
-              }
-              {
-                !loading && data.session &&
-                  <div>
-                    <Button
-                      onClick={() => showUploadDialog()}
-                      variant="contained"
-                      size="large"
+                    </div> : children
+                }
+                {
+                  !loading && data.session &&
+                    <div>
+                      <Button
+                        onClick={() => this.setState({ uploadDialog: true })}
+                        variant="contained"
+                        size="large"
+                      >
+                        Upload
+                      </Button>
+                    </div>
+                }
+                {
+                  !loading && data.session &&
+                    <ButtonBase
+                      component={(props) => <Link to={`/${data.session.user.slug}`} {...props} />}
+                      focusRipple
+                      className={classes.avatar}
                     >
-                      Upload
-                    </Button>
-                  </div>
-              }
-              {
-                !loading && !data.session &&
-                  <div>
-                    <SignUpDialogButtonTrigger />
-                  </div>
-              }
-            </Toolbar>
-          </AppBar>
-        )}
-      </Query>
+                      <UserAvatar user={data.session.user} />
+                    </ButtonBase>
+                }
+                {
+                  !loading && !data.session &&
+                    <div>
+                      <Button
+                        onClick={() => this.setState({ signUpDialog: true })}
+                        variant="contained"
+                        size="large"
+                      >
+                        Login with Telegram
+                      </Button>
+                    </div>
+                }
+              </Toolbar>
+            </AppBar>
+          )}
+        </Query>
+        <SignUpDialog open={this.state.signUpDialog} onClose={() => this.setState({ signUpDialog: false })} />
+        <UploadDialog open={this.state.uploadDialog} onClose={() => this.setState({ uploadDialog: false })} />
+      </React.Fragment>
     );
   }
 }
 
-const ConnectedCustomAppBar = connect(
-  undefined,
-  (dispatch) => ({
-    showUploadDialog: () => dispatch(showUploadDialog())
-  })
-)(CustomAppBar)
-
-export default withStyles(styles)(withRouter(ConnectedCustomAppBar));
+export default withStyles(styles)(withRouter(CustomAppBar));

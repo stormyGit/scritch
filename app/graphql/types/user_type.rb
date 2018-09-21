@@ -10,11 +10,11 @@ module Types
     field :bio, String, null: true
 
     def banner
-      object.banner.attached? ?  Rails.application.routes.url_helpers.rails_blob_path(object.banner, only_path: true) : nil
+      object.banner_url
     end
 
     def avatar
-      object.avatar.attached? ?  Rails.application.routes.url_helpers.rails_blob_path(object.avatar, only_path: true) : nil
+      object.avatar_url(:thumbnail)
     end
   end
 end
