@@ -12,7 +12,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { Mutation } from "react-apollo";
 import { TextField } from 'redux-form-material-ui'
 
-import { hideSignUpDialog } from '../actions/signUpDialog';
 import { CREATE_COMMENT, GET_MEDIUM } from '../queries';
 
 import Logo from './Logo';

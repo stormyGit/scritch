@@ -15,6 +15,11 @@ module Types
       argument :id, ID, required: true
     end
 
+    field :session, SessionType, null: false do
+      description "Find a session by ID"
+      argument :id, ID, required: true
+    end
+
     def medium(params = {})
       Medium.find(params[:id])
     end
@@ -31,6 +36,10 @@ module Types
 
     def user(params = {})
       User.find(params[:id])
+    end
+
+    def session(params = {})
+      Session.find(params[:id])
     end
   end
 end

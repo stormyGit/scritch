@@ -9,12 +9,13 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { Link, withRouter } from 'react-router-dom'
 import TelegramLoginButton from 'react-telegram-login';
+import { Mutation } from "react-apollo";
 
 import UserAvatar from './UserAvatar';
 import Logo from './Logo';
 
-import { showSignUpDialog } from '../actions/signUpDialog';
 import { showUploadDialog } from '../actions/uploadDialog';
+import { TOGGLE_SIGNUP_DIALOG } from '../queries';
 
 const styles = theme => ({
   root: {
@@ -65,13 +66,26 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
-class CustomAppBar extends React.Component {
-  handleTelegramResponse(response) {
-    console.log(response);
-  }
+const SignUpDialogButtonTrigger = (props) => (
+  <Mutation mutation={TOGGLE_SIGNUP_DIALOG}>
+    {( toggleSignUpDialog, { ...other }) => {
+      return (
+        <Button
+          onClick={() => toggleSignUpDialog({ variables: { isSignupDialogOpen: true }})}
+          variant="contained"
+          size="large"
+          color="primary"
+        >
+          Login with Telegram
+        </Button>
+      );
+    }}
+  </Mutation>
+)
 
+class CustomAppBar extends React.Component {
   render() {
-    const { classes, pageTitle, settingsLayout, children, currentUser } = this.props;
+    const { classes, pageTitle, settingsLayout, children, currentUser, showUploadDialog, showSignUpDialog } = this.props;
 
     return (
       <AppBar position="absolute" className={classes.appBar}>
@@ -110,7 +124,7 @@ class CustomAppBar extends React.Component {
             currentUser &&
               <div>
                 <Button
-                  onClick={() => props.showUploadDialog()}
+                  onClick={() => showUploadDialog()}
                   variant="contained"
                   size="large"
                 >
@@ -121,7 +135,7 @@ class CustomAppBar extends React.Component {
           {
             !currentUser &&
               <div>
-                <TelegramLoginButton dataOnauth={(response) => this.handleTelegramResponse(response)} botName="MurrtubeBot" />
+                <SignUpDialogButtonTrigger />
               </div>
           }
         </Toolbar>

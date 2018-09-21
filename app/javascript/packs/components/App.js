@@ -13,7 +13,26 @@ import configureStore from '../configureStore.js';
 import Layout from './Layout';
 
 const client = new ApolloClient({
-  uri: "/graphql"
+  uri: "/graphql",
+  clientState: {
+    defaults: {
+      isSignupDialogOpen: false,
+      isSignupDialogOpen: false,
+      sessionToken: null,
+    },
+    resolvers: {
+      Mutation: {
+        toggleSignUpDialog: (_, { isSignupDialogOpen }, { cache }) => {
+          cache.writeData({ data: { isSignupDialogOpen }});
+          return null;
+        },
+        toggleUploadDialog: (_, { isSignupDialogOpen }, { cache }) => {
+          cache.writeData({ data: { isSignupDialogOpen }});
+          return null;
+        }
+      }
+    }
+}
 });
 
 let { store, persistor } = configureStore();

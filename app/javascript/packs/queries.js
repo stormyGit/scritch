@@ -1,5 +1,29 @@
 import gql from "graphql-tag";
 
+export const TOGGLE_SIGNUP_DIALOG = gql`
+  mutation toggleSignUpDialog($isSignupDialogOpen: Boolean) {
+    toggleSignUpDialog(isSignupDialogOpen: $isSignupDialogOpen) @client
+  }
+`;
+
+export const GET_SIGNUP_DIALOG = gql`
+  query getSignupDialog @client {
+    isSignupDialogOpen
+  }
+`;
+
+
+export const CREATE_SESSION = gql`
+  mutation createSession($input: CreateSessionInput!) {
+    createSession(input: $input) {
+      session {
+        id
+      }
+    }
+    toggleSignUpDialog(isSignupDialogOpen: false) @client
+  }
+`;
+
 export const GET_MEDIA = gql`
   query Media($q: String) {
     media(q: $q) {
@@ -106,6 +130,19 @@ export const GET_USER = gql`
           name
           avatar
         }
+      }
+    }
+  }
+`;
+
+export const GET_SESSION = gql`
+  query Session($id: ID!) {
+    session(id: $id) {
+      user {
+        name
+        avatar
+        banner
+        bio
       }
     }
   }
