@@ -104,10 +104,16 @@ export const GET_MEDIUM = gql`
 export const GET_USER = gql`
   query User($id: ID!) {
     user(id: $id) {
+      id
       name
       avatar
       banner
       bio
+      followed
+      following
+      followersCount
+      followingCount
+      likesCount
       publishedMedia {
         id
         slug
@@ -148,6 +154,27 @@ export const CREATE_MEDIUM = gql`
       medium {
         id
         slug
+      }
+    }
+  }
+`;
+
+export const CREATE_FOLLOW = gql`
+  mutation createFollow($input: CreateFollowInput!) {
+    createFollow(input: $input) {
+      follow {
+        id
+      }
+    }
+  }
+`;
+
+
+export const DELETE_FOLLOW = gql`
+  mutation deleteFollow($input: DeleteFollowInput!) {
+    deleteFollow(input: $input) {
+      follow {
+        id
       }
     }
   }

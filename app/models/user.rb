@@ -1,6 +1,9 @@
 class User < ApplicationRecord
   self.primary_key = :uuid
 
+  acts_as_followable
+  acts_as_follower
+
   extend FriendlyId
   friendly_id :name, use: :slugged
 

@@ -1,8 +1,9 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { connect } from 'react-redux';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -17,7 +18,7 @@ import { withRouter } from 'react-router-dom'
 
 import queryString from 'query-string';
 
-import { GET_USER } from '../queries';
+import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW } from '../queries';
 
 import CustomAppBar from './CustomAppBar';
 import MediumCard from './MediumCard';
@@ -41,6 +42,10 @@ const styles = theme => ({
     position: 'relative',
     overflow: 'visible'
   },
+  tabs: {
+    paddingLeft: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+  },
   userAvatar: {
     marginRight: theme.spacing.unit * 2,
   },
@@ -51,17 +56,29 @@ const styles = theme => ({
   },
   titleBarContainer: {
     display: 'flex',
-    maxWidth: 100,
+    justifyContent: 'space-between',
+  },
+  titleBarContainerUserInfo: {
+    display: 'flex',
     alignItems: 'center'
+  },
+  titleBarContainerUserActions: {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: theme.spacing.unit * 2,
   },
   userColumn: {
     minWidth: 200
+  },
+  followButton: {
+    width: 132
   }
 });
 
 class User extends React.Component {
   state = {
-    tab: 'videos'
+    tab: 'videos',
+    showUnfollow: false
   }
 
   componentDidMount() {
@@ -72,7 +89,7 @@ class User extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.match.params.tab !== nextProps.match.params.tab) {
-      this.setState({ tab: nextProps.match.params.tab });
+      this.setState({ tab: nextProps.match.params.tab || 'videos' });
     }
   }
 
@@ -89,18 +106,78 @@ class User extends React.Component {
     });
   }
 
-  renderVideos({ data }) {
-    if (data.user.publishedMedia.length === 0) {
+  renderFollowButton(user) {
+    console.log("LOL", user);
+    if (user.followed) {
+      return (
+        <Mutation
+          mutation={DELETE_FOLLOW}
+          update={(cache, { data: { deleteFollow } }) => {
+            cache.writeQuery({
+              query: GET_USER,
+              variables: { id: user.id },
+              data: { user: { ...user, followed: false, followersCount: (user.followersCount - 1) } }
+            });
+          }}
+        >
+          {( deleteFollow, { data }) => (
+            <Button
+              variant="contained"
+              size="large"
+              className={this.props.classes.followButton}
+              color={this.state.showUnfollow ? 'secondary' : 'primary'}
+              onMouseEnter={() => this.setState({ showUnfollow: true })}
+              onMouseLeave={() => this.setState({ showUnfollow: false })}
+              onClick={() => {
+                deleteFollow({ variables: { input: { followableId: user.id }}})
+              }}
+            >
+              {this.state.showUnfollow ? 'Unfollow' : 'Following'}
+            </Button>
+          )}
+        </Mutation>
+      )
+    } else {
+      return (
+        <Mutation
+          mutation={CREATE_FOLLOW}
+          update={(cache, { data: { createFollow } }) => {
+            cache.writeQuery({
+              query: GET_USER,
+              variables: { id: user.id },
+              data: { user: { ...user, followed: true, followersCount: (user.followersCount + 1) } }
+            });
+          }}
+        >
+          {( createFollow, { data }) => (
+            <Button
+              variant="contained"
+              size="large"
+              className={this.props.classes.followButton}
+              onClick={() => {
+                createFollow({ variables: { input: { followableId: user.id }}})
+              }}
+            >
+              Follow
+            </Button>
+          )}
+        </Mutation>
+      );
+    }
+  }
+
+  renderVideos(user) {
+    if (user.publishedMedia.length === 0) {
       return (
         <EmptyList
-          label={`${data.user.name} doesn't have any videos.`}
+          label={`${user.name} doesn't have any videos.`}
         />
       )
     }
     return (
       <Grid container spacing={8}>
         {
-          data.user.publishedMedia.map((medium) => (
+          user.publishedMedia.map((medium) => (
             <Grid item xs={12} key={medium.id}>
               <MediumCard medium={medium} horizontal />
             </Grid>
@@ -110,25 +187,30 @@ class User extends React.Component {
     );
   }
 
-  renderUserProfile({ data }) {
+  renderUserProfile(user) {
     const { classes } = this.props;
 
     return (
       <GridList cellHeight={430} cols={1} spacing={0} className={classes.userProfile}>
         <GridListTile cols={1}>
-           <img src={data.user.banner || 'https://www.fillmurray.com/640/360'} />
+           <img src={user.banner || 'https://www.fillmurray.com/640/360'} />
            <GridListTileBar
              className={classes.titleBar}
              title={
                <div className={classes.titleBarContainer}>
-                 <ProfileAvatar user={data.user} className={classes.userAvatar} />
-                 <div>
-                   <Typography variant="title">
-                    {data.user.name}
-                  </Typography>
-                  <Typography variant="body2">
-                   {data.user.bio}
-                 </Typography>
+                <div className={classes.titleBarContainerUserInfo}>
+                   <ProfileAvatar user={user} className={classes.userAvatar} />
+                   <div>
+                     <Typography variant="title">
+                      {user.name}
+                    </Typography>
+                    <Typography variant="body2">
+                     {user.bio}
+                   </Typography>
+                  </div>
+                </div>
+                <div className={classes.titleBarContainerUserActions}>
+                  {this.renderFollowButton(user)}
                 </div>
               </div>
              }
@@ -156,7 +238,7 @@ class User extends React.Component {
               {
                 !loading &&
                   <React.Fragment>
-                    {this.renderUserProfile({ data })}
+                    {this.renderUserProfile(data.user)}
                     <Paper className={classes.tabsContainer} elevation={0}>
                       <Grid container spacing={0}>
                         <Grid item xs lg>
@@ -164,9 +246,8 @@ class User extends React.Component {
                         <Grid item xs={12} lg={8}>
                           <Tabs
                             value={this.state.tab}
+                            className={classes.tabs}
                             onChange={(e, value) => this.handleTabChange(value)}
-                            scrollable
-                            scrollButtons="on"
                             indicatorColor="secondary"
                             textColor="secondary"
                             fullWidth
@@ -178,17 +259,17 @@ class User extends React.Component {
                             />
                             <Tab
                               value="following"
-                              label="12"
+                              label={data.user.followingCount}
                               icon="Following"
                             />
                             <Tab
                               value="followers"
-                              label="14"
+                              label={data.user.followersCount}
                               icon="Followers"
                             />
                             <Tab
                               value="likes"
-                              label="123"
+                              label={data.user.likesCount}
                               icon="Likes"
                             />
                           </Tabs>
@@ -201,7 +282,7 @@ class User extends React.Component {
                       <Grid item xs lg>
                       </Grid>
                       <Grid item item xs={12} lg={8}>
-                        {this.state.tab === 'videos' && this.renderVideos({ data })}
+                        {this.state.tab === 'videos' && this.renderVideos(data.user)}
                       </Grid>
                       <Grid item xs lg>
                       </Grid>

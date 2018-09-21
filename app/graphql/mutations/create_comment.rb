@@ -9,7 +9,7 @@ class Mutations::CreateComment < Mutations::BaseMutation
     comment = Comment.new({
       body: arguments[:body],
       medium_id: arguments[:medium_id],
-      user_id: User.first.id
+      user_id: context[:current_user].id
     })
 
     if comment.save

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_21_162652) do
+ActiveRecord::Schema.define(version: 2018_09_21_210715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,14 +89,12 @@ ActiveRecord::Schema.define(version: 2018_09_21_162652) do
 
   create_table "follows", id: :serial, force: :cascade do |t|
     t.string "followable_type", null: false
-    t.integer "followable_id", null: false
     t.string "follower_type", null: false
-    t.integer "follower_id", null: false
     t.boolean "blocked", default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["followable_id", "followable_type"], name: "fk_followables"
-    t.index ["follower_id", "follower_type"], name: "fk_follows"
+    t.uuid "followable_id"
+    t.uuid "follower_id"
   end
 
   create_table "friendly_id_slugs", id: :serial, force: :cascade do |t|
