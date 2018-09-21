@@ -21,7 +21,7 @@ import GlobalProgress from './GlobalProgress';
 import { Mutation, Query } from "react-apollo";
 
 import Logo from './Logo';
-import { CREATE_SESSION, GET_SIGNUP_DIALOG, TOGGLE_SIGNUP_DIALOG } from '../queries';
+import { CREATE_SESSION, GET_SIGNUP_DIALOG, TOGGLE_SIGNUP_DIALOG, GET_SESSION } from '../queries';
 
 const styles = theme => ({
   brand: {
@@ -38,7 +38,6 @@ const styles = theme => ({
 
 class SignUpDialog extends React.Component {
   handleTelegramResponse(response) {
-    console.log(response);
     this.props.onSubmit({
       telegramId: response.id,
       telegramFirstName: response.first_name,
@@ -93,12 +92,7 @@ class SignUpDialog extends React.Component {
                 <TelegramLoginButton dataOnauth={(response) => this.handleTelegramResponse(response)} botName="MurrtubeBot" />
               </div> :
               <Button
-                onClick={() => this.handleTelegramResponse({
-                  id: 643777772,
-                  first_name: "Ananas Wilson",
-                  auth_date: 1537521829,
-                  hash: "d75858cac196fad8288500402a7d9f6b357e7df8029991be8a7b59c18d2bd2ea"
-                })}
+                onClick={() => this.handleTelegramResponse({id: 643777772, first_name: "Ananas Wilson", auth_date: 1537534591, hash: "cf517b52ba9d93947ded4c24a7ffeb9480fd90a716b223e001078930fa220ebf"})}
                 variant="contained"
               >
                 Login test
@@ -118,6 +112,11 @@ const FormWithMutation = (props) => (
           <Mutation
             mutation={CREATE_SESSION}
             update={(cache, { data: { createSession } }) => {
+              const { session } = cache.readQuery({ query: GET_SESSION });
+              cache.writeQuery({
+                query: GET_SESSION,
+                data: { session: createSession.session }
+              });
               cache.writeData({
                 data: { sessionToken: createSession.session.id }
               });

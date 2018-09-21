@@ -18,6 +18,12 @@ export const CREATE_SESSION = gql`
     createSession(input: $input) {
       session {
         id
+        user {
+          name
+          avatar
+          banner
+          bio
+        }
       }
     }
     toggleSignUpDialog(isSignupDialogOpen: false) @client

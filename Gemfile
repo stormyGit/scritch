@@ -66,6 +66,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'graphql'
 
 gem 'graphiql-rails', group: :development
+gem 'graphql-errors'
 gem 'figaro'
 gem 'devise'
 gem 'activeadmin'
@@ -79,3 +80,4 @@ gem 'image_processing', '~> 1.2'
 gem 'exception_notification'
 gem 'acts_as_follower', github: 'tcocca/acts_as_follower', branch: 'master'
 gem 'telegram-bot', github: 'telegram-bot-rb/telegram-bot'
+gem 'pundit'

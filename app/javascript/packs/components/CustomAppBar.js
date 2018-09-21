@@ -9,13 +9,13 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { Link, withRouter } from 'react-router-dom'
 import TelegramLoginButton from 'react-telegram-login';
-import { Mutation } from "react-apollo";
+import { Mutation, Query } from "react-apollo";
 
 import UserAvatar from './UserAvatar';
 import Logo from './Logo';
 
 import { showUploadDialog } from '../actions/uploadDialog';
-import { TOGGLE_SIGNUP_DIALOG } from '../queries';
+import { TOGGLE_SIGNUP_DIALOG, GET_SESSION } from '../queries';
 
 const styles = theme => ({
   root: {
@@ -144,21 +144,9 @@ class CustomAppBar extends React.Component {
   }
 }
 
-// <script async src="https://telegram.org/js/telegram-widget.js?4" data-telegram-login="MurrtubeBot" data-size="large" data-radius="6" data-onauth="onTelegramAuth(user)"></script>
-// <script type="text/javascript">
-//   function onTelegramAuth(user) {
-//     alert('Logged in as ' + user.first_name + ' ' + user.last_name + ' (' + user.id + (user.username ? ', @' + user.username : '') + ')');
-//   }
-// </script>
-
-
 const ConnectedCustomAppBar = connect(
-  ({ pageTitle }) => ({
-    currentUser: null,
-    pageTitle
-  }),
+  undefined,
   (dispatch) => ({
-    showSignUpDialog: () => dispatch(showSignUpDialog()),
     showUploadDialog: () => dispatch(showUploadDialog())
   })
 )(CustomAppBar)

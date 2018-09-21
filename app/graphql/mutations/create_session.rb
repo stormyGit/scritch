@@ -12,9 +12,9 @@ class Mutations::CreateSession < Mutations::BaseMutation
   def resolve(params)
     telegram_hash = params.delete :telegram_hash
 
-    check_string = params.to_a.sort_by { |k, _| k }.map { |k, v| "#{k.to_s.gsub(/^telegram_/, '')}=#{v}" }.join("\n")
-    if OpenSSL::HMAC.hexdigest("SHA256", check_string, Digest::SHA256.hexdigest(Telegram.bot.token)) != telegram_hash
-      puts "NON"
+    check_string = params.map { |k, v| "#{k.to_s.gsub(/^telegram_/, '')}=#{v}" }.sort.join("\n")
+    if OpenSSL::HMAC.hexdigest("SHA256", Digest::SHA256.digest(Telegram.bot.token), check_string) != telegram_hash
+      raise Pundit::NotAuthorizedError
     end
 
     user = User.find_or_create_by(telegram_id: params[:telegram_id]) do |user|
