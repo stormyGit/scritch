@@ -37,19 +37,21 @@ const styles = theme => ({
   titleZone: {
     display: 'flex',
   },
-  settingsLayoutContainer: {
-    flexGrow: 1,
-    position: 'absolute',
-    width: 'calc(100% - 660px)',
-    left: 300,
+  children: {
+    minWidth: 600
+  },
+  separator: {
+    borderLeft: `1px solid rgba(255, 255, 255, 0.3)`,
+    marginLeft: theme.spacing.unit * 4,
+    marginRight: theme.spacing.unit * 3,
+    marginBottom: theme.spacing.unit,
+    marginTop: theme.spacing.unit,
   },
   pageTitle: {
-    marginLeft: theme.spacing.unit * 2,
-    paddingLeft: theme.spacing.unit * 2,
     marginTop: 5,
     marginBottom: 5,
     lineHeight: '36px',
-    borderLeft: '1px solid rgba(255, 255, 255, 0.3)'
+    flexShrink: 0,
   },
   toolBar: {
     display: 'flex',
@@ -62,6 +64,9 @@ const styles = theme => ({
   },
   avatar: {
     marginLeft: theme.spacing.unit * 2
+  },
+  rightActions: {
+    flexShrink: 0,
   },
   toolbar: theme.mixins.toolbar,
 });
@@ -84,45 +89,43 @@ class CustomAppBar extends React.PureComponent {
                   <Link to='/' className={classes.rootLink}>
                     <Logo />
                   </Link>
-                  { pageTitle && <Typography variant="headline" className={classes.pageTitle}>
-                    {pageTitle}
-                  </Typography>}
+                  {
+                    pageTitle &&
+                      <React.Fragment>
+                        <div className={classes.separator} />
+                        <Typography variant="headline" className={classes.pageTitle}>
+                          {pageTitle}
+                        </Typography>
+                      </React.Fragment>
+                  }
+                  <div className={classes.children}>
+                    {children}
+                  </div>
                 </div>
-                {
-                  settingsLayout ?
-                    <div className={classes.settingsLayoutContainer}>
-                      <Grid container alignItems="center" justify="center">
-                        <Grid container item xs={6}>
-                          {children}
-                        </Grid>
-                      </Grid>
-                    </div> : children
-                }
-                {
-                  !loading && data.session &&
-                    <div>
+                <div className={classes.rightActions}>
+                  {
+                    !loading && data.session &&
                       <Button
                         onClick={() => this.setState({ uploadDialog: true })}
                         variant="contained"
                         size="large"
+                        color="primary"
                       >
                         Upload
                       </Button>
-                    </div>
-                }
-                {
-                  !loading && data.session &&
-                    <ButtonBase
-                      component={(props) => <Link to={`/${data.session.user.slug}`} {...props} />}
-                      focusRipple
-                      className={classes.avatar}
-                    >
-                      <UserAvatar user={data.session.user} />
-                    </ButtonBase>
-                }
-                {
-                  !loading && !data.session &&
-                    <div>
+                  }
+                  {
+                    !loading && data.session &&
+                      <ButtonBase
+                        component={(props) => <Link to={`/${data.session.user.slug}`} {...props} />}
+                        focusRipple
+                        className={classes.avatar}
+                      >
+                        <UserAvatar user={data.session.user} />
+                      </ButtonBase>
+                  }
+                  {
+                    !loading && !data.session &&
                       <Button
                         onClick={() => this.setState({ signUpDialog: true })}
                         variant="contained"
@@ -130,8 +133,8 @@ class CustomAppBar extends React.PureComponent {
                       >
                         Login with Telegram
                       </Button>
-                    </div>
-                }
+                  }
+                </div>
               </Toolbar>
             </AppBar>
           )}

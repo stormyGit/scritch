@@ -69,74 +69,74 @@ class Medium extends React.Component {
     const { classes, match } = this.props;
 
     return (
-      <React.Fragment>
-        <CustomAppBar>
-          <SearchBar />
-        </CustomAppBar>
-        <Query query={GET_MEDIUM} variables={{ id: match.params.id }}>
-          {({ loading, error, data }) => {
-            if (loading) {
-              return (null);
-            }
-            return (
-              <div className={classes.container}>
-                <Card className={classes.card}>
-                  <CardVideo medium={data.medium} />
-                  <Grid container spacing={8}>
-                    <Grid item lg={8} xs={12}>
-                      <CardContent>
-                        <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
-                          {data.medium.title}
-                        </Typography>
-                        <Typography component="p" className={classes.text}>
-                          {data.medium.description || 'No description'}
-                        </Typography>
-                      </CardContent>
-                      <CardContent>
-                        <Typography gutterBottom variant="title" component="h3">
-                          {this.renderCommentsCount(data.medium.comments.length)}
-                        </Typography>
-                        <CommentForm mediumId={data.medium.id} initialValues={{ mediumId: data.medium.id }} />
-                        {
-                          data.medium.comments.map((comment) => (
-                            <div key={comment.id} className={classes.comment}>
-                              <CardHeader
-                                className={classes.commentHeader}
-                                avatar={
-                                  <Link to={`/${comment.user.slug}`} className={classes.userLink}>
-                                    <UserAvatar user={comment.user} />
-                                  </Link>
-                                }
-                                title={<Link to={`/${comment.user.slug}`} className={classes.userLink}>{comment.user.name}</Link>}
-                                subheader={timeAgo.format(new Date(comment.createdAt))}
-                              />
-                              <FormattedText text={comment.body} />
-                            </div>
-                          ))
-                        }
-                      </CardContent>
-                    </Grid>
-                    <Grid item lg={4} xs={12}>
-                      <CardContent>
-                        <Typography gutterBottom variant="title" component="h3">
-                          Related videos
-                        </Typography>
-                        {
-                          data.medium.relatedMedia.map((medium) => (
-                            <div className={classes.relatedMedia} key={medium.id}>
-                              <RelatedMediumCard medium={medium} horizontal/>
-                            </div>
-                          ))
-                        }
-                      </CardContent>
-                    </Grid>
-                  </Grid>
-                </Card>
-              </div>
-            );
-          }}
-        </Query>
-      </React.Fragment>
+      <Query query={GET_MEDIUM} variables={{ id: match.params.id }}>
+        {({ loading, error, data }) => {
+          return (
+            <React.Fragment>
+              <CustomAppBar pageTitle={!loading && data.medium ? data.medium.title : null}>
+                <SearchBar />
+              </CustomAppBar>
+              {
+                !loading && data.medium &&
+                  <div className={classes.container}>
+                    <Card className={classes.card}>
+                      <CardVideo medium={data.medium} />
+                      <Grid container spacing={8}>
+                        <Grid item lg={8} xs={12}>
+                          <CardContent>
+                            <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
+                              {data.medium.title}
+                            </Typography>
+                            <Typography component="p" className={classes.text}>
+                              {data.medium.description || 'No description'}
+                            </Typography>
+                          </CardContent>
+                          <CardContent>
+                            <Typography gutterBottom variant="title" component="h3">
+                              {this.renderCommentsCount(data.medium.comments.length)}
+                            </Typography>
+                            <CommentForm mediumId={data.medium.id} initialValues={{ mediumId: data.medium.id }} />
+                            {
+                              data.medium.comments.map((comment) => (
+                                <div key={comment.id} className={classes.comment}>
+                                  <CardHeader
+                                    className={classes.commentHeader}
+                                    avatar={
+                                      <Link to={`/${comment.user.slug}`} className={classes.userLink}>
+                                        <UserAvatar user={comment.user} />
+                                      </Link>
+                                    }
+                                    title={<Link to={`/${comment.user.slug}`} className={classes.userLink}>{comment.user.name}</Link>}
+                                    subheader={timeAgo.format(new Date(comment.createdAt))}
+                                  />
+                                  <FormattedText text={comment.body} />
+                                </div>
+                              ))
+                            }
+                          </CardContent>
+                        </Grid>
+                        <Grid item lg={4} xs={12}>
+                          <CardContent>
+                            <Typography gutterBottom variant="title" component="h3">
+                              Related videos
+                            </Typography>
+                            {
+                              data.medium.relatedMedia.map((medium) => (
+                                <div className={classes.relatedMedia} key={medium.id}>
+                                  <RelatedMediumCard medium={medium} horizontal/>
+                                </div>
+                              ))
+                            }
+                          </CardContent>
+                        </Grid>
+                      </Grid>
+                    </Card>
+                  </div>
+              }
+            </React.Fragment>
+          );
+        }}
+      </Query>
     );
   }
 }

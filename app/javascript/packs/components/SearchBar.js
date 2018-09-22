@@ -39,29 +39,21 @@ const styles = theme => ({
   },
   searchContainer: {
     margin: 'auto 16px',
-    width: '100%'
   },
-  input: {
-    width: '100%',
-  }
 })
 
 class CustomSearchBar extends React.PureComponent {
   render() {
     return (
-      <Grid container justify="center">
-        <Grid container item xs={12} lg={6}>
-          <SearchBar
-            {...this.props}
-            searchIcon={
-              <SearchIcon style={{ color: grey[50] }} />
-            }
-            closeIcon={
-              <ClearIcon style={{ color: grey[50] }} />
-            }
-          />
-        </Grid>
-      </Grid>
+      <SearchBar
+        {...this.props}
+        searchIcon={
+          <SearchIcon style={{ color: grey[50] }} />
+        }
+        closeIcon={
+          <ClearIcon style={{ color: grey[50] }} />
+        }
+      />
     );
   }
 };

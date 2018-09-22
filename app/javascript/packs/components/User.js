@@ -298,19 +298,19 @@ class User extends React.Component {
     const { classes, match } = this.props;
 
     return (
-      <React.Fragment>
-        <CustomAppBar>
-          <SearchBar
-            cancelOnEscape
-            onRequestSearch={(q) => this.handleRequestSearch(q)}
-          />
-        </CustomAppBar>
-        <Query query={GET_USER} variables={{ id: match.params.id }}>
-          {({ data, loading, error }) => (
+      <Query query={GET_USER} variables={{ id: match.params.id }}>
+        {({ data, loading, error }) => (
+          <React.Fragment>
+            <CustomAppBar pageTitle={!loading && data.user ? data.user.name : null}>
+              <SearchBar
+                cancelOnEscape
+                onRequestSearch={(q) => this.handleRequestSearch(q)}
+              />
+            </CustomAppBar>
             <React.Fragment>
               {loading && <GlobalProgress />}
               {
-                !loading &&
+                !loading && data.user &&
                   <React.Fragment>
                     {this.renderUserProfile(data.user)}
                     <Paper className={classes.tabsContainer} elevation={0}>
@@ -367,9 +367,9 @@ class User extends React.Component {
                   </React.Fragment>
               }
             </React.Fragment>
-          )}
-        </Query>
-      </React.Fragment>
+          </React.Fragment>
+        )}
+      </Query>
     );
   }
 }

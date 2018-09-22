@@ -17,6 +17,7 @@ import Medium from './Medium';
 import User from './User';
 import TermsDialog from './TermsDialog';
 import PrivacyPolicyDialog from './PrivacyPolicyDialog';
+import Settings from './Settings';
 
 const styles = theme => ({
   root: {
@@ -62,6 +63,7 @@ class Layout extends React.PureComponent {
               <div className={classes.toolbar} />
               <Switch>
                 <Route exact path='/' component={Media} />
+                <Route exact path='/settings' component={Settings} />
                 <Route exact path='/videos' component={Media} />
                 <Route exact path='/videos/:id' component={Medium} />
                 <Route exact path='/:id' component={User} />

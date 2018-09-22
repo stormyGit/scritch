@@ -6,12 +6,33 @@ export const CREATE_SESSION = gql`
       session {
         id
         user {
+          id
           name
           slug
           avatar
           banner
           bio
         }
+      }
+    }
+  }
+`;
+
+export const DELETE_SESSION = gql`
+  mutation deleteSession($input: DeleteSessionInput!) {
+    deleteSession(input: $input) {
+      session {
+        id
+      }
+    }
+  }
+`;
+
+export const DELETE_USER = gql`
+  mutation deleteUser($input: DeleteUserInput!) {
+    deleteUser(input: $input) {
+      user {
+        id
       }
     }
   }
@@ -138,7 +159,9 @@ export const GET_USER = gql`
 export const GET_SESSION = gql`
   query Session {
     session {
+      id
       user {
+        id
         name
         slug
         avatar

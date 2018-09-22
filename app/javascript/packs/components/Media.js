@@ -68,7 +68,7 @@ class Media extends React.Component {
       <Query query={GET_MEDIA} variables={{ q: query.q }}>
         {({ data, loading, error }) => (
           <React.Fragment>
-            <CustomAppBar>
+            <CustomAppBar pageTitle="Last videos">
               <SearchBar
                 cancelOnEscape
                 value={query.q}
