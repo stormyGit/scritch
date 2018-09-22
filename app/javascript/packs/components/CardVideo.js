@@ -23,7 +23,7 @@ const styles = theme => ({
   },
 });
 
-class CardVideo extends React.Component {
+class CardVideo extends React.PureComponent {
   componentDidMount() {
     window.Hls = Hls;
 

@@ -47,37 +47,34 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
-function Layout(props) {
-  const { classes } = props;
+class Layout extends React.PureComponent {
+  render() {
+    const { classes } = this.props;
 
-  return (
-    <HashRouter>
-      <div className="App">
-        <div className={classes.root}>
-          <Hidden mdDown>
-            <AppDrawer />
-          </Hidden>
-          <main className={classes.content}>
-            <div className={classes.toolbar} />
-            <Switch>
-              <Route exact path='/' component={Media} />
-              <Route exact path='/videos' component={Media} />
-              <Route exact path='/videos/:id' component={Medium} />
-              <Route exact path='/:id' component={User} />
-              <Route exact path='/:id/:tab' component={User} />
-            </Switch>
-          </main>
+    return (
+      <HashRouter>
+        <div className="App">
+          <div className={classes.root}>
+            <Hidden mdDown>
+              <AppDrawer />
+            </Hidden>
+            <main className={classes.content}>
+              <div className={classes.toolbar} />
+              <Switch>
+                <Route exact path='/' component={Media} />
+                <Route exact path='/videos' component={Media} />
+                <Route exact path='/videos/:id' component={Medium} />
+                <Route exact path='/:id' component={User} />
+                <Route exact path='/:id/:tab' component={User} />
+              </Switch>
+            </main>
+          </div>
+          <TermsDialog />
+          <PrivacyPolicyDialog />
         </div>
-        <TermsDialog />
-        <PrivacyPolicyDialog />
-      </div>
-    </HashRouter>
-  );
+      </HashRouter>
+    );
+  }
 }
 
-const ConnectedLayout = connect(
-  ({ session }) => ({
-  })
-)(Layout)
-
-export default withStyles(styles)(ConnectedLayout);
+export default withStyles(styles)(Layout);

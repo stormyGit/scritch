@@ -4,6 +4,7 @@ import SearchBar from 'material-ui-search-bar'
 import { grey } from '@material-ui/core/colors'
 import ClearIcon from '@material-ui/icons/Clear'
 import SearchIcon from '@material-ui/icons/Search'
+import Grid from '@material-ui/core/Grid';
 
 const styles = theme => ({
   root: {
@@ -45,16 +46,24 @@ const styles = theme => ({
   }
 })
 
-const SettingsSearchBar = (props) => (
-  <SearchBar
-    {...props}
-    searchIcon={
-      <SearchIcon style={{ color: grey[50] }} />
-    }
-    closeIcon={
-      <ClearIcon style={{ color: grey[50] }} />
-    }
-  />
-);
+class CustomSearchBar extends React.PureComponent {
+  render() {
+    return (
+      <Grid container justify="center">
+        <Grid container item xs={12} lg={6}>
+          <SearchBar
+            {...this.props}
+            searchIcon={
+              <SearchIcon style={{ color: grey[50] }} />
+            }
+            closeIcon={
+              <ClearIcon style={{ color: grey[50] }} />
+            }
+          />
+        </Grid>
+      </Grid>
+    );
+  }
+};
 
-export default withStyles(styles)(SettingsSearchBar);
+export default withStyles(styles)(CustomSearchBar);

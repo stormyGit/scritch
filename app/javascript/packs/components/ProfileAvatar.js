@@ -22,14 +22,19 @@ const styles = theme => ({
   }
 });
 
-const ProfileAvatar = ({ user, classes, className }) => (
-  <div className={className}>
-    <Paper className={classes.paper}>
-      {user.avatar ?
-        <Avatar src={user.avatar} className={classes.avatar} /> :
-        <DefaultAvatar className={classes.avatar} text={(user.name || "").replace(/[\W_]+/g, "")[0] || "*"} size={56} key="avatar" />}
-    </Paper>
-  </div>
-)
+class ProfileAvatar extends React.PureComponent {
+  render() {
+    const { user, classes, className } = this.props;
+    return (
+      <div className={className}>
+        <Paper className={classes.paper}>
+          {user.avatar ?
+            <Avatar src={user.avatar} className={classes.avatar} /> :
+            <DefaultAvatar className={classes.avatar} text={(user.name || "").replace(/[\W_]+/g, "")[0] || "*"} size={56} key="avatar" />}
+        </Paper>
+      </div>
+    );
+  }
+}
 
 export default withStyles(styles)(ProfileAvatar);

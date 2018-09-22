@@ -14,6 +14,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import { Parallax, Background } from 'react-parallax';
+
 import { withRouter } from 'react-router-dom'
 
 import queryString from 'query-string';
@@ -78,7 +80,8 @@ const styles = theme => ({
 class User extends React.Component {
   state = {
     tab: 'videos',
-    showUnfollow: false
+    showUnfollow: false,
+    edit: false
   }
 
   componentDidMount() {
@@ -107,7 +110,6 @@ class User extends React.Component {
   }
 
   renderFollowButton(user) {
-    console.log("LOL", user);
     if (user.followed) {
       return (
         <Mutation
@@ -166,6 +168,49 @@ class User extends React.Component {
     }
   }
 
+  renderEditButton(user) {
+    if (this.state.edit) {
+      return (
+        <Mutation
+          mutation={CREATE_FOLLOW}
+          update={(cache, { data: { createFollow } }) => {
+            cache.writeQuery({
+              query: GET_USER,
+              variables: { id: user.id },
+              data: { user: { ...user, followed: true, followersCount: (user.followersCount + 1) } }
+            });
+          }}
+        >
+          {( createFollow, { data }) => (
+            <Button
+              variant="contained"
+              size="large"
+              color={"primary"}
+              onClick={() => {
+                // createFollow({ variables: { input: { followableId: user.id }}})
+                this.setState({ edit: false })
+              }}
+            >
+              Save
+            </Button>
+          )}
+        </Mutation>
+      );
+    } else {
+      return (
+        <Button
+          variant="contained"
+          size="large"
+          onClick={() => {
+            this.setState({ edit: true })
+          }}
+        >
+          Edit profile
+        </Button>
+      );
+    }
+  }
+
   renderVideos(user) {
     if (user.publishedMedia.length === 0) {
       return (
@@ -187,13 +232,42 @@ class User extends React.Component {
     );
   }
 
+  renderFollowing(user) {
+    return (
+      <EmptyList
+        label={`${user.name} doesn't follow anybody.`}
+      />
+    )
+  }
+
+  renderFollowers(user) {
+    return (
+      <EmptyList
+        label={`${user.name} doesn't have any followers.`}
+      />
+    )
+  }
+
+  renderLikes(user) {
+    return (
+      <EmptyList
+        label={`${user.name} doesn't have any likes.`}
+      />
+    )
+  }
+
   renderUserProfile(user) {
     const { classes } = this.props;
 
     return (
       <GridList cellHeight={430} cols={1} spacing={0} className={classes.userProfile}>
         <GridListTile cols={1}>
-           <img src={user.banner || 'https://www.fillmurray.com/640/360'} />
+          <Parallax
+            bgImage={user.banner || 'https://www.fillmurray.com/640/360'}
+            strength={300}
+          >
+            <div style={{ height: 430, width: '100%' }} />
+          </Parallax>
            <GridListTileBar
              className={classes.titleBar}
              title={
@@ -210,7 +284,7 @@ class User extends React.Component {
                   </div>
                 </div>
                 <div className={classes.titleBarContainerUserActions}>
-                  {this.renderFollowButton(user)}
+                  {user.canUpdate ? this.renderEditButton(user) : this.renderFollowButton(user)}
                 </div>
               </div>
              }
@@ -282,7 +356,10 @@ class User extends React.Component {
                       <Grid item xs lg>
                       </Grid>
                       <Grid item item xs={12} lg={8}>
-                        {this.state.tab === 'videos' && this.renderVideos(data.user)}
+                      {this.state.tab === 'videos' && this.renderVideos(data.user)}
+                      {this.state.tab === 'following' && this.renderFollowing(data.user)}
+                      {this.state.tab === 'followers' && this.renderFollowers(data.user)}
+                      {this.state.tab === 'likes' && this.renderLikes(data.user)}
                       </Grid>
                       <Grid item xs lg>
                       </Grid>

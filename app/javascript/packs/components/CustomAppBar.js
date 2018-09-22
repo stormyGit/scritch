@@ -66,7 +66,7 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
-class CustomAppBar extends React.Component {
+class CustomAppBar extends React.PureComponent {
   state = {
     uploadDialog: false,
     signUpDialog: false
