@@ -1,5 +1,11 @@
 import gql from "graphql-tag";
 
+export const GET_THEME = gql`
+  query getTheme @client {
+    theme
+  }
+`;
+
 export const CREATE_SESSION = gql`
   mutation createSession($input: CreateSessionInput!) {
     createSession(input: $input) {
@@ -12,6 +18,7 @@ export const CREATE_SESSION = gql`
           avatar
           banner
           bio
+          theme
         }
       }
     }
@@ -33,6 +40,22 @@ export const DELETE_USER = gql`
     deleteUser(input: $input) {
       user {
         id
+      }
+    }
+  }
+`;
+
+export const UPDATE_USER = gql`
+  mutation updateUser($input: UpdateUserInput!) {
+    updateUser(input: $input) {
+      user {
+        id
+        name
+        slug
+        avatar
+        banner
+        bio
+        theme
       }
     }
   }
@@ -167,6 +190,7 @@ export const GET_SESSION = gql`
         avatar
         banner
         bio
+        theme
       }
     }
   }

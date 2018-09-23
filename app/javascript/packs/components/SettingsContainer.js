@@ -20,7 +20,7 @@ const styles = theme => ({
   }
 });
 
-class SettingsContainer extends React.PureComponent {
+class SettingsContainer extends React.Component {
   render() {
     const { title, classes, children, lg, xs } = this.props;
 

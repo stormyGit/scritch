@@ -22,7 +22,7 @@ const styles = theme => ({
   }
 });
 
-class ProfileAvatar extends React.PureComponent {
+class ProfileAvatar extends React.Component {
   render() {
     const { user, classes, className } = this.props;
     return (

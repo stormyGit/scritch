@@ -15,13 +15,15 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
+import Switch from '@material-ui/core/Switch';
+
 import { withRouter } from 'react-router-dom'
 
 import SettingsContainer from './SettingsContainer';
 import CustomAppBar from './CustomAppBar';
 import SearchBar from './SearchBar';
 
-import { GET_SESSION, DELETE_SESSION, DELETE_USER } from '../queries';
+import { GET_SESSION, DELETE_SESSION, DELETE_USER, UPDATE_USER, GET_THEME } from '../queries';
 
 const styles = theme => ({
 });
@@ -41,12 +43,48 @@ class Settings extends React.Component {
         </CustomAppBar>
         <Query query={GET_SESSION}>
           {({ loading, error, data: sessionData }) => {
-            if (loading) {
+            if (loading || !sessionData.session) {
               return (null);
             }
 
             return (
               <React.Fragment>
+                <SettingsContainer title="Appearance">
+                  <List>
+                    <Mutation
+                      mutation={UPDATE_USER}
+                      update={(cache, { data: { updateUser } }) => {
+                        cache.writeQuery({
+                          query: GET_SESSION,
+                          data: { session: { ...sessionData.session, user: updateUser.user } }
+                        });
+                        cache.writeQuery({
+                          query: GET_THEME,
+                          data: { theme: updateUser.user.theme }
+                        });
+                      }}
+                    >
+                      {( updateUser, { data }) => (
+                        <ListItem
+                          button
+                          onClick={() => {
+                            updateUser({ variables: { input: { id: sessionData.session.user.id, theme: sessionData.session.user.theme === 'light' ? 'dark' : 'light' }}})
+                          }}
+                        >
+                          <ListItemText primary={'Light theme'} />
+                          <ListItemSecondaryAction>
+                            <Switch
+                              onChange={(e, value) => {
+                                updateUser({ variables: { input: { id: sessionData.session.user.id, theme: value ? 'light' : 'dark' }}})
+                              }}
+                              checked={sessionData.session.user.theme === 'light'}
+                            />
+                          </ListItemSecondaryAction>
+                        </ListItem>
+                      )}
+                    </Mutation>
+                  </List>
+                </SettingsContainer>
                 <SettingsContainer title="Account">
                   <List>
                     <Mutation

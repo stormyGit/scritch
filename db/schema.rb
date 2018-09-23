@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_21_210715) do
+ActiveRecord::Schema.define(version: 2018_09_22_151644) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -144,6 +144,7 @@ ActiveRecord::Schema.define(version: 2018_09_21_210715) do
     t.string "telegram_id"
     t.string "avatar"
     t.string "banner"
+    t.string "theme", default: "dark"
   end
 
 end

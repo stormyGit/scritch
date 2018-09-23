@@ -7,5 +7,6 @@ module Types
     field :delete_follow, mutation: Mutations::DeleteFollow
     field :delete_session, mutation: Mutations::DeleteSession
     field :delete_user, mutation: Mutations::DeleteUser
+    field :update_user, mutation: Mutations::UpdateUser
   end
 end

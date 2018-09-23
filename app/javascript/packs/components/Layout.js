@@ -48,7 +48,7 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
-class Layout extends React.PureComponent {
+class Layout extends React.Component {
   render() {
     const { classes } = this.props;
 

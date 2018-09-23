@@ -10,7 +10,7 @@ const styles = theme => ({
   },
 })
 
-class Logo extends React.PureComponent {
+class Logo extends React.Component {
   render() {
     const { classes, ...props } = this.props;
 

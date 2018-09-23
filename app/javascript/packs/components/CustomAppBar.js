@@ -71,7 +71,7 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
-class CustomAppBar extends React.PureComponent {
+class CustomAppBar extends React.Component {
   state = {
     uploadDialog: false,
     signUpDialog: false
@@ -80,9 +80,9 @@ class CustomAppBar extends React.PureComponent {
     const { classes, pageTitle, settingsLayout, children, currentUser } = this.props;
 
     return (
-      <React.Fragment>
-        <Query query={GET_SESSION}>
-          {({ data, loading, error }) => (
+      <Query query={GET_SESSION}>
+        {({ data, loading, error }) => (
+          <React.Fragment>
             <AppBar position="absolute" className={classes.appBar}>
               <Toolbar className={classes.toolBar}>
                 <div className={classes.titleZone}>
@@ -137,11 +137,11 @@ class CustomAppBar extends React.PureComponent {
                 </div>
               </Toolbar>
             </AppBar>
-          )}
-        </Query>
-        <SignUpDialog open={this.state.signUpDialog} onClose={() => this.setState({ signUpDialog: false })} />
-        <UploadDialog open={this.state.uploadDialog} onClose={() => this.setState({ uploadDialog: false })} />
-      </React.Fragment>
+            <SignUpDialog open={this.state.signUpDialog} onClose={() => this.setState({ signUpDialog: false })} />
+            <UploadDialog open={this.state.uploadDialog} onClose={() => this.setState({ uploadDialog: false })} />
+          </React.Fragment>
+        )}
+      </Query>
     );
   }
 }

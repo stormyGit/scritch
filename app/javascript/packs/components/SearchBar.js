@@ -42,7 +42,7 @@ const styles = theme => ({
   },
 })
 
-class CustomSearchBar extends React.PureComponent {
+class CustomSearchBar extends React.Component {
   render() {
     return (
       <SearchBar

@@ -23,7 +23,7 @@ const styles = theme => ({
   }
 })
 
-class CommentForm extends React.PureComponent {
+class CommentForm extends React.Component {
   state = {
     showAction: false
   }
