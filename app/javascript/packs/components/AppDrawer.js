@@ -96,7 +96,7 @@ const AppDrawer = (props) => {
                       <ListItemIcon className={classes.text} color='secondary'>
                         <OnDemandVideoIcon />
                       </ListItemIcon>
-                      <ListItemText primary="Last videos" primaryTypographyProps={{ className: classes.text }} />
+                      <ListItemText primary="Latest videos" primaryTypographyProps={{ className: classes.text }} />
                     </ListItem>
                   </List>
                   {

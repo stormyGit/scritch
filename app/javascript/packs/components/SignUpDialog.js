@@ -40,6 +40,7 @@ const styles = theme => ({
 
 class SignUpDialog extends React.Component {
   handleTelegramResponse(response) {
+    console.log(response);
     this.props.onSubmit({
       telegramId: response.id,
       telegramFirstName: response.first_name,
