@@ -41,6 +41,7 @@ const styles = theme => {
     drawerPadder: {
       width: drawerWidth,
       height: '100%',
+      flexShrink: 0
     },
     drawerSpacer: {
       display: 'flex',
