@@ -32,7 +32,7 @@ module Types
     end
 
     def liked
-      object.likers.find_by(uuid: context[:current_user].id).present?
+      context[:current_user].present? ? object.likers.find_by(uuid: context[:current_user].id).present? : false
     end
   end
 end

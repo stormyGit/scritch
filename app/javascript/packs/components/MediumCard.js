@@ -123,9 +123,9 @@ class MediumCard extends React.Component {
         <Grid container spacing={8}>
           <Grid item>
             <Button
+              disabled
               size="small"
               color="secondary"
-              component={(props) => <Link to={`/videos/${medium.id}`} {...props} />}
             >
               <CommentIcon className={classes.leftIcon} />
               {`${medium.commentsCount} comments`}
@@ -133,8 +133,8 @@ class MediumCard extends React.Component {
           </Grid>
           <Grid item>
             <LikeButton
+              disabled
               medium={medium}
-              component={(props) => <Link to={`/videos/${medium.id}`} {...props} />}
             />
           </Grid>
         </Grid>

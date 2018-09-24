@@ -60,7 +60,13 @@ class App extends React.Component {
       this.setState({ loaded: true });
     }
 
-    this.props.client.query({ query: GET_SESSION });
+    this.props.client.query({
+      query: GET_SESSION,
+    }).then(({ data }) => {
+      if (data.session) {
+        this.props.client.writeData({ data: { theme: data.session.user.theme }})
+      }
+    });
   }
 
   render() {

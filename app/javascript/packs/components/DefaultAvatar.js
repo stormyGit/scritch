@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
   avatar: {
     display: 'flex',
-    color: theme.palette.text.primary,
+    color: '#fff'
   },
 });
 
