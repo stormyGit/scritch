@@ -11,12 +11,16 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import CommentIcon from '@material-ui/icons/Comment';
+
 import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
 import { Link, withRouter } from 'react-router-dom';
 import { keyToUrl } from '../mediaService';
 import timeAgo from '../timeAgo';
 import Duration from './Duration';
 import UserAvatar from './UserAvatar';
+import LikeButton from './LikeButton';
 
 const styles = theme => ({
   card: {
@@ -52,6 +56,9 @@ const styles = theme => ({
   userLink: {
     color: theme.palette.text.primary,
     textDecoration: 'none'
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit
   },
   content: {
   }
@@ -108,6 +115,33 @@ class MediumCard extends React.Component {
     );
   }
 
+  renderActions() {
+    const { classes, medium } = this.props;
+
+    return (
+      <CardActions>
+        <Grid container spacing={8}>
+          <Grid item>
+            <Button
+              size="small"
+              color="secondary"
+              component={(props) => <Link to={`/videos/${medium.id}`} {...props} />}
+            >
+              <CommentIcon className={classes.leftIcon} />
+              {`${medium.commentsCount} comments`}
+            </Button>
+          </Grid>
+          <Grid item>
+            <LikeButton
+              medium={medium}
+              component={(props) => <Link to={`/videos/${medium.id}`} {...props} />}
+            />
+          </Grid>
+        </Grid>
+      </CardActions>
+    );
+  }
+
   renderVertical() {
     const { classes, medium } = this.props;
 
@@ -118,6 +152,7 @@ class MediumCard extends React.Component {
           {this.renderMedia()}
           {this.renderContent()}
         </CardActionArea>
+        {this.renderActions()}
       </Card>
     )
   }
@@ -135,6 +170,7 @@ class MediumCard extends React.Component {
           <CardActionArea component={(props) => <Link to={`/videos/${medium.id}`} {...props} />} className={classes.horizontalInfos}>
             {this.renderContent()}
           </CardActionArea>
+          {this.renderActions()}
         </div>
       </Card>
     )

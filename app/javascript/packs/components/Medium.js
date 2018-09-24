@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CardHeader from '@material-ui/core/CardHeader';
+import CommentIcon from '@material-ui/icons/Comment';
 
 import { Link} from 'react-router-dom';
 import timeAgo from '../timeAgo';
@@ -24,6 +25,7 @@ import SearchBar from './SearchBar';
 import CardVideo from './CardVideo';
 import CommentForm from './CommentForm';
 import FormattedText from './FormattedText';
+import LikeButton from './LikeButton';
 
 const styles = theme => ({
   container: {
@@ -51,6 +53,9 @@ const styles = theme => ({
   commentHeader: {
     padding: 0,
     paddingBottom: theme.spacing.unit,
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit
   }
 });
 
@@ -84,9 +89,16 @@ class Medium extends React.Component {
                       <Grid container spacing={8}>
                         <Grid item lg={8} xs={12}>
                           <CardContent>
-                            <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
-                              {data.medium.title}
-                            </Typography>
+                            <Grid container spacing={8} justify="space-between">
+                              <Grid item>
+                                <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
+                                  {data.medium.title}
+                                </Typography>
+                              </Grid>
+                              <Grid item>
+                                <LikeButton medium={data.medium} />
+                              </Grid>
+                            </Grid>
                             <Typography component="p" className={classes.text}>
                               {data.medium.description || 'No description'}
                             </Typography>

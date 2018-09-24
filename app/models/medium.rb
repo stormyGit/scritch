@@ -7,6 +7,9 @@ class Medium < ApplicationRecord
   belongs_to :user
   belongs_to :video_encoding_job, class_name: "Chronofage::Job", primary_key: :job_id, dependent: :destroy, optional: true
 
+  has_many :likes, dependent: :destroy
+  has_many :likers, through: :likes, source: :user
+
   has_many :comments
 
   def push_video_encoding_job!

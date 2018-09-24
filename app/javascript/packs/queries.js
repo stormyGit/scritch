@@ -72,6 +72,9 @@ export const GET_MEDIA = gql`
       thumbnailKey
       createdAt
       duration
+      commentsCount
+      likersCount
+      liked
       user {
         id
         slug
@@ -109,6 +112,9 @@ export const GET_MEDIUM = gql`
       description
       key
       duration
+      commentsCount
+      likersCount
+      liked
       user {
         id
         slug
@@ -169,6 +175,9 @@ export const GET_USER = gql`
         thumbnailKey
         createdAt
         duration
+        commentsCount
+        likersCount
+        liked
         user {
           id
           slug
@@ -223,6 +232,26 @@ export const DELETE_FOLLOW = gql`
   mutation deleteFollow($input: DeleteFollowInput!) {
     deleteFollow(input: $input) {
       follow {
+        id
+      }
+    }
+  }
+`;
+
+export const CREATE_LIKE = gql`
+  mutation createLike($input: CreateLikeInput!) {
+    createLike(input: $input) {
+      like {
+        id
+      }
+    }
+  }
+`;
+
+export const DELETE_LIKE = gql`
+  mutation deleteLike($input: DeleteLikeInput!) {
+    deleteLike(input: $input) {
+      like {
         id
       }
     }
