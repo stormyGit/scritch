@@ -78,6 +78,7 @@ class DropZoneField extends React.Component {
       <Dropzone
         multiple={false}
         className={classes.root}
+        accept="video/mp4,video/x-m4v,video/*,video/quicktime"
         onDrop={(files) => this.handleDrop(files[0])}
       >
         {
@@ -158,7 +159,7 @@ class UploadDialog extends React.Component {
             rows={4}
           />
           <DialogContentText variant="body2" className={classes.moderationExplanation}>
-            After you submit a video it will be reviewed by our team of moderators. We will let you know as soon as your video is published.
+            After you submit a video it will be reviewed by our team of moderators.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -175,14 +176,38 @@ class UploadDialog extends React.Component {
 }
 
 const Form = reduxForm({ form: 'UploadDialog' })(UploadDialog);
-const FormWithMutation = (props) => (
+const FormWithMutation = ({ open, ...props }) => (
   <Mutation mutation={CREATE_MEDIUM}>
     {
       (createMedium, { called }) => {
+        if (called) {
+          return (
+            <Dialog
+              open={open}
+              onClose={() => props.onClose()}
+            >
+              <DialogTitle>
+                Video uploaded
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText variant="body2">
+                  {`Your video was successfully uploaded to our server and will be reviewed by our team of moderators before publication.`}
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => props.onClose()}>
+                  Close
+                </Button>
+              </DialogActions>
+            </Dialog>
+          );
+        }
+
         return (
           <Form
+            open={open}
             onSubmit={(input) => {
-              createMedium({ variables: { input } }).then(() => props.onClose())
+              createMedium({ variables: { input } })
             }}
             {...props}
           />
@@ -190,6 +215,6 @@ const FormWithMutation = (props) => (
       }
     }
   </Mutation>
-)
+);
 
 export default withStyles(styles)(FormWithMutation);
