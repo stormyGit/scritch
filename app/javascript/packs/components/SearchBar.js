@@ -12,9 +12,10 @@ const styles = theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     flexGrow: 1,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: theme.palette.type === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
     marginLeft: 24,
     marginRight: 24,
+    boxShadow: 'none'
   },
   iconButton: {
     opacity: 0.54,

@@ -15,7 +15,7 @@ const DefaultAvatar = ({ classes, text, className }) => {
     <Avatar
       className={[classes.avatar, className].join(' ')}
       style={{
-        backgroundColor: randomColor({ luminosity: 'dark', seed: text, hue: 'red' }),
+        backgroundColor: randomColor({ luminosity: 'dark', seed: text }),
       }}
     >
       {text[0]}

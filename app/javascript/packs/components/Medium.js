@@ -33,7 +33,7 @@ const styles = theme => ({
   card: {
     width: '100%',
     borderRadius: 0,
-    backgroundColor: '#3F3F3F',
+    backgroundColor: theme.palette.background,
   },
   text: {
   },
@@ -79,7 +79,7 @@ class Medium extends React.Component {
               {
                 !loading && data.medium &&
                   <div className={classes.container}>
-                    <Card className={classes.card}>
+                    <Card className={classes.card} elevation={0}>
                       <CardVideo medium={data.medium} />
                       <Grid container spacing={8}>
                         <Grid item lg={8} xs={12}>
@@ -95,7 +95,7 @@ class Medium extends React.Component {
                             <Typography gutterBottom variant="title" component="h3">
                               {this.renderCommentsCount(data.medium.comments.length)}
                             </Typography>
-                            <CommentForm mediumId={data.medium.id} initialValues={{ mediumId: data.medium.id }} />
+                            <CommentForm mediumId={data.medium.id} />
                             {
                               data.medium.comments.map((comment) => (
                                 <div key={comment.id} className={classes.comment}>

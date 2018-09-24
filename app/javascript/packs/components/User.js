@@ -13,12 +13,16 @@ import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
+import ButtonBase from '@material-ui/core/ButtonBase';
+
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 import { Parallax, Background } from 'react-parallax';
 
 import { withRouter } from 'react-router-dom'
 
 import queryString from 'query-string';
+import randomColor from 'randomcolor';
 
 import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW } from '../queries';
 
@@ -29,6 +33,9 @@ import GlobalProgress from './GlobalProgress';
 import EmptyList from './EmptyList';
 import UserAvatar from './UserAvatar';
 import ProfileAvatar from './ProfileAvatar';
+
+const BANNER_HEIGHT = 430;
+const STRIPES_LENGTH = 180;
 
 const styles = theme => ({
   root: {
@@ -74,6 +81,32 @@ const styles = theme => ({
   },
   followButton: {
     width: 132
+  },
+  editBannerButton: {
+    width: '100%',
+    height: BANNER_HEIGHT - theme.spacing.unit * 10,
+    position: 'absolute',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    zIndex: 1,
+    borderRadius: 0,
+  },
+  editAvatarButton: {
+    position: 'absolute',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+    zIndex: 1,
+    height: 64,
+    borderRadius: 32
+  },
+  placeholderBanner: {
+    width: '100%',
+    height: BANNER_HEIGHT,
+  },
+  editBannerIcon: {
+    display: 'block',
+    fontSize: '4em',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: theme.spacing.unit
   }
 });
 
@@ -258,21 +291,59 @@ class User extends React.Component {
 
   renderUserProfile(user) {
     const { classes } = this.props;
+    const userColorPrimary = randomColor({ luminosity: 'dark', seed: user.slug });
+    const userColorSecondary = randomColor({ luminosity: 'light', seed: user.slug });
 
     return (
       <GridList cellHeight={430} cols={1} spacing={0} className={classes.userProfile}>
         <GridListTile cols={1}>
-          <Parallax
-            bgImage={user.banner || 'https://www.fillmurray.com/640/360'}
-            strength={300}
-          >
-            <div style={{ height: 430, width: '100%' }} />
-          </Parallax>
+          {
+            this.state.edit &&
+              <Button
+                className={classes.editBannerButton}
+                onClick={() => {
+                  console.log("LOL")
+                }}
+              >
+                <div>
+                  <InsertPhotoIcon className={classes.editBannerIcon} />
+                  Change banner
+                </div>
+              </Button>
+          }
+          {
+            user.banner ?
+              <Parallax
+                bgImage={user.banner}
+                strength={300}
+              >
+                <div style={{ height: BANNER_HEIGHT, width: '100%' }} />
+              </Parallax> :
+              <div
+                className={classes.placeholderBanner}
+                style={{
+                  background: `repeating-linear-gradient(45deg, ${userColorPrimary}, ${userColorPrimary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH * 2}px)`
+                }}
+              />
+          }
            <GridListTileBar
              className={classes.titleBar}
              title={
                <div className={classes.titleBarContainer}>
                 <div className={classes.titleBarContainerUserInfo}>
+                    {
+                      this.state.edit &&
+                        <Button
+                          className={classes.editAvatarButton}
+                          onClick={() => {
+                            console.log("LOL")
+                          }}
+                        >
+                          <div>
+                            <InsertPhotoIcon />
+                          </div>
+                        </Button>
+                    }
                    <ProfileAvatar user={user} className={classes.userAvatar} />
                    <div>
                      <Typography variant="title">

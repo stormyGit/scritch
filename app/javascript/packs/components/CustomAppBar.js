@@ -41,11 +41,13 @@ const styles = theme => ({
     minWidth: 600
   },
   separator: {
-    borderLeft: `1px solid rgba(255, 255, 255, 0.3)`,
     marginLeft: theme.spacing.unit * 4,
     marginRight: theme.spacing.unit * 3,
     marginBottom: theme.spacing.unit,
     marginTop: theme.spacing.unit,
+    borderLeftColor: theme.palette.type === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+    borderLeftWidth: 1,
+    borderLeftStyle: 'solid'
   },
   pageTitle: {
     marginTop: 5,

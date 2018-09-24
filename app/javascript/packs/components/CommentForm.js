@@ -9,8 +9,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import TextField from '@material-ui/core/TextField';
 import { Mutation } from "react-apollo";
-import { TextField } from 'redux-form-material-ui'
 
 import { CREATE_COMMENT, GET_MEDIUM } from '../queries';
 
@@ -20,67 +20,84 @@ const styles = theme => ({
   actions: {
     textAlign: "right",
     marginTop: theme.spacing.unit
+  },
+  cancelButton: {
+    marginRight: theme.spacing.unit
   }
 })
 
 class CommentForm extends React.Component {
   state = {
-    showAction: false
+    showAction: false,
+    body: ""
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, mediumId } = this.props;
 
     return (
-      <React.Fragment>
-        <Field
-          component={TextField}
-          name="body"
-          margin="dense"
-          placeholder="Add a public comment..."
-          type="text"
-          fullWidth
-          multiline
-          rows={4}
-          rowsMax={12}
-          onFocus={() => this.setState({ showAction: true })}
-        />
-        <Field
-          component='input'
-          name="mediumId"
-          type="hidden"
-        />
-        {
-          this.state.showAction &&
+      <Mutation
+        mutation={CREATE_COMMENT}
+        update={(cache, { data: { createComment } }) => {
+          const { medium } = cache.readQuery({ query: GET_MEDIUM, variables: { id: mediumId } });
+          cache.writeQuery({
+            query: GET_MEDIUM,
+            variables: { id: mediumId },
+            data: { medium: { ...medium, comments: [ createComment.comment, ...medium.comments ] } }
+          });
+        }}
+      >
+        {( createComment, { data }) => (
+          <React.Fragment>
+            <TextField
+              name="body"
+              margin="dense"
+              placeholder="Add a public comment..."
+              type="text"
+              fullWidth
+              multiline
+              rows={4}
+              rowsMax={12}
+              value={this.state.body}
+              onChange={(e) => this.setState({ body: e.target.value })}
+              onFocus={() => this.setState({ showAction: true })}
+            />
             <div className={classes.actions}>
-              <Button onClick={this.props.handleClose}>
-                Cancel
-              </Button>
-              <Button color={'primary'} variant={"contained"} onClick={() => this.props.handleSubmit()}>
-                Submit
+              {
+                this.state.body.length > 0 &&
+                  <Button
+                    className={classes.cancelButton}
+                    onClick={() => {
+                      this.setState({ body: '', showAction: false })
+                    }}
+                  >
+                    Cancel
+                  </Button>
+              }
+              <Button
+                color={'primary'}
+                variant={"contained"}
+                disabled={this.state.body.replace(/\s+/g,"").length === 0}
+                onClick={() => {
+                  createComment({
+                    variables: {
+                      input: {
+                        body: this.state.body,
+                        mediumId
+                      }
+                    }
+                  });
+                  this.setState({ body: '', showAction: false })
+                }}
+              >
+                Send
               </Button>
             </div>
-        }
-      </React.Fragment>
+          </React.Fragment>
+        )}
+      </Mutation>
     );
   }
 }
 
-const Connected = connect()(withStyles(styles)(CommentForm));
-const Form = reduxForm({ form: 'SignUpDialog' })(Connected);
-const FormWithMutation = (props) => (
-  <Mutation
-    mutation={CREATE_COMMENT}
-    update={(cache, { data: { createComment } }) => {
-      const { medium } = cache.readQuery({ query: GET_MEDIUM, variables: { id: props.mediumId } });
-      cache.writeQuery({
-        query: GET_MEDIUM,
-        variables: { id: props.mediumId },
-        data: { medium: { ...medium, comments: [ createComment.comment, ...medium.comments ] } }
-      });
-    }}
-  >
-    {( createComment, { data }) => (<Form  {...props} onSubmit={(input) => { createComment({ variables: { input } })}} />)}
-  </Mutation>
-)
-export default FormWithMutation;
+export default withStyles(styles)(CommentForm);
