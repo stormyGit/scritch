@@ -30,7 +30,7 @@ class ProfileAvatar extends React.Component {
         <Paper className={classes.paper}>
           {user.avatar ?
             <Avatar src={user.avatar} className={classes.avatar} /> :
-            <DefaultAvatar className={classes.avatar} text={(user.name || "").replace(/[\W_]+/g, "")[0] || "*"} size={56} key="avatar" />}
+            <DefaultAvatar className={classes.avatar} text={user.slug} size={56} key="avatar" />}
         </Paper>
       </div>
     );

@@ -14,6 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import TextField from '@material-ui/core/TextField';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
@@ -24,7 +25,7 @@ import { withRouter } from 'react-router-dom'
 import queryString from 'query-string';
 import randomColor from 'randomcolor';
 
-import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW } from '../queries';
+import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW, UPDATE_USER, GET_SESSION } from '../queries';
 
 import CustomAppBar from './CustomAppBar';
 import MediumCard from './MediumCard';
@@ -107,6 +108,9 @@ const styles = theme => ({
     marginLeft: 'auto',
     marginRight: 'auto',
     marginBottom: theme.spacing.unit
+  },
+  bioField: {
+    marginLeft: theme.spacing.unit * 2,
   }
 });
 
@@ -114,7 +118,9 @@ class User extends React.Component {
   state = {
     tab: 'videos',
     showUnfollow: false,
-    edit: false
+    edit: false,
+    name: '',
+    bio: ''
   }
 
   componentDidMount() {
@@ -201,7 +207,7 @@ class User extends React.Component {
     }
   }
 
-  renderEditButton(user) {
+  renderEditButton(user, onSubmit) {
     if (this.state.edit) {
       return (
         <Mutation
@@ -220,7 +226,7 @@ class User extends React.Component {
               size="large"
               color={"primary"}
               onClick={() => {
-                // createFollow({ variables: { input: { followableId: user.id }}})
+                onSubmit();
                 this.setState({ edit: false })
               }}
             >
@@ -235,7 +241,7 @@ class User extends React.Component {
           variant="contained"
           size="large"
           onClick={() => {
-            this.setState({ edit: true })
+            this.setState({ edit: true, name: user.name, bio: user.bio || '' })
           }}
         >
           Edit profile
@@ -295,73 +301,121 @@ class User extends React.Component {
     const userColorSecondary = randomColor({ luminosity: 'light', seed: user.slug });
 
     return (
-      <GridList cellHeight={430} cols={1} spacing={0} className={classes.userProfile}>
-        <GridListTile cols={1}>
-          {
-            this.state.edit &&
-              <Button
-                className={classes.editBannerButton}
-                onClick={() => {
-                  console.log("LOL")
-                }}
-              >
-                <div>
-                  <InsertPhotoIcon className={classes.editBannerIcon} />
-                  Change banner
-                </div>
-              </Button>
-          }
-          {
-            user.banner ?
-              <Parallax
-                bgImage={user.banner}
-                strength={300}
-              >
-                <div style={{ height: BANNER_HEIGHT, width: '100%' }} />
-              </Parallax> :
-              <div
-                className={classes.placeholderBanner}
-                style={{
-                  background: `repeating-linear-gradient(45deg, ${userColorPrimary}, ${userColorPrimary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH * 2}px)`
-                }}
-              />
-          }
-           <GridListTileBar
-             className={classes.titleBar}
-             title={
-               <div className={classes.titleBarContainer}>
-                <div className={classes.titleBarContainerUserInfo}>
-                    {
-                      this.state.edit &&
-                        <Button
-                          className={classes.editAvatarButton}
-                          onClick={() => {
-                            console.log("LOL")
-                          }}
-                        >
-                          <div>
-                            <InsertPhotoIcon />
-                          </div>
-                        </Button>
-                    }
-                   <ProfileAvatar user={user} className={classes.userAvatar} />
-                   <div>
-                     <Typography variant="title">
-                      {user.name}
-                    </Typography>
-                    <Typography variant="body2">
-                     {user.bio}
-                   </Typography>
+      <Mutation
+        mutation={UPDATE_USER}
+        update={(cache, { data: { updateUser } }) => {
+          cache.writeQuery({
+            query: GET_SESSION,
+            data: { session: { ...sessionData.session, user: updateUser.user } }
+          });
+        }}
+      >
+        {( updateUser, { data }) => (
+          <GridList cellHeight={430} cols={1} spacing={0} className={classes.userProfile}>
+            <GridListTile cols={1}>
+              {
+                this.state.edit &&
+                  <Button
+                    className={classes.editBannerButton}
+                    onClick={() => {
+                      console.log("LOL")
+                    }}
+                  >
+                    <div>
+                      <InsertPhotoIcon className={classes.editBannerIcon} />
+                      Change banner
+                    </div>
+                  </Button>
+              }
+              {
+                user.banner ?
+                  <Parallax
+                    bgImage={user.banner}
+                    strength={300}
+                  >
+                    <div style={{ height: BANNER_HEIGHT, width: '100%' }} />
+                  </Parallax> :
+                  <div
+                    className={classes.placeholderBanner}
+                    style={{
+                      background: `repeating-linear-gradient(45deg, ${userColorPrimary}, ${userColorPrimary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH * 2}px)`
+                    }}
+                  />
+              }
+               <GridListTileBar
+                 className={classes.titleBar}
+                 title={
+                   <div className={classes.titleBarContainer}>
+                    <div className={classes.titleBarContainerUserInfo}>
+                        {
+                          this.state.edit &&
+                            <Button
+                              className={classes.editAvatarButton}
+                              onClick={() => {
+                                console.log("LOL")
+                              }}
+                            >
+                              <div>
+                                <InsertPhotoIcon />
+                              </div>
+                            </Button>
+                        }
+                       <ProfileAvatar user={user} className={classes.userAvatar} />
+                       <div>
+                        {
+                          this.state.edit ?
+                            <TextField
+                              label="Name"
+                              name="name"
+                              value={this.state.name}
+                              onChange={(e) => this.setState({ name: e.target.value })}
+                              margin="dense"
+                            /> :
+                            <Typography variant="title">
+                             {user.name}
+                            </Typography>
+                        }
+                        {
+                          this.state.edit ?
+                            <TextField
+                              label="Bio"
+                              name="bio"
+                              value={this.state.bio}
+                              onChange={(e) => this.setState({ bio: e.target.value })}
+                              margin="dense"
+                              className={classes.bioField}
+                              fullWidth
+                            /> :
+                            <Typography variant="body2">
+                             {user.bio}
+                           </Typography>
+                        }
+                      </div>
+                    </div>
+                    <div className={classes.titleBarContainerUserActions}>
+                      {
+                        user.canUpdate ?
+                          this.renderEditButton(user, () => {
+                            updateUser({
+                              variables: {
+                                input: {
+                                  id: user.id,
+                                  name: this.state.name,
+                                  bio: this.state.bio
+                                }
+                              }
+                            });
+                          }) :
+                          this.renderFollowButton(user)
+                      }
+                    </div>
                   </div>
-                </div>
-                <div className={classes.titleBarContainerUserActions}>
-                  {user.canUpdate ? this.renderEditButton(user) : this.renderFollowButton(user)}
-                </div>
-              </div>
-             }
-           />
-         </GridListTile>
-      </GridList>
+                 }
+               />
+             </GridListTile>
+          </GridList>
+        )}
+      </Mutation>
     )
   }
 

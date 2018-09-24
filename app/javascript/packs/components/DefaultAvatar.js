@@ -18,7 +18,7 @@ const DefaultAvatar = ({ classes, text, className }) => {
         backgroundColor: randomColor({ luminosity: 'dark', seed: text }),
       }}
     >
-      {text[0]}
+      {text[0].toUpperCase()}
     </Avatar>
   );
 }
