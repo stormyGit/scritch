@@ -47,6 +47,7 @@ class SignUpDialog extends React.Component {
       telegramLastName: response.last_name,
       telegramUserName: response.username,
       telegramAuthDate: response.auth_date,
+      telegramPhotoUrl: response.photo_url,
       telegramHash: response.hash
     });
   }
