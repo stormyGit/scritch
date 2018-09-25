@@ -3,6 +3,7 @@ class Mutations::CreateSession < Mutations::BaseMutation
   argument :telegram_first_name, String, required: true
   argument :telegram_last_name, String, required: false
   argument :telegram_username, String, required: false
+  argument :telegram_photo_url, String, required: false
   argument :telegram_auth_date, Integer, required: true
   argument :telegram_hash, String, required: true
 
