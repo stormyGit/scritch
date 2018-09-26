@@ -5227,6 +5227,12 @@ react-apollo@^2.1.11:
     lodash "^4.17.10"
     prop-types "^15.6.0"
 
+react-avatar-editor@^11.0.4:
+  version "11.0.4"
+  resolved "https://registry.yarnpkg.com/react-avatar-editor/-/react-avatar-editor-11.0.4.tgz#a32e2e10f1edc8480b1b852f3ab287c7b56c7ced"
+  dependencies:
+    prop-types "^15.5.8"
+
 react-dom@^16.4.2:
   version "16.5.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.5.0.tgz#57704e5718669374b182a17ea79a6d24922cb27d"

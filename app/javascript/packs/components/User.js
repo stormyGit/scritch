@@ -11,10 +11,17 @@ import GridListTileBar from '@material-ui/core/GridListTileBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import TextField from '@material-ui/core/TextField';
+
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
@@ -83,6 +90,9 @@ const styles = theme => ({
   followButton: {
     width: 132
   },
+  bannerMenu: {
+    zIndex: 2,
+  },
   editBannerButton: {
     width: '100%',
     height: BANNER_HEIGHT - theme.spacing.unit * 10,
@@ -111,6 +121,24 @@ const styles = theme => ({
   },
   bioField: {
     marginLeft: theme.spacing.unit * 2,
+  },
+  menuButton: {
+    paddingLeft: theme.spacing.unit * 4,
+    paddingRight: theme.spacing.unit * 4,
+    justifyContent: 'center'
+  },
+  uploadInput: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    margin: 0,
+    padding: 0,
+    opacity: 0
+  },
+  cancelEditButton: {
+    marginRight: theme.spacing.unit
   }
 });
 
@@ -120,7 +148,17 @@ class User extends React.Component {
     showUnfollow: false,
     edit: false,
     name: '',
-    bio: ''
+    bio: '',
+    banner: null,
+    avatar: null,
+    bannerMenu: false,
+    avatarMenu: false,
+  }
+
+  constructor(props) {
+    super(props);
+    this.bannerUploadInput = React.createRef();
+    this.avatarUploadInput = React.createRef();
   }
 
   componentDidMount() {
@@ -207,33 +245,62 @@ class User extends React.Component {
     }
   }
 
-  renderEditButton(user, onSubmit) {
+  renderEditButton(user) {
+    const { classes } = this.props;
+
     if (this.state.edit) {
       return (
-        <Mutation
-          mutation={CREATE_FOLLOW}
-          update={(cache, { data: { createFollow } }) => {
-            cache.writeQuery({
-              query: GET_USER,
-              variables: { id: user.id },
-              data: { user: { ...user, followed: true, followersCount: (user.followersCount + 1) } }
-            });
-          }}
-        >
-          {( createFollow, { data }) => (
-            <Button
-              variant="contained"
-              size="large"
-              color={"primary"}
-              onClick={() => {
-                onSubmit();
-                this.setState({ edit: false })
-              }}
-            >
-              Save
-            </Button>
-          )}
-        </Mutation>
+        <React.Fragment>
+          <Button
+            variant="outlined"
+            size="large"
+            className={classes.cancelEditButton}
+            onClick={() => {
+              this.setState({
+                edit: false,
+                banner: null,
+                name: '',
+                bio: ''
+              })
+            }}
+          >
+            Cancel
+          </Button>
+          <Mutation
+            mutation={UPDATE_USER}
+            update={(cache, { data: { updateUser } }) => {
+              const { session } = cache.readQuery({ query: GET_SESSION });
+              cache.writeQuery({
+                query: GET_SESSION,
+                data: { session: { ...session, user: updateUser.user } }
+              });
+            }}
+          >
+            {( updateUser, { data }) => (
+              <Button
+                variant="contained"
+                size="large"
+                color={"primary"}
+                onClick={() => {
+                  updateUser({
+                    variables: {
+                      input: {
+                        id: user.id,
+                        name: this.state.name,
+                        bio: this.state.bio,
+                        banner: this.state.banner
+                      }
+                    }
+                  }).then(() => {
+                    this.setState({ edit: false });
+                  })
+                }}
+              >
+                Save
+              </Button>
+            )}
+          </Mutation>
+        </React.Fragment>
       );
     } else {
       return (
@@ -299,123 +366,150 @@ class User extends React.Component {
     const { classes } = this.props;
     const userColorPrimary = randomColor({ luminosity: 'dark', seed: user.slug });
     const userColorSecondary = randomColor({ luminosity: 'light', seed: user.slug });
-
     return (
-      <Mutation
-        mutation={UPDATE_USER}
-        update={(cache, { data: { updateUser } }) => {
-          cache.writeQuery({
-            query: GET_SESSION,
-            data: { session: { ...sessionData.session, user: updateUser.user } }
-          });
-        }}
-      >
-        {( updateUser, { data }) => (
-          <GridList cellHeight={430} cols={1} spacing={0} className={classes.userProfile}>
-            <GridListTile cols={1}>
-              {
-                this.state.edit &&
-                  <Button
-                    className={classes.editBannerButton}
-                    onClick={() => {
-                      console.log("LOL")
-                    }}
-                  >
-                    <div>
-                      <InsertPhotoIcon className={classes.editBannerIcon} />
-                      Change banner
-                    </div>
-                  </Button>
-              }
-              {
-                user.banner ?
-                  <Parallax
-                    bgImage={user.banner}
-                    strength={300}
-                  >
-                    <div style={{ height: BANNER_HEIGHT, width: '100%' }} />
-                  </Parallax> :
-                  <div
-                    className={classes.placeholderBanner}
-                    style={{
-                      background: `repeating-linear-gradient(45deg, ${userColorPrimary}, ${userColorPrimary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH * 2}px)`
-                    }}
-                  />
-              }
-               <GridListTileBar
-                 className={classes.titleBar}
-                 title={
-                   <div className={classes.titleBarContainer}>
-                    <div className={classes.titleBarContainerUserInfo}>
-                        {
-                          this.state.edit &&
-                            <Button
-                              className={classes.editAvatarButton}
+      <GridList cellHeight={430} cols={1} spacing={0} className={classes.userProfile}>
+        <GridListTile cols={1}>
+          {
+            this.state.edit &&
+              <React.Fragment>
+                <Button
+                  className={classes.editBannerButton}
+                  onClick={() => this.setState({ bannerMenu: true })}
+                >
+                  <div id="uploadBannerButton">
+                    <InsertPhotoIcon className={classes.editBannerIcon} />
+                    Change banner
+                  </div>
+                </Button>
+                <Popper open={this.state.bannerMenu} anchorEl={document.getElementById("uploadBannerButton")} transition disablePortal className={classes.bannerMenu}>
+                  {({ TransitionProps, placement }) => (
+                    <Grow
+                      {...TransitionProps}
+                      id="menu-list-grow"
+                      style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                    >
+                      <Paper>
+                        <ClickAwayListener onClickAway={() => this.setState({ bannerMenu: false })}>
+                          <MenuList disablePadding>
+                            <MenuItem
+                              className={classes.menuButton}
                               onClick={() => {
-                                console.log("LOL")
+                                this.bannerUploadInput.current.click();
+                                this.setState({ bannerMenu: false })
                               }}
                             >
-                              <div>
-                                <InsertPhotoIcon />
-                              </div>
-                            </Button>
-                        }
-                       <ProfileAvatar user={user} className={classes.userAvatar} />
-                       <div>
-                        {
-                          this.state.edit ?
-                            <TextField
-                              label="Name"
-                              name="name"
-                              value={this.state.name}
-                              onChange={(e) => this.setState({ name: e.target.value })}
-                              margin="dense"
-                            /> :
-                            <Typography variant="title">
-                             {user.name}
-                            </Typography>
-                        }
-                        {
-                          this.state.edit ?
-                            <TextField
-                              label="Bio"
-                              name="bio"
-                              value={this.state.bio}
-                              onChange={(e) => this.setState({ bio: e.target.value })}
-                              margin="dense"
-                              className={classes.bioField}
-                              fullWidth
-                            /> :
-                            <Typography variant="body2">
-                             {user.bio}
-                           </Typography>
-                        }
-                      </div>
-                    </div>
-                    <div className={classes.titleBarContainerUserActions}>
-                      {
-                        user.canUpdate ?
-                          this.renderEditButton(user, () => {
-                            updateUser({
-                              variables: {
-                                input: {
-                                  id: user.id,
-                                  name: this.state.name,
-                                  bio: this.state.bio
-                                }
-                              }
-                            });
-                          }) :
-                          this.renderFollowButton(user)
-                      }
-                    </div>
+                              Upload picture
+                            </MenuItem>
+                            <MenuItem
+                              className={classes.menuButton}
+                              onClick={() => {
+                                this.setState({ banner: null, bannerMenu: false });
+                              }}
+                            >
+                              Remove
+                            </MenuItem>
+                            <Divider />
+                            <MenuItem
+                              className={classes.menuButton}
+                              onClick={() => this.setState({ bannerMenu: false })}
+                            >
+                              Cancel
+                            </MenuItem>
+                          </MenuList>
+                        </ClickAwayListener>
+                      </Paper>
+                    </Grow>
+                  )}
+                </Popper>
+                <input
+                  className={classes.uploadInput}
+                  ref={this.bannerUploadInput}
+                  type="file"
+                  onChange={(e) => {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(e.target.files[0]);
+                    reader.onload = () => {
+                      this.setState({ banner: reader.result });
+                    };
+                  }}
+                />
+              </React.Fragment>
+          }
+          {
+            (this.state.banner || user.banner) ?
+              <Parallax
+                bgImage={this.state.banner || user.banner}
+                strength={300}
+              >
+                <div style={{ height: BANNER_HEIGHT, width: '100%' }} />
+              </Parallax> :
+              <div
+                className={classes.placeholderBanner}
+                style={{
+                  background: `repeating-linear-gradient(45deg, ${userColorPrimary}, ${userColorPrimary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH * 2}px)`
+                }}
+              />
+          }
+           <GridListTileBar
+             className={classes.titleBar}
+             title={
+               <div className={classes.titleBarContainer}>
+                <div className={classes.titleBarContainerUserInfo}>
+                    {
+                      this.state.edit &&
+                        <Button
+                          className={classes.editAvatarButton}
+                          onClick={() => {
+                            console.log("LOL")
+                          }}
+                        >
+                          <div>
+                            <InsertPhotoIcon />
+                          </div>
+                        </Button>
+                    }
+                   <ProfileAvatar user={user} className={classes.userAvatar} />
+                   <div>
+                    {
+                      this.state.edit ?
+                        <TextField
+                          label="Name"
+                          name="name"
+                          value={this.state.name}
+                          onChange={(e) => this.setState({ name: e.target.value })}
+                          margin="dense"
+                        /> :
+                        <Typography variant="title">
+                         {user.name}
+                        </Typography>
+                    }
+                    {
+                      this.state.edit ?
+                        <TextField
+                          label="Bio"
+                          name="bio"
+                          value={this.state.bio}
+                          onChange={(e) => this.setState({ bio: e.target.value })}
+                          margin="dense"
+                          className={classes.bioField}
+                          fullWidth
+                        /> :
+                        <Typography variant="body2">
+                         {user.bio}
+                       </Typography>
+                    }
                   </div>
-                 }
-               />
-             </GridListTile>
-          </GridList>
-        )}
-      </Mutation>
+                </div>
+                <div className={classes.titleBarContainerUserActions}>
+                  {
+                    user.canUpdate ? this.renderEditButton(user) : this.renderFollowButton(user)
+                  }
+                </div>
+              </div>
+             }
+           />
+         </GridListTile>
+      </GridList>
     )
   }
 

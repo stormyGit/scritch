@@ -115,6 +115,16 @@ class MediumCard extends React.Component {
     );
   }
 
+  renderCommentsCount(count) {
+    if (count === 0) {
+      return (`No comments`);
+    }
+    if (count === 1) {
+      return (`One comment`);
+    }
+    return (`${count} comments`);
+  }
+
   renderActions() {
     const { classes, medium } = this.props;
 
@@ -128,7 +138,7 @@ class MediumCard extends React.Component {
               color="secondary"
             >
               <CommentIcon className={classes.leftIcon} />
-              {`${medium.commentsCount} comments`}
+              {this.renderCommentsCount(medium.commentsCount)}
             </Button>
           </Grid>
           <Grid item>

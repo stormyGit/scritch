@@ -82,3 +82,4 @@ gem 'telegram-bot', github: 'telegram-bot-rb/telegram-bot'
 gem 'pundit'
 gem "mini_magick"
 gem 'carrierwave', '~> 1.2.2'
+gem 'carrierwave-base64'
