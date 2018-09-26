@@ -17,6 +17,7 @@ module Types
     field :likes_count, Integer, null: false
 
     field :can_update, Boolean, null: false
+    field :can_follow, Boolean, null: false
 
     def banner
       object.banner_url
@@ -48,6 +49,10 @@ module Types
 
     def can_update
       UserPolicy.new(context[:current_user], object).update?
+    end
+
+    def can_follow
+      UserPolicy.new(context[:current_user], object).follow?
     end
   end
 end

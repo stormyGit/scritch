@@ -500,11 +500,18 @@ class User extends React.Component {
                     }
                   </div>
                 </div>
-                <div className={classes.titleBarContainerUserActions}>
-                  {
-                    user.canUpdate ? this.renderEditButton(user) : this.renderFollowButton(user)
-                  }
-                </div>
+                {
+                  user.canUpdate &&
+                    <div className={classes.titleBarContainerUserActions}>
+                      {this.renderEditButton(user)}
+                    </div>
+                }
+                {
+                  user.canFollow &&
+                    <div className={classes.titleBarContainerUserActions}>
+                      {this.renderFollowButton(user)}
+                    </div>
+                }
               </div>
              }
            />

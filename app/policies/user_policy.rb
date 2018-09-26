@@ -16,4 +16,8 @@ class UserPolicy < ApplicationPolicy
   def destroy?
     update?
   end
+
+  def follow?
+    user.present? && user != record
+  end
 end

@@ -166,6 +166,7 @@ export const GET_USER = gql`
       followingCount
       likesCount
       canUpdate
+      canFollow
       publishedMedia {
         id
         slug

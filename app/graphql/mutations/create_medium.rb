@@ -11,7 +11,7 @@ class Mutations::CreateMedium < Mutations::BaseMutation
       title: arguments[:title],
       description: arguments[:description],
       temporary_key: arguments[:temporary_key],
-      user: User.first
+      user: context[:current_user]
     })
 
     if medium.save
