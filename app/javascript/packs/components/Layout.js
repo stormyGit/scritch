@@ -11,8 +11,10 @@ import { HashRouter, Route, Switch } from 'react-router-dom'
 import SearchBar from 'material-ui-search-bar'
 
 import AppDrawer from './AppDrawer';
-import Media from './Media';
 import Medium from './Medium';
+import LatestVideos from './LatestVideos';
+import Trending from './Trending';
+import Subscriptions from './Subscriptions';
 import User from './User';
 import Settings from './Settings';
 
@@ -59,11 +61,11 @@ class Layout extends React.Component {
             <main className={classes.content}>
               <div className={classes.toolbar} />
               <Switch>
-                <Route exact path='/' component={Media} />
-                <Route exact path='/trending' component={Media} />
-                <Route exact path='/subscriptions' component={Media} />
+                <Route exact path='/' component={LatestVideos} />
+                <Route exact path='/trending' component={Trending} />
+                <Route exact path='/subscriptions' component={Subscriptions} />
                 <Route exact path='/settings' component={Settings} />
-                <Route exact path='/videos' component={Media} />
+                <Route exact path='/videos' component={LatestVideos} />
                 <Route exact path='/videos/:id' component={Medium} />
                 <Route exact path='/:id' component={User} />
                 <Route exact path='/:id/:tab' component={User} />

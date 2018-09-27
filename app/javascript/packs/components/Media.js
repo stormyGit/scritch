@@ -64,10 +64,10 @@ class Media extends React.Component {
     const query = queryString.parse(location.search)
 
     return (
-      <Query query={GET_MEDIA} variables={{ q: query.q, sort: "latest" }}>
+      <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort }}>
         {({ data, loading, error }) => (
           <React.Fragment>
-            <CustomAppBar pageTitle="Latest videos">
+            <CustomAppBar pageTitle={this.props.title}>
               <SearchBar
                 cancelOnEscape
                 value={query.q}
