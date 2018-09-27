@@ -62,8 +62,8 @@ export const UPDATE_USER = gql`
 `;
 
 export const GET_MEDIA = gql`
-  query Media($q: String) {
-    media(q: $q) {
+  query Media($q: String, $sort: String) {
+    media(q: $q, sort: $sort) {
       id
       slug
       title
@@ -165,8 +165,6 @@ export const GET_USER = gql`
       followersCount
       followingCount
       likesCount
-      canUpdate
-      canFollow
       publishedMedia {
         id
         slug

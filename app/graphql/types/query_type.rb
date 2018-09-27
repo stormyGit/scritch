@@ -8,6 +8,7 @@ module Types
     field :media, [MediumType], null: false do
       description "List media"
       argument :q, String, required: false
+      argument :sort, String, required: false
     end
 
     field :user, UserType, null: false do
@@ -28,6 +29,10 @@ module Types
 
       if params[:q].present?
         medium = medium.where("media.title @@ ?", params[:q])
+      end
+
+      if params[:sort] == 'latest'
+        medium = medium.order(created_at: :desc)
       end
 
       medium

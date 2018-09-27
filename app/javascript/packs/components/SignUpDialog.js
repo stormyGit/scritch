@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form'
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -40,7 +38,6 @@ const styles = theme => ({
 
 class SignUpDialog extends React.Component {
   handleTelegramResponse(response) {
-    console.log(response);
     this.props.onSubmit({
       telegramId: response.id,
       telegramFirstName: response.first_name,
@@ -105,7 +102,6 @@ class SignUpDialog extends React.Component {
                     photo_url:"https://t.me/i/userpic/320/Coontail.jpg",
                     username:"Coontail",
                   })
-                  // this.handleTelegramResponse({id: 643777772, first_name: "Ananas Wilson", auth_date: 1537534591, hash: "cf517b52ba9d93947ded4c24a7ffeb9480fd90a716b223e001078930fa220ebf"})
                 }}
                 variant="contained"
               >

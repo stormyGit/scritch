@@ -1,6 +1,5 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { connect } from 'react-redux';
 import { Query } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -65,7 +64,7 @@ class Media extends React.Component {
     const query = queryString.parse(location.search)
 
     return (
-      <Query query={GET_MEDIA} variables={{ q: query.q }}>
+      <Query query={GET_MEDIA} variables={{ q: query.q, sort: "latest" }}>
         {({ data, loading, error }) => (
           <React.Fragment>
             <CustomAppBar pageTitle="Latest videos">
@@ -86,6 +85,4 @@ class Media extends React.Component {
   }
 }
 
-const ConnectedMedia = connect()(Media);
-
-export default withStyles(styles)(ConnectedMedia);
+export default withStyles(styles)(Media);

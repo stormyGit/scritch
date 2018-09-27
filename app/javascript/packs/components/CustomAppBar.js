@@ -15,7 +15,6 @@ import UploadDialog from './UploadDialog';
 import UserAvatar from './UserAvatar';
 import Logo from './Logo';
 
-import { showUploadDialog } from '../actions/uploadDialog';
 import { TOGGLE_SIGNUP_DIALOG, GET_SESSION } from '../queries';
 
 const styles = theme => ({

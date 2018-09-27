@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -15,8 +14,6 @@ import AppDrawer from './AppDrawer';
 import Media from './Media';
 import Medium from './Medium';
 import User from './User';
-import TermsDialog from './TermsDialog';
-import PrivacyPolicyDialog from './PrivacyPolicyDialog';
 import Settings from './Settings';
 
 const styles = theme => ({
@@ -63,6 +60,8 @@ class Layout extends React.Component {
               <div className={classes.toolbar} />
               <Switch>
                 <Route exact path='/' component={Media} />
+                <Route exact path='/trending' component={Media} />
+                <Route exact path='/subscriptions' component={Media} />
                 <Route exact path='/settings' component={Settings} />
                 <Route exact path='/videos' component={Media} />
                 <Route exact path='/videos/:id' component={Medium} />
@@ -71,8 +70,6 @@ class Layout extends React.Component {
               </Switch>
             </main>
           </div>
-          <TermsDialog />
-          <PrivacyPolicyDialog />
         </div>
       </HashRouter>
     );

@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,12 +14,10 @@ import Typography from '@material-ui/core/Typography';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import CheckIcon from '@material-ui/icons/Check';
 
-import { hideTermsDialog } from '../actions/termsDialog';
-
-const TermsDialog = ({ classes, open, handleClose }) => (
+const TermsDialog = ({ classes, open, onClose }) => (
   <Dialog
     open={open}
-    onClose={handleClose}
+    onClose={onClose}
   >
     <DialogTitle>
       Terms and conditions
@@ -66,16 +63,11 @@ const TermsDialog = ({ classes, open, handleClose }) => (
       </List>
     </DialogContent>
     <DialogActions>
-      <Button onClick={handleClose}>
+      <Button onClick={onClose}>
         Close
       </Button>
     </DialogActions>
   </Dialog>
 )
 
-export default connect(
-  ({ termsDialog }) => ({ open: termsDialog }),
-  (dispatch) => ({
-    handleClose: () => dispatch(hideTermsDialog())
-  })
-)(TermsDialog);;
+export default TermsDialog;

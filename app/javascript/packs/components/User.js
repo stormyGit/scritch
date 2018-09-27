@@ -1,6 +1,5 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { connect } from 'react-redux';
 import { Query, Mutation } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -41,6 +40,7 @@ import GlobalProgress from './GlobalProgress';
 import EmptyList from './EmptyList';
 import UserAvatar from './UserAvatar';
 import ProfileAvatar from './ProfileAvatar';
+import withCurrentSession from './withCurrentSession';
 
 const BANNER_HEIGHT = 430;
 const STRIPES_LENGTH = 180;
@@ -308,7 +308,12 @@ class User extends React.Component {
           variant="contained"
           size="large"
           onClick={() => {
-            this.setState({ edit: true, name: user.name, bio: user.bio || '' })
+            this.setState({
+              edit: true,
+              name: user.name,
+              bio: user.bio || '',
+              banner: user.banner
+            })
           }}
         >
           Edit profile
@@ -362,10 +367,35 @@ class User extends React.Component {
     )
   }
 
-  renderUserProfile(user) {
+  renderBanner(banner, slug) {
     const { classes } = this.props;
-    const userColorPrimary = randomColor({ luminosity: 'dark', seed: user.slug });
-    const userColorSecondary = randomColor({ luminosity: 'light', seed: user.slug });
+    const userColorPrimary = randomColor({ luminosity: 'dark', seed: slug });
+    const userColorSecondary = randomColor({ luminosity: 'light', seed: slug });
+
+    if (banner) {
+      return (
+        <Parallax
+          bgImage={banner}
+          strength={300}
+        >
+          <div style={{ height: BANNER_HEIGHT, width: '100%' }} />
+        </Parallax>
+      );
+    }
+
+    return (
+      <div
+        className={classes.placeholderBanner}
+        style={{
+          background: `repeating-linear-gradient(45deg, ${userColorPrimary}, ${userColorPrimary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH * 2}px)`
+        }}
+      />
+    );
+  }
+
+  renderUserProfile(user) {
+    const { classes, currentSession } = this.props;
+
     return (
       <GridList cellHeight={430} cols={1} spacing={0} className={classes.userProfile}>
         <GridListTile cols={1}>
@@ -436,19 +466,7 @@ class User extends React.Component {
               </React.Fragment>
           }
           {
-            (this.state.banner || user.banner) ?
-              <Parallax
-                bgImage={this.state.banner || user.banner}
-                strength={300}
-              >
-                <div style={{ height: BANNER_HEIGHT, width: '100%' }} />
-              </Parallax> :
-              <div
-                className={classes.placeholderBanner}
-                style={{
-                  background: `repeating-linear-gradient(45deg, ${userColorPrimary}, ${userColorPrimary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH * 2}px)`
-                }}
-              />
+            this.state.edit ? this.renderBanner(this.state.banner, user.slug) : this.renderBanner(user.banner, user.slug)
           }
            <GridListTileBar
              className={classes.titleBar}
@@ -501,13 +519,13 @@ class User extends React.Component {
                   </div>
                 </div>
                 {
-                  user.canUpdate &&
+                  currentSession && currentSession.user.id === user.id &&
                     <div className={classes.titleBarContainerUserActions}>
                       {this.renderEditButton(user)}
                     </div>
                 }
                 {
-                  user.canFollow &&
+                  currentSession && currentSession.user.id !== user.id &&
                     <div className={classes.titleBarContainerUserActions}>
                       {this.renderFollowButton(user)}
                     </div>
@@ -600,6 +618,4 @@ class User extends React.Component {
   }
 }
 
-const ConnectedUser = connect()(User);
-
-export default withStyles(styles)(withRouter(ConnectedUser));
+export default withStyles(styles)(withRouter(withCurrentSession(User)));

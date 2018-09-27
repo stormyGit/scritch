@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -16,12 +15,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import CheckIcon from '@material-ui/icons/Check';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
-import { hidePrivacyPolicyDialog } from '../actions/privacyPolicyDialog';
-
-const PrivacyPolicyDialog = ({ classes, open, handleClose }) => (
+const PrivacyPolicyDialog = ({ classes, open, onClose }) => (
   <Dialog
     open={open}
-    onClose={handleClose}
+    onClose={onClose}
   >
     <DialogTitle>
       Privacy policy
@@ -63,16 +60,11 @@ const PrivacyPolicyDialog = ({ classes, open, handleClose }) => (
       </List>
     </DialogContent>
     <DialogActions>
-      <Button onClick={handleClose}>
+      <Button onClick={onClose}>
         Close
       </Button>
     </DialogActions>
   </Dialog>
 )
 
-export default connect(
-  ({ privacyPolicyDialog }) => ({ open: privacyPolicyDialog }),
-  (dispatch) => ({
-    handleClose: () => dispatch(hidePrivacyPolicyDialog())
-  })
-)(PrivacyPolicyDialog);;
+export default PrivacyPolicyDialog;
