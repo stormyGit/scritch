@@ -24,26 +24,55 @@ const styles = theme => ({
   }
 });
 
+const routes = {
+  latest: '/',
+  trending: '/trending',
+  subscriptions: '/subscriptions'
+};
+
 class AppBottomNavigation extends React.Component {
   state = {
-    value: 'latest',
+    value: null,
   };
 
-  handleChange = (event, value) => {
-    const routes = {
-      latest: '/',
-      trending: '/trending',
-      subscriptions: '/subscriptions'
-    };
+  componentDidMount() {
+    this.handleLocation(this.props.location);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location !== nextProps.location) {
+      this.handleLocation(nextProps.location);
+    }
+  }
+
+  handleLocation(location) {
+    if (location.pathname === '/videos' || location.pathname === '/') {
+      this.setState({ value: 'latest'});
+    }
+    else if (location.pathname === '/trending') {
+      this.setState({ value: 'trending'});
+    }
+    else if (location.pathname === '/subscriptions') {
+      this.setState({ value: 'subscriptions'});
+    }
+    else {
+      this.setState({ value: null });
+    }
+  }
+
+  handleChange = (e, value) => {
     this.props.history.push({
       pathname: routes[value]
     });
-    this.setState({ value });
-  };
+  }
 
   render() {
     const { classes } = this.props;
     const { value } = this.state;
+
+    if (!value) {
+      return (null);
+    }
 
     return (
       <BottomNavigation
@@ -53,7 +82,7 @@ class AppBottomNavigation extends React.Component {
       >
         <BottomNavigationAction className={classes.action} label="Latest" value="latest" icon={<OnDemandVideoIcon />} />
         <BottomNavigationAction className={classes.action} label="Trending" value="trending" icon={<WhatshotIcon />} />
-        <BottomNavigationAction className={classes.action} disabled={!this.props.currentSession} label="Subscriptions" value="subscriptions" icon={<SubscriptionsIcon />} />
+        {this.props.currentSession && <BottomNavigationAction className={classes.action} label="Subscriptions" value="subscriptions" icon={<SubscriptionsIcon />} />}
       </BottomNavigation>
     );
   }

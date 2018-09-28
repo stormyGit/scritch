@@ -17,6 +17,7 @@ import TelegramLoginButton from 'react-telegram-login';
 import { withApollo } from 'react-apollo';
 
 import GlobalProgress from './GlobalProgress';
+import ResponsiveDialog from './ResponsiveDialog';
 
 import { Mutation, Query } from "react-apollo";
 
@@ -53,7 +54,7 @@ class SignUpDialog extends React.Component {
     const { classes, open, onClose, loading } = this.props;
 
     return (
-      <Dialog
+      <ResponsiveDialog
         open={open}
         onClose={onClose}
       >
@@ -109,7 +110,7 @@ class SignUpDialog extends React.Component {
               </Button>
           }
         </DialogContent>
-      </Dialog>
+      </ResponsiveDialog>
     );
   }
 }

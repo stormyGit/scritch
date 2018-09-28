@@ -1,7 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
@@ -13,9 +12,10 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import CheckIcon from '@material-ui/icons/Check';
+import ResponsiveDialog from './ResponsiveDialog';
 
 const TermsDialog = ({ classes, open, onClose }) => (
-  <Dialog
+  <ResponsiveDialog
     open={open}
     onClose={onClose}
   >
@@ -67,7 +67,7 @@ const TermsDialog = ({ classes, open, onClose }) => (
         Close
       </Button>
     </DialogActions>
-  </Dialog>
+  </ResponsiveDialog>
 )
 
 export default TermsDialog;

@@ -76,6 +76,8 @@ const styles = theme => ({
     marginBottom: 5,
     lineHeight: '36px',
     flexShrink: 0,
+    transition: "max-width 0.5s ease",
+    maxWidth: 200,
   },
   toolBar: {
     display: 'flex',
@@ -153,7 +155,7 @@ class AppLayout extends React.Component {
                     data.pageTitle &&
                       <React.Fragment>
                         <div className={classes.separator} />
-                        <Typography variant="headline" className={classes.pageTitle}>
+                        <Typography variant="headline" className={classes.pageTitle} component="div">
                           {data.pageTitle}
                         </Typography>
                       </React.Fragment>
@@ -195,13 +197,15 @@ class AppLayout extends React.Component {
                 }
                 {
                   !currentSession &&
-                    <Button
-                      onClick={() => this.setState({ signUpDialog: true })}
-                      variant="contained"
-                      size="large"
-                    >
-                      Login with Telegram
-                    </Button>
+                    <Hidden mdDown>
+                      <Button
+                        onClick={() => this.setState({ signUpDialog: true })}
+                        variant="contained"
+                        size="large"
+                      >
+                        Login with Telegram
+                      </Button>
+                    </Hidden>
                 }
               </div>
             </Toolbar>

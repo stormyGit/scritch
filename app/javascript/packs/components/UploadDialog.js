@@ -22,6 +22,7 @@ import Dropzone from 'react-dropzone';
 
 import { CREATE_MEDIUM } from '../queries';
 import fileUploadService from '../fileUploadService';
+import ResponsiveDialog from './ResponsiveDialog';
 
 const required = value => (value ? undefined : 'This field is required.')
 
@@ -127,12 +128,11 @@ class UploadDialog extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Dialog
+      <ResponsiveDialog
         open={this.props.open}
         onClose={this.props.onClose}
-        aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Upload video</DialogTitle>
+        <DialogTitle>Upload video</DialogTitle>
         <DialogContent>
           <Field
             component={DropZoneFieldWithStyle}
@@ -170,7 +170,7 @@ class UploadDialog extends React.Component {
             Submit
           </Button>
         </DialogActions>
-      </Dialog>
+      </ResponsiveDialog>
     );
   }
 }

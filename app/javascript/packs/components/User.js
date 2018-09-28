@@ -29,7 +29,6 @@ import { Parallax, Background } from 'react-parallax';
 import { withRouter } from 'react-router-dom'
 
 import queryString from 'query-string';
-import randomColor from 'randomcolor';
 
 import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW, UPDATE_USER, GET_SESSION } from '../queries';
 
@@ -39,10 +38,10 @@ import EmptyList from './EmptyList';
 import UserAvatar from './UserAvatar';
 import ProfileAvatar from './ProfileAvatar';
 import PageTitle from './PageTitle';
+import BannerPlaceholder from './BannerPlaceholder';
 import withCurrentSession from './withCurrentSession';
 
 const BANNER_HEIGHT = 430;
-const STRIPES_LENGTH = 180;
 
 const styles = theme => ({
   root: {
@@ -368,8 +367,6 @@ class User extends React.Component {
 
   renderBanner(banner, slug) {
     const { classes } = this.props;
-    const userColorPrimary = randomColor({ luminosity: 'dark', seed: slug });
-    const userColorSecondary = randomColor({ luminosity: 'light', seed: slug });
 
     if (banner) {
       return (
@@ -383,11 +380,10 @@ class User extends React.Component {
     }
 
     return (
-      <div
+      <BannerPlaceholder
         className={classes.placeholderBanner}
-        style={{
-          background: `repeating-linear-gradient(45deg, ${userColorPrimary}, ${userColorPrimary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH}px, ${userColorSecondary} ${STRIPES_LENGTH * 2}px)`
-        }}
+        length={180}
+        slug={slug}
       />
     );
   }

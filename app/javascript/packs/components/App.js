@@ -61,7 +61,7 @@ class App extends React.Component {
 
   componentDidMount() {
     const token = localStorage.getItem('token');
-    if (!token) {
+    if (!token || token === 'null') {
       this.setState({ loaded: true });
     }
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
@@ -15,8 +14,10 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import CheckIcon from '@material-ui/icons/Check';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
+import ResponsiveDialog from './ResponsiveDialog';
+
 const PrivacyPolicyDialog = ({ classes, open, onClose }) => (
-  <Dialog
+  <ResponsiveDialog
     open={open}
     onClose={onClose}
   >
@@ -64,7 +65,7 @@ const PrivacyPolicyDialog = ({ classes, open, onClose }) => (
         Close
       </Button>
     </DialogActions>
-  </Dialog>
+  </ResponsiveDialog>
 )
 
 export default PrivacyPolicyDialog;

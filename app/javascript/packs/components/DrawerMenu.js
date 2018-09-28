@@ -16,9 +16,14 @@ import ToysIcon from '@material-ui/icons/Toys';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import AsssistantPhotoIcon from '@material-ui/icons/AssistantPhoto';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 import TermsDialog from './TermsDialog';
 import PrivacyPolicyDialog from './PrivacyPolicyDialog';
+import SettingsDialog from './SettingsDialog';
+import SignUpDialog from './SignUpDialog';
+
+import BannerPlaceholder from './BannerPlaceholder';
 
 import { Link, withRouter } from 'react-router-dom'
 
@@ -32,6 +37,13 @@ const styles = theme => {
       flexGrow: 1,
       justifyContent: 'space-between'
     },
+    profile: {
+      minHeight: '20vh',
+      display: 'flex'
+    },
+    BannerPlaceholder: {
+      flex: 1
+    }
   })
 };
 
@@ -39,6 +51,8 @@ class DrawerMenu extends React.Component {
   state = {
     privacyPolicyDialog: false,
     termsDialog: false,
+    settingsDialog: false,
+    signUpDialog: false
   }
   render() {
     const { classes, location, currentSession } = this.props;
@@ -46,6 +60,30 @@ class DrawerMenu extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.drawerSpacer}>
+          {
+            !this.props.disableProfile && currentSession &&
+              <div className={classes.profile}>
+                <BannerPlaceholder
+                  slug={currentSession.user.name}
+                  className={classes.BannerPlaceholder}
+                  length={90}
+                />
+              </div>
+          }
+          {
+            !this.props.disableProfile && !currentSession &&
+            <List>
+              <ListItem
+                button
+                onClick={() => this.setState({ signUpDialog: true })}
+              >
+                <ListItemIcon className={classes.text} color='secondary'>
+                  <AccountCircleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Login with Telegram" primaryTypographyProps={{ className: classes.text }} />
+              </ListItem>
+            </List>
+          }
           {
             !this.props.disableNavigation &&
               <div>
@@ -92,8 +130,7 @@ class DrawerMenu extends React.Component {
                 currentSession &&
                   <ListItem
                     button
-                    selected={location.pathname === '/settings'}
-                    component={(props) => <Link to='/settings' {...props} />}
+                    onClick={() => this.setState({ settingsDialog: true })}
                   >
                     <ListItemIcon>
                       <SettingsIcon />
@@ -136,13 +173,41 @@ class DrawerMenu extends React.Component {
             </List>
           </div>
         </div>
+        <SettingsDialog
+          open={this.state.settingsDialog}
+          onClose={() => {
+            this.setState({ settingsDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
+          }}
+        />
         <TermsDialog
           open={this.state.termsDialog}
-          onClose={() => this.setState({ termsDialog: false })}
+          onClose={() => {
+            this.setState({ termsDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
+          }}
         />
         <PrivacyPolicyDialog
           open={this.state.privacyPolicyDialog}
-          onClose={() => this.setState({ privacyPolicyDialog: false })}
+          onClose={() => {
+            this.setState({ privacyPolicyDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
+          }}
+        />
+        <SignUpDialog
+          open={this.state.signUpDialog}
+          onClose={() => {
+            this.setState({ signUpDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
+          }}
         />
       </React.Fragment>
     );
