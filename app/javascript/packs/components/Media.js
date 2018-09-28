@@ -7,7 +7,7 @@ import queryString from 'query-string';
 
 import { GET_MEDIA } from '../queries';
 
-import CustomAppBar from './CustomAppBar';
+import AppLayout from './AppLayout';
 import MediumCard from './MediumCard';
 import SearchBar from './SearchBar';
 import GlobalProgress from './GlobalProgress';
@@ -67,17 +67,21 @@ class Media extends React.Component {
       <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort }}>
         {({ data, loading, error }) => (
           <React.Fragment>
-            <CustomAppBar pageTitle={this.props.title}>
-              <SearchBar
-                cancelOnEscape
-                value={query.q}
-                onRequestSearch={(q) => this.handleRequestSearch(q)}
-              />
-            </CustomAppBar>
-            <Grid container className={classes.root} spacing={8}>
-              {loading && <GlobalProgress />}
-              {!loading && this.renderResults({ data, horizontal: (query.q && query.q.length > 0) })}
-            </Grid>
+            <AppLayout
+              pageTitle={this.props.title}
+              appBarChildren={
+                <SearchBar
+                  cancelOnEscape
+                  value={query.q}
+                  onRequestSearch={(q) => this.handleRequestSearch(q)}
+                />
+              }
+            >
+              <Grid container className={classes.root} spacing={8}>
+                {loading && <GlobalProgress />}
+                {!loading && this.renderResults({ data, horizontal: (query.q && query.q.length > 0) })}
+              </Grid>
+            </AppLayout>
           </React.Fragment>
         )}
       </Query>

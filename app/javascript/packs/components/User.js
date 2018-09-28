@@ -33,7 +33,7 @@ import randomColor from 'randomcolor';
 
 import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW, UPDATE_USER, GET_SESSION } from '../queries';
 
-import CustomAppBar from './CustomAppBar';
+import AppLayout from './AppLayout';
 import MediumCard from './MediumCard';
 import SearchBar from './SearchBar';
 import GlobalProgress from './GlobalProgress';
@@ -544,13 +544,15 @@ class User extends React.Component {
     return (
       <Query query={GET_USER} variables={{ id: match.params.id }}>
         {({ data, loading, error }) => (
-          <React.Fragment>
-            <CustomAppBar pageTitle={!loading && data.user ? data.user.name : null}>
+          <AppLayout
+            pageTitle={!loading && data.user ? data.user.name : null}
+            appBarChildren={
               <SearchBar
                 cancelOnEscape
                 onRequestSearch={(q) => this.handleRequestSearch(q)}
               />
-            </CustomAppBar>
+            }
+          >
             <React.Fragment>
               {loading && <GlobalProgress />}
               {
@@ -611,7 +613,7 @@ class User extends React.Component {
                   </React.Fragment>
               }
             </React.Fragment>
-          </React.Fragment>
+          </AppLayout>
         )}
       </Query>
     );

@@ -7,7 +7,7 @@ import { ApolloProvider, withApollo, Query } from 'react-apollo';
 import ApolloClient from "apollo-boost";
 import { HashRouter, Route, Switch } from 'react-router-dom'
 import store from '../store.js';
-import Layout from './Layout';
+import AppRouter from './AppRouter';
 
 import { GET_SESSION, GET_THEME } from '../queries';
 
@@ -64,16 +64,21 @@ class App extends React.Component {
       query: GET_SESSION,
     }).then(({ data }) => {
       if (data.session) {
-        this.props.client.writeData({ data: { theme: data.session.user.theme }})
+        this.setState({ loaded: true });
+        this.props.client.writeData({ data: { theme: data.session.user.theme }});
       }
     });
   }
 
   render() {
+    if (!this.state.loaded) {
+      return (null);
+    }
+
     return (
       <React.Fragment>
         <CssBaseline />
-        <Layout />
+        <AppRouter />
       </React.Fragment>
     )
   }

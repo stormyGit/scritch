@@ -20,7 +20,7 @@ import UserAvatar from './UserAvatar';
 import { GET_MEDIUM } from '../queries';
 
 import RelatedMediumCard from './RelatedMediumCard';
-import CustomAppBar from './CustomAppBar';
+import AppLayout from './AppLayout';
 import SearchBar from './SearchBar';
 import CardVideo from './CardVideo';
 import CommentForm from './CommentForm';
@@ -77,10 +77,12 @@ class Medium extends React.Component {
       <Query query={GET_MEDIUM} variables={{ id: match.params.id }}>
         {({ loading, error, data }) => {
           return (
-            <React.Fragment>
-              <CustomAppBar pageTitle={!loading && data.medium ? data.medium.title : null}>
+            <AppLayout
+              pageTitle={!loading && data.medium ? data.medium.title : null}
+              appBarChildren={
                 <SearchBar />
-              </CustomAppBar>
+              }
+            >
               {
                 !loading && data.medium &&
                   <div className={classes.container}>
@@ -145,7 +147,7 @@ class Medium extends React.Component {
                     </Card>
                   </div>
               }
-            </React.Fragment>
+            </AppLayout>
           );
         }}
       </Query>

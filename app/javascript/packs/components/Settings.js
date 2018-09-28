@@ -20,7 +20,7 @@ import Switch from '@material-ui/core/Switch';
 import { withRouter } from 'react-router-dom'
 
 import SettingsContainer from './SettingsContainer';
-import CustomAppBar from './CustomAppBar';
+import AppLayout from './AppLayout';
 import SearchBar from './SearchBar';
 
 import { GET_SESSION, DELETE_SESSION, DELETE_USER, UPDATE_USER, GET_THEME } from '../queries';
@@ -37,10 +37,12 @@ class Settings extends React.Component {
     const { classes, match } = this.props;
 
     return (
-      <React.Fragment>
-        <CustomAppBar pageTitle="Settings">
+      <AppLayout
+        pageTitle="Settings"
+        appBarChildren={
           <SearchBar />
-        </CustomAppBar>
+        }
+      >
         <Query query={GET_SESSION}>
           {({ loading, error, data: sessionData }) => {
             if (loading || !sessionData.session) {
@@ -168,7 +170,7 @@ class Settings extends React.Component {
             );
           }}
         </Query>
-      </React.Fragment>
+      </AppLayout>
     );
   }
 }
