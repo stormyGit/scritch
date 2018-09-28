@@ -33,13 +33,12 @@ import randomColor from 'randomcolor';
 
 import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW, UPDATE_USER, GET_SESSION } from '../queries';
 
-import AppLayout from './AppLayout';
 import MediumCard from './MediumCard';
-import SearchBar from './SearchBar';
 import GlobalProgress from './GlobalProgress';
 import EmptyList from './EmptyList';
 import UserAvatar from './UserAvatar';
 import ProfileAvatar from './ProfileAvatar';
+import PageTitle from './PageTitle';
 import withCurrentSession from './withCurrentSession';
 
 const BANNER_HEIGHT = 430;
@@ -544,76 +543,67 @@ class User extends React.Component {
     return (
       <Query query={GET_USER} variables={{ id: match.params.id }}>
         {({ data, loading, error }) => (
-          <AppLayout
-            pageTitle={!loading && data.user ? data.user.name : null}
-            appBarChildren={
-              <SearchBar
-                cancelOnEscape
-                onRequestSearch={(q) => this.handleRequestSearch(q)}
-              />
-            }
-          >
-            <React.Fragment>
-              {loading && <GlobalProgress />}
-              {
-                !loading && data.user &&
-                  <React.Fragment>
-                    {this.renderUserProfile(data.user)}
-                    <Paper className={classes.tabsContainer} elevation={0}>
-                      <Grid container spacing={0}>
-                        <Grid item xs lg>
-                        </Grid>
-                        <Grid item xs={12} lg={8}>
-                          <Tabs
-                            value={this.state.tab}
-                            className={classes.tabs}
-                            onChange={(e, value) => this.handleTabChange(value)}
-                            indicatorColor="secondary"
-                            textColor="secondary"
-                            fullWidth
-                          >
-                            <Tab
-                              value="videos"
-                              label={data.user.publishedMedia.length}
-                              icon="Videos"
-                            />
-                            <Tab
-                              value="following"
-                              label={data.user.followingCount}
-                              icon="Following"
-                            />
-                            <Tab
-                              value="followers"
-                              label={data.user.followersCount}
-                              icon="Followers"
-                            />
-                            <Tab
-                              value="likes"
-                              label={data.user.likesCount}
-                              icon="Likes"
-                            />
-                          </Tabs>
-                        </Grid>
-                        <Grid item xs lg>
-                        </Grid>
-                      </Grid>
-                    </Paper>
-                    <Grid container className={classes.root} spacing={8}>
+          <React.Fragment>
+            {loading && <GlobalProgress />}
+            {
+              !loading && data.user &&
+                <React.Fragment>
+                  <PageTitle>{!loading && data.user ? data.user.name : null}</PageTitle>
+                  {this.renderUserProfile(data.user)}
+                  <Paper className={classes.tabsContainer} elevation={0}>
+                    <Grid container spacing={0}>
                       <Grid item xs lg>
                       </Grid>
-                      <Grid item item xs={12} lg={8}>
-                      {this.state.tab === 'videos' && this.renderVideos(data.user)}
-                      {this.state.tab === 'following' && this.renderFollowing(data.user)}
-                      {this.state.tab === 'followers' && this.renderFollowers(data.user)}
-                      {this.state.tab === 'likes' && this.renderLikes(data.user)}
+                      <Grid item xs={12} lg={8}>
+                        <Tabs
+                          value={this.state.tab}
+                          className={classes.tabs}
+                          onChange={(e, value) => this.handleTabChange(value)}
+                          indicatorColor="secondary"
+                          textColor="secondary"
+                          fullWidth
+                        >
+                          <Tab
+                            value="videos"
+                            label={data.user.publishedMedia.length}
+                            icon="Videos"
+                          />
+                          <Tab
+                            value="following"
+                            label={data.user.followingCount}
+                            icon="Following"
+                          />
+                          <Tab
+                            value="followers"
+                            label={data.user.followersCount}
+                            icon="Followers"
+                          />
+                          <Tab
+                            value="likes"
+                            label={data.user.likesCount}
+                            icon="Likes"
+                          />
+                        </Tabs>
                       </Grid>
                       <Grid item xs lg>
                       </Grid>
                     </Grid>
-                  </React.Fragment>
-              }
-            </React.Fragment>
-          </AppLayout>
+                  </Paper>
+                  <Grid container className={classes.root} spacing={8}>
+                    <Grid item xs lg>
+                    </Grid>
+                    <Grid item item xs={12} lg={8}>
+                    {this.state.tab === 'videos' && this.renderVideos(data.user)}
+                    {this.state.tab === 'following' && this.renderFollowing(data.user)}
+                    {this.state.tab === 'followers' && this.renderFollowers(data.user)}
+                    {this.state.tab === 'likes' && this.renderLikes(data.user)}
+                    </Grid>
+                    <Grid item xs lg>
+                    </Grid>
+                  </Grid>
+                </React.Fragment>
+            }
+          </React.Fragment>
         )}
       </Query>
     );

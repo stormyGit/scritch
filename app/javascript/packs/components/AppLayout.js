@@ -1,5 +1,8 @@
 import React from 'react';
+import queryString from 'query-string';
 import { withStyles } from '@material-ui/core/styles';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -16,7 +19,9 @@ import SignUpDialog from './SignUpDialog';
 import UploadDialog from './UploadDialog';
 import PermanentDrawer from './PermanentDrawer';
 import TemporaryDrawer from './TemporaryDrawer';
+import AppBottomNavigation from './AppBottomNavigation';
 import withCurrentSession from './withCurrentSession';
+import SearchBar from './SearchBar';
 
 import UserAvatar from './UserAvatar';
 import Logo from './Logo';
@@ -49,7 +54,7 @@ const styles = theme => ({
   titleZone: {
     display: 'flex',
   },
-  children: {
+  searchBar: {
     minWidth: 600
   },
   separator: {
@@ -90,6 +95,12 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
 });
 
+const GET_PAGE_TITLE = gql`
+  {
+    pageTitle @client
+  }
+`;
+
 class AppLayout extends React.Component {
   state = {
     uploadDialog: false,
@@ -97,8 +108,16 @@ class AppLayout extends React.Component {
     drawer: false
   }
 
+  handleRequestSearch(q) {
+    this.props.history.push({
+      pathname: '/videos',
+      search: queryString.stringify({ q })
+    });
+  }
+
   render() {
-    const { classes, pageTitle, settingsLayout, children, currentSession } = this.props;
+    const { classes, settingsLayout, children, currentSession, location, client } = this.props;
+    const query = queryString.parse(location.search);
 
     return (
       <div className={classes.root}>
@@ -129,18 +148,24 @@ class AppLayout extends React.Component {
                     <MenuIcon />
                   </IconButton>
                 </Hidden>
-                {
-                  pageTitle &&
-                    <React.Fragment>
-                      <div className={classes.separator} />
-                      <Typography variant="headline" className={classes.pageTitle}>
-                        {pageTitle}
-                      </Typography>
-                    </React.Fragment>
-                }
+                <Query query={GET_PAGE_TITLE}>
+                  {({ data }) => (
+                    data.pageTitle &&
+                      <React.Fragment>
+                        <div className={classes.separator} />
+                        <Typography variant="headline" className={classes.pageTitle}>
+                          {data.pageTitle}
+                        </Typography>
+                      </React.Fragment>
+                  )}
+                </Query>
                 <Hidden mdDown>
-                  <div className={classes.children}>
-                    {this.props.appBarChildren}
+                  <div className={classes.searchBar}>
+                    <SearchBar
+                      cancelOnEscape
+                      value={query.q}
+                      onRequestSearch={(q) => this.handleRequestSearch(q)}
+                    />
                   </div>
                 </Hidden>
               </div>
@@ -185,9 +210,18 @@ class AppLayout extends React.Component {
           <UploadDialog open={this.state.uploadDialog} onClose={() => this.setState({ uploadDialog: false })} />
           {this.props.children}
         </main>
+        <Hidden lgUp>
+          <AppBottomNavigation />
+        </Hidden>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(withRouter(withCurrentSession(AppLayout)));
+export default withStyles(styles)(
+  withRouter(
+    withCurrentSession(
+      AppLayout
+    )
+  )
+);

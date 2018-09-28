@@ -27,7 +27,7 @@ class TemporaryDrawer extends React.Component {
         open={this.props.open}
         onClose={this.props.onClose}
       >
-        <DrawerMenu />
+        <DrawerMenu disableNavigation />
       </Drawer>
     );
   }

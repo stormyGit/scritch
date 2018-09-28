@@ -23,12 +23,17 @@ const client = new ApolloClient({
   },
   clientState: {
     defaults: {
-      theme: 'dark'
+      theme: 'dark',
+      pageTitle: null
     },
     resolvers: {
       Mutation: {
         setTheme: (_, { theme }, { cache }) => {
           cache.writeData({ data: { theme }});
+          return null;
+        },
+        setPageTitle: (_, { pageTitle }, { cache }) => {
+          cache.writeData({ data: { pageTitle }});
           return null;
         },
       }

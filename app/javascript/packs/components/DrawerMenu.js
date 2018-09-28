@@ -9,14 +9,13 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
 import OnDemandVideoIcon from '@material-ui/icons/OndemandVideo';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ToysIcon from '@material-ui/icons/Toys';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import AsssistantPhotoIcon from '@material-ui/icons/AssistantPhoto';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
 
 import TermsDialog from './TermsDialog';
 import PrivacyPolicyDialog from './PrivacyPolicyDialog';
@@ -47,43 +46,46 @@ class DrawerMenu extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.drawerSpacer}>
-          <div>
-            <List>
-              <ListItem
-                button
-                selected={location.pathname === '/'}
-                component={(props) => <Link to='/' {...props} />}
-              >
-                <ListItemIcon className={classes.text} color='secondary'>
-                  <OnDemandVideoIcon />
-                </ListItemIcon>
-                <ListItemText primary="Latest videos" primaryTypographyProps={{ className: classes.text }} />
-              </ListItem>
-              <ListItem
-                button
-                selected={location.pathname === '/trending'}
-                component={(props) => <Link to='/trending' {...props} />}
-              >
-                <ListItemIcon className={classes.text} color='secondary'>
-                  <WhatshotIcon />
-                </ListItemIcon>
-                <ListItemText primary="Trending" primaryTypographyProps={{ className: classes.text }} />
-              </ListItem>
-              {
-                currentSession &&
+          {
+            !this.props.disableNavigation &&
+              <div>
+                <List>
                   <ListItem
                     button
-                    selected={location.pathname === '/subscriptions'}
-                    component={(props) => <Link to='/subscriptions' {...props} />}
+                    selected={location.pathname === '/'}
+                    component={(props) => <Link to='/' {...props} />}
                   >
                     <ListItemIcon className={classes.text} color='secondary'>
-                      <SubscriptionsIcon />
+                      <OnDemandVideoIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Subscriptions" primaryTypographyProps={{ className: classes.text }} />
+                    <ListItemText primary="Latest videos" primaryTypographyProps={{ className: classes.text }} />
                   </ListItem>
-              }
-            </List>
-          </div>
+                  <ListItem
+                    button
+                    selected={location.pathname === '/trending'}
+                    component={(props) => <Link to='/trending' {...props} />}
+                  >
+                    <ListItemIcon className={classes.text} color='secondary'>
+                      <WhatshotIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Trending" primaryTypographyProps={{ className: classes.text }} />
+                  </ListItem>
+                  {
+                    currentSession &&
+                      <ListItem
+                        button
+                        selected={location.pathname === '/subscriptions'}
+                        component={(props) => <Link to='/subscriptions' {...props} />}
+                      >
+                        <ListItemIcon className={classes.text} color='secondary'>
+                          <SubscriptionsIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Subscriptions" primaryTypographyProps={{ className: classes.text }} />
+                      </ListItem>
+                  }
+                </List>
+              </div>
+          }
           <div>
             <List>
               {

@@ -9,7 +9,6 @@ import { GET_MEDIA } from '../queries';
 
 import AppLayout from './AppLayout';
 import MediumCard from './MediumCard';
-import SearchBar from './SearchBar';
 import GlobalProgress from './GlobalProgress';
 import EmptyList from './EmptyList';
 
@@ -22,13 +21,6 @@ const styles = theme => ({
 });
 
 class Media extends React.Component {
-  handleRequestSearch(q) {
-    this.props.history.push({
-      pathname: '/videos',
-      search: queryString.stringify({ q })
-    });
-  }
-
   renderResults({ data, horizontal }) {
     if (data.media.length === 0) {
       const { location } = this.props;
@@ -67,21 +59,10 @@ class Media extends React.Component {
       <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort }}>
         {({ data, loading, error }) => (
           <React.Fragment>
-            <AppLayout
-              pageTitle={this.props.title}
-              appBarChildren={
-                <SearchBar
-                  cancelOnEscape
-                  value={query.q}
-                  onRequestSearch={(q) => this.handleRequestSearch(q)}
-                />
-              }
-            >
-              <Grid container className={classes.root} spacing={8}>
-                {loading && <GlobalProgress />}
-                {!loading && this.renderResults({ data, horizontal: (query.q && query.q.length > 0) })}
-              </Grid>
-            </AppLayout>
+            <Grid container className={classes.root} spacing={8}>
+              {loading && <GlobalProgress />}
+              {!loading && this.renderResults({ data, horizontal: (query.q && query.q.length > 0) })}
+            </Grid>
           </React.Fragment>
         )}
       </Query>

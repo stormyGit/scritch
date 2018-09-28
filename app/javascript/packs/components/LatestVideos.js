@@ -1,4 +1,10 @@
 import React from 'react';
 import Media from './Media';
+import PageTitle from './PageTitle';
 
-export default (props) => <Media title="Latest videos" sort="latest" {...props} />
+export default (props) => (
+  <React.Fragment>
+    <PageTitle>Latest videos</PageTitle>
+    <Media sort="latest" {...props} />
+  </React.Fragment>
+)
