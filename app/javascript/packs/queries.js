@@ -115,6 +115,7 @@ export const GET_MEDIUM = gql`
       commentsCount
       likersCount
       liked
+      createdAt
       user {
         id
         slug

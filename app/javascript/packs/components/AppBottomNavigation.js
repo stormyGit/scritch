@@ -18,6 +18,10 @@ const styles = theme => ({
     width: '100%',
     position: 'fixed',
     bottom: 0,
+    zIndex: 1,
+  },
+  bottomNavigationSpacer: {
+    height: 56
   },
   action: {
     // color: theme.palette.secondary.main
@@ -75,15 +79,18 @@ class AppBottomNavigation extends React.Component {
     }
 
     return (
-      <BottomNavigation
-        value={value}
-        onChange={this.handleChange}
-        className={classes.root}
-      >
-        <BottomNavigationAction className={classes.action} label="Latest" value="latest" icon={<OnDemandVideoIcon />} />
-        <BottomNavigationAction className={classes.action} label="Trending" value="trending" icon={<WhatshotIcon />} />
-        {this.props.currentSession && <BottomNavigationAction className={classes.action} label="Subscriptions" value="subscriptions" icon={<SubscriptionsIcon />} />}
-      </BottomNavigation>
+      <React.Fragment>
+        <div className={classes.bottomNavigationSpacer}></div>
+        <BottomNavigation
+          value={value}
+          onChange={this.handleChange}
+          className={classes.root}
+        >
+          <BottomNavigationAction className={classes.action} label="Latest" value="latest" icon={<OnDemandVideoIcon />} />
+          <BottomNavigationAction className={classes.action} label="Trending" value="trending" icon={<WhatshotIcon />} />
+          {this.props.currentSession && <BottomNavigationAction className={classes.action} label="Subscriptions" value="subscriptions" icon={<SubscriptionsIcon />} />}
+        </BottomNavigation>
+      </React.Fragment>
     );
   }
 }

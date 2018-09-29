@@ -22,6 +22,7 @@ import TemporaryDrawer from './TemporaryDrawer';
 import AppBottomNavigation from './AppBottomNavigation';
 import withCurrentSession from './withCurrentSession';
 import SearchBar from './SearchBar';
+import GlobalProgress from './GlobalProgress';
 
 import UserAvatar from './UserAvatar';
 import Logo from './Logo';
@@ -121,102 +122,105 @@ class AppLayout extends React.Component {
     const query = queryString.parse(location.search);
 
     return (
-      <div className={classes.root}>
-        <Hidden mdDown>
-          <PermanentDrawer />
-        </Hidden>
-        <Hidden lgUp>
-          <TemporaryDrawer
-            open={this.state.drawer}
-            onClose={() => this.setState({ drawer: false })}
-          />
-        </Hidden>
-        <main className={classes.content}>
-          <div className={classes.toolbar} />
-          <AppBar position="absolute" className={classes.appBar}>
-            <Toolbar className={classes.toolBar}>
-              <div className={classes.titleZone}>
-                <Hidden mdDown>
-                  <Link to='/' className={classes.rootLink}>
-                    <Logo />
-                  </Link>
-                </Hidden>
-                <Hidden lgUp>
-                  <IconButton
-                    color="inherit"
-                    onClick={() => this.setState({ drawer: true })}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                </Hidden>
-                <Query query={GET_PAGE_TITLE}>
-                  {({ data }) => (
-                    data.pageTitle &&
-                      <React.Fragment>
-                        <div className={classes.separator} />
-                        <Typography variant="headline" className={classes.pageTitle} component="div">
-                          {data.pageTitle}
-                        </Typography>
-                      </React.Fragment>
-                  )}
-                </Query>
-                <Hidden mdDown>
-                  <div className={classes.searchBar}>
-                    <SearchBar
-                      cancelOnEscape
-                      value={query.q}
-                      onRequestSearch={(q) => this.handleRequestSearch(q)}
-                    />
-                  </div>
-                </Hidden>
-              </div>
-              <div className={classes.rightActions}>
-                {
-                  currentSession &&
-                    <Hidden mdDown>
-                      <Button
-                        onClick={() => this.setState({ uploadDialog: true })}
-                        variant="contained"
-                        size="large"
-                        color="primary"
-                      >
-                        Upload
-                      </Button>
-                    </Hidden>
-                }
-                {
-                  currentSession &&
-                    <ButtonBase
-                      component={(props) => <Link to={`/${currentSession.user.slug}`} {...props} />}
-                      focusRipple
-                      className={classes.avatar}
+      <React.Fragment>
+        <GlobalProgress />
+        <div className={classes.root}>
+          <Hidden mdDown>
+            <PermanentDrawer />
+          </Hidden>
+          <Hidden lgUp>
+            <TemporaryDrawer
+              open={this.state.drawer}
+              onClose={() => this.setState({ drawer: false })}
+            />
+          </Hidden>
+          <main className={classes.content}>
+            <div className={classes.toolbar} />
+            <AppBar position="absolute" className={classes.appBar}>
+              <Toolbar className={classes.toolBar}>
+                <div className={classes.titleZone}>
+                  <Hidden mdDown>
+                    <Link to='/' className={classes.rootLink}>
+                      <Logo />
+                    </Link>
+                  </Hidden>
+                  <Hidden lgUp>
+                    <IconButton
+                      color="inherit"
+                      onClick={() => this.setState({ drawer: true })}
                     >
-                      <UserAvatar user={currentSession.user} />
-                    </ButtonBase>
-                }
-                {
-                  !currentSession &&
-                    <Hidden mdDown>
-                      <Button
-                        onClick={() => this.setState({ signUpDialog: true })}
-                        variant="contained"
-                        size="large"
+                      <MenuIcon />
+                    </IconButton>
+                  </Hidden>
+                  <Query query={GET_PAGE_TITLE}>
+                    {({ data }) => (
+                      data.pageTitle &&
+                        <React.Fragment>
+                          <div className={classes.separator} />
+                          <Typography variant="headline" className={classes.pageTitle} component="div">
+                            {data.pageTitle}
+                          </Typography>
+                        </React.Fragment>
+                    )}
+                  </Query>
+                  <Hidden mdDown>
+                    <div className={classes.searchBar}>
+                      <SearchBar
+                        cancelOnEscape
+                        value={query.q}
+                        onRequestSearch={(q) => this.handleRequestSearch(q)}
+                      />
+                    </div>
+                  </Hidden>
+                </div>
+                <div className={classes.rightActions}>
+                  {
+                    currentSession &&
+                      <Hidden mdDown>
+                        <Button
+                          onClick={() => this.setState({ uploadDialog: true })}
+                          variant="contained"
+                          size="large"
+                          color="primary"
+                        >
+                          Upload
+                        </Button>
+                      </Hidden>
+                  }
+                  {
+                    currentSession &&
+                      <ButtonBase
+                        component={(props) => <Link to={`/${currentSession.user.slug}`} {...props} />}
+                        focusRipple
+                        className={classes.avatar}
                       >
-                        Login with Telegram
-                      </Button>
-                    </Hidden>
-                }
-              </div>
-            </Toolbar>
-          </AppBar>
-          <SignUpDialog open={this.state.signUpDialog} onClose={() => this.setState({ signUpDialog: false })} />
-          <UploadDialog open={this.state.uploadDialog} onClose={() => this.setState({ uploadDialog: false })} />
-          {this.props.children}
-        </main>
+                        <UserAvatar user={currentSession.user} />
+                      </ButtonBase>
+                  }
+                  {
+                    !currentSession &&
+                      <Hidden mdDown>
+                        <Button
+                          onClick={() => this.setState({ signUpDialog: true })}
+                          variant="contained"
+                          size="large"
+                        >
+                          Login with Telegram
+                        </Button>
+                      </Hidden>
+                  }
+                </div>
+              </Toolbar>
+            </AppBar>
+            <SignUpDialog open={this.state.signUpDialog} onClose={() => this.setState({ signUpDialog: false })} />
+            <UploadDialog open={this.state.uploadDialog} onClose={() => this.setState({ uploadDialog: false })} />
+            {this.props.children}
+          </main>
+        </div>
         <Hidden lgUp>
           <AppBottomNavigation />
         </Hidden>
-      </div>
+      </React.Fragment>
     );
   }
 }

@@ -10,7 +10,8 @@ const styles = theme => ({
     backgroundColor: "rgba(0, 0, 0, 0.8)",
     paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
-    borderRadius: 3
+    borderRadius: 3,
+    color: "white"
   }
 });
 

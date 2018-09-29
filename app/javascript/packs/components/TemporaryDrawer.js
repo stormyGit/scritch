@@ -12,6 +12,9 @@ const styles = theme => {
       height: '100%',
       flexShrink: 0
     },
+    drawerPaper: {
+      minWidth: drawerWidth,
+    }
   })
 };
 

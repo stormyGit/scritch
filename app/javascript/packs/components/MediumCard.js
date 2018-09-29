@@ -21,6 +21,7 @@ import timeAgo from '../timeAgo';
 import Duration from './Duration';
 import UserAvatar from './UserAvatar';
 import LikeButton from './LikeButton';
+import TruncatedText from './TruncatedText';
 
 const styles = theme => ({
   card: {
@@ -109,7 +110,7 @@ class MediumCard extends React.Component {
           {medium.title}
         </Typography>
         <Typography component="p" className={classes.text} noWrap={!horizontal}>
-          {medium.description || `No description`}
+          <TruncatedText limit={100}>{medium.description || `No description`}</TruncatedText>
         </Typography>
       </CardContent>
     );

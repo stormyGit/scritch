@@ -9,7 +9,6 @@ import { GET_MEDIA } from '../queries';
 
 import AppLayout from './AppLayout';
 import MediumCard from './MediumCard';
-import GlobalProgress from './GlobalProgress';
 import EmptyList from './EmptyList';
 
 const styles = theme => ({
@@ -60,7 +59,6 @@ class Media extends React.Component {
         {({ data, loading, error }) => (
           <React.Fragment>
             <Grid container className={classes.root} spacing={8}>
-              {loading && <GlobalProgress />}
               {!loading && this.renderResults({ data, horizontal: (query.q && query.q.length > 0) })}
             </Grid>
           </React.Fragment>

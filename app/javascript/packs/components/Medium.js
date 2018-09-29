@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CardHeader from '@material-ui/core/CardHeader';
+import Divider from '@material-ui/core/Divider';
 import CommentIcon from '@material-ui/icons/Comment';
 import { Link} from 'react-router-dom';
 import timeAgo from '../timeAgo';
@@ -34,6 +35,13 @@ const styles = theme => ({
     width: '100%',
     borderRadius: 0,
     backgroundColor: theme.palette.background,
+  },
+  videoInfo: {
+    paddingBottom: theme.spacing.unit,
+  },
+  userInfo: {
+    paddingLeft: 0,
+    paddingRight: 0,
   },
   text: {
   },
@@ -73,37 +81,48 @@ class Medium extends React.Component {
 
     return (
       <Query query={GET_MEDIUM} variables={{ id: match.params.id }}>
-        {({ loading, error, data }) => {
+        {({ loading, error, data: { medium } }) => {
           return (
-            !loading && data.medium &&
+            !loading && medium &&
               <div className={classes.container}>
-                <PageTitle>{!loading && data.medium ? data.medium.title : null}</PageTitle>
+                <PageTitle>{!loading && medium ? medium.title : null}</PageTitle>
                 <Card className={classes.card} elevation={0}>
-                  <CardVideo medium={data.medium} />
+                  <CardVideo medium={medium} />
                   <Grid container spacing={8}>
                     <Grid item lg={8} xs={12}>
                       <CardContent>
-                        <Grid container spacing={8} justify="space-between">
+                        <Grid container spacing={8} justify="space-between" className={classes.videoInfo}>
                           <Grid item>
                             <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
-                              {data.medium.title}
+                              {medium.title}
                             </Typography>
                           </Grid>
                           <Grid item>
-                            <LikeButton medium={data.medium} />
+                            <LikeButton medium={medium} />
                           </Grid>
                         </Grid>
+                        <Divider />
+                        <CardHeader
+                          className={classes.userInfo}
+                          avatar={
+                            <Link to={`/${medium.user.slug}`} className={classes.userLink}>
+                              <UserAvatar user={medium.user} />
+                            </Link>
+                          }
+                          title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}
+                          subheader={timeAgo.format(new Date(medium.createdAt))}
+                        />
                         <Typography component="p" className={classes.text}>
-                          {data.medium.description || 'No description'}
+                          {medium.description || 'No description'}
                         </Typography>
                       </CardContent>
                       <CardContent>
                         <Typography gutterBottom variant="title" component="h3">
-                          {this.renderCommentsCount(data.medium.comments.length)}
+                          {this.renderCommentsCount(medium.comments.length)}
                         </Typography>
-                        <CommentForm mediumId={data.medium.id} />
+                        <CommentForm mediumId={medium.id} />
                         {
-                          data.medium.comments.map((comment) => (
+                          medium.comments.map((comment) => (
                             <div key={comment.id} className={classes.comment}>
                               <CardHeader
                                 className={classes.commentHeader}
@@ -127,7 +146,7 @@ class Medium extends React.Component {
                           Watch more
                         </Typography>
                         {
-                          data.medium.relatedMedia.map((medium) => (
+                          medium.relatedMedia.map((medium) => (
                             <div className={classes.relatedMedia} key={medium.id}>
                               <RelatedMediumCard medium={medium} horizontal/>
                             </div>

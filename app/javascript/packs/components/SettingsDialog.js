@@ -72,9 +72,7 @@ class Settings extends React.Component {
                           <ListItemSecondaryAction>
                             <Switch
                               onChange={(e, value) => {
-                                updateUser({ variables: { input: { id: sessionData.session.user.id, theme: value ? 'light' : 'dark' }}}).then(() => {
-                                  this.props.onClose();
-                                })
+                                updateUser({ variables: { input: { id: sessionData.session.user.id, theme: value ? 'light' : 'dark' }}});
                               }}
                               checked={sessionData.session.user.theme === 'light'}
                             />
@@ -91,6 +89,7 @@ class Settings extends React.Component {
                           query: GET_SESSION,
                           data: { session: null }
                         });
+                        cache.writeData({ data: { theme: process.env.DEFAULT_THEME || 'dark' }});
                       }}
                     >
                       {( deleteSession, { data }) => (
@@ -138,6 +137,7 @@ class Settings extends React.Component {
                             query: GET_SESSION,
                             data: { session: null }
                           });
+                          cache.writeData({ data: { theme: process.env.DEFAULT_THEME || 'dark' }});
                         }}
                       >
                         {( deleteUser, { data }) => (

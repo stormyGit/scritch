@@ -36,7 +36,6 @@ import queryString from 'query-string';
 import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW, UPDATE_USER, GET_SESSION } from '../queries';
 
 import MediumCard from './MediumCard';
-import GlobalProgress from './GlobalProgress';
 import EmptyList from './EmptyList';
 import UserAvatar from './UserAvatar';
 import ProfileAvatar from './ProfileAvatar';
@@ -123,7 +122,8 @@ const styles = theme => ({
     fontSize: '4em',
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginBottom: theme.spacing.unit
+    marginBottom: theme.spacing.unit,
+    color: "white"
   },
   bioField: {
     marginLeft: theme.spacing.unit * 2,
@@ -144,8 +144,12 @@ const styles = theme => ({
     opacity: 0
   },
   cancelEditButton: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing.unit,
+    color: "white"
   },
+  infoText: {
+    color: 'white'
+  }
 });
 
 class User extends React.Component {
@@ -352,7 +356,6 @@ class User extends React.Component {
           {( updateUser, { data }) => (
             <Button
               variant="fab"
-              color="secondary"
               className={classes.editFab}
               onClick={() => {
                 updateUser({
@@ -381,7 +384,6 @@ class User extends React.Component {
     return (
       <Button
         variant="fab"
-        color="secondary"
         className={classes.editFab}
         onClick={() => {
           this.setState({
@@ -484,7 +486,7 @@ class User extends React.Component {
                   className={classes.editBannerButton}
                   onClick={() => this.setState({ bannerMenu: true })}
                 >
-                  <div id="uploadBannerButton">
+                  <div id="uploadBannerButton" className={classes.infoText}>
                     <InsertPhotoIcon className={classes.editBannerIcon} />
                     Change banner
                   </div>
@@ -631,7 +633,7 @@ class User extends React.Component {
                           onChange={(e) => this.setState({ name: e.target.value })}
                           margin="dense"
                         /> :
-                        <Typography variant="title">
+                        <Typography variant="title" className={classes.infoText}>
                          {user.name}
                         </Typography>
                     }
@@ -646,7 +648,7 @@ class User extends React.Component {
                           className={classes.bioField}
                           fullWidth
                         /> :
-                        <Typography variant="body2" noWrap>
+                        <Typography variant="body2" noWrap className={classes.infoText}>
                          {user.bio}
                        </Typography>
                     }
@@ -689,7 +691,6 @@ class User extends React.Component {
       <Query query={GET_USER} variables={{ id: match.params.id }}>
         {({ data, loading, error }) => (
           <React.Fragment>
-            {loading && <GlobalProgress />}
             {
               !loading && data.user &&
                 <React.Fragment>

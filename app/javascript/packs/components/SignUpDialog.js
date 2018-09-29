@@ -16,7 +16,6 @@ import CheckIcon from '@material-ui/icons/Check';
 import TelegramLoginButton from 'react-telegram-login';
 import { withApollo } from 'react-apollo';
 
-import GlobalProgress from './GlobalProgress';
 import ResponsiveDialog from './ResponsiveDialog';
 
 import { Mutation, Query } from "react-apollo";
@@ -58,7 +57,6 @@ class SignUpDialog extends React.Component {
         open={open}
         onClose={onClose}
       >
-        {loading && <GlobalProgress />}
         <DialogTitle className={classes.brand}>
           <Logo />
         </DialogTitle>
@@ -123,6 +121,7 @@ const FormWithMutation = (props) => (
         query: GET_SESSION,
         data: { session: createSession.session }
       });
+      cache.writeData({ data: { theme: createSession.session.user.theme }});
     }}
   >
     {(createSession, { data, loading, called }) => {
