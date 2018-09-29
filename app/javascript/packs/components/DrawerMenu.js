@@ -3,10 +3,12 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 
 import Divider from '@material-ui/core/Divider';
+import ButtonBase from '@material-ui/core/ButtonBase';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+import Typography from '@material-ui/core/Typography';
 
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
@@ -24,6 +26,7 @@ import PrivacyPolicyDialog from './PrivacyPolicyDialog';
 import SettingsDialog from './SettingsDialog';
 import SignUpDialog from './SignUpDialog';
 import UploadDialog from './UploadDialog';
+import ProfileAvatar from './ProfileAvatar';
 
 import BannerPlaceholder from './BannerPlaceholder';
 
@@ -37,14 +40,30 @@ const styles = theme => {
       display: 'flex',
       flexDirection: 'column',
       flexGrow: 1,
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
     },
     profile: {
-      minHeight: '20vh',
-      display: 'flex'
+      display: 'flex',
+      width: '100%',
+      position: 'relative',
+      justifyContent: 'flex-start',
+      padding: theme.spacing.unit * 2,
     },
-    BannerPlaceholder: {
-      flex: 1
+    bannerPlaceholder: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      opacity: 0.4
+    },
+    userInfo: {
+      display: 'flex',
+      zIndex: 1,
+      alignItems: 'center',
+    },
+    infoText: {
+      marginLeft: theme.spacing.unit * 2
     }
   })
 };
@@ -66,13 +85,27 @@ class DrawerMenu extends React.Component {
           <div>
             {
               !this.props.disableProfile && currentSession &&
-                <div className={classes.profile}>
+                <ButtonBase
+                  className={classes.profile}
+                  onClick={() => {
+                    this.props.history.push({
+                      pathname: `/${currentSession.user.slug}`
+                    });
+                    this.props.onClose();
+                  }}
+                >
                   <BannerPlaceholder
-                    slug={currentSession.user.name}
-                    className={classes.BannerPlaceholder}
+                    slug={currentSession.user.slug}
+                    className={classes.bannerPlaceholder}
                     length={90}
                   />
-                </div>
+                  <div className={classes.userInfo}>
+                    <ProfileAvatar avatar={currentSession.user.avatar} slug={currentSession.user.slug} />
+                    <Typography variant="title" className={classes.infoText} noWrap>
+                     {currentSession.user.name}
+                    </Typography>
+                  </div>
+                </ButtonBase>
             }
             <List>
               {
@@ -106,7 +139,12 @@ class DrawerMenu extends React.Component {
                     <ListItem
                       button
                       selected={location.pathname === '/'}
-                      component={(props) => <Link to='/' {...props} />}
+                      onClick={() => {
+                        this.props.history.push({
+                          pathname: '/'
+                        });
+                        this.props.onClose();
+                      }}
                     >
                       <ListItemIcon className={classes.text} color='secondary'>
                         <OnDemandVideoIcon />
@@ -116,7 +154,12 @@ class DrawerMenu extends React.Component {
                     <ListItem
                       button
                       selected={location.pathname === '/trending'}
-                      component={(props) => <Link to='/trending' {...props} />}
+                      onClick={() => {
+                        this.props.history.push({
+                          pathname: '/trending'
+                        });
+                        this.props.onClose();
+                      }}
                     >
                       <ListItemIcon className={classes.text} color='secondary'>
                         <WhatshotIcon />
@@ -128,7 +171,12 @@ class DrawerMenu extends React.Component {
                         <ListItem
                           button
                           selected={location.pathname === '/subscriptions'}
-                          component={(props) => <Link to='/subscriptions' {...props} />}
+                          onClick={() => {
+                            this.props.history.push({
+                              pathname: '/subscriptions'
+                            });
+                            this.props.onClose();
+                          }}
                         >
                           <ListItemIcon className={classes.text} color='secondary'>
                             <SubscriptionsIcon />

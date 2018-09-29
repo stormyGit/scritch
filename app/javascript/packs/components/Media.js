@@ -4,6 +4,7 @@ import { Query } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import queryString from 'query-string';
+import withWidth from '@material-ui/core/withWidth';
 
 import { GET_MEDIA } from '../queries';
 
@@ -51,7 +52,7 @@ class Media extends React.Component {
   }
 
   render() {
-    const { classes, location } = this.props;
+    const { classes, location, width } = this.props;
     const query = queryString.parse(location.search)
 
     return (
@@ -59,7 +60,7 @@ class Media extends React.Component {
         {({ data, loading, error }) => (
           <React.Fragment>
             <Grid container className={classes.root} spacing={8}>
-              {!loading && this.renderResults({ data, horizontal: (query.q && query.q.length > 0) })}
+              {!loading && this.renderResults({ data, horizontal: (query.q && query.q.length > 0 && width === 'lg' || width === 'xl') })}
             </Grid>
           </React.Fragment>
         )}
@@ -68,4 +69,4 @@ class Media extends React.Component {
   }
 }
 
-export default withStyles(styles)(Media);
+export default withStyles(styles)(withWidth()(Media));

@@ -3,15 +3,18 @@ import queryString from 'query-string';
 import { withStyles } from '@material-ui/core/styles';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import withWidth from '@material-ui/core/withWidth';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
-import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { Link, withRouter } from 'react-router-dom'
 import TelegramLoginButton from 'react-telegram-login';
@@ -56,7 +59,10 @@ const styles = theme => ({
     display: 'flex',
   },
   searchBar: {
-    minWidth: 600
+    // maxWidth: 600,
+    // flex: 1,
+    paddingLeft: theme.spacing.unit * 2,
+    minWidth: 'calc(100% - 14px)'
   },
   separator: {
     marginLeft: theme.spacing.unit * 4,
@@ -94,6 +100,10 @@ const styles = theme => ({
   rightActions: {
     flexShrink: 0,
   },
+  closeIcon: {
+  },
+  searchIcon: {
+  },
   toolbar: theme.mixins.toolbar,
 });
 
@@ -107,7 +117,8 @@ class AppLayout extends React.Component {
   state = {
     uploadDialog: false,
     signUpDialog: false,
-    drawer: false
+    drawer: false,
+    searchEnabled: false
   }
 
   handleRequestSearch(q) {
@@ -117,8 +128,15 @@ class AppLayout extends React.Component {
     });
   }
 
+  handleCancelSearchRequest() {
+    this.props.history.push({
+      pathname: '/videos',
+    });
+    this.setState({ searchEnabled: false });
+  }
+
   render() {
-    const { classes, settingsLayout, children, currentSession, location, client } = this.props;
+    const { classes, settingsLayout, children, currentSession, location, client, width } = this.props;
     const query = queryString.parse(location.search);
 
     return (
@@ -136,7 +154,10 @@ class AppLayout extends React.Component {
           </Hidden>
           <main className={classes.content}>
             <div className={classes.toolbar} />
-            <AppBar position="absolute" className={classes.appBar}>
+            <AppBar
+              position="absolute"
+              className={classes.appBar}
+            >
               <Toolbar className={classes.toolBar}>
                 <div className={classes.titleZone}>
                   <Hidden mdDown>
@@ -144,39 +165,62 @@ class AppLayout extends React.Component {
                       <Logo />
                     </Link>
                   </Hidden>
-                  <Hidden lgUp>
-                    <IconButton
-                      color="inherit"
-                      onClick={() => this.setState({ drawer: true })}
-                    >
-                      <MenuIcon />
-                    </IconButton>
-                  </Hidden>
-                  <Query query={GET_PAGE_TITLE}>
-                    {({ data }) => (
-                      data.pageTitle &&
-                        <React.Fragment>
-                          <div className={classes.separator} />
-                          <Typography variant="headline" className={classes.pageTitle} component="div">
-                            {data.pageTitle}
-                          </Typography>
-                        </React.Fragment>
-                    )}
-                  </Query>
-                  <Hidden mdDown>
-                    <div className={classes.searchBar}>
-                      <SearchBar
-                        cancelOnEscape
-                        value={query.q}
-                        onRequestSearch={(q) => this.handleRequestSearch(q)}
-                      />
-                    </div>
-                  </Hidden>
+                  {
+                    !this.state.searchEnabled &&
+                      <Hidden lgUp>
+                        <IconButton
+                          color="inherit"
+                          onClick={() => this.setState({ drawer: true })}
+                        >
+                          <MenuIcon />
+                        </IconButton>
+                      </Hidden>
+                  }
+                  {
+                    this.state.searchEnabled &&
+                      <IconButton
+                        className={classes.closeIcon}
+                        onClick={() => this.setState({ searchEnabled: false })}
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                  }
+                  {
+                    (!this.state.searchEnabled || width === 'lg' || width === 'xl') &&
+                      <Query query={GET_PAGE_TITLE}>
+                        {({ data }) => (
+                          data.pageTitle &&
+                            <React.Fragment>
+                              <div className={classes.separator} />
+                              <Typography variant="headline" className={classes.pageTitle} component="div">
+                                {data.pageTitle}
+                              </Typography>
+                            </React.Fragment>
+                        )}
+                      </Query>
+                  }
+                  {
+                    (this.state.searchEnabled || width === 'lg' || width === 'xl') &&
+                      <div className={classes.searchBar}>
+                        <SearchBar
+                          cancelOnEscape
+                          value={query.q}
+                          onRequestSearch={(q) => {
+                            if (typeof(q) === 'string') {
+                              this.handleRequestSearch(q)
+                            }
+                          }}
+                          onCancelSearch={() => {
+                            this.handleCancelSearchRequest();
+                          }}
+                        />
+                      </div>
+                  }
                 </div>
                 <div className={classes.rightActions}>
-                  {
-                    currentSession &&
-                      <Hidden mdDown>
+                  <Hidden mdDown>
+                    {
+                      currentSession &&
                         <Button
                           onClick={() => this.setState({ uploadDialog: true })}
                           variant="contained"
@@ -185,21 +229,19 @@ class AppLayout extends React.Component {
                         >
                           Upload
                         </Button>
-                      </Hidden>
-                  }
-                  {
-                    currentSession &&
-                      <ButtonBase
-                        component={(props) => <Link to={`/${currentSession.user.slug}`} {...props} />}
-                        focusRipple
-                        className={classes.avatar}
-                      >
-                        <UserAvatar user={currentSession.user} />
-                      </ButtonBase>
-                  }
-                  {
-                    !currentSession &&
-                      <Hidden mdDown>
+                    }
+                    {
+                      currentSession &&
+                        <ButtonBase
+                          component={(props) => <Link to={`/${currentSession.user.slug}`} {...props} />}
+                          focusRipple
+                          className={classes.avatar}
+                        >
+                          <UserAvatar user={currentSession.user} />
+                        </ButtonBase>
+                    }
+                    {
+                      !currentSession &&
                         <Button
                           onClick={() => this.setState({ signUpDialog: true })}
                           variant="contained"
@@ -207,8 +249,19 @@ class AppLayout extends React.Component {
                         >
                           Login with Telegram
                         </Button>
-                      </Hidden>
-                  }
+                    }
+                  </Hidden>
+                  <Hidden lgUp>
+                    {
+                      !this.state.searchEnabled &&
+                        <IconButton
+                          className={classes.searchIcon}
+                          onClick={() => this.setState({ searchEnabled: true })}
+                        >
+                          <SearchIcon />
+                        </IconButton>
+                    }
+                  </Hidden>
                 </div>
               </Toolbar>
             </AppBar>
@@ -228,7 +281,9 @@ class AppLayout extends React.Component {
 export default withStyles(styles)(
   withRouter(
     withCurrentSession(
-      AppLayout
+      withWidth()(
+        AppLayout
+      )
     )
   )
 );
