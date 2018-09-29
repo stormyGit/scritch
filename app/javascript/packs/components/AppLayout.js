@@ -77,7 +77,6 @@ const styles = theme => ({
     lineHeight: '36px',
     flexShrink: 0,
     transition: "max-width 0.5s ease",
-    maxWidth: 200,
   },
   toolBar: {
     display: 'flex',

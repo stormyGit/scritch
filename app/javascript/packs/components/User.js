@@ -15,6 +15,7 @@ import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import TextField from '@material-ui/core/TextField';
+import withWidth from '@material-ui/core/withWidth';
 
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -23,6 +24,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
+import EditIcon from '@material-ui/icons/Edit';
+import CheckIcon from '@material-ui/icons/Check';
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 import { Parallax, Background } from 'react-parallax';
 
@@ -137,6 +140,11 @@ const styles = theme => ({
   },
   cancelEditButton: {
     marginRight: theme.spacing.unit
+  },
+  editFab: {
+    position: 'fixed',
+    bottom: theme.spacing.unit * 2,
+    right: theme.spacing.unit * 2,
   }
 });
 
@@ -320,7 +328,69 @@ class User extends React.Component {
     }
   }
 
+  renderEditFab(user) {
+    const { classes } = this.props;
+
+    if (this.state.edit) {
+      return (
+        <Mutation
+          mutation={UPDATE_USER}
+          update={(cache, { data: { updateUser } }) => {
+            const { session } = cache.readQuery({ query: GET_SESSION });
+            cache.writeQuery({
+              query: GET_SESSION,
+              data: { session: { ...session, user: updateUser.user } }
+            });
+          }}
+        >
+          {( updateUser, { data }) => (
+            <Button
+              variant="fab"
+              color="secondary"
+              className={classes.editFab}
+              onClick={() => {
+                updateUser({
+                  variables: {
+                    input: {
+                      id: user.id,
+                      name: this.state.name,
+                      bio: this.state.bio,
+                      banner: this.state.banner
+                    }
+                  }
+                }).then(() => {
+                  this.setState({ edit: false });
+                })
+              }}
+            >
+              <CheckIcon />
+            </Button>
+          )}
+        </Mutation>
+      );
+    }
+    return (
+      <Button
+        variant="fab"
+        color="secondary"
+        className={classes.editFab}
+        onClick={() => {
+          this.setState({
+            edit: true,
+            name: user.name,
+            bio: user.bio || '',
+            banner: user.banner
+          })
+        }}
+      >
+        <EditIcon />
+      </Button>
+    );
+  }
+
   renderVideos(user) {
+    const { width } = this.props;
+
     if (user.publishedMedia.length === 0) {
       return (
         <EmptyList
@@ -333,7 +403,7 @@ class User extends React.Component {
         {
           user.publishedMedia.map((medium) => (
             <Grid item xs={12} key={medium.id}>
-              <MediumCard medium={medium} horizontal />
+              <MediumCard medium={medium} horizontal={width === 'lg' || width === 'xl'} />
             </Grid>
           ))
         }
@@ -507,24 +577,26 @@ class User extends React.Component {
                           className={classes.bioField}
                           fullWidth
                         /> :
-                        <Typography variant="body2">
+                        <Typography variant="body2" noWrap>
                          {user.bio}
                        </Typography>
                     }
                   </div>
                 </div>
-                {
-                  currentSession && currentSession.user.id === user.id &&
-                    <div className={classes.titleBarContainerUserActions}>
-                      {this.renderEditButton(user)}
-                    </div>
-                }
-                {
-                  currentSession && currentSession.user.id !== user.id &&
-                    <div className={classes.titleBarContainerUserActions}>
-                      {this.renderFollowButton(user)}
-                    </div>
-                }
+                <Hidden mdDown>
+                  {
+                    currentSession && currentSession.user.id === user.id &&
+                      <div className={classes.titleBarContainerUserActions}>
+                        {this.renderEditButton(user)}
+                      </div>
+                  }
+                  {
+                    currentSession && currentSession.user.id !== user.id &&
+                      <div className={classes.titleBarContainerUserActions}>
+                        {this.renderFollowButton(user)}
+                      </div>
+                  }
+                </Hidden>
               </div>
              }
            />
@@ -597,6 +669,9 @@ class User extends React.Component {
                     <Grid item xs lg>
                     </Grid>
                   </Grid>
+                  <Hidden lgUp>
+                    {this.renderEditFab(data.user)}
+                  </Hidden>
                 </React.Fragment>
             }
           </React.Fragment>
@@ -606,4 +681,4 @@ class User extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withCurrentSession(User)));
+export default withStyles(styles)(withRouter(withCurrentSession(withWidth()(User))));

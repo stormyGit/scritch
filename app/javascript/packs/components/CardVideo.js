@@ -7,6 +7,7 @@ import 'mediaelement';
 import 'mediaelement/build/mediaelementplayer.min.css';
 
 import { withStyles } from '@material-ui/core/styles';
+import withWidth from '@material-ui/core/withWidth';
 
 import { keyToUrl } from '../mediaService';
 
@@ -40,11 +41,27 @@ class CardVideo extends React.Component {
   }
 
   render() {
-    const { medium, classes } = this.props;
+    const { medium, classes, width } = this.props;
+    const height = {
+      xl: '80vh',
+      lg: '80vh',
+      md: '60vh',
+      sm: '50vh',
+      xs: '40vh'
+    }[width];
 
     return (
-      <div className={classes.container}>
-        <video ref="video" className={classes.video} height="100%">
+      <div
+        className={classes.container}
+        style={{
+          height
+        }}
+      >
+        <video
+          ref="video"
+          className={classes.video}
+          height="100%"
+        >
           <source src={keyToUrl(this.props.medium.key)} />
         </video>
       </div>
@@ -52,4 +69,4 @@ class CardVideo extends React.Component {
   }
 }
 
-export default withStyles(styles)(CardVideo);
+export default withStyles(styles)(withWidth()(CardVideo));

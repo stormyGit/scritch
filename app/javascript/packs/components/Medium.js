@@ -12,7 +12,6 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CardHeader from '@material-ui/core/CardHeader';
 import CommentIcon from '@material-ui/icons/Comment';
-
 import { Link} from 'react-router-dom';
 import timeAgo from '../timeAgo';
 import UserAvatar from './UserAvatar';

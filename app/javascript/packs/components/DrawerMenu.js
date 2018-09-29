@@ -17,11 +17,13 @@ import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import AsssistantPhotoIcon from '@material-ui/icons/AssistantPhoto';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import UploadIcon from '@material-ui/icons/CloudUpload';
 
 import TermsDialog from './TermsDialog';
 import PrivacyPolicyDialog from './PrivacyPolicyDialog';
 import SettingsDialog from './SettingsDialog';
 import SignUpDialog from './SignUpDialog';
+import UploadDialog from './UploadDialog';
 
 import BannerPlaceholder from './BannerPlaceholder';
 
@@ -52,7 +54,8 @@ class DrawerMenu extends React.Component {
     privacyPolicyDialog: false,
     termsDialog: false,
     settingsDialog: false,
-    signUpDialog: false
+    signUpDialog: false,
+    uploadDialog: false
   }
   render() {
     const { classes, location, currentSession } = this.props;
@@ -60,70 +63,83 @@ class DrawerMenu extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.drawerSpacer}>
-          {
-            !this.props.disableProfile && currentSession &&
-              <div className={classes.profile}>
-                <BannerPlaceholder
-                  slug={currentSession.user.name}
-                  className={classes.BannerPlaceholder}
-                  length={90}
-                />
-              </div>
-          }
-          {
-            !this.props.disableProfile && !currentSession &&
+          <div>
+            {
+              !this.props.disableProfile && currentSession &&
+                <div className={classes.profile}>
+                  <BannerPlaceholder
+                    slug={currentSession.user.name}
+                    className={classes.BannerPlaceholder}
+                    length={90}
+                  />
+                </div>
+            }
             <List>
-              <ListItem
-                button
-                onClick={() => this.setState({ signUpDialog: true })}
-              >
-                <ListItemIcon className={classes.text} color='secondary'>
-                  <AccountCircleIcon />
-                </ListItemIcon>
-                <ListItemText primary="Login with Telegram" primaryTypographyProps={{ className: classes.text }} />
-              </ListItem>
+              {
+                !this.props.disableProfile && !currentSession &&
+                  <ListItem
+                    button
+                    onClick={() => this.setState({ signUpDialog: true })}
+                  >
+                    <ListItemIcon className={classes.text} color='secondary'>
+                      <AccountCircleIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Login with Telegram" primaryTypographyProps={{ className: classes.text }} />
+                  </ListItem>
+              }
+              {
+                !this.props.disableUpload && currentSession &&
+                  <ListItem
+                    button
+                    onClick={() => this.setState({ uploadDialog: true })}
+                  >
+                    <ListItemIcon className={classes.text} color='secondary'>
+                      <UploadIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Upload" primaryTypographyProps={{ className: classes.text }} />
+                  </ListItem>
+              }
+              <Divider />
+              {
+                !this.props.disableNavigation &&
+                  <React.Fragment>
+                    <ListItem
+                      button
+                      selected={location.pathname === '/'}
+                      component={(props) => <Link to='/' {...props} />}
+                    >
+                      <ListItemIcon className={classes.text} color='secondary'>
+                        <OnDemandVideoIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Latest videos" primaryTypographyProps={{ className: classes.text }} />
+                    </ListItem>
+                    <ListItem
+                      button
+                      selected={location.pathname === '/trending'}
+                      component={(props) => <Link to='/trending' {...props} />}
+                    >
+                      <ListItemIcon className={classes.text} color='secondary'>
+                        <WhatshotIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Trending" primaryTypographyProps={{ className: classes.text }} />
+                    </ListItem>
+                    {
+                      currentSession &&
+                        <ListItem
+                          button
+                          selected={location.pathname === '/subscriptions'}
+                          component={(props) => <Link to='/subscriptions' {...props} />}
+                        >
+                          <ListItemIcon className={classes.text} color='secondary'>
+                            <SubscriptionsIcon />
+                          </ListItemIcon>
+                          <ListItemText primary="Subscriptions" primaryTypographyProps={{ className: classes.text }} />
+                        </ListItem>
+                    }
+                  </React.Fragment>
+              }
             </List>
-          }
-          {
-            !this.props.disableNavigation &&
-              <div>
-                <List>
-                  <ListItem
-                    button
-                    selected={location.pathname === '/'}
-                    component={(props) => <Link to='/' {...props} />}
-                  >
-                    <ListItemIcon className={classes.text} color='secondary'>
-                      <OnDemandVideoIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Latest videos" primaryTypographyProps={{ className: classes.text }} />
-                  </ListItem>
-                  <ListItem
-                    button
-                    selected={location.pathname === '/trending'}
-                    component={(props) => <Link to='/trending' {...props} />}
-                  >
-                    <ListItemIcon className={classes.text} color='secondary'>
-                      <WhatshotIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Trending" primaryTypographyProps={{ className: classes.text }} />
-                  </ListItem>
-                  {
-                    currentSession &&
-                      <ListItem
-                        button
-                        selected={location.pathname === '/subscriptions'}
-                        component={(props) => <Link to='/subscriptions' {...props} />}
-                      >
-                        <ListItemIcon className={classes.text} color='secondary'>
-                          <SubscriptionsIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Subscriptions" primaryTypographyProps={{ className: classes.text }} />
-                      </ListItem>
-                  }
-                </List>
-              </div>
-          }
+          </div>
           <div>
             <List>
               {
@@ -204,6 +220,15 @@ class DrawerMenu extends React.Component {
           open={this.state.signUpDialog}
           onClose={() => {
             this.setState({ signUpDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
+          }}
+        />
+        <UploadDialog
+          open={this.state.uploadDialog}
+          onClose={() => {
+            this.setState({ uploadDialog: false });
             if (this.props.onClose) {
               this.props.onClose();
             }
