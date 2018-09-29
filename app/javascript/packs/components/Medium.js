@@ -124,7 +124,7 @@ class Medium extends React.Component {
                     <Grid item lg={4} xs={12}>
                       <CardContent>
                         <Typography gutterBottom variant="title" component="h3">
-                          Related videos
+                          Watch more
                         </Typography>
                         {
                           data.medium.relatedMedia.map((medium) => (

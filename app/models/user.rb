@@ -7,7 +7,7 @@ class User < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  mount_uploader :avatar, AvatarUploader
+  mount_base64_uploader :avatar, AvatarUploader
   mount_base64_uploader :banner, BannerUploader
 
   has_many :media, dependent: :destroy

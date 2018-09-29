@@ -24,13 +24,13 @@ const styles = theme => ({
 
 class ProfileAvatar extends React.Component {
   render() {
-    const { user, classes, className } = this.props;
+    const { avatar, slug, classes, className } = this.props;
     return (
       <div className={className}>
         <Paper className={classes.paper}>
-          {user.avatar ?
-            <Avatar src={user.avatar} className={classes.avatar} /> :
-            <DefaultAvatar className={classes.avatar} text={user.slug} size={56} key="avatar" />}
+          {avatar ?
+            <Avatar src={avatar} className={classes.avatar} /> :
+            <DefaultAvatar className={classes.avatar} text={slug} size={56} key="avatar" />}
         </Paper>
       </div>
     );

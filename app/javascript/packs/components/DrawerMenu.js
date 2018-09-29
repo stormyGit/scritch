@@ -99,7 +99,7 @@ class DrawerMenu extends React.Component {
                     <ListItemText primary="Upload" primaryTypographyProps={{ className: classes.text }} />
                   </ListItem>
               }
-              <Divider />
+              {(!this.props.disableUpload || !this.props.disableProfile) && <Divider />}
               {
                 !this.props.disableNavigation &&
                   <React.Fragment>

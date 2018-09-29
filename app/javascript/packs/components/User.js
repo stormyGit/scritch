@@ -60,6 +60,9 @@ const styles = theme => ({
     position: 'relative',
     overflow: 'visible'
   },
+  userProfileGridListTile: {
+    overflow: 'visible',
+  },
   tabs: {
     paddingLeft: theme.spacing.unit,
     paddingRight: theme.spacing.unit,
@@ -83,7 +86,6 @@ const styles = theme => ({
   titleBarContainerUserActions: {
     display: 'flex',
     alignItems: 'center',
-    marginRight: theme.spacing.unit * 2,
   },
   userColumn: {
     minWidth: 200
@@ -113,6 +115,9 @@ const styles = theme => ({
     width: '100%',
     height: BANNER_HEIGHT,
   },
+  bannerImageWide: {
+    top: '-50%'
+  },
   editBannerIcon: {
     display: 'block',
     fontSize: '4em',
@@ -141,11 +146,6 @@ const styles = theme => ({
   cancelEditButton: {
     marginRight: theme.spacing.unit
   },
-  editFab: {
-    position: 'fixed',
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2,
-  }
 });
 
 class User extends React.Component {
@@ -294,7 +294,10 @@ class User extends React.Component {
                         id: user.id,
                         name: this.state.name,
                         bio: this.state.bio,
-                        banner: this.state.banner
+                        banner: this.state.banner,
+                        avatar: this.state.avatar,
+                        removeBanner: this.state.removeBanner,
+                        removeAvatar: this.state.removeAvatar,
                       }
                     }
                   }).then(() => {
@@ -318,7 +321,10 @@ class User extends React.Component {
               edit: true,
               name: user.name,
               bio: user.bio || '',
-              banner: user.banner
+              banner: user.banner,
+              avatar: user.avatar,
+              removeAvatar: false,
+              removeBanner: false,
             })
           }}
         >
@@ -355,7 +361,10 @@ class User extends React.Component {
                       id: user.id,
                       name: this.state.name,
                       bio: this.state.bio,
-                      banner: this.state.banner
+                      banner: this.state.banner,
+                      avatar: this.state.avatar,
+                      removeBanner: this.state.removeBanner,
+                      removeAvatar: this.state.removeAvatar,
                     }
                   }
                 }).then(() => {
@@ -379,7 +388,10 @@ class User extends React.Component {
             edit: true,
             name: user.name,
             bio: user.bio || '',
-            banner: user.banner
+            banner: user.banner,
+            avatar: user.avatar,
+            removeAvatar: false,
+            removeBanner: false,
           })
         }}
       >
@@ -436,13 +448,14 @@ class User extends React.Component {
   }
 
   renderBanner(banner, slug) {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
 
     if (banner) {
       return (
         <Parallax
           bgImage={banner}
           strength={300}
+          bgClassName={width == 'xl' || width == 'lg' ? classes.bannerImageWide : null}
         >
           <div style={{ height: BANNER_HEIGHT, width: '100%' }} />
         </Parallax>
@@ -463,7 +476,7 @@ class User extends React.Component {
 
     return (
       <GridList cellHeight={430} cols={1} spacing={0} className={classes.userProfile}>
-        <GridListTile cols={1}>
+        <GridListTile cols={1} classes={{ tile: classes.userProfileGridListTile }}>
           {
             this.state.edit &&
               <React.Fragment>
@@ -498,7 +511,7 @@ class User extends React.Component {
                             <MenuItem
                               className={classes.menuButton}
                               onClick={() => {
-                                this.setState({ banner: null, bannerMenu: false });
+                                this.setState({ banner: null, removeBanner: true, bannerMenu: false });
                               }}
                             >
                               Remove
@@ -524,7 +537,7 @@ class User extends React.Component {
                     var reader = new FileReader();
                     reader.readAsDataURL(e.target.files[0]);
                     reader.onload = () => {
-                      this.setState({ banner: reader.result });
+                      this.setState({ banner: reader.result, removeBanner: false });
                     };
                   }}
                 />
@@ -540,18 +553,74 @@ class User extends React.Component {
                 <div className={classes.titleBarContainerUserInfo}>
                     {
                       this.state.edit &&
-                        <Button
-                          className={classes.editAvatarButton}
-                          onClick={() => {
-                            console.log("LOL")
-                          }}
-                        >
-                          <div>
-                            <InsertPhotoIcon />
-                          </div>
-                        </Button>
+                        <React.Fragment>
+                          <Button
+                            className={classes.editAvatarButton}
+                            onClick={() => this.setState({ avatarMenu: true })}
+                          >
+                            <div id="uploadAvatarButton">
+                              <InsertPhotoIcon />
+                            </div>
+                          </Button>
+                          <Popper open={this.state.avatarMenu} anchorEl={document.getElementById("uploadAvatarButton")} transition disablePortal className={classes.bannerMenu}>
+                            {({ TransitionProps, placement }) => (
+                              <Grow
+                                {...TransitionProps}
+                                id="menu-list-grow"
+                                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                              >
+                                <Paper>
+                                  <ClickAwayListener onClickAway={() => this.setState({ avatarMenu: false })}>
+                                    <MenuList disablePadding>
+                                      <MenuItem
+                                        className={classes.menuButton}
+                                        onClick={() => {
+                                          this.avatarUploadInput.current.click();
+                                          this.setState({ avatarMenu: false })
+                                        }}
+                                      >
+                                        Upload picture
+                                      </MenuItem>
+                                      <MenuItem
+                                        className={classes.menuButton}
+                                        onClick={() => {
+                                          this.setState({ avatar: null, removeAvatar: true, avatarMenu: false });
+                                        }}
+                                      >
+                                        Remove
+                                      </MenuItem>
+                                      <Divider />
+                                      <MenuItem
+                                        className={classes.menuButton}
+                                        onClick={() => this.setState({ avatarMenu: false })}
+                                      >
+                                        Cancel
+                                      </MenuItem>
+                                    </MenuList>
+                                  </ClickAwayListener>
+                                </Paper>
+                              </Grow>
+                            )}
+                          </Popper>
+                          <input
+                            className={classes.uploadInput}
+                            ref={this.avatarUploadInput}
+                            type="file"
+                            onChange={(e) => {
+                              var reader = new FileReader();
+                              reader.readAsDataURL(e.target.files[0]);
+                              reader.onload = () => {
+                                this.setState({ avatar: reader.result, removeAvatar: false });
+                              };
+                            }}
+                          />
+                        </React.Fragment>
                     }
-                   <ProfileAvatar user={user} className={classes.userAvatar} />
+                   {
+                     this.state.edit ?
+                       <ProfileAvatar avatar={this.state.avatar} slug={user.slug} className={classes.userAvatar} /> :
+                       <ProfileAvatar avatar={user.avatar} slug={user.slug} className={classes.userAvatar} />
+                   }
                    <div>
                     {
                       this.state.edit ?
@@ -594,6 +663,14 @@ class User extends React.Component {
                     currentSession && currentSession.user.id !== user.id &&
                       <div className={classes.titleBarContainerUserActions}>
                         {this.renderFollowButton(user)}
+                      </div>
+                  }
+                </Hidden>
+                <Hidden lgUp>
+                  {
+                    currentSession && currentSession.user.id === user.id &&
+                      <div className={classes.titleBarContainerUserActions}>
+                        {this.renderEditFab(user)}
                       </div>
                   }
                 </Hidden>
@@ -669,9 +746,6 @@ class User extends React.Component {
                     <Grid item xs lg>
                     </Grid>
                   </Grid>
-                  <Hidden lgUp>
-                    {this.renderEditFab(data.user)}
-                  </Hidden>
                 </React.Fragment>
             }
           </React.Fragment>
