@@ -43,7 +43,7 @@ import PageTitle from './PageTitle';
 import BannerPlaceholder from './BannerPlaceholder';
 import withCurrentSession from './withCurrentSession';
 
-const BANNER_HEIGHT = 430;
+const BANNER_HEIGHT = '33vw';
 
 const styles = theme => ({
   root: {
@@ -97,7 +97,7 @@ const styles = theme => ({
   },
   editBannerButton: {
     width: '100%',
-    height: BANNER_HEIGHT - theme.spacing.unit * 10,
+    height: `calc(${BANNER_HEIGHT} - ${theme.spacing.unit * 10}px)`,
     position: 'absolute',
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
     zIndex: 1,
@@ -457,7 +457,7 @@ class User extends React.Component {
         <Parallax
           bgImage={banner}
           strength={300}
-          bgClassName={width == 'xl' || width == 'lg' ? classes.bannerImageWide : null}
+          bgClassName={classes.bannerImageWide}
         >
           <div style={{ height: BANNER_HEIGHT, width: '100%' }} />
         </Parallax>
@@ -477,7 +477,7 @@ class User extends React.Component {
     const { classes, currentSession } = this.props;
 
     return (
-      <GridList cellHeight={430} cols={1} spacing={0} className={classes.userProfile}>
+      <GridList cellHeight={BANNER_HEIGHT} cols={1} spacing={0} className={classes.userProfile}>
         <GridListTile cols={1} classes={{ tile: classes.userProfileGridListTile }}>
           {
             this.state.edit &&

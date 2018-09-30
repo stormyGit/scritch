@@ -15,7 +15,7 @@ const styles = theme => ({
 
 const EmptyList = ({ classes, label }) => (
   <Grid container alignItems="center" justify="center">
-    <Grid container item xs={6}>
+    <Grid container item xs={12}>
       <Typography variant="caption" align="center" className={classes.title}>
         {label}
       </Typography>

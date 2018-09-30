@@ -226,6 +226,7 @@ class AppLayout extends React.Component {
                         }}
                       >
                         <SearchBar
+                          autoFocus={width !== 'lg' && width !== 'xl'}
                           cancelOnEscape
                           value={query.q}
                           onRequestSearch={(q) => {

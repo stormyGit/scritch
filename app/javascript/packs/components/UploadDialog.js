@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 import { withStyles } from '@material-ui/core/styles';
+import withWidth from '@material-ui/core/withWidth';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -33,7 +34,7 @@ const dropZoneStyles = theme => ({
     padding: theme.spacing.unit * 4,
     borderRadius: 2,
     textAlign: "center",
-    color: theme.palette.text.primary,
+    color: 'white',
     background: theme.palette.primary.light,
     fontFamily: theme.typography.fontFamily,
     cursor: "pointer",
@@ -73,7 +74,7 @@ class DropZoneField extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
 
     return (
       <Dropzone
@@ -106,7 +107,11 @@ class DropZoneField extends React.Component {
             <div>
               <CloudUploadIcon className={classes.uploadIcon} />
               <Typography variant="title" color="inherit" noWrap>
-                Select or drag a video file to upload
+                {
+                  (width === 'lg' || width === 'xl') ?
+                    "Select or drag a video file to upload" :
+                    "Select a video file to upload"
+                }
               </Typography>
             </div>
         }
@@ -115,7 +120,7 @@ class DropZoneField extends React.Component {
   }
 }
 
-const DropZoneFieldWithStyle = withStyles(dropZoneStyles)(DropZoneField);
+const DropZoneFieldWithStyle = withStyles(dropZoneStyles)(withWidth()(DropZoneField));
 
 const styles = theme => ({
   moderationExplanation: {
