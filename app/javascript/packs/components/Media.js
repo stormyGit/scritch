@@ -23,7 +23,7 @@ const styles = theme => ({
 });
 
 class Media extends React.Component {
-  renderResults({ data, horizontal, onLoadMore }) {
+  renderResults({ data, horizontal, onLoadMore, hasMore }) {
     const { classes } = this.props;
 
     if (data.media.length === 0) {
@@ -55,7 +55,7 @@ class Media extends React.Component {
             </Grid>
           ))
         }
-        <LoadMoreButton onClick={() => onLoadMore()} />
+        {hasMore && <LoadMoreButton onClick={() => onLoadMore()} />}
       </React.Fragment>
     );
   }
@@ -76,9 +76,10 @@ class Media extends React.Component {
                     this.renderResults({
                       data,
                       horizontal: (query.q && query.q.length > 0 && width === 'lg' || width === 'xl'),
+                      hasMore: ((data.media.length % per) === 0 && data.media.length / per === page),
                       onLoadMore: () => {
                         page++;
-
+                        console.log(page);
                         fetchMore({
                           variables: {
                             page,

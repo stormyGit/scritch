@@ -433,25 +433,28 @@ class User extends React.Component {
                     </Grid>
                   ))
                 }
-                <LoadMoreButton
-                  onClick={() => {
-                    page++;
+                {
+                  ((data.media.length % per) === 0 && data.media.length / per === page) &&
+                    <LoadMoreButton
+                      onClick={() => {
+                        page++;
 
-                    fetchMore({
-                      variables: {
-                        page,
-                        per
-                      },
-                      updateQuery: (prev, { fetchMoreResult }) => {
-                        if (!fetchMoreResult) return prev;
+                        fetchMore({
+                          variables: {
+                            page,
+                            per
+                          },
+                          updateQuery: (prev, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) return prev;
 
-                        return Object.assign({}, prev, {
-                          media: [...prev.media, ...fetchMoreResult.media]
+                            return Object.assign({}, prev, {
+                              media: [...prev.media, ...fetchMoreResult.media]
+                            });
+                          }
                         });
-                      }
-                    });
-                  }}
-                />
+                      }}
+                    />
+                }
               </Grid>
             </React.Fragment>
           );

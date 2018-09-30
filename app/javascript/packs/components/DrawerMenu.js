@@ -91,7 +91,9 @@ class DrawerMenu extends React.Component {
                     this.props.history.push({
                       pathname: `/${currentSession.user.slug}`
                     });
-                    this.props.onClose();
+                    if (this.props.onClose) {
+                      this.props.onClose();
+                    }
                   }}
                 >
                   <BannerPlaceholder
@@ -138,12 +140,14 @@ class DrawerMenu extends React.Component {
                   <React.Fragment>
                     <ListItem
                       button
-                      selected={location.pathname === '/'}
+                      selected={location.pathname === '/' || location.pathname === '/videos'}
                       onClick={() => {
                         this.props.history.push({
                           pathname: '/'
                         });
-                        this.props.onClose();
+                        if (this.props.onClose) {
+                          this.props.onClose();
+                        }
                       }}
                     >
                       <ListItemIcon className={classes.text} color='secondary'>
@@ -158,7 +162,9 @@ class DrawerMenu extends React.Component {
                         this.props.history.push({
                           pathname: '/trending'
                         });
-                        this.props.onClose();
+                        if (this.props.onClose) {
+                          this.props.onClose();
+                        }
                       }}
                     >
                       <ListItemIcon className={classes.text} color='secondary'>
@@ -175,7 +181,9 @@ class DrawerMenu extends React.Component {
                             this.props.history.push({
                               pathname: '/subscriptions'
                             });
-                            this.props.onClose();
+                            if (this.props.onClose) {
+                              this.props.onClose();
+                            }
                           }}
                         >
                           <ListItemIcon className={classes.text} color='secondary'>
