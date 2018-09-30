@@ -23,8 +23,14 @@ const styles = theme => ({
   bottomNavigationSpacer: {
     height: 56
   },
-  action: {
-    // color: theme.palette.secondary.main
+  label: {
+    color: theme.palette.secondary.main,
+  },
+  selected: {
+    '&$selected': {
+      paddingTop: 6,
+      color: theme.palette.secondary.main,
+    },
   }
 });
 
@@ -86,9 +92,39 @@ class AppBottomNavigation extends React.Component {
           onChange={this.handleChange}
           className={classes.root}
         >
-          <BottomNavigationAction className={classes.action} label="Latest" value="latest" icon={<OnDemandVideoIcon />} />
-          <BottomNavigationAction className={classes.action} label="Trending" value="trending" icon={<WhatshotIcon />} />
-          {this.props.currentSession && <BottomNavigationAction className={classes.action} label="Subscriptions" value="subscriptions" icon={<SubscriptionsIcon />} />}
+          <BottomNavigationAction
+            className={classes.action}
+            classes={{
+              label: classes.label,
+              selected: classes.selected,
+            }}
+            label="Latest"
+            value="latest"
+            icon={<OnDemandVideoIcon />}
+          />
+          <BottomNavigationAction
+            className={classes.action}
+            classes={{
+              label: classes.label,
+              selected: classes.selected,
+            }}
+            label="Trending"
+            value="trending"
+            icon={<WhatshotIcon />}
+          />
+          {
+            this.props.currentSession &&
+              <BottomNavigationAction
+                className={classes.action}
+                classes={{
+                  label: classes.label,
+                  selected: classes.selected,
+                }}
+                label="Subscriptions"
+                value="subscriptions"
+                icon={<SubscriptionsIcon />}
+              />
+          }
         </BottomNavigation>
       </React.Fragment>
     );

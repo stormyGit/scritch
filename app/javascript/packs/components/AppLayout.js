@@ -57,12 +57,10 @@ const styles = theme => ({
   },
   titleZone: {
     display: 'flex',
+    flexGrow: 1,
   },
   searchBar: {
-    // maxWidth: 600,
-    // flex: 1,
-    paddingLeft: theme.spacing.unit * 2,
-    minWidth: 'calc(100% - 14px)'
+    flex: 1,
   },
   separator: {
     marginLeft: theme.spacing.unit * 4,
@@ -121,6 +119,12 @@ class AppLayout extends React.Component {
     searchEnabled: false
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.location !== prevProps.location) {
+      window.scrollTo(0, 0);
+    }
+  }
+
   handleRequestSearch(q) {
     this.props.history.push({
       pathname: '/videos',
@@ -138,6 +142,13 @@ class AppLayout extends React.Component {
   render() {
     const { classes, settingsLayout, children, currentSession, location, client, width } = this.props;
     const query = queryString.parse(location.search);
+
+    let appBarPadding;
+    if (width === 'xl' || width === 'lg') {
+      appBarPadding = 16;
+    } else {
+      appBarPadding = 4;
+    }
 
     return (
       <React.Fragment>
@@ -157,8 +168,15 @@ class AppLayout extends React.Component {
             <AppBar
               position="absolute"
               className={classes.appBar}
+              elevation={1}
             >
-              <Toolbar className={classes.toolBar}>
+              <Toolbar
+                className={classes.toolBar}
+                style={{
+                  paddingLeft: appBarPadding,
+                  paddingRight: appBarPadding
+                }}
+              >
                 <div className={classes.titleZone}>
                   <Hidden mdDown>
                     <Link to='/' className={classes.rootLink}>
@@ -169,7 +187,6 @@ class AppLayout extends React.Component {
                     !this.state.searchEnabled &&
                       <Hidden lgUp>
                         <IconButton
-                          color="inherit"
                           onClick={() => this.setState({ drawer: true })}
                         >
                           <MenuIcon />
@@ -201,7 +218,13 @@ class AppLayout extends React.Component {
                   }
                   {
                     (this.state.searchEnabled || width === 'lg' || width === 'xl') &&
-                      <div className={classes.searchBar}>
+                      <div
+                        className={classes.searchBar}
+                        style={{
+                          paddingLeft: appBarPadding,
+                          maxWidth: (width === 'lg' || width === 'xl') ? 600 : 'none',
+                        }}
+                      >
                         <SearchBar
                           cancelOnEscape
                           value={query.q}

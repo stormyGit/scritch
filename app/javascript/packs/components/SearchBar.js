@@ -18,7 +18,7 @@ const styles = theme => ({
   iconButton: {
     opacity: 0.54,
     transform: 'scale(1, 1)',
-    transition: 'transform 200ms cubic-bezier(0.4, 0.0, 0.2, 1)'
+    transition: 'transform 200ms cubic-bezier(0.4, 0.0, 0.2, 1)',
   },
   iconButtonHidden: {
     transform: 'scale(0, 0)',
@@ -34,7 +34,8 @@ const styles = theme => ({
   },
   icon: {
     opacity: 0.54,
-    transition: 'opacity 200ms cubic-bezier(0.4, 0.0, 0.2, 1)'
+    transition: 'opacity 200ms cubic-bezier(0.4, 0.0, 0.2, 1)',
+    color: theme.palette.type === 'dark' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)'
   },
   searchContainer: {
     margin: 'auto 16px',
@@ -47,10 +48,10 @@ class CustomSearchBar extends React.Component {
       <SearchBar
         {...this.props}
         searchIcon={
-          <SearchIcon style={{ color: grey[50] }} />
+          <SearchIcon />
         }
         closeIcon={
-          <ClearIcon style={{ color: grey[50] }} />
+          <ClearIcon />
         }
       />
     );

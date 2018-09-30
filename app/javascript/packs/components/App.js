@@ -6,7 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ApolloProvider, withApollo, Query } from 'react-apollo';
 import { createHttpLink } from 'apollo-link-http';
 
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch, withRouter } from 'react-router-dom';
 import store from '../store.js';
 import apolloClient from '../apolloClient';
 import AppRouter from './AppRouter';
