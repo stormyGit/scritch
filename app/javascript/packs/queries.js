@@ -62,7 +62,7 @@ export const UPDATE_USER = gql`
 `;
 
 export const GET_MEDIA = gql`
-  query Media($q: String, $sort: String, $userId: String, $page: Int!, $per: Int!) {
+  query Media($q: String, $sort: String, $userId: ID, $page: Int!, $per: Int!) {
     media(q: $q, sort: $sort, userId: $userId, page: $page, per: $per) {
       id
       slug
@@ -83,6 +83,33 @@ export const GET_MEDIA = gql`
       }
     }
   }
+`;
+
+export const GET_LIKES_BY_USER = gql`
+query GetLikesByUser($userId: ID!, $page: Int!, $per: Int!) {
+  likesByUser(userId: $userId, page: $page, per: $per) {
+    id
+    medium {
+      id
+      slug
+      title
+      description
+      previewKey
+      thumbnailKey
+      createdAt
+      duration
+      commentsCount
+      likersCount
+      liked
+      user {
+        id
+        slug
+        name
+        avatar
+      }
+    }
+  }
+}
 `;
 
 export const CREATE_COMMENT = gql`

@@ -33,7 +33,7 @@ import { withRouter } from 'react-router-dom'
 
 import queryString from 'query-string';
 
-import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW, UPDATE_USER, GET_SESSION, GET_MEDIA } from '../queries';
+import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW, UPDATE_USER, GET_SESSION, GET_MEDIA, GET_LIKES_BY_USER } from '../queries';
 
 import MediumCard from './MediumCard';
 import EmptyList from './EmptyList';
@@ -58,10 +58,15 @@ const styles = theme => ({
   userProfile: {
     width: '100%',
     position: 'relative',
-    overflow: 'visible'
+    overflow: 'visible',
+    height: BANNER_HEIGHT,
+    alignItems: 'flex-end',
   },
   userProfileGridListTile: {
     overflow: 'visible',
+  },
+  userProfileGridListRoot: {
+    height: '100% !important',
   },
   tabs: {
     paddingLeft: theme.spacing.unit,
@@ -409,7 +414,7 @@ class User extends React.Component {
     let per = 10;
 
     return (
-      <Query query={GET_MEDIA} variables={{ user_id: user.id, page, per }}>
+      <Query query={GET_MEDIA} variables={{ sort: "latest", userId: user.id, page, per }}>
         {({ data, loading, error, fetchMore }) => {
           if (loading || error) {
             return (null);
@@ -480,11 +485,63 @@ class User extends React.Component {
   }
 
   renderLikes(user) {
+    const { width } = this.props;
+    let page = 1;
+    let per = 10;
+
     return (
-      <EmptyList
-        label={`${user.name} doesn't have any likes.`}
-      />
-    )
+      <Query query={GET_LIKES_BY_USER} variables={{ userId: user.id, page, per }}>
+        {({ data, loading, error, fetchMore }) => {
+          if (loading || error) {
+            return (null);
+          }
+
+          if (data.likesByUser.length === 0) {
+            return (
+              <EmptyList
+                label={`${user.name} doesn't have any likes.`}
+              />
+            )
+          }
+
+          return (
+            <React.Fragment>
+              <Grid container spacing={8}>
+                {
+                  data.likesByUser.map((like) => (
+                    <Grid item xs={12} key={like.id}>
+                      <MediumCard medium={like.medium} horizontal={width === 'lg' || width === 'xl'} />
+                    </Grid>
+                  ))
+                }
+                {
+                  ((data.likesByUser.length % per) === 0 && data.likesByUser.length / per === page) &&
+                    <LoadMoreButton
+                      onClick={() => {
+                        page++;
+
+                        fetchMore({
+                          variables: {
+                            page,
+                            per
+                          },
+                          updateQuery: (prev, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) return prev;
+
+                            return Object.assign({}, prev, {
+                              likesByUser: [...prev.likesByUser, ...fetchMoreResult.likesByUser]
+                            });
+                          }
+                        });
+                      }}
+                    />
+                }
+              </Grid>
+            </React.Fragment>
+          );
+        }}
+      </Query>
+    );
   }
 
   renderBanner(banner, slug) {
@@ -515,8 +572,8 @@ class User extends React.Component {
     const { classes, currentSession } = this.props;
 
     return (
-      <GridList cellHeight={BANNER_HEIGHT} cols={1} spacing={0} className={classes.userProfile}>
-        <GridListTile cols={1} classes={{ tile: classes.userProfileGridListTile }}>
+      <GridList cols={1} spacing={0} className={classes.userProfile}>
+        <GridListTile cols={1} classes={{ tile: classes.userProfileGridListTile, root: classes.userProfileGridListRoot }}>
           {
             this.state.edit &&
               <React.Fragment>

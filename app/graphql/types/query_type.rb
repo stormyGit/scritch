@@ -9,7 +9,14 @@ module Types
       description "List media"
       argument :q, String, required: false
       argument :sort, String, required: false
-      argument :user_id, String, required: false
+      argument :user_id, ID, required: false
+      argument :page, Integer, required: true
+      argument :per, Integer, required: true
+    end
+
+    field :likes_by_user, [LikeType], null: false do
+      description "List likes by user"
+      argument :user_id, ID, required: true
       argument :page, Integer, required: true
       argument :per, Integer, required: true
     end
@@ -43,6 +50,10 @@ module Types
       end
 
       medium.page(params[:page]).per(params[:per])
+    end
+
+    def likes_by_user(params = {})
+      Like.where(user_id: params[:user_id]).order(created_at: :desc).page(params[:page]).per(params[:per])
     end
 
     def user(params = {})

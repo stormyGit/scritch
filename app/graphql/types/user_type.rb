@@ -47,7 +47,7 @@ module Types
     end
 
     def likes_count
-      0
+      object.likeds.count
     end
   end
 end

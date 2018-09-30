@@ -79,7 +79,7 @@ class Media extends React.Component {
                       hasMore: ((data.media.length % per) === 0 && data.media.length / per === page),
                       onLoadMore: () => {
                         page++;
-                        console.log(page);
+
                         fetchMore({
                           variables: {
                             page,
