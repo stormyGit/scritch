@@ -143,6 +143,7 @@ export const GET_MEDIUM = gql`
       likersCount
       liked
       createdAt
+      thumbnailKey
       user {
         id
         slug

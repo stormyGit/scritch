@@ -6,6 +6,12 @@ import Hls from 'hls.js';
 import 'mediaelement';
 import 'mediaelement/build/mediaelementplayer.min.css';
 
+import 'mediaelement-plugins/dist/chromecast/chromecast.min.js';
+import 'mediaelement-plugins/dist/chromecast/chromecast.min.css';
+
+import 'mediaelement-plugins/dist/vrview/vrview.min.js';
+import 'mediaelement-plugins/dist/vrview/vrview.min.css';
+
 import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 
@@ -29,7 +35,11 @@ class CardVideo extends React.Component {
     window.Hls = Hls;
 
     this.setState({
-      player: new MediaElementPlayer(this.refs.video, {})
+      player: new MediaElementPlayer(this.refs.video, {
+        features: ['playpause', 'progress', 'duration', 'volume', 'chromecast', 'fullscreen'],
+        vrIsStereo: false,
+        vrDebug: true,
+      })
     });
   }
 
@@ -61,8 +71,12 @@ class CardVideo extends React.Component {
           ref="video"
           className={classes.video}
           height="100%"
+          data-cast-title={medium.title}
+          data-cast-description={medium.description}
+          data-cast-poster={keyToUrl(medium.thumbnailKey)}
+          poster={keyToUrl(medium.thumbnailKey)}
         >
-          <source src={keyToUrl(this.props.medium.key)} />
+          <source src={keyToUrl(medium.key)} />
         </video>
       </div>
     );

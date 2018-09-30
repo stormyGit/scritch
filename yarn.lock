@@ -352,7 +352,7 @@ apollo-link@^1.0.0, apollo-link@^1.0.6, apollo-link@^1.2.2:
     apollo-utilities "^1.0.0"
     zen-observable-ts "^0.8.9"
 
-apollo-link@^1.0.7, apollo-link@^1.2.3:
+apollo-link@^1.2.3:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-1.2.3.tgz#9bd8d5fe1d88d31dc91dae9ecc22474d451fb70d"
   integrity sha512-iL9yS2OfxYhigme5bpTbmRyC+Htt6tyo2fRMHT3K1XRL/C5IQDDz37OjpPy4ndx7WInSvfSZaaOTKFja9VWqSw==
@@ -1615,7 +1615,7 @@ chalk@^2.0.1, chalk@^2.4.1:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-change-emitter@^0.1.2, change-emitter@^0.1.6:
+change-emitter@^0.1.2:
   version "0.1.6"
   resolved "https://registry.yarnpkg.com/change-emitter/-/change-emitter-0.1.6.tgz#e8b2fe3d7f1ab7d69a32199aff91ea6931409515"
   integrity sha1-6LL+PX8at9aaMhma/5HqaTFAlRU=
@@ -4366,7 +4366,15 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
-mediaelement@^4.2.9:
+mediaelement-plugins@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/mediaelement-plugins/-/mediaelement-plugins-2.5.0.tgz#e48b499a57510431bb61a3ec00335f4bc4d1eb25"
+  integrity sha512-MokCToMlroarsOPOrsRcWXM8IGJrSPf2jZrd+Pr3I5xzCFVb9L3VNfq3Ts2MiIaxGZwB5OaWNQ4b1A7Z6zGFug==
+  dependencies:
+    global "^4.3.1"
+    mediaelement "^4.0.7"
+
+mediaelement@^4.0.7, mediaelement@^4.2.9:
   version "4.2.9"
   resolved "https://registry.yarnpkg.com/mediaelement/-/mediaelement-4.2.9.tgz#6ea844f188c0be88127ae825fdb6bd2364a53600"
   integrity sha512-/t+7fJaZQySDjVyLgW/D4axT8s93gn2rHkXVWa31pJnctdaRuL3fX9VL+iMFoi2iZFpTZU9bA+8MPrlr6a7W1w==
@@ -5914,19 +5922,6 @@ q@^1.1.2:
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
 
-qr.js@0.0.0:
-  version "0.0.0"
-  resolved "https://registry.yarnpkg.com/qr.js/-/qr.js-0.0.0.tgz#cace86386f59a0db8050fa90d9b6b0e88a1e364f"
-  integrity sha1-ys6GOG9ZoNuAUPqQ2baw6IoeNk8=
-
-qrcode.react@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/qrcode.react/-/qrcode.react-0.8.0.tgz#413b31cc3b62910e39513f7bead945e01c4c34fb"
-  integrity sha512-16wKpuFvLwciIq2YAsfmPUCnSR8GrYPsXRK5KVdcIuX0+W/MKZbBkFhl44ttRx4TWZHqRjfztoWOxdPF0Hb9JA==
-  dependencies:
-    prop-types "^15.6.0"
-    qr.js "0.0.0"
-
 qs@6.5.1:
   version "6.5.1"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
@@ -6028,15 +6023,6 @@ react-activestorage-provider@^0.3.0:
   integrity sha512-C9KlM8wG4Fz7ETbwcXElOdRTqQtHmk08WGt/Df4AEv1sX4B24FMqZPARq1RGwBbE20YfF2qasacxlBzu4BSV8Q==
   dependencies:
     activestorage "^5.2.0"
-
-react-apollo-network-status@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/react-apollo-network-status/-/react-apollo-network-status-1.1.0.tgz#5b7174353b5ee378ab5fa3330a385fd836a06134"
-  integrity sha512-InMb0F4d2EtVH+xj015376z8kuJuaJcrmqLCEq/CnpGhdlA3wIqoKx8noMbuih0xSM4mvP9OBOFmfNK53XCK8A==
-  dependencies:
-    apollo-link "^1.0.7"
-    change-emitter "^0.1.6"
-    prop-types "^15.6.0"
 
 react-apollo@^2.1.11:
   version "2.1.11"
@@ -6317,16 +6303,6 @@ redux-form@^7.4.2:
     lodash-es "^4.17.10"
     prop-types "^15.6.1"
     react-lifecycles-compat "^3.0.4"
-
-redux-persist@^5.10.0:
-  version "5.10.0"
-  resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-5.10.0.tgz#5d8d802c5571e55924efc1c3a9b23575283be62b"
-  integrity sha512-sSJAzNq7zka3qVHKce1hbvqf0Vf5DuTVm7dr4GtsqQVOexnrvbV47RWFiPxQ8fscnyiuWyD2O92DOxPl0tGCRg==
-
-redux-thunk@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.3.0.tgz#51c2c19a185ed5187aaa9a2d08b666d0d6467622"
-  integrity sha512-km6dclyFnmcvxhAcrQV2AkZmPQjzPDjgVlQtR0EQjxZPyJ0BnMf3in1ryuR8A2qU0HldVRfxYXbFSKlI3N7Slw==
 
 redux@^4.0.0:
   version "4.0.0"
