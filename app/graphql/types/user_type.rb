@@ -12,6 +12,8 @@ module Types
 
     field :followed, Boolean, null: false
     field :following, Boolean, null: false
+
+    field :media_count, Integer, null: false
     field :followers_count, Integer, null: false
     field :following_count, Integer, null: false
     field :likes_count, Integer, null: false
@@ -30,6 +32,10 @@ module Types
 
     def following
       context[:current_user].present? && object.following?(context[:current_user])
+    end
+
+    def media_count
+      object.published_media.count
     end
 
     def followers_count

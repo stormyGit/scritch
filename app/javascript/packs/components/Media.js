@@ -5,23 +5,27 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import queryString from 'query-string';
 import withWidth from '@material-ui/core/withWidth';
+import Button from '@material-ui/core/Button';
 
 import { GET_MEDIA } from '../queries';
 
 import AppLayout from './AppLayout';
 import MediumCard from './MediumCard';
 import EmptyList from './EmptyList';
+import LoadMoreButton from './LoadMoreButton';
 
 const styles = theme => ({
   root: {
     width: '100%',
     padding: theme.spacing.unit * 1,
     paddingRight: 0
-  },
+  }
 });
 
 class Media extends React.Component {
-  renderResults({ data, horizontal }) {
+  renderResults({ data, horizontal, onLoadMore }) {
+    const { classes } = this.props;
+
     if (data.media.length === 0) {
       const { location } = this.props;
       const query = queryString.parse(location.search)
@@ -43,24 +47,54 @@ class Media extends React.Component {
     }
 
     return (
-      data.media.map((medium) => (
-        <Grid item xs={12} md={6} lg={4} key={medium.id}>
-          <MediumCard medium={medium} />
-        </Grid>
-      ))
+      <React.Fragment>
+        {
+          data.media.map((medium) => (
+            <Grid item xs={12} md={6} lg={4} key={medium.id}>
+              <MediumCard medium={medium} />
+            </Grid>
+          ))
+        }
+        <LoadMoreButton onClick={() => onLoadMore()} />
+      </React.Fragment>
     );
   }
 
   render() {
     const { classes, location, width } = this.props;
     const query = queryString.parse(location.search)
+    let page = 1;
+    let per = 30;
 
     return (
-      <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort }}>
-        {({ data, loading, error }) => (
+      <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, page, per }}>
+        {({ data, loading, error, fetchMore }) => (
           <React.Fragment>
             <Grid container className={classes.root} spacing={8}>
-              {!loading && this.renderResults({ data, horizontal: (query.q && query.q.length > 0 && width === 'lg' || width === 'xl') })}
+              {
+                  !loading && !error &&
+                    this.renderResults({
+                      data,
+                      horizontal: (query.q && query.q.length > 0 && width === 'lg' || width === 'xl'),
+                      onLoadMore: () => {
+                        page++;
+
+                        fetchMore({
+                          variables: {
+                            page,
+                            per
+                          },
+                          updateQuery: (prev, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) return prev;
+
+                            return Object.assign({}, prev, {
+                              media: [...prev.media, ...fetchMoreResult.media]
+                            });
+                          }
+                        });
+                      }
+                    })
+              }
             </Grid>
           </React.Fragment>
         )}

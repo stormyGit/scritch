@@ -33,13 +33,14 @@ import { withRouter } from 'react-router-dom'
 
 import queryString from 'query-string';
 
-import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW, UPDATE_USER, GET_SESSION } from '../queries';
+import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW, UPDATE_USER, GET_SESSION, GET_MEDIA } from '../queries';
 
 import MediumCard from './MediumCard';
 import EmptyList from './EmptyList';
 import UserAvatar from './UserAvatar';
 import ProfileAvatar from './ProfileAvatar';
 import PageTitle from './PageTitle';
+import LoadMoreButton from './LoadMoreButton';
 import BannerPlaceholder from './BannerPlaceholder';
 import withCurrentSession from './withCurrentSession';
 
@@ -402,26 +403,60 @@ class User extends React.Component {
     );
   }
 
-  renderVideos(user) {
+  renderMedia(user) {
     const { width } = this.props;
+    let page = 1;
+    let per = 10;
 
-    if (user.publishedMedia.length === 0) {
-      return (
-        <EmptyList
-          label={`${user.name} doesn't have any videos.`}
-        />
-      )
-    }
     return (
-      <Grid container spacing={8}>
-        {
-          user.publishedMedia.map((medium) => (
-            <Grid item xs={12} key={medium.id}>
-              <MediumCard medium={medium} horizontal={width === 'lg' || width === 'xl'} />
-            </Grid>
-          ))
-        }
-      </Grid>
+      <Query query={GET_MEDIA} variables={{ user_id: user.id, page, per }}>
+        {({ data, loading, error, fetchMore }) => {
+          if (loading || error) {
+            return (null);
+          }
+
+          if (data.media.length === 0) {
+            return (
+              <EmptyList
+                label={`${user.name} doesn't have any videos.`}
+              />
+            )
+          }
+
+          return (
+            <React.Fragment>
+              <Grid container spacing={8}>
+                {
+                  data.media.map((medium) => (
+                    <Grid item xs={12} key={medium.id}>
+                      <MediumCard medium={medium} horizontal={width === 'lg' || width === 'xl'} />
+                    </Grid>
+                  ))
+                }
+                <LoadMoreButton
+                  onClick={() => {
+                    page++;
+
+                    fetchMore({
+                      variables: {
+                        page,
+                        per
+                      },
+                      updateQuery: (prev, { fetchMoreResult }) => {
+                        if (!fetchMoreResult) return prev;
+
+                        return Object.assign({}, prev, {
+                          media: [...prev.media, ...fetchMoreResult.media]
+                        });
+                      }
+                    });
+                  }}
+                />
+              </Grid>
+            </React.Fragment>
+          );
+        }}
+      </Query>
     );
   }
 
@@ -711,7 +746,7 @@ class User extends React.Component {
                         >
                           <Tab
                             value="videos"
-                            label={data.user.publishedMedia.length}
+                            label={data.user.mediaCount}
                             icon="Videos"
                           />
                           <Tab
@@ -735,16 +770,12 @@ class User extends React.Component {
                       </Grid>
                     </Grid>
                   </Paper>
-                  <Grid container className={classes.root} spacing={8}>
-                    <Grid item xs lg>
-                    </Grid>
+                  <Grid container className={classes.root} spacing={8} justify="center">
                     <Grid item item xs={12} lg={8}>
-                    {this.state.tab === 'videos' && this.renderVideos(data.user)}
-                    {this.state.tab === 'following' && this.renderFollowing(data.user)}
-                    {this.state.tab === 'followers' && this.renderFollowers(data.user)}
-                    {this.state.tab === 'likes' && this.renderLikes(data.user)}
-                    </Grid>
-                    <Grid item xs lg>
+                      {this.state.tab === 'videos' && this.renderMedia(data.user)}
+                      {this.state.tab === 'following' && this.renderFollowing(data.user)}
+                      {this.state.tab === 'followers' && this.renderFollowers(data.user)}
+                      {this.state.tab === 'likes' && this.renderLikes(data.user)}
                     </Grid>
                   </Grid>
                 </React.Fragment>

@@ -9,6 +9,9 @@ module Types
       description "List media"
       argument :q, String, required: false
       argument :sort, String, required: false
+      argument :user_id, String, required: false
+      argument :page, Integer, required: true
+      argument :per, Integer, required: true
     end
 
     field :user, UserType, null: false do
@@ -35,7 +38,11 @@ module Types
         medium = medium.order(created_at: :desc)
       end
 
-      medium
+      if params[:user_id].present?
+        medium = medium.where(user_id: params[:user_id])
+      end
+
+      medium.page(params[:page]).per(params[:per])
     end
 
     def user(params = {})
