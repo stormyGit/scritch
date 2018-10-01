@@ -6,31 +6,31 @@ import DefaultAvatar from './DefaultAvatar';
 
 import { withStyles } from '@material-ui/core/styles';
 
+const DEFAULT_SIZE = 64;
+
 const styles = theme => ({
   paper: {
     backgroundColor: 'black',
     border: '2px solid white',
     borderRadius: '100%',
-    width: 64,
-    height: 64,
     overflow: 'hidden'
   },
   avatar: {
     fontSize: 30,
-    width: 60,
-    height: 60,
   }
 });
 
 class ProfileAvatar extends React.Component {
   render() {
-    const { avatar, slug, classes, className } = this.props;
+    const { avatar, slug, classes, className, size } = this.props;
+    const effectiveSize = size || DEFAULT_SIZE;
+
     return (
       <div className={className}>
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} style={{ width: effectiveSize, height: effectiveSize}}>
           {avatar ?
-            <Avatar src={avatar} className={classes.avatar} /> :
-            <DefaultAvatar className={classes.avatar} text={slug} size={56} key="avatar" />}
+            <Avatar src={avatar} className={classes.avatar} style={{ width: effectiveSize - 4, height: effectiveSize - 4}} /> :
+            <DefaultAvatar className={classes.avatar} text={slug} size={effectiveSize - 4} key="avatar" />}
         </Paper>
       </div>
     );

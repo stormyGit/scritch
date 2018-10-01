@@ -17,12 +17,6 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import TextField from '@material-ui/core/TextField';
 import withWidth from '@material-ui/core/withWidth';
 
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
@@ -42,6 +36,7 @@ import ProfileAvatar from './ProfileAvatar';
 import PageTitle from './PageTitle';
 import LoadMoreButton from './LoadMoreButton';
 import BannerPlaceholder from './BannerPlaceholder';
+import EditProfileDialog from './EditProfileDialog';
 import withCurrentSession from './withCurrentSession';
 
 const BANNER_HEIGHT = '33vw';
@@ -92,29 +87,8 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
   },
-  userColumn: {
-    minWidth: 200
-  },
   followButton: {
     width: 132
-  },
-  bannerMenu: {
-    zIndex: 2,
-  },
-  editBannerButton: {
-    width: '100%',
-    height: `calc(${BANNER_HEIGHT} - ${theme.spacing.unit * 10}px)`,
-    position: 'absolute',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    zIndex: 1,
-    borderRadius: 0,
-  },
-  editAvatarButton: {
-    position: 'absolute',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    zIndex: 1,
-    height: 64,
-    borderRadius: 32
   },
   placeholderBanner: {
     width: '100%',
@@ -123,35 +97,10 @@ const styles = theme => ({
   bannerImageWide: {
     top: '-50%'
   },
-  editBannerIcon: {
-    display: 'block',
-    fontSize: '4em',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginBottom: theme.spacing.unit,
-    color: "white"
-  },
-  bioField: {
-    marginLeft: theme.spacing.unit * 2,
-  },
   menuButton: {
     paddingLeft: theme.spacing.unit * 4,
     paddingRight: theme.spacing.unit * 4,
     justifyContent: 'center'
-  },
-  uploadInput: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    left: 0,
-    bottom: 0,
-    margin: 0,
-    padding: 0,
-    opacity: 0
-  },
-  cancelEditButton: {
-    marginRight: theme.spacing.unit,
-    color: "white"
   },
   infoText: {
     color: 'white'
@@ -162,19 +111,7 @@ class User extends React.Component {
   state = {
     tab: 'videos',
     showUnfollow: false,
-    edit: false,
-    name: '',
-    bio: '',
-    banner: null,
-    avatar: null,
-    bannerMenu: false,
-    avatarMenu: false,
-  }
-
-  constructor(props) {
-    super(props);
-    this.bannerUploadInput = React.createRef();
-    this.avatarUploadInput = React.createRef();
+    editProfileDialog: false,
   }
 
   componentDidMount() {
@@ -264,144 +201,25 @@ class User extends React.Component {
   renderEditButton(user) {
     const { classes } = this.props;
 
-    if (this.state.edit) {
-      return (
-        <React.Fragment>
-          <Button
-            variant="outlined"
-            size="large"
-            className={classes.cancelEditButton}
-            onClick={() => {
-              this.setState({
-                edit: false,
-                banner: null,
-                name: '',
-                bio: ''
-              })
-            }}
-          >
-            Cancel
-          </Button>
-          <Mutation
-            mutation={UPDATE_USER}
-            update={(cache, { data: { updateUser } }) => {
-              const { session } = cache.readQuery({ query: GET_SESSION });
-              cache.writeQuery({
-                query: GET_SESSION,
-                data: { session: { ...session, user: updateUser.user } }
-              });
-            }}
-          >
-            {( updateUser, { data }) => (
-              <Button
-                variant="contained"
-                size="large"
-                color={"primary"}
-                onClick={() => {
-                  updateUser({
-                    variables: {
-                      input: {
-                        id: user.id,
-                        name: this.state.name,
-                        bio: this.state.bio,
-                        banner: this.state.banner,
-                        avatar: this.state.avatar,
-                        removeBanner: this.state.removeBanner,
-                        removeAvatar: this.state.removeAvatar,
-                      }
-                    }
-                  }).then(() => {
-                    this.setState({ edit: false });
-                  })
-                }}
-              >
-                Save
-              </Button>
-            )}
-          </Mutation>
-        </React.Fragment>
-      );
-    } else {
-      return (
-        <Button
-          variant="contained"
-          size="large"
-          onClick={() => {
-            this.setState({
-              edit: true,
-              name: user.name,
-              bio: user.bio || '',
-              banner: user.banner,
-              avatar: user.avatar,
-              removeAvatar: false,
-              removeBanner: false,
-            })
-          }}
-        >
-          Edit profile
-        </Button>
-      );
-    }
+    return (
+      <Button
+        variant="contained"
+        size="large"
+        onClick={() => this.setState({ editProfileDialog: true })}
+      >
+        Edit profile
+      </Button>
+    );
   }
 
   renderEditFab(user) {
     const { classes } = this.props;
 
-    if (this.state.edit) {
-      return (
-        <Mutation
-          mutation={UPDATE_USER}
-          update={(cache, { data: { updateUser } }) => {
-            const { session } = cache.readQuery({ query: GET_SESSION });
-            cache.writeQuery({
-              query: GET_SESSION,
-              data: { session: { ...session, user: updateUser.user } }
-            });
-          }}
-        >
-          {( updateUser, { data }) => (
-            <Button
-              variant="fab"
-              className={classes.editFab}
-              onClick={() => {
-                updateUser({
-                  variables: {
-                    input: {
-                      id: user.id,
-                      name: this.state.name,
-                      bio: this.state.bio,
-                      banner: this.state.banner,
-                      avatar: this.state.avatar,
-                      removeBanner: this.state.removeBanner,
-                      removeAvatar: this.state.removeAvatar,
-                    }
-                  }
-                }).then(() => {
-                  this.setState({ edit: false });
-                })
-              }}
-            >
-              <CheckIcon />
-            </Button>
-          )}
-        </Mutation>
-      );
-    }
     return (
       <Button
         variant="fab"
         className={classes.editFab}
-        onClick={() => {
-          this.setState({
-            edit: true,
-            name: user.name,
-            bio: user.bio || '',
-            banner: user.banner,
-            avatar: user.avatar,
-            removeAvatar: false,
-            removeBanner: false,
-          })
-        }}
+        onClick={() => this.setState({ editProfileDialog: true })}
       >
         <EditIcon />
       </Button>
@@ -574,179 +392,20 @@ class User extends React.Component {
     return (
       <GridList cols={1} spacing={0} className={classes.userProfile}>
         <GridListTile cols={1} classes={{ tile: classes.userProfileGridListTile, root: classes.userProfileGridListRoot }}>
-          {
-            this.state.edit &&
-              <React.Fragment>
-                <Button
-                  className={classes.editBannerButton}
-                  onClick={() => this.setState({ bannerMenu: true })}
-                >
-                  <div id="uploadBannerButton" className={classes.infoText}>
-                    <InsertPhotoIcon className={classes.editBannerIcon} />
-                    Change banner
-                  </div>
-                </Button>
-                <Popper open={this.state.bannerMenu} anchorEl={document.getElementById("uploadBannerButton")} transition disablePortal className={classes.bannerMenu}>
-                  {({ TransitionProps, placement }) => (
-                    <Grow
-                      {...TransitionProps}
-                      id="menu-list-grow"
-                      style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                    >
-                      <Paper>
-                        <ClickAwayListener onClickAway={() => this.setState({ bannerMenu: false })}>
-                          <MenuList disablePadding>
-                            <MenuItem
-                              className={classes.menuButton}
-                              onClick={() => {
-                                this.bannerUploadInput.current.click();
-                                this.setState({ bannerMenu: false })
-                              }}
-                            >
-                              Upload picture
-                            </MenuItem>
-                            <MenuItem
-                              className={classes.menuButton}
-                              onClick={() => {
-                                this.setState({ banner: null, removeBanner: true, bannerMenu: false });
-                              }}
-                            >
-                              Remove
-                            </MenuItem>
-                            <Divider />
-                            <MenuItem
-                              className={classes.menuButton}
-                              onClick={() => this.setState({ bannerMenu: false })}
-                            >
-                              Cancel
-                            </MenuItem>
-                          </MenuList>
-                        </ClickAwayListener>
-                      </Paper>
-                    </Grow>
-                  )}
-                </Popper>
-                <input
-                  className={classes.uploadInput}
-                  ref={this.bannerUploadInput}
-                  type="file"
-                  onChange={(e) => {
-                    var reader = new FileReader();
-                    reader.readAsDataURL(e.target.files[0]);
-                    reader.onload = () => {
-                      this.setState({ banner: reader.result, removeBanner: false });
-                    };
-                  }}
-                />
-              </React.Fragment>
-          }
-          {
-            this.state.edit ? this.renderBanner(this.state.banner, user.slug) : this.renderBanner(user.banner, user.slug)
-          }
+          {this.renderBanner(user.banner, user.slug)}
            <GridListTileBar
              className={classes.titleBar}
              title={
                <div className={classes.titleBarContainer}>
                 <div className={classes.titleBarContainerUserInfo}>
-                    {
-                      this.state.edit &&
-                        <React.Fragment>
-                          <Button
-                            className={classes.editAvatarButton}
-                            onClick={() => this.setState({ avatarMenu: true })}
-                          >
-                            <div id="uploadAvatarButton">
-                              <InsertPhotoIcon />
-                            </div>
-                          </Button>
-                          <Popper open={this.state.avatarMenu} anchorEl={document.getElementById("uploadAvatarButton")} transition disablePortal className={classes.bannerMenu}>
-                            {({ TransitionProps, placement }) => (
-                              <Grow
-                                {...TransitionProps}
-                                id="menu-list-grow"
-                                style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                              >
-                                <Paper>
-                                  <ClickAwayListener onClickAway={() => this.setState({ avatarMenu: false })}>
-                                    <MenuList disablePadding>
-                                      <MenuItem
-                                        className={classes.menuButton}
-                                        onClick={() => {
-                                          this.avatarUploadInput.current.click();
-                                          this.setState({ avatarMenu: false })
-                                        }}
-                                      >
-                                        Upload picture
-                                      </MenuItem>
-                                      <MenuItem
-                                        className={classes.menuButton}
-                                        onClick={() => {
-                                          this.setState({ avatar: null, removeAvatar: true, avatarMenu: false });
-                                        }}
-                                      >
-                                        Remove
-                                      </MenuItem>
-                                      <Divider />
-                                      <MenuItem
-                                        className={classes.menuButton}
-                                        onClick={() => this.setState({ avatarMenu: false })}
-                                      >
-                                        Cancel
-                                      </MenuItem>
-                                    </MenuList>
-                                  </ClickAwayListener>
-                                </Paper>
-                              </Grow>
-                            )}
-                          </Popper>
-                          <input
-                            className={classes.uploadInput}
-                            ref={this.avatarUploadInput}
-                            type="file"
-                            onChange={(e) => {
-                              var reader = new FileReader();
-                              reader.readAsDataURL(e.target.files[0]);
-                              reader.onload = () => {
-                                this.setState({ avatar: reader.result, removeAvatar: false });
-                              };
-                            }}
-                          />
-                        </React.Fragment>
-                    }
-                   {
-                     this.state.edit ?
-                       <ProfileAvatar avatar={this.state.avatar} slug={user.slug} className={classes.userAvatar} /> :
-                       <ProfileAvatar avatar={user.avatar} slug={user.slug} className={classes.userAvatar} />
-                   }
-                   <div>
-                    {
-                      this.state.edit ?
-                        <TextField
-                          label="Name"
-                          name="name"
-                          value={this.state.name}
-                          onChange={(e) => this.setState({ name: e.target.value })}
-                          margin="dense"
-                        /> :
-                        <Typography variant="title" className={classes.infoText}>
-                         {user.name}
-                        </Typography>
-                    }
-                    {
-                      this.state.edit ?
-                        <TextField
-                          label="Bio"
-                          name="bio"
-                          value={this.state.bio}
-                          onChange={(e) => this.setState({ bio: e.target.value })}
-                          margin="dense"
-                          className={classes.bioField}
-                          fullWidth
-                        /> :
-                        <Typography variant="body2" noWrap className={classes.infoText}>
-                         {user.bio}
-                       </Typography>
-                    }
+                  <ProfileAvatar avatar={user.avatar} slug={user.slug} className={classes.userAvatar} />
+                  <div>
+                    <Typography variant="title" className={classes.infoText}>
+                      {user.name}
+                    </Typography>
+                    <Typography variant="body2" noWrap className={classes.infoText}>
+                      {user.bio}
+                    </Typography>
                   </div>
                 </div>
                 <Hidden mdDown>
@@ -838,6 +497,11 @@ class User extends React.Component {
                       {this.state.tab === 'likes' && this.renderLikes(data.user)}
                     </Grid>
                   </Grid>
+                  <EditProfileDialog
+                    user={data.user}
+                    open={this.state.editProfileDialog}
+                    onClose={() => this.setState({ editProfileDialog: false })}
+                  />
                 </React.Fragment>
             }
           </React.Fragment>

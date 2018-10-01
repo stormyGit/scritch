@@ -16,7 +16,7 @@ const UserAvatar = ({ user, classes }) => (
   <div>
     {user.avatar ?
       <Avatar src={user.avatar} className={classes.avatar} /> :
-      <DefaultAvatar text={user.slug} size={56} key="avatar" />}
+      <DefaultAvatar text={user.slug} size={42} key="avatar" />}
   </div>
 )
 
