@@ -45,6 +45,16 @@ export const DELETE_USER = gql`
   }
 `;
 
+export const DELETE_MEDIUM = gql`
+  mutation deleteMedium($input: DeleteMediumInput!) {
+    deleteMedium(input: $input) {
+      medium {
+        id
+      }
+    }
+  }
+`;
+
 export const UPDATE_USER = gql`
   mutation updateUser($input: UpdateUserInput!) {
     updateUser(input: $input) {
@@ -56,6 +66,58 @@ export const UPDATE_USER = gql`
         banner
         bio
         theme
+      }
+    }
+  }
+`;
+
+export const UPDATE_MEDIUM = gql`
+  mutation updateMedium($input: UpdateMediumInput!) {
+    updateMedium(input: $input) {
+      medium {
+        id
+        slug
+        title
+        description
+        key
+        duration
+        commentsCount
+        likersCount
+        liked
+        createdAt
+        thumbnailKey
+        user {
+          id
+          slug
+          name
+          avatar
+        }
+        comments {
+          id
+          body
+          createdAt
+          user {
+            id
+            slug
+            name
+            avatar
+          }
+        }
+        relatedMedia {
+          id
+          slug
+          title
+          description
+          thumbnailKey
+          previewKey
+          duration
+          createdAt
+          user {
+            id
+            slug
+            name
+          }
+        }
       }
     }
   }

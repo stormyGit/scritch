@@ -335,7 +335,7 @@ class EditProfileDialog extends React.Component {
           >
             {( updateUser, { data }) => (
               <Button
-                color="primary"
+                disabled={!this.state.name || /^\s*$/.test(this.state.name)}
                 onClick={() => {
                   updateUser({
                     variables: {

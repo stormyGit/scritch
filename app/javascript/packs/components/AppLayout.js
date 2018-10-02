@@ -82,6 +82,7 @@ const styles = theme => ({
     lineHeight: '36px',
     flexShrink: 0,
     transition: "max-width 0.5s ease",
+    maxWidth: "calc(100vw - 128px)"
   },
   toolBar: {
     display: 'flex',
@@ -209,7 +210,7 @@ class AppLayout extends React.Component {
                           data.pageTitle &&
                             <React.Fragment>
                               <div className={classes.separator} />
-                              <Typography variant="headline" className={classes.pageTitle} component="div">
+                              <Typography variant="headline" className={classes.pageTitle} component="div" noWrap>
                                 {data.pageTitle}
                               </Typography>
                             </React.Fragment>

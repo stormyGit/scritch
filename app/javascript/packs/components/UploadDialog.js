@@ -161,6 +161,7 @@ class UploadDialog extends React.Component {
             fullWidth
             multiline
             rows={4}
+            rowsMax={12}
           />
           <DialogContentText variant="body2" className={classes.moderationExplanation}>
             After you submit a video it will be reviewed by our team of moderators.

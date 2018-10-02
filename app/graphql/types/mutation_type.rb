@@ -10,5 +10,7 @@ module Types
     field :delete_session, mutation: Mutations::DeleteSession
     field :delete_user, mutation: Mutations::DeleteUser
     field :update_user, mutation: Mutations::UpdateUser
+    field :delete_medium, mutation: Mutations::DeleteMedium
+    field :update_medium, mutation: Mutations::UpdateMedium
   end
 end

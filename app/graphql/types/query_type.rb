@@ -35,21 +35,21 @@ module Types
     end
 
     def media(params = {})
-      medium = Medium.joins(:video_encoding_job).where("chronofage_jobs.completed_at IS NOT NULL AND chronofage_jobs.failed_at IS NULL")
+      media = Medium.where.not(key: nil)
 
       if params[:q].present?
-        medium = medium.where("media.title @@ ?", params[:q])
+        media = media.where("media.title @@ ?", params[:q])
       end
 
       if params[:sort] == 'latest'
-        medium = medium.order(created_at: :desc)
+        media = media.order(created_at: :desc)
       end
 
       if params[:user_id].present?
-        medium = medium.where(user_id: params[:user_id])
+        media = media.where(user_id: params[:user_id])
       end
 
-      medium.page(params[:page]).per(params[:per])
+      media.page(params[:page]).per(params[:per])
     end
 
     def likes_by_user(params = {})

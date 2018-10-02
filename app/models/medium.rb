@@ -22,7 +22,7 @@ class Medium < ApplicationRecord
   end
 
   def related_media
-    Medium.joins(:video_encoding_job).where("chronofage_jobs.completed_at IS NOT NULL AND chronofage_jobs.failed_at IS NULL").limit(10)
+    Medium.where.not(key: nil).limit(10)
   end
 
   def send_moderation_notification

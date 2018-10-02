@@ -25,6 +25,8 @@ import CardVideo from './CardVideo';
 import CommentForm from './CommentForm';
 import FormattedText from './FormattedText';
 import LikeButton from './LikeButton';
+import EditMediumDialog from './EditMediumDialog';
+import withCurrentSession from './withCurrentSession';
 
 const styles = theme => ({
   container: {
@@ -44,6 +46,9 @@ const styles = theme => ({
     paddingRight: 0,
   },
   text: {
+  },
+  mediumTitle: {
+    maxWidth: "50vw"
   },
   comment: {
     paddingTop: theme.spacing.unit * 2,
@@ -66,6 +71,10 @@ const styles = theme => ({
 });
 
 class Medium extends React.Component {
+  state = {
+    editMedium: false
+  }
+
   renderCommentsCount(count) {
     if (count === 0) {
       return (`No comments`);
@@ -77,7 +86,7 @@ class Medium extends React.Component {
   }
 
   render() {
-    const { classes, match } = this.props;
+    const { classes, match, currentSession } = this.props;
 
     return (
       <Query query={GET_MEDIUM} variables={{ id: match.params.id }}>
@@ -93,7 +102,7 @@ class Medium extends React.Component {
                       <CardContent>
                         <Grid container spacing={8} justify="space-between" className={classes.videoInfo}>
                           <Grid item>
-                            <Typography gutterBottom variant="headline" component="h2" className={classes.text}>
+                            <Typography gutterBottom variant="headline" component="h2" className={classes.mediumTitle} noWrap>
                               {medium.title}
                             </Typography>
                           </Grid>
@@ -102,16 +111,31 @@ class Medium extends React.Component {
                           </Grid>
                         </Grid>
                         <Divider />
-                        <CardHeader
-                          className={classes.userInfo}
-                          avatar={
-                            <Link to={`/${medium.user.slug}`} className={classes.userLink}>
-                              <UserAvatar user={medium.user} />
-                            </Link>
+                        <Grid container spacing={0} justify="space-between" alignItems="center">
+                          <Grid item>
+                            <CardHeader
+                              className={classes.userInfo}
+                              avatar={
+                                <Link to={`/${medium.user.slug}`} className={classes.userLink}>
+                                  <UserAvatar user={medium.user} />
+                                </Link>
+                              }
+                              title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}
+                              subheader={timeAgo.format(new Date(medium.createdAt))}
+                            />
+                          </Grid>
+                          {
+                            currentSession && medium.user.id === currentSession.user.id &&
+                              <Grid item>
+                                <Button
+                                  onClick={() => this.setState({ editMedium: true })}
+                                  variant="outlined"
+                                >
+                                  Edit video
+                                </Button>
+                              </Grid>
                           }
-                          title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}
-                          subheader={timeAgo.format(new Date(medium.createdAt))}
-                        />
+                        </Grid>
                         <Typography component="p" className={classes.text}>
                           {medium.description || 'No description'}
                         </Typography>
@@ -156,6 +180,11 @@ class Medium extends React.Component {
                     </Grid>
                   </Grid>
                 </Card>
+                <EditMediumDialog
+                  open={this.state.editMedium}
+                  onClose={() => this.setState({ editMedium: false })}
+                  medium={medium}
+                />
               </div>
           );
         }}
@@ -164,4 +193,4 @@ class Medium extends React.Component {
   }
 }
 
-export default withStyles(styles)(Medium);
+export default withStyles(styles)(withCurrentSession(Medium));

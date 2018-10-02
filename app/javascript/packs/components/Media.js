@@ -67,7 +67,7 @@ class Media extends React.Component {
     let per = 30;
 
     return (
-      <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, page, per }}>
+      <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, page, per }} fetchPolicy="no-cache">
         {({ data, loading, error, fetchMore }) => (
           <React.Fragment>
             <Grid container className={classes.root} spacing={8}>
