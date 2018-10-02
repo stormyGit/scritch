@@ -232,7 +232,7 @@ class User extends React.Component {
     let per = 10;
 
     return (
-      <Query query={GET_MEDIA} variables={{ sort: "latest", userId: user.id, page, per }} fetchPolicy="no-cache">
+      <Query query={GET_MEDIA} variables={{ sort: "latest", userId: user.id, page, per }}>
         {({ data, loading, error, fetchMore }) => {
           if (loading || error) {
             return (null);

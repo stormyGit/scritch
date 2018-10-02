@@ -7,6 +7,7 @@ import Trending from './Trending';
 import Subscriptions from './Subscriptions';
 import User from './User';
 import AppLayout from './AppLayout';
+import TransitionGroup from "react-transition-group/TransitionGroup";
 
 class AppRouter extends React.Component {
   render() {
