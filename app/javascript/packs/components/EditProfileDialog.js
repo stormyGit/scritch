@@ -53,7 +53,8 @@ const styles = theme => ({
     zIndex: 1,
     width: AVATAR_SIZE,
     height: AVATAR_SIZE,
-    borderRadius: AVATAR_SIZE
+    borderRadius: AVATAR_SIZE,
+    color: "white"
   },
   menuButton: {
     paddingLeft: theme.spacing.unit * 4,
@@ -78,7 +79,9 @@ const styles = theme => ({
     top: '-50%'
   },
   avatarContainer: {
-    paddingTop: theme.spacing.unit * 4
+    // paddingTop: theme.spacing.unit * 4
+    marginTop: AVATAR_SIZE / -2 + theme.spacing.unit,
+    zIndex: 2,
   },
   editBannerIcon: {
     display: 'block',
@@ -88,7 +91,9 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit,
     color: "white"
   },
-
+  infoText: {
+    color: 'white'
+  }
 });
 
 class EditProfileDialog extends React.Component {

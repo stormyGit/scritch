@@ -137,7 +137,6 @@ class UploadDialog extends React.Component {
         open={this.props.open}
         onClose={this.props.onClose}
       >
-        <DialogTitle>Upload video</DialogTitle>
         <DialogContent>
           <Field
             component={DropZoneFieldWithStyle}

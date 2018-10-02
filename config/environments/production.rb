@@ -101,6 +101,8 @@ Rails.application.configure do
     :authentication => :plain,
   }
 
+  routes.default_url_options = { host: ENV["DOMAIN"], protocol: 'https' }
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end
