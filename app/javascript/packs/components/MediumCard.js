@@ -62,7 +62,7 @@ const styles = theme => ({
     marginRight: theme.spacing.unit
   },
   content: {
-  }
+  },
 });
 
 class MediumCard extends React.Component {
@@ -131,22 +131,30 @@ class MediumCard extends React.Component {
 
     return (
       <CardActions>
-        <Grid container spacing={8}>
+        <Grid container spacing={8} justify="space-between">
           <Grid item>
-            <Button
-              disabled
-              size="small"
-              color="secondary"
-            >
-              <CommentIcon className={classes.leftIcon} />
-              {this.renderCommentsCount(medium.commentsCount)}
-            </Button>
+            <Grid container spacing={0}>
+              <Grid item>
+                <Button
+                  disabled
+                  size="small"
+                  color="secondary"
+                >
+                  <CommentIcon className={classes.leftIcon} />
+                  {this.renderCommentsCount(medium.commentsCount)}
+                </Button>
+              </Grid>
+              <Grid item>
+                <LikeButton
+                  disabled
+                  medium={medium}
+                />
+              </Grid>
+            </Grid>
           </Grid>
           <Grid item>
-            <LikeButton
-              disabled
-              medium={medium}
-            />
+
+
           </Grid>
         </Grid>
       </CardActions>

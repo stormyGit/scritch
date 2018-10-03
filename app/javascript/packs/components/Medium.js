@@ -27,6 +27,9 @@ import FormattedText from './FormattedText';
 import LikeButton from './LikeButton';
 import EditMediumDialog from './EditMediumDialog';
 import withCurrentSession from './withCurrentSession';
+import SocialButton from './SocialButton';
+import TwitterIcon from '../icons/Twitter';
+import TelegramIcon from '../icons/Telegram';
 
 const styles = theme => ({
   container: {
@@ -67,6 +70,11 @@ const styles = theme => ({
   },
   leftIcon: {
     marginRight: theme.spacing.unit
+  },
+  socialButton: {
+    color: theme.palette.text.primary,
+    padding: theme.spacing.unit,
+    minWidth: 36,
   }
 });
 
@@ -107,6 +115,28 @@ class Medium extends React.Component {
                             </Typography>
                           </Grid>
                           <Grid item>
+                            <SocialButton
+                              name="Twitter"
+                              url="https://twitter.com/intent/tweet/"
+                              params={{
+                                text: medium.title,
+                                url: window.location.href
+                              }}
+                              className={classes.socialButton}
+                            >
+                              <TwitterIcon fontSize={'inherit'} />
+                            </SocialButton>
+                            <SocialButton
+                              name="Telegram"
+                              className={classes.socialButton}
+                              url="https://telegram.me/share/url"
+                              params={{
+                                text: medium.title,
+                                url: window.location.href
+                              }}
+                            >
+                              <TelegramIcon fontSize={'inherit'} />
+                            </SocialButton>
                             <LikeButton medium={medium} />
                           </Grid>
                         </Grid>
