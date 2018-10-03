@@ -18,6 +18,6 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def destroy?
-    create?
+    create? || user == record.medium.user
   end
 end

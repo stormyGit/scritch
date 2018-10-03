@@ -3,6 +3,7 @@ module Types
     field :create_session, mutation: Mutations::CreateSession
     field :create_medium, mutation: Mutations::CreateMedium
     field :create_comment, mutation: Mutations::CreateComment
+    field :delete_comment, mutation: Mutations::DeleteComment
     field :create_follow, mutation: Mutations::CreateFollow
     field :delete_follow, mutation: Mutations::DeleteFollow
     field :create_like, mutation: Mutations::CreateLike

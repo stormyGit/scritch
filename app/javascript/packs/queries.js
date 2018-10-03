@@ -55,6 +55,16 @@ export const DELETE_MEDIUM = gql`
   }
 `;
 
+export const DELETE_COMMENT = gql`
+  mutation deleteComment($input: DeleteCommentInput!) {
+    deleteComment(input: $input) {
+      comment {
+        id
+      }
+    }
+  }
+`;
+
 export const UPDATE_USER = gql`
   mutation updateUser($input: UpdateUserInput!) {
     updateUser(input: $input) {

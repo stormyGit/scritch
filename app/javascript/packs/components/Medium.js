@@ -30,6 +30,7 @@ import withCurrentSession from './withCurrentSession';
 import SocialButton from './SocialButton';
 import TwitterIcon from '../icons/Twitter';
 import TelegramIcon from '../icons/Telegram';
+import Comment from './Comment';
 import countFormat from '../countFormat';
 
 const styles = theme => ({
@@ -55,20 +56,12 @@ const styles = theme => ({
     maxWidth: "50vw",
     marginBottom: 0
   },
-  comment: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit
-  },
   relatedMedia: {
     marginBottom: theme.spacing.unit
   },
   userLink: {
     color: theme.palette.text.primary,
     textDecoration: 'none'
-  },
-  commentHeader: {
-    padding: 0,
-    paddingBottom: theme.spacing.unit,
   },
   leftIcon: {
     marginRight: theme.spacing.unit
@@ -194,19 +187,7 @@ class Medium extends React.Component {
                               <CommentForm mediumId={medium.id} />
                               {
                                 medium.comments.map((comment) => (
-                                  <div key={comment.id} className={classes.comment}>
-                                    <CardHeader
-                                      className={classes.commentHeader}
-                                      avatar={
-                                        <Link to={`/${comment.user.slug}`} className={classes.userLink}>
-                                          <UserAvatar user={comment.user} />
-                                        </Link>
-                                      }
-                                      title={<Link to={`/${comment.user.slug}`} className={classes.userLink}>{comment.user.name}</Link>}
-                                      subheader={timeAgo.format(new Date(comment.createdAt))}
-                                    />
-                                    <FormattedText text={comment.body} />
-                                  </div>
+                                  <Comment comment={comment} medium={medium} key={comment.id} />
                                 ))
                               }
                             </React.Fragment>
