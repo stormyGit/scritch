@@ -26,6 +26,7 @@ import AppBottomNavigation from './AppBottomNavigation';
 import withCurrentSession from './withCurrentSession';
 import SearchBar from './SearchBar';
 import GlobalProgress from './GlobalProgress';
+import PornographyDisclaimer from './PornographyDisclaimer';
 
 import UserAvatar from './UserAvatar';
 import Logo from './Logo';
@@ -117,12 +118,28 @@ class AppLayout extends React.Component {
     uploadDialog: false,
     signUpDialog: false,
     drawer: false,
-    searchEnabled: false
+    searchEnabled: false,
+    pornographyDisclaimer: false
+  }
+
+  componentDidMount() {
+    this.checkPornographyDisclaimer(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.checkPornographyDisclaimer(nextProps);
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       window.scrollTo(0, 0);
+    }
+  }
+
+  checkPornographyDisclaimer(props) {
+    const isValidated = localStorage.getItem('pornographyDisclaimerValidated');
+    if (process.env.ENABLE_PORNOGRAPHY_DISCLAIMER === 'true' && isValidated !== 'true' && !props.currentSession) {
+      this.setState({ pornographyDisclaimer: true })
     }
   }
 
@@ -149,6 +166,18 @@ class AppLayout extends React.Component {
       appBarPadding = 16;
     } else {
       appBarPadding = 4;
+    }
+
+    if (this.state.pornographyDisclaimer) {
+      return (
+        <PornographyDisclaimer
+          open
+          onClose={() => {
+            localStorage.setItem('pornographyDisclaimerValidated', "true");
+            this.setState({ pornographyDisclaimer: false });
+          }}
+        />
+      )
     }
 
     return (
