@@ -68,7 +68,7 @@ const styles = theme => ({
 
 class MediumCard extends React.Component {
   state = {
-    thumbnailKey: this.props.medium.thumbnailKey
+    thumbnailKey: this.props.medium.thumbnailKey,
   }
 
   renderHeader() {
@@ -89,13 +89,25 @@ class MediumCard extends React.Component {
 
   renderMedia() {
     const { classes, medium, horizontal } = this.props;
+
+    let previewImage = new Image();
     return (
       <CardMedia
         className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
         image={keyToUrl(this.state.thumbnailKey)}
         title={medium.title}
-        onMouseEnter={() => this.setState({ thumbnailKey: medium.previewKey })}
-        onMouseLeave={() => this.setState({ thumbnailKey: medium.thumbnailKey })}
+        onMouseEnter={() => {
+          previewImage.onload = () => {
+            this.setState({ thumbnailKey: medium.previewKey });
+          };
+          previewImage.src = keyToUrl(medium.previewKey);
+        }}
+        onMouseLeave={() => {
+          previewImage.onload = () => {
+            this.setState({ thumbnailKey: medium.thumbnailKey });
+          };
+          previewImage.src = keyToUrl(medium.thumbnailKey);
+        }}
       >
         <Duration duration={medium.duration} />
       </CardMedia>
