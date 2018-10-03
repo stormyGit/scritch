@@ -20,7 +20,7 @@ class MurrsuitSchema < GraphQL::Schema
     end
 
     rescue_from ::Pundit::NotAuthorizedError do |exception|
-      GraphQL::ExecutionError.new(exception.message);
+      GraphQL::ExecutionError.new("Not authorized");
     end
   end
 end

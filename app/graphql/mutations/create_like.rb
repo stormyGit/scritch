@@ -10,6 +10,8 @@ class Mutations::CreateLike < Mutations::BaseMutation
       medium_id: arguments[:medium_id],
     })
 
+    raise Pundit::NotAuthorizedError unless LikePolicy.new(context[:current_user], like).create?
+
     if like.save
       {
         like: like,

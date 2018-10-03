@@ -7,6 +7,8 @@ class Mutations::DeleteSession < Mutations::BaseMutation
   def resolve(arguments)
     session = Session.find(arguments[:id])
 
+    raise Pundit::NotAuthorizedError unless SessionPolicy.new(context[:current_user], session).destroy?
+
     if session.destroy
       {
         session: session,

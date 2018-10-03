@@ -7,6 +7,8 @@ class Mutations::DeleteUser < Mutations::BaseMutation
   def resolve(arguments)
     user = User.find(arguments[:id])
 
+    raise Pundit::NotAuthorizedError unless UserPolicy.new(context[:current_user], user).destroy?
+
     if user.destroy
       {
         user: user,

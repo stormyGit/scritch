@@ -7,6 +7,8 @@ class Mutations::DeleteMedium < Mutations::BaseMutation
   def resolve(arguments)
     medium = Medium.find(arguments[:id])
 
+    raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).destroy?
+
     if medium.destroy
       {
         medium: medium,

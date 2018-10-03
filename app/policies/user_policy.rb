@@ -10,11 +10,11 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    user == record
+    user.present? user == record
   end
 
   def destroy?
-    update?
+    create?
   end
 
   def follow?

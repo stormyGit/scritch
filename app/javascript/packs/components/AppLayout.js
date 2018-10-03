@@ -224,6 +224,7 @@ class AppLayout extends React.Component {
                         style={{
                           paddingLeft: appBarPadding,
                           maxWidth: (width === 'lg' || width === 'xl') ? 600 : 'none',
+                          marginRight: (width === 'lg' || width === 'xl') ? 16 : 0,
                         }}
                       >
                         <SearchBar

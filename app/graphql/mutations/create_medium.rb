@@ -14,6 +14,8 @@ class Mutations::CreateMedium < Mutations::BaseMutation
       user: context[:current_user]
     })
 
+    raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).create?
+
     if medium.save
       {
         medium: medium,

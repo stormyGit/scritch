@@ -11,6 +11,8 @@ class Mutations::DeleteFollow < Mutations::BaseMutation
       followable_type: "User"
     })
 
+    raise Pundit::NotAuthorizedError unless FollowPolicy.new(context[:current_user], follow).destroy?
+
     if follow.destroy
       {
         follow: follow,

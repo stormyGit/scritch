@@ -34,7 +34,7 @@ const AVATAR_SIZE = 96
 
 const styles = theme => ({
   bannerMenu: {
-    zIndex: 2,
+    zIndex: 4,
   },
   dialogContent: {
     marginTop: theme.spacing.unit * 2,
@@ -73,7 +73,9 @@ const styles = theme => ({
     bottom: 0,
     margin: 0,
     padding: 0,
-    opacity: 0
+    opacity: 0,
+    width: 1,
+    height: 1,
   },
   bannerImageWide: {
     top: '-50%'

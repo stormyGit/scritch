@@ -10,6 +10,8 @@ class Mutations::DeleteLike < Mutations::BaseMutation
       medium: arguments[:medium_id],
     })
 
+    raise Pundit::NotAuthorizedError unless LikePolicy.new(context[:current_user], like).destroy?
+
     if like.destroy
       {
         like: like,

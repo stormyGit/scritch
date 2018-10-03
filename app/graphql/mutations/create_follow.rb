@@ -11,6 +11,8 @@ class Mutations::CreateFollow < Mutations::BaseMutation
       followable_type: "User"
     })
 
+    raise Pundit::NotAuthorizedError unless FollowPolicy.new(context[:current_user], follow).create?
+
     if follow.save
       {
         follow: follow,

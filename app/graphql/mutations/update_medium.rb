@@ -10,6 +10,8 @@ class Mutations::UpdateMedium < Mutations::BaseMutation
     medium = Medium.find(arguments[:id])
     medium.assign_attributes(arguments)
 
+    raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).update?
+
     if medium.save
       {
         medium: medium,

@@ -12,6 +12,8 @@ class Mutations::CreateComment < Mutations::BaseMutation
       user_id: context[:current_user].id
     })
 
+    raise Pundit::NotAuthorizedError unless CommentPolicy.new(context[:current_user], comment).create?
+
     if comment.save
       {
         comment: comment,

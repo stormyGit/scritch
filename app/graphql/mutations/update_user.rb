@@ -16,6 +16,8 @@ class Mutations::UpdateUser < Mutations::BaseMutation
     user = User.find(arguments[:id])
     user.assign_attributes(arguments)
 
+    raise Pundit::NotAuthorizedError unless UserPolicy.new(context[:current_user], user).update?
+
     if arguments[:remove_avatar]
       user.remove_avatar!
     end
