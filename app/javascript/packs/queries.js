@@ -84,6 +84,7 @@ export const UPDATE_MEDIUM = gql`
         commentsCount
         likersCount
         liked
+        viewsCount
         createdAt
         thumbnailKey
         user {
@@ -137,6 +138,7 @@ export const GET_MEDIA = gql`
       commentsCount
       likersCount
       liked
+      viewsCount
       user {
         id
         slug
@@ -204,6 +206,7 @@ export const GET_MEDIUM = gql`
       commentsCount
       likersCount
       liked
+      viewsCount
       createdAt
       thumbnailKey
       user {

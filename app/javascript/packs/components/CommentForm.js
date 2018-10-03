@@ -43,7 +43,7 @@ class CommentForm extends React.Component {
           cache.writeQuery({
             query: GET_MEDIUM,
             variables: { id: mediumId },
-            data: { medium: { ...medium, comments: [ createComment.comment, ...medium.comments ] } }
+            data: { medium: { ...medium, comments: [ createComment.comment, ...medium.comments ], commentsCount: (medium.commentsCount + 1) } }
           });
         }}
       >

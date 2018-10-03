@@ -7,22 +7,13 @@ import { Query, Mutation } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 
 import { CREATE_LIKE, DELETE_LIKE, GET_MEDIUM, GET_SESSION } from '../queries';
+import countFormat from '../countFormat';
 
 const styles = theme => ({
   leftIcon: {
     marginRight: theme.spacing.unit
   }
 });
-
-const likeCountString = (count) => {
-  if (count === 0) {
-    return ('No likes')
-  }
-  if (count === 1) {
-    return ('One like');
-  }
-  return (`${count} likes`);
-}
 
 const LikeButton = ({ medium, classes, link, ...props }) => (
   <Query query={GET_SESSION}>
@@ -48,7 +39,7 @@ const LikeButton = ({ medium, classes, link, ...props }) => (
               {...props}
             >
               <FavoriteIcon className={classes.leftIcon} />
-              {likeCountString(medium.likersCount)}
+              {countFormat(medium.likersCount, 'like', 'likes')}
             </Button>
           )}
         </Mutation> :
@@ -73,7 +64,7 @@ const LikeButton = ({ medium, classes, link, ...props }) => (
               {...props}
             >
               <NoFavoriteIcon className={classes.leftIcon} />
-              {likeCountString(medium.likersCount)}
+              {countFormat(medium.likersCount, 'like', 'likes')}
             </Button>
           )}
         </Mutation>

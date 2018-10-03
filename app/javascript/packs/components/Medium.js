@@ -30,6 +30,7 @@ import withCurrentSession from './withCurrentSession';
 import SocialButton from './SocialButton';
 import TwitterIcon from '../icons/Twitter';
 import TelegramIcon from '../icons/Telegram';
+import countFormat from '../countFormat';
 
 const styles = theme => ({
   container: {
@@ -51,7 +52,8 @@ const styles = theme => ({
   text: {
   },
   mediumTitle: {
-    maxWidth: "50vw"
+    maxWidth: "50vw",
+    marginBottom: 0
   },
   comment: {
     paddingTop: theme.spacing.unit * 2,
@@ -108,38 +110,47 @@ class Medium extends React.Component {
                   <Grid container spacing={8}>
                     <Grid item lg={8} xs={12}>
                       <CardContent>
-                        <Grid container spacing={8} justify="space-between" className={classes.videoInfo}>
-                          <Grid item>
-                            <Typography gutterBottom variant="headline" component="h2" className={classes.mediumTitle} noWrap>
-                              {medium.title}
-                            </Typography>
+                        <div className={classes.videoInfo}>
+                          <Grid container spacing={8} justify="space-between">
+                            <Grid item>
+                              <Typography gutterBottom variant="headline" component="h2" className={classes.mediumTitle} noWrap>
+                                {medium.title}
+                              </Typography>
+                            </Grid>
+                            <Grid item>
+                              <SocialButton
+                                name="Twitter"
+                                url="https://twitter.com/intent/tweet/"
+                                params={{
+                                  text: medium.title,
+                                  url: window.location.href
+                                }}
+                                className={classes.socialButton}
+                              >
+                                <TwitterIcon fontSize={'inherit'} />
+                              </SocialButton>
+                              <SocialButton
+                                name="Telegram"
+                                className={classes.socialButton}
+                                url="https://telegram.me/share/url"
+                                params={{
+                                  text: medium.title,
+                                  url: window.location.href
+                                }}
+                              >
+                                <TelegramIcon fontSize={'inherit'} />
+                              </SocialButton>
+                              <LikeButton medium={medium} />
+                            </Grid>
                           </Grid>
-                          <Grid item>
-                            <SocialButton
-                              name="Twitter"
-                              url="https://twitter.com/intent/tweet/"
-                              params={{
-                                text: medium.title,
-                                url: window.location.href
-                              }}
-                              className={classes.socialButton}
-                            >
-                              <TwitterIcon fontSize={'inherit'} />
-                            </SocialButton>
-                            <SocialButton
-                              name="Telegram"
-                              className={classes.socialButton}
-                              url="https://telegram.me/share/url"
-                              params={{
-                                text: medium.title,
-                                url: window.location.href
-                              }}
-                            >
-                              <TelegramIcon fontSize={'inherit'} />
-                            </SocialButton>
-                            <LikeButton medium={medium} />
+                          <Grid container spacing={8} justify="space-between">
+                            <Grid item>
+                              <Typography gutterBottom variant="subheading" noWrap>
+                                {countFormat(medium.viewsCount, 'view', 'views')}
+                              </Typography>
+                            </Grid>
                           </Grid>
-                        </Grid>
+                        </div>
                         <Divider />
                         <Grid container spacing={0} justify="space-between" alignItems="center">
                           <Grid item>
@@ -172,7 +183,7 @@ class Medium extends React.Component {
                       </CardContent>
                       <CardContent>
                         <Typography gutterBottom variant="title" component="h3">
-                          {this.renderCommentsCount(medium.comments.length)}
+                          {countFormat(medium.commentsCount, 'comment', 'comments')}
                         </Typography>
                         <CommentForm mediumId={medium.id} />
                         {

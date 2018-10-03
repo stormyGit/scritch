@@ -22,6 +22,7 @@ import Duration from './Duration';
 import UserAvatar from './UserAvatar';
 import LikeButton from './LikeButton';
 import TruncatedText from './TruncatedText';
+import countFormat from '../countFormat';
 
 const styles = theme => ({
   card: {
@@ -116,16 +117,6 @@ class MediumCard extends React.Component {
     );
   }
 
-  renderCommentsCount(count) {
-    if (count === 0) {
-      return (`No comments`);
-    }
-    if (count === 1) {
-      return (`One comment`);
-    }
-    return (`${count} comments`);
-  }
-
   renderActions() {
     const { classes, medium } = this.props;
 
@@ -137,11 +128,9 @@ class MediumCard extends React.Component {
               <Grid item>
                 <Button
                   disabled
-                  size="small"
-                  color="secondary"
                 >
                   <CommentIcon className={classes.leftIcon} />
-                  {this.renderCommentsCount(medium.commentsCount)}
+                  {countFormat(medium.commentsCount, 'comment', 'comments')}
                 </Button>
               </Grid>
               <Grid item>
@@ -153,8 +142,11 @@ class MediumCard extends React.Component {
             </Grid>
           </Grid>
           <Grid item>
-
-
+            <Button
+              disabled
+            >
+              {countFormat(medium.viewsCount, 'view', 'views')}
+            </Button>
           </Grid>
         </Grid>
       </CardActions>
