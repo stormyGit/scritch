@@ -25,7 +25,7 @@ const LikeButton = ({ medium, classes, link, ...props }) => (
             cache.writeQuery({
               query: GET_MEDIUM,
               variables: { id: medium.id },
-              data: { medium: { ...medium, liked: false, likersCount: (medium.likersCount - 1) } }
+              data: { medium: { ...medium, liked: false, likesCount: (medium.likesCount - 1) } }
             });
           }}
         >
@@ -39,7 +39,7 @@ const LikeButton = ({ medium, classes, link, ...props }) => (
               {...props}
             >
               <FavoriteIcon className={classes.leftIcon} />
-              {countFormat(medium.likersCount, 'like', 'likes')}
+              {countFormat(medium.likesCount, 'like', 'likes')}
             </Button>
           )}
         </Mutation> :
@@ -49,7 +49,7 @@ const LikeButton = ({ medium, classes, link, ...props }) => (
             cache.writeQuery({
               query: GET_MEDIUM,
               variables: { id: medium.id },
-              data: { medium: { ...medium, liked: true, likersCount: (medium.likersCount + 1) } }
+              data: { medium: { ...medium, liked: true, likesCount: (medium.likesCount + 1) } }
             });
           }}
         >
@@ -64,7 +64,7 @@ const LikeButton = ({ medium, classes, link, ...props }) => (
               {...props}
             >
               <NoFavoriteIcon className={classes.leftIcon} />
-              {countFormat(medium.likersCount, 'like', 'likes')}
+              {countFormat(medium.likesCount, 'like', 'likes')}
             </Button>
           )}
         </Mutation>

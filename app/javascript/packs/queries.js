@@ -82,7 +82,7 @@ export const UPDATE_MEDIUM = gql`
         key
         duration
         commentsCount
-        likersCount
+        likesCount
         liked
         viewsCount
         createdAt
@@ -136,8 +136,7 @@ export const GET_MEDIA = gql`
       createdAt
       duration
       commentsCount
-      likersCount
-      liked
+      likesCount
       viewsCount
       user {
         id
@@ -163,7 +162,7 @@ query GetLikesByUser($userId: ID!, $page: Int!, $per: Int!) {
       createdAt
       duration
       commentsCount
-      likersCount
+      likesCount
       liked
       user {
         id
@@ -204,7 +203,7 @@ export const GET_MEDIUM = gql`
       key
       duration
       commentsCount
-      likersCount
+      likesCount
       liked
       viewsCount
       createdAt

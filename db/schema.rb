@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_03_044941) do
+ActiveRecord::Schema.define(version: 2018_10_03_110745) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,8 @@ ActiveRecord::Schema.define(version: 2018_10_03_044941) do
     t.integer "duration"
     t.string "slug"
     t.integer "views_count", default: 0
+    t.integer "comments_count", default: 0
+    t.integer "likes_count", default: 0
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
   end
 

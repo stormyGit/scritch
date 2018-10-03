@@ -63,7 +63,6 @@ class PornographyDisclaimer extends React.Component {
             <Grid item>
               <Button
                 component={(props) => <a href="https://google.com" {...props} />}
-                onClick={onClose}
                 autoFocus
               >
                 Leave / Quitter

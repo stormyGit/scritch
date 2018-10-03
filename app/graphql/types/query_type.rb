@@ -31,11 +31,11 @@ module Types
     end
 
     def medium(params = {})
-      Medium.find(params[:id])
+      Medium.includes(comments: [:user]).find(params[:id])
     end
 
     def media(params = {})
-      media = Medium.where.not(key: nil)
+      media = Medium.where.not(key: nil).includes(:user)
 
       if params[:q].present?
         media = media.where("media.title @@ ?", params[:q])
