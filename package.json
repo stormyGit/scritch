@@ -6,7 +6,7 @@
     "@material-ui/icons": "^3.0.1",
     "@rails/webpacker": "3.5",
     "animated": "^0.2.2",
-    "apollo-boost": "^0.1.15",
+    "apollo-boost": "^0.1.16",
     "apollo-cache-persist": "^0.1.1",
     "apollo-link-context": "^1.0.9",
     "aws-sdk": "^2.315.0",

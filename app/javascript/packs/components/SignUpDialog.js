@@ -14,7 +14,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
 import CheckIcon from '@material-ui/icons/Check';
 import TelegramLoginButton from 'react-telegram-login';
-import { withApollo } from 'react-apollo';
+import { withRouter } from 'react-router-dom';
 
 import ResponsiveDialog from './ResponsiveDialog';
 
@@ -141,4 +141,4 @@ const FormWithMutation = (props) => (
   </Mutation>
 )
 
-export default withStyles(styles)(withApollo(FormWithMutation));
+export default withStyles(styles)(withRouter(FormWithMutation));

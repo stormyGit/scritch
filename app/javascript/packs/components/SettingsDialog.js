@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
-import { Query, Mutation } from 'react-apollo';
+import { Query, Mutation, withApollo } from 'react-apollo';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -96,10 +96,11 @@ class Settings extends React.Component {
                         <ListItem
                           button
                           onClick={() => {
-                            deleteSession({ variables: { input: { id: sessionData.session.id }}}).then(() => {
-                              localStorage.setItem('token', null);
-                              this.props.onClose();
-                            });
+                            deleteSession({ variables: { input: { id: sessionData.session.id }}})
+                              .then(() => {
+                                localStorage.setItem('token', null);
+                                this.props.onClose();
+                              });
                           }}
                         >
                           <ListItemText primary={`Logout from ${process.env.SITE_NAME}`} />
@@ -173,4 +174,4 @@ class Settings extends React.Component {
   }
 }
 
-export default withStyles(styles)(Settings);
+export default withStyles(styles)(withApollo(Settings));

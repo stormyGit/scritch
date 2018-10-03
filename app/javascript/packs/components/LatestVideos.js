@@ -1,10 +1,16 @@
 import React from 'react';
 import Media from './Media';
 import PageTitle from './PageTitle';
+import queryString from 'query-string';
 
-export default (props) => (
-  <React.Fragment>
-    <PageTitle>Latest videos</PageTitle>
-    <Media sort="latest" {...props} />
-  </React.Fragment>
-)
+export default (props) => {
+  const query = queryString.parse(props.location.search)
+  const searching = query.q && query.q.length > 0;
+
+  return (
+    <React.Fragment>
+      <PageTitle>{searching ? "Search" : "Latest videos"}</PageTitle>
+      <Media sort="latest" {...props} />
+    </React.Fragment>
+  )
+}
