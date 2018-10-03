@@ -17,7 +17,18 @@ import MenuList from '@material-ui/core/MenuList';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import uuidv4 from 'uuid/v4';
+
+import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import withWidth from '@material-ui/core/withWidth';
+
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 import { withRouter } from 'react-router-dom'
+import Dropzone from 'react-dropzone';
 
 import { Parallax, Background } from 'react-parallax';
 
@@ -28,13 +39,112 @@ import ResponsiveDialog from './ResponsiveDialog';
 import BannerPlaceholder from './BannerPlaceholder';
 import ProfileAvatar from './ProfileAvatar';
 import MediumDeletionDialog from './MediumDeletionDialog';
+import fileUploadService from '../fileUploadService';
 
-import { GET_MEDIUM, UPDATE_MEDIUM } from '../queries';
+import { CREATE_MEDIUM, GET_MEDIUM, UPDATE_MEDIUM } from '../queries';
 
 const BANNER_HEIGHT = '200px';
 const AVATAR_SIZE = 96
 
+const dropZoneStyles = theme => ({
+  root: {
+    width: '100%',
+    marginBottom: theme.spacing.unit * 2,
+    padding: theme.spacing.unit * 4,
+    borderRadius: 2,
+    textAlign: "center",
+    color: 'white',
+    background: theme.palette.primary.light,
+    fontFamily: theme.typography.fontFamily,
+    cursor: "pointer",
+    height: 220,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  uploadIcon: {
+    marginBottom: theme.spacing.unit * 2,
+    fontSize: "4em"
+  },
+  progress: {
+    marginBottom: theme.spacing.unit * 2,
+    color: "white",
+  }
+});
+
+class DropZoneField extends React.Component {
+  state = {
+    progress: null
+  }
+
+  handleDrop(file) {
+    fileUploadService.then((evaporate) => {
+      evaporate.add({
+        file: file,
+        name: uuidv4(),
+        progress: (p, stats) => {
+          this.setState({ progress: stats });
+        }
+      }).then((temporary_key) => {
+        this.props.onChange(temporary_key);
+      });
+    })
+  }
+
+  render() {
+    const { classes, width } = this.props;
+
+    return (
+      <Dropzone
+        multiple={false}
+        className={classes.root}
+        accept="video/mp4,video/x-m4v,video/*,video/quicktime"
+        onDrop={(files) => this.handleDrop(files[0])}
+      >
+        {
+          this.state.progress && this.state.progress.remainingSize === 0 &&
+            <div>
+              <Typography variant="title" color="inherit" noWrap>
+                File uploaded
+              </Typography>
+            </div>
+        }
+        {
+          this.state.progress && this.state.progress.remainingSize > 0 &&
+            <div>
+              <CircularProgress className={classes.progress} variant={"static"} value={parseInt(this.state.progress.totalUploaded / this.state.progress.fileSize * 95) + 5} />
+              <Typography variant="title" color="inherit" noWrap>
+                {
+                  this.state.progress.secondsLeft >= 0 ? `${this.state.progress.secondsLeft}s. remaining` : `Uploading`
+                }
+              </Typography>
+            </div>
+        }
+        {
+          !this.state.progress &&
+            <div>
+              <CloudUploadIcon className={classes.uploadIcon} />
+              <Typography variant="title" color="inherit" noWrap>
+                {
+                  (width === 'lg' || width === 'xl') ?
+                    "Select or drag a video file to upload" :
+                    "Select a video file to upload"
+                }
+              </Typography>
+            </div>
+        }
+      </Dropzone>
+    );
+  }
+}
+
+const DropZoneFieldWithStyle = withStyles(dropZoneStyles)(withWidth()(DropZoneField));
+
 const styles = theme => ({
+  moderationExplanation: {
+    marginTop: theme.spacing.unit * 2,
+  },
   bannerMenu: {
     zIndex: 2,
   },
@@ -102,7 +212,9 @@ class EditMediumDialog extends React.Component {
   state = {
     mediumDeletion: false,
     title: '',
-    description: ''
+    description: '',
+    commentsDisabled: false,
+    temporaryKey: null,
   }
 
   componentDidMount() {
@@ -120,11 +232,12 @@ class EditMediumDialog extends React.Component {
       id: medium.id,
       title: medium.title,
       description: medium.description,
+      commentsDisabled: medium.commentsDisabled
     });
   }
 
   render() {
-    const { classes, medium } = this.props;
+    const { classes, medium, uploadEnabled } = this.props;
 
     return (
       <React.Fragment>
@@ -132,8 +245,23 @@ class EditMediumDialog extends React.Component {
           open={this.props.open}
           onClose={this.props.onClose}
         >
-          <DialogTitle>{medium.title}</DialogTitle>
-          <DialogContent className={classes.dialogContent}>
+          {
+            medium.id && <DialogTitle>{medium.title}</DialogTitle>
+          }
+          <DialogContent
+            className={classes.dialogContent}
+            style={{
+              paddingTop: uploadEnabled ? 12 : 0
+            }}
+          >
+            {
+              uploadEnabled &&
+               <DropZoneFieldWithStyle
+                onChange={(temporaryKey) => {
+                  this.setState({ temporaryKey });
+                }}
+               />
+            }
             <TextField
               label="Title"
               name="title"
@@ -153,52 +281,120 @@ class EditMediumDialog extends React.Component {
               rows={4}
               rowsMax={12}
             />
+
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={this.state.commentsDisabled}
+                  onChange={() => {
+                    this.setState({ commentsDisabled: !this.state.commentsDisabled })
+                  }}
+                  color="primary"
+                />
+              }
+              label="Disable comments"
+            />
           </DialogContent>
           <DialogActions>
             <Grid container spacing={0} justify="space-between">
               <Grid item>
-                <Button
-                  color="secondary"
-                  onClick={() => this.setState({ mediumDeletion: true })}
-                >
-                  Delete video
-                </Button>
+                {
+                  medium.id &&
+                    <Button
+                      color="secondary"
+                      onClick={() => this.setState({ mediumDeletion: true })}
+                    >
+                      Delete video
+                    </Button>
+                }
               </Grid>
               <Grid item>
                 <Button onClick={this.props.onClose}>
                   Cancel
                 </Button>
-                <Mutation
-                  mutation={UPDATE_MEDIUM}
-                  update={(cache, { data: { updateMedium } }) => {
-                    const { session } = cache.readQuery({ query: GET_MEDIUM, variables: { id: medium.id } });
-                    cache.writeQuery({
-                      query: GET_MEDIUM,
-                      data: { medium: updateMedium.medium }
-                    });
-                  }}
-                >
-                  {( updateMedium, { data }) => (
-                    <Button
-                      disabled={!this.state.title || /^\s*$/.test(this.state.title)}
-                      onClick={() => {
-                        updateMedium({
-                          variables: {
-                            input: {
-                              id: medium.id,
-                              title: this.state.title,
-                              description: this.state.description,
-                            }
-                          }
-                        }).then(() => {
-                          this.props.onClose()
-                        })
+                {
+                  medium.id ?
+                    <Mutation
+                      mutation={UPDATE_MEDIUM}
+                      update={(cache, { data: { updateMedium } }) => {
+                        const { session } = cache.readQuery({ query: GET_MEDIUM, variables: { id: medium.id } });
+                        cache.writeQuery({
+                          query: GET_MEDIUM,
+                          data: { medium: updateMedium.medium }
+                        });
                       }}
                     >
-                      Save
-                    </Button>
-                  )}
-                </Mutation>
+                      {( updateMedium, { data }) => (
+                        <Button
+                          disabled={!this.state.title || /^\s*$/.test(this.state.title)}
+                          onClick={() => {
+                            updateMedium({
+                              variables: {
+                                input: {
+                                  id: medium.id,
+                                  title: this.state.title,
+                                  description: this.state.description,
+                                  commentsDisabled: this.state.commentsDisabled,
+                                  temporaryKey: this.state.temporaryKey,
+                                }
+                              }
+                            }).then(() => {
+                              this.props.onClose()
+                            })
+                          }}
+                        >
+                          Save
+                        </Button>
+                      )}
+                    </Mutation> :
+                    <Mutation mutation={CREATE_MEDIUM}>
+                      {
+                        (createMedium, { called }) => {
+                          if (called) {
+                            return (
+                              <Dialog
+                                open
+                                onClose={() => this.props.onClose()}
+                              >
+                                <DialogTitle>
+                                  Video uploaded
+                                </DialogTitle>
+                                <DialogContent>
+                                  <DialogContentText variant="body2">
+                                    {`Your video was successfully uploaded to our server and will be reviewed by our team of moderators before publication.`}
+                                  </DialogContentText>
+                                </DialogContent>
+                                <DialogActions>
+                                  <Button onClick={() => this.props.onClose()}>
+                                    Close
+                                  </Button>
+                                </DialogActions>
+                              </Dialog>
+                            );
+                          }
+                          return (
+                            <Button
+                              disabled={!this.state.title || /^\s*$/.test(this.state.title) || !this.state.temporaryKey}
+                              onClick={() => {
+                                createMedium({
+                                  variables: {
+                                    input: {
+                                      title: this.state.title,
+                                      description: this.state.description,
+                                      commentsDisabled: this.state.commentsDisabled,
+                                      temporaryKey: this.state.temporaryKey,
+                                    }
+                                  }
+                                });
+                              }}
+                            >
+                              Submit
+                            </Button>
+                          )
+                        }
+                      }
+                    </Mutation>
+                }
               </Grid>
             </Grid>
           </DialogActions>

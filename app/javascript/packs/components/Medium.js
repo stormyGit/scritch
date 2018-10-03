@@ -182,26 +182,34 @@ class Medium extends React.Component {
                         </Typography>
                       </CardContent>
                       <CardContent>
-                        <Typography gutterBottom variant="title" component="h3">
-                          {countFormat(medium.commentsCount, 'comment', 'comments')}
-                        </Typography>
-                        <CommentForm mediumId={medium.id} />
                         {
-                          medium.comments.map((comment) => (
-                            <div key={comment.id} className={classes.comment}>
-                              <CardHeader
-                                className={classes.commentHeader}
-                                avatar={
-                                  <Link to={`/${comment.user.slug}`} className={classes.userLink}>
-                                    <UserAvatar user={comment.user} />
-                                  </Link>
-                                }
-                                title={<Link to={`/${comment.user.slug}`} className={classes.userLink}>{comment.user.name}</Link>}
-                                subheader={timeAgo.format(new Date(comment.createdAt))}
-                              />
-                              <FormattedText text={comment.body} />
-                            </div>
-                          ))
+                          medium.commentsDisabled ?
+                            <Typography gutterBottom variant="caption">
+                              {"Comments are disabled for this video."}
+                            </Typography> :
+                            <React.Fragment>
+                              <Typography gutterBottom variant="title" component="h3">
+                                {countFormat(medium.commentsCount, 'comment', 'comments')}
+                              </Typography>
+                              <CommentForm mediumId={medium.id} />
+                              {
+                                medium.comments.map((comment) => (
+                                  <div key={comment.id} className={classes.comment}>
+                                    <CardHeader
+                                      className={classes.commentHeader}
+                                      avatar={
+                                        <Link to={`/${comment.user.slug}`} className={classes.userLink}>
+                                          <UserAvatar user={comment.user} />
+                                        </Link>
+                                      }
+                                      title={<Link to={`/${comment.user.slug}`} className={classes.userLink}>{comment.user.name}</Link>}
+                                      subheader={timeAgo.format(new Date(comment.createdAt))}
+                                    />
+                                    <FormattedText text={comment.body} />
+                                  </div>
+                                ))
+                              }
+                            </React.Fragment>
                         }
                       </CardContent>
                     </Grid>

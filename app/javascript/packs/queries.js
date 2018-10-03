@@ -87,6 +87,7 @@ export const UPDATE_MEDIUM = gql`
         viewsCount
         createdAt
         thumbnailKey
+        commentsDisabled
         user {
           id
           slug
@@ -208,6 +209,7 @@ export const GET_MEDIUM = gql`
       viewsCount
       createdAt
       thumbnailKey
+      commentsDisabled
       user {
         id
         slug

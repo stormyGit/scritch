@@ -10,7 +10,7 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def create?
-    user.present? && user == record.user
+    user.present? && user == record.user && !record.medium.comments_disabled?
   end
 
   def update?

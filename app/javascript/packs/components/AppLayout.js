@@ -19,7 +19,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { Link, withRouter } from 'react-router-dom'
 import TelegramLoginButton from 'react-telegram-login';
 import SignUpDialog from './SignUpDialog';
-import UploadDialog from './UploadDialog';
+import EditMediumDialog from './EditMediumDialog';
 import PermanentDrawer from './PermanentDrawer';
 import TemporaryDrawer from './TemporaryDrawer';
 import AppBottomNavigation from './AppBottomNavigation';
@@ -321,7 +321,16 @@ class AppLayout extends React.Component {
               </Toolbar>
             </AppBar>
             <SignUpDialog open={this.state.signUpDialog} onClose={() => this.setState({ signUpDialog: false })} />
-            <UploadDialog open={this.state.uploadDialog} onClose={() => this.setState({ uploadDialog: false })} />
+            <EditMediumDialog
+              open={this.state.uploadDialog}
+              onClose={() => this.setState({ uploadDialog: false })}
+              uploadEnabled
+              medium={{
+                title: '',
+                description: '',
+                commentsDisabled: false
+              }}
+            />
             {this.props.children}
           </main>
         </div>

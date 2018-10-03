@@ -2,6 +2,7 @@ class Mutations::UpdateMedium < Mutations::BaseMutation
   argument :id, ID, required: true
   argument :title, String, required: true
   argument :description, String, required: false
+  argument :comments_disabled, Boolean, required: false
 
   field :medium, Types::MediumType, null: true
   field :errors, [String], null: false

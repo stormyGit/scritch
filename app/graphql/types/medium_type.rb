@@ -19,6 +19,7 @@ module Types
     field :likes_count, Integer, null: false
     field :liked, Boolean, null: false
     field :views_count, Integer, null: false
+    field :comments_disabled, Boolean, null: false
 
     def comments
       object.comments.order(created_at: :desc)

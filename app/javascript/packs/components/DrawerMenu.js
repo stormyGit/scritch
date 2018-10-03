@@ -25,7 +25,7 @@ import TermsDialog from './TermsDialog';
 import PrivacyPolicyDialog from './PrivacyPolicyDialog';
 import SettingsDialog from './SettingsDialog';
 import SignUpDialog from './SignUpDialog';
-import UploadDialog from './UploadDialog';
+import EditMediumDialog from './EditMediumDialog';
 import ProfileAvatar from './ProfileAvatar';
 
 import BannerPlaceholder from './BannerPlaceholder';
@@ -281,13 +281,19 @@ class DrawerMenu extends React.Component {
             }
           }}
         />
-        <UploadDialog
+        <EditMediumDialog
           open={this.state.uploadDialog}
+          uploadEnabled
           onClose={() => {
             this.setState({ uploadDialog: false });
             if (this.props.onClose) {
               this.props.onClose();
             }
+          }}
+          medium={{
+            title: '',
+            description: '',
+            commentsDisabled: false
           }}
         />
       </React.Fragment>
