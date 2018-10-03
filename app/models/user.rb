@@ -18,4 +18,10 @@ class User < ApplicationRecord
 
   has_many :likes, dependent: :destroy
   has_many :likeds, through: :likes, source: :medium
+
+  before_create :set_theme
+
+  def set_theme
+    self.theme === ENV["DEFAULT_THEME"] || 'dark'
+  end
 end

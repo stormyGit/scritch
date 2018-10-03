@@ -2,6 +2,8 @@
 <html>
   <head>
     <title>Murrtube</title>
+    <meta name="theme-color" content="<%= ENV["DEFAULT_THEME"] == 'dark' ? "#222" : "#fff" %>">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 

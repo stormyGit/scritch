@@ -9,6 +9,7 @@ import { createHttpLink } from 'apollo-link-http';
 import store from '../store.js';
 import apolloClient from '../apolloClient';
 import AppRouter from './AppRouter';
+import themeSelector from '../themeSelector';
 
 import { GET_SESSION, GET_THEME } from '../queries';
 
@@ -42,7 +43,7 @@ class App extends React.Component {
     }).then(({ data }) => {
       if (data.session) {
         this.setState({ loaded: true });
-        this.props.client.writeData({ data: { theme: data.session.user.theme }});
+        themeSelector(data.session.user.theme);
       }
     });
   }

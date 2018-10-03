@@ -18,6 +18,7 @@ import Switch from '@material-ui/core/Switch';
 import { withStyles } from '@material-ui/core/styles';
 import PageTitle from './PageTitle';
 import ResponsiveDialog from './ResponsiveDialog';
+import themeSelector from '../themeSelector';
 
 import { GET_SESSION, DELETE_SESSION, DELETE_USER, UPDATE_USER, GET_THEME } from '../queries';
 
@@ -55,10 +56,7 @@ class Settings extends React.Component {
                           query: GET_SESSION,
                           data: { session: { ...sessionData.session, user: updateUser.user } }
                         });
-                        cache.writeQuery({
-                          query: GET_THEME,
-                          data: { theme: updateUser.user.theme }
-                        });
+                        themeSelector(updateUser.user.theme);
                       }}
                     >
                       {( updateUser, { data }) => (
@@ -89,7 +87,7 @@ class Settings extends React.Component {
                           query: GET_SESSION,
                           data: { session: null }
                         });
-                        cache.writeData({ data: { theme: process.env.DEFAULT_THEME || 'dark' }});
+                        themeSelector();
                       }}
                     >
                       {( deleteSession, { data }) => (
@@ -138,7 +136,7 @@ class Settings extends React.Component {
                             query: GET_SESSION,
                             data: { session: null }
                           });
-                          cache.writeData({ data: { theme: process.env.DEFAULT_THEME || 'dark' }});
+                          themeSelector();
                         }}
                       >
                         {( deleteUser, { data }) => (

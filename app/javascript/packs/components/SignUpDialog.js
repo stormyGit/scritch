@@ -17,6 +17,7 @@ import TelegramLoginButton from 'react-telegram-login';
 import { withRouter } from 'react-router-dom';
 
 import ResponsiveDialog from './ResponsiveDialog';
+import themeSelector from '../themeSelector';
 
 import { Mutation, Query } from "react-apollo";
 
@@ -121,7 +122,7 @@ const FormWithMutation = (props) => (
         query: GET_SESSION,
         data: { session: createSession.session }
       });
-      cache.writeData({ data: { theme: createSession.session.user.theme }});
+      themeSelector(createSession.session.user.theme);
     }}
   >
     {(createSession, { data, loading, called }) => {

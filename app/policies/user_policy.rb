@@ -10,7 +10,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    user.present? user == record
+    user.present? && user == record
   end
 
   def destroy?
