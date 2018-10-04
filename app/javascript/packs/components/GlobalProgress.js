@@ -6,15 +6,22 @@ const styles = theme => ({
   colorSecondary: {
     width: '100%',
     backgroundColor: 'transparent',
-    position: 'fixed',
     top: 0,
     left: 0,
-    zIndex: 5
+    zIndex: 5,
+    display: 'none'
   }
 });
 
-const GlobalProgress = (props) => (
-  <LinearProgress color={"secondary"} {...props} id="globalProgress" />
+const GlobalProgress = ({ absolute, ...props }) => (
+  <LinearProgress
+    color={"secondary"}
+    style={{
+      position: absolute ? 'absolute' : 'fixed'
+    }}
+    {...props}
+    className="globalProgress"
+  />
 );
 
 export default withStyles(styles)(GlobalProgress);

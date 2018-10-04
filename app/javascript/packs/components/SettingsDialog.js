@@ -19,6 +19,7 @@ import { withStyles } from '@material-ui/core/styles';
 import PageTitle from './PageTitle';
 import ResponsiveDialog from './ResponsiveDialog';
 import themeSelector from '../themeSelector';
+import GlobalProgress from './GlobalProgress';
 
 import { GET_SESSION, DELETE_SESSION, DELETE_USER, UPDATE_USER, GET_THEME } from '../queries';
 
@@ -38,6 +39,7 @@ class Settings extends React.Component {
         open={this.props.open}
         onClose={this.props.onClose}
       >
+        <GlobalProgress absolute />
         <DialogTitle>{"Settings"}</DialogTitle>
         <DialogContent>
           <Query query={GET_SESSION}>

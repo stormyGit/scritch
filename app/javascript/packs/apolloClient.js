@@ -33,19 +33,21 @@ const apolloClient = new ApolloClient({
   fetch: (input, init) => {
     // this whole function is pretty ugly
 
-    const globalProgress = document.getElementById("globalProgress");
+    const globalProgresses = document.querySelectorAll(".globalProgress");
 
     loaderCount++;
-    if (globalProgress) {
+    globalProgresses.forEach((globalProgress) => {
       globalProgress.style.display = 'block';
-    }
+    });
     return (
       fetch(input, init)
         .then((response) => {
           loaderCount--;
 
-          if (globalProgress && loaderCount === 0) {
-            globalProgress.style.display = 'none';
+          if (loaderCount === 0) {
+            globalProgresses.forEach((globalProgress) => {
+              globalProgress.style.display = 'none';
+            })
           }
           return (response);
         })

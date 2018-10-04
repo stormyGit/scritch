@@ -26,6 +26,7 @@ import { withStyles } from '@material-ui/core/styles';
 import ResponsiveDialog from './ResponsiveDialog';
 import BannerPlaceholder from './BannerPlaceholder';
 import ProfileAvatar from './ProfileAvatar';
+import GlobalProgress from './GlobalProgress';
 
 import { GET_SESSION, UPDATE_USER } from '../queries';
 
@@ -297,6 +298,7 @@ class EditProfileDialog extends React.Component {
         open={this.props.open}
         onClose={this.props.onClose}
       >
+        <GlobalProgress absolute />
         {this.renderBanner()}
         <Grid container justify="center" className={classes.avatarContainer}>
           <Grid item>

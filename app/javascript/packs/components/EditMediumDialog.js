@@ -40,6 +40,7 @@ import BannerPlaceholder from './BannerPlaceholder';
 import ProfileAvatar from './ProfileAvatar';
 import MediumDeletionDialog from './MediumDeletionDialog';
 import fileUploadService from '../fileUploadService';
+import GlobalProgress from './GlobalProgress';
 
 import { CREATE_MEDIUM, GET_MEDIUM, UPDATE_MEDIUM } from '../queries';
 
@@ -245,6 +246,7 @@ class EditMediumDialog extends React.Component {
           open={this.props.open}
           onClose={this.props.onClose}
         >
+          <GlobalProgress absolute />
           {
             medium.id && <DialogTitle>{medium.title}</DialogTitle>
           }
@@ -335,7 +337,6 @@ class EditMediumDialog extends React.Component {
                                   title: this.state.title,
                                   description: this.state.description,
                                   commentsDisabled: this.state.commentsDisabled,
-                                  temporaryKey: this.state.temporaryKey,
                                 }
                               }
                             }).then(() => {

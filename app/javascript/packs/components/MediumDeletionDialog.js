@@ -8,7 +8,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
-
+import GlobalProgress from './GlobalProgress';
 import { DELETE_MEDIUM } from '../queries';
 
 const styles = theme => ({
@@ -23,6 +23,7 @@ class MediumDeletionDialog extends React.Component {
         open={open}
         onClose={onClose}
       >
+        <GlobalProgress absolute />
         <DialogTitle>{"Are you sure you want to delete this video?"}</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -38,7 +39,6 @@ class MediumDeletionDialog extends React.Component {
           >
             {( deleteMedium, { data }) => (
               <Button
-                color="secondary"
                 onClick={() => {
                   deleteMedium({
                     variables: {
@@ -53,7 +53,7 @@ class MediumDeletionDialog extends React.Component {
                   })
                 }}
               >
-                Delete video
+                Confirm
               </Button>
             )}
           </Mutation>
