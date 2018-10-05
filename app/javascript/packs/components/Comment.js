@@ -36,6 +36,7 @@ const styles = theme => ({
 class Comment extends React.Component {
   state = {
     menuAnchor: null,
+    showMenuButton: false,
   };
 
   render() {
@@ -57,16 +58,25 @@ class Comment extends React.Component {
               <UserAvatar user={comment.user} />
             </Link>
           }
+          onMouseEnter={() => {
+            this.setState({ showMenuButton: true });
+          }}
+          onMouseLeave={() => {
+            this.setState({ showMenuButton: false });
+          }}
           action={
             canDelete &&
               <div>
-                <IconButton
-                  aria-owns={this.state.menuAnchor ? `menu-${comment.id}` : null}
-                  aria-haspopup="true"
-                  onClick={(event) => this.setState({ menuAnchor: event.currentTarget })}
-                >
-                  <MoreVertIcon />
-                </IconButton>
+                {
+                  this.state.showMenuButton &&
+                    <IconButton
+                      aria-owns={this.state.menuAnchor ? `menu-${comment.id}` : null}
+                      aria-haspopup="true"
+                      onClick={(event) => this.setState({ menuAnchor: event.currentTarget })}
+                    >
+                      <MoreVertIcon />
+                    </IconButton>
+                }
                 <Menu
                   id={`menu-${comment.id}`}
                   anchorEl={this.state.menuAnchor}
