@@ -190,6 +190,7 @@ class AppLayout extends React.Component {
           <Hidden lgUp>
             <TemporaryDrawer
               open={this.state.drawer}
+              onOpen={() => this.setState({ drawer: true })}
               onClose={() => this.setState({ drawer: false })}
             />
           </Hidden>

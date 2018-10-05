@@ -1,6 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import DrawerMenu from './DrawerMenu';
 
 const drawerWidth = 301;
@@ -21,17 +22,21 @@ const styles = theme => {
 class TemporaryDrawer extends React.Component {
   render() {
     const { classes } = this.props;
+    const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+
     return (
-      <Drawer
+      <SwipeableDrawer
         variant="temporary"
         classes={{
           paper: classes.drawerPaper,
         }}
         open={this.props.open}
+        onOpen={this.props.onOpen}
         onClose={this.props.onClose}
+        disableDiscovery={iOS}
       >
         <DrawerMenu onClose={this.props.onClose} />
-      </Drawer>
+      </SwipeableDrawer>
     );
   }
 }

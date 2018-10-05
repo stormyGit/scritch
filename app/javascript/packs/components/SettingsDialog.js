@@ -15,6 +15,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Switch from '@material-ui/core/Switch';
+import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import PageTitle from './PageTitle';
 import ResponsiveDialog from './ResponsiveDialog';
@@ -108,14 +109,6 @@ class Settings extends React.Component {
                       )}
                     </Mutation>
                     <Divider />
-                    <ListItem
-                      button
-                      onClick={() => {
-                        this.setState({ accountSuppressionAlertOpen: true });
-                      }}
-                    >
-                      <ListItemText color="danger" primary="Permanently delete your account" />
-                    </ListItem>
                   </List>
                   <Dialog
                     open={this.state.accountSuppressionAlertOpen}
@@ -165,9 +158,23 @@ class Settings extends React.Component {
           </Query>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.onClose}>
-            Close
-          </Button>
+          <Grid container spacing={0} justify="space-between">
+            <Grid item>
+              <Button
+                color={"secondary"}
+                onClick={() => {
+                  this.setState({ accountSuppressionAlertOpen: true });
+                }}
+                >
+                  Delete your account
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button onClick={this.props.onClose}>
+                Close
+              </Button>
+            </Grid>
+          </Grid>
         </DialogActions>
       </ResponsiveDialog>
     );
