@@ -15,6 +15,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Switch from '@material-ui/core/Switch';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import PageTitle from './PageTitle';
@@ -22,7 +23,7 @@ import ResponsiveDialog from './ResponsiveDialog';
 import themeSelector from '../themeSelector';
 import GlobalProgress from './GlobalProgress';
 
-import { GET_SESSION, DELETE_SESSION, DELETE_USER, UPDATE_USER, GET_THEME } from '../queries';
+import { GET_SESSION, DELETE_USER, UPDATE_USER, GET_THEME } from '../queries';
 
 const styles = theme => ({
 });
@@ -51,65 +52,31 @@ class Settings extends React.Component {
 
               return (
                 <React.Fragment>
-                  <List>
-                    <Mutation
-                      mutation={UPDATE_USER}
-                      update={(cache, { data: { updateUser } }) => {
-                        cache.writeQuery({
-                          query: GET_SESSION,
-                          data: { session: { ...sessionData.session, user: updateUser.user } }
-                        });
-                        themeSelector(updateUser.user.theme);
-                      }}
-                    >
-                      {( updateUser, { data }) => (
-                        <ListItem
-                          button
-                          onClick={() => {
-                            updateUser({ variables: { input: { id: sessionData.session.user.id, theme: sessionData.session.user.theme === 'light' ? 'dark' : 'light' }}});
-                          }}
-                        >
-                          <ListItemText primary={'Light theme'} />
-                          <ListItemSecondaryAction>
-                            <Switch
-                              onChange={(e, value) => {
-                                updateUser({ variables: { input: { id: sessionData.session.user.id, theme: value ? 'light' : 'dark' }}});
-                              }}
-                              checked={sessionData.session.user.theme === 'light'}
-                            />
-                          </ListItemSecondaryAction>
-                        </ListItem>
-                      )}
-                    </Mutation>
-                  </List>
-                  <List>
-                    <Mutation
-                      mutation={DELETE_SESSION}
-                      update={(cache) => {
-                        cache.writeQuery({
-                          query: GET_SESSION,
-                          data: { session: null }
-                        });
-                        themeSelector();
-                      }}
-                    >
-                      {( deleteSession, { data }) => (
-                        <ListItem
-                          button
-                          onClick={() => {
-                            deleteSession({ variables: { input: { id: sessionData.session.id }}})
-                              .then(() => {
-                                localStorage.setItem('token', null);
-                                this.props.onClose();
-                              });
-                          }}
-                        >
-                          <ListItemText primary={`Logout from ${process.env.SITE_NAME}`} />
-                        </ListItem>
-                      )}
-                    </Mutation>
-                    <Divider />
-                  </List>
+                  <Mutation
+                    mutation={UPDATE_USER}
+                    update={(cache, { data: { updateUser } }) => {
+                      cache.writeQuery({
+                        query: GET_SESSION,
+                        data: { session: { ...sessionData.session, user: updateUser.user } }
+                      });
+                      themeSelector(updateUser.user.theme);
+                    }}
+                  >
+                    {( updateUser, { data }) => (
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={sessionData.session.user.theme === 'light'}
+                            onChange={(e, value) => {
+                              updateUser({ variables: { input: { id: sessionData.session.user.id, theme: value ? 'light' : 'dark' }}});
+                            }}
+                            color="primary"
+                          />
+                        }
+                        label="Light theme"
+                      />
+                    )}
+                  </Mutation>
                   <Dialog
                     open={this.state.accountSuppressionAlertOpen}
                     onClose={() => this.setState({ accountSuppressionAlertOpen: false })}

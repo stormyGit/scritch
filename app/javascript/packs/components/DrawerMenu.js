@@ -2,6 +2,8 @@ import React from 'react';
 
 import { withStyles } from '@material-ui/core/styles';
 
+import { Query, Mutation, withApollo } from 'react-apollo';
+
 import Divider from '@material-ui/core/Divider';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import List from '@material-ui/core/List';
@@ -20,6 +22,7 @@ import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
 import AsssistantPhotoIcon from '@material-ui/icons/AssistantPhoto';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import UploadIcon from '@material-ui/icons/CloudUpload';
+import LogoutIcon from '@material-ui/icons/ExitToApp';
 
 import TermsDialog from './TermsDialog';
 import PrivacyPolicyDialog from './PrivacyPolicyDialog';
@@ -27,11 +30,13 @@ import SettingsDialog from './SettingsDialog';
 import SignUpDialog from './SignUpDialog';
 import EditMediumDialog from './EditMediumDialog';
 import ProfileAvatar from './ProfileAvatar';
+import themeSelector from '../themeSelector';
 
 import BannerPlaceholder from './BannerPlaceholder';
 
 import { Link, withRouter } from 'react-router-dom'
 
+import { DELETE_SESSION, GET_SESSION } from '../queries';
 import withCurrentSession from './withCurrentSession';
 
 const styles = theme => {
@@ -242,6 +247,42 @@ class DrawerMenu extends React.Component {
                 </ListItemIcon>
                 <ListItemText primary="Privacy policy" primaryTypographyProps={{ className: classes.text }} />
               </ListItem>
+              {
+                currentSession &&
+                  <React.Fragment>
+                    <Divider />
+                    <Mutation
+                      mutation={DELETE_SESSION}
+                      update={(cache) => {
+                        cache.writeQuery({
+                          query: GET_SESSION,
+                          data: { session: null }
+                        });
+                        themeSelector();
+                      }}
+                    >
+                      {( deleteSession, { data }) => (
+                        <ListItem
+                          button
+                          onClick={() => {
+                            deleteSession({ variables: { input: { id: currentSession.id }}})
+                              .then(() => {
+                                localStorage.setItem('token', null);
+                                if (this.props.onClose) {
+                                  this.props.onClose();                                  
+                                }
+                              });
+                          }}
+                        >
+                          <ListItemIcon className={classes.text}>
+                            <LogoutIcon />
+                          </ListItemIcon>
+                          <ListItemText primary={`Logout from ${process.env.SITE_NAME}`} />
+                        </ListItem>
+                      )}
+                    </Mutation>
+                  </React.Fragment>
+              }
             </List>
           </div>
         </div>
