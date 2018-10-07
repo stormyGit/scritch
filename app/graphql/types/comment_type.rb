@@ -9,4 +9,8 @@ module Types
     field :replies, [CommentType], null: false
     field :replies_count, Integer, null: false
   end
+
+  def created_at
+    object.created_at.iso8601
+  end
 end

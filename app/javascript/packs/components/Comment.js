@@ -9,6 +9,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import dayjs from 'dayjs';
 
 import { withStyles } from '@material-ui/core/styles';
 import { Link} from 'react-router-dom';
@@ -135,7 +136,7 @@ class Comment extends React.Component {
               </div>
           }
           title={<Link to={`/${comment.user.slug}`} className={classes.userLink}>{comment.user.name}</Link>}
-          subheader={timeAgo.format(new Date(comment.createdAt))}
+          subheader={timeAgo.format(dayjs(comment.createdAt).toDate())}
         />
         <FormattedText text={comment.body} />
         {

@@ -13,6 +13,7 @@ import Avatar from '@material-ui/core/Avatar';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Typography from '@material-ui/core/Typography';
 import { Link, withRouter } from 'react-router-dom';
+import dayjs from 'dayjs';
 import { keyToUrl } from '../mediaService';
 import timeAgo from '../timeAgo';
 import Duration from './Duration';
@@ -90,7 +91,7 @@ class MediumCard extends React.Component {
         </div>
         <div>
           <Typography gutterBottom variant="body2" component="h2" className={classes.text}  noWrap>
-            {timeAgo.format(new Date(medium.createdAt))}
+            {timeAgo.format(dayjs(medium.createdAt).toDate())}
           </Typography>
         </div>
       </CardContent>

@@ -13,6 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CommentIcon from '@material-ui/icons/Comment';
+import dayjs from 'dayjs';
 
 import VisibilitySensor from 'react-visibility-sensor';
 
@@ -85,7 +86,7 @@ class MediumCard extends React.Component {
           </Link>
         }
         title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}
-        subheader={timeAgo.format(new Date(medium.createdAt))}
+        subheader={timeAgo.format(dayjs(medium.createdAt).toDate())}
       />
     );
   }
@@ -95,12 +96,14 @@ class MediumCard extends React.Component {
 
     let previewImage = new Image();
     const handleOnMouseEnter = () => {
+      console.log("ENTER");
       previewImage.onload = () => {
         this.setState({ thumbnailKey: medium.previewKey });
       };
       previewImage.src = keyToUrl(medium.previewKey);
     }
     const handleOnMouseLeave = () => {
+      console.log("LEAVE");
       previewImage.onload = () => {
         this.setState({ thumbnailKey: medium.thumbnailKey });
       };
@@ -128,12 +131,12 @@ class MediumCard extends React.Component {
           image={keyToUrl(this.state.thumbnailKey)}
           title={medium.title}
           onMouseEnter={() => {
-            if (width === 'lg' || width === 'xl') {
+            if (this.state.thumbnailKey !== medium.previewKey && width === 'lg' || width === 'xl') {
               handleOnMouseEnter();
             }
           }}
           onMouseLeave={() => {
-            if (width === 'lg' || width === 'xl') {
+            if (this.state.thumbnailKey !== medium.thumbnailKey && width === 'lg' || width === 'xl') {
               handleOnMouseLeave();
             }
           }}

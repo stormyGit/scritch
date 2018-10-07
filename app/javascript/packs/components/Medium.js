@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import timeAgo from '../timeAgo';
 import UserAvatar from './UserAvatar';
 import PageTitle from './PageTitle';
+import dayjs from 'dayjs';
 
 import { GET_MEDIUM } from '../queries';
 
@@ -153,7 +154,7 @@ class Medium extends React.Component {
                                 </Link>
                               }
                               title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}
-                              subheader={timeAgo.format(new Date(medium.createdAt))}
+                              subheader={timeAgo.format(dayjs(medium.createdAt).toDate())}
                             />
                           </Grid>
                           {
@@ -182,7 +183,13 @@ class Medium extends React.Component {
                               <Typography gutterBottom variant="title" component="h3">
                                 {countFormat(medium.commentsCount, 'comment', 'comments')}
                               </Typography>
-                              <CommentForm mediumId={medium.id} parentId={null} />
+                              {
+                                currentSession ?
+                                  <CommentForm mediumId={medium.id} parentId={null} /> :
+                                  <Typography gutterBottom variant="caption">
+                                    {"You must be connected to write a comment."}
+                                  </Typography>
+                              }
                               <Comments medium={medium} parent={null} />
                             </React.Fragment>
                         }
