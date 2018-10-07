@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -13,7 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import CardHeader from '@material-ui/core/CardHeader';
 import Divider from '@material-ui/core/Divider';
 import CommentIcon from '@material-ui/icons/Comment';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import timeAgo from '../timeAgo';
 import UserAvatar from './UserAvatar';
 import PageTitle from './PageTitle';
@@ -26,11 +24,11 @@ import CommentForm from './CommentForm';
 import FormattedText from './FormattedText';
 import LikeButton from './LikeButton';
 import EditMediumDialog from './EditMediumDialog';
+import Comments from './Comments';
 import withCurrentSession from './withCurrentSession';
 import SocialButton from './SocialButton';
 import TwitterIcon from '../icons/Twitter';
 import TelegramIcon from '../icons/Telegram';
-import Comment from './Comment';
 import countFormat from '../countFormat';
 
 const styles = theme => ({
@@ -184,12 +182,8 @@ class Medium extends React.Component {
                               <Typography gutterBottom variant="title" component="h3">
                                 {countFormat(medium.commentsCount, 'comment', 'comments')}
                               </Typography>
-                              <CommentForm mediumId={medium.id} />
-                              {
-                                medium.comments.map((comment) => (
-                                  <Comment comment={comment} medium={medium} key={comment.id} />
-                                ))
-                              }
+                              <CommentForm mediumId={medium.id} parentId={null} />
+                              <Comments medium={medium} parent={null} />
                             </React.Fragment>
                         }
                       </CardContent>

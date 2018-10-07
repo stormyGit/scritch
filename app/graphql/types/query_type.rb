@@ -21,6 +21,14 @@ module Types
       argument :per, Integer, required: true
     end
 
+    field :comments_by_medium, [CommentType], null: false do
+      description "List comments by medium"
+      argument :medium_id, ID, required: true
+      argument :parent_id, ID, required: false
+      argument :page, Integer, required: true
+      argument :per, Integer, required: true
+    end
+
     field :user, UserType, null: false do
       description "Find a user by ID"
       argument :id, ID, required: true
@@ -54,6 +62,10 @@ module Types
 
     def likes_by_user(params = {})
       Like.where(user_id: params[:user_id]).order(created_at: :desc).page(params[:page]).per(params[:per])
+    end
+
+    def comments_by_medium(params = {})
+      Comment.where(medium_id: params[:medium_id]).order(created_at: :desc).page(params[:page]).per(params[:per])
     end
 
     def user(params = {})

@@ -4,6 +4,11 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 import { withStyles } from '@material-ui/core/styles';
 import { Link} from 'react-router-dom';
@@ -12,7 +17,10 @@ import { Mutation } from 'react-apollo';
 
 import FormattedText from './FormattedText';
 import UserAvatar from './UserAvatar';
+import Comments from './Comments';
+import CommentForm from './CommentForm';
 import withCurrentSession from './withCurrentSession';
+import countFormat from '../countFormat';
 
 import { DELETE_COMMENT, GET_MEDIUM } from '../queries';
 
@@ -31,12 +39,17 @@ const styles = theme => ({
     color: theme.palette.text.primary,
     textDecoration: 'none'
   },
+  repliesCount: {
+    width: '100%',
+    textAlign: "right",
+  }
 })
 
 class Comment extends React.Component {
   state = {
     menuAnchor: null,
     showMenuButton: false,
+    replyExpanded: false,
   };
 
   render() {
@@ -125,6 +138,22 @@ class Comment extends React.Component {
           subheader={timeAgo.format(new Date(comment.createdAt))}
         />
         <FormattedText text={comment.body} />
+        {
+          false &&
+            <ExpansionPanel
+              elevation={0}
+              expanded={this.state.replyExpanded}
+              onChange={() => this.setState({ replyExpanded: !this.state.replyExpanded })}
+            >
+              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography className={classes.repliesCount}>{countFormat(comment.repliesCount, 'reply', 'replies')}</Typography>
+              </ExpansionPanelSummary>
+              <ExpansionPanelDetails>
+                <CommentForm mediumId={medium.id} />
+                {comment.repliesCount > 0 && <Comments medium={medium} parent={comment} />}
+              </ExpansionPanelDetails>
+            </ExpansionPanel>
+        }
       </div>
     );
   }

@@ -12,11 +12,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import { Mutation } from "react-apollo";
 
-import { CREATE_COMMENT, GET_MEDIUM } from '../queries';
+import { CREATE_COMMENT, GET_COMMENTS_BY_MEDIUM, GET_MEDIUM } from '../queries';
 
 import Logo from './Logo';
 
 const styles = theme => ({
+  root: {
+    flex: 1,
+  },
   actions: {
     textAlign: "right",
     marginTop: theme.spacing.unit
@@ -33,22 +36,29 @@ class CommentForm extends React.Component {
   }
 
   render() {
-    const { classes, mediumId } = this.props;
+    const { classes, mediumId, parentId } = this.props;
 
     return (
       <Mutation
         mutation={CREATE_COMMENT}
         update={(cache, { data: { createComment } }) => {
+          const { commentsByMedium } = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { mediumId, parentId, page: 1, per: 20 } });
+          cache.writeQuery({
+            query: GET_COMMENTS_BY_MEDIUM,
+            variables: { mediumId, parentId, page: 1, per: 20 },
+            data: { commentsByMedium: [ createComment.comment, ...commentsByMedium ] }
+          });
+
           const { medium } = cache.readQuery({ query: GET_MEDIUM, variables: { id: mediumId } });
           cache.writeQuery({
             query: GET_MEDIUM,
             variables: { id: mediumId },
-            data: { medium: { ...medium, comments: [ createComment.comment, ...medium.comments ], commentsCount: (medium.commentsCount + 1) } }
+            data: { medium: { ...medium, commentsCount: (medium.commentsCount + 1) } }
           });
         }}
       >
         {( createComment, { data }) => (
-          <React.Fragment>
+          <div className={classes.root}>
             <TextField
               name="body"
               margin="dense"
@@ -93,7 +103,7 @@ class CommentForm extends React.Component {
                 Send
               </Button>
             </div>
-          </React.Fragment>
+          </div>
         )}
       </Mutation>
     );

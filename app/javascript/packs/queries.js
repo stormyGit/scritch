@@ -186,6 +186,23 @@ query GetLikesByUser($userId: ID!, $page: Int!, $per: Int!) {
 }
 `;
 
+export const GET_COMMENTS_BY_MEDIUM = gql`
+query GetCommentsByMedium($mediumId: ID!, $parentId: ID, $page: Int!, $per: Int!) {
+  commentsByMedium(mediumId: $mediumId, parentId: $parentId, page: $page, per: $per) {
+    id
+    body
+    createdAt
+    repliesCount
+    user {
+      id
+      slug
+      name
+      avatar
+    }
+  }
+}
+`;
+
 export const CREATE_COMMENT = gql`
   mutation createComment($input: CreateCommentInput!) {
     createComment(input: $input) {
@@ -193,6 +210,7 @@ export const CREATE_COMMENT = gql`
         id
         body
         createdAt
+        repliesCount
         user {
           id
           slug
