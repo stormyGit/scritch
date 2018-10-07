@@ -27,9 +27,10 @@ import { withRouter } from 'react-router-dom'
 
 import queryString from 'query-string';
 
-import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW, UPDATE_USER, GET_SESSION, GET_MEDIA, GET_LIKES_BY_USER } from '../queries';
+import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW, UPDATE_USER, GET_SESSION, GET_MEDIA, GET_LIKES_BY_USER, GET_FOLLOWERS_BY_USER, GET_FOLLOWINGS_BY_USER } from '../queries';
 
 import MediumCard from './MediumCard';
+import UserCard from './UserCard';
 import EmptyList from './EmptyList';
 import UserAvatar from './UserAvatar';
 import ProfileAvatar from './ProfileAvatar';
@@ -287,19 +288,123 @@ class User extends React.Component {
   }
 
   renderFollowing(user) {
+    const { width } = this.props;
+    let page = 1;
+    let per = 10;
+
     return (
-      <EmptyList
-        label={`${user.name} doesn't follow anybody.`}
-      />
-    )
+      <Query query={GET_FOLLOWINGS_BY_USER} variables={{ userId: user.id, page, per }}>
+        {({ data, loading, error, fetchMore }) => {
+          if (loading || error) {
+            return (null);
+          }
+
+          if (data.followingsByUser.length === 0) {
+            return (
+              <EmptyList
+                label={`${user.name} doesn't follow anybody.`}
+              />
+            )
+          }
+
+          return (
+            <React.Fragment>
+              <Grid container spacing={8}>
+                {
+                  data.followingsByUser.map((following) => (
+                    <Grid item xs={12} key={following.id}>
+                      <UserCard user={following} />
+                    </Grid>
+                  ))
+                }
+                {
+                  ((data.followingsByUser.length % per) === 0 && data.followingsByUser.length / per === page) &&
+                    <LoadMoreButton
+                      onClick={() => {
+                        page++;
+
+                        fetchMore({
+                          variables: {
+                            page,
+                            per
+                          },
+                          updateQuery: (prev, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) return prev;
+
+                            return Object.assign({}, prev, {
+                              followingsByUser: [...prev.followingsByUser, ...fetchMoreResult.followingsByUser]
+                            });
+                          }
+                        });
+                      }}
+                    />
+                }
+              </Grid>
+            </React.Fragment>
+          );
+        }}
+      </Query>
+    );
   }
 
   renderFollowers(user) {
+    const { width } = this.props;
+    let page = 1;
+    let per = 10;
+
     return (
-      <EmptyList
-        label={`${user.name} doesn't have any followers.`}
-      />
-    )
+      <Query query={GET_FOLLOWERS_BY_USER} variables={{ userId: user.id, page, per }}>
+        {({ data, loading, error, fetchMore }) => {
+          if (loading || error) {
+            return (null);
+          }
+
+          if (data.followersByUser.length === 0) {
+            return (
+              <EmptyList
+                label={`${user.name} doesn't have any followers.`}
+              />
+            )
+          }
+
+          return (
+            <React.Fragment>
+              <Grid container spacing={8}>
+                {
+                  data.followersByUser.map((follower) => (
+                    <Grid item xs={12} key={follower.id}>
+                      <UserCard user={follower} />
+                    </Grid>
+                  ))
+                }
+                {
+                  ((data.followersByUser.length % per) === 0 && data.followersByUser.length / per === page) &&
+                    <LoadMoreButton
+                      onClick={() => {
+                        page++;
+
+                        fetchMore({
+                          variables: {
+                            page,
+                            per
+                          },
+                          updateQuery: (prev, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) return prev;
+
+                            return Object.assign({}, prev, {
+                              followersByUser: [...prev.followersByUser, ...fetchMoreResult.followersByUser]
+                            });
+                          }
+                        });
+                      }}
+                    />
+                }
+              </Grid>
+            </React.Fragment>
+          );
+        }}
+      </Query>
+    );
   }
 
   renderLikes(user) {

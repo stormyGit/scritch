@@ -43,7 +43,7 @@ module Types
     end
 
     def following_count
-      object.follows.count
+      object.all_following.count
     end
 
     def likes_count

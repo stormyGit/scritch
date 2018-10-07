@@ -186,6 +186,30 @@ query GetLikesByUser($userId: ID!, $page: Int!, $per: Int!) {
 }
 `;
 
+export const GET_FOLLOWERS_BY_USER = gql`
+query GetFollowersByUser($userId: ID!, $page: Int!, $per: Int!) {
+  followersByUser(userId: $userId, page: $page, per: $per) {
+    id
+    slug
+    name
+    avatar
+    bio
+  }
+}
+`;
+
+export const GET_FOLLOWINGS_BY_USER = gql`
+query GetFollowingsByUser($userId: ID!, $page: Int!, $per: Int!) {
+  followingsByUser(userId: $userId, page: $page, per: $per) {
+    id
+    slug
+    name
+    avatar
+    bio
+  }
+}
+`;
+
 export const GET_COMMENTS_BY_MEDIUM = gql`
 query GetCommentsByMedium($mediumId: ID!, $parentId: ID, $page: Int!, $per: Int!) {
   commentsByMedium(mediumId: $mediumId, parentId: $parentId, page: $page, per: $per) {

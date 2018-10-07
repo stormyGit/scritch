@@ -21,6 +21,20 @@ module Types
       argument :per, Integer, required: true
     end
 
+    field :followers_by_user, [UserType], null: false do
+      description "List followers by user"
+      argument :user_id, ID, required: true
+      argument :page, Integer, required: true
+      argument :per, Integer, required: true
+    end
+
+    field :followings_by_user, [UserType], null: false do
+      description "List followings by user"
+      argument :user_id, ID, required: true
+      argument :page, Integer, required: true
+      argument :per, Integer, required: true
+    end
+
     field :comments_by_medium, [CommentType], null: false do
       description "List comments by medium"
       argument :medium_id, ID, required: true
@@ -62,6 +76,14 @@ module Types
 
     def likes_by_user(params = {})
       Like.where(user_id: params[:user_id]).order(created_at: :desc).page(params[:page]).per(params[:per])
+    end
+
+    def followers_by_user(params = {})
+      User.find(params[:user_id]).followers
+    end
+
+    def followings_by_user(params = {})
+      User.find(params[:user_id]).all_following
     end
 
     def comments_by_medium(params = {})
