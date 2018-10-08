@@ -6,6 +6,7 @@ class GraphqlController < ApplicationController
     context = {
       current_session: current_session,
       current_user: current_user,
+      current_user_references: current_user_references,
     }
     result = MurrsuitSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
@@ -22,6 +23,16 @@ class GraphqlController < ApplicationController
 
   def current_user
     @current_user ||= current_session.try(:user)
+  end
+
+  def current_user_references
+    {
+      ip: Digest::SHA1.hexdigest(request.remote_ip.to_s.split.last.to_s),
+    }.tap do |base|
+      if @current_user.present?
+        base[:user_id] = @current_user.id
+      end
+    end
   end
 
   def authorization_token

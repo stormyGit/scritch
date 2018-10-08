@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_05_095239) do
+ActiveRecord::Schema.define(version: 2018_10_08_065623) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "hstore"
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
@@ -159,6 +160,18 @@ ActiveRecord::Schema.define(version: 2018_10_05_095239) do
     t.string "avatar"
     t.string "banner"
     t.string "theme", default: "dark"
+  end
+
+  create_table "views", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.string "ip"
+    t.uuid "user_id"
+    t.uuid "medium_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ip"], name: "index_views_on_ip"
+    t.index ["medium_id"], name: "index_views_on_medium_id"
+    t.index ["user_id"], name: "index_views_on_user_id"
   end
 
 end

@@ -4,6 +4,7 @@ namespace :counter_caches do
     Medium.find_each do |medium|
       Medium.reset_counters medium.id, :likers
       Medium.reset_counters medium.id, :comments
+      Medium.reset_counters medium.id, :views
     end
   end
 end

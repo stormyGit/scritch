@@ -53,6 +53,8 @@ module Types
     end
 
     def medium(params = {})
+      View.add(params[:id], context[:current_user_references])
+
       Medium.includes(comments: [:user]).find(params[:id])
     end
 
@@ -63,9 +65,17 @@ module Types
         media = media.where("media.title @@ ?", params[:q])
       end
 
-      if params[:sort] == 'latest'
-        media = media.order(created_at: :desc)
-      end
+      media =
+        case params[:sort]
+        when 'latest'
+          media.order(created_at: :desc)
+        when 'trending'
+          media.order(["media.likes_count", created_at: :desc])
+        when 'subscriptions'
+          media.where(user: context[:current_user].all_following).order(created_at: :desc)
+        else
+          media
+        end
 
       if params[:user_id].present?
         media = media.where(user_id: params[:user_id])

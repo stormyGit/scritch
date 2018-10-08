@@ -10,6 +10,8 @@ class Medium < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :likers, through: :likes, source: :user
 
+  has_many :views, dependent: :destroy
+
   has_many :comments
 
   validates :temporary_key, presence: true
