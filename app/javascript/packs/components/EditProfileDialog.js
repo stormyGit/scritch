@@ -30,7 +30,6 @@ import GlobalProgress from './GlobalProgress';
 
 import { GET_SESSION, UPDATE_USER } from '../queries';
 
-const BANNER_HEIGHT = '200px';
 const AVATAR_SIZE = 96
 
 const styles = theme => ({
@@ -42,7 +41,6 @@ const styles = theme => ({
   },
   editBannerButton: {
     width: '100%',
-    height: BANNER_HEIGHT,
     position: 'absolute',
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
     zIndex: 1,
@@ -64,7 +62,6 @@ const styles = theme => ({
   },
   placeholderBanner: {
     width: '100%',
-    height: BANNER_HEIGHT,
   },
   uploadInput: {
     position: 'absolute',
@@ -83,8 +80,9 @@ const styles = theme => ({
   },
   avatarContainer: {
     // paddingTop: theme.spacing.unit * 4
-    marginTop: AVATAR_SIZE / -2 + theme.spacing.unit,
-    zIndex: 2,
+    // marginTop: AVATAR_SIZE / -2 + theme.spacing.unit,
+    // zIndex: 2,
+    marginTop: theme.spacing.unit * 3
   },
   editBannerIcon: {
     display: 'block',
@@ -107,12 +105,14 @@ class EditProfileDialog extends React.Component {
     avatar: null,
     bannerMenu: false,
     avatarMenu: false,
+    bannerHeight: 0,
   }
 
   constructor(props) {
     super(props);
     this.bannerUploadInput = React.createRef();
     this.avatarUploadInput = React.createRef();
+    this.bannerRef = React.createRef();
   }
 
   componentDidMount() {
@@ -138,10 +138,17 @@ class EditProfileDialog extends React.Component {
   renderBanner() {
     const { user, classes } = this.props;
 
+    if (!this.state.bannerHeight) {
+      return (null);
+    }
+
     return (
       <React.Fragment>
         <Button
           className={classes.editBannerButton}
+          style={{
+            height: this.state.bannerHeight
+          }}
           onClick={() => this.setState({ bannerMenu: true })}
         >
           <div id="uploadBannerButton" className={classes.infoText}>
@@ -208,10 +215,13 @@ class EditProfileDialog extends React.Component {
               strength={300}
               bgClassName={classes.bannerImageWide}
             >
-              <div style={{ height: BANNER_HEIGHT, width: '100%' }} />
+              <div style={{ height: this.state.bannerHeight, width: '100%' }} />
             </Parallax> :
             <BannerPlaceholder
               className={classes.placeholderBanner}
+              style={{
+                height: this.state.bannerHeight
+              }}
               length={90}
               slug={user.slug}
             />
@@ -297,9 +307,14 @@ class EditProfileDialog extends React.Component {
       <ResponsiveDialog
         open={this.props.open}
         onClose={this.props.onClose}
+        onEntered={() => {
+          this.setState({ bannerHeight: this.bannerRef.current.offsetWidth * 0.33 })
+        }}
       >
         <GlobalProgress absolute />
-        {this.renderBanner()}
+        <div ref={this.bannerRef}>
+          {this.renderBanner()}
+        </div>
         <Grid container justify="center" className={classes.avatarContainer}>
           <Grid item>
             {this.renderAvatar()}

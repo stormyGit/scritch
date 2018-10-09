@@ -17,6 +17,9 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import TextField from '@material-ui/core/TextField';
 import withWidth from '@material-ui/core/withWidth';
 
+import 'react-sticky-header/styles.css';
+import StickyHeader from 'react-sticky-header';
+
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
@@ -40,7 +43,6 @@ import BannerPlaceholder from './BannerPlaceholder';
 import EditProfileDialog from './EditProfileDialog';
 import withCurrentSession from './withCurrentSession';
 
-const BANNER_HEIGHT = '33vw';
 
 const styles = theme => ({
   root: {
@@ -55,7 +57,6 @@ const styles = theme => ({
     width: '100%',
     position: 'relative',
     overflow: 'visible',
-    height: BANNER_HEIGHT,
     alignItems: 'flex-end',
   },
   userProfileGridListTile: {
@@ -93,7 +94,6 @@ const styles = theme => ({
   },
   placeholderBanner: {
     width: '100%',
-    height: BANNER_HEIGHT,
   },
   bannerImageWide: {
     top: '-50%'
@@ -113,12 +113,20 @@ class User extends React.Component {
     tab: 'videos',
     showUnfollow: false,
     editProfileDialog: false,
+    bannerHeight: null,
+  }
+
+  constructor(props) {
+    super(props);
+    this.headerRef = React.createRef();
+    this.pageRef = React.createRef();
   }
 
   componentDidMount() {
     if (this.props.match.params.tab) {
       this.setState({ tab: this.props.match.params.tab });
     }
+    this.setState({ bannerHeight: this.pageRef.current.offsetWidth * 0.33 });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -470,6 +478,10 @@ class User extends React.Component {
   renderBanner(banner, slug) {
     const { classes, width } = this.props;
 
+    if (!this.state.bannerHeight) {
+      return (null);
+    }
+
     if (banner) {
       return (
         <Parallax
@@ -477,7 +489,7 @@ class User extends React.Component {
           strength={300}
           bgClassName={classes.bannerImageWide}
         >
-          <div style={{ height: BANNER_HEIGHT, width: '100%' }} />
+          <div style={{ height: this.state.bannerHeight, width: '100%' }} />
         </Parallax>
       );
     }
@@ -485,6 +497,9 @@ class User extends React.Component {
     return (
       <BannerPlaceholder
         className={classes.placeholderBanner}
+        style={{
+          height: this.state.bannerHeight
+        }}
         length={180}
         slug={slug}
       />
@@ -495,7 +510,7 @@ class User extends React.Component {
     const { classes, currentSession } = this.props;
 
     return (
-      <GridList cols={1} spacing={0} className={classes.userProfile}>
+      <GridList cols={1} spacing={0} className={classes.userProfile} style={{ height: this.state.bannerHeight }}>
         <GridListTile cols={1} classes={{ tile: classes.userProfileGridListTile, root: classes.userProfileGridListRoot }}>
           {this.renderBanner(user.banner, user.slug)}
            <GridListTileBar
@@ -547,71 +562,75 @@ class User extends React.Component {
     const { classes, match } = this.props;
 
     return (
-      <Query query={GET_USER} variables={{ id: match.params.id }}>
-        {({ data, loading, error }) => (
-          <React.Fragment>
-            {
-              !loading && data.user &&
-                <React.Fragment>
-                  <PageTitle>{!loading && data.user ? data.user.name : null}</PageTitle>
-                  {this.renderUserProfile(data.user)}
-                  <Paper className={classes.tabsContainer} elevation={0}>
-                    <Grid container spacing={0}>
-                      <Grid item xs lg>
-                      </Grid>
-                      <Grid item xs={12} lg={8}>
-                        <Tabs
-                          value={this.state.tab}
-                          className={classes.tabs}
-                          onChange={(e, value) => this.handleTabChange(value)}
-                          indicatorColor="secondary"
-                          textColor="secondary"
-                          fullWidth
-                        >
-                          <Tab
-                            value="videos"
-                            label={data.user.mediaCount}
-                            icon="Videos"
-                          />
-                          <Tab
-                            value="following"
-                            label={data.user.followingCount}
-                            icon="Following"
-                          />
-                          <Tab
-                            value="followers"
-                            label={data.user.followersCount}
-                            icon="Followers"
-                          />
-                          <Tab
-                            value="likes"
-                            label={data.user.likesCount}
-                            icon="Likes"
-                          />
-                        </Tabs>
-                      </Grid>
-                      <Grid item xs lg>
+      <div ref={this.pageRef}>
+        <Query query={GET_USER} variables={{ id: match.params.id }}>
+          {({ data, loading, error }) => (
+            <React.Fragment>
+              {
+                !loading && data.user &&
+                  <React.Fragment>
+                    <PageTitle>{!loading && data.user ? data.user.name : null}</PageTitle>
+                    <div ref={this.headerRef}>
+                      {this.renderUserProfile(data.user)}
+                      <Paper className={classes.tabsContainer} elevation={0}>
+                        <Grid container spacing={0}>
+                          <Grid item xs lg>
+                          </Grid>
+                          <Grid item xs={12} lg={8}>
+                            <Tabs
+                              value={this.state.tab}
+                              className={classes.tabs}
+                              onChange={(e, value) => this.handleTabChange(value)}
+                              indicatorColor="secondary"
+                              textColor="secondary"
+                              fullWidth
+                            >
+                              <Tab
+                                value="videos"
+                                label={data.user.mediaCount}
+                                icon="Videos"
+                              />
+                              <Tab
+                                value="following"
+                                label={data.user.followingCount}
+                                icon="Following"
+                              />
+                              <Tab
+                                value="followers"
+                                label={data.user.followersCount}
+                                icon="Followers"
+                              />
+                              <Tab
+                                value="likes"
+                                label={data.user.likesCount}
+                                icon="Likes"
+                              />
+                            </Tabs>
+                          </Grid>
+                          <Grid item xs lg>
+                          </Grid>
+                        </Grid>
+                      </Paper>
+                    </div>
+                    <Grid container className={classes.root} spacing={8} justify="center">
+                      <Grid item item xs={12} lg={8}>
+                        {this.state.tab === 'videos' && this.renderMedia(data.user)}
+                        {this.state.tab === 'following' && this.renderFollowing(data.user)}
+                        {this.state.tab === 'followers' && this.renderFollowers(data.user)}
+                        {this.state.tab === 'likes' && this.renderLikes(data.user)}
                       </Grid>
                     </Grid>
-                  </Paper>
-                  <Grid container className={classes.root} spacing={8} justify="center">
-                    <Grid item item xs={12} lg={8}>
-                      {this.state.tab === 'videos' && this.renderMedia(data.user)}
-                      {this.state.tab === 'following' && this.renderFollowing(data.user)}
-                      {this.state.tab === 'followers' && this.renderFollowers(data.user)}
-                      {this.state.tab === 'likes' && this.renderLikes(data.user)}
-                    </Grid>
-                  </Grid>
-                  <EditProfileDialog
-                    user={data.user}
-                    open={this.state.editProfileDialog}
-                    onClose={() => this.setState({ editProfileDialog: false })}
-                  />
-                </React.Fragment>
-            }
-          </React.Fragment>
-        )}
-      </Query>
+                    <EditProfileDialog
+                      user={data.user}
+                      open={this.state.editProfileDialog}
+                      onClose={() => this.setState({ editProfileDialog: false })}
+                    />
+                  </React.Fragment>
+              }
+            </React.Fragment>
+          )}
+        </Query>
+      </div>
     );
   }
 }

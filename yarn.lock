@@ -6160,6 +6160,13 @@ react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
+react-sticky-header@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/react-sticky-header/-/react-sticky-header-0.2.0.tgz#cf4ebb30ebcb2763898c2026f72b3ae3746dd037"
+  integrity sha512-bdqLXiS+vOA2jkWNZdUe6L7beH/HMYZEcTJTyE8GDjxCh/D03LFQ9rCPttquFNA63T4FybZ/a2j7fWZ86kQBjg==
+  dependencies:
+    react "^15.5.4"
+
 react-telegram-login@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/react-telegram-login/-/react-telegram-login-1.0.3.tgz#95f058ebd509b55f4bb6419a7ec39cbfec748363"
