@@ -9,9 +9,11 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Icon from '@material-ui/core/Icon';
 
+import ActivitiesDialog from './ActivitiesDialog';
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import OnDemandVideoIcon from '@material-ui/icons/OndemandVideo';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 const styles = theme => ({
   root: {
@@ -37,12 +39,13 @@ const styles = theme => ({
 const routes = {
   latest: '/',
   trending: '/trending',
-  subscriptions: '/subscriptions'
+  subscriptions: '/subscriptions',
 };
 
 class AppBottomNavigation extends React.Component {
   state = {
     value: null,
+    activitiesDialog: false
   };
 
   componentDidMount() {
@@ -71,9 +74,13 @@ class AppBottomNavigation extends React.Component {
   }
 
   handleChange = (e, value) => {
-    this.props.history.push({
-      pathname: routes[value]
-    });
+    if (value === 'notifications') {
+      this.setState({ activitiesDialog: true });
+    } else {
+      this.props.history.push({
+        pathname: routes[value]
+      });
+    }
   }
 
   render() {
@@ -125,7 +132,21 @@ class AppBottomNavigation extends React.Component {
                 icon={<SubscriptionsIcon />}
               />
           }
+          {
+            this.props.currentSession &&
+              <BottomNavigationAction
+                className={classes.action}
+                classes={{
+                  label: classes.label,
+                  selected: classes.selected,
+                }}
+                label="Notifications"
+                value="notifications"
+                icon={<NotificationsIcon />}
+              />
+          }
         </BottomNavigation>
+        <ActivitiesDialog open={this.state.activitiesDialog} onClose={() => this.setState({ activitiesDialog: false })} />
       </React.Fragment>
     );
   }

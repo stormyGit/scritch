@@ -159,6 +159,21 @@ export const GET_MEDIA = gql`
   }
 `;
 
+export const GET_ACTIVITIES = gql`
+  query Activities($q: String!) {
+    activities(q: $q) {
+      id
+      key
+      owner {
+        id
+        slug
+        name
+        avatar
+      }
+    }
+  }
+`;
+
 export const GET_LIKES_BY_USER = gql`
 query GetLikesByUser($userId: ID!, $page: Int!, $per: Int!) {
   likesByUser(userId: $userId, page: $page, per: $per) {

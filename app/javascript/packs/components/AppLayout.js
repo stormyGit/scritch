@@ -14,6 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { Link, withRouter } from 'react-router-dom'
@@ -27,6 +28,7 @@ import withCurrentSession from './withCurrentSession';
 import SearchBar from './SearchBar';
 import GlobalProgress from './GlobalProgress';
 import PornographyDisclaimer from './PornographyDisclaimer';
+import ActivitiesDialog from './ActivitiesDialog';
 
 import UserAvatar from './UserAvatar';
 import Logo from './Logo';
@@ -91,11 +93,8 @@ const styles = theme => ({
     justifyContent: 'space-between',
     backgroundColor: theme.palette.background.paper,
   },
-  button: {
-    marginRight: theme.spacing.unit,
-  },
-  avatar: {
-    marginLeft: theme.spacing.unit * 2
+  rightButton: {
+    marginLeft: theme.spacing.unit * 2,
   },
   rightActions: {
     flexShrink: 0,
@@ -119,7 +118,8 @@ class AppLayout extends React.Component {
     signUpDialog: false,
     drawer: false,
     searchEnabled: false,
-    pornographyDisclaimer: false
+    pornographyDisclaimer: false,
+    activitiesDialog: false,
   }
 
   componentDidMount() {
@@ -288,10 +288,19 @@ class AppLayout extends React.Component {
                     }
                     {
                       currentSession &&
+                        <IconButton
+                          className={classes.rightButton}
+                          onClick={() => this.setState({ activitiesDialog: true })}
+                        >
+                          <NotificationsIcon />
+                        </IconButton>
+                    }
+                    {
+                      currentSession &&
                         <ButtonBase
                           component={(props) => <Link to={`/${currentSession.user.slug}`} {...props} />}
                           focusRipple
-                          className={classes.avatar}
+                          className={classes.rightButton}
                         >
                           <UserAvatar user={currentSession.user} />
                         </ButtonBase>
@@ -332,6 +341,7 @@ class AppLayout extends React.Component {
                 commentsDisabled: false
               }}
             />
+            <ActivitiesDialog open={this.state.activitiesDialog} onClose={() => this.setState({ activitiesDialog: false })} />
             {this.props.children}
           </main>
         </div>

@@ -14,6 +14,11 @@ module Types
       argument :per, Integer, required: true
     end
 
+    field :activities, [ActivityType], null: false do
+      description "Activities"
+      argument :q, String, required: true
+    end
+
     field :likes_by_user, [LikeType], null: false do
       description "List likes by user"
       argument :user_id, ID, required: true
@@ -52,21 +57,21 @@ module Types
       description "Find current session"
     end
 
-    def medium(params = {})
-      View.add(params[:id], context[:current_user_references])
+    def medium(arguments = {})
+      View.add(arguments[:id], context[:current_user_references])
 
-      Medium.includes(comments: [:user]).find(params[:id])
+      Medium.includes(comments: [:user]).find(arguments[:id])
     end
 
-    def media(params = {})
+    def media(arguments = {})
       media = Medium.where.not(key: nil).includes(:user)
 
-      if params[:q].present?
-        media = media.where("media.title @@ ?", params[:q])
+      if arguments[:q].present?
+        media = media.where("media.title @@ ?", arguments[:q])
       end
 
       media =
-        case params[:sort]
+        case arguments[:sort]
         when 'latest'
           media.order(created_at: :desc)
         when 'trending'
@@ -77,34 +82,41 @@ module Types
           media
         end
 
-      if params[:user_id].present?
-        media = media.where(user_id: params[:user_id])
+      if arguments[:user_id].present?
+        media = media.where(user_id: arguments[:user_id])
       end
 
-      media.page(params[:page]).per(params[:per])
+      media.page(arguments[:page]).per(arguments[:per])
     end
 
-    def likes_by_user(params = {})
-      Like.where(user_id: params[:user_id]).order(created_at: :desc).page(params[:page]).per(params[:per])
+    def activities(arguments = {})
+      Activity
+        .where(recipient: context[:current_user], key: arguments[:q].split(",").map(&:strip))
+        .where.not(owner: context[:current_user])
+        .page(arguments[:page]).per(arguments[:per])
     end
 
-    def followers_by_user(params = {})
-      User.find(params[:user_id]).followers
+    def likes_by_user(arguments = {})
+      Like.where(user_id: arguments[:user_id]).order(created_at: :desc).page(arguments[:page]).per(arguments[:per])
     end
 
-    def followings_by_user(params = {})
-      User.find(params[:user_id]).all_following
+    def followers_by_user(arguments = {})
+      User.find(arguments[:user_id]).followers
     end
 
-    def comments_by_medium(params = {})
-      Comment.where(medium_id: params[:medium_id]).order(created_at: :desc).page(params[:page]).per(params[:per])
+    def followings_by_user(arguments = {})
+      User.find(arguments[:user_id]).all_following
     end
 
-    def user(params = {})
-      User.find(params[:id])
+    def comments_by_medium(arguments = {})
+      Comment.where(medium_id: arguments[:medium_id]).order(created_at: :desc).page(arguments[:page]).per(arguments[:per])
     end
 
-    def session(params = {})
+    def user(arguments = {})
+      User.find(arguments[:id])
+    end
+
+    def session(arguments = {})
       context[:current_session]
     end
   end

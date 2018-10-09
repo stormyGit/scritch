@@ -23,12 +23,15 @@ import AsssistantPhotoIcon from '@material-ui/icons/AssistantPhoto';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import UploadIcon from '@material-ui/icons/CloudUpload';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import TermsDialog from './TermsDialog';
 import PrivacyPolicyDialog from './PrivacyPolicyDialog';
 import SettingsDialog from './SettingsDialog';
 import SignUpDialog from './SignUpDialog';
 import EditMediumDialog from './EditMediumDialog';
+import ActivitiesDialog from './ActivitiesDialog';
+
 import ProfileAvatar from './ProfileAvatar';
 import themeSelector from '../themeSelector';
 
@@ -79,7 +82,8 @@ class DrawerMenu extends React.Component {
     termsDialog: false,
     settingsDialog: false,
     signUpDialog: false,
-    uploadDialog: false
+    uploadDialog: false,
+    activitiesDialog: false
   }
   render() {
     const { classes, location, currentSession } = this.props;
@@ -140,6 +144,19 @@ class DrawerMenu extends React.Component {
                   </ListItem>
               }
               {(!this.props.disableUpload || !this.props.disableProfile) && <Divider />}
+              {
+                !this.props.disableNotifications && currentSession &&
+                  <ListItem
+                    button
+                    onClick={() => this.setState({ activitiesDialog: true })}
+                  >
+                    <ListItemIcon className={classes.text} color='secondary'>
+                      <NotificationsIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Notifications" primaryTypographyProps={{ className: classes.text }} />
+                  </ListItem>
+              }
+              {(!this.props.disableUpload || !this.props.disableProfile || !this.props.disableNotifications) && <Divider />}
               {
                 !this.props.disableNavigation &&
                   <React.Fragment>
@@ -269,7 +286,7 @@ class DrawerMenu extends React.Component {
                               .then(() => {
                                 localStorage.setItem('token', null);
                                 if (this.props.onClose) {
-                                  this.props.onClose();                                  
+                                  this.props.onClose();
                                 }
                               });
                           }}
@@ -335,6 +352,15 @@ class DrawerMenu extends React.Component {
             title: '',
             description: '',
             commentsDisabled: false
+          }}
+        />
+        <ActivitiesDialog
+          open={this.state.activitiesDialog}
+          onClose={() => {
+            this.setState({ activitiesDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
           }}
         />
       </React.Fragment>
