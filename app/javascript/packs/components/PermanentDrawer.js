@@ -43,7 +43,7 @@ class PermanentDrawer extends React.Component {
           }}
         >
           <div className={classes.toolbar} />
-          <DrawerMenu disableProfile disableUpload />
+          <DrawerMenu disableProfile disableNotifications disableUpload />
         </Drawer>
       </React.Fragment>
     );
