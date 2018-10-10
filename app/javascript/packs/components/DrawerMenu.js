@@ -221,7 +221,7 @@ class DrawerMenu extends React.Component {
           <div>
             <List>
               {
-                currentSession &&
+                currentSession && !this.props.disableSettings &&
                   <ListItem
                     button
                     onClick={() => this.setState({ settingsDialog: true })}

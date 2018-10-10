@@ -7,6 +7,8 @@ class Medium < ApplicationRecord
   include PublicActivity::Model
   tracked owner: Proc.new{ |_, model| model.user }, recipient: Proc.new{ |_, model| model.user }
 
+  has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity', dependent: :destroy
+
   belongs_to :user
   belongs_to :video_encoding_job, class_name: "Chronofage::Job", primary_key: :job_id, dependent: :destroy, optional: true
 
