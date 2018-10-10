@@ -1,5 +1,6 @@
 class Follow < ActiveRecord::Base
-
+  self.primary_key = :uuid
+  
   extend ActsAsFollower::FollowerLib
   extend ActsAsFollower::FollowScopes
 

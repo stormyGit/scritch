@@ -6,7 +6,7 @@ const ResponsiveDialog = ({ width, ...props }) => (
   <Dialog
     fullScreen={width === 'md' || width === 'sm' || width === 'xs'}
     PaperProps={{
-      style: width === 'lg' || width === 'xl' ? { minWidth: 400 } : {}
+      style: width === 'lg' || width === 'xl' ? { minWidth: 500 } : {}
     }}
     {...props}
   />

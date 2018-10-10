@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_09_062404) do
+ActiveRecord::Schema.define(version: 2018_10_10_064202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -117,6 +117,7 @@ ActiveRecord::Schema.define(version: 2018_10_09_062404) do
     t.datetime "updated_at"
     t.uuid "followable_id"
     t.uuid "follower_id"
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
   end
 
   create_table "friendly_id_slugs", id: :serial, force: :cascade do |t|

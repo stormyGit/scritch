@@ -160,15 +160,27 @@ export const GET_MEDIA = gql`
 `;
 
 export const GET_ACTIVITIES = gql`
-  query Activities($q: String!) {
-    activities(q: $q) {
+  query Activities($q: String!, $page: Int!, $per: Int!) {
+    activities(q: $q, page: $page, per: $per) {
       id
       key
+      createdAt
       owner {
         id
         slug
         name
         avatar
+      }
+      trackable {
+        ... on Like {
+          id
+          medium {
+            title
+          }
+        }
+        ... on Follow {
+          id
+        }
       }
     }
   }

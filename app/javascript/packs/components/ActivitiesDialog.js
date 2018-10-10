@@ -17,10 +17,13 @@ import Grid from '@material-ui/core/Grid';
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
+import timeAgo from '../timeAgo';
+import dayjs from 'dayjs';
 import ResponsiveDialog from './ResponsiveDialog';
 import GlobalProgress from './GlobalProgress';
 import UserAvatar from './UserAvatar';
 import EmptyList from './EmptyList';
+import LoadMoreButton from './LoadMoreButton';
 
 import { GET_ACTIVITIES } from '../queries';
 
@@ -29,7 +32,8 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    paddingTop: theme.spacing.unit * 8
+    paddingTop: theme.spacing.unit * 8,
+    paddingBottom: theme.spacing.unit * 4,
   },
   emptyNoficationIcon: {
     fontSize: 2,
@@ -39,6 +43,14 @@ const styles = theme => ({
     marginRight: 'auto',
     marginBottom: theme.spacing.unit,
     color: theme.palette.type === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+  },
+  notificationsContainer: {
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
+  loadMoreContainer: {
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2,
   }
 });
 
@@ -48,7 +60,6 @@ class ActivitiesDialog extends React.Component {
   }
 
   renderLikeCreate(activity) {
-
     return (
       <ListItem
         key={activity.id}
@@ -61,7 +72,31 @@ class ActivitiesDialog extends React.Component {
         }}
       >
         <UserAvatar user={activity.owner} />
-        <ListItemText primary={`${activity.owner.name} liked your video.`} />
+        <ListItemText
+          primary={`${activity.owner.name} liked your video ${activity.trackable.medium.title}`}
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderFollowCreate(activity) {
+    return (
+      <ListItem
+        key={activity.id}
+        button
+        onClick={() => {
+          this.props.history.push({
+            pathname: `/${activity.owner.slug}`
+          });
+          this.props.onClose();
+        }}
+      >
+        <UserAvatar user={activity.owner} />
+        <ListItemText
+          primary={`${activity.owner.name} follows you`}
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
       </ListItem>
     );
   }
@@ -71,6 +106,9 @@ class ActivitiesDialog extends React.Component {
       case 'like.create':
         return (this.renderLikeCreate(activity));
         break;
+      case 'follow.create':
+        return (this.renderFollowCreate(activity));
+        break;
       default:
         return (null);
     }
@@ -78,18 +116,23 @@ class ActivitiesDialog extends React.Component {
 
   render() {
     const { classes, match, width } = this.props;
+    let page = 1;
+    let per = 30;
 
     return (
       <ResponsiveDialog
         open={this.props.open}
         onClose={this.props.onClose}
+        className={classes.root}
       >
         <GlobalProgress absolute />
-          <Query query={GET_ACTIVITIES} variables={{ q: 'like.create' }}>
-            {({ loading, error, data }) => {
-              if (loading || !data.activities) {
+          <Query query={GET_ACTIVITIES} variables={{ q: 'like.create,follow.create', page, per }}>
+            {({ loading, error, data, fetchMore }) => {
+              if (loading || error || !data.activities) {
                 return (null);
               }
+
+
 
               if (data.activities.length === 0) {
                 return (
@@ -103,13 +146,40 @@ class ActivitiesDialog extends React.Component {
               }
 
               return (
-                <List>
+                <DialogContent className={classes.notificationsContainer}>
+                  <List>
+                    {
+                      data.activities.map((activity) => (
+                        this.renderActivity(activity)
+                      ))
+                    }
+                  </List>
                   {
-                    data.activities.map((activity) => (
-                      this.renderActivity(activity)
-                    ))
+                    ((data.activities.length % per) === 0 && data.activities.length / per === page) &&
+                      <div className={classes.loadMoreContainer}>
+                        <LoadMoreButton
+                          noMargin
+                          onClick={() => {
+                            page++;
+
+                            fetchMore({
+                              variables: {
+                                page,
+                                per
+                              },
+                              updateQuery: (prev, { fetchMoreResult }) => {
+                                if (!fetchMoreResult) return prev;
+
+                                return Object.assign({}, prev, {
+                                  activities: [...prev.activities, ...fetchMoreResult.activities]
+                                });
+                              }
+                            });
+                          }}
+                        />
+                      </div>
                   }
-                </List>
+                </DialogContent>
               );
             }}
           </Query>

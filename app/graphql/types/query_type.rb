@@ -17,6 +17,8 @@ module Types
     field :activities, [ActivityType], null: false do
       description "Activities"
       argument :q, String, required: true
+      argument :page, Integer, required: true
+      argument :per, Integer, required: true
     end
 
     field :likes_by_user, [LikeType], null: false do
@@ -93,7 +95,9 @@ module Types
       Activity
         .where(recipient: context[:current_user], key: arguments[:q].split(",").map(&:strip))
         .where.not(owner: context[:current_user])
+        .order(created_at: :desc)
         .page(arguments[:page]).per(arguments[:per])
+        .includes(:owner, :recipient, :trackable)
     end
 
     def likes_by_user(arguments = {})

@@ -19,8 +19,8 @@ const styles = theme => ({
   }
 })
 
-const LoadMoreButton = ({ classes, noMargin, ...props }) => (
-  <Grid container spacing={0} justify="center" className={classes.root}>
+const LoadMoreButton = ({ classes, noMargin, spacing, ...props }) => (
+  <Grid container spacing={spacing || 0} justify="center" className={classes.root}>
     <Grid item xs={12} lg={12}>
       <Button
         fullWidth
