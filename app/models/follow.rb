@@ -5,7 +5,7 @@ class Follow < ActiveRecord::Base
   extend ActsAsFollower::FollowScopes
 
   include PublicActivity::Model
-  tracked owner: Proc.new{ |_, model| model.follower }, recipient:  Proc.new{ |_, model| model.followable }
+  tracked owner: Proc.new{ |_, model| model.follower }, recipient:  Proc.new{ |_, model| model.followable }, only: [:create]
 
   has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity', dependent: :destroy
 

@@ -180,8 +180,8 @@ export const GET_MEDIA = gql`
 `;
 
 export const GET_ACTIVITIES = gql`
-  query Activities($q: String!, $page: Int!, $per: Int!) {
-    activities(q: $q, page: $page, per: $per) @connection(key: "activities") {
+  query Activities($page: Int!, $per: Int!) {
+    activities(page: $page, per: $per) @connection(key: "activities") {
       id
       key
       createdAt

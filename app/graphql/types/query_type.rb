@@ -16,7 +16,6 @@ module Types
 
     field :activities, [ActivityType], null: false do
       description "Activities"
-      argument :q, String, required: true
       argument :page, Integer, required: true
       argument :per, Integer, required: true
     end
@@ -93,7 +92,7 @@ module Types
 
     def activities(arguments = {})
       Activity
-        .where(recipient: context[:current_user], key: arguments[:q].split(",").map(&:strip))
+        .where(recipient: context[:current_user])
         .where.not(owner: context[:current_user])
         .order(created_at: :desc)
         .page(arguments[:page]).per(arguments[:per])

@@ -33,7 +33,7 @@ const styles = theme => ({
     flexDirection: 'column',
     justifyContent: 'center',
     paddingTop: theme.spacing.unit * 8,
-    paddingBottom: theme.spacing.unit * 4,
+    paddingBottom: theme.spacing.unit * 8,
   },
   emptyNoficationIcon: {
     fontSize: 2,
@@ -138,7 +138,7 @@ class ActivitiesDialog extends React.Component {
         className={classes.root}
       >
         <GlobalProgress absolute />
-          <Query query={GET_ACTIVITIES} variables={{ q: 'like.create,follow.create', page, per }} fetchPolicy="network-only">
+          <Query query={GET_ACTIVITIES} variables={{ page, per }} fetchPolicy="network-only">
             {({ loading, error, data, fetchMore }) => {
               if (loading || error || !data.activities) {
                 return (null);

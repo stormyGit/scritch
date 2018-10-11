@@ -5,7 +5,7 @@ class Medium < ApplicationRecord
   friendly_id :title, use: :slugged
 
   include PublicActivity::Model
-  tracked owner: Proc.new{ |_, model| model.user }, recipient: Proc.new{ |_, model| model.user }
+  tracked owner: Proc.new{ |_, model| model.user }, recipient: Proc.new{ |_, model| model.user }, only: [:create]
 
   has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity', dependent: :destroy
 
