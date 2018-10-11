@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_10_124816) do
+ActiveRecord::Schema.define(version: 2018_10_11_080737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -207,6 +207,7 @@ ActiveRecord::Schema.define(version: 2018_10_10_124816) do
     t.string "avatar"
     t.string "banner"
     t.string "theme", default: "dark"
+    t.datetime "last_activities_read"
   end
 
   create_table "views", force: :cascade do |t|

@@ -25,6 +25,26 @@ export const CREATE_SESSION = gql`
   }
 `;
 
+export const READ_ACTIVITIES = gql`
+  mutation readActivities($input: ReadActivitiesInput!) {
+    readActivities(input: $input) {
+      user {
+        id
+      }
+    }
+  }
+`;
+
+export const CLEAR_ACTIVITIES = gql`
+  mutation clearActivities($input: ClearActivitiesInput!) {
+    clearActivities(input: $input) {
+      user {
+        id
+      }
+    }
+  }
+`;
+
 export const DELETE_SESSION = gql`
   mutation deleteSession($input: DeleteSessionInput!) {
     deleteSession(input: $input) {
@@ -161,7 +181,7 @@ export const GET_MEDIA = gql`
 
 export const GET_ACTIVITIES = gql`
   query Activities($q: String!, $page: Int!, $per: Int!) {
-    activities(q: $q, page: $page, per: $per) {
+    activities(q: $q, page: $page, per: $per) @connection(key: "activities") {
       id
       key
       createdAt

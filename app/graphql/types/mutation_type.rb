@@ -13,5 +13,7 @@ module Types
     field :update_user, mutation: Mutations::UpdateUser
     field :delete_medium, mutation: Mutations::DeleteMedium
     field :update_medium, mutation: Mutations::UpdateMedium
+    field :read_activities, mutation: Mutations::ReadActivities
+    field :clear_activities, mutation: Mutations::ClearActivities
   end
 end

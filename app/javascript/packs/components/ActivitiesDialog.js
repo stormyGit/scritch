@@ -25,7 +25,7 @@ import UserAvatar from './UserAvatar';
 import EmptyList from './EmptyList';
 import LoadMoreButton from './LoadMoreButton';
 
-import { GET_ACTIVITIES } from '../queries';
+import { GET_ACTIVITIES, READ_ACTIVITIES, CLEAR_ACTIVITIES } from '../queries';
 
 const styles = theme => ({
   emptyNoficationContainer: {
@@ -57,6 +57,18 @@ const styles = theme => ({
 class ActivitiesDialog extends React.Component {
   state = {
     accountSuppressionAlertOpen: false,
+  }
+
+  componentDidMount() {
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.open && nextProps.open) {
+      this.props.client.mutate({
+        mutation: READ_ACTIVITIES,
+        variables: { input: {} }
+      });
+    }
   }
 
   renderLikeCreate(activity) {
@@ -126,80 +138,81 @@ class ActivitiesDialog extends React.Component {
         className={classes.root}
       >
         <GlobalProgress absolute />
-          <Query query={GET_ACTIVITIES} variables={{ q: 'like.create,follow.create', page, per }}>
+          <Query query={GET_ACTIVITIES} variables={{ q: 'like.create,follow.create', page, per }} fetchPolicy="network-only">
             {({ loading, error, data, fetchMore }) => {
               if (loading || error || !data.activities) {
                 return (null);
               }
 
-
-
-              if (data.activities.length === 0) {
-                return (
-                  <DialogContent className={classes.emptyNoficationContainer}>
-                    <NotificationsNoneIcon className={classes.emptyNoficationIcon} />
-                    <EmptyList
-                      label={`No recent activity`}
-                    />
-                  </DialogContent>
-                )
-              }
-
               return (
-                <DialogContent className={classes.notificationsContainer}>
-                  <List>
-                    {
-                      data.activities.map((activity) => (
-                        this.renderActivity(activity)
-                      ))
-                    }
-                  </List>
+                <React.Fragment>
                   {
-                    ((data.activities.length % per) === 0 && data.activities.length / per === page) &&
-                      <div className={classes.loadMoreContainer}>
-                        <LoadMoreButton
-                          noMargin
-                          onClick={() => {
-                            page++;
-
-                            fetchMore({
-                              variables: {
-                                page,
-                                per
-                              },
-                              updateQuery: (prev, { fetchMoreResult }) => {
-                                if (!fetchMoreResult) return prev;
-
-                                return Object.assign({}, prev, {
-                                  activities: [...prev.activities, ...fetchMoreResult.activities]
-                                });
-                              }
-                            });
-                          }}
+                    data.activities.length === 0 ?
+                      <DialogContent className={classes.emptyNoficationContainer}>
+                        <NotificationsNoneIcon className={classes.emptyNoficationIcon} />
+                        <EmptyList
+                          label={`No recent activity`}
                         />
-                      </div>
+                      </DialogContent> :
+                      <DialogContent className={classes.notificationsContainer}>
+                        <List>
+                          {
+                            data.activities.map((activity) => (
+                              this.renderActivity(activity)
+                            ))
+                          }
+                        </List>
+                        {
+                          ((data.activities.length % per) === 0 && data.activities.length / per === page) &&
+                            <div className={classes.loadMoreContainer}>
+                              <LoadMoreButton
+                                noMargin
+                                onClick={() => {
+                                  page++;
+
+                                  fetchMore({
+                                    variables: {
+                                      page,
+                                      per
+                                    },
+                                    updateQuery: (prev, { fetchMoreResult }) => {
+                                      if (!fetchMoreResult) return prev;
+
+                                      return Object.assign({}, prev, {
+                                        activities: [...prev.activities, ...fetchMoreResult.activities]
+                                      });
+                                    }
+                                  });
+                                }}
+                              />
+                            </div>
+                        }
+                      </DialogContent>
                   }
-                </DialogContent>
+                  <DialogActions>
+                    <Mutation
+                      mutation={CLEAR_ACTIVITIES}
+                      update={(cache) => {
+                        cache.writeQuery({
+                          query: GET_ACTIVITIES,
+                          data: { activities: [] }
+                        });
+                      }}
+                    >
+                      {( clearActivities, {}) => (
+                        <Button onClick={() => clearActivities({ variables: { input: {} }})} disabled={loading || error || !data || data.activities.length === 0}>
+                          Clear all notifications
+                        </Button>
+                      )}
+                    </Mutation>
+                    <Button onClick={this.props.onClose}>
+                      Close
+                    </Button>
+                  </DialogActions>
+                </React.Fragment>
               );
             }}
-          </Query>
-        <DialogActions>
-          <Grid container spacing={0} justify="space-between">
-            <Grid item>
-              {
-                false &&
-                  <Button>
-                    Clear all notifications
-                  </Button>
-              }
-            </Grid>
-            <Grid item>
-              <Button onClick={this.props.onClose}>
-                Close
-              </Button>
-            </Grid>
-          </Grid>
-        </DialogActions>
+        </Query>
       </ResponsiveDialog>
     );
   }
