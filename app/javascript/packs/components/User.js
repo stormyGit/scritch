@@ -512,7 +512,7 @@ class User extends React.Component {
       <BannerPlaceholder
         className={classes.placeholderBanner}
         style={{
-          height: this.state.bannerHeight
+          minHeight: this.state.bannerHeight
         }}
         length={180}
         slug={slug}
