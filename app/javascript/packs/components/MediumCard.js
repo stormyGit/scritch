@@ -72,7 +72,8 @@ const styles = theme => ({
   },
   tags: {
     overflow: "hidden",
-    maxHeight: 64
+    maxHeight: theme.spacing.unit * 6,
+    marginBottom: theme.spacing.unit * 2,
   },
   noTags: {
     fontStyle: 'italic',

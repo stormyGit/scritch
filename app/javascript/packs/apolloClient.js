@@ -39,18 +39,22 @@ const apolloClient = new ApolloClient({
     globalProgresses.forEach((globalProgress) => {
       globalProgress.style.display = 'block';
     });
+
+    const handleResponse = (response) => {
+      loaderCount--;
+
+      if (loaderCount === 0) {
+        globalProgresses.forEach((globalProgress) => {
+          globalProgress.style.display = 'none';
+        })
+      }
+      return (response);
+    }
+
     return (
       fetch(input, init)
-        .then((response) => {
-          loaderCount--;
-
-          if (loaderCount === 0) {
-            globalProgresses.forEach((globalProgress) => {
-              globalProgress.style.display = 'none';
-            })
-          }
-          return (response);
-        })
+        .then(handleResponse)
+        .catch(handleResponse)
     );
   }
 });
