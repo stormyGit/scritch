@@ -54,7 +54,7 @@ const styles = theme => ({
   text: {
   },
   mediumTitle: {
-    maxWidth: "50vw",
+    maxWidth: "40vw",
     marginBottom: 0
   },
   relatedMedia: {
@@ -115,13 +115,13 @@ class Medium extends React.Component {
                     <Grid item lg={8} xs={12}>
                       <CardContent>
                         <div className={classes.videoInfo}>
-                          <Grid container spacing={8} justify="space-between">
+                          <Grid container spacing={8} justify="space-between" wrap="nowrap">
                             <Grid item>
                               <Typography gutterBottom variant="headline" component="h2" className={classes.mediumTitle} noWrap>
                                 {medium.title}
                               </Typography>
                             </Grid>
-                            <Grid item>
+                            <Grid item style={{ flexShrink: 0 }}>
                               <SocialButton
                                 name="Twitter"
                                 url="https://twitter.com/intent/tweet/"

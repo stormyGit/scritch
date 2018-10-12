@@ -121,20 +121,32 @@ class AppLayout extends React.Component {
     searchEnabled: false,
     pornographyDisclaimer: false,
     activitiesDialog: false,
+    query: {},
   }
 
   componentDidMount() {
     this.checkPornographyDisclaimer(this.props);
+
+    this.handleQuery(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     this.checkPornographyDisclaimer(nextProps);
+
+    if (this.props.location.search !== nextProps.location.search) {
+      this.handleQuery(nextProps)
+    }
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       window.scrollTo(0, 0);
     }
+  }
+
+  handleQuery(props) {
+    const query = queryString.parse(props.location.search);
+    this.setState({ query, searchEnabled: (props.width !== 'xl' && props.width !== 'lg' && query.q && query.q.length > 0) })
   }
 
   checkPornographyDisclaimer(props) {
@@ -160,7 +172,7 @@ class AppLayout extends React.Component {
 
   render() {
     const { classes, settingsLayout, children, currentSession, location, client, width } = this.props;
-    const query = queryString.parse(location.search);
+    const { query } = this.state;
 
     let appBarPadding;
     if (width === 'xl' || width === 'lg') {
@@ -229,7 +241,10 @@ class AppLayout extends React.Component {
                     this.state.searchEnabled &&
                       <IconButton
                         className={classes.closeIcon}
-                        onClick={() => this.setState({ searchEnabled: false })}
+                        onClick={() => {
+                          this.setState({ searchEnabled: false });
+                          this.handleCancelSearchRequest();
+                        }}
                       >
                         <CloseIcon />
                       </IconButton>
