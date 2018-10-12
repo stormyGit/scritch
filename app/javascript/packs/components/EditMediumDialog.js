@@ -220,7 +220,7 @@ class EditMediumDialog extends React.Component {
     mediumDeletion: false,
     title: '',
     description: '',
-    commentsDisabled: false,
+    commentsEnabled: false,
     tagList: [],
     temporaryKey: null,
   }
@@ -240,7 +240,7 @@ class EditMediumDialog extends React.Component {
       id: medium.id,
       title: medium.title,
       description: medium.description,
-      commentsDisabled: medium.commentsDisabled,
+      commentsEnabled: !medium.commentsDisabled,
       tagList: medium.tagList,
     });
   }
@@ -305,14 +305,14 @@ class EditMediumDialog extends React.Component {
             <FormControlLabel
               control={
                 <Switch
-                  checked={this.state.commentsDisabled}
+                  checked={this.state.commentsEnabled}
                   onChange={() => {
-                    this.setState({ commentsDisabled: !this.state.commentsDisabled })
+                    this.setState({ commentsEnabled: !this.state.commentsEnabled })
                   }}
                   color="primary"
                 />
               }
-              label="Disable comments"
+              label={this.state.commentsEnabled ? "Comments enabled" : "Comments disabled"}
             />
           </DialogContent>
           <DialogActions>
@@ -354,7 +354,7 @@ class EditMediumDialog extends React.Component {
                                   id: medium.id,
                                   title: this.state.title,
                                   description: this.state.description,
-                                  commentsDisabled: this.state.commentsDisabled,
+                                  commentsDisabled: !this.state.commentsEnabled,
                                   tagList: this.state.tagList,
                                 }
                               }
@@ -401,7 +401,7 @@ class EditMediumDialog extends React.Component {
                                     input: {
                                       title: this.state.title,
                                       description: this.state.description,
-                                      commentsDisabled: this.state.commentsDisabled,
+                                      commentsDisabled: !this.state.commentsEnabled,
                                       temporaryKey: this.state.temporaryKey,
                                       tagList: this.state.tagList,
                                     }

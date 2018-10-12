@@ -69,7 +69,7 @@ module Types
     end
 
     def media(arguments = {})
-      media = Medium.where.not(key: nil).includes(:user)
+      media = Medium.published.includes(:user)
 
       if arguments[:q].present?
         media = media.where("media.title @@ ? OR media.uuid IN (?)", arguments[:q], Medium.tagged_with(arguments[:q]).select(:uuid))
