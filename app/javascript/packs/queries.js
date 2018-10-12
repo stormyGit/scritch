@@ -224,6 +224,7 @@ query GetLikesByUser($userId: ID!, $page: Int!, $per: Int!) {
       commentsCount
       likesCount
       liked
+      tagList
       user {
         id
         slug
@@ -243,6 +244,7 @@ query GetFollowersByUser($userId: ID!, $page: Int!, $per: Int!) {
     name
     avatar
     bio
+    mediaCount
   }
 }
 `;
@@ -255,6 +257,7 @@ query GetFollowingsByUser($userId: ID!, $page: Int!, $per: Int!) {
     name
     avatar
     bio
+    mediaCount
   }
 }
 `;
@@ -379,6 +382,7 @@ export const GET_SESSION = gql`
         banner
         bio
         theme
+        mediaCount
       }
     }
   }

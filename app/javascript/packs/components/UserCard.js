@@ -31,6 +31,12 @@ const styles = theme => ({
   leftIcon: {
     marginRight: theme.spacing.unit
   },
+  videoCount: {
+    flexShrink: 0,
+    display: 'flex',
+    alignItems: 'center',
+    paddingRight: theme.spacing.unit * 3
+  }
 });
 
 class MediumCard extends React.Component {
@@ -54,11 +60,14 @@ class MediumCard extends React.Component {
     return (
       <Card className={classes.card} elevation={0}>
         <CardActionArea component={(props) => <Link to={`/${user.slug}`} {...props} />}>
-          <Grid container spacing={0}>
+          <Grid container spacing={0} justify="space-between" wrap='nowrap'>
             <Grid item>
               {this.renderHeader()}
             </Grid>
-            <Grid item>
+            <Grid item className={classes.videoCount}>
+              <Typography variant="button">
+                {countFormat(user.mediaCount, 'video', 'videos')}
+              </Typography>
             </Grid>
           </Grid>
         </CardActionArea>

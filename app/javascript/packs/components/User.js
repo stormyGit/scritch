@@ -159,6 +159,13 @@ class User extends React.Component {
               variables: { id: user.id },
               data: { user: { ...user, followed: false, followersCount: (user.followersCount - 1) } }
             });
+
+            const { followersByUser } = cache.readQuery({ query: GET_FOLLOWERS_BY_USER, variables: { userId: user.id, page: 1, per: 30 } });
+            cache.writeQuery({
+              query: GET_FOLLOWERS_BY_USER,
+              variables: { userId: user.id, page: 1, per: 30 },
+              data: { followersByUser: followersByUser.filter((follower) => follower.id != this.props.currentSession.user.id) }
+            });
           }}
         >
           {( deleteFollow, { data }) => (
@@ -187,6 +194,13 @@ class User extends React.Component {
               query: GET_USER,
               variables: { id: user.id },
               data: { user: { ...user, followed: true, followersCount: (user.followersCount + 1) } }
+            });
+
+            const { followersByUser } = cache.readQuery({ query: GET_FOLLOWERS_BY_USER, variables: { userId: user.id, page: 1, per: 30 } });
+            cache.writeQuery({
+              query: GET_FOLLOWERS_BY_USER,
+              variables: { userId: user.id, page: 1, per: 30 },
+              data: { followersByUser: [ this.props.currentSession.user, ...followersByUser] }
             });
           }}
         >
@@ -298,7 +312,7 @@ class User extends React.Component {
   renderFollowing(user) {
     const { width } = this.props;
     let page = 1;
-    let per = 10;
+    let per = 30;
 
     return (
       <Query query={GET_FOLLOWINGS_BY_USER} variables={{ userId: user.id, page, per }}>
@@ -358,7 +372,7 @@ class User extends React.Component {
   renderFollowers(user) {
     const { width } = this.props;
     let page = 1;
-    let per = 10;
+    let per = 30;
 
     return (
       <Query query={GET_FOLLOWERS_BY_USER} variables={{ userId: user.id, page, per }}>
