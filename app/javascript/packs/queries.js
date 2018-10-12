@@ -118,6 +118,7 @@ export const UPDATE_MEDIUM = gql`
         createdAt
         thumbnailKey
         commentsDisabled
+        tagList
         user {
           id
           slug
@@ -309,6 +310,7 @@ export const GET_MEDIUM = gql`
       createdAt
       thumbnailKey
       commentsDisabled
+      tagList
       user {
         id
         slug

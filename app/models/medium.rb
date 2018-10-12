@@ -7,6 +7,8 @@ class Medium < ApplicationRecord
   include PublicActivity::Model
   tracked owner: Proc.new{ |_, model| model.user }, recipient: Proc.new{ |_, model| model.user }, only: [:create]
 
+  acts_as_taggable
+
   has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity', dependent: :destroy
 
   belongs_to :user

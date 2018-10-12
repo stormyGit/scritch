@@ -118,6 +118,7 @@ const FormWithMutation = (props) => (
   <Mutation
     mutation={CREATE_SESSION}
     update={(cache, { data: { createSession } }) => {
+      localStorage.setItem('token', createSession.session.id);
       cache.writeQuery({
         query: GET_SESSION,
         data: { session: createSession.session }
@@ -131,7 +132,6 @@ const FormWithMutation = (props) => (
           loading={loading}
           onSubmit={(input) => {
             createSession({ variables: { input } }).then(({ data: { createSession: { session }}}) => {
-              localStorage.setItem('token', session.id);
               props.onClose();
             })
           }}

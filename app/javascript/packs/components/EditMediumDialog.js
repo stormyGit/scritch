@@ -27,6 +27,8 @@ import withWidth from '@material-ui/core/withWidth';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
+import ChipInput from 'material-ui-chip-input'
+
 import { withRouter } from 'react-router-dom'
 import Dropzone from 'react-dropzone';
 
@@ -206,6 +208,10 @@ const styles = theme => ({
   },
   infoText: {
     color: 'white'
+  },
+  chipInput: {
+    marginTop: theme.spacing.unit,
+    marginBottom: theme.spacing.unit * 2,
   }
 });
 
@@ -215,6 +221,7 @@ class EditMediumDialog extends React.Component {
     title: '',
     description: '',
     commentsDisabled: false,
+    tagList: [],
     temporaryKey: null,
   }
 
@@ -233,7 +240,8 @@ class EditMediumDialog extends React.Component {
       id: medium.id,
       title: medium.title,
       description: medium.description,
-      commentsDisabled: medium.commentsDisabled
+      commentsDisabled: medium.commentsDisabled,
+      tagList: medium.tagList,
     });
   }
 
@@ -283,7 +291,17 @@ class EditMediumDialog extends React.Component {
               rows={4}
               rowsMax={12}
             />
-
+            <ChipInput
+              fullWidth
+              label="Tags"
+              newChipKeyCodes={[13, 188, 32]}
+              InputProps={{
+                margin: "dense"
+              }}
+              defaultValue={this.state.tagList}
+              onChange={(tagList) => { console.log(tagList); this.setState({ tagList }) }}
+              className={classes.chipInput}
+            />
             <FormControlLabel
               control={
                 <Switch
@@ -337,6 +355,7 @@ class EditMediumDialog extends React.Component {
                                   title: this.state.title,
                                   description: this.state.description,
                                   commentsDisabled: this.state.commentsDisabled,
+                                  tagList: this.state.tagList,
                                 }
                               }
                             }).then(() => {
@@ -384,6 +403,7 @@ class EditMediumDialog extends React.Component {
                                       description: this.state.description,
                                       commentsDisabled: this.state.commentsDisabled,
                                       temporaryKey: this.state.temporaryKey,
+                                      tagList: this.state.tagList,
                                     }
                                   }
                                 });

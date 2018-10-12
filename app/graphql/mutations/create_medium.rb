@@ -3,6 +3,7 @@ class Mutations::CreateMedium < Mutations::BaseMutation
   argument :description, String, required: false
   argument :temporary_key, String, required: true
   argument :comments_disabled, Boolean, required: true
+  argument :tag_list, [String], required: true
 
   field :medium, Types::MediumType, null: true
   field :errors, [String], null: false
@@ -12,7 +13,8 @@ class Mutations::CreateMedium < Mutations::BaseMutation
       title: arguments[:title],
       description: arguments[:description],
       temporary_key: arguments[:temporary_key],
-      user: context[:current_user]
+      user: context[:current_user],
+      tag_list: arguments[:tag_list]
     })
 
     raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).create?
