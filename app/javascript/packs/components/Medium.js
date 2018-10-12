@@ -10,12 +10,14 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import CardHeader from '@material-ui/core/CardHeader';
 import Divider from '@material-ui/core/Divider';
+import Chip from '@material-ui/core/Chip';
 import CommentIcon from '@material-ui/icons/Comment';
 import { Link } from 'react-router-dom';
 import timeAgo from '../timeAgo';
 import UserAvatar from './UserAvatar';
 import PageTitle from './PageTitle';
 import dayjs from 'dayjs';
+import queryString from 'query-string';
 
 import { GET_MEDIUM } from '../queries';
 
@@ -69,7 +71,17 @@ const styles = theme => ({
     color: theme.palette.text.primary,
     padding: theme.spacing.unit,
     minWidth: 36,
-  }
+  },
+  tags: {
+    marginTop: theme.spacing.unit * 3,
+  },
+  noTags: {
+    fontStyle: 'italic',
+  },
+  chip: {
+    marginRight: theme.spacing.unit,
+    marginBottom: theme.spacing.unit
+  },
 });
 
 class Medium extends React.Component {
@@ -172,6 +184,22 @@ class Medium extends React.Component {
                         <Typography component="p" className={classes.text}>
                           {medium.description || 'No description'}
                         </Typography>
+                        <div className={classes.tags}>
+                          {
+                            medium.tagList.length === 0 ?
+                              <Chip label={"No tags"} variant={"outlined"} className={[classes.chip, classes.noTags].join(' ')} /> :
+                              medium.tagList.map((tag) => (
+                                <Chip
+                                  clickable
+                                  key={tag}
+                                  label={tag}
+                                  variant={"outlined"}
+                                  className={classes.chip}
+                                  component={(props) => <Link to={`/videos?${queryString.stringify({ q: tag })}`} {...props} />}
+                                />
+                              ))
+                          }
+                        </div>
                       </CardContent>
                       <CardContent>
                         {

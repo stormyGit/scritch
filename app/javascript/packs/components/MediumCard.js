@@ -9,11 +9,13 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
 import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CommentIcon from '@material-ui/icons/Comment';
 import dayjs from 'dayjs';
+import queryString from 'query-string';
 
 import VisibilitySensor from 'react-visibility-sensor';
 
@@ -67,6 +69,17 @@ const styles = theme => ({
     marginRight: theme.spacing.unit
   },
   content: {
+  },
+  tags: {
+    marginTop: theme.spacing.unit * 3,
+    overflow: "hidden",
+    maxHeight: 32
+  },
+  noTags: {
+    fontStyle: 'italic',
+  },
+  chip: {
+    marginRight: theme.spacing.unit,
   },
 });
 
@@ -157,6 +170,22 @@ class MediumCard extends React.Component {
         <Typography component="p" className={classes.text} noWrap={!horizontal}>
           <TruncatedText limit={100}>{medium.description || `No description`}</TruncatedText>
         </Typography>
+        <div className={classes.tags}>
+          {
+            medium.tagList.length === 0 ?
+              <Chip label={"No tags"} variant={"outlined"} className={[classes.chip, classes.noTags].join(' ')} /> :
+              medium.tagList.map((tag) => (
+                <Chip
+                  clickable
+                  key={tag}
+                  label={tag}
+                  variant={"outlined"}
+                  className={classes.chip}
+                  component={(props) => <Link to={`/videos?${queryString.stringify({ q: tag })}`} {...props} />}
+                />
+              ))
+          }
+        </div>
       </CardContent>
     );
   }

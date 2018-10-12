@@ -170,6 +170,7 @@ export const GET_MEDIA = gql`
       commentsCount
       likesCount
       viewsCount
+      tagList
       user {
         id
         slug
