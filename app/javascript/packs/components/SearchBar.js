@@ -5,6 +5,7 @@ import { grey } from '@material-ui/core/colors'
 import ClearIcon from '@material-ui/icons/Clear'
 import SearchIcon from '@material-ui/icons/Search'
 import Grid from '@material-ui/core/Grid';
+import withWidth from '@material-ui/core/withWidth';
 
 const styles = theme => ({
   root: {
@@ -44,18 +45,23 @@ const styles = theme => ({
 
 class CustomSearchBar extends React.Component {
   render() {
+    const { width, ...props } = this.props;
     return (
       <SearchBar
-        {...this.props}
+        {...props}
         searchIcon={
           <SearchIcon />
         }
         closeIcon={
-          <ClearIcon />
+          <ClearIcon
+            style={{
+              display: (width !== 'lg' && width !== 'xl' ? 'none' : 'block')
+            }}
+          />
         }
       />
     );
   }
 };
 
-export default withStyles(styles)(CustomSearchBar);
+export default withStyles(styles)(withWidth()(CustomSearchBar));

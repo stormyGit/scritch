@@ -50,7 +50,15 @@ const styles = theme => ({
     minWidth: 0, // So the Typography noWrap works
     overflow: 'hidden'
   },
-  toolbar: theme.mixins.toolbar,
+  toolbar: {
+    ...theme.mixins.toolbar,
+    "@media (min-width:0px) and (orientation: landscape)": {
+      minHeight: 56
+    }
+  },
+  toolBarRoot: {
+    minHeight: "56px !important",
+  },
   rootLink: {
     color: theme.palette.text.primary,
     textDecoration: 'none',
@@ -104,7 +112,6 @@ const styles = theme => ({
   },
   searchIcon: {
   },
-  toolbar: theme.mixins.toolbar,
 });
 
 const GET_PAGE_TITLE = gql`
@@ -163,13 +170,6 @@ class AppLayout extends React.Component {
     });
   }
 
-  handleCancelSearchRequest() {
-    this.props.history.push({
-      pathname: '/videos',
-    });
-    this.setState({ searchEnabled: false });
-  }
-
   render() {
     const { classes, settingsLayout, children, currentSession, location, client, width } = this.props;
     const { query } = this.state;
@@ -216,6 +216,9 @@ class AppLayout extends React.Component {
             >
               <Toolbar
                 className={classes.toolBar}
+                classes={{
+                  root: classes.toolBarRoot
+                }}
                 style={{
                   paddingLeft: appBarPadding,
                   paddingRight: appBarPadding
@@ -243,7 +246,6 @@ class AppLayout extends React.Component {
                         className={classes.closeIcon}
                         onClick={() => {
                           this.setState({ searchEnabled: false });
-                          this.handleCancelSearchRequest();
                         }}
                       >
                         <CloseIcon />
@@ -281,9 +283,6 @@ class AppLayout extends React.Component {
                             if (typeof(q) === 'string') {
                               this.handleRequestSearch(q)
                             }
-                          }}
-                          onCancelSearch={() => {
-                            this.handleCancelSearchRequest();
                           }}
                         />
                       </div>
