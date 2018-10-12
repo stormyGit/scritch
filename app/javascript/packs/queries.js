@@ -202,6 +202,17 @@ export const GET_ACTIVITIES = gql`
             title
           }
         }
+        ... on Medium {
+          id
+          title
+        }
+        ... on Comment {
+          id
+          body
+          medium {
+            title
+          }
+        }
         ... on Follow {
           id
         }

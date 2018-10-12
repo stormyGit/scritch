@@ -12,6 +12,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import { withRouter } from 'react-router-dom';
@@ -24,6 +25,7 @@ import GlobalProgress from './GlobalProgress';
 import UserAvatar from './UserAvatar';
 import EmptyList from './EmptyList';
 import LoadMoreButton from './LoadMoreButton';
+import TruncatedText from './TruncatedText';
 
 import { GET_ACTIVITIES, READ_ACTIVITIES, CLEAR_ACTIVITIES, GET_UNREAD_ACTIVITY_COUNT } from '../queries';
 
@@ -51,6 +53,9 @@ const styles = theme => ({
   loadMoreContainer: {
     paddingLeft: theme.spacing.unit * 2,
     paddingRight: theme.spacing.unit * 2,
+  },
+  commentBody: {
+    fontStyle: "italic",
   }
 });
 
@@ -93,7 +98,57 @@ class ActivitiesDialog extends React.Component {
       >
         <UserAvatar user={activity.owner} />
         <ListItemText
-          primary={`${activity.owner.name} liked your video ${activity.trackable.medium.title}`}
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                <Typography variant="body2" component="span" style={{display: 'inline-block'}}>
+                  {activity.owner.name}
+                </Typography>
+                {` liked your video `}
+                <Typography variant="body2" component="span" style={{display: 'inline-block'}}>
+                  {activity.trackable.medium.title}
+                </Typography>
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderCommentCreate(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+        button
+        onClick={() => {
+          this.props.history.push({
+            pathname: `/${activity.owner.slug}`
+          });
+          this.props.onClose();
+        }}
+      >
+        <UserAvatar user={activity.owner} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                <Typography variant="body2" component="span" style={{display: 'inline-block'}}>
+                  {activity.owner.name}
+                </Typography>
+                {` commented on your video `}
+                <Typography variant="body2" component="span" style={{display: 'inline-block'}}>
+                  {activity.trackable.medium.title}
+                </Typography>
+              </Typography>
+              <Typography variant="body1" paragraph className={classes.commentBody}>
+                <TruncatedText limit={100}>{activity.trackable.body}</TruncatedText>
+              </Typography>
+            </React.Fragment>
+          }
           secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
         />
       </ListItem>
@@ -114,7 +169,47 @@ class ActivitiesDialog extends React.Component {
       >
         <UserAvatar user={activity.owner} />
         <ListItemText
-          primary={`${activity.owner.name} follows you`}
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                <Typography variant="body2" component="span" style={{display: 'inline-block'}}>
+                  {activity.owner.name}
+                </Typography>
+                {` follows you`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderMediumPublished(activity) {
+    return (
+      <ListItem
+        key={activity.id}
+        button
+        onClick={() => {
+          this.props.history.push({
+            pathname: `/videos/${activity.trackable.id}`
+          });
+          this.props.onClose();
+        }}
+      >
+        <UserAvatar user={activity.owner} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your video `}
+                <Typography variant="body2" component="span" style={{display: 'inline-block'}}>
+                  {activity.trackable.title}
+                </Typography>
+                {` was successfully published.`}
+              </Typography>
+            </React.Fragment>
+          }
           secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
         />
       </ListItem>
@@ -122,6 +217,7 @@ class ActivitiesDialog extends React.Component {
   }
 
   renderActivity(activity) {
+    console.log(activity.key)
     switch (activity.key) {
       case 'like.create':
         return (this.renderLikeCreate(activity));
@@ -129,6 +225,10 @@ class ActivitiesDialog extends React.Component {
       case 'follow.create':
         return (this.renderFollowCreate(activity));
         break;
+      case 'comment.create':
+        return (this.renderCommentCreate(activity));
+      case 'medium.published':
+        return (this.renderMediumPublished(activity));
       default:
         return (null);
     }

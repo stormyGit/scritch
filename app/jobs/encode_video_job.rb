@@ -34,6 +34,8 @@ class EncodeVideoJob < ApplicationJob
       get_preview!
       get_duration!
     end
+
+    @medium.create_activity key: 'medium.published', owner: @medium.user, recipient: @medium.user
   end
 
   def download_input!
