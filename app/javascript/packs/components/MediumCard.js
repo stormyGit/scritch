@@ -71,9 +71,8 @@ const styles = theme => ({
   content: {
   },
   tags: {
-    marginTop: theme.spacing.unit * 3,
     overflow: "hidden",
-    maxHeight: 32
+    maxHeight: 64
   },
   noTags: {
     fontStyle: 'italic',
@@ -170,22 +169,29 @@ class MediumCard extends React.Component {
         <Typography component="p" className={classes.text} noWrap={!horizontal}>
           <TruncatedText limit={100}>{medium.description || `No description`}</TruncatedText>
         </Typography>
-        <div className={classes.tags}>
-          {
-            medium.tagList.length === 0 ?
-              <Chip label={"No tags"} variant={"outlined"} className={[classes.chip, classes.noTags].join(' ')} /> :
-              medium.tagList.map((tag) => (
-                <Chip
-                  clickable
-                  key={tag}
-                  label={tag}
-                  variant={"outlined"}
-                  className={classes.chip}
-                  component={(props) => <Link to={`/videos?${queryString.stringify({ q: tag })}`} {...props} />}
-                />
-              ))
-          }
-        </div>
+      </CardContent>
+    );
+  }
+
+  renderTags() {
+    const { classes, medium } = this.props;
+
+    return (
+      <CardContent className={classes.tags}>
+        {
+          medium.tagList.length === 0 ?
+            <Chip label={"No tags"} variant={"outlined"} className={[classes.chip, classes.noTags].join(' ')} /> :
+            medium.tagList.map((tag) => (
+              <Chip
+                clickable
+                key={tag}
+                label={tag}
+                variant={"outlined"}
+                className={classes.chip}
+                component={(props) => <Link to={`/videos?${queryString.stringify({ q: tag })}`} {...props} />}
+              />
+            ))
+        }
       </CardContent>
     );
   }
@@ -236,6 +242,7 @@ class MediumCard extends React.Component {
           {this.renderMedia()}
           {this.renderContent()}
         </CardActionArea>
+        {this.renderTags()}
         {this.renderActions()}
       </Card>
     )
@@ -254,6 +261,7 @@ class MediumCard extends React.Component {
           <CardActionArea component={(props) => <Link to={`/videos/${medium.id}`} {...props} />} className={classes.horizontalInfos}>
             {this.renderContent()}
           </CardActionArea>
+          {this.renderTags()}
           {this.renderActions()}
         </div>
       </Card>

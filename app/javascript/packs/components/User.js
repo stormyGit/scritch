@@ -539,7 +539,9 @@ class User extends React.Component {
                     </Typography>
                     <Typography variant="body2" noWrap className={classes.infoText}>
                       {user.bio}
-                      {
+                    </Typography>
+                    {
+                      user.website &&
                         <Typography
                           variant="caption"
                           className={classes.infoText}
@@ -547,8 +549,7 @@ class User extends React.Component {
                         >
                           {user.website.replace(/^https?:\/\//, '')}
                         </Typography>
-                      }
-                    </Typography>
+                    }
                   </div>
                 </div>
                 <Hidden mdDown>
