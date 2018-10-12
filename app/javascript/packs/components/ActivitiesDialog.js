@@ -25,7 +25,7 @@ import UserAvatar from './UserAvatar';
 import EmptyList from './EmptyList';
 import LoadMoreButton from './LoadMoreButton';
 
-import { GET_ACTIVITIES, READ_ACTIVITIES, CLEAR_ACTIVITIES } from '../queries';
+import { GET_ACTIVITIES, READ_ACTIVITIES, CLEAR_ACTIVITIES, GET_UNREAD_ACTIVITY_COUNT } from '../queries';
 
 const styles = theme => ({
   emptyNoficationContainer: {
@@ -66,7 +66,15 @@ class ActivitiesDialog extends React.Component {
     if (!this.props.open && nextProps.open) {
       this.props.client.mutate({
         mutation: READ_ACTIVITIES,
-        variables: { input: {} }
+        variables: { input: {} },
+        update: (cache) => {
+          cache.writeQuery({
+            query: GET_UNREAD_ACTIVITY_COUNT,
+            data: {
+              unreadActivityCount: 0
+            }
+          });
+        }
       });
     }
   }
@@ -196,6 +204,12 @@ class ActivitiesDialog extends React.Component {
                         cache.writeQuery({
                           query: GET_ACTIVITIES,
                           data: { activities: [] }
+                        });
+                        cache.writeQuery({
+                          query: GET_UNREAD_ACTIVITY_COUNT,
+                          data: {
+                            unreadActivityCount: 0
+                          }
                         });
                       }}
                     >

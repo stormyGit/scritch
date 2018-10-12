@@ -381,6 +381,12 @@ export const GET_SESSION = gql`
   }
 `;
 
+export const GET_UNREAD_ACTIVITY_COUNT = gql`
+  query UnreadActivityCount {
+    unreadActivityCount
+  }
+`;
+
 export const CREATE_MEDIUM = gql`
   mutation createMedium($input: CreateMediumInput!) {
     createMedium(input: $input) {

@@ -15,6 +15,7 @@ import Hidden from '@material-ui/core/Hidden';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { Link, withRouter } from 'react-router-dom'
@@ -33,7 +34,7 @@ import ActivitiesDialog from './ActivitiesDialog';
 import UserAvatar from './UserAvatar';
 import Logo from './Logo';
 
-import { TOGGLE_SIGNUP_DIALOG, GET_SESSION } from '../queries';
+import { TOGGLE_SIGNUP_DIALOG, GET_SESSION, GET_UNREAD_ACTIVITY_COUNT } from '../queries';
 
 const styles = theme => ({
   root: {
@@ -288,12 +289,16 @@ class AppLayout extends React.Component {
                     }
                     {
                       currentSession &&
-                        <IconButton
-                          className={classes.rightButton}
-                          onClick={() => this.setState({ activitiesDialog: true })}
-                        >
-                          <NotificationsIcon />
-                        </IconButton>
+                        <Query query={GET_UNREAD_ACTIVITY_COUNT} pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}>
+                          {({ loading, error, data }) => (
+                            <IconButton
+                              className={classes.rightButton}
+                              onClick={() => this.setState({ activitiesDialog: true })}
+                            >
+                              {loading || !data || data.unreadActivityCount === 0 ? <NotificationsNoneIcon /> : <NotificationsIcon />}
+                            </IconButton>
+                          )}
+                        </Query>
                     }
                     {
                       currentSession &&

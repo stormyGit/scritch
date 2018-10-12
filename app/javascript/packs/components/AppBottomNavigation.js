@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom'
+import { Query } from 'react-apollo';
 
 import withCurrentSession from './withCurrentSession';
 
@@ -14,6 +15,9 @@ import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import OnDemandVideoIcon from '@material-ui/icons/OndemandVideo';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
+
+import { GET_UNREAD_ACTIVITY_COUNT } from '../queries';
 
 const styles = theme => ({
   root: {
@@ -142,7 +146,13 @@ class AppBottomNavigation extends React.Component {
                 }}
                 label="Notifications"
                 value="notifications"
-                icon={<NotificationsIcon />}
+                icon={
+                  <Query query={GET_UNREAD_ACTIVITY_COUNT} pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}>
+                    {({ loading, error, data }) => (
+                      loading || !data || data.unreadActivityCount === 0 ? <NotificationsNoneIcon /> : <NotificationsIcon />
+                    )}
+                  </Query>
+                }
               />
           }
         </BottomNavigation>

@@ -24,6 +24,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import UploadIcon from '@material-ui/icons/CloudUpload';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 
 import TermsDialog from './TermsDialog';
 import PrivacyPolicyDialog from './PrivacyPolicyDialog';
@@ -39,7 +40,7 @@ import BannerPlaceholder from './BannerPlaceholder';
 
 import { Link, withRouter } from 'react-router-dom'
 
-import { DELETE_SESSION, GET_SESSION } from '../queries';
+import { DELETE_SESSION, GET_SESSION, GET_UNREAD_ACTIVITY_COUNT } from '../queries';
 import withCurrentSession from './withCurrentSession';
 
 const styles = theme => {
@@ -121,42 +122,53 @@ class DrawerMenu extends React.Component {
             <List>
               {
                 !this.props.disableProfile && !currentSession &&
-                  <ListItem
-                    button
-                    onClick={() => this.setState({ signUpDialog: true })}
-                  >
-                    <ListItemIcon className={classes.text} color='secondary'>
-                      <AccountCircleIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Login with Telegram" primaryTypographyProps={{ className: classes.text }} />
-                  </ListItem>
+                  <React.Fragment>
+                    <ListItem
+                      button
+                      onClick={() => this.setState({ signUpDialog: true })}
+                    >
+                      <ListItemIcon className={classes.text} color='secondary'>
+                        <AccountCircleIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Login with Telegram" primaryTypographyProps={{ className: classes.text }} />
+                    </ListItem>
+                    <Divider />
+                  </React.Fragment>
               }
               {
                 !this.props.disableUpload && currentSession &&
-                  <ListItem
-                    button
-                    onClick={() => this.setState({ uploadDialog: true })}
-                  >
-                    <ListItemIcon className={classes.text} color='secondary'>
-                      <UploadIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Upload" primaryTypographyProps={{ className: classes.text }} />
-                  </ListItem>
+                  <React.Fragment>
+                    <ListItem
+                      button
+                      onClick={() => this.setState({ uploadDialog: true })}
+                    >
+                      <ListItemIcon className={classes.text} color='secondary'>
+                        <UploadIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Upload" primaryTypographyProps={{ className: classes.text }} />
+                    </ListItem>
+                    <Divider />
+                  </React.Fragment>
               }
-              {(!this.props.disableUpload || !this.props.disableProfile) && <Divider />}
               {
                 !this.props.disableNotifications && currentSession &&
-                  <ListItem
-                    button
-                    onClick={() => this.setState({ activitiesDialog: true })}
-                  >
-                    <ListItemIcon className={classes.text} color='secondary'>
-                      <NotificationsIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Notifications" primaryTypographyProps={{ className: classes.text }} />
-                  </ListItem>
+                  <React.Fragment>
+                    <Query query={GET_UNREAD_ACTIVITY_COUNT} pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}>
+                      {({ loading, error, data }) => (
+                        <ListItem
+                          button
+                          onClick={() => this.setState({ activitiesDialog: true })}
+                        >
+                          <ListItemIcon className={classes.text} color='secondary'>
+                            {loading || !data || data.unreadActivityCount === 0 ? <NotificationsNoneIcon /> : <NotificationsIcon />}
+                          </ListItemIcon>
+                          <ListItemText primary="Notifications" primaryTypographyProps={{ className: classes.text }} />
+                        </ListItem>
+                      )}
+                    </Query>
+                    <Divider />
+                  </React.Fragment>
               }
-              {(!this.props.disableUpload || !this.props.disableProfile || !this.props.disableNotifications) && <Divider />}
               {
                 !this.props.disableNavigation &&
                   <React.Fragment>

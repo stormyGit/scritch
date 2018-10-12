@@ -58,6 +58,10 @@ module Types
       description "Find current session"
     end
 
+    field :unread_activity_count, Integer, null: false do
+      description "Get the number of unread activities"
+    end
+
     def medium(arguments = {})
       View.add(arguments[:id], context[:current_user_references])
 
@@ -121,6 +125,10 @@ module Types
 
     def session(arguments = {})
       context[:current_session]
+    end
+
+    def unread_activity_count
+      Activity.where(recipient: context[:current_user]).where("activities.created_at > ?", context[:current_user].last_activities_read).count
     end
   end
 end
