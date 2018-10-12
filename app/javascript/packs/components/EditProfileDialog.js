@@ -101,6 +101,7 @@ class EditProfileDialog extends React.Component {
   state = {
     name: '',
     bio: '',
+    website: '',
     banner: null,
     avatar: null,
     bannerMenu: false,
@@ -130,6 +131,7 @@ class EditProfileDialog extends React.Component {
       id: user.id,
       name: user.name,
       bio: user.bio,
+      website: user.website,
       banner: user.banner,
       avatar: user.avatar
     });
@@ -337,6 +339,14 @@ class EditProfileDialog extends React.Component {
             margin="dense"
             fullWidth
           />
+          <TextField
+            label="Website"
+            name="website"
+            value={this.state.website}
+            onChange={(e) => this.setState({ website: e.target.value })}
+            margin="dense"
+            fullWidth
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={this.props.onClose}>
@@ -362,6 +372,7 @@ class EditProfileDialog extends React.Component {
                         id: user.id,
                         name: this.state.name,
                         bio: this.state.bio,
+                        website: this.state.website,
                         banner: this.state.banner,
                         avatar: this.state.avatar,
                         removeBanner: this.state.removeBanner,

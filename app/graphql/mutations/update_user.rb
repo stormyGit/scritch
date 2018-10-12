@@ -3,6 +3,7 @@ class Mutations::UpdateUser < Mutations::BaseMutation
   argument :theme, String, required: false
   argument :name, String, required: false
   argument :bio, String, required: false
+  argument :website, String, required: false
   argument :banner, String, required: false
   argument :avatar, String, required: false
 

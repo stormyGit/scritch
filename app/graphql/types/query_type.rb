@@ -91,7 +91,7 @@ module Types
         media = media.where(user_id: arguments[:user_id])
       end
 
-      media.page(arguments[:page]).per(arguments[:per])
+      media.includes(:taggings).page(arguments[:page]).per(arguments[:per])
     end
 
     def activities(arguments = {})

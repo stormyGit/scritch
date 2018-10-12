@@ -18,6 +18,7 @@ export const CREATE_SESSION = gql`
           avatar
           banner
           bio
+          website
           theme
         }
       }
@@ -95,6 +96,7 @@ export const UPDATE_USER = gql`
         avatar
         banner
         bio
+        website
         theme
       }
     }
@@ -360,6 +362,7 @@ export const GET_USER = gql`
       avatar
       banner
       bio
+      website
       followed
       following
       mediaCount
@@ -381,6 +384,7 @@ export const GET_SESSION = gql`
         avatar
         banner
         bio
+        website
         theme
         mediaCount
       }

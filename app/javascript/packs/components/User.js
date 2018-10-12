@@ -539,6 +539,15 @@ class User extends React.Component {
                     </Typography>
                     <Typography variant="body2" noWrap className={classes.infoText}>
                       {user.bio}
+                      {
+                        <Typography
+                          variant="caption"
+                          className={classes.infoText}
+                          component={(props) => <a href={user.website} target="_blank" {...props} />}
+                        >
+                          {user.website.replace(/^https?:\/\//, '')}
+                        </Typography>
+                      }
                     </Typography>
                   </div>
                 </div>

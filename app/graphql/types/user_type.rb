@@ -8,6 +8,7 @@ module Types
     field :avatar, String, null: true
     field :banner, String, null: true
     field :bio, String, null: true
+    field :website, String, null: true
     field :theme, String, null: false
 
     field :followed, Boolean, null: false
