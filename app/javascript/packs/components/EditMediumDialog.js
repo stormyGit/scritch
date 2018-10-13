@@ -297,7 +297,7 @@ class EditMediumDialog extends React.Component {
                 margin: "dense"
               }}
               defaultValue={this.state.tagList}
-              onChange={(tagList) => { console.log(tagList); this.setState({ tagList }) }}
+              onChange={(tagList) => { this.setState({ tagList }) }}
               className={classes.chipInput}
             />
             <FormControlLabel

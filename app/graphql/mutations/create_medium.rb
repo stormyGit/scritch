@@ -3,7 +3,7 @@ class Mutations::CreateMedium < Mutations::BaseMutation
   argument :description, String, required: false
   argument :temporary_key, String, required: true
   argument :comments_disabled, Boolean, required: true
-  argument :tag_list, [String], required: true
+  argument :tag_list, [String], required: false
 
   field :medium, Types::MediumType, null: true
   field :errors, [String], null: false
