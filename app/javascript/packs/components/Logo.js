@@ -11,6 +11,8 @@ const styles = theme => ({
   },
   icon: {
     marginRight: theme.spacing.unit,
+    width: 48,
+    height: 48
   },
   brand: {
     fontFamily: "'Monoton', cursive",

@@ -27,6 +27,7 @@ import ResponsiveDialog from './ResponsiveDialog';
 import BannerPlaceholder from './BannerPlaceholder';
 import ProfileAvatar from './ProfileAvatar';
 import GlobalProgress from './GlobalProgress';
+import ImageCropper from './ImageCropper';
 
 import { GET_SESSION, UPDATE_USER } from '../queries';
 
@@ -118,6 +119,7 @@ class EditProfileDialog extends React.Component {
     avatar: null,
     bannerMenu: false,
     avatarMenu: false,
+    avatarToEdit: null,
   }
 
   constructor(props) {
@@ -144,7 +146,7 @@ class EditProfileDialog extends React.Component {
       bio: user.bio,
       website: user.website,
       banner: user.banner,
-      avatar: user.avatar
+      avatar: user.avatar,
     });
   }
 
@@ -203,6 +205,7 @@ class EditProfileDialog extends React.Component {
           )}
         </Popper>
         <input
+          accept="image/png,image/x-png,image/jpeg"
           className={classes.uploadInput}
           ref={this.bannerUploadInput}
           type="file"
@@ -289,15 +292,12 @@ class EditProfileDialog extends React.Component {
           )}
         </Popper>
         <input
+          accept="image/png,image/x-png,image/jpeg"
           className={classes.uploadInput}
           ref={this.avatarUploadInput}
           type="file"
           onChange={(e) => {
-            var reader = new FileReader();
-            reader.readAsDataURL(e.target.files[0]);
-            reader.onload = () => {
-              this.setState({ avatar: reader.result, removeAvatar: false });
-            };
+            this.setState({ avatarToEdit: e.target.files[0] })
           }}
         />
         <ProfileAvatar avatar={this.state.avatar} slug={user.slug} className={classes.userAvatar} size={AVATAR_SIZE} />
@@ -309,87 +309,108 @@ class EditProfileDialog extends React.Component {
     const { classes, user } = this.props;
 
     return (
-      <ResponsiveDialog
-        open={this.props.open}
-        onClose={this.props.onClose}
-      >
-        <GlobalProgress absolute />
-        <div ref={this.bannerRef}>
-          {this.renderBanner()}
-        </div>
-        <Grid container justify="center" className={classes.avatarContainer}>
-          <Grid item>
-            {this.renderAvatar()}
+      <React.Fragment>
+        <ResponsiveDialog
+          open={this.props.open}
+          onClose={this.props.onClose}
+        >
+          <GlobalProgress absolute />
+          <div ref={this.bannerRef}>
+            {this.renderBanner()}
+          </div>
+          <Grid container justify="center" className={classes.avatarContainer}>
+            <Grid item>
+              {this.renderAvatar()}
+            </Grid>
           </Grid>
-        </Grid>
-        <DialogContent className={classes.dialogContent}>
-          <TextField
-            label="Name"
-            name="name"
-            value={this.state.name}
-            onChange={(e) => this.setState({ name: e.target.value })}
-            margin="dense"
-            fullWidth
-          />
-          <TextField
-            label="Bio"
-            name="bio"
-            value={this.state.bio}
-            onChange={(e) => this.setState({ bio: e.target.value })}
-            margin="dense"
-            fullWidth
-          />
-          <TextField
-            label="Website"
-            name="website"
-            value={this.state.website}
-            onChange={(e) => this.setState({ website: e.target.value })}
-            margin="dense"
-            fullWidth
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={this.props.onClose}>
-            Cancel
-          </Button>
-          <Mutation
-            mutation={UPDATE_USER}
-            update={(cache, { data: { updateUser } }) => {
-              const { session } = cache.readQuery({ query: GET_SESSION });
-              cache.writeQuery({
-                query: GET_SESSION,
-                data: { session: { ...session, user: updateUser.user } }
-              });
-            }}
-          >
-            {( updateUser, { data }) => (
-              <Button
-                disabled={!this.state.name || /^\s*$/.test(this.state.name)}
-                onClick={() => {
-                  updateUser({
-                    variables: {
-                      input: {
-                        id: user.id,
-                        name: this.state.name,
-                        bio: this.state.bio,
-                        website: this.state.website,
-                        banner: this.state.banner,
-                        avatar: this.state.avatar,
-                        removeBanner: this.state.removeBanner,
-                        removeAvatar: this.state.removeAvatar,
+          <DialogContent className={classes.dialogContent}>
+            <TextField
+              label="Name"
+              name="name"
+              value={this.state.name}
+              onChange={(e) => this.setState({ name: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
+            <TextField
+              label="Bio"
+              name="bio"
+              value={this.state.bio}
+              onChange={(e) => this.setState({ bio: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
+            <TextField
+              label="Website"
+              name="website"
+              value={this.state.website}
+              onChange={(e) => this.setState({ website: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.props.onClose}>
+              Cancel
+            </Button>
+            <Mutation
+              mutation={UPDATE_USER}
+              update={(cache, { data: { updateUser } }) => {
+                const { session } = cache.readQuery({ query: GET_SESSION });
+                cache.writeQuery({
+                  query: GET_SESSION,
+                  data: { session: { ...session, user: updateUser.user } }
+                });
+              }}
+            >
+              {( updateUser, { data }) => (
+                <Button
+                  disabled={!this.state.name || /^\s*$/.test(this.state.name)}
+                  onClick={() => {
+                    updateUser({
+                      variables: {
+                        input: {
+                          id: user.id,
+                          name: this.state.name,
+                          bio: this.state.bio,
+                          website: this.state.website,
+                          ...(
+                            this.state.banner !== user.banner ? { banner: this.state.banner } : {}
+                          ),
+                          ...(
+                            this.state.avatar !== user.avatar ? { avatar: this.state.avatar } : {}
+                          ),
+                          removeBanner: this.state.removeBanner,
+                          removeAvatar: this.state.removeAvatar,
+                        }
                       }
-                    }
-                  }).then(() => {
-                    this.props.onClose()
-                  })
-                }}
-              >
-                Save
-              </Button>
-            )}
-          </Mutation>
-        </DialogActions>
-      </ResponsiveDialog>
+                    }).then(() => {
+                      this.props.onClose()
+                    })
+                  }}
+                >
+                  Save
+                </Button>
+              )}
+            </Mutation>
+          </DialogActions>
+        </ResponsiveDialog>
+        {
+          this.state.avatarToEdit &&
+            <ImageCropper
+              image={this.state.avatarToEdit}
+              width={300}
+              height={300}
+              borderRadius={150}
+              onClose={() => {
+                this.setState({ avatarToEdit: null });
+              }}
+              onSubmit={(canvas) => {
+                this.setState({ avatar: canvas.toDataURL(), removeAvatar: false });
+              }}
+            />
+        }
+      </React.Fragment>
     );
   }
 }

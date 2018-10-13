@@ -58,7 +58,7 @@ const TermsDialog = ({ classes, open, onClose }) => (
           <ListItemIcon>
             <CheckIcon />
           </ListItemIcon>
-          <ListItemText inset primary="Murrtube reserves the right to refuse or suspend access to any user, for any reason or no reason, and without any notice." />
+          <ListItemText inset primary="Murrtube reserves the right to refuse or suspend access to any user or to remove any content, for any reason or no reason, and without any notice." />
         </ListItem>
       </List>
     </DialogContent>

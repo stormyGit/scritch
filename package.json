@@ -4,6 +4,7 @@
   "dependencies": {
     "@material-ui/core": "^3.0.1",
     "@material-ui/icons": "^3.0.1",
+    "@material-ui/lab": "^3.0.0-alpha.19",
     "@rails/webpacker": "3.5",
     "animated": "^0.2.2",
     "apollo-boost": "^0.1.16",

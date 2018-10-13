@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_12_072950) do
+ActiveRecord::Schema.define(version: 2018_10_13_113511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
@@ -209,6 +210,7 @@ ActiveRecord::Schema.define(version: 2018_10_12_072950) do
     t.string "theme", default: "dark"
     t.datetime "last_activities_read"
     t.string "website"
+    t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
   end
 
   create_table "views", force: :cascade do |t|
