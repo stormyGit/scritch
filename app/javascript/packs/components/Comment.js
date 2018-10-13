@@ -56,10 +56,10 @@ class Comment extends React.Component {
   render() {
     const { comment, currentSession, classes, medium } = this.props;
     let canDelete = false;
-    if (currentSession.user.id === comment.user.id) {
+    if (currentSession && currentSession.user.id === comment.user.id) {
       canDelete = true;
     }
-    if (currentSession.user.id === medium.user.id) {
+    if (currentSession && currentSession.user.id === medium.user.id) {
       canDelete = true;
     }
 
