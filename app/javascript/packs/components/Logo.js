@@ -27,7 +27,7 @@ class Logo extends React.Component {
     return (
       <div className={classes.container}>
         <img src={icon} className={classes.icon} />
-        <Typography variant="title" color="inherit" component={'span'} noWrap className={classes.brand} {...props}>
+        <Typography variant="h6" color="inherit" component={'span'} noWrap className={classes.brand} {...props}>
           {process.env.SITE_NAME}
         </Typography>
       </div>

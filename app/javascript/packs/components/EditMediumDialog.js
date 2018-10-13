@@ -106,7 +106,7 @@ class DropZoneField extends React.Component {
         {
           this.state.progress && this.state.progress.remainingSize === 0 &&
             <div>
-              <Typography variant="title" color="inherit" noWrap>
+              <Typography variant="h6" color="inherit" noWrap>
                 File uploaded
               </Typography>
             </div>
@@ -115,7 +115,7 @@ class DropZoneField extends React.Component {
           this.state.progress && this.state.progress.remainingSize > 0 &&
             <div>
               <CircularProgress className={classes.progress} variant={"static"} value={parseInt(this.state.progress.totalUploaded / this.state.progress.fileSize * 95) + 5} />
-              <Typography variant="title" color="inherit" noWrap>
+              <Typography variant="h6" color="inherit" noWrap>
                 {
                   this.state.progress.secondsLeft >= 0 ? `${this.state.progress.secondsLeft}s. remaining` : `Uploading`
                 }
@@ -126,7 +126,7 @@ class DropZoneField extends React.Component {
           !this.state.progress &&
             <div>
               <CloudUploadIcon className={classes.uploadIcon} />
-              <Typography variant="title" color="inherit" noWrap>
+              <Typography variant="h6" color="inherit" noWrap>
                 {
                   (width === 'lg' || width === 'xl') ?
                     "Select or drag a video file to upload" :
@@ -272,7 +272,7 @@ class EditMediumDialog extends React.Component {
             }
             <TextField
               label="Title"
-              name="title"
+              name="h6"
               value={this.state.title}
               onChange={(e) => this.setState({ title: e.target.value })}
               margin="dense"

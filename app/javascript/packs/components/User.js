@@ -543,7 +543,7 @@ class User extends React.Component {
                 <div className={classes.titleBarContainerUserInfo}>
                   <ProfileAvatar avatar={user.avatar} slug={user.slug} className={classes.userAvatar} />
                   <div>
-                    <Typography variant="title" className={classes.infoText}>
+                    <Typography variant="h6" className={classes.infoText}>
                       {user.name}
                     </Typography>
                     <Typography variant="body2" noWrap className={classes.infoText}>

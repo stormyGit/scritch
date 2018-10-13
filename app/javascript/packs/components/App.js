@@ -19,6 +19,9 @@ const makeTheme = (type) => {
 
   return (
     createMuiTheme({
+      typography: {
+        useNextVariants: true,
+      },
       palette: {
         background,
         type: type

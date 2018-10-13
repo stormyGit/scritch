@@ -113,7 +113,7 @@ class DrawerMenu extends React.Component {
                   />
                   <div className={classes.userInfo}>
                     <ProfileAvatar avatar={currentSession.user.avatar} slug={currentSession.user.slug} />
-                    <Typography variant="title" className={classes.infoText} noWrap>
+                    <Typography variant="h6" className={classes.infoText} noWrap>
                      {currentSession.user.name}
                     </Typography>
                   </div>

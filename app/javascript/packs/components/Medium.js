@@ -117,7 +117,7 @@ class Medium extends React.Component {
                         <div className={classes.videoInfo}>
                           <Grid container spacing={8} justify="space-between" wrap="nowrap">
                             <Grid item>
-                              <Typography gutterBottom variant="headline" component="h2" className={classes.mediumTitle} noWrap>
+                              <Typography gutterBottom variant="h5" component="h2" className={classes.mediumTitle} noWrap>
                                 {medium.title}
                               </Typography>
                             </Grid>
@@ -149,7 +149,7 @@ class Medium extends React.Component {
                           </Grid>
                           <Grid container spacing={8} justify="space-between">
                             <Grid item>
-                              <Typography gutterBottom variant="subheading" noWrap>
+                              <Typography gutterBottom variant="subtitle1" noWrap>
                                 {countFormat(medium.viewsCount, 'view', 'views')}
                               </Typography>
                             </Grid>
@@ -208,7 +208,7 @@ class Medium extends React.Component {
                               {"Comments are disabled for this video."}
                             </Typography> :
                             <React.Fragment>
-                              <Typography gutterBottom variant="title" component="h3">
+                              <Typography gutterBottom variant="h6" component="h3">
                                 {countFormat(medium.commentsCount, 'comment', 'comments')}
                               </Typography>
                               {
@@ -225,7 +225,7 @@ class Medium extends React.Component {
                     </Grid>
                     <Grid item lg={4} xs={12}>
                       <CardContent>
-                        <Typography gutterBottom variant="title" component="h3">
+                        <Typography gutterBottom variant="h6" component="h3">
                           Watch more
                         </Typography>
                         {

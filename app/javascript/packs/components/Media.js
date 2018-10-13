@@ -16,6 +16,7 @@ import LoadMoreButton from './LoadMoreButton';
 
 const styles = theme => ({
   root: {
+    marginTop: theme.spacing.unit / 2,
     width: '100%',
     padding: theme.spacing.unit * 1,
     paddingRight: 0

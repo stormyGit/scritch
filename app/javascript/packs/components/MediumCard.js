@@ -45,21 +45,29 @@ const styles = theme => ({
   },
   verticalMedia: {
     width: '100%',
-    height: 300,
-    position: 'relative',
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0
   },
   horizontalMediaContainer: {
     maxWidth: '46%',
     minWidth: '46%',
-    height: 340,
+    minHeight: '100%',
   },
   horizontalMedia: {
     width: '100%',
     height: '100%',
-    position: 'relative',
+    position: 'absolute',
+    top: 0,
+    left: 0
   },
   horizontalInfos: {
     flex: 1,
+  },
+  cardMediaContainer: {
+    position: 'relative',
+    paddingTop: '56%',
   },
   userLink: {
     color: theme.palette.text.primary,
@@ -123,39 +131,41 @@ class MediumCard extends React.Component {
     }
 
     return (
-      <VisibilitySensor
-        active={width !== 'lg' && width !== 'xl'}
-        minTopValue={100}
-        onChange={(isVisible) => {
-          if (width === 'lg' || width === 'xl') {
-            return;
-          }
-          if (isVisible && this.state.thumbnailKey !== medium.previewKey) {
-            handleOnMouseEnter();
-          }
-          if (!isVisible && this.state.thumbnailKey !== medium.thumbnailKey) {
-            handleOnMouseLeave();
-          }
-        }}
-      >
-        <CardMedia
-          className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
-          image={keyToUrl(this.state.thumbnailKey)}
-          title={medium.title}
-          onMouseEnter={() => {
-            if (this.state.thumbnailKey !== medium.previewKey && width === 'lg' || width === 'xl') {
+      <div className={horizontal ? undefined : classes.cardMediaContainer}>
+        <VisibilitySensor
+          active={width !== 'lg' && width !== 'xl'}
+          minTopValue={100}
+          onChange={(isVisible) => {
+            if (width === 'lg' || width === 'xl') {
+              return;
+            }
+            if (isVisible && this.state.thumbnailKey !== medium.previewKey) {
               handleOnMouseEnter();
             }
-          }}
-          onMouseLeave={() => {
-            if (this.state.thumbnailKey !== medium.thumbnailKey && width === 'lg' || width === 'xl') {
+            if (!isVisible && this.state.thumbnailKey !== medium.thumbnailKey) {
               handleOnMouseLeave();
             }
           }}
         >
-          <Duration duration={medium.duration} />
-        </CardMedia>
-      </VisibilitySensor>
+          <CardMedia
+            className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
+            image={keyToUrl(this.state.thumbnailKey)}
+            title={medium.title}
+            onMouseEnter={() => {
+              if (this.state.thumbnailKey !== medium.previewKey && width === 'lg' || width === 'xl') {
+                handleOnMouseEnter();
+              }
+            }}
+            onMouseLeave={() => {
+              if (this.state.thumbnailKey !== medium.thumbnailKey && width === 'lg' || width === 'xl') {
+                handleOnMouseLeave();
+              }
+            }}
+          >
+            <Duration duration={medium.duration} />
+          </CardMedia>
+        </VisibilitySensor>
+      </div>
     );
   }
 
@@ -164,7 +174,7 @@ class MediumCard extends React.Component {
 
     return (
       <CardContent className={classes.content}>
-        <Typography gutterBottom variant="headline" component="h2" className={classes.text}  noWrap={!horizontal}>
+        <Typography gutterBottom variant="h5" component="h2" className={classes.text}  noWrap={!horizontal}>
           {medium.title}
         </Typography>
         <Typography component="p" className={classes.text} noWrap={!horizontal}>

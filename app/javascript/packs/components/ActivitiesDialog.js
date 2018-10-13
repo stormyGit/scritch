@@ -56,6 +56,10 @@ const styles = theme => ({
   },
   commentBody: {
     fontStyle: "italic",
+  },
+  highlight: {
+    display: 'inline-block',
+    fontWeight: 'bold'
   }
 });
 
@@ -85,6 +89,8 @@ class ActivitiesDialog extends React.Component {
   }
 
   renderLikeCreate(activity) {
+    const { classes } = this.props;
+
     return (
       <ListItem
         key={activity.id}
@@ -101,11 +107,11 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                <Typography variant="body2" component="span" style={{display: 'inline-block'}}>
+                <Typography variant="body2" component="span" className={classes.highlight}>
                   {activity.owner.name}
                 </Typography>
                 {` liked your video `}
-                <Typography variant="body2" component="span" style={{display: 'inline-block'}}>
+                <Typography variant="body2" component="span" className={classes.highlight}>
                   {activity.trackable.medium.title}
                 </Typography>
               </Typography>
@@ -136,15 +142,15 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                <Typography variant="body2" component="span" style={{display: 'inline-block'}}>
+                <Typography variant="body2" component="span" className={classes.highlight}>
                   {activity.owner.name}
                 </Typography>
                 {` commented on your video `}
-                <Typography variant="body2" component="span" style={{display: 'inline-block'}}>
+                <Typography variant="body2" component="span" className={classes.highlight}>
                   {activity.trackable.medium.title}
                 </Typography>
               </Typography>
-              <Typography variant="body1" paragraph className={classes.commentBody}>
+              <Typography variant="caption" className={classes.commentBody}>
                 <TruncatedText limit={100}>{activity.trackable.body}</TruncatedText>
               </Typography>
             </React.Fragment>
@@ -156,6 +162,8 @@ class ActivitiesDialog extends React.Component {
   }
 
   renderFollowCreate(activity) {
+    const { classes } = this.props;
+
     return (
       <ListItem
         key={activity.id}
@@ -172,7 +180,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                <Typography variant="body2" component="span" style={{display: 'inline-block'}}>
+                <Typography variant="body2" component="span" className={classes.highlight}>
                   {activity.owner.name}
                 </Typography>
                 {` follows you`}
@@ -186,6 +194,8 @@ class ActivitiesDialog extends React.Component {
   }
 
   renderMediumPublished(activity) {
+    const { classes } = this.props;
+
     return (
       <ListItem
         key={activity.id}
@@ -203,7 +213,7 @@ class ActivitiesDialog extends React.Component {
             <React.Fragment>
               <Typography variant="body1">
                 {`Your video `}
-                <Typography variant="body2" component="span" style={{display: 'inline-block'}}>
+                <Typography variant="body2" component="span" className={classes.highlight}>
                   {activity.trackable.title}
                 </Typography>
                 {` was successfully published.`}
@@ -217,7 +227,6 @@ class ActivitiesDialog extends React.Component {
   }
 
   renderActivity(activity) {
-    console.log(activity.key)
     switch (activity.key) {
       case 'like.create':
         return (this.renderLikeCreate(activity));

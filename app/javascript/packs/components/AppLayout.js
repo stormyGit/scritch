@@ -71,6 +71,7 @@ const styles = theme => ({
   titleZone: {
     display: 'flex',
     flexGrow: 1,
+    alignItems: 'center'
   },
   searchBar: {
     flex: 1,
@@ -78,8 +79,7 @@ const styles = theme => ({
   separator: {
     marginLeft: theme.spacing.unit * 4,
     marginRight: theme.spacing.unit * 3,
-    marginBottom: theme.spacing.unit,
-    marginTop: theme.spacing.unit,
+    height: 32,
     borderLeftColor: theme.palette.type === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
     borderLeftWidth: 1,
     borderLeftStyle: 'solid',
@@ -259,7 +259,7 @@ class AppLayout extends React.Component {
                           data.pageTitle &&
                             <React.Fragment>
                               <div className={classes.separator} />
-                              <Typography variant="headline" className={classes.pageTitle} component="div" noWrap>
+                              <Typography variant="h5" className={classes.pageTitle} component="div" noWrap>
                                 {data.pageTitle}
                               </Typography>
                             </React.Fragment>
