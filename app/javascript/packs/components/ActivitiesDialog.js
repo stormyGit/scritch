@@ -15,6 +15,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import ScrollArea from 'react-scrollbar';
+
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
@@ -271,40 +273,42 @@ class ActivitiesDialog extends React.Component {
                           label={`No recent activity`}
                         />
                       </DialogContent> :
-                      <DialogContent className={classes.notificationsContainer}>
-                        <List>
+                      <ScrollArea>
+                        <DialogContent className={classes.notificationsContainer}>
+                          <List>
+                            {
+                              data.activities.map((activity) => (
+                                this.renderActivity(activity)
+                              ))
+                            }
+                          </List>
                           {
-                            data.activities.map((activity) => (
-                              this.renderActivity(activity)
-                            ))
+                            ((data.activities.length % per) === 0 && data.activities.length / per === page) &&
+                              <div className={classes.loadMoreContainer}>
+                                <LoadMoreButton
+                                  noMargin
+                                  onClick={() => {
+                                    page++;
+
+                                    fetchMore({
+                                      variables: {
+                                        page,
+                                        per
+                                      },
+                                      updateQuery: (prev, { fetchMoreResult }) => {
+                                        if (!fetchMoreResult) return prev;
+
+                                        return Object.assign({}, prev, {
+                                          activities: [...prev.activities, ...fetchMoreResult.activities]
+                                        });
+                                      }
+                                    });
+                                  }}
+                                />
+                              </div>
                           }
-                        </List>
-                        {
-                          ((data.activities.length % per) === 0 && data.activities.length / per === page) &&
-                            <div className={classes.loadMoreContainer}>
-                              <LoadMoreButton
-                                noMargin
-                                onClick={() => {
-                                  page++;
-
-                                  fetchMore({
-                                    variables: {
-                                      page,
-                                      per
-                                    },
-                                    updateQuery: (prev, { fetchMoreResult }) => {
-                                      if (!fetchMoreResult) return prev;
-
-                                      return Object.assign({}, prev, {
-                                        activities: [...prev.activities, ...fetchMoreResult.activities]
-                                      });
-                                    }
-                                  });
-                                }}
-                              />
-                            </div>
-                        }
                       </DialogContent>
+                    </ScrollArea>
                   }
                   <DialogActions>
                     <Mutation

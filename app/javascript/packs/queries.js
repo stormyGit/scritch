@@ -99,6 +99,7 @@ export const UPDATE_USER = gql`
         website
         theme
         mediaCount
+        followingCount
       }
     }
   }
@@ -399,6 +400,7 @@ export const GET_SESSION = gql`
         website
         theme
         mediaCount
+        followingCount
       }
     }
   }

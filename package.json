@@ -34,6 +34,7 @@
     "react-parallax": "^2.0.0",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
+    "react-scrollbar": "^0.5.4",
     "react-sticky-header": "^0.2.0",
     "react-telegram-login": "^1.0.3",
     "react-transition-group": "^2.5.0",

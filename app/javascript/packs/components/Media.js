@@ -31,11 +31,19 @@ class Media extends React.Component {
       const { location } = this.props;
       const query = queryString.parse(location.search)
 
-      return (
-        <EmptyList
-          label={`No results were found for your search term: ${query.q}`}
-        />
-      )
+      if (query.q) {
+        return (
+          <EmptyList
+            label={`No results were found for your search term: ${query.q}`}
+          />
+        )
+      } else {
+        return (
+          <EmptyList
+            label={`No results`}
+          />
+        )
+      }
     }
     if (horizontal) {
       return (

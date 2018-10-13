@@ -177,6 +177,12 @@ class User extends React.Component {
               data: { user: { ...user, followed: false, followersCount: (user.followersCount - 1) } }
             });
 
+            const { session } = cache.readQuery({ query: GET_SESSION });
+            cache.writeQuery({
+              query: GET_SESSION,
+              data: { session: { ...session, user: { ...session.user, followingCount: (session.user.followingCount - 1)} } }
+            });
+
             const { followersByUser } = cache.readQuery({ query: GET_FOLLOWERS_BY_USER, variables: { userId: user.id, page: 1, per: 30 } });
             cache.writeQuery({
               query: GET_FOLLOWERS_BY_USER,
@@ -211,6 +217,12 @@ class User extends React.Component {
               query: GET_USER,
               variables: { id: user.id },
               data: { user: { ...user, followed: true, followersCount: (user.followersCount + 1) } }
+            });
+
+            const { session } = cache.readQuery({ query: GET_SESSION });
+            cache.writeQuery({
+              query: GET_SESSION,
+              data: { session: { ...session, user: { ...session.user, followingCount: (session.user.followingCount + 1)} } }
             });
 
             const { followersByUser } = cache.readQuery({ query: GET_FOLLOWERS_BY_USER, variables: { userId: user.id, page: 1, per: 30 } });

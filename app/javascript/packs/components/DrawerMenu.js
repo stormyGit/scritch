@@ -210,6 +210,7 @@ class DrawerMenu extends React.Component {
                       currentSession &&
                         <ListItem
                           button
+                          disabled={currentSession.user.followingCount === 0}
                           selected={location.pathname === '/subscriptions'}
                           onClick={() => {
                             this.props.history.push({
