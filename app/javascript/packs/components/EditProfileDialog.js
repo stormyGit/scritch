@@ -18,8 +18,6 @@ import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
-import { Parallax, Background } from 'react-parallax';
-
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -88,13 +86,14 @@ const styles = theme => ({
     width: 1,
     height: 1,
   },
-  bannerImageWide: {
-    top: '-50%'
+  bannerImage: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    position: 'absolute',
+    top: 0,
   },
   avatarContainer: {
-    // paddingTop: theme.spacing.unit * 4
-    // marginTop: AVATAR_SIZE / -2 + theme.spacing.unit,
-    // zIndex: 2,
     marginTop: theme.spacing.unit * 3
   },
   editBannerIcon: {
@@ -119,6 +118,7 @@ class EditProfileDialog extends React.Component {
     avatar: null,
     bannerMenu: false,
     avatarMenu: false,
+    bannerToEdit: null,
     avatarToEdit: null,
   }
 
@@ -134,7 +134,7 @@ class EditProfileDialog extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.user !== nextProps.user) {
+    if (this.props.user !== nextProps.user || this.props.open !== nextProps.open) {
       this.setInitialValues(nextProps.user);
     }
   }
@@ -210,23 +210,16 @@ class EditProfileDialog extends React.Component {
           ref={this.bannerUploadInput}
           type="file"
           onChange={(e) => {
-            var reader = new FileReader();
-            reader.readAsDataURL(e.target.files[0]);
-            reader.onload = () => {
-              this.setState({ banner: reader.result, removeBanner: false });
-            };
+            this.setState({ bannerToEdit: e.target.files[0] })
           }}
         />
         {
           this.state.banner ?
             <div className={classes.bannerIllustration}>
-              <Parallax
-                bgImage={this.state.banner}
-                strength={300}
-                style={{ height: '100%' }}
-                bgClassName={classes.bannerImageWide}
-              >
-              </Parallax>
+              <img
+                src={this.state.banner}
+                className={classes.bannerImage}
+              />
             </div> :
             <BannerPlaceholder
               className={classes.bannerIllustration}
@@ -407,6 +400,21 @@ class EditProfileDialog extends React.Component {
               }}
               onSubmit={(canvas) => {
                 this.setState({ avatar: canvas.toDataURL(), removeAvatar: false });
+              }}
+            />
+        }
+        {
+          this.state.bannerToEdit &&
+            <ImageCropper
+              image={this.state.bannerToEdit}
+              width={1600}
+              height={528}
+              borderRadius={0}
+              onClose={() => {
+                this.setState({ bannerToEdit: null });
+              }}
+              onSubmit={(canvas) => {
+                this.setState({ banner: canvas.toDataURL('image/jpeg', 0.92), removeBanner: false });
               }}
             />
         }

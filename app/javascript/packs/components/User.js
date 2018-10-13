@@ -17,14 +17,10 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import TextField from '@material-ui/core/TextField';
 import withWidth from '@material-ui/core/withWidth';
 
-import 'react-sticky-header/styles.css';
-import StickyHeader from 'react-sticky-header';
-
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
-import { Parallax, Background } from 'react-parallax';
 
 import { withRouter } from 'react-router-dom'
 
@@ -101,8 +97,22 @@ const styles = theme => ({
     width: '100%',
     paddingTop: '33%',
   },
+  bannerImageContainer: {
+    position: 'relative',
+    height: '100%',
+    width: '100%',
+    overflow: 'hidden',
+  },
+  bannerImage: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    position: 'absolute',
+    top: 0,
+  },
   bannerImageWide: {
-    top: '-50%'
+    width: '100%',
+    height: '100%',
   },
   menuButton: {
     paddingLeft: theme.spacing.unit * 4,
@@ -131,6 +141,9 @@ class User extends React.Component {
     if (this.props.match.params.tab) {
       this.setState({ tab: this.props.match.params.tab });
     }
+  }
+
+  componentWillUnmount() {
   }
 
   componentWillReceiveProps(nextProps) {
@@ -498,13 +511,12 @@ class User extends React.Component {
 
     if (banner) {
       return (
-        <Parallax
-          bgImage={banner}
-          strength={300}
-          bgClassName={classes.bannerImageWide}
-        >
-          <div style={{ paddingTop: '33%', width: '100%' }} />
-        </Parallax>
+        <div className={classes.bannerImageContainer}>
+          <img
+            src={banner}
+            className={classes.bannerImage}
+          />
+        </div>
       );
     }
 

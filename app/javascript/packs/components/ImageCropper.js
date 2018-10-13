@@ -33,6 +33,10 @@ class ImageCropper extends React.Component {
       >
         <DialogContent>
           <AvatarEditor
+            style={{
+              width: '100%',
+              height: '100%'
+            }}
             ref={this.editorRef}
             image={image}
             width={width}

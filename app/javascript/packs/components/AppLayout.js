@@ -52,6 +52,7 @@ const styles = theme => ({
   },
   toolbar: {
     ...theme.mixins.toolbar,
+    minHeight: "56px !important",
     "@media (min-width:0px) and (orientation: landscape)": {
       minHeight: 56
     }
@@ -361,7 +362,9 @@ class AppLayout extends React.Component {
               }}
             />
             <ActivitiesDialog open={this.state.activitiesDialog} onClose={() => this.setState({ activitiesDialog: false })} />
-            {this.props.children}
+            <div id="scoll-parent">
+              {this.props.children}
+            </div>
           </main>
         </div>
         <Hidden lgUp>

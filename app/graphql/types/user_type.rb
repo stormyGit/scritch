@@ -27,6 +27,10 @@ module Types
       object.avatar_url(:thumbnail)
     end
 
+    def banner
+      object.banner_url(:regular)
+    end
+
     def followed
       context[:current_user].present? && context[:current_user].following?(object)
     end

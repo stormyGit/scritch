@@ -32,8 +32,6 @@ import ChipInput from 'material-ui-chip-input'
 import { withRouter } from 'react-router-dom'
 import Dropzone from 'react-dropzone';
 
-import { Parallax, Background } from 'react-parallax';
-
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 
 import { withStyles } from '@material-ui/core/styles';
