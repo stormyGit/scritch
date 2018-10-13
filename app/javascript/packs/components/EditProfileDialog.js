@@ -45,6 +45,14 @@ const styles = theme => ({
     backgroundColor: 'rgba(0, 0, 0, 0.2)',
     zIndex: 1,
     borderRadius: 0,
+    height: '100%',
+    top: 0,
+    left: 0,
+  },
+  bannerContainer: {
+    width: '100%',
+    paddingTop: '33%',
+    position: 'relative',
   },
   editAvatarButton: {
     position: 'absolute',
@@ -60,8 +68,12 @@ const styles = theme => ({
     paddingRight: theme.spacing.unit * 4,
     justifyContent: 'center'
   },
-  placeholderBanner: {
+  bannerIllustration: {
     width: '100%',
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    left: 0,
   },
   uploadInput: {
     position: 'absolute',
@@ -106,7 +118,6 @@ class EditProfileDialog extends React.Component {
     avatar: null,
     bannerMenu: false,
     avatarMenu: false,
-    bannerHeight: 0,
   }
 
   constructor(props) {
@@ -140,17 +151,10 @@ class EditProfileDialog extends React.Component {
   renderBanner() {
     const { user, classes } = this.props;
 
-    if (!this.state.bannerHeight) {
-      return (null);
-    }
-
     return (
-      <React.Fragment>
+      <div className={classes.bannerContainer}>
         <Button
           className={classes.editBannerButton}
-          style={{
-            height: this.state.bannerHeight
-          }}
           onClick={() => this.setState({ bannerMenu: true })}
         >
           <div id="uploadBannerButton" className={classes.infoText}>
@@ -212,23 +216,22 @@ class EditProfileDialog extends React.Component {
         />
         {
           this.state.banner ?
-            <Parallax
-              bgImage={this.state.banner}
-              strength={300}
-              bgClassName={classes.bannerImageWide}
-            >
-              <div style={{ height: this.state.bannerHeight, width: '100%' }} />
-            </Parallax> :
+            <div className={classes.bannerIllustration}>
+              <Parallax
+                bgImage={this.state.banner}
+                strength={300}
+                style={{ height: '100%' }}
+                bgClassName={classes.bannerImageWide}
+              >
+              </Parallax>
+            </div> :
             <BannerPlaceholder
-              className={classes.placeholderBanner}
-              style={{
-                height: this.state.bannerHeight
-              }}
+              className={classes.bannerIllustration}
               length={90}
               slug={user.slug}
             />
         }
-      </React.Fragment>
+      </div>
     );
   }
 
@@ -309,9 +312,6 @@ class EditProfileDialog extends React.Component {
       <ResponsiveDialog
         open={this.props.open}
         onClose={this.props.onClose}
-        onEntered={() => {
-          this.setState({ bannerHeight: this.bannerRef.current.offsetWidth * 0.33 })
-        }}
       >
         <GlobalProgress absolute />
         <div ref={this.bannerRef}>

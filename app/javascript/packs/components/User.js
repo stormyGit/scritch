@@ -58,12 +58,17 @@ const styles = theme => ({
     position: 'relative',
     overflow: 'visible',
     alignItems: 'flex-end',
+    paddingTop: '33%',
   },
   userProfileGridListTile: {
     overflow: 'visible',
   },
   userProfileGridListRoot: {
     height: '100% !important',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%'
   },
   tabs: {
     paddingLeft: theme.spacing.unit,
@@ -94,6 +99,7 @@ const styles = theme => ({
   },
   placeholderBanner: {
     width: '100%',
+    paddingTop: '33%',
   },
   bannerImageWide: {
     top: '-50%'
@@ -105,7 +111,7 @@ const styles = theme => ({
   },
   infoText: {
     color: 'white'
-  }
+  },
 });
 
 class User extends React.Component {
@@ -113,7 +119,6 @@ class User extends React.Component {
     tab: 'videos',
     showUnfollow: false,
     editProfileDialog: false,
-    bannerHeight: null,
   }
 
   constructor(props) {
@@ -126,7 +131,6 @@ class User extends React.Component {
     if (this.props.match.params.tab) {
       this.setState({ tab: this.props.match.params.tab });
     }
-    this.setState({ bannerHeight: this.pageRef.current.offsetWidth * 0.33 });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -492,10 +496,6 @@ class User extends React.Component {
   renderBanner(banner, slug) {
     const { classes, width } = this.props;
 
-    if (!this.state.bannerHeight) {
-      return (null);
-    }
-
     if (banner) {
       return (
         <Parallax
@@ -503,7 +503,7 @@ class User extends React.Component {
           strength={300}
           bgClassName={classes.bannerImageWide}
         >
-          <div style={{ height: this.state.bannerHeight, width: '100%' }} />
+          <div style={{ paddingTop: '33%', width: '100%' }} />
         </Parallax>
       );
     }
@@ -511,9 +511,6 @@ class User extends React.Component {
     return (
       <BannerPlaceholder
         className={classes.placeholderBanner}
-        style={{
-          minHeight: this.state.bannerHeight
-        }}
         length={180}
         slug={slug}
       />
@@ -524,7 +521,7 @@ class User extends React.Component {
     const { classes, currentSession } = this.props;
 
     return (
-      <GridList cols={1} spacing={0} className={classes.userProfile} style={{ height: this.state.bannerHeight }}>
+      <GridList cols={1} spacing={0} className={classes.userProfile}>
         <GridListTile cols={1} classes={{ tile: classes.userProfileGridListTile, root: classes.userProfileGridListRoot }}>
           {this.renderBanner(user.banner, user.slug)}
            <GridListTileBar
