@@ -17,6 +17,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import CloseIcon from '@material-ui/icons/Close';
+import BackIcon from '@material-ui/icons/ArrowBack';
 
 import { Link, withRouter } from 'react-router-dom'
 import TelegramLoginButton from 'react-telegram-login';
@@ -242,7 +243,7 @@ class AppLayout extends React.Component {
                       </Hidden>
                   }
                   {
-                    this.state.searchEnabled &&
+                    this.state.searchEnabled && !query.q &&
                       <IconButton
                         className={classes.closeIcon}
                         onClick={() => {
@@ -250,6 +251,17 @@ class AppLayout extends React.Component {
                         }}
                       >
                         <CloseIcon />
+                      </IconButton>
+                  }
+                  {
+                    this.state.searchEnabled && query.q &&
+                      <IconButton
+                        className={classes.closeIcon}
+                        onClick={() => {
+                          this.props.history.goBack();
+                        }}
+                      >
+                        <BackIcon />
                       </IconButton>
                   }
                   {

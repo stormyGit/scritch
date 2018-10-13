@@ -50,7 +50,11 @@ class CustomSearchBar extends React.Component {
       <SearchBar
         {...props}
         searchIcon={
-          <SearchIcon />
+          <SearchIcon
+            style={{
+              display: (width !== 'lg' && width !== 'xl' ? 'none' : 'block')              
+            }}
+          />
         }
         closeIcon={
           <ClearIcon
