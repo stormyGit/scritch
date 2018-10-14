@@ -5,17 +5,15 @@ class Mutations::CreateMedium < Mutations::BaseMutation
   argument :comments_disabled, Boolean, required: true
   argument :tag_list, [String], required: false
 
+  argument :visibility, String, required: true
+  argument :restriction, String, required: true
+
   field :medium, Types::MediumType, null: true
   field :errors, [String], null: false
 
   def resolve(arguments)
-    medium = Medium.new({
-      title: arguments[:title],
-      description: arguments[:description],
-      temporary_key: arguments[:temporary_key],
-      user: context[:current_user],
-      tag_list: arguments[:tag_list]
-    })
+    medium = Medium.new(arguments)
+    medium.user = context[:current_user]
 
     raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).create?
 

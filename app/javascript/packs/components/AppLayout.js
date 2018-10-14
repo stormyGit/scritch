@@ -370,7 +370,11 @@ class AppLayout extends React.Component {
               medium={{
                 title: '',
                 description: '',
-                commentsDisabled: false
+                commentsDisabled: false,
+                tagList: [],
+                temporaryKey: null,
+                visibility: 'public',
+                restriction: 'none',
               }}
             />
             <ActivitiesDialog open={this.state.activitiesDialog} onClose={() => this.setState({ activitiesDialog: false })} />

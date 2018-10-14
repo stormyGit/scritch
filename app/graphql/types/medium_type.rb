@@ -20,6 +20,8 @@ module Types
     field :views_count, Integer, null: false
     field :comments_disabled, Boolean, null: false
     field :tag_list, [String], null: false
+    field :visibility, String, null: false
+    field :restriction, String, null: false
 
     def comments
       object.comments.order(created_at: :desc)
@@ -27,6 +29,16 @@ module Types
 
     def liked
       context[:current_user].present? ? object.likers.find_by(uuid: context[:current_user].id).present? : false
+    end
+
+    def related_media
+      limit = 10
+
+      MediumPolicy::Scope.new(context[:current_user], Medium.tagged_with(object.tag_list, any: true).where.not(uuid: object.uuid).published).resolve.limit(limit).to_a.tap do |media|
+        if media.count < limit
+          media.concat MediumPolicy::Scope.new(context[:current_user], Medium.published).resolve.order("RANDOM()").where.not(uuid: [object.uuid] + media.map(&:uuid)).limit(limit - media.count).to_a
+        end
+      end
     end
 
     def created_at

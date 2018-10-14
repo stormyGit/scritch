@@ -5,6 +5,9 @@ class Mutations::UpdateMedium < Mutations::BaseMutation
   argument :comments_disabled, Boolean, required: false
   argument :tag_list, [String], required: false
 
+  argument :visibility, String, required: true
+  argument :restriction, String, required: true
+
   field :medium, Types::MediumType, null: true
   field :errors, [String], null: false
 

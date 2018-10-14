@@ -26,20 +26,10 @@ class Medium < ApplicationRecord
 
   after_commit :send_moderation_notification, on: [:create]
 
-  scope :published, -> { where.not(key: nil) }
+  scope :published, -> { where.not(published_at: nil) }
 
   def push_video_encoding_job!
     update(video_encoding_job_id: EncodeVideoJob.perform_later(self).job_id)
-  end
-
-  def related_media
-    limit = 10
-
-    Medium.tagged_with(self.tag_list, any: true).where.not(uuid: self.uuid).published.limit(limit).to_a.tap do |media|
-      if media.count < limit
-        media.concat Medium.published.order("RANDOM()").where.not(uuid: [self.uuid] + media.map(&:uuid)).limit(limit - media.count).to_a
-      end
-    end
   end
 
   def send_moderation_notification

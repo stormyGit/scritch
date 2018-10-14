@@ -123,6 +123,8 @@ export const UPDATE_MEDIUM = gql`
         thumbnailKey
         commentsDisabled
         tagList
+        visibility
+        restriction
         user {
           id
           slug
@@ -175,6 +177,8 @@ export const GET_MEDIA = gql`
       likesCount
       viewsCount
       tagList
+      visibility
+      restriction
       user {
         id
         slug
@@ -240,6 +244,8 @@ query GetLikesByUser($userId: ID!, $page: Int!, $per: Int!) {
       likesCount
       liked
       tagList
+      visibility
+      restriction
       user {
         id
         slug
@@ -330,6 +336,8 @@ export const GET_MEDIUM = gql`
       thumbnailKey
       commentsDisabled
       tagList
+      visibility
+      restriction
       user {
         id
         slug

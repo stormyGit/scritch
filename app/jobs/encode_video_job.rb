@@ -35,6 +35,7 @@ class EncodeVideoJob < ApplicationJob
       get_duration!
     end
 
+    @medium.update(published_at: DateTime.now)
     @medium.create_activity key: 'medium.published', owner: @medium.user, recipient: @medium.user
   end
 

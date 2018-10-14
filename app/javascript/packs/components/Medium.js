@@ -104,9 +104,11 @@ class Medium extends React.Component {
 
     return (
       <Query query={GET_MEDIUM} variables={{ id: match.params.id }}>
-        {({ loading, error, data: { medium } }) => {
+        {({ loading, error, data }) => {
+          const medium = data ? data.medium : null;
+
           return (
-            !loading && medium &&
+            !loading && !error && medium &&
               <div className={classes.container}>
                 <PageTitle>{!loading && medium ? medium.title : null}</PageTitle>
                 <Card className={classes.card} elevation={0}>
@@ -122,28 +124,33 @@ class Medium extends React.Component {
                               </Typography>
                             </Grid>
                             <Grid item style={{ flexShrink: 0 }}>
-                              <SocialButton
-                                name="Twitter"
-                                url="https://twitter.com/intent/tweet/"
-                                params={{
-                                  text: medium.title,
-                                  url: window.location.href
-                                }}
-                                className={classes.socialButton}
-                              >
-                                <TwitterIcon fontSize={'inherit'} />
-                              </SocialButton>
-                              <SocialButton
-                                name="Telegram"
-                                className={classes.socialButton}
-                                url="https://telegram.me/share/url"
-                                params={{
-                                  text: medium.title,
-                                  url: window.location.href
-                                }}
-                              >
-                                <TelegramIcon fontSize={'inherit'} />
-                              </SocialButton>
+                              {
+                                medium.visibility === 'public' &&
+                                  <React.Fragment>
+                                    <SocialButton
+                                      name="Twitter"
+                                      url="https://twitter.com/intent/tweet/"
+                                      params={{
+                                        text: medium.title,
+                                        url: window.location.href
+                                      }}
+                                      className={classes.socialButton}
+                                    >
+                                      <TwitterIcon fontSize={'inherit'} />
+                                    </SocialButton>
+                                    <SocialButton
+                                      name="Telegram"
+                                      className={classes.socialButton}
+                                      url="https://telegram.me/share/url"
+                                      params={{
+                                        text: medium.title,
+                                        url: window.location.href
+                                      }}
+                                    >
+                                      <TelegramIcon fontSize={'inherit'} />
+                                    </SocialButton>
+                                  </React.Fragment>
+                              }
                               <LikeButton medium={medium} />
                             </Grid>
                           </Grid>

@@ -22,6 +22,13 @@ import uuidv4 from 'uuid/v4';
 
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+
 import withWidth from '@material-ui/core/withWidth';
 
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
@@ -218,9 +225,11 @@ class EditMediumDialog extends React.Component {
     mediumDeletion: false,
     title: '',
     description: '',
-    commentsEnabled: false,
+    commentsEnabled: true,
     tagList: [],
     temporaryKey: null,
+    visibility: 'public',
+    restriction: 'none',
   }
 
   componentDidMount() {
@@ -240,6 +249,8 @@ class EditMediumDialog extends React.Component {
       description: medium.description,
       commentsEnabled: !medium.commentsDisabled,
       tagList: medium.tagList,
+      visibility: medium.visibility,
+      restriction: medium.restriction,
     });
   }
 
@@ -300,7 +311,34 @@ class EditMediumDialog extends React.Component {
               onChange={(tagList) => { this.setState({ tagList }) }}
               className={classes.chipInput}
             />
+
+            <FormControl fullWidth margin={'dense'}>
+              <InputLabel htmlFor="visibility-helper">Visibility</InputLabel>
+              <Select
+                value={this.state.visibility}
+                onChange={(e) => {  console.log(e.target.value); this.setState({ visibility: e.target.value }) }}
+                input={<Input name="visibility" id="visibility-helper" />}
+              >
+                <MenuItem value={'public'}>Public</MenuItem>
+                <MenuItem value={'unlisted'}>Unlisted</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth margin={'dense'}>
+              <InputLabel htmlFor="restriction-helper">Restriction</InputLabel>
+              <Select
+                value={this.state.restriction}
+                onChange={(e) => { this.setState({ restriction: e.target.value }) }}
+                input={<Input name="restriction" id="restriction-helper" />}
+              >
+                <MenuItem value={'none'}>No restriction</MenuItem>
+                <MenuItem value={'registered'}>Registered users only</MenuItem>
+                <MenuItem value={'content_producers'}>{`Other ${process.env.CONTENT_PRODUCERS_NAME} only`}</MenuItem>
+              </Select>
+            </FormControl>
+
             <FormControlLabel
+              margin={'dense'}
               control={
                 <Switch
                   checked={this.state.commentsEnabled}
@@ -354,6 +392,8 @@ class EditMediumDialog extends React.Component {
                                   description: this.state.description,
                                   commentsDisabled: !this.state.commentsEnabled,
                                   tagList: this.state.tagList,
+                                  visibility: this.state.visibility,
+                                  restriction: this.state.restriction,
                                 }
                               }
                             }).then(() => {

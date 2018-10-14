@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_13_113511) do
+ActiveRecord::Schema.define(version: 2018_10_14_091121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -159,6 +159,9 @@ ActiveRecord::Schema.define(version: 2018_10_13_113511) do
     t.integer "comments_count", default: 0
     t.integer "likes_count", default: 0
     t.boolean "comments_disabled", default: false
+    t.string "visibility", default: "public"
+    t.string "restriction", default: "none"
+    t.datetime "published_at"
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
   end
 

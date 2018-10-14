@@ -63,13 +63,16 @@ module Types
     end
 
     def medium(arguments = {})
+      medium = Medium.includes(comments: [:user]).find(arguments[:id])
+      raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).show?
+
       View.add(arguments[:id], context[:current_user_references])
 
-      Medium.includes(comments: [:user]).find(arguments[:id])
+      medium
     end
 
     def media(arguments = {})
-      media = Medium.published.includes(:user)
+      media = MediumPolicy::Scope.new(context[:current_user], Medium.published).resolve.includes(:user)
 
       if arguments[:q].present?
         media = media

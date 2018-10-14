@@ -11,7 +11,6 @@ class User < ApplicationRecord
   mount_base64_uploader :banner, BannerUploader
 
   has_many :media, dependent: :destroy
-  has_many :published_media, -> { published }, class_name: "Medium"
 
   has_many :comments, dependent: :destroy
   has_many :sessions, dependent: :destroy
