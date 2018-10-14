@@ -10,8 +10,11 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
 import { Mutation } from "react-apollo";
 
+import UserAvatar from './UserAvatar';
+import withCurrentSession from './withCurrentSession';
 import { CREATE_COMMENT, GET_COMMENTS_BY_MEDIUM, GET_MEDIUM } from '../queries';
 
 import Logo from './Logo';
@@ -19,6 +22,10 @@ import Logo from './Logo';
 const styles = theme => ({
   root: {
     flex: 1,
+  },
+  textFieldContainer: {
+    flex: 1,
+    marginLeft: theme.spacing.unit,
   },
   actions: {
     textAlign: "right",
@@ -36,7 +43,11 @@ class CommentForm extends React.Component {
   }
 
   render() {
-    const { classes, mediumId, parentId } = this.props;
+    const { classes, mediumId, parentId, currentSession } = this.props;
+
+    if (!currentSession) {
+      return (null);
+    }
 
     return (
       <Mutation
@@ -59,19 +70,26 @@ class CommentForm extends React.Component {
       >
         {( createComment, { data }) => (
           <div className={classes.root}>
-            <TextField
-              name="body"
-              margin="dense"
-              placeholder="Add a public comment..."
-              type="text"
-              fullWidth
-              multiline
-              rows={4}
-              rowsMax={12}
-              value={this.state.body}
-              onChange={(e) => this.setState({ body: e.target.value })}
-              onFocus={() => this.setState({ showAction: true })}
-            />
+            <Grid container spacing={8} alignItems="flex-start">
+              <Grid item>
+                <UserAvatar user={currentSession.user} />
+              </Grid>
+              <Grid item className={classes.textFieldContainer}>
+                <TextField
+                  name="body"
+                  margin="dense"
+                  placeholder={parentId ? "Add a public reply…" : "Add a public comment…"}
+                  type="text"
+                  fullWidth
+                  multiline
+                  rows={1}
+                  rowsMax={12}
+                  value={this.state.body}
+                  onChange={(e) => this.setState({ body: e.target.value })}
+                  onFocus={() => this.setState({ showAction: true })}
+                />
+              </Grid>
+            </Grid>
             <div className={classes.actions}>
               {
                 this.state.body.length > 0 &&
@@ -110,4 +128,4 @@ class CommentForm extends React.Component {
   }
 }
 
-export default withStyles(styles)(CommentForm);
+export default withStyles(styles)(withCurrentSession(CommentForm));

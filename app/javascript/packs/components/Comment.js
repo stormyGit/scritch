@@ -4,6 +4,7 @@ import CardHeader from '@material-ui/core/CardHeader';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Grid from '@material-ui/core/Grid';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
@@ -35,6 +36,8 @@ const styles = theme => ({
   commentHeader: {
     padding: 0,
     paddingBottom: theme.spacing.unit,
+    alignItems: 'flex-start',
+    position: 'relative'
   },
   userLink: {
     color: theme.palette.text.primary,
@@ -43,6 +46,11 @@ const styles = theme => ({
   repliesCount: {
     width: '100%',
     textAlign: "right",
+  },
+  menuButton: {
+    // position: 'absolute',
+    // top: 0,
+    // right: -theme.spacing.unit * 8,
   }
 })
 
@@ -79,68 +87,84 @@ class Comment extends React.Component {
             this.setState({ showMenuButton: false });
           }}
           action={
-            canDelete &&
-              <div>
+            <div>
+              {
+                (this.state.showMenuButton || true) &&
+                  <IconButton
+                    aria-owns={this.state.menuAnchor ? `menu-${comment.id}` : null}
+                    aria-haspopup="true"
+                    className={classes.menuButton}
+                    onClick={(event) => this.setState({ menuAnchor: event.currentTarget })}
+                    style={{
+                      visibility: (canDelete && this.state.showMenuButton ? 'visible' : 'hidden')
+                    }}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+              }
+              <Menu
+                id={`menu-${comment.id}`}
+                anchorEl={this.state.menuAnchor}
+                open={Boolean(this.state.menuAnchor)}
+                onClose={() => this.setState({ menuAnchor: null })}
+              >
                 {
-                  this.state.showMenuButton &&
-                    <IconButton
-                      aria-owns={this.state.menuAnchor ? `menu-${comment.id}` : null}
-                      aria-haspopup="true"
-                      onClick={(event) => this.setState({ menuAnchor: event.currentTarget })}
-                    >
-                      <MoreVertIcon />
-                    </IconButton>
-                }
-                <Menu
-                  id={`menu-${comment.id}`}
-                  anchorEl={this.state.menuAnchor}
-                  open={Boolean(this.state.menuAnchor)}
-                  onClose={() => this.setState({ menuAnchor: null })}
-                >
-                  {
-                    canDelete &&
-                      <Mutation
-                        mutation={DELETE_COMMENT}
-                        update={(cache) => {
-                          cache.writeQuery({
-                            query: GET_MEDIUM,
-                            variables: { id: medium.id },
-                            data: {
-                              medium: {
-                                ...medium,
-                                commentsCount: (medium.commentsCount - 1),
-                                comments: medium.comments.filter((otherComment) => otherComment.id !== comment.id)
-                              }
+                  canDelete &&
+                    <Mutation
+                      mutation={DELETE_COMMENT}
+                      update={(cache) => {
+                        cache.writeQuery({
+                          query: GET_MEDIUM,
+                          variables: { id: medium.id },
+                          data: {
+                            medium: {
+                              ...medium,
+                              commentsCount: (medium.commentsCount - 1),
+                              comments: medium.comments.filter((otherComment) => otherComment.id !== comment.id)
                             }
-                          });
-                        }}
-                      >
-                        {(deleteComment) => (
-                          <MenuItem
-                            onClick={() => {
-                              deleteComment({
-                                variables: {
-                                  input: {
-                                    id: comment.id
-                                  }
+                          }
+                        });
+                      }}
+                    >
+                      {(deleteComment) => (
+                        <MenuItem
+                          onClick={() => {
+                            deleteComment({
+                              variables: {
+                                input: {
+                                  id: comment.id
                                 }
-                              });
-                            }}
-                          >
-                            Delete
-                          </MenuItem>
-                        )}
-                      </Mutation>
-                  }
-                </Menu>
-              </div>
+                              }
+                            });
+                          }}
+                        >
+                          Delete
+                        </MenuItem>
+                      )}
+                    </Mutation>
+                }
+              </Menu>
+            </div>
           }
-          title={<Link to={`/${comment.user.slug}`} className={classes.userLink}>{comment.user.name}</Link>}
-          subheader={timeAgo.format(dayjs(comment.createdAt).toDate())}
+          title={
+            <Grid spacing={8} container>
+              <Grid item>
+                <Typography variant={'subtitle2'}>
+                  <Link to={`/${comment.user.slug}`} className={classes.userLink}>{comment.user.name}</Link>
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant={'caption'}>
+                  {timeAgo.format(dayjs(comment.createdAt).toDate())}
+                </Typography>
+              </Grid>
+            </Grid>
+          }
+          subheader={<FormattedText text={comment.body} variant="body2" />}
         />
-        <FormattedText text={comment.body} />
+        {false && <CommentForm mediumId={medium.id} parentId={comment.id} />}
         {
-          false &&
+          comment.repliesCount.length > 0 &&
             <ExpansionPanel
               elevation={0}
               expanded={this.state.replyExpanded}
@@ -150,7 +174,6 @@ class Comment extends React.Component {
                 <Typography className={classes.repliesCount}>{countFormat(comment.repliesCount, 'reply', 'replies')}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <CommentForm mediumId={medium.id} />
                 {comment.repliesCount > 0 && <Comments medium={medium} parent={comment} />}
               </ExpansionPanelDetails>
             </ExpansionPanel>
