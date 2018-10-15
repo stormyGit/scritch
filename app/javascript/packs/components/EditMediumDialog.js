@@ -65,18 +65,15 @@ const dropZoneStyles = theme => ({
     background: theme.palette.primary.light,
     fontFamily: theme.typography.fontFamily,
     cursor: "pointer",
-    height: 220,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
   },
   uploadIcon: {
-    marginBottom: theme.spacing.unit * 2,
     fontSize: "4em"
   },
   progress: {
-    marginBottom: theme.spacing.unit * 2,
     color: "white",
   }
 });
@@ -107,6 +104,9 @@ class DropZoneField extends React.Component {
       <Dropzone
         multiple={false}
         className={classes.root}
+        style={{
+          height: width === 'lg' || width === 'xl' ? 220 : 130,
+        }}
         accept="video/mp4,video/x-m4v,video/*,video/quicktime"
         onDrop={(files) => this.handleDrop(files[0])}
       >
@@ -121,7 +121,14 @@ class DropZoneField extends React.Component {
         {
           this.state.progress && this.state.progress.remainingSize > 0 &&
             <div>
-              <CircularProgress className={classes.progress} variant={"static"} value={parseInt(this.state.progress.totalUploaded / this.state.progress.fileSize * 95) + 5} />
+              <CircularProgress
+                className={classes.progress}
+                variant={"static"}
+                value={parseInt(this.state.progress.totalUploaded / this.state.progress.fileSize * 95) + 5}
+                style={{
+                  marginBottom: width === 'lg' || width === 'xl' ? 16 : 0
+                }}
+              />
               <Typography variant="h6" color="inherit" noWrap>
                 {
                   this.state.progress.secondsLeft >= 0 ? `${this.state.progress.secondsLeft}s. remaining` : `Uploading`
@@ -132,7 +139,12 @@ class DropZoneField extends React.Component {
         {
           !this.state.progress &&
             <div>
-              <CloudUploadIcon className={classes.uploadIcon} />
+              <CloudUploadIcon
+                className={classes.uploadIcon}
+                style={{
+                  marginBottom: width === 'lg' || width === 'xl' ? 16 : 0
+                }}
+              />
               <Typography variant="h6" color="inherit" noWrap>
                 {
                   (width === 'lg' || width === 'xl') ?

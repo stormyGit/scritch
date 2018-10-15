@@ -62,6 +62,9 @@ const styles = theme => ({
   highlight: {
     display: 'inline-block',
     fontWeight: 'bold'
+  },
+  scrollArea: {
+    flex: 1,
   }
 });
 
@@ -273,7 +276,7 @@ class ActivitiesDialog extends React.Component {
                           label={`No recent activity`}
                         />
                       </DialogContent> :
-                      <ScrollArea>
+                      <ScrollArea className={classes.scrollArea}>
                         <DialogContent className={classes.notificationsContainer}>
                           <List>
                             {

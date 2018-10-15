@@ -180,7 +180,7 @@ class AppLayout extends React.Component {
     if (width === 'xl' || width === 'lg') {
       appBarPadding = 16;
     } else {
-      appBarPadding = 4;
+      appBarPadding = 8;
     }
 
     if (this.state.pornographyDisclaimer) {
