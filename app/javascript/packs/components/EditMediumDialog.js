@@ -316,7 +316,7 @@ class EditMediumDialog extends React.Component {
               <InputLabel htmlFor="visibility-helper">Visibility</InputLabel>
               <Select
                 value={this.state.visibility}
-                onChange={(e) => {  console.log(e.target.value); this.setState({ visibility: e.target.value }) }}
+                onChange={(e) => {  this.setState({ visibility: e.target.value }) }}
                 input={<Input name="visibility" id="visibility-helper" />}
               >
                 <MenuItem value={'public'}>Public</MenuItem>
@@ -384,6 +384,15 @@ class EditMediumDialog extends React.Component {
                         <Button
                           disabled={!this.state.title || /^\s*$/.test(this.state.title)}
                           onClick={() => {
+                            console.log({
+                              id: medium.id,
+                              title: this.state.title,
+                              description: this.state.description,
+                              commentsDisabled: !this.state.commentsEnabled,
+                              tagList: this.state.tagList,
+                              visibility: this.state.visibility,
+                              restriction: this.state.restriction,
+                            })
                             updateMedium({
                               variables: {
                                 input: {
@@ -442,6 +451,8 @@ class EditMediumDialog extends React.Component {
                                       commentsDisabled: !this.state.commentsEnabled,
                                       temporaryKey: this.state.temporaryKey,
                                       tagList: this.state.tagList,
+                                      visibility: this.state.visibility,
+                                      restriction: this.state.restriction,
                                     }
                                   }
                                 });

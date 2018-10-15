@@ -364,7 +364,11 @@ class DrawerMenu extends React.Component {
           medium={{
             title: '',
             description: '',
-            commentsDisabled: false
+            commentsDisabled: false,
+            tagList: [],
+            temporaryKey: null,
+            visibility: 'public',
+            restriction: 'none',
           }}
         />
         <ActivitiesDialog
