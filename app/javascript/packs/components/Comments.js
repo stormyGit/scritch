@@ -25,7 +25,7 @@ class Comments extends React.Component {
             <React.Fragment>
               {
                 data.commentsByMedium.map((comment) => (
-                  <Comment comment={comment} medium={medium} key={comment.id} />
+                  <Comment comment={comment} medium={medium} key={comment.id} disableReply={true} />
                 ))
               }
               {

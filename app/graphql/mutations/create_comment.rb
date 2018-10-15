@@ -1,6 +1,7 @@
 class Mutations::CreateComment < Mutations::BaseMutation
   argument :body, String, required: true
   argument :medium_id, ID, required: true
+  argument :parent_id, ID, required: false
 
   field :comment, Types::CommentType, null: true
   field :errors, [String], null: false
@@ -9,6 +10,7 @@ class Mutations::CreateComment < Mutations::BaseMutation
     comment = Comment.new({
       body: arguments[:body],
       medium_id: arguments[:medium_id],
+      parent_id: arguments[:parent_id],
       user_id: context[:current_user].id
     })
 

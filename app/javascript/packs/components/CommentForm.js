@@ -22,6 +22,7 @@ import Logo from './Logo';
 const styles = theme => ({
   root: {
     flex: 1,
+    marginBottom: theme.spacing.unit
   },
   textFieldContainer: {
     flex: 1,
@@ -42,8 +43,21 @@ class CommentForm extends React.Component {
     body: ""
   }
 
+  constructor(props) {
+    super(props);
+    this.input = React.createRef();
+  }
+
+  componentDidMount() {
+    if (this.props.autoFocus) {
+      setTimeout(() => {
+        this.input.current.focus();
+      }, 100)
+    }
+  }
+
   render() {
-    const { classes, mediumId, parentId, currentSession } = this.props;
+    const { classes, mediumId, parentId, currentSession, autoFocus, dismissable, onDismiss } = this.props;
 
     if (!currentSession) {
       return (null);
@@ -53,7 +67,14 @@ class CommentForm extends React.Component {
       <Mutation
         mutation={CREATE_COMMENT}
         update={(cache, { data: { createComment } }) => {
-          const { commentsByMedium } = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { mediumId, parentId, page: 1, per: 20 } });
+          let commentsByMedium;
+
+          try {
+            const data = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { mediumId, parentId, page: 1, per: 20 } });
+            commentsByMedium = data.commentsByMedium;
+          } catch (e) {
+            commentsByMedium = [];
+          }
           cache.writeQuery({
             query: GET_COMMENTS_BY_MEDIUM,
             variables: { mediumId, parentId, page: 1, per: 20 },
@@ -76,6 +97,11 @@ class CommentForm extends React.Component {
               </Grid>
               <Grid item className={classes.textFieldContainer}>
                 <TextField
+                  inputProps={{
+                    ref: this.input,
+                    autoFocus
+                  }}
+                  autoFocus
                   name="body"
                   margin="dense"
                   placeholder={parentId ? "Add a public reply…" : "Add a public comment…"}
@@ -92,11 +118,14 @@ class CommentForm extends React.Component {
             </Grid>
             <div className={classes.actions}>
               {
-                this.state.body.length > 0 &&
+                (this.state.body.length > 0 || dismissable) &&
                   <Button
                     className={classes.cancelButton}
                     onClick={() => {
                       this.setState({ body: '', showAction: false })
+                      if (onDismiss) {
+                        onDismiss();
+                      }
                     }}
                   >
                     Cancel
@@ -111,11 +140,15 @@ class CommentForm extends React.Component {
                     variables: {
                       input: {
                         body: this.state.body,
-                        mediumId
+                        mediumId,
+                        parentId
                       }
                     }
                   });
                   this.setState({ body: '', showAction: false })
+                  if (onDismiss) {
+                    onDismiss();
+                  }
                 }}
               >
                 Send

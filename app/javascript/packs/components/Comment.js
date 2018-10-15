@@ -10,6 +10,7 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import withWidth from '@material-ui/core/withWidth';
 import dayjs from 'dayjs';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -31,11 +32,11 @@ import timeAgo from '../timeAgo';
 const styles = theme => ({
   comment: {
     paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit
+    paddingBottom: theme.spacing.unit,
+
   },
   commentHeader: {
     padding: 0,
-    paddingBottom: theme.spacing.unit,
     alignItems: 'flex-start',
     position: 'relative'
   },
@@ -43,9 +44,17 @@ const styles = theme => ({
     color: theme.palette.text.primary,
     textDecoration: 'none'
   },
+  repliesPanel: {
+    marginLeft: theme.spacing.unit * 7,
+    backgroundColor: "#333"
+  },
+  repliesPanelDetails: {
+    display: 'block',
+  },
   repliesCount: {
-    width: '100%',
-    textAlign: "right",
+  },
+  repliesAction: {
+    right: 0,
   },
   menuButton: {
     // position: 'absolute',
@@ -62,7 +71,8 @@ class Comment extends React.Component {
   };
 
   render() {
-    const { comment, currentSession, classes, medium } = this.props;
+    const { comment, currentSession, classes, medium, disableReply, width } = this.props;
+
     let canDelete = false;
     if (currentSession && currentSession.user.id === comment.user.id) {
       canDelete = true;
@@ -89,18 +99,17 @@ class Comment extends React.Component {
           action={
             <div>
               {
-                (this.state.showMenuButton || true) &&
-                  <IconButton
-                    aria-owns={this.state.menuAnchor ? `menu-${comment.id}` : null}
-                    aria-haspopup="true"
-                    className={classes.menuButton}
-                    onClick={(event) => this.setState({ menuAnchor: event.currentTarget })}
-                    style={{
-                      visibility: (canDelete && this.state.showMenuButton ? 'visible' : 'hidden')
-                    }}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
+                <IconButton
+                  aria-owns={this.state.menuAnchor ? `menu-${comment.id}` : null}
+                  aria-haspopup="true"
+                  className={classes.menuButton}
+                  onClick={(event) => this.setState({ menuAnchor: event.currentTarget })}
+                  style={{
+                    visibility: ((canDelete) && (this.state.showMenuButton || (width !== 'xl' && width !== 'lg')) ? 'visible' : 'hidden')
+                  }}
+                >
+                  <MoreVertIcon />
+                </IconButton>
               }
               <Menu
                 id={`menu-${comment.id}`}
@@ -160,20 +169,35 @@ class Comment extends React.Component {
               </Grid>
             </Grid>
           }
-          subheader={<FormattedText text={comment.body} variant="body2" />}
+          subheader={<FormattedText text={comment.body} variant="inherit" />}
         />
-        {false && <CommentForm mediumId={medium.id} parentId={comment.id} />}
         {
-          comment.repliesCount.length > 0 &&
+          !disableReply &&
             <ExpansionPanel
-              elevation={0}
+              elevation={1}
               expanded={this.state.replyExpanded}
+              className={classes.repliesPanel}
               onChange={() => this.setState({ replyExpanded: !this.state.replyExpanded })}
             >
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.repliesCount}>{countFormat(comment.repliesCount, 'reply', 'replies')}</Typography>
+              <ExpansionPanelSummary
+                classes={{
+                  expandIcon: classes.repliesAction
+                }}
+                expandIcon={
+                  <ExpandMoreIcon
+                    className={classes.repliesAction}
+                  />
+                }
+                className={classes.repliesCount}
+              >
+                <Typography>{countFormat(comment.repliesCount, 'reply', 'replies')}</Typography>
               </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
+              <ExpansionPanelDetails className={classes.repliesPanelDetails}>
+                <CommentForm
+                  mediumId={medium.id}
+                  parentId={comment.id}
+                  autoFocus
+                />
                 {comment.repliesCount > 0 && <Comments medium={medium} parent={comment} />}
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -184,5 +208,7 @@ class Comment extends React.Component {
 }
 
 export default withStyles(styles)(
-  withCurrentSession(Comment)
+  withCurrentSession(
+    withWidth()(Comment)
+  )
 );

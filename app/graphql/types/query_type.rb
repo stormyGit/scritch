@@ -120,7 +120,9 @@ module Types
     end
 
     def comments_by_medium(arguments = {})
-      Comment.where(medium_id: arguments[:medium_id]).order(created_at: :desc).page(arguments[:page]).per(arguments[:per])
+      Comment
+        .where(medium_id: arguments[:medium_id], parent_id: arguments[:parent_id])
+        .order(created_at: :desc).page(arguments[:page]).per(arguments[:per])
     end
 
     def user(arguments = {})

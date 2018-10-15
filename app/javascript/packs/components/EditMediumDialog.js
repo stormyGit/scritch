@@ -237,7 +237,7 @@ class EditMediumDialog extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.medium !== nextProps.medium) {
+    if (this.props.open !== nextProps.open) {
       this.setInitialValues(nextProps.medium);
     }
   }

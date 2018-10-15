@@ -16,7 +16,6 @@ import LoadMoreButton from './LoadMoreButton';
 
 const styles = theme => ({
   root: {
-    marginTop: theme.spacing.unit / 2,
     width: '100%',
     padding: theme.spacing.unit * 1,
     paddingRight: 0
@@ -79,7 +78,7 @@ class Media extends React.Component {
       <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, page, per }} fetchPolicy="network-only">
         {({ data: { media }, loading, error, fetchMore }) => (
           <React.Fragment>
-            <Grid container className={classes.root} spacing={8}>
+            <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
               {
                   !loading && !error &&
                     this.renderResults({
