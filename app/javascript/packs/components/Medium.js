@@ -188,8 +188,8 @@ class Medium extends React.Component {
                               </Grid>
                           }
                         </Grid>
-                        <Typography component="p" className={classes.text}>
-                          {medium.description || 'No description'}
+                        <Typography className={classes.text}>
+                          <FormattedText variant="inherit" text={medium.description || 'No description'} />
                         </Typography>
                         <div className={classes.tags}>
                           {

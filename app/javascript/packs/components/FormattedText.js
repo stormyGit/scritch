@@ -1,17 +1,30 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
+import Linkify from 'react-linkify';
+import { withStyles } from '@material-ui/core/styles';
 
+const styles = theme => ({
+  link: {
+    color: theme.palette.text.primary
+  },
+})
 
 const splitParagraphs = text => text.split(/\n\n+/);
 const splitLines = text => text.split(/\n+/);
 
-const FormattedText = ({ text, variant }) => (
+const FormattedText = ({ text, variant, classes }) => (
   splitParagraphs(text).map((paragraph, index) => (
     <Typography variant={variant || "body1"} paragraph component="div" key={index}>
       {
         splitLines(paragraph).map((line, index) => (
           <Typography variant={variant || "body1"} component="p" key={index}>
-            {line}
+            <Linkify
+              properties={{
+                className: classes.link
+              }}
+            >
+              {line}
+            </Linkify>
           </Typography>
         ))
       }
@@ -19,4 +32,4 @@ const FormattedText = ({ text, variant }) => (
   ))
 )
 
-export default FormattedText;
+export default withStyles(styles)(FormattedText);
