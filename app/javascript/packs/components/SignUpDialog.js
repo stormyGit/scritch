@@ -13,6 +13,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Typography from '@material-ui/core/Typography';
 import CheckIcon from '@material-ui/icons/Check';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import TelegramLoginButton from 'react-telegram-login';
 import { withRouter } from 'react-router-dom';
 
@@ -31,9 +32,20 @@ const styles = theme => ({
   link: {
     color: theme.palette.text.primary
   },
-  loginButton: {
+  loginButtonContainer: {
     textAlign: 'center',
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing.unit * 2,
+    position: 'relative',
+  },
+  loginButton: {
+    zIndex: 1,
+    position: 'relative',
+  },
+  telegramLoader: {
+    position: 'absolute',
+    left: '50%',
+    top: 0,
+    marginLeft: -16
   }
 })
 
@@ -88,25 +100,30 @@ class SignUpDialog extends React.Component {
             </ListItem>
           </List>
           {
-            process.env.NODE_ENV === 'production' ?
+            <div className={classes.loginButtonContainer}>
               <div className={classes.loginButton}>
-                <TelegramLoginButton dataOnauth={(response) => this.handleTelegramResponse(response)} botName="MurrtubeBot" />
-              </div> :
-              <Button
-                onClick={() => {
-                  this.handleTelegramResponse({
-                    auth_date:1537829184,
-                    first_name:"Coontail",
-                    hash:"1c7bc6a02407b952d8c521f151b07a338834e62394e78ea5e5a1863e13c63993",
-                    id:122117046,
-                    photo_url:"https://t.me/i/userpic/320/Coontail.jpg",
-                    username:"Coontail",
-                  })
-                }}
-                variant="contained"
-              >
-                Login test
-              </Button>
+                {
+                  process.env.NODE_ENV === 'production' ?
+                    <TelegramLoginButton dataOnauth={(response) => this.handleTelegramResponse(response)} botName=`${process.env.TELEGRAM_BOT_NAME}` /> :
+                    <Button
+                      onClick={() => {
+                        this.handleTelegramResponse({
+                          auth_date:1537829184,
+                          first_name:"Coontail",
+                          hash:"1c7bc6a02407b952d8c521f151b07a338834e62394e78ea5e5a1863e13c63993",
+                          id:122117046,
+                          photo_url:"https://t.me/i/userpic/320/Coontail.jpg",
+                          username:"Coontail",
+                        })
+                      }}
+                      variant="contained"
+                    >
+                      Login test
+                    </Button>
+                }
+              </div>
+              <CircularProgress className={classes.telegramLoader} size={32} />
+            </div>
           }
         </DialogContent>
       </ResponsiveDialog>

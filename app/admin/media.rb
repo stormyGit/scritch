@@ -35,6 +35,14 @@ ActiveAdmin.register Medium do
     attributes_table do
       row :id
       row :user
+      row :video do |record|
+        video(width: 640, height: 480, controls: true) do
+          source(src: "https://s3.amazonaws.com/#{ENV['TEMPORARY_S3_BUCKET']}/#{record.temporary_key}")
+        end
+      end
+      row :temporary_file do |record|
+        link_to "Download", "https://s3.amazonaws.com/#{ENV['TEMPORARY_S3_BUCKET']}/#{record.temporary_key}"
+      end
       row :created_at
       row :updated_at
     end

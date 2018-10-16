@@ -109,7 +109,7 @@ class Medium extends React.Component {
 
           return (
             !loading && !error && medium &&
-              <div className={classes.container}>
+              <div className={classes.container} key={medium.id}>
                 <PageTitle>{!loading && medium ? medium.title : null}</PageTitle>
                 <Card className={classes.card} elevation={0}>
                   <CardVideo medium={medium} />
@@ -188,7 +188,7 @@ class Medium extends React.Component {
                               </Grid>
                           }
                         </Grid>
-                        <Typography className={classes.text}>
+                        <Typography className={classes.text} component="div">
                           <FormattedText variant="inherit" text={medium.description || 'No description'} />
                         </Typography>
                         <div className={classes.tags}>

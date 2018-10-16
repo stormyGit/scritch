@@ -20,6 +20,8 @@ export const CREATE_SESSION = gql`
           bio
           website
           theme
+          mediaCount
+          followingCount
         }
       }
     }
