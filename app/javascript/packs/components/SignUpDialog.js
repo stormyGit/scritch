@@ -104,7 +104,7 @@ class SignUpDialog extends React.Component {
               <div className={classes.loginButton}>
                 {
                   process.env.NODE_ENV === 'production' ?
-                    <TelegramLoginButton dataOnauth={(response) => this.handleTelegramResponse(response)} botName=`${process.env.TELEGRAM_BOT_NAME}}` /> :
+                    <TelegramLoginButton dataOnauth={(response) => this.handleTelegramResponse(response)} botName={`${process.env.TELEGRAM_BOT_NAME}`} /> :
                     <Button
                       onClick={() => {
                         this.handleTelegramResponse({
