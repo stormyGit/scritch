@@ -9,6 +9,11 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  logo: {
+    position: 'relative',
+    alignItems: 'center',
+    display: 'flex',
+  },
   icon: {
     marginRight: theme.spacing.unit,
     width: 48,
@@ -18,6 +23,11 @@ const styles = theme => ({
     fontFamily: "'Monoton', cursive",
     fontSize: '2.5em',
   },
+  beta: {
+    position: 'absolute',
+    bottom: -1,
+    right: 0,
+  }
 })
 
 class Logo extends React.Component {
@@ -26,10 +36,18 @@ class Logo extends React.Component {
 
     return (
       <div className={classes.container}>
-        <img src={icon} className={classes.icon} />
-        <Typography variant="h6" color="inherit" component={'span'} noWrap className={classes.brand} {...props}>
-          {process.env.SITE_NAME}
-        </Typography>
+        <div className={classes.logo}>
+          <img src={icon} className={classes.icon} />
+          <Typography variant="h6" color="inherit" component={'span'} noWrap className={classes.brand} {...props}>
+            {process.env.SITE_NAME}
+          </Typography>
+          {
+            process.env.ENABLE_BETA === 'true' &&
+              <Typography variant="caption" color="inherit" component={'span'} noWrap className={classes.beta}>
+                Beta
+              </Typography>
+          }
+        </div>
       </div>
     );
   }
