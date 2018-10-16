@@ -36,7 +36,7 @@ module Media
           [
             {
               text: 'View on Murrtube',
-              url: Rails.application.routes.url_helpers.edit_admin_medium_url(medium)
+              url: Rails.application.routes.url_helpers.admin_medium_url(medium)
             }
           ]
         ]
