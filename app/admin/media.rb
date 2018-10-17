@@ -2,7 +2,7 @@ ActiveAdmin.register Medium do
   permit_params :user_id, :title, :description
 
   action_item :accept, only: [:show, :edit] do
-    link_to('Accept and encode', accept_admin_medium_path(resource), method: :put)
+    link_to(resource.published_at.present? ? 'Reencode' : 'Accept and encode', accept_admin_medium_path(resource), method: :put)
   end
 
   member_action :accept, method: :put do
