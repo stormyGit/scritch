@@ -341,7 +341,7 @@ class AppLayout extends React.Component {
                       !currentSession &&
                         <Button
                           onClick={() => this.setState({ signUpDialog: true })}
-                          variant="contained"
+                          variant="outlined"
                           size="large"
                         >
                           Login with Telegram

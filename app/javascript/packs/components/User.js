@@ -235,7 +235,7 @@ class User extends React.Component {
         >
           {( createFollow, { data }) => (
             <Button
-              variant="contained"
+              variant="outlined"
               size="large"
               className={this.props.classes.followButton}
               onClick={() => {
@@ -580,12 +580,6 @@ class User extends React.Component {
                         {this.renderEditButton(user)}
                       </div>
                   }
-                  {
-                    currentSession && currentSession.user.id !== user.id &&
-                      <div className={classes.titleBarContainerUserActions}>
-                        {this.renderFollowButton(user)}
-                      </div>
-                  }
                 </Hidden>
                 <Hidden lgUp>
                   {
@@ -595,6 +589,12 @@ class User extends React.Component {
                       </div>
                   }
                 </Hidden>
+                {
+                  currentSession && currentSession.user.id !== user.id &&
+                    <div className={classes.titleBarContainerUserActions}>
+                      {this.renderFollowButton(user)}
+                    </div>
+                }
               </div>
              }
            />
