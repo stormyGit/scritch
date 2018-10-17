@@ -183,10 +183,10 @@ class User extends React.Component {
               data: { session: { ...session, user: { ...session.user, followingCount: (session.user.followingCount - 1)} } }
             });
 
-            const { followersByUser } = cache.readQuery({ query: GET_FOLLOWERS_BY_USER, variables: { userId: user.id, page: 1, per: parseInt(process.env.FOLLOWERS_PAGE_SIZE) } });
+            const { followersByUser } = cache.readQuery({ query: GET_FOLLOWERS_BY_USER, variables: { userId: user.id } });
             cache.writeQuery({
               query: GET_FOLLOWERS_BY_USER,
-              variables: { userId: user.id, page: 1, per: parseInt(process.env.FOLLOWERS_PAGE_SIZE) },
+              variables: { userId: user.id },
               data: { followersByUser: followersByUser.filter((follower) => follower.id != this.props.currentSession.user.id) }
             });
           }}
@@ -225,10 +225,10 @@ class User extends React.Component {
               data: { session: { ...session, user: { ...session.user, followingCount: (session.user.followingCount + 1)} } }
             });
 
-            const { followersByUser } = cache.readQuery({ query: GET_FOLLOWERS_BY_USER, variables: { userId: user.id, page: 1, per: parseInt(process.env.FOLLOWERS_PAGE_SIZE) } });
+            const { followersByUser } = cache.readQuery({ query: GET_FOLLOWERS_BY_USER, variables: { userId: user.id } });
             cache.writeQuery({
               query: GET_FOLLOWERS_BY_USER,
-              variables: { userId: user.id, page: 1, per: parseInt(process.env.FOLLOWERS_PAGE_SIZE) },
+              variables: { userId: user.id },
               data: { followersByUser: [ this.props.currentSession.user, ...followersByUser] }
             });
           }}
@@ -309,7 +309,7 @@ class User extends React.Component {
                   ))
                 }
                 {
-                  ((data.media.length % per) === 0 && data.media.length / per === page) &&
+                  data.media.length < user.mediaCount &&
                     <LoadMoreButton
                       onClick={() => {
                         page++;
@@ -369,7 +369,7 @@ class User extends React.Component {
                   ))
                 }
                 {
-                  ((data.followingsByUser.length % per) === 0 && data.followingsByUser.length / per === page) &&
+                  data.followingsByUser.length < user.followingCount &&
                     <LoadMoreButton
                       onClick={() => {
                         page++;
@@ -429,7 +429,7 @@ class User extends React.Component {
                   ))
                 }
                 {
-                  ((data.followersByUser.length % per) === 0 && data.followersByUser.length / per === page) &&
+                  data.followersByUser.length < user.followersCount &&
                     <LoadMoreButton
                       onClick={() => {
                         page++;
@@ -489,7 +489,7 @@ class User extends React.Component {
                   ))
                 }
                 {
-                  ((data.likesByUser.length % per) === 0 && data.likesByUser.length / per === page) &&
+                  data.likesByUser.length < user.likesCount &&
                     <LoadMoreButton
                       onClick={() => {
                         page++;

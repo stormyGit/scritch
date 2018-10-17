@@ -261,7 +261,7 @@ query GetLikesByUser($userId: ID!, $page: Int!, $per: Int!) {
 
 export const GET_FOLLOWERS_BY_USER = gql`
 query GetFollowersByUser($userId: ID!, $page: Int!, $per: Int!) {
-  followersByUser(userId: $userId, page: $page, per: $per) {
+  followersByUser(userId: $userId, page: $page, per: $per) @connection(key: "followersByUser", filter: ["userId"]) {
     id
     slug
     name
@@ -274,7 +274,7 @@ query GetFollowersByUser($userId: ID!, $page: Int!, $per: Int!) {
 
 export const GET_FOLLOWINGS_BY_USER = gql`
 query GetFollowingsByUser($userId: ID!, $page: Int!, $per: Int!) {
-  followingsByUser(userId: $userId, page: $page, per: $per) {
+  followingsByUser(userId: $userId, page: $page, per: $per) @connection(key: "followingsByUser", filter: ["userId"]) {
     id
     slug
     name
