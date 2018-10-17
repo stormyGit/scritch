@@ -90,7 +90,7 @@ class SignUpDialog extends React.Component {
              <ListItemIcon>
                <CheckIcon />
              </ListItemIcon>
-             <ListItemText inset primary="Telegram will share your name, username, avatar, bio and ID." />
+             <ListItemText inset primary="Telegram will share your username, handle, avatar, bio and ID." />
             </ListItem>
             <ListItem>
              <ListItemIcon>
