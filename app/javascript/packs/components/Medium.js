@@ -225,7 +225,7 @@ class Medium extends React.Component {
                                     {"You must be connected to write a comment."}
                                   </Typography>
                               }
-                              <Comments medium={medium} parent={null} />
+                              <Comments medium={medium} parent={null} commentsCount={medium.commentsCount} />
                             </React.Fragment>
                         }
                       </CardContent>

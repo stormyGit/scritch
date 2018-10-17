@@ -6,7 +6,7 @@ import LoadMoreButton from './LoadMoreButton';
 
 class Comments extends React.Component {
   render() {
-    const { medium, parent } = this.props;
+    const { medium, parent, commentsCount } = this.props;
     let page = 1;
     let per = parseInt(process.env.COMMENTS_PAGE_SIZE);
 
@@ -29,7 +29,7 @@ class Comments extends React.Component {
                 ))
               }
               {
-                ((data.commentsByMedium.length % per) === 0 && data.commentsByMedium.length / per === page) &&
+                data.commentsByMedium.length < commentsCount &&
                   <LoadMoreButton
                     noMargin
                     onClick={() => {

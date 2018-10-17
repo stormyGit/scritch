@@ -25,7 +25,7 @@ import CommentForm from './CommentForm';
 import withCurrentSession from './withCurrentSession';
 import countFormat from '../countFormat';
 
-import { DELETE_COMMENT, GET_MEDIUM } from '../queries';
+import { DELETE_COMMENT, GET_MEDIUM, GET_COMMENTS_BY_MEDIUM } from '../queries';
 
 import timeAgo from '../timeAgo';
 
@@ -71,7 +71,7 @@ class Comment extends React.Component {
   };
 
   render() {
-    const { comment, currentSession, classes, medium, disableReply, width } = this.props;
+    const { comment, currentSession, classes, medium, disableReply, width, parent } = this.props;
 
     let canDelete = false;
     if (currentSession && currentSession.user.id === comment.user.id) {
@@ -131,6 +131,15 @@ class Comment extends React.Component {
                               commentsCount: (medium.commentsCount - 1),
                               comments: medium.comments.filter((otherComment) => otherComment.id !== comment.id)
                             }
+                          }
+                        });
+
+                        const { commentsByMedium } = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { parentId: (parent ? parent.id : null), mediumId: medium.id }});
+                        cache.writeQuery({
+                          query: GET_COMMENTS_BY_MEDIUM,
+                          variables: { parentId: (parent ? parent.id : null), mediumId: medium.id },
+                          data: {
+                            commentsByMedium: commentsByMedium.filter((otherComment) => otherComment.id !== comment.id)
                           }
                         });
                       }}

@@ -287,7 +287,7 @@ query GetFollowingsByUser($userId: ID!, $page: Int!, $per: Int!) {
 
 export const GET_COMMENTS_BY_MEDIUM = gql`
 query GetCommentsByMedium($mediumId: ID!, $parentId: ID, $page: Int!, $per: Int!) {
-  commentsByMedium(mediumId: $mediumId, parentId: $parentId, page: $page, per: $per) {
+  commentsByMedium(mediumId: $mediumId, parentId: $parentId, page: $page, per: $per) @connection(key: "commentsByMedium", filter: ["mediumId", "parentId"]) {
     id
     body
     createdAt

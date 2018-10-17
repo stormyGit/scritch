@@ -70,14 +70,14 @@ class CommentForm extends React.Component {
           let commentsByMedium;
 
           try {
-            const data = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { mediumId, parentId, page: 1, per: parseInt(process.env.COMMENTS_PAGE_SIZE) } });
+            const data = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { mediumId, parentId } });
             commentsByMedium = data.commentsByMedium;
           } catch (e) {
             commentsByMedium = [];
           }
           cache.writeQuery({
             query: GET_COMMENTS_BY_MEDIUM,
-            variables: { mediumId, parentId, page: 1, per: parseInt(process.env.COMMENTS_PAGE_SIZE) },
+            variables: { mediumId, parentId },
             data: { commentsByMedium: [ createComment.comment, ...commentsByMedium ] }
           });
 
