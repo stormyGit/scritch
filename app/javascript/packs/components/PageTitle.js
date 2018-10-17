@@ -3,13 +3,19 @@ import { withApollo } from 'react-apollo';
 
 class PageTitle extends React.Component {
   componentDidMount() {
-    this.props.client.writeData({ data: { pageTitle: this.props.children }});
+    this.setPageTitle(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.children !== nextProps.children) {
-      this.props.client.writeData({ data: { pageTitle: nextProps.children }});
+      this.setPageTitle(nextProps);
     }
+  }
+
+  setPageTitle(props) {
+    props.client.writeData({ data: { pageTitle: props.children }});
+    console.log(`${props.children} | ${process.env.SITE_NAME}`);
+    document.title = `${props.children} | ${process.env.SITE_NAME}`;
   }
 
   render() {
