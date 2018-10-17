@@ -22,7 +22,7 @@ import VisibilitySensor from 'react-visibility-sensor';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Link, withRouter } from 'react-router-dom';
-import { keyToUrl } from '../mediaService';
+import { keyToCdnUrl } from '../mediaService';
 import timeAgo from '../timeAgo';
 import Duration from './Duration';
 import UserAvatar from './UserAvatar';
@@ -120,14 +120,14 @@ class MediumCard extends React.Component {
       previewImage.onload = () => {
         this.setState({ thumbnailKey: medium.previewKey });
       };
-      previewImage.src = keyToUrl(medium.previewKey);
+      previewImage.src = keyToCdnUrl(medium.previewKey);
     }
     const handleOnMouseLeave = () => {
 
       previewImage.onload = () => {
         this.setState({ thumbnailKey: medium.thumbnailKey });
       };
-      previewImage.src = keyToUrl(medium.thumbnailKey);
+      previewImage.src = keyToCdnUrl(medium.thumbnailKey);
     }
 
     return (
@@ -149,7 +149,7 @@ class MediumCard extends React.Component {
         >
           <CardMedia
             className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
-            image={keyToUrl(this.state.thumbnailKey)}
+            image={keyToCdnUrl(this.state.thumbnailKey)}
             title={medium.title}
             onMouseEnter={() => {
               if (this.state.thumbnailKey !== medium.previewKey && width === 'lg' || width === 'xl') {

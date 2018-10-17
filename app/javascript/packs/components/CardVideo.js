@@ -15,7 +15,7 @@ import 'mediaelement-plugins/dist/vrview/vrview.min.css';
 import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 
-import { keyToUrl } from '../mediaService';
+import { keyToUrl, keyToCdnUrl } from '../mediaService';
 
 const styles = theme => ({
   video: {
@@ -73,8 +73,8 @@ class CardVideo extends React.Component {
           height="100%"
           data-cast-title={medium.title}
           data-cast-description={medium.description}
-          data-cast-poster={keyToUrl(medium.thumbnailKey)}
-          poster={keyToUrl(medium.thumbnailKey)}
+          data-cast-poster={keyToCdnUrl(medium.thumbnailKey)}
+          poster={keyToCdnUrl(medium.thumbnailKey)}
         >
           <source src={keyToUrl(medium.key)} />
         </video>

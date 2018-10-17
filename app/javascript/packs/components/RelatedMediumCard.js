@@ -14,7 +14,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Typography from '@material-ui/core/Typography';
 import { Link, withRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
-import { keyToUrl } from '../mediaService';
+import { keyToCdnUrl } from '../mediaService';
 import timeAgo from '../timeAgo';
 import Duration from './Duration';
 
@@ -66,7 +66,7 @@ class MediumCard extends React.Component {
     return (
       <CardMedia
         className={classes.horizontalMedia}
-        image={keyToUrl(this.state.thumbnailKey)}
+        image={keyToCdnUrl(this.state.thumbnailKey)}
         title={medium.title}
         onMouseEnter={() => this.setState({ thumbnailKey: medium.previewKey })}
         onMouseLeave={() => this.setState({ thumbnailKey: medium.thumbnailKey })}
