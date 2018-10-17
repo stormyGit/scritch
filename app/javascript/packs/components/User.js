@@ -183,10 +183,10 @@ class User extends React.Component {
               data: { session: { ...session, user: { ...session.user, followingCount: (session.user.followingCount - 1)} } }
             });
 
-            const { followersByUser } = cache.readQuery({ query: GET_FOLLOWERS_BY_USER, variables: { userId: user.id, page: 1, per: 30 } });
+            const { followersByUser } = cache.readQuery({ query: GET_FOLLOWERS_BY_USER, variables: { userId: user.id, page: 1, per: parseInt(process.env.FOLLOWERS_PAGE_SIZE) } });
             cache.writeQuery({
               query: GET_FOLLOWERS_BY_USER,
-              variables: { userId: user.id, page: 1, per: 30 },
+              variables: { userId: user.id, page: 1, per: parseInt(process.env.FOLLOWERS_PAGE_SIZE) },
               data: { followersByUser: followersByUser.filter((follower) => follower.id != this.props.currentSession.user.id) }
             });
           }}
@@ -225,10 +225,10 @@ class User extends React.Component {
               data: { session: { ...session, user: { ...session.user, followingCount: (session.user.followingCount + 1)} } }
             });
 
-            const { followersByUser } = cache.readQuery({ query: GET_FOLLOWERS_BY_USER, variables: { userId: user.id, page: 1, per: 30 } });
+            const { followersByUser } = cache.readQuery({ query: GET_FOLLOWERS_BY_USER, variables: { userId: user.id, page: 1, per: parseInt(process.env.FOLLOWERS_PAGE_SIZE) } });
             cache.writeQuery({
               query: GET_FOLLOWERS_BY_USER,
-              variables: { userId: user.id, page: 1, per: 30 },
+              variables: { userId: user.id, page: 1, per: parseInt(process.env.FOLLOWERS_PAGE_SIZE) },
               data: { followersByUser: [ this.props.currentSession.user, ...followersByUser] }
             });
           }}
@@ -281,7 +281,7 @@ class User extends React.Component {
   renderMedia(user) {
     const { width } = this.props;
     let page = 1;
-    let per = 10;
+    let per = parseInt(process.env.USER_MEDIA_PAGE_SIZE);
 
     return (
       <Query query={GET_MEDIA} variables={{ sort: "latest", userId: user.id, page, per }} fetchPolicy="network-only">
@@ -341,7 +341,7 @@ class User extends React.Component {
   renderFollowing(user) {
     const { width } = this.props;
     let page = 1;
-    let per = 30;
+    let per = parseInt(process.env.FOLLOWINGS_PAGE_SIZE);
 
     return (
       <Query query={GET_FOLLOWINGS_BY_USER} variables={{ userId: user.id, page, per }}>
@@ -401,7 +401,7 @@ class User extends React.Component {
   renderFollowers(user) {
     const { width } = this.props;
     let page = 1;
-    let per = 30;
+    let per = parseInt(process.env.FOLLOWERS_PAGE_SIZE);
 
     return (
       <Query query={GET_FOLLOWERS_BY_USER} variables={{ userId: user.id, page, per }}>
@@ -461,7 +461,7 @@ class User extends React.Component {
   renderLikes(user) {
     const { width } = this.props;
     let page = 1;
-    let per = 10;
+    let per = parseInt(process.env.LIKES_PAGE_SIZE);
 
     return (
       <Query query={GET_LIKES_BY_USER} variables={{ userId: user.id, page, per }}>

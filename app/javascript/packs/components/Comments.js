@@ -8,7 +8,7 @@ class Comments extends React.Component {
   render() {
     const { medium, parent } = this.props;
     let page = 1;
-    let per = 20;
+    let per = parseInt(process.env.COMMENTS_PAGE_SIZE);
 
     return (
       <Query

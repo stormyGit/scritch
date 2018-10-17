@@ -251,7 +251,7 @@ class ActivitiesDialog extends React.Component {
   render() {
     const { classes, match, width } = this.props;
     let page = 1;
-    let per = 30;
+    let per = parseInt(process.env.ACTIVITIES_PAGE_SIZE);
 
     return (
       <ResponsiveDialog

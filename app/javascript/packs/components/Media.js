@@ -72,7 +72,7 @@ class Media extends React.Component {
     const { classes, location, width } = this.props;
     const query = queryString.parse(location.search)
     let page = 1;
-    let per = 30;
+    let per = parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
       <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, page, per }} fetchPolicy="network-only">
