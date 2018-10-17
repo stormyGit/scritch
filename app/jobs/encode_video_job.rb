@@ -36,7 +36,7 @@ class EncodeVideoJob < ApplicationJob
     end
 
     @medium.update(published_at: DateTime.now)
-    @medium.create_activity key: 'medium.published', owner: @medium.user, recipient: @medium.user
+    @medium.create_activity key: 'medium.published', owner: User.find_by(telegram_id: ENV["ADMIN_ACCOUNT_TELEGRAM_ID"]), recipient: @medium.user
   end
 
   def download_input!

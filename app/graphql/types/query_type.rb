@@ -102,6 +102,7 @@ module Types
     def activities(arguments = {})
       Activity
         .where(recipient: context[:current_user])
+        .where.not(owner: context[:current_user])
         .order(created_at: :desc)
         .page(arguments[:page]).per(arguments[:per])
         .includes(:owner, :recipient, :trackable)
@@ -134,7 +135,11 @@ module Types
     end
 
     def unread_activity_count
-      Activity.where(recipient: context[:current_user]).where("activities.created_at > ?", context[:current_user].last_activities_read).count
+      Activity
+        .where(recipient: context[:current_user])
+        .where.not(owner: context[:current_user])
+        .where("activities.created_at > ?", context[:current_user].last_activities_read)
+        .count
     end
   end
 end
