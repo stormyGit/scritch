@@ -127,7 +127,7 @@ class EncodeVideoJob < ApplicationJob
   end
 
   def ffmpeg_configuration_for(profile)
-    "-vcodec #{profile[:codec]} -acodec aac -ac 1 -strict -2 -profile:v baseline -preset medium -b:v #{profile[:bandwidth]} -maxrate #{profile[:bandwidth]} -pix_fmt yuv420p -flags -global_header -hls_time 5 -hls_list_size 0 #{@wdir}/#{profile[:name]}_#{job_id}.m3u8"
+    "-vcodec #{profile[:codec]} -acodec aac -ac 2 -strict -2 -profile:v baseline -preset medium -b:v #{profile[:bandwidth]} -maxrate #{profile[:bandwidth]} -pix_fmt yuv420p -flags -global_header -hls_time 5 -hls_list_size 0 #{@wdir}/#{profile[:name]}_#{job_id}.m3u8"
   end
 
   def storage
