@@ -77,8 +77,16 @@ const styles = theme => ({
     height: 'auto',
     paddingTop: theme.spacing.unit * 1,
     paddingBottom: theme.spacing.unit * 1,
+    background: 'rgba(0, 0, 0, 0.9)',
   },
   titleBarContainer: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  mobileTitleBarContainer: {
+    display: 'block',
+  },
+  mobileTitleBarTop: {
     display: 'flex',
     justifyContent: 'space-between',
   },
@@ -89,6 +97,13 @@ const styles = theme => ({
   titleBarContainerUserActions: {
     display: 'flex',
     alignItems: 'center',
+  },
+  mobileUserInfos: {
+    paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2,
+    background: theme.palette.background.paper,
   },
   followButton: {
     width: 132
@@ -166,6 +181,8 @@ class User extends React.Component {
   }
 
   renderFollowButton(user) {
+    const { width } = this.props;
+    
     if (user.followed) {
       return (
         <Mutation
@@ -194,7 +211,7 @@ class User extends React.Component {
           {( deleteFollow, { data }) => (
             <Button
               variant="contained"
-              size="large"
+              size={width !== 'lg' && width !== 'xl' ? 'small' : 'medium'}
               className={this.props.classes.followButton}
               color={this.state.showUnfollow ? 'secondary' : 'primary'}
               onMouseEnter={() => this.setState({ showUnfollow: true })}
@@ -236,7 +253,7 @@ class User extends React.Component {
           {( createFollow, { data }) => (
             <Button
               variant="outlined"
-              size="large"
+              size={width !== 'lg' && width !== 'xl' ? 'small' : 'medium'}
               className={this.props.classes.followButton}
               onClick={() => {
                 createFollow({ variables: { input: { followableId: user.id }}})
@@ -251,29 +268,16 @@ class User extends React.Component {
   }
 
   renderEditButton(user) {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
 
     return (
       <Button
         variant="contained"
         size="large"
+        size={width !== 'lg' && width !== 'xl' ? 'small' : 'medium'}
         onClick={() => this.setState({ editProfileDialog: true })}
       >
         Edit profile
-      </Button>
-    );
-  }
-
-  renderEditFab(user) {
-    const { classes } = this.props;
-
-    return (
-      <Button
-        variant="fab"
-        className={classes.editFab}
-        onClick={() => this.setState({ editProfileDialog: true })}
-      >
-        <EditIcon />
       </Button>
     );
   }
@@ -533,6 +537,31 @@ class User extends React.Component {
     );
   }
 
+  renderUserInfos(user) {
+    const { classes, currentSession } = this.props;
+
+    return (
+      <div>
+        <Typography variant="h6" className={classes.infoText}>
+          {user.name}
+        </Typography>
+        <Typography variant="body2" noWrap className={classes.infoText}>
+          {user.bio}
+        </Typography>
+        {
+          user.website &&
+            <Typography
+              variant="caption"
+              className={classes.infoText}
+              component={(props) => <a href={user.website} target="_blank" {...props} />}
+            >
+              {user.website.replace(/^https?:\/\//, '')}
+            </Typography>
+        }
+      </div>
+    )
+  }
+
   renderUserProfile(user) {
     const { classes, currentSession } = this.props;
 
@@ -540,56 +569,55 @@ class User extends React.Component {
       <GridList cols={1} spacing={0} className={classes.userProfile}>
         <GridListTile cols={1} classes={{ tile: classes.userProfileGridListTile, root: classes.userProfileGridListRoot }}>
           {this.renderBanner(user.banner, user.slug)}
-           <GridListTileBar
-             className={classes.titleBar}
-             title={
-               <div className={classes.titleBarContainer}>
-                <div className={classes.titleBarContainerUserInfo}>
-                  <ProfileAvatar avatar={user.avatar} slug={user.slug} className={classes.userAvatar} />
-                  <div>
-                    <Typography variant="h6" className={classes.infoText}>
-                      {user.name}
-                    </Typography>
-                    <Typography variant="body2" noWrap className={classes.infoText}>
-                      {user.bio}
-                    </Typography>
-                    {
-                      user.website &&
-                        <Typography
-                          variant="caption"
-                          className={classes.infoText}
-                          component={(props) => <a href={user.website} target="_blank" {...props} />}
-                        >
-                          {user.website.replace(/^https?:\/\//, '')}
-                        </Typography>
-                    }
+          <Hidden mdDown>
+             <GridListTileBar
+               className={classes.titleBar}
+               title={
+                 <div className={classes.titleBarContainer}>
+                  <div className={classes.titleBarContainerUserInfo}>
+                    <ProfileAvatar avatar={user.avatar} slug={user.slug} className={classes.userAvatar} />
+                    {this.renderUserInfos(user)}
                   </div>
-                </div>
-                <Hidden mdDown>
                   {
                     currentSession && currentSession.user.id === user.id &&
                       <div className={classes.titleBarContainerUserActions}>
                         {this.renderEditButton(user)}
                       </div>
                   }
-                </Hidden>
-                <Hidden lgUp>
                   {
-                    currentSession && currentSession.user.id === user.id &&
+                    currentSession && currentSession.user.id !== user.id &&
                       <div className={classes.titleBarContainerUserActions}>
-                        {this.renderEditFab(user)}
+                        {this.renderFollowButton(user)}
                       </div>
                   }
-                </Hidden>
-                {
-                  currentSession && currentSession.user.id !== user.id &&
-                    <div className={classes.titleBarContainerUserActions}>
-                      {this.renderFollowButton(user)}
+                </div>
+               }
+             />
+            </Hidden>
+            <Hidden lgUp>
+              <GridListTileBar
+                className={classes.titleBar}
+                title={
+                   <div className={classes.mobileTitleBarContainer}>
+                     <div className={classes.mobileTitleBarTop}>
+                       <ProfileAvatar avatar={user.avatar} slug={user.slug} className={classes.userAvatar} />
+                       {
+                         currentSession && currentSession.user.id === user.id &&
+                           <div className={classes.titleBarContainerUserActions}>
+                             {this.renderEditButton(user)}
+                           </div>
+                       }
+                       {
+                         currentSession && currentSession.user.id !== user.id &&
+                           <div className={classes.titleBarContainerUserActions}>
+                             {this.renderFollowButton(user)}
+                           </div>
+                       }
                     </div>
+                 </div>
                 }
-              </div>
-             }
-           />
+              />
+            </Hidden>
          </GridListTile>
       </GridList>
     )
@@ -609,6 +637,11 @@ class User extends React.Component {
                     <PageTitle>{!loading && data.user ? data.user.name : null}</PageTitle>
                     <div ref={this.headerRef}>
                       {this.renderUserProfile(data.user)}
+                      <Hidden lgUp>
+                        <div className={classes.mobileUserInfos}>
+                          {this.renderUserInfos(data.user)}
+                        </div>
+                      </Hidden>
                       <Paper className={classes.tabsContainer} elevation={0}>
                         <Grid container spacing={0}>
                           <Grid item xs lg>
