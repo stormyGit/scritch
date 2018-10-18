@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Murrtube</title>
-    <meta name="theme-color" content="<%= ENV["DEFAULT_THEME"] == 'dark' ? "#222" : "#fff" %>">
+    <title><%= ENV['SITE_NAME'] %></title>
+    <meta name="theme-color" content="<%= ENV["DEFAULT_THEME"] == 'dark' ? "#333" : "#eee" %>">
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -26,6 +26,24 @@
     <link rel="icon" type="image/png" sizes="96x96" href="<%= image_url('favicon-96x96.png') %>">
     <link rel="icon" type="image/png" sizes="16x16" href="<%= image_url('favicon-16x16.png') %>">
     <meta name="msapplication-TileImage" content="<%= image_url('ms-icon-144x144.png') %>">
+
+    <meta name="keywords" content="<%= ENV['META_KEYWORDS'] %>" />
+    <meta name="description" content="<%= ENV['META_DESCRIPTION'] %>"/>
+
+    <meta name="og:title" content="<%= @meta[:page_title] %>" />
+    <meta name="og:type" content="<%= @meta[:type] %>" />
+    <meta name="og:url" content="<%= request.original_url %>" />
+    <meta name="og:image" content="<%= @meta[:image] %>" />
+    <meta name="og:site_name" content="<%= ENV['SITE_NAME'] %>"/>
+    <meta name="og:description" content="<%= @meta[:description] %>"/>
+
+    <meta property="og:video" content="<%= @meta[:video_url] %>" />
+    <meta property="og:video:height" content="<%= @meta[:video_width] %>" />
+    <meta property="og:video:width" content="<%= @meta[:video_height] %>" />
+    <meta property="og:video:type" content="<%= @meta[:video_format] %>" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="<%= ENV["META_TWITTER"] %>" />
 
     <%= javascript_pack_tag 'application' %>
     <%= stylesheet_pack_tag 'application' %>
