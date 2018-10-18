@@ -252,15 +252,6 @@ class DrawerMenu extends React.Component {
               }
               <ListItem
                 button
-                component={(props) => <a href='https://lab.howlr.im' target="_blank" {...props} />}
-              >
-                <ListItemIcon className={classes.text}>
-                  <ToysIcon />
-                </ListItemIcon>
-                <ListItemText primary="More projects" primaryTypographyProps={{ className: classes.text }} />
-              </ListItem>
-              <ListItem
-                button
                 onClick={() => this.setState({ termsDialog: true })}
               >
                 <ListItemIcon className={classes.text}>
