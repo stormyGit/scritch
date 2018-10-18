@@ -9,5 +9,5 @@ Rails.application.routes.draw do
 
   get '/s3/sign', to: "s3#sign"
 
-  root to: "application#index"
+  get '*path', to: "application#index"
 end

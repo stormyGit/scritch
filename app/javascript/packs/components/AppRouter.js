@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import Medium from './Medium';
 import LatestVideos from './LatestVideos';
@@ -13,33 +13,52 @@ import "../transition.css";
 class AppRouter extends React.Component {
   render() {
     return (
-      <HashRouter>
+      <BrowserRouter>
         <Route
           render={({ location }) => (
             <AppLayout>
-              <TransitionGroup>
-                <CSSTransition
-                  timeout={300}
-                  classNames='fade'
-                  key={location.key}
-                >
-                  <Switch location={location}>
-                    <Route exact path='/' component={LatestVideos} />
-                    <Route exact path='/trending' component={Trending} />
-                    <Route exact path='/subscriptions' component={Subscriptions} />
-                    <Route exact path='/videos' component={LatestVideos} />
-                    <Route exact path='/videos/:id' component={Medium} />
-                    <Route exact path='/:id' component={User} />
-                    <Route exact path='/:id/:tab' component={User} />
-                  </Switch>
-                </CSSTransition>
-              </TransitionGroup>
+              <Switch location={location}>
+                <Route exact path='/' component={LatestVideos} />
+                <Route exact path='/trending' component={Trending} />
+                <Route exact path='/subscriptions' component={Subscriptions} />
+                <Route exact path='/videos' component={LatestVideos} />
+                <Route exact path='/videos/:id' component={Medium} />
+                <Route exact path='/:id' component={User} />
+                <Route exact path='/:id/:tab' component={User} />
+              </Switch>
             </AppLayout>
           )}
         />
-      </HashRouter>
+      </BrowserRouter>
     );
   }
 }
+//
+// <BrowserRouter>
+//   <Route
+//     render={({ location }) => (
+//       <AppLayout>
+//         <TransitionGroup>
+//           <CSSTransition
+//             timeout={600}
+//             classNames='fade'
+//             key={location.key}
+//           >
+//             <Switch location={location}>
+//               <Route exact path='/' component={LatestVideos} />
+//               <Route exact path='/trending' component={Trending} />
+//               <Route exact path='/subscriptions' component={Subscriptions} />
+//               <Route exact path='/videos' component={LatestVideos} />
+//               <Route exact path='/videos/:id' component={Medium} />
+//               <Route exact path='/:id' component={User} />
+//               <Route exact path='/:id/:tab' component={User} />
+//             </Switch>
+//           </CSSTransition>
+//         </TransitionGroup>
+//       </AppLayout>
+//     )}
+//   />
+// </BrowserRouter>
+
 
 export default AppRouter;
