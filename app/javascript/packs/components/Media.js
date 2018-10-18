@@ -71,11 +71,11 @@ class Media extends React.Component {
   render() {
     const { classes, location, width } = this.props;
     const query = queryString.parse(location.search)
-    let page = 1;
-    let per = parseInt(process.env.MEDIA_PAGE_SIZE);
+    let offset = 0;
+    let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
-      <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, page, per }} fetchPolicy="network-only">
+      <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, offset, limit }} fetchPolicy="network-only">
         {({ data: { media }, loading, error, fetchMore }) => (
           <React.Fragment>
             <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
@@ -84,14 +84,12 @@ class Media extends React.Component {
                     this.renderResults({
                       media,
                       horizontal: (query.q && query.q.length > 0 && width === 'lg' || width === 'xl'),
-                      hasMore: ((media.length % per) === 0 && media.length / per === page),
+                      hasMore: ((media.length % limit) === 0),
                       onLoadMore: () => {
-                        page++;
-
                         fetchMore({
                           variables: {
-                            page,
-                            per
+                            offset: media.length,
+                            limit
                           },
                           updateQuery: (prev, { fetchMoreResult }) => {
                             if (!fetchMoreResult) return prev;

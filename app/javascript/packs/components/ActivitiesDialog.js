@@ -250,8 +250,8 @@ class ActivitiesDialog extends React.Component {
 
   render() {
     const { classes, match, width } = this.props;
-    let page = 1;
-    let per = parseInt(process.env.ACTIVITIES_PAGE_SIZE);
+    let offset = 0;
+    let limit = parseInt(process.env.ACTIVITIES_PAGE_SIZE);
 
     return (
       <ResponsiveDialog
@@ -260,7 +260,7 @@ class ActivitiesDialog extends React.Component {
         className={classes.root}
       >
         <GlobalProgress absolute />
-          <Query query={GET_ACTIVITIES} variables={{ page, per }} fetchPolicy="network-only">
+          <Query query={GET_ACTIVITIES} variables={{ offset, limit }} fetchPolicy="network-only">
             {({ loading, error, data, fetchMore }) => {
               if (loading || error || !data.activities) {
                 return (null);
@@ -286,17 +286,15 @@ class ActivitiesDialog extends React.Component {
                             }
                           </List>
                           {
-                            ((data.activities.length % per) === 0 && data.activities.length / per === page) &&
+                            (data.activities.length % limit) === 0 &&
                               <div className={classes.loadMoreContainer}>
                                 <LoadMoreButton
                                   noMargin
                                   onClick={() => {
-                                    page++;
-
                                     fetchMore({
                                       variables: {
-                                        page,
-                                        per
+                                        offset: data.activities.length,
+                                        limit
                                       },
                                       updateQuery: (prev, { fetchMoreResult }) => {
                                         if (!fetchMoreResult) return prev;

@@ -10,43 +10,43 @@ module Types
       argument :q, String, required: false
       argument :sort, String, required: false
       argument :user_id, ID, required: false
-      argument :page, Integer, required: true
-      argument :per, Integer, required: true
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
     end
 
     field :activities, [ActivityType], null: false do
       description "Activities"
-      argument :page, Integer, required: true
-      argument :per, Integer, required: true
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
     end
 
     field :likes_by_user, [LikeType], null: false do
       description "List likes by user"
       argument :user_id, ID, required: true
-      argument :page, Integer, required: true
-      argument :per, Integer, required: true
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
     end
 
     field :followers_by_user, [UserType], null: false do
       description "List followers by user"
       argument :user_id, ID, required: true
-      argument :page, Integer, required: true
-      argument :per, Integer, required: true
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
     end
 
     field :followings_by_user, [UserType], null: false do
       description "List followings by user"
       argument :user_id, ID, required: true
-      argument :page, Integer, required: true
-      argument :per, Integer, required: true
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
     end
 
     field :comments_by_medium, [CommentType], null: false do
       description "List comments by medium"
       argument :medium_id, ID, required: true
       argument :parent_id, ID, required: false
-      argument :page, Integer, required: true
-      argument :per, Integer, required: true
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
     end
 
     field :user, UserType, null: false do
@@ -96,7 +96,7 @@ module Types
         media = media.where(user_id: arguments[:user_id])
       end
 
-      media.includes(:taggings).page(arguments[:page]).per(arguments[:per])
+      media.includes(:taggings).offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def activities(arguments = {})
@@ -104,12 +104,12 @@ module Types
         .where(recipient: context[:current_user])
         .where.not(owner: context[:current_user])
         .order(created_at: :desc)
-        .page(arguments[:page]).per(arguments[:per])
+        .offset(arguments[:offset]).limit(arguments[:limit])
         .includes(:owner, :recipient, :trackable)
     end
 
     def likes_by_user(arguments = {})
-      Like.where(user_id: arguments[:user_id]).order(created_at: :desc).page(arguments[:page]).per(arguments[:per])
+      Like.where(user_id: arguments[:user_id]).order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def followers_by_user(arguments = {})
@@ -123,7 +123,7 @@ module Types
     def comments_by_medium(arguments = {})
       Comment
         .where(medium_id: arguments[:medium_id], parent_id: arguments[:parent_id])
-        .order(created_at: :desc).page(arguments[:page]).per(arguments[:per])
+        .order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def user(arguments = {})

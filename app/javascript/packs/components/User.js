@@ -280,11 +280,11 @@ class User extends React.Component {
 
   renderMedia(user) {
     const { width } = this.props;
-    let page = 1;
-    let per = parseInt(process.env.USER_MEDIA_PAGE_SIZE);
+    let offset = 0;
+    let limit = parseInt(process.env.USER_MEDIA_PAGE_SIZE);
 
     return (
-      <Query query={GET_MEDIA} variables={{ sort: "latest", userId: user.id, page, per }} fetchPolicy="network-only">
+      <Query query={GET_MEDIA} variables={{ sort: "latest", userId: user.id, offset, limit }} fetchPolicy="network-only">
         {({ data, loading, error, fetchMore }) => {
           if (loading || error) {
             return (null);
@@ -312,12 +312,10 @@ class User extends React.Component {
                   data.media.length < user.mediaCount &&
                     <LoadMoreButton
                       onClick={() => {
-                        page++;
-
                         fetchMore({
                           variables: {
-                            page,
-                            per
+                            offset: data.media.length,
+                            limit
                           },
                           updateQuery: (prev, { fetchMoreResult }) => {
                             if (!fetchMoreResult) return prev;
@@ -340,11 +338,11 @@ class User extends React.Component {
 
   renderFollowing(user) {
     const { width } = this.props;
-    let page = 1;
-    let per = parseInt(process.env.FOLLOWINGS_PAGE_SIZE);
+    let offset = 0;
+    let limit = parseInt(process.env.FOLLOWINGS_PAGE_SIZE);
 
     return (
-      <Query query={GET_FOLLOWINGS_BY_USER} variables={{ userId: user.id, page, per }}>
+      <Query query={GET_FOLLOWINGS_BY_USER} variables={{ userId: user.id, offset, limit }}>
         {({ data, loading, error, fetchMore }) => {
           if (loading || error) {
             return (null);
@@ -372,12 +370,10 @@ class User extends React.Component {
                   data.followingsByUser.length < user.followingCount &&
                     <LoadMoreButton
                       onClick={() => {
-                        page++;
-
                         fetchMore({
                           variables: {
-                            page,
-                            per
+                            offset: data.followingsByUser.length,
+                            limit
                           },
                           updateQuery: (prev, { fetchMoreResult }) => {
                             if (!fetchMoreResult) return prev;
@@ -400,11 +396,11 @@ class User extends React.Component {
 
   renderFollowers(user) {
     const { width } = this.props;
-    let page = 1;
-    let per = parseInt(process.env.FOLLOWERS_PAGE_SIZE);
+    let offset = 0;
+    let limit = parseInt(process.env.FOLLOWERS_PAGE_SIZE);
 
     return (
-      <Query query={GET_FOLLOWERS_BY_USER} variables={{ userId: user.id, page, per }}>
+      <Query query={GET_FOLLOWERS_BY_USER} variables={{ userId: user.id, offset, limit }}>
         {({ data, loading, error, fetchMore }) => {
           if (loading || error) {
             return (null);
@@ -432,12 +428,10 @@ class User extends React.Component {
                   data.followersByUser.length < user.followersCount &&
                     <LoadMoreButton
                       onClick={() => {
-                        page++;
-
                         fetchMore({
                           variables: {
-                            page,
-                            per
+                            offset: data.followersByUser,
+                            limit
                           },
                           updateQuery: (prev, { fetchMoreResult }) => {
                             if (!fetchMoreResult) return prev;
@@ -460,11 +454,11 @@ class User extends React.Component {
 
   renderLikes(user) {
     const { width } = this.props;
-    let page = 1;
-    let per = parseInt(process.env.LIKES_PAGE_SIZE);
+    let offset = 0;
+    let limit = parseInt(process.env.LIKES_PAGE_SIZE);
 
     return (
-      <Query query={GET_LIKES_BY_USER} variables={{ userId: user.id, page, per }}>
+      <Query query={GET_LIKES_BY_USER} variables={{ userId: user.id, offset, limit }}>
         {({ data, loading, error, fetchMore }) => {
           if (loading || error) {
             return (null);
@@ -492,12 +486,10 @@ class User extends React.Component {
                   data.likesByUser.length < user.likesCount &&
                     <LoadMoreButton
                       onClick={() => {
-                        page++;
-
                         fetchMore({
                           variables: {
-                            page,
-                            per
+                            offset: data.likesByUser,
+                            limit
                           },
                           updateQuery: (prev, { fetchMoreResult }) => {
                             if (!fetchMoreResult) return prev;

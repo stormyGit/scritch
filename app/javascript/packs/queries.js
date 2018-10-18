@@ -165,8 +165,8 @@ export const UPDATE_MEDIUM = gql`
 `;
 
 export const GET_MEDIA = gql`
-  query Media($q: String, $sort: String, $userId: ID, $page: Int!, $per: Int!) {
-    media(q: $q, sort: $sort, userId: $userId, page: $page, per: $per) {
+  query Media($q: String, $sort: String, $userId: ID, $offset: Int!, $limit: Int!) {
+    media(q: $q, sort: $sort, userId: $userId, offset: $offset, limit: $limit) {
       id
       slug
       title
@@ -192,8 +192,8 @@ export const GET_MEDIA = gql`
 `;
 
 export const GET_ACTIVITIES = gql`
-  query Activities($page: Int!, $per: Int!) {
-    activities(page: $page, per: $per) @connection(key: "activities") {
+  query Activities($offset: Int!, $limit: Int!) {
+    activities(offset: $offset, limit: $limit) @connection(key: "activities") {
       id
       key
       createdAt
@@ -230,8 +230,8 @@ export const GET_ACTIVITIES = gql`
 `;
 
 export const GET_LIKES_BY_USER = gql`
-query GetLikesByUser($userId: ID!, $page: Int!, $per: Int!) {
-  likesByUser(userId: $userId, page: $page, per: $per) {
+query GetLikesByUser($userId: ID!, $offset: Int!, $limit: Int!) {
+  likesByUser(userId: $userId, offset: $offset, limit: $limit) {
     id
     medium {
       id
@@ -260,8 +260,8 @@ query GetLikesByUser($userId: ID!, $page: Int!, $per: Int!) {
 `;
 
 export const GET_FOLLOWERS_BY_USER = gql`
-query GetFollowersByUser($userId: ID!, $page: Int!, $per: Int!) {
-  followersByUser(userId: $userId, page: $page, per: $per) @connection(key: "followersByUser", filter: ["userId"]) {
+query GetFollowersByUser($userId: ID!, $offset: Int!, $limit: Int!) {
+  followersByUser(userId: $userId, offset: $offset, limit: $limit) @connection(key: "followersByUser", filter: ["userId"]) {
     id
     slug
     name
@@ -273,8 +273,8 @@ query GetFollowersByUser($userId: ID!, $page: Int!, $per: Int!) {
 `;
 
 export const GET_FOLLOWINGS_BY_USER = gql`
-query GetFollowingsByUser($userId: ID!, $page: Int!, $per: Int!) {
-  followingsByUser(userId: $userId, page: $page, per: $per) @connection(key: "followingsByUser", filter: ["userId"]) {
+query GetFollowingsByUser($userId: ID!, $offset: Int!, $limit: Int!) {
+  followingsByUser(userId: $userId, offset: $offset, limit: $limit) @connection(key: "followingsByUser", filter: ["userId"]) {
     id
     slug
     name
@@ -286,8 +286,8 @@ query GetFollowingsByUser($userId: ID!, $page: Int!, $per: Int!) {
 `;
 
 export const GET_COMMENTS_BY_MEDIUM = gql`
-query GetCommentsByMedium($mediumId: ID!, $parentId: ID, $page: Int!, $per: Int!) {
-  commentsByMedium(mediumId: $mediumId, parentId: $parentId, page: $page, per: $per) @connection(key: "commentsByMedium", filter: ["mediumId", "parentId"]) {
+query GetCommentsByMedium($mediumId: ID!, $parentId: ID, $offset: Int!, $limit: Int!) {
+  commentsByMedium(mediumId: $mediumId, parentId: $parentId, offset: $offset, limit: $limit) @connection(key: "commentsByMedium", filter: ["mediumId", "parentId"]) {
     id
     body
     createdAt
