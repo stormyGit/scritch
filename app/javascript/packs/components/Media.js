@@ -23,6 +23,10 @@ const styles = theme => ({
 });
 
 class Media extends React.Component {
+  state = {
+    hasMore: true
+  }
+
   renderResults({ media, horizontal, onLoadMore, hasMore }) {
     const { classes } = this.props;
 
@@ -46,11 +50,16 @@ class Media extends React.Component {
     }
     if (horizontal) {
       return (
-        media.map((medium) => (
-          <Grid item item xs={12} lg={8} key={medium.id} style={{ marginLeft: 'auto', marginRight: 'auto'}}>
-            <MediumCard medium={medium} horizontal />
-          </Grid>
-        ))
+        <React.Fragment>
+          {
+            media.map((medium) => (
+              <Grid item item xs={12} lg={8} key={medium.id} style={{ marginLeft: 'auto', marginRight: 'auto'}}>
+                <MediumCard medium={medium} horizontal />
+              </Grid>
+            ))            
+          }
+          {hasMore && <LoadMoreButton onClick={() => onLoadMore()} />}
+        </React.Fragment>
       );
     }
 
@@ -71,11 +80,10 @@ class Media extends React.Component {
   render() {
     const { classes, location, width } = this.props;
     const query = queryString.parse(location.search)
-    let offset = 0;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
-      <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, offset, limit }} fetchPolicy="network-only">
+      <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, offset: 0, limit }} fetchPolicy="network-only">
         {({ data: { media }, loading, error, fetchMore }) => (
           <React.Fragment>
             <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
@@ -84,7 +92,7 @@ class Media extends React.Component {
                     this.renderResults({
                       media,
                       horizontal: (query.q && query.q.length > 0 && width === 'lg' || width === 'xl'),
-                      hasMore: ((media.length % limit) === 0),
+                      hasMore: ((media.length % limit) === 0 && this.state.hasMore),
                       onLoadMore: () => {
                         fetchMore({
                           variables: {
@@ -94,9 +102,13 @@ class Media extends React.Component {
                           updateQuery: (prev, { fetchMoreResult }) => {
                             if (!fetchMoreResult) return prev;
 
-                            return Object.assign({}, prev, {
-                              media: [...prev.media, ...fetchMoreResult.media]
-                            });
+                            if (fetchMoreResult.media.length === 0) {
+                              this.setState({ hasMore: false })
+                            } else {
+                              return Object.assign({}, prev, {
+                                media: [...prev.media, ...fetchMoreResult.media]
+                              });
+                            }
                           }
                         });
                       }

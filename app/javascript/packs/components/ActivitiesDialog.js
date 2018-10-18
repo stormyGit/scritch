@@ -70,7 +70,7 @@ const styles = theme => ({
 
 class ActivitiesDialog extends React.Component {
   state = {
-    accountSuppressionAlertOpen: false,
+    hasMore: true
   }
 
   componentDidMount() {
@@ -286,7 +286,7 @@ class ActivitiesDialog extends React.Component {
                             }
                           </List>
                           {
-                            (data.activities.length % limit) === 0 &&
+                            (data.activities.length % limit) === 0 && this.state.hasMore &&
                               <div className={classes.loadMoreContainer}>
                                 <LoadMoreButton
                                   noMargin
@@ -299,9 +299,13 @@ class ActivitiesDialog extends React.Component {
                                       updateQuery: (prev, { fetchMoreResult }) => {
                                         if (!fetchMoreResult) return prev;
 
-                                        return Object.assign({}, prev, {
-                                          activities: [...prev.activities, ...fetchMoreResult.activities]
-                                        });
+                                        if (fetchMoreResult.activities.length === 0) {
+                                          this.setState({ hasMore: false });
+                                        } else {
+                                          return Object.assign({}, prev, {
+                                            activities: [...prev.activities, ...fetchMoreResult.activities]
+                                          });
+                                        }
                                       }
                                     });
                                   }}
