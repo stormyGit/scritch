@@ -249,7 +249,7 @@ class MediumCard extends React.Component {
     return (
       <Card className={classes.card} elevation={0}>
         {this.renderHeader()}
-        <CardActionArea component={(props) => <Link to={`/videos/${medium.id}`} {...props} />}>
+        <CardActionArea component={(props) => <Link to={`/videos/${medium.slug}-${medium.id}`} {...props} />}>
           {this.renderMedia()}
           {this.renderContent()}
         </CardActionArea>
@@ -264,12 +264,12 @@ class MediumCard extends React.Component {
 
     return (
       <Card className={[classes.card, classes.horizontalCard].join(' ')} elevation={0}>
-        <CardActionArea component={(props) => <Link to={`/videos/${medium.id}`} {...props} />} className={classes.horizontalMediaContainer}>
+        <CardActionArea component={(props) => <Link to={`/videos/${medium.slug}-${medium.id}`} {...props} />} className={classes.horizontalMediaContainer}>
           {this.renderMedia()}
         </CardActionArea>
         <div className={classes.horizontalContent}>
           {this.renderHeader()}
-          <CardActionArea component={(props) => <Link to={`/videos/${medium.id}`} {...props} />} className={classes.horizontalInfos}>
+          <CardActionArea component={(props) => <Link to={`/videos/${medium.slug}-${medium.id}`} {...props} />} className={classes.horizontalInfos}>
             {this.renderContent()}
           </CardActionArea>
           {this.renderTags()}

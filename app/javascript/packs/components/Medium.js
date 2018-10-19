@@ -103,7 +103,7 @@ class Medium extends React.Component {
     const { classes, match, currentSession } = this.props;
 
     return (
-      <Query query={GET_MEDIUM} variables={{ id: match.params.id }}>
+      <Query query={GET_MEDIUM} variables={{ id: match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0] }}>
         {({ loading, error, data }) => {
           const medium = data ? data.medium : null;
 
