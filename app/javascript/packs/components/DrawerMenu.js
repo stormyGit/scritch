@@ -25,6 +25,7 @@ import UploadIcon from '@material-ui/icons/CloudUpload';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
+import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 
 import TermsDialog from './TermsDialog';
 import PrivacyPolicyDialog from './PrivacyPolicyDialog';
@@ -268,6 +269,18 @@ class DrawerMenu extends React.Component {
                 </ListItemIcon>
                 <ListItemText primary="Privacy policy" primaryTypographyProps={{ className: classes.text }} />
               </ListItem>
+              {
+                process.env.TELEGRAM_CONTACT &&
+                  <ListItem
+                    button
+                    component={(props) => <a href={`https://t.me/${process.env.TELEGRAM_CONTACT}`} target="_blank" {...props} />}
+                  >
+                    <ListItemIcon className={classes.text}>
+                      <ContactSupportIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Contact us" primaryTypographyProps={{ className: classes.text }} />
+                  </ListItem>
+              }
               {
                 currentSession &&
                   <React.Fragment>
