@@ -36,8 +36,7 @@ import countFormat from '../countFormat';
 
 const styles = theme => ({
   container: {
-    margin: theme.spacing.unit * 1,
-    display: 'flex'
+    display: 'flex',
   },
   card: {
     width: '100%',
