@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import withWidth from '@material-ui/core/withWidth';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
@@ -62,14 +63,38 @@ class MediumCard extends React.Component {
   }
 
   renderMedia() {
-    const { classes, medium, horizontal } = this.props;
+    const { classes, medium, horizontal, width } = this.props;
+
+    let previewImage = new Image();
+    const handleOnMouseEnter = () => {
+      previewImage.onload = () => {
+        this.setState({ thumbnailKey: medium.previewKey });
+      };
+      previewImage.src = keyToCdnUrl(medium.previewKey);
+    }
+    const handleOnMouseLeave = () => {
+
+      previewImage.onload = () => {
+        this.setState({ thumbnailKey: medium.thumbnailKey });
+      };
+      previewImage.src = keyToCdnUrl(medium.thumbnailKey);
+    }
+
     return (
       <CardMedia
         className={classes.horizontalMedia}
         image={keyToCdnUrl(this.state.thumbnailKey)}
         title={medium.title}
-        onMouseEnter={() => this.setState({ thumbnailKey: medium.previewKey })}
-        onMouseLeave={() => this.setState({ thumbnailKey: medium.thumbnailKey })}
+        onMouseEnter={() => {
+          if (this.state.thumbnailKey !== medium.previewKey && width === 'lg' || width === 'xl') {
+            handleOnMouseEnter();
+          }
+        }}
+        onMouseLeave={() => {
+          if (this.state.thumbnailKey !== medium.thumbnailKey && width === 'lg' || width === 'xl') {
+            handleOnMouseLeave();
+          }
+        }}
       >
         <Duration duration={medium.duration} />
       </CardMedia>
@@ -120,4 +145,6 @@ MediumCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MediumCard);
+export default withStyles(styles)(
+  withWidth()(MediumCard)
+);

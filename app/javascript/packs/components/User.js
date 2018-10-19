@@ -103,7 +103,7 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit,
     paddingLeft: theme.spacing.unit * 2,
     paddingRight: theme.spacing.unit * 2,
-    background: theme.palette.background.paper,
+    background: theme.palette.type === 'dark' ? "#111" : '#eee',
   },
   followButton: {
     width: 132
@@ -182,7 +182,7 @@ class User extends React.Component {
 
   renderFollowButton(user) {
     const { width } = this.props;
-    
+
     if (user.followed) {
       return (
         <Mutation
