@@ -8,7 +8,6 @@
     <%= csp_meta_tag %>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />
 
@@ -30,7 +29,7 @@
     <meta name="keywords" content="<%= ENV['META_KEYWORDS'] %>" />
     <meta name="description" content="<%= ENV['META_DESCRIPTION'] %>"/>
 
-    <meta name="google-site-verification" content="<%= GOOGLE_SITE_VERIFICATION_CODE %>" />
+    <meta name="google-site-verification" content="<%= ENV["GOOGLE_SITE_VERIFICATION_CODE"] %>" />
 
     <% @meta.each do |key, value| %>
       <meta name="og:<%= key %>" content="<%= value %>" />
