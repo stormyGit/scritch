@@ -30,6 +30,8 @@
     <meta name="keywords" content="<%= ENV['META_KEYWORDS'] %>" />
     <meta name="description" content="<%= ENV['META_DESCRIPTION'] %>"/>
 
+    <meta name="google-site-verification" content="<%= GOOGLE_SITE_VERIFICATION_CODE %>" />
+
     <% @meta.each do |key, value| %>
       <meta name="og:<%= key %>" content="<%= value %>" />
     <% end %>
