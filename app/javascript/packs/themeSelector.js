@@ -6,6 +6,6 @@ export default (theme) => {
 
   const meta = document.createElement("meta");
   meta.setAttribute("name", "theme-color");
-  meta.setAttribute("content", theme === 'dark' ? '#333333' : '#eeeeee');
+  meta.setAttribute("content", theme === 'dark' ? '#111' : '#eee');
   document.querySelector("head").appendChild(meta);
 }

@@ -9,6 +9,11 @@ Rails.application.routes.draw do
 
   get '/s3/sign', to: "s3#sign"
 
-  get '*path', to: "application#index"
+  get "/videos/:id", to: "media#show"
+  get "/videos", to: "media#index"
+  get "/trending", to: "media#index"
+  get "/subscriptions", to: "media#index"
+  get "/:id", to: "users#show"
+  get "*path", to: "application#index"
   root to: "application#index"
 end
