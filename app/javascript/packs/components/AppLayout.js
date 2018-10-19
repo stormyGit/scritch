@@ -44,7 +44,7 @@ const styles = theme => ({
     overflow: 'hidden',
     position: 'relative',
     display: 'flex',
-    minHeight: '100vh'
+    minHeight: 'calc(100vh - 56px)'
   },
   content: {
     flexGrow: 1,
@@ -290,7 +290,7 @@ class AppLayout extends React.Component {
                         }}
                       >
                         <SearchBar
-                          autoFocus={width !== 'lg' && width !== 'xl'}
+                          autoFocus={width !== 'lg' && width !== 'xl' && !query.q}
                           cancelOnEscape
                           value={query.q}
                           onRequestSearch={(q) => {
