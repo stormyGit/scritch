@@ -220,7 +220,7 @@ class Medium extends React.Component {
                               </Typography>
                               {
                                 currentSession ?
-                                  <CommentForm mediumId={medium.id} parentId={null} /> :
+                                  <CommentForm medium={medium} /> :
                                   <Typography gutterBottom variant="caption">
                                     {"You must be connected to write a comment."}
                                   </Typography>

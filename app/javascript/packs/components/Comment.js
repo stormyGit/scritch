@@ -32,8 +32,6 @@ import timeAgo from '../timeAgo';
 const styles = theme => ({
   comment: {
     paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit,
-
   },
   commentHeader: {
     padding: 0,
@@ -45,6 +43,7 @@ const styles = theme => ({
     textDecoration: 'none'
   },
   repliesPanel: {
+    marginTop: theme.spacing.unit,
     marginLeft: theme.spacing.unit * 7,
     backgroundColor: "#333"
   },
@@ -165,7 +164,7 @@ class Comment extends React.Component {
             </div>
           }
           title={
-            <Grid spacing={8} container>
+            <Grid spacing={8} container alignItems="flex-end">
               <Grid item>
                 <Typography variant={'subtitle2'}>
                   <Link to={`/${comment.user.slug}`} className={classes.userLink}>{comment.user.name}</Link>
@@ -183,10 +182,13 @@ class Comment extends React.Component {
         {
           !disableReply &&
             <ExpansionPanel
-              elevation={1}
+              elevation={0}
               expanded={this.state.replyExpanded}
               className={classes.repliesPanel}
               onChange={() => this.setState({ replyExpanded: !this.state.replyExpanded })}
+              CollapseProps={{
+                timeout: 100
+              }}
             >
               <ExpansionPanelSummary
                 classes={{
@@ -202,12 +204,15 @@ class Comment extends React.Component {
                 <Typography>{countFormat(comment.repliesCount, 'reply', 'replies')}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.repliesPanelDetails}>
-                <CommentForm
-                  mediumId={medium.id}
-                  parentId={comment.id}
-                  autoFocus
-                />
-                {comment.repliesCount > 0 && <Comments medium={medium} parent={comment} />}
+                {
+                  this.state.replyExpanded &&
+                    <CommentForm
+                      medium={medium}
+                      parent={comment}
+                      autoFocus
+                    />
+                }
+                {comment.repliesCount > 0 && <Comments medium={medium} parent={comment} commentsCount={comment.repliesCount} />}
               </ExpansionPanelDetails>
             </ExpansionPanel>
         }

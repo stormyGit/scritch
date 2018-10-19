@@ -33,7 +33,6 @@ class AppRouter extends React.Component {
     );
   }
 }
-//
 // <BrowserRouter>
 //   <Route
 //     render={({ location }) => (

@@ -123,7 +123,6 @@ class MediumCard extends React.Component {
       previewImage.src = keyToCdnUrl(medium.previewKey);
     }
     const handleOnMouseLeave = () => {
-
       previewImage.onload = () => {
         this.setState({ thumbnailKey: medium.thumbnailKey });
       };

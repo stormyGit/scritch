@@ -56,7 +56,7 @@ class Media extends React.Component {
               <Grid item item xs={12} lg={8} key={medium.id} style={{ marginLeft: 'auto', marginRight: 'auto'}}>
                 <MediumCard medium={medium} horizontal />
               </Grid>
-            ))            
+            ))
           }
           {hasMore && <LoadMoreButton onClick={() => onLoadMore()} />}
         </React.Fragment>

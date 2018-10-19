@@ -22,7 +22,6 @@ import Logo from './Logo';
 const styles = theme => ({
   root: {
     flex: 1,
-    marginBottom: theme.spacing.unit
   },
   textFieldContainer: {
     flex: 1,
@@ -57,7 +56,7 @@ class CommentForm extends React.Component {
   }
 
   render() {
-    const { classes, mediumId, parentId, currentSession, autoFocus, dismissable, onDismiss } = this.props;
+    const { classes, medium, parent, currentSession, autoFocus, dismissable, onDismiss } = this.props;
 
     if (!currentSession) {
       return (null);
@@ -70,23 +69,26 @@ class CommentForm extends React.Component {
           let commentsByMedium;
 
           try {
-            const data = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { mediumId, parentId } });
+            const data = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { mediumId: medium.id, parentId: parent ? parent.id : null } });
             commentsByMedium = data.commentsByMedium;
           } catch (e) {
             commentsByMedium = [];
           }
+
           cache.writeQuery({
             query: GET_COMMENTS_BY_MEDIUM,
-            variables: { mediumId, parentId },
+            variables: { mediumId: medium.id, parentId: parent ? parent.id : null },
             data: { commentsByMedium: [ createComment.comment, ...commentsByMedium ] }
           });
 
-          const { medium } = cache.readQuery({ query: GET_MEDIUM, variables: { id: mediumId } });
-          cache.writeQuery({
-            query: GET_MEDIUM,
-            variables: { id: mediumId },
-            data: { medium: { ...medium, commentsCount: (medium.commentsCount + 1) } }
-          });
+          if (parent) {
+          } else {
+            cache.writeQuery({
+              query: GET_MEDIUM,
+              variables: { id: medium.id },
+              data: { medium: { ...medium, commentsCount: (medium.commentsCount + 1) } }
+            });
+          }
         }}
       >
         {( createComment, { data }) => (
@@ -104,7 +106,7 @@ class CommentForm extends React.Component {
                   autoFocus
                   name="body"
                   margin="dense"
-                  placeholder={parentId ? "Add a public reply…" : "Add a public comment…"}
+                  placeholder={parent ? "Add a public reply…" : "Add a public comment…"}
                   type="text"
                   fullWidth
                   multiline
@@ -140,8 +142,8 @@ class CommentForm extends React.Component {
                     variables: {
                       input: {
                         body: this.state.body,
-                        mediumId,
-                        parentId
+                        mediumId: medium.id,
+                        parentId: parent ? parent.id : null,
                       }
                     }
                   });
