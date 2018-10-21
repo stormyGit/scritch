@@ -6,6 +6,7 @@ class Mutations::UpdateUser < Mutations::BaseMutation
   argument :website, String, required: false
   argument :banner, String, required: false
   argument :avatar, String, required: false
+  argument :public, Boolean, required: false
 
   argument :remove_banner, Boolean, required: false
   argument :remove_avatar, Boolean, required: false

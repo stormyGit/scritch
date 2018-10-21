@@ -78,6 +78,7 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 1,
     paddingBottom: theme.spacing.unit * 1,
     background: 'rgba(0, 0, 0, 0.9)',
+    color: '#fff'
   },
   titleBarContainer: {
     display: 'flex',
@@ -103,7 +104,8 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit,
     paddingLeft: theme.spacing.unit * 2,
     paddingRight: theme.spacing.unit * 2,
-    background: theme.palette.type === 'dark' ? "#111" : '#eee',
+    background: theme.palette.type === 'dark' ? "#111" : '#fff',
+    color: theme.palette.type !== 'dark' ? "#111" : '#fff',
   },
   followButton: {
     width: 132
@@ -133,9 +135,6 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit * 4,
     paddingRight: theme.spacing.unit * 4,
     justifyContent: 'center'
-  },
-  infoText: {
-    color: 'white'
   },
 });
 
@@ -542,10 +541,10 @@ class User extends React.Component {
 
     return (
       <div>
-        <Typography variant="h6" className={classes.infoText}>
+        <Typography variant="h6" className={classes.infoText} color={"inherit"}>
           {user.name}
         </Typography>
-        <Typography variant="body2" noWrap className={classes.infoText}>
+        <Typography variant="body2" noWrap className={classes.infoText} color={"inherit"}>
           {user.bio}
         </Typography>
         {
@@ -553,6 +552,7 @@ class User extends React.Component {
             <Typography
               variant="caption"
               className={classes.infoText}
+              color={"inherit"}
               component={(props) => <a href={user.website} target="_blank" {...props} />}
             >
               {user.website.replace(/^https?:\/\//, '')}
@@ -624,81 +624,93 @@ class User extends React.Component {
   }
 
   render() {
-    const { classes, match } = this.props;
+    const { classes, match, currentSession } = this.props;
 
     return (
       <div ref={this.pageRef}>
         <Query query={GET_USER} variables={{ id: match.params.id }}>
-          {({ data, loading, error }) => (
-            <React.Fragment>
-              {
-                !loading && data.user &&
-                  <React.Fragment>
-                    <PageTitle>{!loading && data.user ? data.user.name : null}</PageTitle>
-                    <div ref={this.headerRef}>
-                      {this.renderUserProfile(data.user)}
-                      <Hidden lgUp>
-                        <div className={classes.mobileUserInfos}>
-                          {this.renderUserInfos(data.user)}
-                        </div>
-                      </Hidden>
-                      <Paper className={classes.tabsContainer} elevation={0}>
-                        <Grid container spacing={0}>
-                          <Grid item xs lg>
+          {({ data, loading, error }) => {
+            let isPrivate;
+
+            if (data.user && (data.user.public || (currentSession && data.user.id === currentSession.user.id))) {
+              isPrivate = false;
+            } else {
+              isPrivate = true;
+            }
+            return (
+              <React.Fragment>
+                {
+                  !loading && data.user &&
+                    <React.Fragment>
+                      <PageTitle>{!loading && data.user ? data.user.name : null}</PageTitle>
+                      <div ref={this.headerRef}>
+                        {this.renderUserProfile(data.user)}
+                        <Hidden lgUp>
+                          <div className={classes.mobileUserInfos}>
+                            {this.renderUserInfos(data.user)}
+                          </div>
+                        </Hidden>
+                        <Paper className={classes.tabsContainer} elevation={0}>
+                          <Grid container spacing={0}>
+                            <Grid item xs lg>
+                            </Grid>
+                            <Grid item xs={12} lg={8}>
+                              <Tabs
+                                value={this.state.tab}
+                                className={classes.tabs}
+                                onChange={(e, value) => this.handleTabChange(value)}
+                                indicatorColor="secondary"
+                                textColor="secondary"
+                                fullWidth
+                              >
+                                <Tab
+                                  value="videos"
+                                  label={data.user.mediaCount}
+                                  icon="Videos"
+                                />
+                                <Tab
+                                  value="following"
+                                  disabled={isPrivate}
+                                  label={isPrivate ? "Private" : data.user.followingCount}
+                                  icon="Following"
+                                />
+                                <Tab
+                                  value="followers"
+                                  disabled={isPrivate}
+                                  label={isPrivate ? "Private" : data.user.followersCount}
+                                  icon="Followers"
+                                />
+                                <Tab
+                                  value="likes"
+                                  disabled={isPrivate}
+                                  label={isPrivate ? "Private" : data.user.likesCount}
+                                  icon="Likes"
+                                />
+                              </Tabs>
+                            </Grid>
+                            <Grid item xs lg>
+                            </Grid>
                           </Grid>
-                          <Grid item xs={12} lg={8}>
-                            <Tabs
-                              value={this.state.tab}
-                              className={classes.tabs}
-                              onChange={(e, value) => this.handleTabChange(value)}
-                              indicatorColor="secondary"
-                              textColor="secondary"
-                              fullWidth
-                            >
-                              <Tab
-                                value="videos"
-                                label={data.user.mediaCount}
-                                icon="Videos"
-                              />
-                              <Tab
-                                value="following"
-                                label={data.user.followingCount}
-                                icon="Following"
-                              />
-                              <Tab
-                                value="followers"
-                                label={data.user.followersCount}
-                                icon="Followers"
-                              />
-                              <Tab
-                                value="likes"
-                                label={data.user.likesCount}
-                                icon="Likes"
-                              />
-                            </Tabs>
-                          </Grid>
-                          <Grid item xs lg>
-                          </Grid>
+                        </Paper>
+                      </div>
+                      <Grid container className={classes.root} spacing={8} justify="center">
+                        <Grid item item xs={12} lg={8}>
+                          {this.state.tab === 'videos' && this.renderMedia(data.user)}
+                          {this.state.tab === 'following' && this.renderFollowing(data.user)}
+                          {this.state.tab === 'followers' && this.renderFollowers(data.user)}
+                          {this.state.tab === 'likes' && this.renderLikes(data.user)}
                         </Grid>
-                      </Paper>
-                    </div>
-                    <Grid container className={classes.root} spacing={8} justify="center">
-                      <Grid item item xs={12} lg={8}>
-                        {this.state.tab === 'videos' && this.renderMedia(data.user)}
-                        {this.state.tab === 'following' && this.renderFollowing(data.user)}
-                        {this.state.tab === 'followers' && this.renderFollowers(data.user)}
-                        {this.state.tab === 'likes' && this.renderLikes(data.user)}
                       </Grid>
-                    </Grid>
-                    <EditProfileDialog
-                      user={data.user}
-                      open={this.state.editProfileDialog}
-                      onClose={() => this.setState({ editProfileDialog: false })}
-                    />
-                  </React.Fragment>
-              }
-            </React.Fragment>
-          )}
+                      <EditProfileDialog
+                        user={data.user}
+                        open={this.state.editProfileDialog}
+                        onClose={() => this.setState({ editProfileDialog: false })}
+                      />
+                    </React.Fragment>
+                }
+              </React.Fragment>
+            )
+          }}
         </Query>
       </div>
     );

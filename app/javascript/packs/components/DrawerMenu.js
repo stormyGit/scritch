@@ -41,7 +41,7 @@ import BannerPlaceholder from './BannerPlaceholder';
 
 import { Link, withRouter } from 'react-router-dom'
 
-import { DELETE_SESSION, GET_SESSION, GET_UNREAD_ACTIVITY_COUNT } from '../queries';
+import { GET_SESSION, GET_UNREAD_ACTIVITY_COUNT } from '../queries';
 import withCurrentSession from './withCurrentSession';
 
 const styles = theme => {
@@ -244,7 +244,7 @@ class DrawerMenu extends React.Component {
                       <SettingsIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary="Settings"
+                      primary="Settings and security"
                       primaryTypographyProps={{
                         noWrap: true,
                       }}
@@ -280,42 +280,6 @@ class DrawerMenu extends React.Component {
                     </ListItemIcon>
                     <ListItemText primary="Contact us" primaryTypographyProps={{ className: classes.text }} />
                   </ListItem>
-              }
-              {
-                currentSession &&
-                  <React.Fragment>
-                    <Divider />
-                    <Mutation
-                      mutation={DELETE_SESSION}
-                      update={(cache) => {
-                        cache.writeQuery({
-                          query: GET_SESSION,
-                          data: { session: null }
-                        });
-                        themeSelector();
-                      }}
-                    >
-                      {( deleteSession, { data }) => (
-                        <ListItem
-                          button
-                          onClick={() => {
-                            deleteSession({ variables: { input: { id: currentSession.id }}})
-                              .then(() => {
-                                localStorage.setItem('token', null);
-                                if (this.props.onClose) {
-                                  this.props.onClose();
-                                }
-                              });
-                          }}
-                        >
-                          <ListItemIcon className={classes.text}>
-                            <LogoutIcon />
-                          </ListItemIcon>
-                          <ListItemText primary={`Logout from ${process.env.SITE_NAME}`} />
-                        </ListItem>
-                      )}
-                    </Mutation>
-                  </React.Fragment>
               }
             </List>
           </div>

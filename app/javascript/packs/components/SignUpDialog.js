@@ -98,6 +98,12 @@ class SignUpDialog extends React.Component {
              </ListItemIcon>
              <ListItemText inset primary="Telegram will not share your phone number, contacts and messages." />
             </ListItem>
+            <ListItem>
+             <ListItemIcon>
+               <CheckIcon />
+             </ListItemIcon>
+             <ListItemText inset primary="A unique session identifier will be stored in your browser to keep you connected." />
+            </ListItem>
           </List>
           {
             <div className={classes.loginButtonContainer}>

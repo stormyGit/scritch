@@ -35,7 +35,7 @@ class TemporaryDrawer extends React.Component {
         onClose={this.props.onClose}
         disableDiscovery={iOS}
       >
-        <DrawerMenu disableSettings onClose={this.props.onClose} />
+        <DrawerMenu onClose={this.props.onClose} />
       </SwipeableDrawer>
     );
   }

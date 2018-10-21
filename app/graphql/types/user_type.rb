@@ -3,6 +3,7 @@ module Types
     description "User object"
     field :id, ID, null: false
     field :slug, ID, null: false
+    field :public, Boolean, null: false
     field :name, String, null: false
     field :published_media, [MediumType], null: false
     field :avatar, String, null: true
@@ -44,15 +45,15 @@ module Types
     end
 
     def followers_count
-      object.followers.count
+      FollowPolicy::Scope.new(context[:current_user], Follow.where(followable_id: object)).resolve.count
     end
 
     def following_count
-      object.all_following.count
+      FollowPolicy::Scope.new(context[:current_user], Follow.where(follower_id: object)).resolve.count
     end
 
     def likes_count
-      MediumPolicy::Scope.new(context[:current_user], object.likeds).resolve.count
+      LikePolicy::Scope.new(context[:current_user], object.likeds).resolve.count
     end
   end
 end

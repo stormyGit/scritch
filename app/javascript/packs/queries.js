@@ -14,6 +14,7 @@ export const CREATE_SESSION = gql`
         user {
           id
           name
+          public
           slug
           avatar
           banner
@@ -94,6 +95,7 @@ export const UPDATE_USER = gql`
       user {
         id
         name
+        public
         slug
         avatar
         banner
@@ -130,6 +132,7 @@ export const UPDATE_MEDIUM = gql`
         user {
           id
           slug
+          public
           name
           avatar
         }
@@ -380,6 +383,7 @@ export const GET_USER = gql`
   query User($id: ID!) {
     user(id: $id) {
       id
+      public
       slug
       name
       avatar
@@ -403,6 +407,7 @@ export const GET_SESSION = gql`
       user {
         id
         name
+        public
         slug
         avatar
         banner

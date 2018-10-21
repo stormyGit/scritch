@@ -1,7 +1,11 @@
 class LikePolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope
+      if user.present?
+        scope.joins(:user).where("users.public = ? OR users.uuid = ?", true, user.uuid)
+      else
+        scope.joins(:user).where("users.public = ?", true)
+      end
     end
   end
 

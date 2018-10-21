@@ -109,15 +109,15 @@ module Types
     end
 
     def likes_by_user(arguments = {})
-      Like.where(user_id: arguments[:user_id]).order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
+      LikePolicy::Scope.new(context[:current_user], Like.where(user_id: arguments[:user_id])).resolve.order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def followers_by_user(arguments = {})
-      User.find(arguments[:user_id]).followers
+      User.where(uuid: FollowPolicy::Scope.new(context[:current_user], Follow.where(followable_id: User.find(arguments[:user_id]))).resolve.pluck(:follower_id))
     end
 
     def followings_by_user(arguments = {})
-      User.find(arguments[:user_id]).all_following
+      User.where(uuid: FollowPolicy::Scope.new(context[:current_user], Follow.where(follower_id: User.find(arguments[:user_id]))).resolve.pluck(:followable_id))
     end
 
     def comments_by_medium(arguments = {})
