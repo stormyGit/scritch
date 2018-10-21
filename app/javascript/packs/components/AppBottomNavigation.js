@@ -156,7 +156,7 @@ class AppBottomNavigation extends React.Component {
               />
           }
         </BottomNavigation>
-        <ActivitiesDialog open={this.state.activitiesDialog} onClose={() => this.setState({ activitiesDialog: false })} />
+        {this.props.currentSession && <ActivitiesDialog open={this.state.activitiesDialog} onClose={() => this.setState({ activitiesDialog: false })} />}
       </React.Fragment>
     );
   }

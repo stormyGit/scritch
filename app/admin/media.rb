@@ -49,6 +49,15 @@ ActiveAdmin.register Medium do
       row :temporary_file do |record|
         link_to "Download", "https://s3.amazonaws.com/#{ENV['TEMPORARY_S3_BUCKET']}/#{record.temporary_key}"
       end
+
+      row :thumbnail do |record|
+        img src: "#{ENV['S3_ENDPOINT']}/#{ENV['S3_BUCKET']}/#{record.thumbnail_key}"
+      end
+
+      row :preview do |record|
+        img src: "#{ENV['S3_ENDPOINT']}/#{ENV['S3_BUCKET']}/#{record.thumbnail_key}"
+      end
+
       row :created_at
       row :updated_at
     end

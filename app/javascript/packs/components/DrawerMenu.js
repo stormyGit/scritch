@@ -339,15 +339,18 @@ class DrawerMenu extends React.Component {
             restriction: 'none',
           }}
         />
-        <ActivitiesDialog
-          open={this.state.activitiesDialog}
-          onClose={() => {
-            this.setState({ activitiesDialog: false });
-            if (this.props.onClose) {
-              this.props.onClose();
-            }
-          }}
-        />
+        {
+          currentSession &&
+            <ActivitiesDialog
+              open={this.state.activitiesDialog}
+              onClose={() => {
+                this.setState({ activitiesDialog: false });
+                if (this.props.onClose) {
+                  this.props.onClose();
+                }
+              }}
+            />
+        }
       </React.Fragment>
     );
   }

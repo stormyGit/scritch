@@ -378,7 +378,7 @@ class AppLayout extends React.Component {
                 restriction: 'none',
               }}
             />
-            <ActivitiesDialog open={this.state.activitiesDialog} onClose={() => this.setState({ activitiesDialog: false })} />
+            {currentSession && <ActivitiesDialog open={this.state.activitiesDialog} onClose={() => this.setState({ activitiesDialog: false })} />}
             <div id="scoll-parent">
               {this.props.children}
             </div>
