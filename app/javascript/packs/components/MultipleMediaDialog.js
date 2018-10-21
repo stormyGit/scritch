@@ -28,7 +28,6 @@ import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
-import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 
 import withWidth from '@material-ui/core/withWidth';
@@ -90,7 +89,8 @@ class DropZoneField extends React.Component {
   state = {
     progress: null,
     disabled: false,
-    file: null
+    file: null,
+    uploaded: false
   }
   evaporate = null;
 
@@ -118,11 +118,12 @@ class DropZoneField extends React.Component {
             this.setState({ file: files[index], progress: stats });
           }
         }).then((temporaryKey) => {
-          this.props.onUploaded(files[0], temporaryKey);
+          this.props.onUploaded(files[index], temporaryKey);
 
           if (files[index + 1]) {
             pushFile(index + 1);
           } else {
+            this.setState({ uploaded: true })
             this.props.onComplete();
           }
         })
@@ -149,7 +150,7 @@ class DropZoneField extends React.Component {
         onDrop={(files) => this.handleDrop(files)}
       >
         {
-          this.state.progress && this.state.progress.remainingSize === 0 &&
+          this.state.uploaded &&
             <div>
               <Typography variant="h6" color="inherit" noWrap>
                 All videos were successfuly imported
@@ -157,7 +158,7 @@ class DropZoneField extends React.Component {
             </div>
         }
         {
-          this.state.progress && this.state.progress.remainingSize > 0 &&
+          !this.state.uploaded && this.state.progress && this.state.progress.remainingSize > 0 &&
             <div>
               <CircularProgress
                 className={classes.progress}
@@ -180,7 +181,7 @@ class DropZoneField extends React.Component {
             </div>
         }
         {
-          !this.state.progress &&
+          !this.state.uploaded && !this.state.progress &&
             <div>
               <CloudUploadIcon
                 className={classes.uploadIcon}
@@ -217,9 +218,6 @@ const styles = theme => ({
   },
   dialogContent: {
   },
-  snackbar: {
-    position: 'absolute',
-  }
 });
 
 class MultipleMediaDialog extends React.Component {
@@ -232,11 +230,8 @@ class MultipleMediaDialog extends React.Component {
     restriction: '',
     uploaded: false,
     complete: false,
-    notificationOpen: false,
-    notificationMessage: {},
-    notificationKey: new Date().getTime(),
+    uploading: false,
   }
-  notificationsQueue = [];
 
   componentWillReceiveProps(nextProps) {
     if (this.props.open !== nextProps.open) {
@@ -250,36 +245,12 @@ class MultipleMediaDialog extends React.Component {
       restriction: '',
       uploaded: false,
       complete: false,
-      notificationOpen: false,
-      notificationMessage: {},
-      notificationKey: new Date().getTime(),
+      uploading: false,
     });
   }
 
-  processNotificationQueue = () => {
-    if (this.notificationsQueue.length > 0) {
-      this.setState({
-        notificationMessage: this.notificationsQueue.shift(),
-        notificationOpen: true,
-      });
-    }
-  };
-
-  handleNotificationClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    this.setState({ notificationOpen: false });
-  };
-
-  handleNotificationExited = () => {
-    this.processNotificationQueue();
-  };
-
   render() {
     const { classes, uploadEnabled } = this.props;
-    const { notificationOpen, notificationMessage } = this.state;
-    const { notificationBody, notificationKey } = notificationMessage;
 
     return (
       <React.Fragment>
@@ -350,17 +321,6 @@ class MultipleMediaDialog extends React.Component {
                              }
                            }
                          });
-
-                         this.notificationsQueue.push({
-                           notificationBody: `${file.name} uploaded`,
-                           notificationKey: new Date().getTime(),
-                         });
-
-                         if (this.state.notificationOpen) {
-                           this.setState({ notificationOpen: false });
-                         } else {
-                           this.processNotificationQueue();
-                         }
                        }}
                        onComplete={() => {
                          this.setState({ complete: true });
@@ -392,34 +352,6 @@ class MultipleMediaDialog extends React.Component {
               </Grid>
             </Grid>
           </DialogActions>
-          <Snackbar
-            key={notificationKey}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'left',
-            }}
-            className={classes.snackbar}
-            open={notificationOpen}
-            autoHideDuration={6000}
-            onClose={this.handleNotificationClose}
-            onExited={this.processNotificationQueue}
-            ContentProps={{
-              'aria-describedby': 'message-id',
-            }}
-            TransitionComponent={Fade}
-            message={<span id="message-id">{notificationBody}</span>}
-            action={[
-              <IconButton
-                key="close"
-                aria-label="Close"
-                color="inherit"
-                className={classes.close}
-                onClick={this.handleNotificationClose}
-              >
-                <CloseIcon />
-              </IconButton>,
-            ]}
-          />
         </ResponsiveDialog>
       </React.Fragment>
     );
