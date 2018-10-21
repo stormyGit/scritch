@@ -18,9 +18,13 @@ class Comment < ApplicationRecord
 
   def update_counter_cache
     if self.parent.present?
+      return if self.parent.frozen?
+
       self.parent.replies_count = Comment.where(medium: self.medium, parent: self.parent).count
       self.parent.save
     else
+      return if self.medium.frozen?
+
       self.medium.comments_count = Comment.where(medium: self.medium, parent: nil).count
       self.medium.save
     end
