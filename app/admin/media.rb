@@ -5,6 +5,8 @@ ActiveAdmin.register Medium do
     if resource.published_at.present?
       link_to('Reencode', accept_admin_medium_path(resource), method: :put)
     elsif resource.video_encoding_job.blank?
+      resource.create_activity key: 'medium.accepted', owner: User.find_by(telegram_id: ENV["ADMIN_ACCOUNT_TELEGRAM_ID"]), recipient: resource.user
+
       link_to('Accept and encode', accept_admin_medium_path(resource), method: :put)
     end
   end

@@ -198,6 +198,58 @@ class ActivitiesDialog extends React.Component {
     );
   }
 
+  renderMediumCreate(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+      >
+        <UserAvatar user={activity.owner} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your video `}
+                <Typography variant="body2" component="span" className={classes.highlight}>
+                  {activity.trackable.title}
+                </Typography>
+                {` is being reviewed.`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderMediumAccepted(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+      >
+        <UserAvatar user={activity.owner} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your video `}
+                <Typography variant="body2" component="span" className={classes.highlight}>
+                  {activity.trackable.title}
+                </Typography>
+                {` was accepted and is being processed.`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
   renderMediumPublished(activity) {
     const { classes } = this.props;
 
@@ -235,12 +287,14 @@ class ActivitiesDialog extends React.Component {
     switch (activity.key) {
       case 'like.create':
         return (this.renderLikeCreate(activity));
-        break;
       case 'follow.create':
         return (this.renderFollowCreate(activity));
-        break;
       case 'comment.create':
         return (this.renderCommentCreate(activity));
+      case 'medium.create':
+        return (this.renderMediumCreate(activity));
+      case 'medium.accepted':
+        return (this.renderMediumAccepted(activity));
       case 'medium.published':
         return (this.renderMediumPublished(activity));
       default:

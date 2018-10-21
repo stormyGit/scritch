@@ -8,6 +8,8 @@ module Media
     end
 
     def call
+      return unless Rails.env.production?
+      
       telegram_send_message_service.call
     end
 

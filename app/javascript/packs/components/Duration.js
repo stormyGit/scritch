@@ -12,7 +12,7 @@ const styles = theme => ({
     paddingRight: theme.spacing.unit,
     borderRadius: 3,
     color: "white",
-    height: 18
+    height: 19
   }
 });
 
