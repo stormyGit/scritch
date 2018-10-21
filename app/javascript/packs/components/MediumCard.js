@@ -151,12 +151,12 @@ class MediumCard extends React.Component {
             image={keyToCdnUrl(this.state.thumbnailKey)}
             title={medium.title}
             onMouseEnter={() => {
-              if (this.state.thumbnailKey !== medium.previewKey && width === 'lg' || width === 'xl') {
+              if (this.state.thumbnailKey !== medium.previewKey && (width === 'lg' || width === 'xl')) {
                 handleOnMouseEnter();
               }
             }}
             onMouseLeave={() => {
-              if (this.state.thumbnailKey !== medium.thumbnailKey && width === 'lg' || width === 'xl') {
+              if (this.state.thumbnailKey !== medium.thumbnailKey && (width === 'lg' || width === 'xl')) {
                 handleOnMouseLeave();
               }
             }}
@@ -211,9 +211,9 @@ class MediumCard extends React.Component {
 
     return (
       <CardActions>
-        <Grid container spacing={8} justify="space-between">
+        <Grid container spacing={8} justify="space-between" wrap="nowrap">
           <Grid item>
-            <Grid container spacing={0}>
+            <Grid container spacing={0} wrap="nowrap">
               <Grid item>
                 <Button
                   disabled

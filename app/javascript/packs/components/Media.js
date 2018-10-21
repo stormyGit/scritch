@@ -91,7 +91,7 @@ class Media extends React.Component {
                   !loading && !error &&
                     this.renderResults({
                       media,
-                      horizontal: (query.q && query.q.length > 0 && width === 'lg' || width === 'xl'),
+                      horizontal: (query.q && query.q.length > 0 && (width === 'lg' || width === 'xl')),
                       hasMore: ((media.length % limit) === 0 && this.state.hasMore),
                       onLoadMore: () => {
                         fetchMore({

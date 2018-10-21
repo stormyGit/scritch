@@ -43,16 +43,12 @@ import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 
 import { withStyles } from '@material-ui/core/styles';
 import ResponsiveDialog from './ResponsiveDialog';
-import BannerPlaceholder from './BannerPlaceholder';
-import ProfileAvatar from './ProfileAvatar';
 import MediumDeletionDialog from './MediumDeletionDialog';
 import fileUploadService from '../fileUploadService';
 import GlobalProgress from './GlobalProgress';
+import MultipleMediaDialog from './MultipleMediaDialog';
 
 import { CREATE_MEDIUM, GET_MEDIUM, UPDATE_MEDIUM } from '../queries';
-
-const BANNER_HEIGHT = '200px';
-const AVATAR_SIZE = 96
 
 const dropZoneStyles = theme => ({
   root: {
@@ -64,7 +60,6 @@ const dropZoneStyles = theme => ({
     color: 'white',
     background: theme.palette.primary.light,
     fontFamily: theme.typography.fontFamily,
-    cursor: "pointer",
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -80,11 +75,27 @@ const dropZoneStyles = theme => ({
 
 class DropZoneField extends React.Component {
   state = {
-    progress: null
+    progress: null,
+    disabled: false
+  }
+  evaporate = null;
+
+  componentDidMount() {
+    this.evaporate = fileUploadService();
+  }
+
+  componentWillUnmount() {
+    this.evaporate.then((evaporate) => {
+      evaporate.cancel();
+    });
   }
 
   handleDrop(file) {
-    fileUploadService.then((evaporate) => {
+    if (this.state.disabled) {
+      return ;
+    }
+
+    this.evaporate.then((evaporate) => {
       evaporate.add({
         file: file,
         name: uuidv4(),
@@ -94,7 +105,8 @@ class DropZoneField extends React.Component {
       }).then((temporary_key) => {
         this.props.onChange(temporary_key);
       });
-    })
+    });
+    this.setState({ disabled: true });
   }
 
   render() {
@@ -106,6 +118,8 @@ class DropZoneField extends React.Component {
         className={classes.root}
         style={{
           height: width === 'lg' || width === 'xl' ? 220 : 130,
+          pointerEvents: this.state.disabled ? 'none' : 'auto',
+          cursor: this.state.disabled ? 'not-allowed' : 'pointer',
         }}
         accept="video/mp4,video/x-m4v,video/*,video/quicktime"
         onDrop={(files) => this.handleDrop(files[0])}
@@ -169,62 +183,6 @@ const styles = theme => ({
     zIndex: 2,
   },
   dialogContent: {
-    marginTop: theme.spacing.unit * 2,
-  },
-  editBannerButton: {
-    width: '100%',
-    height: BANNER_HEIGHT,
-    position: 'absolute',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    zIndex: 1,
-    borderRadius: 0,
-  },
-  editAvatarButton: {
-    position: 'absolute',
-    backgroundColor: 'rgba(0, 0, 0, 0.2)',
-    zIndex: 1,
-    width: AVATAR_SIZE,
-    height: AVATAR_SIZE,
-    borderRadius: AVATAR_SIZE,
-    color: "white"
-  },
-  menuButton: {
-    paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 4,
-    justifyContent: 'center'
-  },
-  placeholderBanner: {
-    width: '100%',
-    height: BANNER_HEIGHT,
-  },
-  uploadInput: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    left: 0,
-    bottom: 0,
-    margin: 0,
-    padding: 0,
-    opacity: 0
-  },
-  bannerImageWide: {
-    top: '-50%'
-  },
-  avatarContainer: {
-    // paddingTop: theme.spacing.unit * 4
-    marginTop: AVATAR_SIZE / -2 + theme.spacing.unit,
-    zIndex: 2,
-  },
-  editBannerIcon: {
-    display: 'block',
-    fontSize: '4em',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginBottom: theme.spacing.unit,
-    color: "white"
-  },
-  infoText: {
-    color: 'white'
   },
   chipInput: {
     marginTop: theme.spacing.unit,
@@ -242,6 +200,7 @@ class EditMediumDialog extends React.Component {
     temporaryKey: null,
     visibility: 'public',
     restriction: 'none',
+    multipleMedia: false
   }
 
   componentDidMount() {
@@ -282,7 +241,8 @@ class EditMediumDialog extends React.Component {
           <DialogContent
             className={classes.dialogContent}
             style={{
-              paddingTop: uploadEnabled ? 12 : 0
+              paddingTop: uploadEnabled ? 12 : 0,
+              marginTop: medium.id ? 0 : 16,
             }}
           >
             {
@@ -295,7 +255,7 @@ class EditMediumDialog extends React.Component {
             }
             <TextField
               label="Title"
-              name="h6"
+              name="title"
               value={this.state.title}
               onChange={(e) => this.setState({ title: e.target.value })}
               margin="dense"
@@ -367,13 +327,23 @@ class EditMediumDialog extends React.Component {
             <Grid container spacing={0} justify="space-between">
               <Grid item>
                 {
-                  medium.id &&
+                  medium.id ?
                     <Button
                       color="secondary"
                       onClick={() => this.setState({ mediumDeletion: true })}
                     >
                       Delete video
-                    </Button>
+                    </Button> :
+                      (false &&
+                        <Button
+                          onClick={() => {
+                            this.setState({ multipleMedia: true });
+                            this.props.onClose();
+                          }}
+                        >
+                          Import multiple videos
+                        </Button>
+                    )
                 }
               </Grid>
               <Grid item>
@@ -396,15 +366,6 @@ class EditMediumDialog extends React.Component {
                         <Button
                           disabled={!this.state.title || /^\s*$/.test(this.state.title)}
                           onClick={() => {
-                            console.log({
-                              id: medium.id,
-                              title: this.state.title,
-                              description: this.state.description,
-                              commentsDisabled: !this.state.commentsEnabled,
-                              tagList: this.state.tagList,
-                              visibility: this.state.visibility,
-                              restriction: this.state.restriction,
-                            })
                             updateMedium({
                               variables: {
                                 input: {
@@ -486,6 +447,17 @@ class EditMediumDialog extends React.Component {
           open={this.state.mediumDeletion}
           onClose={() => this.setState({ mediumDeletion: false })}
           onDelete={() => {
+            this.setState({ mediumDeletion: false });
+            this.props.onClose();
+            this.props.history.push({
+              pathname: '/'
+            });
+          }}
+        />
+        <MultipleMediaDialog
+          open={this.state.multipleMedia}
+          onClose={() => this.setState({ multipleMedia: false })}
+          onSubmit={() => {
             this.setState({ mediumDeletion: false });
             this.props.onClose();
             this.props.history.push({
