@@ -117,7 +117,7 @@ class EncodeVideoJob < ApplicationJob
   end
 
   def root_dir
-    @medium.uuid
+    SecureRandom.uuid
   end
 
   def call_command(command)

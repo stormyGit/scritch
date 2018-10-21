@@ -25,6 +25,7 @@ class Medium < ApplicationRecord
   validates :title, presence: true
 
   after_commit :send_moderation_notification, on: [:create]
+  after_destroy :remove_s3_keys
 
   scope :published, -> { where.not(published_at: nil) }
 
@@ -34,5 +35,11 @@ class Medium < ApplicationRecord
 
   def send_moderation_notification
     Moderation::SendMediumNotificationJob.perform_later(self)
+  end
+
+  def remove_s3_keys
+    RemoveS3KeyJob.perform_later self.key
+    RemoveS3KeyJob.perform_later self.thumbnail_key
+    RemoveS3KeyJob.perform_later self.preview_key
   end
 end
