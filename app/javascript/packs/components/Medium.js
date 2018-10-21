@@ -41,7 +41,7 @@ const styles = theme => ({
     minHeight: 'calc(100vh - 56px)'
   },
   UnderReview: {
-    height: '30vw',
+    height: '40vw',
     position: 'relative',
   },
   card: {

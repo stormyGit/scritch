@@ -137,11 +137,10 @@ class DropZoneField extends React.Component {
     const { classes, width } = this.props;
 
     return (
-      // accept="video/mp4,video/x-m4v,video/*,video/quicktime"
-
       <Dropzone
         multiple={true}
         className={classes.root}
+        accept="video/mp4,video/x-m4v,video/*,video/quicktime"
         style={{
           height: width === 'lg' || width === 'xl' ? 220 : 130,
           pointerEvents: this.state.disabled ? 'none' : 'auto',
