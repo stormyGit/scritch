@@ -28,6 +28,7 @@ import FormattedText from './FormattedText';
 import LikeButton from './LikeButton';
 import EditMediumDialog from './EditMediumDialog';
 import Comments from './Comments';
+import UnderReview from './UnderReview';
 import withCurrentSession from './withCurrentSession';
 import SocialButton from './SocialButton';
 import TwitterIcon from '../icons/Twitter';
@@ -37,6 +38,11 @@ import countFormat from '../countFormat';
 const styles = theme => ({
   container: {
     display: 'flex',
+    minHeight: 'calc(100vh - 56px)'
+  },
+  UnderReview: {
+    height: '30vw',
+    position: 'relative',
   },
   card: {
     width: '100%',
@@ -111,7 +117,7 @@ class Medium extends React.Component {
               <div className={classes.container} key={medium.id}>
                 <PageTitle>{!loading && medium ? medium.title : null}</PageTitle>
                 <Card className={classes.card} elevation={0}>
-                  <CardVideo medium={medium} />
+                  {medium.publishedAt ? <CardVideo medium={medium} /> : <div className={classes.UnderReview}><UnderReview /></div>}
                   <Grid container spacing={8}>
                     <Grid item lg={8} xs={12}>
                       <CardContent>
@@ -172,7 +178,7 @@ class Medium extends React.Component {
                                 </Link>
                               }
                               title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}
-                              subheader={timeAgo.format(dayjs(medium.createdAt).toDate())}
+                              subheader={medium.publishedAt ? timeAgo.format(dayjs(medium.publishedAt).toDate()) : 'Under review'}
                             />
                           </Grid>
                           {

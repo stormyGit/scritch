@@ -108,7 +108,7 @@ const styles = theme => ({
     color: theme.palette.type !== 'dark' ? "#111" : '#fff',
   },
   followButton: {
-    width: 132
+    width: 132,
   },
   placeholderBanner: {
     width: '100%',
@@ -251,7 +251,7 @@ class User extends React.Component {
         >
           {( createFollow, { data }) => (
             <Button
-              variant="outlined"
+              variant="contained"
               size={width !== 'lg' && width !== 'xl' ? 'small' : 'medium'}
               className={this.props.classes.followButton}
               onClick={() => {

@@ -9,8 +9,8 @@ module Types
     field :thumbnail_key, String, null: true
     field :preview_key, String, null: true
     field :temporary_key, String, null: false
-    field :duration, Integer, null: false
-    field :created_at, String, null: false
+    field :duration, Integer, null: true
+    field :published_at, String, null: true
     field :user, UserType, null: true
     field :comments, [CommentType], null: false
     field :related_media, [MediumType], null: false

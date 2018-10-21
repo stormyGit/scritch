@@ -41,7 +41,7 @@ module Types
     end
 
     def media_count
-      MediumPolicy::Scope.new(context[:current_user], object.media.published).resolve.count
+      MediumPolicy::Scope.new(context[:current_user], object.media).resolve.count
     end
 
     def followers_count

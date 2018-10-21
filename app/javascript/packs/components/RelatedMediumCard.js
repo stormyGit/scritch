@@ -116,7 +116,7 @@ class MediumCard extends React.Component {
         </div>
         <div>
           <Typography gutterBottom variant="body2" component="h2" className={classes.text}  noWrap>
-            {timeAgo.format(dayjs(medium.createdAt).toDate())}
+            {timeAgo.format(dayjs(medium.publishedAt).toDate())}
           </Typography>
         </div>
       </CardContent>

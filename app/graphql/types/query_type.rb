@@ -72,7 +72,7 @@ module Types
     end
 
     def media(arguments = {})
-      media = MediumPolicy::Scope.new(context[:current_user], Medium.published).resolve.includes(:user)
+      media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
 
       if arguments[:q].present?
         media = media

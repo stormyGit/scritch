@@ -123,7 +123,7 @@ export const UPDATE_MEDIUM = gql`
         likesCount
         liked
         viewsCount
-        createdAt
+        publishedAt
         thumbnailKey
         commentsDisabled
         tagList
@@ -155,7 +155,7 @@ export const UPDATE_MEDIUM = gql`
           thumbnailKey
           previewKey
           duration
-          createdAt
+          publishedAt
           user {
             id
             slug
@@ -176,7 +176,7 @@ export const GET_MEDIA = gql`
       description
       previewKey
       thumbnailKey
-      createdAt
+      publishedAt
       duration
       commentsCount
       likesCount
@@ -243,7 +243,7 @@ query GetLikesByUser($userId: ID!, $offset: Int!, $limit: Int!) {
       description
       previewKey
       thumbnailKey
-      createdAt
+      publishedAt
       duration
       commentsCount
       likesCount
@@ -337,7 +337,7 @@ export const GET_MEDIUM = gql`
       likesCount
       liked
       viewsCount
-      createdAt
+      publishedAt
       thumbnailKey
       commentsDisabled
       tagList
@@ -368,7 +368,7 @@ export const GET_MEDIUM = gql`
         thumbnailKey
         previewKey
         duration
-        createdAt
+        publishedAt
         user {
           id
           slug

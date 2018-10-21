@@ -28,6 +28,7 @@ import Duration from './Duration';
 import UserAvatar from './UserAvatar';
 import LikeButton from './LikeButton';
 import TruncatedText from './TruncatedText';
+import UnderReview from './UnderReview';
 import countFormat from '../countFormat';
 
 const styles = theme => ({
@@ -107,7 +108,7 @@ class MediumCard extends React.Component {
           </Link>
         }
         title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}
-        subheader={timeAgo.format(dayjs(medium.createdAt).toDate())}
+        subheader={medium.publishedAt ? timeAgo.format(dayjs(medium.publishedAt).toDate()) : "Under review"}
       />
     );
   }
@@ -146,23 +147,27 @@ class MediumCard extends React.Component {
             }
           }}
         >
-          <CardMedia
-            className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
-            image={keyToCdnUrl(this.state.thumbnailKey)}
-            title={medium.title}
-            onMouseEnter={() => {
-              if (this.state.thumbnailKey !== medium.previewKey && (width === 'lg' || width === 'xl')) {
-                handleOnMouseEnter();
-              }
-            }}
-            onMouseLeave={() => {
-              if (this.state.thumbnailKey !== medium.thumbnailKey && (width === 'lg' || width === 'xl')) {
-                handleOnMouseLeave();
-              }
-            }}
-          >
-            <Duration duration={medium.duration} />
-          </CardMedia>
+          {
+            medium.publishedAt ?
+              <CardMedia
+                className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
+                image={keyToCdnUrl(this.state.thumbnailKey)}
+                title={medium.title}
+                onMouseEnter={() => {
+                  if (this.state.thumbnailKey !== medium.previewKey && (width === 'lg' || width === 'xl')) {
+                    handleOnMouseEnter();
+                  }
+                }}
+                onMouseLeave={() => {
+                  if (this.state.thumbnailKey !== medium.thumbnailKey && (width === 'lg' || width === 'xl')) {
+                    handleOnMouseLeave();
+                  }
+                }}
+              >
+                <Duration duration={medium.duration} />
+              </CardMedia> :
+              <UnderReview />
+          }
         </VisibilitySensor>
       </div>
     );
