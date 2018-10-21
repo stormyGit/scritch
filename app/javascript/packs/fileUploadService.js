@@ -12,4 +12,17 @@ var config = {
   cryptoHexEncodedHash256: (data) => { return AWS.util.crypto.sha256(data, 'hex'); },
 };
 
-export default Evaporate.create(config);
+export default () => {
+  let signHeaders = {};
+  const token = localStorage.getItem('token');
+  if (token) {
+    signHeaders['Authorization'] = `Bearer ${token}`;
+  }
+
+  return (
+    Evaporate.create({
+      ...config,
+      signHeaders
+    })
+  );
+}
