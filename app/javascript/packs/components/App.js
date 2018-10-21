@@ -45,9 +45,11 @@ class App extends React.Component {
       query: GET_SESSION,
     }).then(({ data }) => {
       if (data.session) {
-        this.setState({ loaded: true });
         themeSelector(data.session.user.theme);
+      } else {
+        localStorage.getItem('token', null);
       }
+      this.setState({ loaded: true });
     });
   }
 
