@@ -1,8 +1,12 @@
-class RemoveS3KeyJob < ApplicationJob
+class RemoveMediumFilesJob < ApplicationJob
   queue_as :default
 
-  def perform(key)
-    storage.files.new(key: key).destroy
+  def perform(medium_id)
+    @medium_id = medium_id
+
+    storage.files.each do |file|
+      storage.files.new(key: file.key).destroy
+    end
   end
 
   def storage
@@ -15,6 +19,11 @@ class RemoveS3KeyJob < ApplicationJob
       host:                  ENV['S3_HOST'],
       path_style:            true
     })
-    @storage.directories.get(ENV["S3_BUCKET"])
+    @storage.directories.get(ENV["S3_BUCKET"], prefix: root_dir)
   end
+
+  def root_dir
+    Digest::SHA1.hexdigest("#{ENV["SECURE_UPLOADER_KEY"]}#{@medium_id}")
+  end
+
 end

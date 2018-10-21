@@ -117,7 +117,7 @@ class EncodeVideoJob < ApplicationJob
   end
 
   def root_dir
-    SecureRandom.uuid
+    Digest::SHA1.hexdigest("#{ENV["SECURE_UPLOADER_KEY"]}#{@medium.uuid}")
   end
 
   def call_command(command)
