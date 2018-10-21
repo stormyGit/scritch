@@ -67,6 +67,7 @@ const dropZoneStyles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
     translation: 'opacity 0.5s ease',
+    overflow: 'hidden'
   },
   uploadIcon: {
     fontSize: "4em"
@@ -76,10 +77,20 @@ const dropZoneStyles = theme => ({
   }
 });
 
+const processFileName = (file) => (
+  file.name
+   .replace(/\.[^.]+$/, '')
+   .replace(/[^a-zA-Z]+/, ' ')
+   .split(' ').filter((word) => word.length > 0)
+   .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+   .join(' ')
+)
+
 class DropZoneField extends React.Component {
   state = {
     progress: null,
-    disabled: false
+    disabled: false,
+    file: null
   }
   evaporate = null;
 
@@ -98,22 +109,26 @@ class DropZoneField extends React.Component {
       return ;
     }
 
-    this.evaporate.then((evaporate) => {
-      const uploadPromises = files.map((file) => (
+    const pushFile = (index) => {
+      this.evaporate.then((evaporate) => (
         evaporate.add({
-          file: file,
+          file: files[index],
           name: uuidv4(),
           progress: (p, stats) => {
-            this.setState({ progress: stats });
+            this.setState({ file: files[index], progress: stats });
           }
         }).then((temporaryKey) => {
-          this.props.onUploaded(file, temporaryKey);
+          this.props.onUploaded(files[0], temporaryKey);
+
+          if (files[index + 1]) {
+            pushFile(index + 1);
+          } else {
+            this.props.onComplete();
+          }
         })
-      ));
-      Promise.all(uploadPromises).then((awsKeys) => {
-        this.props.onComplete(awsKeys);
-      });
-    });
+      ))
+    }
+    pushFile(0);
     this.setState({ disabled: true });
     this.props.onStart();
   }
@@ -138,7 +153,7 @@ class DropZoneField extends React.Component {
           this.state.progress && this.state.progress.remainingSize === 0 &&
             <div>
               <Typography variant="h6" color="inherit" noWrap>
-                All videos imported
+                All videos were successfuly imported
               </Typography>
             </div>
         }
@@ -156,6 +171,11 @@ class DropZoneField extends React.Component {
               <Typography variant="h6" color="inherit" noWrap>
                 {
                   this.state.progress.secondsLeft >= 0 ? `${this.state.progress.secondsLeft}s. remaining` : `Uploading`
+                }
+              </Typography>
+              <Typography variant="caption" color="inherit" noWrap>
+                {
+                  this.state.file.name
                 }
               </Typography>
             </div>
@@ -209,7 +229,6 @@ class MultipleMediaDialog extends React.Component {
     description: '',
     commentsEnabled: true,
     tagList: [],
-    temporaryKey: null,
     visibility: '',
     restriction: '',
     uploaded: false,
@@ -219,6 +238,24 @@ class MultipleMediaDialog extends React.Component {
     notificationKey: new Date().getTime(),
   }
   notificationsQueue = [];
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.open !== nextProps.open) {
+      this.setInitialValues();
+    }
+  }
+
+  setInitialValues() {
+    this.setState({
+      visibility: '',
+      restriction: '',
+      uploaded: false,
+      complete: false,
+      notificationOpen: false,
+      notificationMessage: {},
+      notificationKey: new Date().getTime(),
+    });
+  }
 
   processNotificationQueue = () => {
     if (this.notificationsQueue.length > 0) {
@@ -292,26 +329,48 @@ class MultipleMediaDialog extends React.Component {
             </FormControl>
             {
               this.state.visibility !== '' && this.state.restriction !== '' &&
-                <DropZoneFieldWithStyle
-                 onStart={() => {
-                   this.setState({ uploading: true });
-                 }}
-                 onUploaded={(file, temporaryKey) => {
-                   this.notificationsQueue.push({
-                     notificationBody: `${file.name} uploaded`,
-                     notificationKey: new Date().getTime(),
-                   });
+              <Mutation mutation={CREATE_MEDIUM}>
+                {
+                  (createMedium, { called }) => {
+                    return (
+                      <DropZoneFieldWithStyle
+                       onStart={() => {
+                         this.setState({ uploading: true });
+                       }}
+                       onUploaded={(file, temporaryKey) => {
+                         createMedium({
+                           variables: {
+                             input: {
+                               title: processFileName(file),
+                               description: this.state.description,
+                               commentsDisabled: !this.state.commentsEnabled,
+                               temporaryKey,
+                               tagList: this.state.tagList,
+                               visibility: this.state.visibility,
+                               restriction: this.state.restriction,
+                             }
+                           }
+                         });
 
-                   if (this.state.notificationOpen) {
-                     this.setState({ notificationOpen: false });
-                   } else {
-                     this.processNotificationQueue();
-                   }
-                 }}
-                 onComplete={(awsKeys) => {
-                   this.setState({ complete: true });
-                 }}
-                />
+                         this.notificationsQueue.push({
+                           notificationBody: `${file.name} uploaded`,
+                           notificationKey: new Date().getTime(),
+                         });
+
+                         if (this.state.notificationOpen) {
+                           this.setState({ notificationOpen: false });
+                         } else {
+                           this.processNotificationQueue();
+                         }
+                       }}
+                       onComplete={() => {
+                         this.setState({ complete: true });
+                       }}
+                      />
+                    )
+                  }
+                }
+              </Mutation>
             }
           </DialogContent>
           <DialogActions>

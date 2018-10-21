@@ -63,7 +63,8 @@ const dropZoneStyles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    overflow: 'hidden'
   },
   uploadIcon: {
     fontSize: "4em"
@@ -226,7 +227,7 @@ class EditMediumDialog extends React.Component {
   }
 
   render() {
-    const { classes, medium, uploadEnabled } = this.props;
+    const { classes, medium, uploadEnabled, width } = this.props;
 
     return (
       <React.Fragment>
@@ -334,11 +335,13 @@ class EditMediumDialog extends React.Component {
                     >
                       Delete video
                     </Button> :
-                      (false &&
+                      (true &&
                         <Button
                           onClick={() => {
                             this.setState({ multipleMedia: true });
-                            this.props.onClose();
+                            if (width === 'xl' || width === 'lg') {
+                              this.props.onClose();
+                            }
                           }}
                         >
                           Import multiple videos
@@ -456,13 +459,16 @@ class EditMediumDialog extends React.Component {
         />
         <MultipleMediaDialog
           open={this.state.multipleMedia}
-          onClose={() => this.setState({ multipleMedia: false })}
+          onClose={() => {
+            this.setState({ multipleMedia: false });
+            this.props.onClose();
+          }}
           onSubmit={() => {
             this.setState({ mediumDeletion: false });
-            this.props.onClose();
             this.props.history.push({
               pathname: '/'
             });
+            this.props.onClose();
           }}
         />
       </React.Fragment>
@@ -470,4 +476,8 @@ class EditMediumDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(EditMediumDialog));
+export default withStyles(styles)(
+  withRouter(
+    withWidth()(EditMediumDialog)
+  )
+);
