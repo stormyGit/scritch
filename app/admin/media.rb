@@ -5,15 +5,16 @@ ActiveAdmin.register Medium do
     if resource.published_at.present?
       link_to('Reencode', accept_admin_medium_path(resource), method: :put)
     elsif resource.video_encoding_job.blank?
-      resource.create_activity key: 'medium.accepted', owner: User.find_by(telegram_id: ENV["ADMIN_ACCOUNT_TELEGRAM_ID"]), recipient: resource.user
-
       link_to('Accept and encode', accept_admin_medium_path(resource), method: :put)
     end
   end
 
   member_action :accept, method: :put do
-    resource.push_video_encoding_job!
-    redirect_to resource_path, notice: "Medium accepted"
+    resource.create_activity key: 'medium.accepted', owner: User.find_by(telegram_id: ENV["ADMIN_ACCOUNT_TELEGRAM_ID"]), recipient: resource.user
+    if resource.reload.video_encoding_job.blank? || resource.reload.video_encoding_job.state == :completed
+      resource.push_video_encoding_job!
+      redirect_to resource_path, notice: "Medium accepted"
+    end
   end
 
   config.sort_order = 'created_at_desc'
