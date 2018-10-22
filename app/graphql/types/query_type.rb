@@ -135,6 +135,8 @@ module Types
     end
 
     def unread_activity_count
+      return 0 if context[:current_user].blank?
+      
       Activity
         .where(recipient: context[:current_user])
         .where.not(owner: context[:current_user])

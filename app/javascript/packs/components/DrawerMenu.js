@@ -137,40 +137,6 @@ class DrawerMenu extends React.Component {
                   </React.Fragment>
               }
               {
-                !this.props.disableUpload && currentSession &&
-                  <React.Fragment>
-                    <ListItem
-                      button
-                      onClick={() => this.setState({ uploadDialog: true })}
-                    >
-                      <ListItemIcon className={classes.text} color='secondary'>
-                        <UploadIcon />
-                      </ListItemIcon>
-                      <ListItemText primary="Upload" primaryTypographyProps={{ className: classes.text }} />
-                    </ListItem>
-                    <Divider />
-                  </React.Fragment>
-              }
-              {
-                !this.props.disableNotifications && currentSession &&
-                  <React.Fragment>
-                    <Query query={GET_UNREAD_ACTIVITY_COUNT} pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}>
-                      {({ loading, error, data }) => (
-                        <ListItem
-                          button
-                          onClick={() => this.setState({ activitiesDialog: true })}
-                        >
-                          <ListItemIcon className={classes.text} color='secondary'>
-                            {loading || !data || data.unreadActivityCount === 0 ? <NotificationsNoneIcon /> : <NotificationsIcon />}
-                          </ListItemIcon>
-                          <ListItemText primary="Notifications" primaryTypographyProps={{ className: classes.text }} />
-                        </ListItem>
-                      )}
-                    </Query>
-                    <Divider />
-                  </React.Fragment>
-              }
-              {
                 !this.props.disableNavigation &&
                   <React.Fragment>
                     <ListItem
@@ -228,6 +194,40 @@ class DrawerMenu extends React.Component {
                           <ListItemText primary="Subscriptions" primaryTypographyProps={{ className: classes.text }} />
                         </ListItem>
                     }
+                  </React.Fragment>
+              }
+              {
+                !this.props.disableUpload && currentSession &&
+                  <React.Fragment>
+                    <Divider />
+                    <ListItem
+                      button
+                      onClick={() => this.setState({ uploadDialog: true })}
+                    >
+                      <ListItemIcon className={classes.text} color='secondary'>
+                        <UploadIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Upload" primaryTypographyProps={{ className: classes.text }} />
+                    </ListItem>
+                  </React.Fragment>
+              }
+              {
+                !this.props.disableNotifications && currentSession &&
+                  <React.Fragment>
+                    <Divider />
+                    <Query query={GET_UNREAD_ACTIVITY_COUNT} pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}>
+                      {({ loading, error, data }) => (
+                        <ListItem
+                          button
+                          onClick={() => this.setState({ activitiesDialog: true })}
+                        >
+                          <ListItemIcon className={classes.text} color='secondary'>
+                            {loading || !data || data.unreadActivityCount === 0 ? <NotificationsNoneIcon /> : <NotificationsIcon />}
+                          </ListItemIcon>
+                          <ListItemText primary="Notifications" primaryTypographyProps={{ className: classes.text }} />
+                        </ListItem>
+                      )}
+                    </Query>
                   </React.Fragment>
               }
             </List>

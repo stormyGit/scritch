@@ -637,6 +637,12 @@ class User extends React.Component {
             } else {
               isPrivate = true;
             }
+            const Private = () => (
+              <Typography variant="caption" noWrap color={"inherit"} style={{ fontSize: "0.8em" }}>
+                Private
+              </Typography>
+            )
+
             return (
               <React.Fragment>
                 {
@@ -650,7 +656,7 @@ class User extends React.Component {
                             {this.renderUserInfos(data.user)}
                           </div>
                         </Hidden>
-                        <Paper className={classes.tabsContainer} elevation={0}>
+                        <Paper className={classes.tabsContainer} elevation={0} square>
                           <Grid container spacing={0}>
                             <Grid item xs lg>
                             </Grid>
@@ -671,19 +677,19 @@ class User extends React.Component {
                                 <Tab
                                   value="following"
                                   disabled={isPrivate}
-                                  label={isPrivate ? "Private" : data.user.followingCount}
+                                  label={isPrivate ? <Private /> : data.user.followingCount}
                                   icon="Following"
                                 />
                                 <Tab
                                   value="followers"
                                   disabled={isPrivate}
-                                  label={isPrivate ? "Private" : data.user.followersCount}
+                                  label={isPrivate ? <Private /> : data.user.followersCount}
                                   icon="Followers"
                                 />
                                 <Tab
                                   value="likes"
                                   disabled={isPrivate}
-                                  label={isPrivate ? "Private" : data.user.likesCount}
+                                  label={isPrivate ? <Private /> : data.user.likesCount}
                                   icon="Likes"
                                 />
                               </Tabs>

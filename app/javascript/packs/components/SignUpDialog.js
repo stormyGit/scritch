@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import withWidth from '@material-ui/core/withWidth';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -11,9 +12,13 @@ import ListItem from '@material-ui/core/ListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import CheckIcon from '@material-ui/icons/Check';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+
 import TelegramLoginButton from 'react-telegram-login';
 import { withRouter } from 'react-router-dom';
 
@@ -27,7 +32,11 @@ import { CREATE_SESSION, GET_SESSION } from '../queries';
 
 const styles = theme => ({
   brand: {
-    textAlign: 'center'
+    textAlign: 'center',
+  },
+  titleBarContainer: {
+    padding: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 3
   },
   link: {
     color: theme.palette.text.primary
@@ -63,16 +72,32 @@ class SignUpDialog extends React.Component {
   }
 
   render() {
-    const { classes, open, onClose, loading } = this.props;
+    const { classes, open, onClose, loading, width } = this.props;
 
     return (
       <ResponsiveDialog
         open={open}
         onClose={onClose}
       >
-        <DialogTitle className={classes.brand}>
-          <Logo />
-        </DialogTitle>
+        {
+          (width !== 'lg' && width !== 'xl' || true) &&
+            <DialogTitle
+              className={classes.titleBarContainer}
+            >
+              <Grid container spacing={0} alignItems="center" justify="space-between">
+                <Grid item>
+                  <Typography variant="h6" noWrap color={"inherit"}>
+                    Login with Telegram
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <IconButton color="inherit" onClick={onClose} aria-label="Close">
+                    <CloseIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </DialogTitle>
+        }
         <DialogContent>
           <DialogContentText>
             {`We use `}
@@ -90,13 +115,7 @@ class SignUpDialog extends React.Component {
              <ListItemIcon>
                <CheckIcon />
              </ListItemIcon>
-             <ListItemText inset primary="Telegram will share your username, handle, avatar, bio and ID." />
-            </ListItem>
-            <ListItem>
-             <ListItemIcon>
-               <CheckIcon />
-             </ListItemIcon>
-             <ListItemText inset primary="Telegram will not share your phone number, contacts and messages." />
+             <ListItemText inset primary="Telegram will share your username, handle, avatar, bio and ID. Telegram will not share your phone number, contacts and messages." />
             </ListItem>
             <ListItem>
              <ListItemIcon>
@@ -165,4 +184,4 @@ const FormWithMutation = (props) => (
   </Mutation>
 )
 
-export default withStyles(styles)(withRouter(FormWithMutation));
+export default withStyles(styles)(withRouter(withWidth()(FormWithMutation)));
