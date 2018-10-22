@@ -136,17 +136,6 @@ export const UPDATE_MEDIUM = gql`
           name
           avatar
         }
-        comments {
-          id
-          body
-          createdAt
-          user {
-            id
-            slug
-            name
-            avatar
-          }
-        }
         relatedMedia {
           id
           slug
@@ -295,6 +284,7 @@ query GetCommentsByMedium($mediumId: ID!, $parentId: ID, $offset: Int!, $limit: 
     body
     createdAt
     repliesCount
+    parentId
     user {
       id
       slug
@@ -313,6 +303,7 @@ export const CREATE_COMMENT = gql`
         body
         createdAt
         repliesCount
+        parentId
         user {
           id
           slug
@@ -348,17 +339,6 @@ export const GET_MEDIUM = gql`
         slug
         name
         avatar
-      }
-      comments {
-        id
-        body
-        createdAt
-        user {
-          id
-          slug
-          name
-          avatar
-        }
       }
       relatedMedia {
         id

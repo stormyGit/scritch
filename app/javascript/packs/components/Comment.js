@@ -32,6 +32,7 @@ import timeAgo from '../timeAgo';
 const styles = theme => ({
   comment: {
     paddingTop: theme.spacing.unit * 2,
+    paddingBottom: theme.spacing.unit * 2,
   },
   commentHeader: {
     padding: 0,
@@ -44,8 +45,9 @@ const styles = theme => ({
   },
   repliesPanel: {
     marginTop: theme.spacing.unit,
-    marginLeft: theme.spacing.unit * 7,
-    backgroundColor: "#333"
+    // marginLeft: theme.spacing.unit * 7,
+    // paddingLeft: 34,
+    backgroundColor: "#333",
   },
   repliesPanelDetails: {
     display: 'block',
@@ -70,7 +72,7 @@ class Comment extends React.Component {
   };
 
   render() {
-    const { comment, currentSession, classes, medium, disableReply, width, parent } = this.props;
+    const { comment, currentSession, classes, medium, disableReply, width } = this.props;
 
     let canDelete = false;
     if (currentSession && currentSession.user.id === comment.user.id) {
@@ -121,26 +123,47 @@ class Comment extends React.Component {
                     <Mutation
                       mutation={DELETE_COMMENT}
                       update={(cache) => {
-                        cache.writeQuery({
-                          query: GET_MEDIUM,
-                          variables: { id: medium.id },
-                          data: {
-                            medium: {
-                              ...medium,
-                              commentsCount: (medium.commentsCount - 1),
-                              comments: medium.comments.filter((otherComment) => otherComment.id !== comment.id)
-                            }
-                          }
-                        });
-
-                        const { commentsByMedium } = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { parentId: (parent ? parent.id : null), mediumId: medium.id }});
+                        const { commentsByMedium } = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { parentId: comment.parentId || null, mediumId: medium.id }});
                         cache.writeQuery({
                           query: GET_COMMENTS_BY_MEDIUM,
-                          variables: { parentId: (parent ? parent.id : null), mediumId: medium.id },
+                          variables: { parentId: comment.parentId || null, mediumId: medium.id },
                           data: {
                             commentsByMedium: commentsByMedium.filter((otherComment) => otherComment.id !== comment.id)
                           }
                         });
+
+                        if (comment.parentId) {
+                          let parentCommentsByMedium;
+                          try {
+                            const data = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { mediumId: medium.id, parentId: null } });
+                            parentCommentsByMedium = data.commentsByMedium;
+                          } catch (e) {
+                            parentCommentsByMedium = [];
+                          }
+                          cache.writeQuery({
+                            query: GET_COMMENTS_BY_MEDIUM,
+                            variables: { mediumId: medium.id, parentId: null },
+                            data: {
+                              commentsByMedium: parentCommentsByMedium.map((otherComment) => {
+                                if (otherComment.id === comment.parentId) {
+                                  return ({ ...otherComment, repliesCount: (otherComment.repliesCount - 1) })
+                                }
+                                return (otherComment);
+                              })
+                            }
+                          });
+                        } else {
+                          cache.writeQuery({
+                            query: GET_MEDIUM,
+                            variables: { id: medium.id },
+                            data: {
+                              medium: {
+                                ...medium,
+                                commentsCount: (medium.commentsCount - 1),
+                              }
+                            }
+                          });
+                        }
                       }}
                     >
                       {(deleteComment) => (
@@ -183,8 +206,10 @@ class Comment extends React.Component {
           !disableReply &&
             <ExpansionPanel
               elevation={0}
+              square
               expanded={this.state.replyExpanded}
               className={classes.repliesPanel}
+              style={width === 'lg' || width === 'xl' ? { marginLeft: 56 } : { paddingLeft: 34 }}
               onChange={() => this.setState({ replyExpanded: !this.state.replyExpanded })}
               CollapseProps={{
                 timeout: 100

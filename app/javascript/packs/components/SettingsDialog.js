@@ -72,7 +72,7 @@ class Settings extends React.Component {
         onClose={this.props.onClose}
       >
         <GlobalProgress absolute />
-        <DialogTitle>{"Settings and security"}</DialogTitle>
+        <DialogTitle>{"Account and security"}</DialogTitle>
         <DialogContent>
           <Grid container spacing={0}>
             <Grid item>

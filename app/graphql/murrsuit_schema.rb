@@ -11,6 +11,10 @@ class MurrsuitSchema < GraphQL::Schema
       GraphQL::ExecutionError.new(exception.record.errors.full_messages.join("\n"))
     end
 
+    rescue_from ActiveRecord::RecordNotUnique do |exception|
+      GraphQL::ExecutionError.new(exception.record.errors.full_messages.join("\n"))
+    end
+
     rescue_from ActiveRecord::StatementInvalid do |exception|
       [GraphQL::ExecutionError.new(/ERROR:*(.*)/.match(exception.message)[0].remove("ERROR:  ").capitalize)]
     end

@@ -2,6 +2,7 @@ module Types
   class CommentType < Types::BaseObject
     description "User object"
     field :id, ID, null: false
+    field :parent_id, ID, null: true
     field :body, String, null: false
     field :user, UserType, null: false
     field :medium, MediumType, null: false

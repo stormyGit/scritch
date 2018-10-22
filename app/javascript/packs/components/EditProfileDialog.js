@@ -17,6 +17,7 @@ import MenuList from '@material-ui/core/MenuList';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 
@@ -106,12 +107,17 @@ const styles = theme => ({
   },
   infoText: {
     color: 'white'
+  },
+  usernameAt: {
+    marginRight: 2,
+    paddingBottom: 4
   }
 });
 
 class EditProfileDialog extends React.Component {
   state = {
     name: '',
+    slug: '',
     bio: '',
     website: '',
     banner: null,
@@ -142,9 +148,10 @@ class EditProfileDialog extends React.Component {
   setInitialValues(user) {
     this.setState({
       id: user.id,
-      name: user.name,
-      bio: user.bio,
-      website: user.website,
+      name: user.name || '',
+      slug: user.slug || '',
+      bio: user.bio || '',
+      website: user.website || '',
       banner: user.banner,
       avatar: user.avatar,
     });
@@ -325,6 +332,24 @@ class EditProfileDialog extends React.Component {
               margin="dense"
               fullWidth
             />
+            {
+              false &&
+                <TextField
+                  label="Username"
+                  name="slug"
+                  value={this.state.slug}
+                  onChange={(e) => this.setState({ slug: e.target.value })}
+                  margin="dense"
+                  fullWidth
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start" className={classes.usernameAt}>
+                        @
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+            }
             <TextField
               label="Bio"
               name="bio"
@@ -358,13 +383,14 @@ class EditProfileDialog extends React.Component {
             >
               {( updateUser, { data }) => (
                 <Button
-                  disabled={!this.state.name || /^\s*$/.test(this.state.name)}
+                  disabled={!this.state.name || /^\s*$/.test(this.state.name) || !this.state.slug || /^\s*$/.test(this.state.slug)}
                   onClick={() => {
                     updateUser({
                       variables: {
                         input: {
                           id: user.id,
                           name: this.state.name,
+                          slug: this.state.slug,
                           bio: this.state.bio,
                           website: this.state.website,
                           ...(

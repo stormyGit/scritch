@@ -68,25 +68,59 @@ class CommentForm extends React.Component {
         update={(cache, { data: { createComment } }) => {
           let commentsByMedium;
 
-          try {
-            const data = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { mediumId: medium.id, parentId: parent ? parent.id : null } });
-            commentsByMedium = data.commentsByMedium;
-          } catch (e) {
-            commentsByMedium = [];
-          }
-
-          cache.writeQuery({
-            query: GET_COMMENTS_BY_MEDIUM,
-            variables: { mediumId: medium.id, parentId: parent ? parent.id : null },
-            data: { commentsByMedium: [ createComment.comment, ...commentsByMedium ] }
-          });
-
           if (parent) {
+            try {
+              const data = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { mediumId: medium.id, parentId: parent.id } });
+              commentsByMedium = data.commentsByMedium;
+            } catch (e) {
+              commentsByMedium = [];
+            }
+            cache.writeQuery({
+              query: GET_COMMENTS_BY_MEDIUM,
+              variables: { mediumId: medium.id, parentId: parent.id },
+              data: { commentsByMedium: [ createComment.comment, ...commentsByMedium ] }
+            });
+
+            let parentCommentsByMedium;
+            try {
+              const data = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { mediumId: medium.id, parentId: null } });
+              parentCommentsByMedium = data.commentsByMedium;
+            } catch (e) {
+              parentCommentsByMedium = [];
+            }
+            cache.writeQuery({
+              query: GET_COMMENTS_BY_MEDIUM,
+              variables: { mediumId: medium.id, parentId: null },
+              data: {
+                commentsByMedium: parentCommentsByMedium.map((comment) => {
+                  if (comment.id === parent.id) {
+                    return ({ ...comment, repliesCount: (comment.repliesCount + 1) })
+                  }
+                  return (comment);
+                })
+              }
+            });
           } else {
+            try {
+              const data = cache.readQuery({ query: GET_COMMENTS_BY_MEDIUM, variables: { mediumId: medium.id, parentId: null } });
+              commentsByMedium = data.commentsByMedium;
+            } catch (e) {
+              commentsByMedium = [];
+            }
+            cache.writeQuery({
+              query: GET_COMMENTS_BY_MEDIUM,
+              variables: { mediumId: medium.id, parentId: null },
+              data: { commentsByMedium: [ createComment.comment, ...commentsByMedium ] }
+            });
             cache.writeQuery({
               query: GET_MEDIUM,
               variables: { id: medium.id },
-              data: { medium: { ...medium, commentsCount: (medium.commentsCount + 1) } }
+              data: {
+                medium: {
+                  ...medium,
+                  commentsCount: (medium.commentsCount + 1),
+                }
+              }
             });
           }
         }}

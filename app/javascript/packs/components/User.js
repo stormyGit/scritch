@@ -630,6 +630,10 @@ class User extends React.Component {
       <div ref={this.pageRef}>
         <Query query={GET_USER} variables={{ id: match.params.id }}>
           {({ data, loading, error }) => {
+            if (error) {
+              return (null);
+            }
+
             let isPrivate;
 
             if (data.user && (data.user.public || (currentSession && data.user.id === currentSession.user.id))) {

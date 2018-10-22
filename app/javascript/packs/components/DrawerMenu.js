@@ -244,7 +244,7 @@ class DrawerMenu extends React.Component {
                       <SettingsIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary="Settings and security"
+                      primary="Account and security"
                       primaryTypographyProps={{
                         noWrap: true,
                       }}

@@ -123,7 +123,7 @@ module Types
     def comments_by_medium(arguments = {})
       Comment
         .where(medium_id: arguments[:medium_id], parent_id: arguments[:parent_id])
-        .order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
+        .order(updated_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def user(arguments = {})
@@ -136,7 +136,7 @@ module Types
 
     def unread_activity_count
       return 0 if context[:current_user].blank?
-      
+
       Activity
         .where(recipient: context[:current_user])
         .where.not(owner: context[:current_user])

@@ -49,6 +49,7 @@ const styles = theme => ({
   loginButton: {
     zIndex: 1,
     position: 'relative',
+    minHeight: 48
   },
   telegramLoader: {
     position: 'absolute',
@@ -59,7 +60,12 @@ const styles = theme => ({
 })
 
 class SignUpDialog extends React.Component {
+  state = {
+    submiting: false
+  }
+
   handleTelegramResponse(response) {
+    this.setState({ submiting: true });
     this.props.onSubmit({
       telegramId: response.id,
       telegramFirstName: response.first_name,
@@ -128,7 +134,7 @@ class SignUpDialog extends React.Component {
             <div className={classes.loginButtonContainer}>
               <div className={classes.loginButton}>
                 {
-                  process.env.NODE_ENV === 'production' ?
+                  !this.state.submiting && (process.env.NODE_ENV === 'production' ?
                     <TelegramLoginButton dataOnauth={(response) => this.handleTelegramResponse(response)} botName={`${process.env.TELEGRAM_BOT_NAME}`} /> :
                     <Button
                       onClick={() => {
@@ -144,7 +150,7 @@ class SignUpDialog extends React.Component {
                       variant="contained"
                     >
                       Login test
-                    </Button>
+                    </Button>)
                 }
               </div>
               <CircularProgress className={classes.telegramLoader} size={32} />

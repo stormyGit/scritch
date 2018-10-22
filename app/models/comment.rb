@@ -8,7 +8,7 @@ class Comment < ApplicationRecord
 
   belongs_to :user
   belongs_to :medium
-  belongs_to :parent, optional: true, class_name: "Comment", counter_cache: :replies_count
+  belongs_to :parent, optional: true, class_name: "Comment", counter_cache: :replies_count, touch: true
   has_many :replies, class_name: "Comment", foreign_key: :parent_id, dependent: :destroy
 
   after_create :update_counter_cache

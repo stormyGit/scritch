@@ -20,6 +20,9 @@ class User < ApplicationRecord
 
   before_create :set_theme
 
+  validates :name, presence: true
+  validates :slug, presence: true, uniqueness: true
+
   def set_theme
     self.theme === ENV["DEFAULT_THEME"] || 'dark'
   end
