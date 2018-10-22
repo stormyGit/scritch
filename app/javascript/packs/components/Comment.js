@@ -47,7 +47,7 @@ const styles = theme => ({
     marginTop: theme.spacing.unit,
     // marginLeft: theme.spacing.unit * 7,
     // paddingLeft: 34,
-    backgroundColor: "#333",
+    backgroundColor: theme.palette.type === 'dark' ? '#333' : '#eee',
   },
   repliesPanelDetails: {
     display: 'block',
