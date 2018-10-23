@@ -28,7 +28,7 @@ const TermsDialog = ({ classes, open, onClose }) => (
          <ListItemIcon>
            <CheckIcon />
          </ListItemIcon>
-         <ListItemText inset primary="You must be 18 or older to use Murrtube." />
+         <ListItemText inset primary={`You must be ${process.env.MINIMUM_AGE} or older to use ${process.env.SITE_NAME}.`} />
         </ListItem>
         <ListItem>
           <ListItemIcon>
@@ -58,7 +58,7 @@ const TermsDialog = ({ classes, open, onClose }) => (
           <ListItemIcon>
             <CheckIcon />
           </ListItemIcon>
-          <ListItemText inset primary="Murrtube reserves the right to refuse or suspend access to any user or to remove any content, for any reason or no reason, and without any notice." />
+          <ListItemText inset primary={`${process.env.SITE_NAME} reserves the right to refuse or suspend access to any user or to remove any content, for any reason or no reason, and without any notice.`} />
         </ListItem>
       </List>
     </DialogContent>

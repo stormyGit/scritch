@@ -35,7 +35,7 @@ import ActivitiesDialog from './ActivitiesDialog';
 import UserAvatar from './UserAvatar';
 import Logo from './Logo';
 
-import { TOGGLE_SIGNUP_DIALOG, GET_SESSION, GET_UNREAD_ACTIVITY_COUNT } from '../queries';
+import { GET_SESSION, GET_UNREAD_ACTIVITY_COUNT } from '../queries';
 
 const styles = theme => ({
   root: {

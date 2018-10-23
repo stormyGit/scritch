@@ -2,7 +2,6 @@ import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 
 import DefaultAvatar from './DefaultAvatar';
-import OnlineIcon from '@material-ui/icons/FiberManualRecord';
 
 import { withStyles } from '@material-ui/core/styles';
 
