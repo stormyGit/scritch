@@ -41,8 +41,8 @@ module Types
       end
     end
 
-    def created_at
-      object.created_at.iso8601
+    def published_at
+      object.published_at.iso8601
     end
   end
 end
