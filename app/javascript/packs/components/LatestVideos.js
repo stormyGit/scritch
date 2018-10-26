@@ -9,7 +9,7 @@ export default (props) => {
 
   return (
     <React.Fragment>
-      <PageTitle>{searching ? "Search" : "Latest videos"}</PageTitle>
+      <PageTitle>{searching ? "Search" : "Latest Videos"}</PageTitle>
       <Media sort="latest" {...props} />
     </React.Fragment>
   )

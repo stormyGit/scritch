@@ -28,37 +28,37 @@ const TermsDialog = ({ classes, open, onClose }) => (
          <ListItemIcon>
            <CheckIcon />
          </ListItemIcon>
-         <ListItemText inset primary={`You must be ${process.env.MINIMUM_AGE} or older to use ${process.env.SITE_NAME}.`} />
+         <ListItemText inset primary={`You must be aged ${process.env.MINIMUM_AGE} or older to use ${process.env.SITE_NAME}.`} />
         </ListItem>
         <ListItem>
           <ListItemIcon>
             <CheckIcon />
           </ListItemIcon>
-          <ListItemText inset primary="You agree to use truthful information and not to impersonate anyone." />
+          <ListItemText inset primary="You agree not to impersonate anyone, entering factual information into website data fields." />
         </ListItem>
         <ListItem>
           <ListItemIcon>
             <CheckIcon />
           </ListItemIcon>
-          <ListItemText inset primary="You agree not to use any material, text, username, pictures or avatar that are forbidden under French law." />
+          <ListItemText inset primary="You agree not to use any: material, text, username, pictures, or avatar that are forbidden under French law." />
         </ListItem>
         <ListItem>
           <ListItemIcon>
             <CheckIcon />
           </ListItemIcon>
-          <ListItemText inset primary="Hate speech, harassment, threats, defamation are forbidden." />
+          <ListItemText inset primary="You agree to maintain polite conduct on the website. No hate speech, harassment, threats, and defamation." />
         </ListItem>
         <ListItem>
           <ListItemIcon>
             <CheckIcon />
           </ListItemIcon>
-          <ListItemText inset primary="Offensive materials, material displaying people under 18 or animals are forbidden." />
+          <ListItemText inset primary="You agree not to post offensive material, material depicting minors, or material depicting animals." />
         </ListItem>
         <ListItem>
           <ListItemIcon>
             <CheckIcon />
           </ListItemIcon>
-          <ListItemText inset primary={`${process.env.SITE_NAME} reserves the right to refuse or suspend access to any user or to remove any content, for any reason or no reason, and without any notice.`} />
+          <ListItemText inset primary={`${process.env.SITE_NAME} reserves the right to refuse or suspend access to any user and to remove any content (for any reason or no reason) without notice.`} />
         </ListItem>
       </List>
     </DialogContent>

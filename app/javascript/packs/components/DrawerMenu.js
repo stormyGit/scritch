@@ -154,7 +154,7 @@ class DrawerMenu extends React.Component {
                       <ListItemIcon className={classes.text} color='secondary'>
                         <OnDemandVideoIcon />
                       </ListItemIcon>
-                      <ListItemText primary="Latest videos" primaryTypographyProps={{ className: classes.text }} />
+                      <ListItemText primary="Latest Videos" primaryTypographyProps={{ className: classes.text }} />
                     </ListItem>
                     <ListItem
                       button

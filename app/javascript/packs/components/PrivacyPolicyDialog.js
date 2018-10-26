@@ -30,11 +30,11 @@ const PrivacyPolicyDialog = ({ classes, open, onClose }) => (
          <ListItemIcon>
            <CheckIcon />
          </ListItemIcon>
-         <ListItemText inset primary="We only store informations for the purpose of providing our service. Those informations includes:" />
+         <ListItemText inset primary="We only store informations for the purpose of providing our service. This information includes:" />
         </ListItem>
         <List>
           <ListItem>
-            <ListItemText inset primary="The personal informations from your profile." />
+            <ListItemText inset primary="Personal information from your profile." />
           </ListItem>
           <ListItem>
             <ListItemText inset primary="Your subscriptions, likes and comments." />
@@ -50,13 +50,13 @@ const PrivacyPolicyDialog = ({ classes, open, onClose }) => (
           <ListItemIcon>
             <CheckIcon />
           </ListItemIcon>
-          <ListItemText inset primary="We do not share or sell your informations to third parties." />
+          <ListItemText inset primary="We do not share or sell your information to third parties." />
         </ListItem>
         <ListItem>
           <ListItemIcon>
             <CheckIcon />
           </ListItemIcon>
-          <ListItemText inset primary="When you delete your account, all your informations are deleted immediately from our active database; encrypted backups and archives that may contains informations you updated or deleted may be retained for up to 7 days." />
+          <ListItemText inset primary="When you delete your account, all your information is deleted immediately from our active database; encrypted backups and archives that may contain information you updated or deleted may be retained for up to 7 days." />
         </ListItem>
       </List>
     </DialogContent>

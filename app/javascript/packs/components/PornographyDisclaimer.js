@@ -57,7 +57,7 @@ class PornographyDisclaimer extends React.Component {
               <ListItemIcon>
                 <ItemIcon />
               </ListItemIcon>
-              <ListItemText inset primary={`${process.env.SITE_NAME} is a pornographic website and is forbidden for minors. If you are a minor please leave immediatly.`} />
+              <ListItemText inset primary={`${process.env.SITE_NAME} is a pornographic website and is forbidden for minors. If you are a minor, please leave immediately.`} />
             </ListItem>
             <ListItem>
               <ListItemIcon>
