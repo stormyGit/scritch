@@ -281,6 +281,16 @@ class DrawerMenu extends React.Component {
                     <ListItemText primary="Contact us" primaryTypographyProps={{ className: classes.text }} />
                   </ListItem>
               }
+              <Divider />
+              <ListItem
+                button
+                component={(props) => <a href={`https://lab.howlr.im`} target="_blank" {...props} />}
+              >
+                <ListItemIcon className={classes.text}>
+                  <ToysIcon />
+                </ListItemIcon>
+                <ListItemText primary="Friends' projects" primaryTypographyProps={{ className: classes.text }} />
+              </ListItem>
             </List>
           </div>
         </div>

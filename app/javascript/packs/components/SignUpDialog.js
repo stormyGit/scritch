@@ -115,7 +115,7 @@ class SignUpDialog extends React.Component {
              <ListItemIcon>
                <CheckIcon />
              </ListItemIcon>
-             <ListItemText inset primary={`You must be 18 or older to use ${process.env.SITE_NAME}.`} />
+             <ListItemText inset primary={`You must be ${process.env.MINIMUM_AGE} or older to use ${process.env.SITE_NAME}.`} />
             </ListItem>
             <ListItem>
              <ListItemIcon>

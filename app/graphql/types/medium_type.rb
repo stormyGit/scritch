@@ -42,7 +42,7 @@ module Types
     end
 
     def published_at
-      object.published_at.iso8601
+      object.published_at&.iso8601
     end
   end
 end
