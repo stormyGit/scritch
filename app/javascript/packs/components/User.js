@@ -39,7 +39,6 @@ import BannerPlaceholder from './BannerPlaceholder';
 import EditProfileDialog from './EditProfileDialog';
 import withCurrentSession from './withCurrentSession';
 
-
 const styles = theme => ({
   root: {
     width: '100%',
