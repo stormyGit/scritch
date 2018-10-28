@@ -187,7 +187,7 @@ class Comment extends React.Component {
             </div>
           }
           title={
-            <Grid spacing={8} container alignItems="flex-end">
+            <Grid spacing={8} container alignItems="baseline">
               <Grid item>
                 <Typography variant={'subtitle2'}>
                   <Link to={`/${comment.user.slug}`} className={classes.userLink}>{comment.user.name}</Link>

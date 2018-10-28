@@ -9,9 +9,6 @@ import 'mediaelement/build/mediaelementplayer.min.css';
 import 'mediaelement-plugins/dist/chromecast/chromecast.min.js';
 import 'mediaelement-plugins/dist/chromecast/chromecast.min.css';
 
-import 'mediaelement-plugins/dist/vrview/vrview.min.js';
-import 'mediaelement-plugins/dist/vrview/vrview.min.css';
-
 import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 
@@ -37,8 +34,6 @@ class CardVideo extends React.Component {
     this.setState({
       player: new MediaElementPlayer(this.refs.video, {
         features: ['playpause', 'progress', 'duration', 'volume', 'chromecast', 'fullscreen'],
-        vrIsStereo: false,
-        vrDebug: true,
       })
     });
   }
