@@ -13,7 +13,6 @@ import themeSelector from '../themeSelector';
 
 import { GET_SESSION, GET_THEME } from '../queries';
 
-
 const makeTheme = (type) => {
   const background = type === 'dark' ? { paper: '#222', default: '#333' } : {};
 

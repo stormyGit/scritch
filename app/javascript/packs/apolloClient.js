@@ -34,9 +34,8 @@ const apolloClient = new ApolloClient({
     // this whole function is pretty ugly
 
     const globalProgresses = document.querySelectorAll(".globalProgress");
-
     loaderCount++;
-    globalProgresses.forEach((globalProgress) => {
+    Array.from(globalProgresses).forEach((globalProgress) => {
       globalProgress.style.display = 'block';
     });
 
@@ -44,7 +43,7 @@ const apolloClient = new ApolloClient({
       loaderCount--;
 
       if (loaderCount === 0) {
-        globalProgresses.forEach((globalProgress) => {
+        Array.from(globalProgresses).forEach((globalProgress) => {
           globalProgress.style.display = 'none';
         })
       }

@@ -7,6 +7,11 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
+import "es5-shim/es5-shim";
+import "es5-shim/es5-sham";
+import "es6-shim/es6-shim";
+import "es6-shim/es6-sham";
+import "es7-shim";
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './components/App'
