@@ -108,9 +108,11 @@ const styles = theme => ({
   infoText: {
     color: 'white'
   },
-  usernameAt: {
-    marginRight: 2,
-    paddingBottom: 4
+  domain: {
+    marginRight: 1,
+    paddingBottom: 4,
+    fontSize: '1rem',
+    color: theme.palette.type === 'dark' ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
   }
 });
 
@@ -332,24 +334,21 @@ class EditProfileDialog extends React.Component {
               margin="dense"
               fullWidth
             />
-            {
-              false &&
-                <TextField
-                  label="Username"
-                  name="slug"
-                  value={this.state.slug}
-                  onChange={(e) => this.setState({ slug: e.target.value })}
-                  margin="dense"
-                  fullWidth
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start" className={classes.usernameAt}>
-                        @
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-            }
+            <TextField
+              label="URL"
+              name="slug"
+              value={this.state.slug}
+              onChange={(e) => this.setState({ slug: e.target.value })}
+              margin="dense"
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start" className={classes.domain} disableTypography>
+                    {`https://${process.env.DOMAIN}/`}
+                  </InputAdornment>
+                ),
+              }}
+            />
             <TextField
               label="Bio"
               name="bio"
