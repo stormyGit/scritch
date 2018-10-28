@@ -28,6 +28,7 @@ class Medium < ApplicationRecord
   after_destroy :remove_medium_files
 
   scope :published, -> { where.not(published_at: nil) }
+  scope :publicly_available, -> { where(visibility: 'public') }
 
   def push_video_encoding_job!
     update(video_encoding_job_id: EncodeVideoJob.perform_later(self).job_id)

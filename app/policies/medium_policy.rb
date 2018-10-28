@@ -5,7 +5,7 @@ class MediumPolicy < ApplicationPolicy
         scope.where(restriction: 'none', visibility: 'public').published
       else
         scope
-          .where("media.user_id = ? OR (media.visibility = ? AND media.restriction != ?) OR (media.visibility = ? AND media.restriction = ? AND ?)", user.uuid, 'public', 'content_producers', 'public', 'content_producers', user.media.published.any?)
+          .where("media.user_id = ? OR (media.visibility = ? AND media.restriction != ?) OR (media.visibility = ? AND media.restriction = ? AND ?)", user.uuid, 'public', 'content_producers', 'public', 'content_producers', user.media.published.publicly_available.any?)
           .where("media.user_id = ? OR media.published_at IS NOT NULL", user.uuid)
       end
     end
@@ -16,7 +16,7 @@ class MediumPolicy < ApplicationPolicy
       record.published_at.present? && record.restriction == 'none'
     elsif record.published_at.present?
       if record.restriction == 'content_producers'
-        user.media.published.any?
+        user.media.published.publicly_available.any?
       else
         true
       end

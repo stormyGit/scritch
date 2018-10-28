@@ -236,6 +236,7 @@ query GetLikesByUser($userId: ID!, $offset: Int!, $limit: Int!) {
       duration
       commentsCount
       likesCount
+      viewsCount
       liked
       tagList
       visibility
