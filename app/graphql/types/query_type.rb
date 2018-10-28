@@ -1,5 +1,7 @@
 module Types
   class QueryType < Types::BaseObject
+    include ActiveRecord::Sanitization::ClassMethods
+
     field :medium, MediumType, null: false do
       description "Find a medium by ID"
       argument :id, ID, required: true
@@ -113,11 +115,15 @@ module Types
     end
 
     def followers_by_user(arguments = {})
-      User.where(uuid: FollowPolicy::Scope.new(context[:current_user], Follow.where(followable_id: User.find(arguments[:user_id]))).resolve.pluck(:follower_id))
+      follows = FollowPolicy::Scope.new(context[:current_user], Follow.where(followable_id: User.find(arguments[:user_id]))).resolve.order(created_at: :desc)
+
+      User.joins("JOIN unnest('{#{follows.pluck(:follower_id).map { |uuid| sanitize_sql(uuid) }.join(",")}}'::uuid[]) WITH ORDINALITY t(uuid, ord) USING (uuid)").order("t.ord")
     end
 
     def followings_by_user(arguments = {})
-      User.where(uuid: FollowPolicy::Scope.new(context[:current_user], Follow.where(follower_id: User.find(arguments[:user_id]))).resolve.pluck(:followable_id))
+      follows = FollowPolicy::Scope.new(context[:current_user], Follow.where(follower_id: User.find(arguments[:user_id]))).resolve.order(created_at: :desc)
+
+      User.joins("JOIN unnest('{#{follows.pluck(:followable_id).map { |uuid| sanitize_sql(uuid) }.join(",")}}'::uuid[]) WITH ORDINALITY t(uuid, ord) USING (uuid)").order("t.ord")
     end
 
     def comments_by_medium(arguments = {})
