@@ -53,7 +53,7 @@ module Types
     end
 
     def likes_count
-      LikePolicy::Scope.new(context[:current_user], object.likeds).resolve.count
+      LikePolicy::Scope.new(context[:current_user], object.likes).resolve.count
     end
   end
 end
