@@ -18,6 +18,7 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :likeds, through: :likes, source: :medium
 
+  before_validation :check_slug_uniqueness, if: :will_save_change_to_slug?
   before_create :set_theme
 
   validates :name, presence: true
@@ -25,5 +26,11 @@ class User < ApplicationRecord
 
   def set_theme
     self.theme === ENV["DEFAULT_THEME"] || 'dark'
+  end
+
+  def check_slug_uniqueness
+    if User.where(slug: self.slug).where.not(uuid: self.uuid).present?
+      self.slug = "#{self.slug}-#{self.uuid.split("-")[0]}"
+    end
   end
 end

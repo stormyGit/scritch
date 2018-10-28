@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
+import { withRouter } from 'react-router-dom';
 import { Query, Mutation } from 'react-apollo';
 import Divider from '@material-ui/core/Divider';
 import Dialog from '@material-ui/core/Dialog';
@@ -402,8 +403,13 @@ class EditProfileDialog extends React.Component {
                           removeAvatar: this.state.removeAvatar,
                         }
                       }
-                    }).then(() => {
-                      this.props.onClose()
+                    }).then((updated) => {
+                      this.props.onClose();
+                      if (this.state.slug !== user.slug) {
+                        this.props.history.push({
+                          pathname: `/${updated.data.updateUser.user.slug}`
+                        });
+                      }
                     })
                   }}
                 >
@@ -448,4 +454,4 @@ class EditProfileDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(EditProfileDialog);
+export default withStyles(styles)(withRouter(EditProfileDialog));
