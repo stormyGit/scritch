@@ -64,6 +64,18 @@ module Types
       description "Get the number of unread activities"
     end
 
+    field :chat, ChatType, null: false do
+      description "Find a chat by ID"
+      argument :id, ID, required: true
+    end
+
+    field :messages, [MessageType], null: false do
+      description "List messages"
+      argument :chat_id, ID, required: false
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
     def medium(arguments = {})
       medium = Medium.includes(comments: [:user]).find(arguments[:id])
       raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).show?
@@ -87,7 +99,7 @@ module Types
         when 'latest'
           media.order("media.published_at DESC, media.created_at DESC")
         when 'trending'
-          media.order(["media.likes_count", created_at: :desc])
+          media.order(["media.likes_count DESC, media.created_at DESC"])
         when 'subscriptions'
           media.where(user: context[:current_user].all_following).order("media.published_at DESC, media.created_at DESC")
         else
@@ -148,6 +160,19 @@ module Types
         .where.not(owner: context[:current_user])
         .where("activities.created_at > ?", context[:current_user].last_activities_read)
         .count
+    end
+
+    def chat
+      chat = Chat.find_by(id: arguments[:id])
+
+      raise Pundit::NotAuthorizedError if chat.blank?
+      raise Pundit::NotAuthorizedError unless ChatPolicy.new(context[:current_user], chat).show?
+
+      chat
+    end
+
+    def messages(arguments = {})
+      MessagePolicy::Scope.new(context[:current_user], Message.where(chat_id: arguments[:chat_id])).resolve.order("messages.created_at ASC")
     end
   end
 end

@@ -381,6 +381,39 @@ export const GET_USER = gql`
   }
 `;
 
+export const GET_CHAT = gql`
+  query Chat($id: ID!) {
+    chat(id: $id) {
+      id
+      sender
+      recipient
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const GET_MESSAGES = gql`
+  query Messages($chatId: ID, $offset: Int!, $limit: Int!) {
+    messages(chatId: $chatId, offset: $offset, limit: $limit) @connection(key: "messages", filter: ["chatId"]) {
+      id
+      body
+    }
+  }
+`;
+
+export const CREATE_MESSAGE = gql`
+  mutation createMessage($input: CreateMessageInput!) {
+    createMessage(input: $input) {
+      message {
+        id
+        body
+      }
+    }
+  }
+`;
+
+
 export const GET_SESSION = gql`
   query Session {
     session {

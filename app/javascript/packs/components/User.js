@@ -37,6 +37,7 @@ import PageTitle from './PageTitle';
 import LoadMoreButton from './LoadMoreButton';
 import BannerPlaceholder from './BannerPlaceholder';
 import EditProfileDialog from './EditProfileDialog';
+import ChatDialog from './ChatDialog';
 import withCurrentSession from './withCurrentSession';
 
 const styles = theme => ({
@@ -142,6 +143,7 @@ class User extends React.Component {
     tab: 'videos',
     showUnfollow: false,
     editProfileDialog: false,
+    chatDialog: false,
   }
 
   constructor(props) {
@@ -271,11 +273,27 @@ class User extends React.Component {
     return (
       <Button
         variant="contained"
-        size="large"
         size={width !== 'lg' && width !== 'xl' ? 'small' : 'medium'}
         onClick={() => this.setState({ editProfileDialog: true })}
       >
         Edit profile
+      </Button>
+    );
+  }
+
+  renderMessageButton(user) {
+    const { classes, width } = this.props;
+
+    return (
+      <Button
+        variant="contained"
+        size={width !== 'lg' && width !== 'xl' ? 'small' : 'medium'}
+        onClick={() => this.setState({ chatDialog: true })}
+        style={{
+          marginRight: 8
+        }}
+      >
+        Message
       </Button>
     );
   }
@@ -586,6 +604,7 @@ class User extends React.Component {
                   {
                     currentSession && currentSession.user.id !== user.id &&
                       <div className={classes.titleBarContainerUserActions}>
+                        {false && this.renderMessageButton(user)}
                         {this.renderFollowButton(user)}
                       </div>
                   }
@@ -714,6 +733,11 @@ class User extends React.Component {
                         user={data.user}
                         open={this.state.editProfileDialog}
                         onClose={() => this.setState({ editProfileDialog: false })}
+                      />
+                      <ChatDialog
+                        user={data.user}
+                        open={this.state.chatDialog}
+                        onClose={() => this.setState({ chatDialog: false })}
                       />
                     </React.Fragment>
                 }

@@ -15,5 +15,6 @@ module Types
     field :update_medium, mutation: Mutations::UpdateMedium
     field :read_activities, mutation: Mutations::ReadActivities
     field :clear_activities, mutation: Mutations::ClearActivities
+    field :create_message, mutation: Mutations::CreateMessage
   end
 end

@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get "/trending", to: "media#index"
   get "/subscriptions", to: "media#index"
   get "/:id", to: "users#show"
+  get "/:id/:filter", to: "users#show"
   get "*path", to: "application#index"
   root to: "application#index"
 end
