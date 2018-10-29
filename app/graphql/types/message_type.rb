@@ -3,7 +3,7 @@ module Types
     description "Message object"
     field :id, ID, null: false
     field :body, String, null: false
-    field :sender, UserType, null: false
+    field :sender_id, ID, null: false
     field :created_at, String, null: false
 
     def created_at

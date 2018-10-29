@@ -398,6 +398,7 @@ export const GET_MESSAGES = gql`
     messages(chatId: $chatId, offset: $offset, limit: $limit) @connection(key: "messages", filter: ["chatId"]) {
       id
       body
+      senderId
     }
   }
 `;
@@ -408,6 +409,7 @@ export const CREATE_MESSAGE = gql`
       message {
         id
         body
+        senderId
       }
     }
   }

@@ -107,7 +107,7 @@ const styles = theme => ({
     background: theme.palette.type === 'dark' ? "#111" : '#fff',
     color: theme.palette.type !== 'dark' ? "#111" : '#fff',
   },
-  followButton: {
+  followButtonSpacer: {
     width: 132,
   },
   placeholderBanner: {
@@ -212,7 +212,7 @@ class User extends React.Component {
             <Button
               variant="contained"
               size={width !== 'lg' && width !== 'xl' ? 'small' : 'medium'}
-              className={this.props.classes.followButton}
+              className={(width === 'lg' || width === 'xl') ? this.props.classes.followButtonSpacer : null}
               color={this.state.showUnfollow ? 'secondary' : 'primary'}
               onMouseEnter={() => this.setState({ showUnfollow: true })}
               onMouseLeave={() => this.setState({ showUnfollow: false })}
@@ -254,7 +254,7 @@ class User extends React.Component {
             <Button
               variant="contained"
               size={width !== 'lg' && width !== 'xl' ? 'small' : 'medium'}
-              className={this.props.classes.followButton}
+              className={(width === 'lg' || width === 'xl') ? this.props.classes.followButtonSpacer : null}
               onClick={() => {
                 createFollow({ variables: { input: { followableId: user.id }}})
               }}
@@ -628,6 +628,7 @@ class User extends React.Component {
                        {
                          currentSession && currentSession.user.id !== user.id &&
                            <div className={classes.titleBarContainerUserActions}>
+                             {this.renderMessageButton(user)}
                              {this.renderFollowButton(user)}
                            </div>
                        }
