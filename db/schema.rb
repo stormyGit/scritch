@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_22_075330) do
+ActiveRecord::Schema.define(version: 2018_10_29_031301) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -82,6 +82,20 @@ ActiveRecord::Schema.define(version: 2018_10_22_075330) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "chats", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.uuid "sender_id"
+    t.uuid "recipient_id"
+    t.datetime "accepted_at"
+    t.boolean "is_sender_unread", default: false
+    t.boolean "is_recipient_unread", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipient_id"], name: "index_chats_on_recipient_id"
+    t.index ["sender_id"], name: "index_chats_on_sender_id"
+    t.index ["uuid"], name: "index_chats_on_uuid", unique: true
   end
 
   create_table "chronofage_jobs", id: :serial, force: :cascade do |t|
@@ -164,6 +178,20 @@ ActiveRecord::Schema.define(version: 2018_10_22_075330) do
     t.datetime "published_at"
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
     t.index ["slug"], name: "index_media_on_slug", unique: true
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.uuid "chat_id"
+    t.uuid "sender_id"
+    t.string "body"
+    t.string "picture"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chat_id"], name: "index_messages_on_chat_id"
+    t.index ["created_at"], name: "index_messages_on_created_at"
+    t.index ["sender_id"], name: "index_messages_on_sender_id"
+    t.index ["uuid"], name: "index_messages_on_uuid", unique: true
   end
 
   create_table "sessions", force: :cascade do |t|
