@@ -64,9 +64,14 @@ module Types
       description "Get the number of unread activities"
     end
 
-    field :chat, ChatType, null: false do
-      description "Find a chat by ID"
-      argument :id, ID, required: true
+    field :unread_chats_count, Integer, null: false do
+      description "Get the number of unread chats"
+    end
+
+    field :chats, [ChatType], null: false do
+      description "List chats"
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
     end
 
     field :messages, [MessageType], null: false do
@@ -162,17 +167,20 @@ module Types
         .count
     end
 
-    def chat
-      chat = Chat.find_by(id: arguments[:id])
+    def unread_chats_count
+      return 0 if context[:current_user].blank?
 
-      raise Pundit::NotAuthorizedError if chat.blank?
-      raise Pundit::NotAuthorizedError unless ChatPolicy.new(context[:current_user], chat).show?
+      ChatPolicy::Scope.new(context[:current_user], Chat.all).resolve
+        .where("(chats.recipient_id = ? AND chats.is_recipient_unread) OR (chats.sender_id = ? AND chats.is_sender_unread)", context[:current_user].id, context[:current_user].id)
+        .count
+    end
 
-      chat
+    def chats(arguments = {})
+      ChatPolicy::Scope.new(context[:current_user], Chat.all).resolve.order("chats.updated_at DESC").includes(:last_message, :sender, :recipient)
     end
 
     def messages(arguments = {})
-      MessagePolicy::Scope.new(context[:current_user], Message.where(chat_id: arguments[:chat_id])).resolve.order("messages.created_at ASC")
+      MessagePolicy::Scope.new(context[:current_user], Message.where(chat_id: arguments[:chat_id])).resolve.order("messages.created_at ASC")#.offset(arguments[:offset]).limit(arguments[:limit])
     end
   end
 end

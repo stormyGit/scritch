@@ -16,6 +16,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
+import ChatButtleIcon  from '@material-ui/icons/ChatBubble';
+import ChatButtleEmptyIcon  from '@material-ui/icons/ChatBubbleOutline';
 import CloseIcon from '@material-ui/icons/Close';
 import BackIcon from '@material-ui/icons/ArrowBack';
 
@@ -31,11 +33,12 @@ import SearchBar from './SearchBar';
 import GlobalProgress from './GlobalProgress';
 import PornographyDisclaimer from './PornographyDisclaimer';
 import ActivitiesDialog from './ActivitiesDialog';
+import ChatDialog from './ChatDialog';
 
 import UserAvatar from './UserAvatar';
 import Logo from './Logo';
 
-import { GET_SESSION, GET_UNREAD_ACTIVITY_COUNT } from '../queries';
+import { GET_SESSION, GET_UNREAD_ACTIVITY_COUNT, GET_UNREAD_CHATS_COUNT } from '../queries';
 
 const styles = theme => ({
   root: {
@@ -96,7 +99,7 @@ const styles = theme => ({
     lineHeight: '36px',
     flexShrink: 0,
     transition: "max-width 0.5s ease",
-    maxWidth: "calc(100vw - 128px)"
+    maxWidth: "calc(100vw - 256px)"
   },
   toolBar: {
     display: 'flex',
@@ -106,6 +109,7 @@ const styles = theme => ({
   },
   rightButton: {
     marginLeft: theme.spacing.unit * 2,
+    display: 'inline-block'
   },
   rightActions: {
     flexShrink: 0,
@@ -114,6 +118,8 @@ const styles = theme => ({
   },
   searchIcon: {
   },
+  tinyButton: {
+  }
 });
 
 const GET_PAGE_TITLE = gql`
@@ -130,6 +136,7 @@ class AppLayout extends React.Component {
     searchEnabled: false,
     pornographyDisclaimer: false,
     activitiesDialog: false,
+    chatDialog: false,
     query: {},
   }
 
@@ -317,16 +324,26 @@ class AppLayout extends React.Component {
                     }
                     {
                       currentSession &&
-                        <Query query={GET_UNREAD_ACTIVITY_COUNT} pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}>
-                          {({ loading, error, data }) => (
-                            <IconButton
-                              className={classes.rightButton}
-                              onClick={() => this.setState({ activitiesDialog: true })}
-                            >
-                              {loading || !data || data.unreadActivityCount === 0 ? <NotificationsNoneIcon /> : <NotificationsIcon />}
-                            </IconButton>
-                          )}
-                        </Query>
+                        <div className={classes.rightButton}>
+                          <Query query={GET_UNREAD_ACTIVITY_COUNT} pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}>
+                            {({ loading, error, data }) => (
+                              <IconButton
+                                onClick={() => this.setState({ activitiesDialog: true })}
+                              >
+                                {loading || !data || data.unreadActivityCount <= 0 ? <NotificationsNoneIcon /> : <NotificationsIcon />}
+                              </IconButton>
+                            )}
+                          </Query>
+                          <Query query={GET_UNREAD_CHATS_COUNT} pollInterval={parseInt(process.env.UNREAD_CHATS_COUNT_REFRESH_INTERVAL)}>
+                            {({ loading, error, data }) => (
+                              <IconButton
+                                onClick={() => this.setState({ chatDialog: true })}
+                              >
+                                {loading || !data || data.unreadChatsCount <= 0 ? <ChatButtleEmptyIcon /> : <ChatButtleIcon />}
+                              </IconButton>
+                            )}
+                          </Query>
+                        </div>
                     }
                     {
                       currentSession &&
@@ -351,9 +368,34 @@ class AppLayout extends React.Component {
                   </Hidden>
                   <Hidden lgUp>
                     {
+                      currentSession && !this.state.searchEnabled &&
+                        <React.Fragment>
+                          <Query query={GET_UNREAD_ACTIVITY_COUNT} pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}>
+                            {({ loading, error, data }) => (
+                              <IconButton
+                                className={classes.tinyButton}
+                                onClick={() => this.setState({ activitiesDialog: true })}
+                              >
+                                {loading || !data || data.unreadActivityCount <= 0 ? <NotificationsNoneIcon /> : <NotificationsIcon />}
+                              </IconButton>
+                            )}
+                          </Query>
+                          <Query query={GET_UNREAD_CHATS_COUNT} pollInterval={parseInt(process.env.UNREAD_CHATS_COUNT_REFRESH_INTERVAL)}>
+                            {({ loading, error, data }) => (
+                              <IconButton
+                                className={classes.tinyButton}
+                                onClick={() => this.setState({ chatDialog: true })}
+                              >
+                                {loading || !data || data.unreadChatsCount <= 0 ? <ChatButtleEmptyIcon /> : <ChatButtleIcon />}
+                              </IconButton>
+                            )}
+                          </Query>
+                        </React.Fragment>
+                    }
+                    {
                       !this.state.searchEnabled &&
                         <IconButton
-                          className={classes.searchIcon}
+                          className={[classes.searchIcon, classes.tinyButton].join(' ')}
                           onClick={() => this.setState({ searchEnabled: true })}
                         >
                           <SearchIcon />
@@ -364,6 +406,7 @@ class AppLayout extends React.Component {
               </Toolbar>
             </AppBar>
             <SignUpDialog open={this.state.signUpDialog} onClose={() => this.setState({ signUpDialog: false })} />
+            <ChatDialog open={this.state.chatDialog} onClose={() => this.setState({ chatDialog: false })} />
             <EditMediumDialog
               open={this.state.uploadDialog}
               onClose={() => this.setState({ uploadDialog: false })}

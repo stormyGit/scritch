@@ -1,6 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Query, Mutation } from 'react-apollo';
+import { Query, Mutation, withApollo } from 'react-apollo';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -14,8 +14,12 @@ import Typography from '@material-ui/core/Typography';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
+import BackIcon from '@material-ui/icons/ArrowBack';
+import SendIcon from '@material-ui/icons/Send';
+import UnreadIcon from '@material-ui/icons/FiberManualRecord';
+import EmptyChatIcon  from '@material-ui/icons/ChatBubbleOutline';
 
 import ResponsiveDialog from './ResponsiveDialog';
 import UserAvatar from './UserAvatar';
@@ -26,14 +30,23 @@ import FormattedText from './FormattedText';
 
 import { combineUUIDs } from '../utils';
 
-import { GET_CHAT, GET_MESSAGES, CREATE_MESSAGE } from '../queries';
+import { GET_CHATS, GET_MESSAGES, CREATE_MESSAGE, READ_CHAT, GET_UNREAD_CHATS_COUNT } from '../queries';
 
 const styles = (theme) => ({
   title: {
     padding: theme.spacing.unit * 1,
   },
+  unreadIcon: {
+    color: theme.palette.type === 'dark' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)',
+  },
   messageGrid: {
     flexGrow: 1,
+  },
+  chatsTitle: {
+    marginLeft: 20,
+  },
+  userTitle: {
+    overflow: 'hidden'
   },
   messageInput: {
     paddingTop: 12
@@ -50,10 +63,6 @@ const styles = (theme) => ({
     overflowY: 'auto',
     overflowX: 'hidden',
     minHeight: 300,
-    overflowY: 'hidden',
-  },
-  emptyList: {
-    minHeight: 300 - 24,
   },
   messageBox: {
     flexGrow: 1,
@@ -65,13 +74,130 @@ const styles = (theme) => ({
   messageText: {
     padding: theme.spacing.unit,
   },
+  messageActions: {
+    paddingTop: theme.spacing.unit,
+  },
+  leftIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  inputAvatarContainer: {
+    paddingLeft: 4,
+    paddingRight: 4,
+  },
+  emptyChatsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    paddingTop: theme.spacing.unit * 8,
+    paddingBottom: theme.spacing.unit * 8,
+  },
+  emptyChatsIcon: {
+    fontSize: 2,
+    display: 'block',
+    fontSize: '4em',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: theme.spacing.unit,
+    color: theme.palette.type === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+  },
+
 });
 
-class ChatDialog extends React.Component {
+class MessageInput extends React.Component {
   state = {
     message: ''
   }
 
+  handleSend(createMessage) {
+    if (this.state.message.match(/^\s*$/)) {
+      return;
+    }
+    createMessage({
+      variables: {
+        input: {
+          recipientId: this.props.user.id,
+          body: this.state.message,
+        }
+      }
+    }).then(() => {
+      this.setState({ message: '' });
+    });
+  }
+
+  render() {
+    const { classes, currentSession, user } = this.props;
+
+    return (
+      <Mutation
+        mutation={CREATE_MESSAGE}
+        update={(cache, { data: { createMessage } }) => {
+          const chatId = combineUUIDs(user.id, currentSession.user.id);
+
+          const { messages } = cache.readQuery({ query: GET_MESSAGES, variables: { chatId } });
+          cache.writeQuery({
+            query: GET_MESSAGES,
+            variables: { chatId },
+            data: { messages: [...messages, createMessage.message ] }
+          });
+        }}
+      >
+        {( createMessage, { data }) => (
+          <Grid spacing={8} container alignItems="flex-end" wrap="nowrap">
+            <Grid item>
+              <div className={classes.inputAvatarContainer}>
+                <UserAvatar user={currentSession.user} />
+              </div>
+            </Grid>
+            <Grid item className={classes.messageGrid}>
+              <TextField
+                InputProps={{
+                  className: classes.messageInput
+                }}
+                placeholder="Write your message"
+                name="message"
+                value={this.state.message}
+                onChange={(e) => {
+                  this.setState({ message: e.target.value })
+                }}
+                onKeyPress={(e) => {
+                  const keyCode = e.keyCode || e.which;
+                  if (keyCode === 13) {
+                    if (e.ctrlKey) {
+                      this.setState({ message: `${this.state.message}\n` })
+                    } else {
+                      e.preventDefault();
+                      this.handleSend(createMessage);
+                    }
+                  }
+                }}
+                variant="filled"
+                fullWidth
+                multiline
+                rows={1}
+                rowsMax={12}
+                autoFocus
+                required
+              />
+            </Grid>
+            <Grid item>
+              <IconButton
+                variant="outlined"
+                margin="none"
+                onClick={() => {
+                  this.handleSend(createMessage);
+                }}
+              >
+                <SendIcon />
+              </IconButton>
+            </Grid>
+          </Grid>
+        )}
+      </Mutation>
+    );
+  }
+}
+
+class ChatDialog extends React.Component {
   constructor(props) {
     super(props);
     this.messagesScroll = React.createRef();
@@ -80,20 +206,56 @@ class ChatDialog extends React.Component {
   scrollToBottom() {
     setTimeout(() => {
       if (this.messagesScroll.current) {
-        this.messagesScroll.current.scrollBottom();
-        // this.messagesScroll.current.scrollTop = this.messagesScroll.current.scrollHeight;
+        this.messagesScroll.current.scrollTop = this.messagesScroll.current.scrollHeight;
       }
     });
   }
 
   componentDidMount() {
     this.scrollToBottom();
+    this.readChat(this.props.user);
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.messages !== nextProps.messages) {
       this.scrollToBottom();
+      this.readChat(nextProps.user)
     }
+  }
+
+  readChat(user) {
+    this.props.client.mutate({
+      mutation: READ_CHAT,
+      variables: { input: { contactId: user.id } },
+      update: (cache) => {
+        // this may fell if we haven't loaded the chats before
+        try {
+          const { unreadChatsCount } = cache.readQuery({ query: GET_UNREAD_CHATS_COUNT });
+          cache.writeQuery({
+            query: GET_UNREAD_CHATS_COUNT,
+            data: {
+              unreadChatsCount: unreadChatsCount - 1
+            }
+          });
+
+          const chatId = combineUUIDs(user.id, this.props.currentSession.user.id);
+          const { chats } = cache.readQuery({ query: GET_CHATS });
+          cache.writeQuery({
+            query: GET_CHATS,
+            data: {
+              chats: chats.map((chat) => {
+                if (chat.id === chatId) {
+                  chat.isUnread = false;
+                }
+                return (chat);
+              })
+            }
+          });
+        } catch(e) {
+          console.log(e)
+        }
+      }
+    });
   }
 
   renderMessage(message, last) {
@@ -102,7 +264,7 @@ class ChatDialog extends React.Component {
     if (message.senderId === currentSession.user.id) {
       return (
         <Grid container spacing={8} key={message.id} alignItems="flex-end" wrap="nowrap" style={{ marginBottom: last ? 4 : 16 }}>
-          <Grid item className={classes.messageBox} style={{ marginRight: 8, marginLeft: 58 }}>
+          <Grid item className={classes.messageBox} style={{ marginRight: 8, marginLeft: 56 }}>
             <FormattedText text={message.body} className={classes.messageText} />
           </Grid>
           <Grid item>
@@ -116,7 +278,7 @@ class ChatDialog extends React.Component {
           <Grid item>
             <UserAvatar user={user} />
           </Grid>
-          <Grid item className={classes.messageBox} style={{ marginLeft: 8, marginRight: 58 }}>
+          <Grid item className={classes.messageBox} style={{ marginLeft: 8, marginRight: 56 }}>
             <FormattedText text={message.body} className={classes.messageText} />
           </Grid>
         </Grid>
@@ -125,20 +287,28 @@ class ChatDialog extends React.Component {
   }
 
   render() {
-    const { classes, open, onClose, user, currentSession, messages } = this.props;
-    const chatId = combineUUIDs(user.id, currentSession.user.id);
+    const { classes, open, onClose, onBack, user, currentSession, messages } = this.props;
 
     return (
       <React.Fragment>
         <DialogTitle className={classes.title}>
-          <Grid container spacing={0} alignItems="center" justify="space-between">
+          <Grid container spacing={0} alignItems="center" justify="space-between" wrap="nowrap">
             <Grid item>
-              <Grid container spacing={0} alignItems="center">
+              <Grid container spacing={0} alignItems="center" justify="flex-start" wrap="nowrap">
                 <Grid item>
-                  <UserAvatar user={user} className={classes.userAvatar} />
+                  <IconButton color="inherit" onClick={onBack}>
+                    <BackIcon />
+                  </IconButton>
                 </Grid>
-                <Grid item style={{ marginLeft: 12 }}>
-                  {user.name}
+                <Grid item style={{ marginLeft: 8 }}>
+                  <Grid container spacing={0} alignItems="center" className={classes.userTitle} wrap="nowrap">
+                    <Grid item>
+                      <UserAvatar user={user} className={classes.userAvatar} />
+                    </Grid>
+                    <Grid item style={{ marginLeft: 8 }}>
+                      {user.name}
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
@@ -151,109 +321,176 @@ class ChatDialog extends React.Component {
         </DialogTitle>
           {
             messages.length === 0 ?
-              <DialogContent>
+              <DialogContent className={classes.emptyChatsContainer}>
+                <EmptyChatIcon className={classes.emptyChatsIcon} />
                 <EmptyList
-                  className={classes.emptyList}
-                  label={`No messages.`}
+                  label={`No messages`}
                 />
               </DialogContent> :
-                <ScrollArea className={classes.messages} ref={this.messagesScroll}>
-                  {
-                    messages.map((message, index) => (
-                      this.renderMessage(message, messages.length === (index + 1))
-                    ))
-                  }
-                </ScrollArea>
+              <div className={classes.messages} ref={this.messagesScroll}>
+                {
+                  messages.map((message, index) => (
+                    this.renderMessage(message, messages.length === (index + 1))
+                  ))
+                }
+              </div>
           }
-        <DialogActions>
-          <Grid spacing={8} container alignItems="flex-end">
-            <Grid item className={classes.messageGrid}>
-              <TextField
-                InputProps={{
-                  className: classes.messageInput
-                }}
-                placeholder="Write your message"
-                name="message"
-                value={this.state.message}
-                onChange={(e) => this.setState({ message: e.target.value })}
-                variant="filled"
-                fullWidth
-                multiline
-                rows={1}
-                rowsMax={12}
-              />
-            </Grid>
-            <Grid item>
-              <Mutation
-                mutation={CREATE_MESSAGE}
-                update={(cache, { data: { createMessage } }) => {
-                  const { messages } = cache.readQuery({ query: GET_MESSAGES, variables: { chatId } });
-                  cache.writeQuery({
-                    query: GET_MESSAGES,
-                    variables: { chatId },
-                    data: { messages: [...messages, createMessage.message ] }
-                  });
-                }}
-              >
-                {( createMessage, { data }) => (
-                  <Button
-                    onClick={onClose}
-                    variant="outlined"
-                    margin="none"
-                    onClick={() => {
-                      createMessage({
-                        variables: {
-                          input: {
-                            recipientId: user.id,
-                            body: this.state.message,
-                          }
-                        }
-                      }).then(() => {
-                        this.setState({ message: '' });
-                      });
-                    }}
-                  >
-                    Send
-                  </Button>
-                )}
-              </Mutation>
-            </Grid>
-          </Grid>
+        <DialogActions className={classes.messageActions}>
+          <MessageInput currentSession={currentSession} user={user} classes={classes} />
         </DialogActions>
       </React.Fragment>
     );
   }
 }
 
-const ChatDialogLoader = ({ currentSession, user, open, onClose, ...props }) => {
-  let offset = 0;
-  let limit = parseInt(process.env.MESSAGES_PAGE_SIZE);
+const ChatDialogWithApollo = withApollo(ChatDialog);
 
-  if (!currentSession) {
-    return (null);
+class ChatsDialog extends React.Component {
+  renderLastMessage(chat) {
+    const { currentSession } = this.props;
+
+    if (!chat.lastMessage) {
+      return ('')
+    }
+    if (chat.lastMessage.senderId === currentSession.user.id) {
+      return (`You: ${chat.lastMessage.body}`);
+    } else {
+      return (chat.lastMessage.body);
+    }
   }
 
-  const chatId = combineUUIDs(user.id, currentSession.user.id);
+  renderChat(chat) {
+    const { currentSession, onUserSelected, classes } = this.props;
 
-  return (
-    <ResponsiveDialog
-      open={open}
-      onClose={onClose}
-    >
-      {
-        open &&
-          <Query query={GET_MESSAGES} variables={{ sort: "latest", chatId, offset, limit }} fetchPolicy="network-only" pollInterval={parseInt(process.env.MESSAGES_REFRESH_INTERVAL)}>
-            {({ data, loading, error, fetchMore }) => {
-              if (loading || error) {
-                return (null);
-              }
+    return (
+      <ListItem
+        key={chat.id}
+        button
+        onClick={() => onUserSelected(chat.contact)}
+      >
+        <UserAvatar user={chat.contact} />
+        <ListItemText primary={chat.contact.name} secondary={this.renderLastMessage(chat)} />
+        {chat.isUnread && <UnreadIcon className={classes.unreadIcon} />}
+      </ListItem>
+    );
+  }
 
-              return (<ChatDialog {...props} currentSession={currentSession} user={user} open={open} onClose={onClose} messages={data.messages} />);
-            }}
-          </Query>
-      }
-    </ResponsiveDialog>
-  );
+  render() {
+    const { chats, classes, onClose } = this.props;
+
+    return (
+      <React.Fragment>
+        {
+          chats.length > 0 ?
+            <DialogContent>
+              <List>
+                {
+                  chats.map((chat) => (
+                    this.renderChat(chat)
+                  ))
+                }
+              </List>
+            </DialogContent> :
+            <DialogContent className={classes.emptyChatsContainer}>
+              <EmptyChatIcon className={classes.emptyChatsIcon} />
+              <EmptyList
+                label={`No contacts`}
+              />
+            </DialogContent>
+        }
+        <DialogActions>
+          <Button onClick={onClose} aria-label="Close">
+            Close
+          </Button>
+        </DialogActions>
+      </React.Fragment>
+    )
+  }
+}
+
+class ChatDialogLoader extends React.Component {
+  state = {
+    user: null
+  }
+
+  componentDidMount() {
+    this.setState({ user: this.props.user })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ user: nextProps.user })
+  }
+
+  render() {
+    const { currentSession, open, onClose, ...props } = this.props;
+
+    let offset = 0;
+    let limit = parseInt(process.env.MESSAGES_PAGE_SIZE);
+
+    if (!currentSession) {
+      return (null);
+    }
+
+    return (
+      <ResponsiveDialog
+        open={open}
+        onClose={onClose}
+        PaperProps={{
+          style: {
+            width: 600
+          }
+        }}
+      >
+        {
+          open && !this.state.user &&
+            <Query query={GET_CHATS} variables={{ sort: "latest", offset, limit }} fetchPolicy="network-only" pollInterval={parseInt(process.env.MESSAGES_REFRESH_INTERVAL)}>
+              {({ data, loading, error, fetchMore }) => {
+                if (loading || error) {
+                  return (null);
+                }
+
+                return (
+                  <ChatsDialog
+                    {...props}
+                    currentSession={currentSession}
+                    open={open}
+                    onClose={onClose}
+                    chats={data.chats}
+                    onUserSelected={(user) => {
+                      this.setState({ user })
+                    }}
+                  />
+                );
+              }}
+            </Query>
+        }
+        {
+          open && this.state.user &&
+            <Query query={GET_MESSAGES} variables={{ sort: "latest", chatId: combineUUIDs(this.state.user.id, currentSession.user.id), offset, limit }} fetchPolicy="network-only" pollInterval={parseInt(process.env.MESSAGES_REFRESH_INTERVAL)}>
+              {({ data, loading, error, fetchMore }) => {
+                if (loading || error) {
+                  return (null);
+                }
+
+                return (
+                  <ChatDialogWithApollo
+                    {...props}
+                    currentSession={currentSession}
+                    user={this.state.user}
+                    open={open}
+                    onClose={onClose}
+                    messages={data.messages}
+                    onBack={() => {
+                      this.setState({ user: null });
+                    }}
+                  />
+                );
+              }}
+            </Query>
+        }
+      </ResponsiveDialog>
+    );
+  }
 }
 
 export default withCurrentSession(

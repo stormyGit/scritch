@@ -10,14 +10,12 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Icon from '@material-ui/core/Icon';
 
-import ActivitiesDialog from './ActivitiesDialog';
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import OnDemandVideoIcon from '@material-ui/icons/OndemandVideo';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 
-import { GET_UNREAD_ACTIVITY_COUNT } from '../queries';
 
 const styles = theme => ({
   root: {
@@ -49,7 +47,6 @@ const routes = {
 class AppBottomNavigation extends React.Component {
   state = {
     value: null,
-    activitiesDialog: false
   };
 
   componentDidMount() {
@@ -78,13 +75,9 @@ class AppBottomNavigation extends React.Component {
   }
 
   handleChange = (e, value) => {
-    if (value === 'notifications') {
-      this.setState({ activitiesDialog: true });
-    } else {
-      this.props.history.push({
-        pathname: routes[value]
-      });
-    }
+    this.props.history.push({
+      pathname: routes[value]
+    });
   }
 
   render() {
@@ -136,27 +129,7 @@ class AppBottomNavigation extends React.Component {
                 icon={<SubscriptionsIcon />}
               />
           }
-          {
-            this.props.currentSession &&
-              <BottomNavigationAction
-                className={classes.action}
-                classes={{
-                  label: classes.label,
-                  selected: classes.selected,
-                }}
-                label="Notifications"
-                value="notifications"
-                icon={
-                  <Query query={GET_UNREAD_ACTIVITY_COUNT} pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}>
-                    {({ loading, error, data }) => (
-                      loading || !data || data.unreadActivityCount === 0 ? <NotificationsNoneIcon /> : <NotificationsIcon />
-                    )}
-                  </Query>
-                }
-              />
-          }
         </BottomNavigation>
-        {this.props.currentSession && <ActivitiesDialog open={this.state.activitiesDialog} onClose={() => this.setState({ activitiesDialog: false })} />}
       </React.Fragment>
     );
   }

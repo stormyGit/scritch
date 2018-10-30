@@ -5,23 +5,11 @@ class ChatPolicy < ApplicationPolicy
     end
   end
 
-  def create?
-    record.sender == user && record.recipient.present?
-  end
-
-  def show?
-    destroy?
+  def read?
+    update?
   end
 
   def update?
-    destroy?
-  end
-
-  def destroy?
     record.sender == user || record.recipient == user
-  end
-
-  def accept?
-    record.recipient == user && record.recipient.present?
   end
 end

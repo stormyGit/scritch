@@ -604,7 +604,7 @@ class User extends React.Component {
                   {
                     currentSession && currentSession.user.id !== user.id &&
                       <div className={classes.titleBarContainerUserActions}>
-                        {false && this.renderMessageButton(user)}
+                        {true && this.renderMessageButton(user)}
                         {this.renderFollowButton(user)}
                       </div>
                   }

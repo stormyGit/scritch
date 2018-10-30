@@ -16,5 +16,6 @@ module Types
     field :read_activities, mutation: Mutations::ReadActivities
     field :clear_activities, mutation: Mutations::ClearActivities
     field :create_message, mutation: Mutations::CreateMessage
+    field :read_chat, mutation: Mutations::ReadChat
   end
 end

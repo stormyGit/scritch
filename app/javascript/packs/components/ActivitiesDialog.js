@@ -15,7 +15,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import ScrollArea from 'react-scrollbar';
 
 import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
@@ -63,9 +62,6 @@ const styles = theme => ({
     display: 'inline-block',
     fontWeight: 'bold'
   },
-  scrollArea: {
-    flex: 1,
-  }
 });
 
 class ActivitiesDialog extends React.Component {
@@ -330,44 +326,42 @@ class ActivitiesDialog extends React.Component {
                           label={`No recent activity`}
                         />
                       </DialogContent> :
-                      <ScrollArea className={classes.scrollArea}>
-                        <DialogContent className={classes.notificationsContainer}>
-                          <List>
-                            {
-                              data.activities.map((activity) => (
-                                this.renderActivity(activity)
-                              ))
-                            }
-                          </List>
+                      <DialogContent className={classes.notificationsContainer}>
+                        <List>
                           {
-                            (data.activities.length % limit) === 0 && this.state.hasMore &&
-                              <div className={classes.loadMoreContainer}>
-                                <LoadMoreButton
-                                  noMargin
-                                  onClick={() => {
-                                    fetchMore({
-                                      variables: {
-                                        offset: data.activities.length,
-                                        limit
-                                      },
-                                      updateQuery: (prev, { fetchMoreResult }) => {
-                                        if (!fetchMoreResult) return prev;
-
-                                        if (fetchMoreResult.activities.length === 0) {
-                                          this.setState({ hasMore: false });
-                                        } else {
-                                          return Object.assign({}, prev, {
-                                            activities: [...prev.activities, ...fetchMoreResult.activities]
-                                          });
-                                        }
-                                      }
-                                    });
-                                  }}
-                                />
-                              </div>
+                            data.activities.map((activity) => (
+                              this.renderActivity(activity)
+                            ))
                           }
-                      </DialogContent>
-                    </ScrollArea>
+                        </List>
+                        {
+                          (data.activities.length % limit) === 0 && this.state.hasMore &&
+                            <div className={classes.loadMoreContainer}>
+                              <LoadMoreButton
+                                noMargin
+                                onClick={() => {
+                                  fetchMore({
+                                    variables: {
+                                      offset: data.activities.length,
+                                      limit
+                                    },
+                                    updateQuery: (prev, { fetchMoreResult }) => {
+                                      if (!fetchMoreResult) return prev;
+
+                                      if (fetchMoreResult.activities.length === 0) {
+                                        this.setState({ hasMore: false });
+                                      } else {
+                                        return Object.assign({}, prev, {
+                                          activities: [...prev.activities, ...fetchMoreResult.activities]
+                                        });
+                                      }
+                                    }
+                                  });
+                                }}
+                              />
+                            </div>
+                        }
+                    </DialogContent>
                   }
                   <DialogActions>
                     <Mutation

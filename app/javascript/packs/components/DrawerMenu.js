@@ -32,7 +32,6 @@ import PrivacyPolicyDialog from './PrivacyPolicyDialog';
 import SettingsDialog from './SettingsDialog';
 import SignUpDialog from './SignUpDialog';
 import EditMediumDialog from './EditMediumDialog';
-import ActivitiesDialog from './ActivitiesDialog';
 
 import ProfileAvatar from './ProfileAvatar';
 import themeSelector from '../themeSelector';
@@ -41,7 +40,7 @@ import BannerPlaceholder from './BannerPlaceholder';
 
 import { Link, withRouter } from 'react-router-dom'
 
-import { GET_SESSION, GET_UNREAD_ACTIVITY_COUNT } from '../queries';
+import { GET_SESSION } from '../queries';
 import withCurrentSession from './withCurrentSession';
 
 const styles = theme => {
@@ -85,7 +84,6 @@ class DrawerMenu extends React.Component {
     settingsDialog: false,
     signUpDialog: false,
     uploadDialog: false,
-    activitiesDialog: false
   }
   render() {
     const { classes, location, currentSession } = this.props;
@@ -211,25 +209,6 @@ class DrawerMenu extends React.Component {
                     </ListItem>
                   </React.Fragment>
               }
-              {
-                !this.props.disableNotifications && currentSession &&
-                  <React.Fragment>
-                    <Divider />
-                    <Query query={GET_UNREAD_ACTIVITY_COUNT} pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}>
-                      {({ loading, error, data }) => (
-                        <ListItem
-                          button
-                          onClick={() => this.setState({ activitiesDialog: true })}
-                        >
-                          <ListItemIcon className={classes.text} color='secondary'>
-                            {loading || !data || data.unreadActivityCount === 0 ? <NotificationsNoneIcon /> : <NotificationsIcon />}
-                          </ListItemIcon>
-                          <ListItemText primary="Notifications" primaryTypographyProps={{ className: classes.text }} />
-                        </ListItem>
-                      )}
-                    </Query>
-                  </React.Fragment>
-              }
             </List>
           </div>
           <div>
@@ -349,18 +328,6 @@ class DrawerMenu extends React.Component {
             restriction: 'none',
           }}
         />
-        {
-          currentSession &&
-            <ActivitiesDialog
-              open={this.state.activitiesDialog}
-              onClose={() => {
-                this.setState({ activitiesDialog: false });
-                if (this.props.onClose) {
-                  this.props.onClose();
-                }
-              }}
-            />
-        }
       </React.Fragment>
     );
   }

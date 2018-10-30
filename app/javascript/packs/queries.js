@@ -39,6 +39,16 @@ export const READ_ACTIVITIES = gql`
   }
 `;
 
+export const READ_CHAT = gql`
+  mutation readChat($input: ReadChatInput!) {
+    readChat(input: $input) {
+      chat {
+        id
+      }
+    }
+  }
+`;
+
 export const CLEAR_ACTIVITIES = gql`
   mutation clearActivities($input: ClearActivitiesInput!) {
     clearActivities(input: $input) {
@@ -381,14 +391,21 @@ export const GET_USER = gql`
   }
 `;
 
-export const GET_CHAT = gql`
-  query Chat($id: ID!) {
-    chat(id: $id) {
+export const GET_CHATS = gql`
+  query Chats($offset: Int!, $limit: Int!) {
+    chats(offset: $offset, limit: $limit) @connection(key: "messages", filter: ["chatId"]) @connection(key: "chats") {
       id
-      sender
-      recipient
-      createdAt
-      updatedAt
+      isUnread
+      lastMessage {
+        senderId
+        body
+      }
+      contact {
+        id
+        slug
+        name
+        avatar
+      }
     }
   }
 `;
@@ -440,6 +457,12 @@ export const GET_SESSION = gql`
 export const GET_UNREAD_ACTIVITY_COUNT = gql`
   query UnreadActivityCount {
     unreadActivityCount
+  }
+`;
+
+export const GET_UNREAD_CHATS_COUNT = gql`
+  query UnreadChatsCount {
+    unreadChatsCount
   }
 `;
 

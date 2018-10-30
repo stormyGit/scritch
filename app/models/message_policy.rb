@@ -6,6 +6,6 @@ class MessagePolicy < ApplicationPolicy
   end
 
   def create?
-    record.chat.present? && record.sender == user && record.recipient.present? && ChatPolicy.new(user, record.chat).destroy?
+    record.chat.present? && record.sender == user && record.recipient.present? && ChatPolicy.new(user, record.chat).update?
   end
 end
