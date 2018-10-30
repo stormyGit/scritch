@@ -1,5 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import withWidth from '@material-ui/core/withWidth';
 import { Query, Mutation, withApollo } from 'react-apollo';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -62,7 +63,7 @@ const styles = (theme) => ({
     flex: "1 1 auto",
     overflowY: 'auto',
     overflowX: 'hidden',
-    minHeight: 300,
+    // minHeight: 300,
   },
   messageBox: {
     flexGrow: 1,
@@ -287,7 +288,7 @@ class ChatDialog extends React.Component {
   }
 
   render() {
-    const { classes, open, onClose, onBack, user, currentSession, messages } = this.props;
+    const { classes, open, onClose, onBack, user, currentSession, messages, width } = this.props;
 
     return (
       <React.Fragment>
@@ -327,7 +328,13 @@ class ChatDialog extends React.Component {
                   label={`No messages`}
                 />
               </DialogContent> :
-              <div className={classes.messages} ref={this.messagesScroll}>
+              <div
+                className={classes.messages}
+                ref={this.messagesScroll}
+                style={{
+                  minHeight: (width === 'lg' || width === 'xl' ? 300 : 0)
+                }}
+              >
                 {
                   messages.map((message, index) => (
                     this.renderMessage(message, messages.length === (index + 1))
@@ -343,7 +350,7 @@ class ChatDialog extends React.Component {
   }
 }
 
-const ChatDialogWithApollo = withApollo(ChatDialog);
+const ChatDialogWithApollo = withApollo(withWidth()(ChatDialog));
 
 class ChatsDialog extends React.Component {
   renderLastMessage(chat) {
@@ -376,13 +383,17 @@ class ChatsDialog extends React.Component {
   }
 
   render() {
-    const { chats, classes, onClose } = this.props;
+    const { chats, classes, onClose, width } = this.props;
 
     return (
       <React.Fragment>
         {
           chats.length > 0 ?
-            <DialogContent>
+            <DialogContent
+              style={{
+                minHeight: (width === 'lg' || width === 'xl' ? 300 : 0)
+              }}
+            >
               <List>
                 {
                   chats.map((chat) => (
@@ -410,6 +421,8 @@ class ChatsDialog extends React.Component {
     )
   }
 }
+
+const ChatsDialogWithWidth = withWidth()(ChatsDialog);
 
 class ChatDialogLoader extends React.Component {
   state = {
@@ -448,7 +461,7 @@ class ChatDialogLoader extends React.Component {
                 }
 
                 return (
-                  <ChatsDialog
+                  <ChatsDialogWithWidth
                     {...props}
                     currentSession={currentSession}
                     open={open}
