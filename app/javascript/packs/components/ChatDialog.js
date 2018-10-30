@@ -391,12 +391,15 @@ class ChatsDialog extends React.Component {
                 }
               </List>
             </DialogContent> :
-            <DialogContent className={classes.emptyChatsContainer}>
-              <EmptyChatIcon className={classes.emptyChatsIcon} />
-              <EmptyList
-                label={`No contacts`}
-              />
-            </DialogContent>
+            <React.Fragment>
+              <DialogTitle></DialogTitle>
+              <DialogContent className={classes.emptyChatsContainer}>
+                <EmptyChatIcon className={classes.emptyChatsIcon} />
+                <EmptyList
+                  label={`No contacts`}
+                />
+              </DialogContent>
+            </React.Fragment>
         }
         <DialogActions>
           <Button onClick={onClose} aria-label="Close">
@@ -435,11 +438,6 @@ class ChatDialogLoader extends React.Component {
       <ResponsiveDialog
         open={open}
         onClose={onClose}
-        PaperProps={{
-          style: {
-            width: 600
-          }
-        }}
       >
         {
           open && !this.state.user &&
