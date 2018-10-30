@@ -6,14 +6,12 @@ class LikePolicy < ApplicationPolicy
           .joins(:user)
           .joins(:medium)
           .where("users.public = ? OR users.uuid = ?", true, user.uuid)
-          .where("media.uuid IN (?)", MediumPolicy::Scope.new(user, Medium.all).resolve.select(:uuid))
       else
         scope
           .joins(:user)
           .joins(:medium)
           .where("users.public = ?", true)
-          .where("media.uuid IN (?)", MediumPolicy::Scope.new(nil, Medium.all).resolve.select(:uuid))
-      end
+      end.where("media.uuid IN (?)", MediumPolicy::Scope.new(user, Medium.where(uuid: scope.select(:medium_id))).resolve.select(:uuid))
     end
   end
 

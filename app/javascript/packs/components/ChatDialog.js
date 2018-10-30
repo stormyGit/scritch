@@ -96,6 +96,10 @@ const styles = (theme) => ({
     paddingLeft: 4,
     paddingRight: 4,
   },
+  chatsContainer: {
+    paddingLeft: 0,
+    paddingRight: 0,
+  },
   emptyChatsContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -448,8 +452,10 @@ class ChatsDialog extends React.Component {
         {
           chats.length > 0 ?
             <DialogContent
+              className={classes.chatsContainer}
               style={{
-                minHeight: (width === 'lg' || width === 'xl' ? 300 : 0)
+                minHeight: (width === 'lg' || width === 'xl' ? 300 : 0),
+                paddingTop: 0,
               }}
             >
               <List>
