@@ -397,8 +397,10 @@ export const GET_CHATS = gql`
       id
       isUnread
       lastMessage {
+        id
         senderId
         body
+        createdAt
       }
       contact {
         id
@@ -416,6 +418,7 @@ export const GET_MESSAGES = gql`
       id
       body
       senderId
+      createdAt
     }
   }
 `;
@@ -427,6 +430,7 @@ export const CREATE_MESSAGE = gql`
         id
         body
         senderId
+        createdAt
       }
     }
   }

@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 import { Query, Mutation, withApollo } from 'react-apollo';
+import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -21,6 +22,7 @@ import BackIcon from '@material-ui/icons/ArrowBack';
 import SendIcon from '@material-ui/icons/Send';
 import UnreadIcon from '@material-ui/icons/FiberManualRecord';
 import EmptyChatIcon  from '@material-ui/icons/ChatBubbleOutline';
+import dayjs from 'dayjs';
 
 import ResponsiveDialog from './ResponsiveDialog';
 import UserAvatar from './UserAvatar';
@@ -28,6 +30,7 @@ import EmptyList from './EmptyList';
 import withCurrentSession from './withCurrentSession';
 import ScrollArea from 'react-scrollbar';
 import FormattedText from './FormattedText';
+import timeAgo from '../timeAgo';
 
 import { combineUUIDs } from '../utils';
 
@@ -39,6 +42,10 @@ const styles = (theme) => ({
   },
   unreadIcon: {
     color: theme.palette.type === 'dark' ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)',
+  },
+  userLink: {
+    color: theme.palette.text.primary,
+    textDecoration: 'none'
   },
   messageGrid: {
     flexGrow: 1,
@@ -55,6 +62,10 @@ const styles = (theme) => ({
   scrollArea: {
     flex: 1,
   },
+  timestamp: {
+    paddingRight: 4,
+    textAlign: 'right',
+  },
   messages: {
     paddingBottom: 0,
     paddingLeft: theme.spacing.unit,
@@ -68,7 +79,7 @@ const styles = (theme) => ({
   messageBox: {
     flexGrow: 1,
     // padding: theme.spacing.unit * 2,
-    background: "#333",
+    background: theme.palette.type === 'dark' ? "rgba(255, 255, 255, 0.09)" : "rgba(0, 0, 0, 0.09)",
     borderRadius: 3,
     alignItems: 'center',
   },
@@ -140,6 +151,24 @@ class MessageInput extends React.Component {
             variables: { chatId },
             data: { messages: [...messages, createMessage.message ] }
           });
+
+          try {
+            const chatId = combineUUIDs(user.id, currentSession.user.id);
+            const { chats } = cache.readQuery({ query: GET_CHATS });
+            cache.writeQuery({
+              query: GET_CHATS,
+              data: {
+                chats: chats.map((chat) => {
+                  if (chat.id === chatId) {
+                    chat.lastMessage = createMessage.message;
+                  }
+                  return (chat);
+                })
+              }
+            });
+          } catch (e) {
+            console.log(e);
+          }
         }}
       >
         {( createMessage, { data }) => (
@@ -253,34 +282,55 @@ class ChatDialog extends React.Component {
             }
           });
         } catch(e) {
-          console.log(e)
+          // console.log(e)
         }
       }
     });
   }
 
   renderMessage(message, last) {
-    const { classes, user, currentSession } = this.props;
+    const { classes, user, currentSession, onClose } = this.props;
+
+    const Timestamp = () =>
+      <Typography variant="caption" className={classes.timestamp}>
+        {timeAgo.format(dayjs(message.createdAt).toDate())}
+      </Typography>
 
     if (message.senderId === currentSession.user.id) {
       return (
         <Grid container spacing={8} key={message.id} alignItems="flex-end" wrap="nowrap" style={{ marginBottom: last ? 4 : 16 }}>
           <Grid item className={classes.messageBox} style={{ marginRight: 8, marginLeft: 56 }}>
             <FormattedText text={message.body} className={classes.messageText} />
+            <Timestamp />
           </Grid>
-          <Grid item>
-            <UserAvatar user={currentSession.user} />
+          <Grid
+            item
+            onClick={() => {
+              onClose();
+            }}
+          >
+            <Link to={`/${currentSession.user.slug}`}>
+              <UserAvatar user={currentSession.user} />
+            </Link>
           </Grid>
         </Grid>
       );
     } else {
       return (
         <Grid container spacing={8} key={message.id} alignItems="flex-end" wrap="nowrap" style={{ marginBottom: last ? 4 : 16 }}>
-          <Grid item>
-            <UserAvatar user={user} />
+          <Grid
+            item
+            onClick={() => {
+              onClose();
+            }}
+          >
+            <Link to={`/${user.slug}`}>
+              <UserAvatar user={user} />
+            </Link>
           </Grid>
           <Grid item className={classes.messageBox} style={{ marginLeft: 8, marginRight: 56 }}>
             <FormattedText text={message.body} className={classes.messageText} />
+            <Timestamp />
           </Grid>
         </Grid>
       );
@@ -301,15 +351,23 @@ class ChatDialog extends React.Component {
                     <BackIcon />
                   </IconButton>
                 </Grid>
-                <Grid item style={{ marginLeft: 8 }}>
-                  <Grid container spacing={0} alignItems="center" className={classes.userTitle} wrap="nowrap">
-                    <Grid item>
-                      <UserAvatar user={user} className={classes.userAvatar} />
+                <Grid
+                  item
+                  style={{ marginLeft: 8 }}
+                  onClick={() => {
+                    onClose();
+                  }}
+                >
+                  <Link to={`/${user.slug}`} className={classes.userLink}>
+                    <Grid container spacing={0} alignItems="center" className={classes.userTitle} wrap="nowrap">
+                      <Grid item>
+                        <UserAvatar user={user} className={classes.userAvatar} />
+                      </Grid>
+                      <Grid item style={{ marginLeft: 8 }}>
+                        {user.name}
+                      </Grid>
                     </Grid>
-                    <Grid item style={{ marginLeft: 8 }}>
-                      {user.name}
-                    </Grid>
-                  </Grid>
+                  </Link>
                 </Grid>
               </Grid>
             </Grid>
