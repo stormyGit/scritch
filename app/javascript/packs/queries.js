@@ -481,6 +481,16 @@ export const CREATE_MEDIUM = gql`
   }
 `;
 
+export const CREATE_REPORT = gql`
+  mutation createReport($input: CreateReportInput!) {
+    createReport(input: $input) {
+      report {
+        id
+      }
+    }
+  }
+`;
+
 export const CREATE_FOLLOW = gql`
   mutation createFollow($input: CreateFollowInput!) {
     createFollow(input: $input) {

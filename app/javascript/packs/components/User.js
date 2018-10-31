@@ -15,12 +15,16 @@ import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import TextField from '@material-ui/core/TextField';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import withWidth from '@material-ui/core/withWidth';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckIcon from '@material-ui/icons/Check';
-import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 import { withRouter } from 'react-router-dom'
 
@@ -38,6 +42,7 @@ import LoadMoreButton from './LoadMoreButton';
 import BannerPlaceholder from './BannerPlaceholder';
 import EditProfileDialog from './EditProfileDialog';
 import ChatDialog from './ChatDialog';
+import ReportDialog from './ReportDialog';
 import withCurrentSession from './withCurrentSession';
 
 const styles = theme => ({
@@ -78,7 +83,7 @@ const styles = theme => ({
     paddingTop: theme.spacing.unit * 1,
     paddingBottom: theme.spacing.unit * 1,
     background: 'rgba(0, 0, 0, 0.9)',
-    color: '#fff'
+    color: '#fff',
   },
   titleBarContainer: {
     display: 'flex',
@@ -144,6 +149,8 @@ class User extends React.Component {
     showUnfollow: false,
     editProfileDialog: false,
     chatDialog: false,
+    moreMenu: false,
+    reportDialog: false,
   }
 
   constructor(props) {
@@ -295,6 +302,34 @@ class User extends React.Component {
       >
         Message
       </Button>
+    );
+  }
+
+  renderMoreUserOptions(user) {
+    const { classes, width } = this.props;
+
+    return (
+      <React.Fragment>
+        <IconButton
+          id="moreUserOptionsButton"
+          onClick={() => this.setState({ moreMenu: true })}
+          style={{
+            marginLeft: 8,
+            marginRight: -8
+          }}
+        >
+          <MoreVertIcon />
+        </IconButton>
+        <Menu
+          anchorEl={document.getElementById("moreUserOptionsButton")}
+          open={this.state.moreMenu}
+          onClose={() => this.setState({ moreMenu: false })}
+        >
+          <MenuItem onClick={() => this.setState({ reportDialog: true })}>{`Report ${user.name}`}</MenuItem>
+          <Divider />
+          <MenuItem onClick={() => this.setState({ moreMenu: false })}>Cancel</MenuItem>
+        </Menu>
+      </React.Fragment>
     );
   }
 
@@ -604,8 +639,9 @@ class User extends React.Component {
                   {
                     currentSession && currentSession.user.id !== user.id &&
                       <div className={classes.titleBarContainerUserActions}>
-                        {true && this.renderMessageButton(user)}
+                        {this.renderMessageButton(user)}
                         {this.renderFollowButton(user)}
+                        {this.renderMoreUserOptions(user)}
                       </div>
                   }
                 </div>
@@ -630,6 +666,7 @@ class User extends React.Component {
                            <div className={classes.titleBarContainerUserActions}>
                              {this.renderMessageButton(user)}
                              {this.renderFollowButton(user)}
+                             {this.renderMoreUserOptions(user)}
                            </div>
                        }
                     </div>
@@ -739,6 +776,11 @@ class User extends React.Component {
                         user={data.user}
                         open={this.state.chatDialog}
                         onClose={() => this.setState({ chatDialog: false })}
+                      />
+                      <ReportDialog
+                        user={data.user}
+                        open={this.state.reportDialog}
+                        onClose={() => this.setState({ reportDialog: false, moreMenu: false })}
                       />
                     </React.Fragment>
                 }
