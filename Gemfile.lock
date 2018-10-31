@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/phorque/chronofage.git
+  revision: 0cee7a824f922d201a2511d8a02c8c9004cb5e6a
+  specs:
+    chronofage (0.0.12)
+
+GIT
   remote: https://github.com/tcocca/acts_as_follower.git
   revision: c5ac7b9601c4af01eb4d9112330b27be4d694ecc
   branch: master
@@ -699,7 +705,6 @@ GEM
     chromedriver-helper (1.2.0)
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
-    chronofage (0.0.11)
     coffee-rails (4.2.2)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0)
@@ -1103,7 +1108,7 @@ DEPENDENCIES
   carrierwave (~> 1.2.2)
   carrierwave-base64
   chromedriver-helper
-  chronofage
+  chronofage!
   coffee-rails (~> 4.2)
   devise
   exception_notification
