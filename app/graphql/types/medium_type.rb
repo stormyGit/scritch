@@ -14,10 +14,12 @@ module Types
     field :user, UserType, null: true
     field :comments, [CommentType], null: false
     field :related_media, [MediumType], null: false
+
     field :comments_count, Integer, null: false
     field :likes_count, Integer, null: false
-    field :liked, Boolean, null: false
     field :views_count, Integer, null: false
+
+    field :liked, Boolean, null: false
     field :comments_disabled, Boolean, null: false
     field :tag_list, [String], null: false
     field :visibility, String, null: false
@@ -43,6 +45,14 @@ module Types
 
     def published_at
       object.published_at&.iso8601
+    end
+
+    def likes_count
+      object.likes_count
+    end
+
+    def comments_count
+      object.comments_count
     end
   end
 end

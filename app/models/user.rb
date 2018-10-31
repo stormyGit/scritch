@@ -38,15 +38,6 @@ class User < ApplicationRecord
   end
 
   def block(user)
-    # self.likes.joins(:medium).where("medium.user_id = ?", user.uuid).destroy_all
-    # user.likes.joins(:medium).where("medium.user_id = ?", self.uuid).destroy_all
-    #
-    # self.comments.joins(:medium).where("medium.user_id = ?", user.uuid).destroy_all
-    # user.comments.joins(:medium).where("medium.user_id = ?", self.uuid).destroy_all
-    #
-    # self.chats_as_sender.where(recipient: user).destroy_all
-    # user.chats_as_sender.where(recipient: self).destroy_all
-    #
     self.blocked_users_ids = (self.blocked_users_ids + [user.uuid]).uniq
     self.save
   end

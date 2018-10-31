@@ -73,6 +73,7 @@ class Comment extends React.Component {
 
   render() {
     const { comment, currentSession, classes, medium, disableReply, width } = this.props;
+    const repliesCount = comment.repliesCount;
 
     let canDelete = false;
     if (currentSession && currentSession.user.id === comment.user.id) {
@@ -203,7 +204,7 @@ class Comment extends React.Component {
           subheader={<FormattedText text={comment.body} variant="inherit" />}
         />
         {
-          !disableReply &&
+          !disableReply && (currentSession || repliesCount > 0) &&
             <ExpansionPanel
               elevation={0}
               square
@@ -226,7 +227,7 @@ class Comment extends React.Component {
                 }
                 className={classes.repliesCount}
               >
-                <Typography>{countFormat(comment.repliesCount, 'reply', 'replies')}</Typography>
+                <Typography>{countFormat(repliesCount, 'reply', 'replies')}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails className={classes.repliesPanelDetails}>
                 {
@@ -237,7 +238,7 @@ class Comment extends React.Component {
                       autoFocus
                     />
                 }
-                {comment.repliesCount > 0 && <Comments medium={medium} parent={comment} commentsCount={comment.repliesCount} />}
+                {repliesCount > 0 && <Comments medium={medium} parent={comment} commentsCount={repliesCount} />}
               </ExpansionPanelDetails>
             </ExpansionPanel>
         }

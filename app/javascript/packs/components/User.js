@@ -97,6 +97,9 @@ const styles = theme => ({
     background: 'rgba(0, 0, 0, 0.9)',
     color: '#fff',
   },
+  titleBarWrapNoRightMargin: {
+    marginRight: theme.spacing.unit,
+  },
   titleBarContainer: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -294,6 +297,9 @@ class User extends React.Component {
         variant="contained"
         size={width !== 'lg' && width !== 'xl' ? 'small' : 'medium'}
         onClick={() => this.setState({ editProfileDialog: true })}
+        style={{
+          marginRight: 8,
+        }}
       >
         Edit profile
       </Button>
@@ -327,7 +333,6 @@ class User extends React.Component {
           onClick={() => this.setState({ moreMenu: true })}
           style={{
             marginLeft: 8,
-            marginRight: -8
           }}
         >
           <MoreVertIcon />
@@ -389,8 +394,6 @@ class User extends React.Component {
               </Mutation>
           }
           <MenuItem onClick={() => this.setState({ reportDialog: true })}>{`Report ${user.name}`}</MenuItem>
-          <Divider />
-          <MenuItem onClick={() => this.setState({ moreMenu: false })}>Cancel</MenuItem>
         </Menu>
       </React.Fragment>
     );
@@ -687,6 +690,9 @@ class User extends React.Component {
           <Hidden mdDown>
              <GridListTileBar
                className={classes.titleBar}
+               classes={{
+                 titleWrap: classes.titleBarWrapNoRightMargin
+               }}
                title={
                  <div className={classes.titleBarContainer}>
                   <div className={classes.titleBarContainerUserInfo}>

@@ -119,9 +119,7 @@ module Types
     end
 
     def activities(arguments = {})
-      Activity
-        .where(recipient: context[:current_user])
-        .where.not(owner: context[:current_user])
+      ActivityPolicy::Scope.new(context[:current_user], Activity.all).resolve
         .order(created_at: :desc)
         .offset(arguments[:offset]).limit(arguments[:limit])
         .includes(:owner, :recipient, :trackable)

@@ -13,5 +13,9 @@ module Types
     def created_at
       object.created_at.iso8601
     end
+
+    def replies_count
+      object.replies_count
+    end
   end
 end

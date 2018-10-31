@@ -5,6 +5,10 @@ import Comment from './Comment';
 import LoadMoreButton from './LoadMoreButton';
 
 class Comments extends React.Component {
+  state = {
+    lastPageEmpty: false
+  }
+
   render() {
     const { medium, parent, commentsCount } = this.props;
     let offset = 0;
@@ -29,7 +33,7 @@ class Comments extends React.Component {
                 ))
               }
               {
-                data.commentsByMedium.length < commentsCount &&
+                data.commentsByMedium.length < commentsCount && data.commentsByMedium.length === 0 && !this.state.lastPageEmpty &&
                   <LoadMoreButton
                     noMargin
                     onClick={() => {
@@ -40,6 +44,10 @@ class Comments extends React.Component {
                         },
                         updateQuery: (prev, { fetchMoreResult }) => {
                           if (!fetchMoreResult) return prev;
+
+                          if (fetchMoreResult.commentsByMedium) {
+                            this.setState({ lastPageEmpty: true });
+                          }
 
                           return Object.assign({}, prev, {
                             commentsByMedium: [...prev.commentsByMedium, ...fetchMoreResult.commentsByMedium]
