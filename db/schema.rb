@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_29_031301) do
+ActiveRecord::Schema.define(version: 2018_10_31_062514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -194,6 +194,20 @@ ActiveRecord::Schema.define(version: 2018_10_29_031301) do
     t.index ["uuid"], name: "index_messages_on_uuid", unique: true
   end
 
+  create_table "reports", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.text "description"
+    t.uuid "user_id"
+    t.uuid "reporter_id"
+    t.string "status", default: "new"
+    t.bigint "assignee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignee_id"], name: "index_reports_on_assignee_id"
+    t.index ["reporter_id"], name: "index_reports_on_reporter_id"
+    t.index ["user_id"], name: "index_reports_on_user_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
     t.uuid "user_id"
@@ -243,6 +257,7 @@ ActiveRecord::Schema.define(version: 2018_10_29_031301) do
     t.datetime "last_activities_read"
     t.string "website"
     t.boolean "public", default: true
+    t.string "blocked_users_ids", default: [], array: true
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end
