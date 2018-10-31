@@ -702,6 +702,9 @@ class User extends React.Component {
             <Hidden lgUp>
               <GridListTileBar
                 className={classes.titleBar}
+                classes={{
+                  titleWrap: classes.titleBarWrapNoRightMargin
+                }}
                 title={
                    <div className={classes.mobileTitleBarContainer}>
                      <div className={classes.mobileTitleBarTop}>

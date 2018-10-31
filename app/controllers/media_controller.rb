@@ -4,7 +4,12 @@ class MediaController < ApplicationController
   end
 
   def show
-    medium = Medium.find(params[:id].match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0])
+    uuid = params[:id].match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)
+    if uuid.blank?
+      return head(404)
+    end
+
+    medium = Medium.find(uuid[0])
 
     @meta[:type] = 'video.other'
     @meta[:title] = medium.title
