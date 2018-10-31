@@ -20,6 +20,8 @@ module Types
     field :following_count, Integer, null: false
     field :likes_count, Integer, null: false
 
+    field :blocked, Boolean, null: false
+
     def banner
       object.banner_url
     end
@@ -54,6 +56,14 @@ module Types
 
     def likes_count
       LikePolicy::Scope.new(context[:current_user], object.likes).resolve.count
+    end
+
+    def blocked
+      if context[:current_user].present?
+        context[:current_user].blocked_users_ids.include?(object.uuid)
+      else
+        false
+      end
     end
   end
 end

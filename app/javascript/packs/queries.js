@@ -226,6 +226,10 @@ export const GET_ACTIVITIES = gql`
         ... on Follow {
           id
         }
+        ... on Report {
+          id
+          reportedUserName
+        }
       }
     }
   }
@@ -387,6 +391,7 @@ export const GET_USER = gql`
       followersCount
       followingCount
       likesCount
+      blocked
     }
   }
 `;
@@ -485,6 +490,26 @@ export const CREATE_REPORT = gql`
   mutation createReport($input: CreateReportInput!) {
     createReport(input: $input) {
       report {
+        id
+      }
+    }
+  }
+`;
+
+export const BLOCK_USER = gql`
+  mutation blockUser($input: BlockUserInput!) {
+    blockUser(input: $input) {
+      user {
+        id
+      }
+    }
+  }
+`;
+
+export const UNBLOCK_USER = gql`
+  mutation unblockUser($input: UnblockUserInput!) {
+    unblockUser(input: $input) {
+      user {
         id
       }
     }

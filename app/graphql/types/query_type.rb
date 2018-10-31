@@ -144,8 +144,7 @@ module Types
     end
 
     def comments_by_medium(arguments = {})
-      Comment
-        .where(medium_id: arguments[:medium_id], parent_id: arguments[:parent_id])
+      CommentPolicy::Scope.new(context[:current_user], Comment.where(medium_id: arguments[:medium_id], parent_id: arguments[:parent_id])).resolve
         .order(updated_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
     end
 

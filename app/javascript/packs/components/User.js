@@ -30,7 +30,19 @@ import { withRouter } from 'react-router-dom'
 
 import queryString from 'query-string';
 
-import { GET_USER, CREATE_FOLLOW, DELETE_FOLLOW, UPDATE_USER, GET_SESSION, GET_MEDIA, GET_LIKES_BY_USER, GET_FOLLOWERS_BY_USER, GET_FOLLOWINGS_BY_USER } from '../queries';
+import {
+  GET_USER,
+  CREATE_FOLLOW,
+  DELETE_FOLLOW,
+  UPDATE_USER,
+  GET_SESSION,
+  GET_MEDIA,
+  GET_LIKES_BY_USER,
+  GET_FOLLOWERS_BY_USER,
+  GET_FOLLOWINGS_BY_USER,
+  BLOCK_USER,
+  UNBLOCK_USER,
+} from '../queries';
 
 import MediumCard from './MediumCard';
 import UserCard from './UserCard';
@@ -325,6 +337,57 @@ class User extends React.Component {
           open={this.state.moreMenu}
           onClose={() => this.setState({ moreMenu: false })}
         >
+          {
+            user.blocked ?
+              <Mutation
+                mutation={UNBLOCK_USER}
+                update={(cache) => {
+                  cache.writeQuery({
+                    query: GET_USER,
+                    variables: { id: user.id },
+                    data: { user: { ...user, blocked: false } }
+                  });
+                }}
+              >
+                {( unblockUser, { data }) => (
+                  <MenuItem
+                    onClick={() => {
+                      unblockUser({ variables: { input: { userId: user.id }}}).then(() => {
+                        this.props.history.push({
+                          pathname: '/',
+                        });
+                      })
+                    }}
+                  >
+                    {`Unblock ${user.name}`}
+                  </MenuItem>
+                )}
+              </Mutation> :
+              <Mutation
+                mutation={BLOCK_USER}
+                update={(cache) => {
+                  cache.writeQuery({
+                    query: GET_USER,
+                    variables: { id: user.id },
+                    data: { user: { ...user, blocked: true } }
+                  });
+                }}
+              >
+                {( blockUser, { data }) => (
+                  <MenuItem
+                    onClick={() => {
+                      blockUser({ variables: { input: { userId: user.id }}}).then(() => {
+                        this.props.history.push({
+                          pathname: '/',
+                        });
+                      })
+                    }}
+                  >
+                    {`Block ${user.name}`}
+                  </MenuItem>
+                )}
+              </Mutation>
+          }
           <MenuItem onClick={() => this.setState({ reportDialog: true })}>{`Report ${user.name}`}</MenuItem>
           <Divider />
           <MenuItem onClick={() => this.setState({ moreMenu: false })}>Cancel</MenuItem>

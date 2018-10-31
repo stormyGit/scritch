@@ -36,4 +36,22 @@ class User < ApplicationRecord
       self.slug = "#{self.slug}-#{self.uuid.split("-")[0]}"
     end
   end
+
+  def block(user)
+    # self.likes.joins(:medium).where("medium.user_id = ?", user.uuid).destroy_all
+    # user.likes.joins(:medium).where("medium.user_id = ?", self.uuid).destroy_all
+    #
+    # self.comments.joins(:medium).where("medium.user_id = ?", user.uuid).destroy_all
+    # user.comments.joins(:medium).where("medium.user_id = ?", self.uuid).destroy_all
+    #
+    # self.chats_as_sender.where(recipient: user).destroy_all
+    # user.chats_as_sender.where(recipient: self).destroy_all
+    #
+    self.blocked_users_ids = (self.blocked_users_ids + [user.uuid]).uniq
+    self.save
+  end
+
+  def has_block_with?(user)
+    self.blocked_users_ids.include?(user.uuid) || user.blocked_users_ids.include?(self.uuid)
+  end
 end

@@ -7,6 +7,9 @@ class MediumPolicy < ApplicationPolicy
         scope
           .where("media.user_id = ? OR (media.visibility = ? AND media.restriction != ?) OR (media.visibility = ? AND media.restriction = ? AND ?)", user.uuid, 'public', 'content_producers', 'public', 'content_producers', user.media.published.publicly_available.any?)
           .where("media.user_id = ? OR media.published_at IS NOT NULL", user.uuid)
+          .joins(:user)
+          .where.not("? = SOME(users.blocked_users_ids)", user.uuid)
+          .where.not(users: { uuid: Array(user.blocked_users_ids) })
       end
     end
   end
@@ -19,7 +22,7 @@ class MediumPolicy < ApplicationPolicy
         user.media.published.publicly_available.any?
       else
         true
-      end
+      end && !user.has_block_with?(record.user)
     else
       record.user == user
     end

@@ -279,6 +279,32 @@ class ActivitiesDialog extends React.Component {
     );
   }
 
+  renderReportCreate(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+      >
+        <UserAvatar user={activity.owner} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`We received your report on `}
+                <Typography variant="body2" component="span" className={classes.highlight}>
+                  {activity.trackable.reportedUserName}
+                </Typography>
+                {`.`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
   renderActivity(activity) {
     switch (activity.key) {
       case 'like.create':
@@ -293,6 +319,8 @@ class ActivitiesDialog extends React.Component {
         return (this.renderMediumAccepted(activity));
       case 'medium.published':
         return (this.renderMediumPublished(activity));
+      case 'report.create':
+        return (this.renderReportCreate(activity));
       default:
         return (null);
     }
