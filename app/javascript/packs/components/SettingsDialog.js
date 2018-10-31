@@ -2,8 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { Query, Mutation, withApollo } from 'react-apollo';
+import { withRouter } from 'react-router-dom'
+
 import Divider from '@material-ui/core/Divider';
+
 import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import ListItemText from '@material-ui/core/ListItemText';
+
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -22,7 +29,7 @@ import themeSelector from '../themeSelector';
 import GlobalProgress from './GlobalProgress';
 import withCurrentSession from './withCurrentSession';
 
-import { GET_SESSION, DELETE_USER, UPDATE_USER, GET_THEME, DELETE_SESSION } from '../queries';
+import { GET_SESSION, DELETE_USER, UPDATE_USER, GET_THEME, DELETE_SESSION, GET_BLOCKED_USERS } from '../queries';
 
 const styles = theme => ({
 });
@@ -175,6 +182,39 @@ class Settings extends React.Component {
               </DialogActions>
             </Dialog>
           </React.Fragment>
+          <Query query={GET_BLOCKED_USERS}>
+            {({ data, loading, error, fetchMore }) => {
+              if (loading || error || data.blockedUsers.length === 0) {
+                return (null);
+              }
+
+              return (
+                <React.Fragment>
+                  <Divider />
+                  <List
+                    subheader={<ListSubheader component="div">Blocked users</ListSubheader>}
+                  >
+                    {
+                      data.blockedUsers.map((user) => (
+                        <ListItem
+                          key={user.id}
+                          button
+                          onClick={() => {
+                            this.props.history.push({
+                              pathname: `/${user.slug}`
+                            })
+                            this.props.onClose();
+                          }}
+                        >
+                          <ListItemText primary={user.name} />
+                        </ListItem>
+                      ))
+                    }
+                  </List>
+                </React.Fragment>
+              );
+            }}
+          </Query>
         </DialogContent>
         <DialogActions>
           <Grid container spacing={0} justify="space-between">
@@ -228,6 +268,8 @@ class Settings extends React.Component {
 
 export default withStyles(styles)(
   withApollo(
-    withCurrentSession(Settings)
+    withCurrentSession(
+      withRouter(Settings)
+    )
   )
 );

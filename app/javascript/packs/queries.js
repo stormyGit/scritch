@@ -417,6 +417,17 @@ export const GET_CHATS = gql`
   }
 `;
 
+export const GET_BLOCKED_USERS = gql`
+  query BlockedUsers {
+    blockedUsers @connection(key: "blockedUsers") {
+      id
+      slug
+      name
+      avatar
+    }
+  }
+`;
+
 export const GET_MESSAGES = gql`
   query Messages($chatId: ID, $offset: Int!, $limit: Int!) {
     messages(chatId: $chatId, offset: $offset, limit: $limit) @connection(key: "messages", filter: ["chatId"]) {

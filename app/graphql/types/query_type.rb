@@ -81,6 +81,10 @@ module Types
       argument :limit, Integer, required: true
     end
 
+    field :blocked_users, [UserType], null: false do
+      description "List blocked users"
+    end
+
     def medium(arguments = {})
       medium = Medium.includes(comments: [:user]).find(arguments[:id])
       raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).show?
@@ -178,6 +182,10 @@ module Types
 
     def messages(arguments = {})
       MessagePolicy::Scope.new(context[:current_user], Message.where(chat_id: arguments[:chat_id])).resolve.order("messages.created_at ASC")#.offset(arguments[:offset]).limit(arguments[:limit])
+    end
+
+    def blocked_users(arguments = {})
+      User.where(uuid: context[:current_user].blocked_users_ids)
     end
   end
 end

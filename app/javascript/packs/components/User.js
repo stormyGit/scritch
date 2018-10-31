@@ -346,21 +346,12 @@ class User extends React.Component {
             user.blocked ?
               <Mutation
                 mutation={UNBLOCK_USER}
-                update={(cache) => {
-                  cache.writeQuery({
-                    query: GET_USER,
-                    variables: { id: user.id },
-                    data: { user: { ...user, blocked: false } }
-                  });
-                }}
               >
                 {( unblockUser, { data }) => (
                   <MenuItem
                     onClick={() => {
                       unblockUser({ variables: { input: { userId: user.id }}}).then(() => {
-                        this.props.history.push({
-                          pathname: '/',
-                        });
+                        location.reload();
                       })
                     }}
                   >
@@ -370,21 +361,12 @@ class User extends React.Component {
               </Mutation> :
               <Mutation
                 mutation={BLOCK_USER}
-                update={(cache) => {
-                  cache.writeQuery({
-                    query: GET_USER,
-                    variables: { id: user.id },
-                    data: { user: { ...user, blocked: true } }
-                  });
-                }}
               >
                 {( blockUser, { data }) => (
                   <MenuItem
                     onClick={() => {
                       blockUser({ variables: { input: { userId: user.id }}}).then(() => {
-                        this.props.history.push({
-                          pathname: '/',
-                        });
+                        document.location.href = '/';
                       })
                     }}
                   >
