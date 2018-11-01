@@ -15,7 +15,8 @@ const apolloClient = new ApolloClient({
   clientState: {
     defaults: {
       theme: process.env.DEFAULT_THEME || 'dark',
-      pageTitle: null
+      pageTitle: null,
+      activePreview: null,
     },
     resolvers: {
       Mutation: {
@@ -25,6 +26,10 @@ const apolloClient = new ApolloClient({
         },
         setPageTitle: (_, { pageTitle }, { cache }) => {
           cache.writeData({ data: { pageTitle }});
+          return null;
+        },
+        setActivePreview: (_, { activePreview }, { cache }) => {
+          cache.writeData({ data: { activePreview }});
           return null;
         },
       }

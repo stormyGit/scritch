@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import gql from 'graphql-tag';
+import { Query, withApollo } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 import withWidth from '@material-ui/core/withWidth';
 import Card from '@material-ui/core/Card';
@@ -93,6 +95,12 @@ const styles = theme => ({
   },
 });
 
+const GET_ACTIVE_PREVIEW = gql`
+  {
+    activePreview @client
+  }
+`;
+
 class MediumCard extends React.Component {
   state = {
     thumbnailKey: this.props.medium.thumbnailKey,
@@ -115,12 +123,13 @@ class MediumCard extends React.Component {
   }
 
   renderMedia() {
-    const { classes, medium, horizontal, width } = this.props;
+    const { classes, medium, horizontal, width, client } = this.props;
 
     let previewImage = new Image();
     const handleOnMouseEnter = () => {
       previewImage.onload = () => {
         this.setState({ thumbnailKey: medium.previewKey });
+        client.writeData({ data: { activePreview: medium.previewKey }});
       };
       previewImage.src = keyToCdnUrl(medium.previewKey);
     }
@@ -132,45 +141,49 @@ class MediumCard extends React.Component {
     }
 
     return (
-      <div className={horizontal ? undefined : classes.cardMediaContainer}>
-        <VisibilitySensor
-          active={width !== 'lg' && width !== 'xl'}
-          minTopValue={100}
-          onChange={(isVisible) => {
-            if (width === 'lg' || width === 'xl') {
-              return;
-            }
-            if (isVisible && this.state.thumbnailKey !== medium.previewKey) {
-              handleOnMouseEnter();
-            }
-            if (!isVisible && this.state.thumbnailKey !== medium.thumbnailKey) {
-              handleOnMouseLeave();
-            }
-          }}
-        >
-          {
-            medium.publishedAt ?
-              <CardMedia
-                className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
-                image={keyToCdnUrl(this.state.thumbnailKey)}
-                title={medium.title}
-                onMouseEnter={() => {
-                  if (this.state.thumbnailKey !== medium.previewKey && (width === 'lg' || width === 'xl')) {
-                    handleOnMouseEnter();
-                  }
-                }}
-                onMouseLeave={() => {
-                  if (this.state.thumbnailKey !== medium.thumbnailKey && (width === 'lg' || width === 'xl')) {
-                    handleOnMouseLeave();
-                  }
-                }}
-              >
-                <Duration duration={medium.duration} />
-              </CardMedia> :
-              <UnderReview />
-          }
-        </VisibilitySensor>
-      </div>
+      <Query query={GET_ACTIVE_PREVIEW}>
+        {({ data }) => (
+          <div className={horizontal ? undefined : classes.cardMediaContainer}>
+            <VisibilitySensor
+              active={width !== 'lg' && width !== 'xl'}
+              minTopValue={100}
+              onChange={(isVisible) => {
+                if (width === 'lg' || width === 'xl') {
+                  return;
+                }
+                if (isVisible && this.state.thumbnailKey !== medium.previewKey) {
+                  handleOnMouseEnter();
+                }
+                if (!isVisible && this.state.thumbnailKey !== medium.thumbnailKey) {
+                  handleOnMouseLeave();
+                }
+              }}
+            >
+              {
+                medium.publishedAt ?
+                  <CardMedia
+                    className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
+                    image={this.state.thumbnailKey === data.activePreview ? keyToCdnUrl(this.state.thumbnailKey) : keyToCdnUrl(medium.thumbnailKey)}
+                    title={medium.title}
+                    onMouseEnter={() => {
+                      if (this.state.thumbnailKey !== medium.previewKey && (width === 'lg' || width === 'xl')) {
+                        handleOnMouseEnter();
+                      }
+                    }}
+                    onMouseLeave={() => {
+                      if (this.state.thumbnailKey !== medium.thumbnailKey && (width === 'lg' || width === 'xl')) {
+                        handleOnMouseLeave();
+                      }
+                    }}
+                  >
+                    <Duration duration={medium.duration} />
+                  </CardMedia> :
+                  <UnderReview />
+              }
+            </VisibilitySensor>
+          </div>
+        )}
+      </Query>
     );
   }
 
@@ -301,5 +314,7 @@ MediumCard.propTypes = {
 };
 
 export default withStyles(styles)(
-  withWidth()(MediumCard)
+  withWidth()(
+    withApollo(MediumCard)
+  )
 );
