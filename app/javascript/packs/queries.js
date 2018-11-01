@@ -439,6 +439,21 @@ export const GET_MESSAGES = gql`
   }
 `;
 
+export const GET_LIKES = gql`
+  query Likes($mediumId: ID, $offset: Int!, $limit: Int!) {
+    likes(mediumId: $mediumId, offset: $offset, limit: $limit) @connection(key: "likes", filter: ["mediumID"]) {
+      id
+      createdAt
+      user {
+        id
+        slug
+        name
+        avatar
+      }
+    }
+  }
+`;
+
 export const CREATE_MESSAGE = gql`
   mutation createMessage($input: CreateMessageInput!) {
     createMessage(input: $input) {

@@ -14,6 +14,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Avatar from '@material-ui/core/Avatar';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import CommentIcon from '@material-ui/icons/Comment';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import NoFavoriteIcon from '@material-ui/icons/FavoriteBorder';
 import dayjs from 'dayjs';
 import queryString from 'query-string';
 
@@ -26,7 +28,6 @@ import { keyToCdnUrl } from '../mediaService';
 import timeAgo from '../timeAgo';
 import Duration from './Duration';
 import UserAvatar from './UserAvatar';
-import LikeButton from './LikeButton';
 import TruncatedText from './TruncatedText';
 import UnderReview from './UnderReview';
 import countFormat from '../countFormat';
@@ -228,10 +229,12 @@ class MediumCard extends React.Component {
                 </Button>
               </Grid>
               <Grid item>
-                <LikeButton
+                <Button
                   disabled
-                  medium={medium}
-                />
+                >
+                  <FavoriteIcon className={classes.leftIcon} />
+                  {countFormat(medium.likesCount, 'like', 'likes')}
+                </Button>
               </Grid>
             </Grid>
           </Grid>

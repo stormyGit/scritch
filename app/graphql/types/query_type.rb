@@ -81,6 +81,13 @@ module Types
       argument :limit, Integer, required: true
     end
 
+    field :likes, [LikeType], null: false do
+      description "List likes"
+      argument :medium_id, ID, required: false
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
     field :blocked_users, [UserType], null: false do
       description "List blocked users"
     end
@@ -182,6 +189,10 @@ module Types
 
     def messages(arguments = {})
       MessagePolicy::Scope.new(context[:current_user], Message.where(chat_id: arguments[:chat_id])).resolve.order("messages.created_at ASC")#.offset(arguments[:offset]).limit(arguments[:limit])
+    end
+
+    def likes(arguments = {})
+      LikePolicy::Scope.new(context[:current_user], Like.where(medium_id: arguments[:medium_id])).resolve.order("likes.created_at DESC")#.offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def blocked_users(arguments = {})

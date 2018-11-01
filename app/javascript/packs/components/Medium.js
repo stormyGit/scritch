@@ -76,6 +76,7 @@ const styles = theme => ({
     color: theme.palette.text.primary,
     padding: theme.spacing.unit,
     minWidth: 36,
+    borderRadius: 18,
   },
   tags: {
     marginTop: theme.spacing.unit * 3,

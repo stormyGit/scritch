@@ -467,7 +467,7 @@ class ChatsDialog extends React.Component {
               </List>
             </DialogContent> :
             <React.Fragment>
-              <DialogTitle></DialogTitle>
+              <DialogTitle><span></span></DialogTitle>
               <DialogContent className={classes.emptyChatsContainer}>
                 <EmptyChatIcon className={classes.emptyChatsIcon} />
                 <EmptyList
