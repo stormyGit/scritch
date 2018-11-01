@@ -1,0 +1,15 @@
+#banned_users.container.full-height-container
+  .box
+    table.table
+      thead
+        tr
+          th Ban ID
+          th Name
+          th Telegram Username
+          th Telegram ID
+          th Ban reason
+          th Duration
+          th Actions
+      tbody
+        - @banned_users.each do |banned_user|
+          = render partial: 'moderation/banned_users/banned_user', locals: { banned_user: banned_user }

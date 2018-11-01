@@ -87,3 +87,9 @@ gem 'kaminari'
 gem 'public_activity'
 gem 'acts-as-taggable-on', '~> 6.0'
 gem 'sitemap'
+gem 'slim-rails'
+gem "bulma-rails", "~> 0.7.1"
+gem "font-awesome-rails"
+gem "active_link_to"
+gem "chartkick"
+gem 'rails_autolink'

@@ -1,0 +1,39 @@
+#charts.container.full-height-container
+  .chart
+    .columns
+      .column.is-12.has-text-centered
+        h3.is-size-2 Users
+        h3.is-size-2 -
+        h3.is-size-2
+          = @users_now
+    = line_chart @users_count
+
+  .chart
+    .columns
+      .column.is-12.has-text-centered
+        h3.is-size-2 Chats
+    = line_chart @chats_count
+
+  .chart
+    .columns
+      .column.is-12.has-text-centered
+        h3.is-size-2 Messages Sent
+    = line_chart @messages_count
+
+  .chart
+    .columns
+      .column.is-12.has-text-centered
+        h3.is-size-2 Likes
+    = line_chart @likes_count
+
+  .chart
+    .columns
+      .column.is-12.has-text-centered
+        h3.is-size-2 Videos
+    = line_chart @pictures
+
+  .chart
+    .columns
+      .column.is-12.has-text-centered
+        h3.is-size-2 New Users per day
+    = line_chart @users_per_day

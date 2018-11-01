@@ -1,0 +1,277 @@
+$primary: hsl(200, 33%, 35%);
+$info: hsl(0, 100%, 0%);
+
+@import "bulma";
+
+body {
+  background: #3c6478;
+  min-height: 100vh;
+  font-family: 'Roboto';
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.navbar {
+  border-bottom: 1px solid #eee;
+  font-weight: 800;
+  font-family: 'Montserrat';
+}
+
+.navbar-brand {
+  img {
+    max-height: 62px;
+  }
+}
+
+.full-height-container {
+  min-height: calc(100vh - 62px);
+  padding-bottom: 2em;
+  padding-left: 2em;
+  padding-right: 2em;
+  &.no-column {
+    margin-top: -12px;
+  }
+}
+
+.chart {
+  margin-top: 2em;
+  background-color: white;
+  font-family: 'Montserrat';
+  padding: 2em;
+  border-radius: 6px;
+  box-shadow: 0px 3px 6px 0px #333;
+}
+
+#map {
+  width: calc(100% - 8em);
+  margin: 2em 4em 0 4em;
+  height: calc(100vh - 56px - 4em);
+  background-color: white;
+  font-family: 'Montserrat';
+  border-radius: 6px;
+  box-shadow: 0px 3px 6px 0px #333;
+}
+
+#login {
+  .level {
+    min-height: 100vh;
+  }
+  .card {
+    min-width: 400px;
+    border-radius: 6px;
+    box-shadow: 0px 3px 6px 0px #333;
+  }
+  .level-left {
+    margin-right: 32px;
+    .field.is-grouped {
+      padding-top: 12px;
+      border-top: 1px solid #eee;
+    }
+  }
+  .level-right {
+    padding-left: 32px;
+    border-left: 1px solid white;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    .content {
+      min-width: 400px;
+      max-width: 400px;
+      img {
+        padding: 1em 0;
+      }
+    }
+  }
+}
+
+#reports, #pictures, #moderators, #banned_users {
+  margin-top: 1em;
+  .card {
+    margin-top: 1em;
+    border-radius: 6px;
+    box-shadow: 0px 2px 3px 0px #333;
+    .media .title a {
+      text-decoration: underline;
+    }
+    .image img {
+      object-fit: cover;
+    }
+    .content {
+      &.citation {
+        margin-bottom: 3em;
+        padding-left: 6px;
+        border-left: 6px solid #666;
+      }
+    }
+    .media.offender {
+      border-top: 1px solid #eee;
+      padding-top: 1em;
+    }
+  }
+  .image-selector {
+    input {
+      display: none;
+    }
+    .figure {
+      position: relative;
+    }
+    .delete-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #3c6478;
+      text-align: center;
+      opacity: 0;
+      .icon {
+        margin-top: calc(50% - 28px);
+        background: white;
+        border-radius: 32px;
+        padding: 32px;
+        box-shadow: 0px 2px 3px 0px #333;
+      }
+    }
+    input:checked + figure {
+      .delete-overlay {
+        opacity: 0.9;
+      }
+    }
+  }
+}
+
+#banned_users {
+  th {
+    white-space: nowrap;
+  }
+  .banned-user-ban-until {
+    white-space: nowrap;
+  }
+}
+
+.user-modal {
+  .content {
+    figure {
+      padding: 0;
+      margin: 0;
+      border-radius: 4px;
+      box-shadow: 0px 2px 3px 0px #333;
+      img {
+        object-fit: cover;
+        display: block;
+      }
+    }
+  }
+  .modal-card-foot {
+    .dropdown {
+      margin-right: 10px;
+    }
+  }
+}
+
+.field .control .checkbox, .field .control .radio {
+  span {
+    padding-left: 8px;
+  }
+}
+
+.modal.page-modal {
+  z-index: 0;
+  position: relative;
+  margin-top: 2em;
+  .modal-card {
+    min-height: calc(100vh - 4em - 56px);
+  }
+}
+
+.menu.side-menu {
+  position: absolute;
+  margin-top: 2em;
+  margin-left: 2em;
+  p, a {
+    color: white;
+  }
+  a {
+    border: 1px solid transparent;
+  }
+  li {
+    margin-top: 2px;
+  }
+  a:hover {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+  }
+  a.is-active {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.banned_notice {
+  font-size: 12px;
+  color: #333;
+}
+
+@media (max-width: 1024px) {
+  .menu.side-menu {
+    position: relative;
+    width: calc(100% - 2em);
+    margin-left: 1em;
+    margin-top: 1em;
+  }
+  #reports, #pictures, #moderators, #banned_users {
+    margin-top: 0;
+  }
+  #login {
+    .columns {
+      margin: 0;
+    }
+    .column {
+      padding: 0;
+    }
+    .level-left {
+      padding: 2em;
+      margin-right: 0;
+      .card {
+        width: 100%;
+        min-width: 100%;
+      }
+    }
+    .level-right {
+      text-align: center;
+      width: 100%;
+      border-left: 0;
+      padding-left: 0;
+      .content {
+        width: 100%;
+        max-width: 100%;
+        padding: 2em;
+      }
+    }
+  }
+  #map {
+    padding: 0;
+    margin: 0;
+    margin-top: 1em;
+    width: 100%;
+    height: calc(100vh - 56px - 2em);
+  }
+  .chart {
+    margin-top: 1em;
+  }
+  .full-height-container {
+    min-height: calc(100vh - 62px);
+    padding-bottom: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+  .modal.page-modal {
+    margin-top: 1em;
+    .modal-card {
+      min-height: calc(100vh - 2em - 56px);
+    }
+  }
+}

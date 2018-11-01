@@ -1,0 +1,27 @@
+= form_for moderator, url: moderation_moderator_path(moderator) do |f|
+  .card.moderator
+    .card-header
+      .card-header-title
+        = moderator.name
+    .card-content
+      .content
+        h6 Creation date
+        p= moderator.created_at
+
+        h6 Access rights
+        .columns.is-multiline
+          - Moderator::CAPABILITIES.each do |capability|
+            .column.is-half
+              .field
+                .control
+                  = label_tag :capabilities, for: "#{capability}-#{moderator.id}", class: 'checkbox' do
+                    = check_box_tag "moderator[capabilities][]", capability,  moderator.capabilities.include?(capability), id: "#{capability}-#{moderator.id}"
+                    span= capability.humanize.capitalize
+
+      .field.is-grouped
+        p.control
+          = f.button class: "button", method: :put do
+            | Save
+        p.control
+          = link_to moderation_moderator_path(id: moderator.id), class: "button is-danger", method: :delete, data: { confirm: "Are you sure you want to delete this moderator?" } do
+            | Delete

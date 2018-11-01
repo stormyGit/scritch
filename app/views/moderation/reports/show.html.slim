@@ -1,0 +1,6 @@
+= render partial: 'moderation/shared/side_menu'
+
+#reports.container.full-height-container
+  .columns.is-centered
+    .column.is-half.is-narrow
+      = render partial: 'moderation/reports/report', locals: { report: @report }

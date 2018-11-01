@@ -1,0 +1,5 @@
+#moderators.container.full-height-container
+  .columns.is-multiline
+    - @moderators.each do |moderator|
+      .column.is-one-third
+        = render partial: 'moderation/moderators/moderator', locals: { moderator: moderator }

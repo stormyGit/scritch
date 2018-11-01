@@ -45,4 +45,8 @@ class User < ApplicationRecord
   def has_block_with?(user)
     self.blocked_users_ids.include?(user.uuid) || user.blocked_users_ids.include?(self.uuid)
   end
+
+  def is_banned?
+    BannedUser.find_last_active_ban_for(self.telegram_id).present?
+  end
 end

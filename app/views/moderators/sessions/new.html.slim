@@ -1,0 +1,22 @@
+= form_for(resource, as: resource_name, url: moderator_session_path) do |f|
+  = f.hidden_field :remember_me, value: true
+  .card
+    .card-header
+      .card-header-title
+        | Login
+
+    .card-content
+      .field
+        label.label
+          = f.label :email
+        .control
+          =  f.email_field :email, autofocus: true, autocomplete: "email", class: "input"
+      .field
+        label.label
+          = f.label :password
+        .control
+          =  f.password_field :password, autocomplete: "off", class: "input"
+
+      .field.is-grouped
+        .control
+          = f.submit "Log in", class: "button"

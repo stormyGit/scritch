@@ -1,0 +1,4 @@
+- if user.avatar_url.present?
+  = image_tag user.avatar_url(:tiny_thumbnail)
+- else
+  = image_tag '/default-avatar.png'

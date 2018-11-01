@@ -1,0 +1,9 @@
+tr
+  td= "##{banned_user.id}"
+  td.banned-user-name= banned_user.user_with_deleted.name
+  td.banned-user-telegram-id= banned_user.telegram_id
+  td.banned-user-ban-reason= banned_user.ban_reason || "Not specified"
+  td.banned-user-ban-until= banned_user.ban_end_in_words.capitalize
+  td.banned-user-actions
+    = link_to moderation_banned_user_path(id: banned_user.id), class: "button is-danger", method: :delete, data: { confirm: "Are you sure you want to lift this ban?" } do
+      | Lift ban

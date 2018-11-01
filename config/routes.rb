@@ -1,9 +1,41 @@
 Rails.application.routes.draw do
+  devise_for :moderators
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end
+
+  namespace :moderation do
+    root to: "home#index"
+
+    resources :home, only: [] do
+      collection do
+        get :analytics
+      end
+    end
+    resources :reports do
+      put :dismiss
+      put :mark_as_accepted
+      put :reopen
+      put :assign
+      put :unassign
+    end
+    resources :users do
+      put :moderate_profile
+      put :ban_and_remove_account
+      put :ban_permanently
+      put :ban_for_a_month
+      put :ban_for_a_week
+    end
+    resources :comments do
+    end
+    resources :moderators do
+    end
+    resources :banned_users do
+    end
+  end
+
   post "/graphql", to: "graphql#execute"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 

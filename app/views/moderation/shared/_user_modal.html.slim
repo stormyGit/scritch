@@ -1,0 +1,35 @@
+.modal.user-modal id="user-modal-#{user.id}" data={ activatable: true } class="#{open && 'is-active'} #{in_user_page? && 'page-modal'}"
+  - unless in_user_page?
+    .modal-background.close-button
+  .modal-card
+    = render partial: "moderation/shared/user_modal_header", locals: { user: user, can_close: !in_user_page? }
+    section.modal-card-body
+      .content
+        .columns
+          .column
+            h6 Member since
+            = user.created_at
+        - if user.bio.present?
+          .columns
+            .column
+              h6 Bio
+              = user.bio
+
+        - if user.website.present?
+          .columns
+            .column
+              h6 Website
+              = user.website
+
+        - if user.media.any?
+          h6 Media
+          .columns.is-multiline
+            - user.media.each do |medium|
+              .column.is-one-third
+                figure.image
+                  = image_tag MediumStorage.key_to_cdn_url(medium.thumbnail_key)
+
+
+    footer.modal-card-foot
+      = link_to moderation_reports_path(user_id: user.id), class: "button close-button" do
+        | See all reports for #{user.name}

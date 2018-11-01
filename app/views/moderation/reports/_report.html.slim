@@ -1,0 +1,172 @@
+.card.report
+  .card-content
+    .level
+      .level-left
+        .title.is-4
+          | Report ##{report.attributes["id"]}
+          - unless in_report_page?
+            = link_to moderation_report_path(report), target: "_blank" do
+              span.icon
+                i.material-icons.is-size-6 open_in_new
+      .level-right
+        - if report.assignee.blank?
+          = button_to moderation_report_assign_path(report_id: report.id), class: 'button', method: :put do
+            | Assign myself
+        - else
+          .dropdown.is-hoverable
+            .dropdown-trigger
+              button.button
+                span
+                  | Assigned to #{report.assignee == current_moderator ? 'you' : report.assignee.name}
+                span.icon.is-small
+                  i.material-icons expand_more
+            .dropdown-menu role="menu"
+              .dropdown-content
+                - if report.assignee != current_moderator
+                  = link_to moderation_report_assign_path(report_id: report.id), class: 'dropdown-item', method: :put
+                    | Assign to me
+                = link_to moderation_report_unassign_path(report_id: report.id), class: 'dropdown-item', method: :put
+                  | Unassign
+
+    .content.citation
+      = format_text(report.description)
+      .is-size-7
+        = "#{time_ago_in_words(report.created_at)} ago"
+
+    - if report.user.present?
+      .media.offender
+        .media-left
+          figure.image.is-48x48
+            = render partial: 'moderation/shared/avatar', locals: { user: report.user }
+        .media-content.ellipsis
+          .title.is-5.ellipsis
+            = render partial: 'moderation/shared/user_modal_link', locals: { user: report.user, open_in_new: true }
+          .subtitle.is-6.ellipsis
+            = render partial: 'moderation/shared/telegram_link', locals: { user: report.user }
+        .media-right
+          - if report.assignee == current_moderator
+            .dropdown.is-hoverable
+              .dropdown-trigger
+                button.button
+                  span
+                    | Take actions
+                  span.icon.is-small
+                    i.material-icons expand_more
+              .dropdown-menu role="menu"
+                .dropdown-content
+                  = link_to "#moderate-profile-#{report.user.id}", class: 'dropdown-item', data: { activator: true }
+                    | Moderate profile
+                  = link_to "#ban-and-remove-account-#{report.user.id}", class: 'dropdown-item', data: { activator: true }
+                    | Ban and remove account
+                  = link_to "#ban-permanently-#{report.user.id}", class: 'dropdown-item', data: { activator: true }
+                    | Ban permanently but keep account
+                  = link_to "#ban-for-a-month-#{report.user.id}", class: 'dropdown-item', data: { activator: true }
+                    | Ban for a month
+                  = link_to "#ban-for-a-week-#{report.user.id}", class: 'dropdown-item', data: { activator: true }
+                    | Ban for a week
+
+    - else
+      .media.offender
+        .media-content
+          .title.is-4
+            | User deleted
+
+  .card-content
+    .content
+      - report.moderation_comments.order(created_at: :desc).find_each do |comment|
+        .box
+          .level
+            .level-left
+              .title.is-6
+                = "By " + comment.moderator.name
+            .level-right.is-size-7
+              = "#{time_ago_in_words(report.created_at)} ago"
+          .content
+            = format_text comment.body
+
+      = form_for Moderation::Comment.new(subject: report), url: moderation_comments_url, method: :post do |f|
+        = f.hidden_field :subject_type
+        = f.hidden_field :subject_id
+
+        .field
+          .control
+            = f.text_area :body, class: "textarea", placeholder: "Write your comment..."
+        .field
+          .control
+            button.button.is-link
+              | Submit
+  - if report.assignee == current_moderator
+    footer class="card-footer"
+      - if report.status == 'new'
+        = link_to moderation_report_dismiss_path(report_id: report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to dismiss this report?" } do
+          | Ignore
+        = link_to moderation_report_mark_as_accepted_path(report_id: report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to mark this report as accepted?" } do
+          | Mark as done
+      - else
+        = link_to moderation_report_reopen_path(report_id: report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to reopen this report?" } do
+          | Reopen report
+
+- if report.user.present?
+  = render partial: "moderation/shared/user_modal", locals: { user: report.user, open: false }
+  = form_for report.user, url: moderation_user_ban_and_remove_account_path(user_id: report.user.id), method: :put do |f|
+    = render partial: "moderation/shared/ban_form", locals: { user: report.user, title: "Ban #{report.user.name} and remove account", id: "ban-and-remove-account-#{report.user.id}" }
+
+  = form_for report.user, url: moderation_user_ban_permanently_path(user_id: report.user.id), method: :put do |f|
+    = render partial: "moderation/shared/ban_form", locals: { user: report.user, title: "Ban #{report.user.name} permanently but keep account", id: "ban-permanently-#{report.user.id}" }
+
+  = form_for report.user, url: moderation_user_ban_for_a_month_path(user_id: report.user.id), method: :put do |f|
+    = render partial: "moderation/shared/ban_form", locals: { user: report.user, title: "Ban #{report.user.name} for a month", id: "ban-for-a-month-#{report.user.id}" }
+
+  = form_for report.user, url: moderation_user_ban_for_a_week_path(user_id: report.user.id), method: :put do |f|
+    = render partial: "moderation/shared/ban_form", locals: { user: report.user, title: "Ban #{report.user.name} for a week", id: "ban-for-a-week-#{report.user.id}" }
+
+  = form_for report.user, url: moderation_user_moderate_profile_path(user_id: report.user.id), method: :put do |f|
+    .modal.user-modal id="moderate-profile-#{report.user.id}" data={ activatable: true }
+      .modal-background.close-button
+      .modal-card
+        header.modal-card-head
+          p.modal-card-title
+            | Moderate #{report.user.name}'s profile
+          button.delete.close-button type="button"
+
+        section.modal-card-body
+          - if report.user.bio.present? || report.user.avatar.present? || report.user.like.present? || report.user.dislike.present?
+            .content
+              .title.is-6
+                | Profile information
+
+              - if report.user.bio.present?
+                .field
+                  .control
+                    label.checkbox
+                      input type="checkbox" name="clear_bio"
+                      span
+                        | Clear bio
+
+              - if report.user.avatar.present?
+                .field
+                  .control
+                    label.checkbox
+                      input type="checkbox" name="clear_avatar"
+                      span
+                        | Clear avatar
+
+          - if report.user.media.any?
+            .title.is-6
+              | Select videos to delete
+            .columns.is-multiline
+              - report.user.media.each do |medium|
+                .column.is-one-third
+                  .field
+                    .control
+                      label.checkbox.image-selector
+                        input type="checkbox" name="mediums_to_delete[]" value=medium.id
+                        figure.image
+                          = image_tag MediumStorage.key_to_cdn_url(medium.thumbnail_key)
+                          .delete-overlay
+                            span.icon
+                              i.material-icons.is-size-1 delete_forever
+
+        footer.modal-card-foot
+          input type="submit" name="submit_and_close" class="button is-primary" value="Submit and accept all reports" data-confirm="Are you sure?"
+          input type="submit" name="submit" class="button is-primary" value="Submit" data-confirm="Are you sure?"

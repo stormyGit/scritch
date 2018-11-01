@@ -1,0 +1,5 @@
+a.user-modal-link.has-text-black.has-text-underlined href="#user-modal-#{user.id}" data={ activator: true }
+  = user.name
+- if user.is_banned?
+  span.banned_notice
+    |  banned

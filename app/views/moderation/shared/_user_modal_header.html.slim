@@ -1,0 +1,13 @@
+header.modal-card-head
+  .media
+    .media-left
+      figure.image.is-48x48
+        = render partial: 'moderation/shared/avatar', locals: { user: user }
+  .media-content
+    .modal-card-title
+      .title.is-4
+        = render partial: "moderation/shared/user_link", locals: { user: user }
+      .subtitle.is-6
+        = render partial: 'moderation/shared/telegram_link', locals: { user: user }
+  - if can_close
+    a.delete.close-button

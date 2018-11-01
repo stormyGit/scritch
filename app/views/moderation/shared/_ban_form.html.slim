@@ -1,0 +1,23 @@
+.modal.user-modal id=id data={ activatable: true }
+  .modal-background.close-button
+  .modal-card
+    header.modal-card-head
+      p.modal-card-title
+        = title
+      button.delete.close-button type="button"
+
+    section.modal-card-body
+      .content
+        h6
+          | Ban reason
+
+        - [ "TOS violation", "Repeated TOS violations", "Underage" ].each do |ban_reason|
+          .field
+            .control
+              label.radio
+                input type="radio" name="ban_reason" value=ban_reason
+                span
+                  = ban_reason
+    footer.modal-card-foot
+      input type="submit" name="submit_and_close" class="button is-primary" value="Submit and accept all reports" data-confirm="Are you sure?"
+      input type="submit" name="submit" class="button is-primary" value="Submit" data-confirm="Are you sure?"

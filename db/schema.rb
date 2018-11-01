@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_31_062514) do
+ActiveRecord::Schema.define(version: 2018_11_01_200116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -82,6 +82,19 @@ ActiveRecord::Schema.define(version: 2018_10_31_062514) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "banned_users", force: :cascade do |t|
+    t.string "telegram_id"
+    t.text "ban_reason"
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.string "notification_message"
+    t.datetime "banned_until"
+    t.json "user_attributes", default: {}
+    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["telegram_id"], name: "index_banned_users_on_telegram_id"
   end
 
   create_table "chats", force: :cascade do |t|
@@ -194,6 +207,36 @@ ActiveRecord::Schema.define(version: 2018_10_31_062514) do
     t.index ["uuid"], name: "index_messages_on_uuid", unique: true
   end
 
+  create_table "moderation_comments", force: :cascade do |t|
+    t.uuid "subject_id"
+    t.string "subject_type"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "moderator_id"
+    t.index ["moderator_id"], name: "index_moderation_comments_on_moderator_id"
+    t.index ["subject_id"], name: "index_moderation_comments_on_subject_id"
+  end
+
+  create_table "moderators", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "name"
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "capabilities", default: [], array: true
+    t.index ["email"], name: "index_moderators_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_moderators_on_reset_password_token", unique: true
+  end
+
   create_table "reports", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.text "description"
@@ -214,6 +257,16 @@ ActiveRecord::Schema.define(version: 2018_10_31_062514) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "statistics", force: :cascade do |t|
+    t.integer "users"
+    t.integer "chats"
+    t.integer "messages"
+    t.integer "likes"
+    t.integer "media"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|

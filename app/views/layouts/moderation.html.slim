@@ -1,0 +1,101 @@
+doctype html
+html lang="en"
+  head
+    meta charset="utf-8"
+    meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport"
+    meta content="Howlr Lab" name="author"
+
+    link rel="apple-touch-icon" sizes="57x57" href=image_path("apple-icon-57x57.png")
+    link rel="apple-touch-icon" sizes="60x60" href=image_path("apple-icon-60x60.png")
+    link rel="apple-touch-icon" sizes="72x72" href=image_path("apple-icon-72x72.png")
+    link rel="apple-touch-icon" sizes="76x76" href=image_path("apple-icon-76x76.png")
+    link rel="apple-touch-icon" sizes="114x114" href=image_path("apple-icon-114x114.png")
+    link rel="apple-touch-icon" sizes="120x120" href=image_path("apple-icon-120x120.png")
+    link rel="apple-touch-icon" sizes="144x144" href=image_path("apple-icon-144x144.png")
+    link rel="apple-touch-icon" sizes="152x152" href=image_path("apple-icon-152x152.png")
+    link rel="apple-touch-icon" sizes="180x180" href=image_path("apple-icon-180x180.png")
+    link rel="icon" type="image/png" sizes="192x192"  href=image_path("android-icon-192x192.png")
+    link rel="icon" type="image/png" sizes="32x32" href=image_path("favicon-32x32.png")
+    link rel="icon" type="image/png" sizes="96x96" href=image_path("favicon-96x96.png")
+    link rel="icon" type="image/png" sizes="16x16" href=image_path("favicon-16x16.png")
+    meta name="msapplication-TileColor" content="#3c6478"
+    meta name="msapplication-TileImage" content=image_path("ms-icon-144x144.png")
+    meta name="theme-color" content="#3c6478"
+
+    title
+      = "Moderation | Howlr"
+    link rel="icon" href=image_url('logo.png')
+    link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet"
+    link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"
+    link href="https://fonts.googleapis.com/css?family=Material+Icons" rel="stylesheet"
+
+    = stylesheet_link_tag    'moderation', media: 'all'
+    = javascript_include_tag 'moderation', "data-turbolinks-track" => true, 'data-turbolinks-eval' => false
+
+  body
+    - if moderator_signed_in?
+      .nav.navbar role="navigation" aria-label="dropdown navigation"
+        .navbar-brand
+          .navbar-item
+            = active_link_to moderation_root_path, class: "navbar-item", class_active: "is-active", active: :exact do
+              | Home
+          a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" onClick="document.getElementById('nav-menu').classList.toggle('is-active')"
+            span aria-hidden="true"
+            span aria-hidden="true"
+            span aria-hidden="true"
+        .navbar-menu id='nav-menu'
+          .navbar-start
+            - if moderator_can_see?("analytics")
+              = active_link_to analytics_moderation_home_index_path, class: "navbar-item", class_active: "is-active", active: :exact do
+                | Analytics
+            - if moderator_can_see?("reports") || moderator_can_see?("pictures")
+              = active_link_to moderation_reports_path, class: "navbar-item is-hidden-mobile", class_active: "is-active", active: /^\/moderation\/(reports|pictures).*/ do
+                | Moderation
+            - if moderator_can_see?("banned_users")
+              = active_link_to moderation_banned_users_path, class: "navbar-item", class_active: 'is-active', active: :exact do
+                | Banned users
+            - if moderator_can_see?("moderators")
+              = active_link_to moderation_moderators_path, class: "navbar-item", class_active: 'is-active', active: :exact do
+                | Moderators
+            - if moderator_can_see?("reports")
+              = active_link_to moderation_reports_path, class: "navbar-item is-hidden-desktop is-hidden-widescreen", class_active: "is-active", active: :exact do
+                | All open reports
+              = active_link_to moderation_reports_path(assigned_to_me: true), class: "navbar-item is-hidden-desktop is-hidden-widescreen", class_active: "is-active", active: :exact do
+                | Reports assigned to me
+
+          .navbar-end
+            .dropdown.is-hoverable.navbar-item
+              .dropdown-trigger
+                button.button
+                  span
+                    | #{current_moderator.name}
+                  span.icon.is-small
+                    i.material-icons expand_more
+              .dropdown-menu role="menu"
+                .dropdown-content
+                  = link_to destroy_moderator_session_path, class: 'dropdown-item', method: :delete
+                    | Logout
+
+    - if !moderator_signed_in?
+      #login
+        .columns.is-centered
+          .column.is-narrow
+            .level
+              .level-left
+                = yield
+              .level-right
+                .content.has-text-white
+                  .title.is-4.has-text-white
+                    | Welcome to the Howlr moderation dashboard
+                  = image_tag "moderator.png"
+                  br
+                  | We currently have
+                  strong.has-text-white
+                    = " #{Moderator.count} moderators "
+                  | working in the Howlr team. We closed
+                  strong.has-text-white
+                    = " #{Report.where(status: ["dismissed", "accepted", "closed"]).count} reports "
+                  | so far.
+    - else
+      main
+        = yield

@@ -1,0 +1,8 @@
+= user.name
+- if user.is_banned?
+  span.banned_notice
+    |  banned
+- unless in_user_page?
+  = link_to moderation_user_path(user), target: "_blank" do
+    span.icon
+      i.material-icons.is-size-6 open_in_new

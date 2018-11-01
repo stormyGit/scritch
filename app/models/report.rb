@@ -10,6 +10,8 @@ class Report < ApplicationRecord
 
   validates :description, presence: true
 
+  has_many :moderation_comments, as: :subject, class_name: "Moderation::Comment"
+
   STATUSES = [
     :new,
     :dismissed,

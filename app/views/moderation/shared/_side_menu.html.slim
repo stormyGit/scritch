@@ -1,0 +1,19 @@
+aside.menu.side-menu.is-hidden-mobile
+  - if moderator_can_see?("reports")
+    p.menu-label
+      | Reports
+    ul.menu-list
+      - if @report.present?
+        li
+          a.is-active
+            | Report ##{@report.attributes['id']}
+      - if @reports_for_user.present?
+        li
+          a.is-active
+            | All reports for ##{@reports_for_user.name}
+      li
+        = active_link_to moderation_reports_path, class_active: "is-active", active: :exact do
+          | All open reports
+      li
+        = active_link_to moderation_reports_path(assigned_to_me: true), class_active: "is-active", active: :exact do
+          | Assigned to me
