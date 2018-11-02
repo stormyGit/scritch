@@ -246,6 +246,32 @@ class ActivitiesDialog extends React.Component {
     );
   }
 
+  renderMediumRefused(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+      >
+        <UserAvatar user={activity.owner} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your video `}
+                <Typography variant="body2" component="span" className={classes.highlight}>
+                  {activity.trackable.title}
+                </Typography>
+                {` was refused.`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
   renderMediumPublished(activity) {
     const { classes } = this.props;
 
@@ -319,6 +345,8 @@ class ActivitiesDialog extends React.Component {
         return (this.renderMediumAccepted(activity));
       case 'medium.published':
         return (this.renderMediumPublished(activity));
+      case 'medium.refused':
+        return (this.renderMediumRefused(activity));
       case 'report.create':
         return (this.renderReportCreate(activity));
       default:

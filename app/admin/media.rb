@@ -1,6 +1,25 @@
 ActiveAdmin.register Medium do
   permit_params :user_id, :title, :description
 
+  action_item :refuse, only: [:show, :edit] do
+    if resource.refused_at.present?
+      link_to('Cancel refuse', cancel_refuse_admin_medium_path(resource), method: :put, data: { confirm: "Are you sure you?" })
+    else
+      link_to('Refuse', refuse_admin_medium_path(resource), method: :put, data: { confirm: "Are you sure you want to refuse this video?" })
+    end
+  end
+
+  member_action :refuse, method: :put do
+    resource.create_activity key: 'medium.refused', owner: User.find_by(telegram_id: ENV["ADMIN_ACCOUNT_TELEGRAM_ID"]), recipient: resource.user
+    resource.update(refused_at: DateTime.now)
+    redirect_to resource_path, notice: "Medium refused"
+  end
+
+  member_action :cancel_refuse, method: :put do
+    resource.update(refused_at: nil)
+    redirect_to resource_path, notice: "Medium set back to waiting"
+  end
+
   action_item :accept, only: [:show, :edit] do
     if resource.published_at.present?
       link_to('Reencode', accept_admin_medium_path(resource), method: :put)
