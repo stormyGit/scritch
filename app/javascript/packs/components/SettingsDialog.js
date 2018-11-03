@@ -155,13 +155,6 @@ class Settings extends React.Component {
                 </Button>
                 <Mutation
                   mutation={DELETE_USER}
-                  update={(cache) => {
-                    cache.writeQuery({
-                      query: GET_SESSION,
-                      data: { session: null }
-                    });
-                    themeSelector();
-                  }}
                 >
                   {( deleteUser, { data }) => (
                     <Button
@@ -169,9 +162,7 @@ class Settings extends React.Component {
                       onClick={() => {
                         deleteUser({ variables: { input: { id: currentSession.user.id }}}).then(() => {
                           localStorage.setItem('token', null);
-                          this.props.history.push({
-                            pathname: '/',
-                          });
+                          location.reload();
                         });
                       }}
                     >
@@ -229,13 +220,6 @@ class Settings extends React.Component {
               </Button>
               <Mutation
                 mutation={DELETE_SESSION}
-                update={(cache) => {
-                  cache.writeQuery({
-                    query: GET_SESSION,
-                    data: { session: null }
-                  });
-                  themeSelector();
-                }}
               >
                 {( deleteSession, { data }) => (
                   <Button
@@ -243,7 +227,7 @@ class Settings extends React.Component {
                       deleteSession({ variables: { input: { id: currentSession.id }}})
                         .then(() => {
                           localStorage.setItem('token', null);
-                          this.props.onClose();
+                          location.reload();
                         });
                     }}
                   >

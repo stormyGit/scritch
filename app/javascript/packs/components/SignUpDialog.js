@@ -165,14 +165,6 @@ class SignUpDialog extends React.Component {
 const FormWithMutation = (props) => (
   <Mutation
     mutation={CREATE_SESSION}
-    update={(cache, { data: { createSession } }) => {
-      localStorage.setItem('token', createSession.session.id);
-      cache.writeQuery({
-        query: GET_SESSION,
-        data: { session: createSession.session }
-      });
-      themeSelector(createSession.session.user.theme);
-    }}
   >
     {(createSession, { data, loading, called }) => {
       return (
@@ -180,7 +172,8 @@ const FormWithMutation = (props) => (
           loading={loading}
           onSubmit={(input) => {
             createSession({ variables: { input } }).then(({ data: { createSession: { session }}}) => {
-              props.onClose();
+              localStorage.setItem('token', session.id);
+              location.reload();
             })
           }}
           {...props}

@@ -276,7 +276,6 @@ class User extends React.Component {
             <Button
               variant="contained"
               size={width !== 'lg' && width !== 'xl' ? 'small' : 'medium'}
-              className={(width === 'lg' || width === 'xl') ? this.props.classes.followButtonSpacer : null}
               onClick={() => {
                 createFollow({ variables: { input: { followableId: user.id }}})
               }}
