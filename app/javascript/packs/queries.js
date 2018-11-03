@@ -13,16 +13,6 @@ export const CREATE_SESSION = gql`
         id
         user {
           id
-          name
-          public
-          slug
-          avatar
-          banner
-          bio
-          website
-          theme
-          mediaCount
-          followingCount
         }
       }
     }
@@ -32,6 +22,16 @@ export const CREATE_SESSION = gql`
 export const READ_ACTIVITIES = gql`
   mutation readActivities($input: ReadActivitiesInput!) {
     readActivities(input: $input) {
+      user {
+        id
+      }
+    }
+  }
+`;
+
+export const READ_ANNOUNCEMENTS = gql`
+  mutation readAnnouncements($input: ReadAnnouncementsInput!) {
+    readAnnouncements(input: $input) {
       user {
         id
       }
@@ -203,6 +203,22 @@ export const GET_USERS = gql`
     }
   }
 `
+
+export const GET_ANNOUNCEMENTS = gql`
+  query Announcements($offset: Int!, $limit: Int!) {
+    announcements(offset: $offset, limit: $limit) {
+      id
+      body
+      createdAt
+      sender {
+        id
+        slug
+        name
+        avatar
+      }
+    }
+  }
+`;
 
 export const GET_ACTIVITIES = gql`
   query Activities($offset: Int!, $limit: Int!) {
@@ -495,6 +511,7 @@ export const GET_SESSION = gql`
         theme
         mediaCount
         followingCount
+        unreadAnnouncementsCount
       }
     }
   }

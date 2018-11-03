@@ -11,6 +11,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
+import Badge from '@material-ui/core/Badge';
 
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
@@ -26,11 +27,13 @@ import LogoutIcon from '@material-ui/icons/ExitToApp';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
+import AnnouncementIcon from '@material-ui/icons/Announcement';
 
 import TermsDialog from './TermsDialog';
 import PrivacyPolicyDialog from './PrivacyPolicyDialog';
 import SettingsDialog from './SettingsDialog';
 import SignUpDialog from './SignUpDialog';
+import AnnouncementsDialog from './AnnouncementsDialog';
 import EditMediumDialog from './EditMediumDialog';
 
 import ProfileAvatar from './ProfileAvatar';
@@ -84,6 +87,7 @@ class DrawerMenu extends React.Component {
     settingsDialog: false,
     signUpDialog: false,
     uploadDialog: false,
+    announcementsDialog: false,
   }
   render() {
     const { classes, location, currentSession } = this.props;
@@ -215,21 +219,39 @@ class DrawerMenu extends React.Component {
             <List>
               {
                 currentSession && !this.props.disableSettings &&
-                  <ListItem
-                    button
-                    onClick={() => this.setState({ settingsDialog: true })}
-                  >
-                    <ListItemIcon>
-                      <SettingsIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Account and security"
-                      primaryTypographyProps={{
-                        noWrap: true,
-                      }}
-                    />
-                  </ListItem>
+                  <React.Fragment>
+                    <ListItem
+                      button
+                      onClick={() => this.setState({ settingsDialog: true })}
+                    >
+                      <ListItemIcon>
+                        <SettingsIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Account and security"
+                        primaryTypographyProps={{
+                          noWrap: true,
+                        }}
+                      />
+                    </ListItem>
+                    <Divider />
+                  </React.Fragment>
               }
+              <ListItem
+                button
+                onClick={() => this.setState({ announcementsDialog: true })}
+              >
+                <ListItemIcon className={classes.text}>
+                  {
+                    currentSession && currentSession.user.unreadAnnouncementsCount > 0 ?
+                      <Badge badgeContent={currentSession.user.unreadAnnouncementsCount} color="primary">
+                        <AnnouncementIcon />
+                      </Badge> :
+                      <AnnouncementIcon />
+                  }
+                </ListItemIcon>
+                <ListItemText primary={`${process.env.SITE_NAME} news`} primaryTypographyProps={{ className: classes.text }} />
+              </ListItem>
               <ListItem
                 button
                 onClick={() => this.setState({ termsDialog: true })}
@@ -304,6 +326,15 @@ class DrawerMenu extends React.Component {
           open={this.state.signUpDialog}
           onClose={() => {
             this.setState({ signUpDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
+          }}
+        />
+        <AnnouncementsDialog
+          open={this.state.announcementsDialog}
+          onClose={() => {
+            this.setState({ announcementsDialog: false });
             if (this.props.onClose) {
               this.props.onClose();
             }

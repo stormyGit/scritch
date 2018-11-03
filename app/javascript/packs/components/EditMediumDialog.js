@@ -364,9 +364,9 @@ class EditMediumDialog extends React.Component {
                     <Mutation
                       mutation={UPDATE_MEDIUM}
                       update={(cache, { data: { updateMedium } }) => {
-                        const { session } = cache.readQuery({ query: GET_MEDIUM, variables: { id: medium.id } });
                         cache.writeQuery({
                           query: GET_MEDIUM,
+                          variables: { id: medium.id },
                           data: { medium: updateMedium.medium }
                         });
                       }}
