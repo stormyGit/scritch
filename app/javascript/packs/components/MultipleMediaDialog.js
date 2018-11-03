@@ -218,6 +218,9 @@ const styles = theme => ({
   },
   dialogContent: {
   },
+  link: {
+    color: theme.palette.text.primary,
+  }
 });
 
 class MultipleMediaDialog extends React.Component {
@@ -225,6 +228,7 @@ class MultipleMediaDialog extends React.Component {
     title: '',
     description: '',
     commentsEnabled: true,
+    shareOnTwitter: true,
     tagList: [],
     visibility: '',
     restriction: '',
@@ -297,6 +301,42 @@ class MultipleMediaDialog extends React.Component {
                 <MenuItem value={'content_producers'}>{`Other ${process.env.CONTENT_PRODUCERS_NAME} only`}</MenuItem>
               </Select>
             </FormControl>
+            <FormControlLabel
+              margin={'dense'}
+              control={
+                <Switch
+                  checked={this.state.commentsEnabled}
+                  onChange={() => {
+                    this.setState({ commentsEnabled: !this.state.commentsEnabled })
+                  }}
+                  color="primary"
+                />
+              }
+              label={this.state.commentsEnabled ? "Comments enabled" : "Comments disabled"}
+            />
+            {
+              process.env.TWITTER_ACCOUNT &&
+                <FormControlLabel
+                  margin={'dense'}
+                  control={
+                    <Switch
+                      disabled={this.state.restriction !== 'none' || this.state.visibility !== 'public'}
+                      checked={this.state.shareOnTwitter && this.state.restriction === 'none' && this.state.visibility === 'public'}
+                      onChange={() => {
+                        this.setState({ shareOnTwitter: !this.state.shareOnTwitter })
+                      }}
+                      color="primary"
+                    />
+                  }
+                  label={
+                    <span>
+                      <span>{`Share on `}</span>
+                      <a className={classes.link} target="_blank" href={`https://twitter.com/${process.env.TWITTER_ACCOUNT}`}>{`@${process.env.TWITTER_ACCOUNT}`}</a>
+                      <span>{` Twitter feed`}</span>
+                    </span>
+                  }
+                />
+            }
             {
               this.state.visibility !== '' && this.state.restriction !== '' &&
               <Mutation mutation={CREATE_MEDIUM}>
@@ -314,6 +354,7 @@ class MultipleMediaDialog extends React.Component {
                                title: processFileName(file),
                                description: this.state.description,
                                commentsDisabled: !this.state.commentsEnabled,
+                               shareOnTwitter: this.state.shareOnTwitter && this.state.restriction === 'none' && this.state.visibility === 'public',
                                temporaryKey,
                                tagList: this.state.tagList,
                                visibility: this.state.visibility,

@@ -25,12 +25,12 @@ class SendTweetJob < ApplicationJob
 
   def build_message_body_for(medium)
     elems = [
-      { body: "New on #murrtube!\n\n", truncate: 280 },
+      { body: "New on ##{ENV['TWITTER_ACCOUNT']}!\n\n", truncate: 280 },
       { body: medium.title.strip, truncate: 30 },
       { body: " by ", truncate: 280 },
       { body: medium.user.name.strip, truncate: 30 },
       { body: " ", truncate: 280 },
-      { body: Rails.application.routes.url_helpers.videos_url(id: medium.slug + "-" + medium.uuid, host: ENV['DOMAIN']), truncate: 280 },
+      { body: Rails.application.routes.url_helpers.video_url(id: medium.slug + "-" + medium.uuid, host: ENV['DOMAIN']), truncate: 280 },
       { body: " ", truncate: 280 },
       { body: medium.tag_list.map { |tag| "##{tag}" }.join(" "), truncate: 30 }
     ]

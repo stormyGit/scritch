@@ -43,7 +43,7 @@ Rails.application.routes.draw do
 
   get '/s3/sign', to: "s3#sign"
 
-  get "/videos/:id", to: "media#show"
+  get "/videos/:id", to: "media#show", as: 'video'
   get "/videos", to: "media#index"
   get "/trending", to: "media#index"
   get "/subscriptions", to: "media#index"

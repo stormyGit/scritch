@@ -36,7 +36,14 @@ class EncodeVideoJob < ApplicationJob
     end
 
     @medium.update(published_at: DateTime.now)
+
     @medium.create_activity key: 'medium.published', owner: User.find_by(telegram_id: ENV["ADMIN_ACCOUNT_TELEGRAM_ID"]), recipient: @medium.user
+
+    begin
+      SendTweetJob.perform_now(@medium) if @medium.share_on_twitter?
+    rescue => exception
+      ExceptionNotifier.notify_exception exception
+    end
   end
 
   def download_input!

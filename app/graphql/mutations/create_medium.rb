@@ -3,6 +3,7 @@ class Mutations::CreateMedium < Mutations::BaseMutation
   argument :description, String, required: false
   argument :temporary_key, String, required: true
   argument :comments_disabled, Boolean, required: true
+  argument :share_on_twitter, Boolean, required: false
   argument :tag_list, [String], required: false
 
   argument :visibility, String, required: true

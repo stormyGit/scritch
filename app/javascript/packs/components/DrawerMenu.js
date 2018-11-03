@@ -12,6 +12,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
+import withWidth from '@material-ui/core/withWidth';
 
 import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
@@ -52,7 +53,6 @@ const styles = theme => {
       display: 'flex',
       flexDirection: 'column',
       flexGrow: 1,
-      justifyContent: 'space-between',
     },
     profile: {
       display: 'flex',
@@ -90,11 +90,11 @@ class DrawerMenu extends React.Component {
     announcementsDialog: false,
   }
   render() {
-    const { classes, location, currentSession } = this.props;
+    const { classes, location, currentSession, width } = this.props;
 
     return (
       <React.Fragment>
-        <div className={classes.drawerSpacer}>
+        <div className={classes.drawerSpacer} style={{ justifyContent: (width === 'lg' || width === 'xl') ? 'space-between' : 'flex-start' }}>
           <div>
             {
               !this.props.disableProfile && currentSession &&
@@ -122,7 +122,7 @@ class DrawerMenu extends React.Component {
                   </div>
                 </ButtonBase>
             }
-            <List>
+            <List disablePadding={width !== 'lg' && width !== 'xl'}>
               {
                 !this.props.disableProfile && !currentSession &&
                   <React.Fragment>
@@ -216,7 +216,7 @@ class DrawerMenu extends React.Component {
             </List>
           </div>
           <div>
-            <List>
+            <List disablePadding={width !== 'lg' && width !== 'xl'}>
               {
                 currentSession && !this.props.disableSettings &&
                   <React.Fragment>
@@ -364,4 +364,4 @@ class DrawerMenu extends React.Component {
   }
 }
 
-export default withRouter(withStyles(styles)(withCurrentSession(DrawerMenu)));
+export default withRouter(withStyles(styles)(withCurrentSession(withWidth()(DrawerMenu))));

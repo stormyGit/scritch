@@ -72,7 +72,7 @@ const dropZoneStyles = theme => ({
   },
   progress: {
     color: "white",
-  }
+  },
 });
 
 class DropZoneField extends React.Component {
@@ -189,6 +189,9 @@ const styles = theme => ({
   chipInput: {
     marginTop: theme.spacing.unit,
     marginBottom: theme.spacing.unit * 2,
+  },
+  link: {
+    color: theme.palette.text.primary,
   }
 });
 
@@ -198,6 +201,7 @@ class EditMediumDialog extends React.Component {
     title: '',
     description: '',
     commentsEnabled: true,
+    shareOnTwitter: true,
     tagList: [],
     temporaryKey: null,
     visibility: 'public',
@@ -221,6 +225,7 @@ class EditMediumDialog extends React.Component {
       title: medium.title,
       description: medium.description,
       commentsEnabled: !medium.commentsDisabled,
+      shareOnTwitter: true,
       tagList: medium.tagList,
       visibility: medium.visibility,
       restriction: medium.restriction,
@@ -276,7 +281,7 @@ class EditMediumDialog extends React.Component {
               margin="dense"
               fullWidth
               multiline
-              rows={4}
+              rows={3}
               rowsMax={12}
             />
             <ChipInput
@@ -315,7 +320,6 @@ class EditMediumDialog extends React.Component {
                 <MenuItem value={'content_producers'}>{`Other ${process.env.CONTENT_PRODUCERS_NAME} only`}</MenuItem>
               </Select>
             </FormControl>
-
             <FormControlLabel
               margin={'dense'}
               control={
@@ -329,6 +333,29 @@ class EditMediumDialog extends React.Component {
               }
               label={this.state.commentsEnabled ? "Comments enabled" : "Comments disabled"}
             />
+            {
+              !medium.id && process.env.TWITTER_ACCOUNT &&
+                <FormControlLabel
+                  margin={'dense'}
+                  control={
+                    <Switch
+                      disabled={this.state.restriction !== 'none' || this.state.visibility !== 'public'}
+                      checked={this.state.shareOnTwitter && this.state.restriction === 'none' && this.state.visibility === 'public'}
+                      onChange={() => {
+                        this.setState({ shareOnTwitter: !this.state.shareOnTwitter })
+                      }}
+                      color="primary"
+                    />
+                  }
+                  label={
+                    <span>
+                      <span>{`Share on `}</span>
+                      <a className={classes.link} target="_blank" href={`https://twitter.com/${process.env.TWITTER_ACCOUNT}`}>{`@${process.env.TWITTER_ACCOUNT}`}</a>
+                      <span>{` Twitter feed`}</span>
+                    </span>
+                  }
+                />
+            }
           </DialogContent>
           <DialogActions>
             <Grid container spacing={0} justify="space-between">
@@ -431,6 +458,7 @@ class EditMediumDialog extends React.Component {
                                       title: this.state.title,
                                       description: this.state.description,
                                       commentsDisabled: !this.state.commentsEnabled,
+                                      shareOnTwitter: this.state.shareOnTwitter && this.state.restriction === 'none' && this.state.visibility === 'public',
                                       temporaryKey: this.state.temporaryKey,
                                       tagList: this.state.tagList,
                                       visibility: this.state.visibility,
