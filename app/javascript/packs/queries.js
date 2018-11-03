@@ -193,6 +193,17 @@ export const GET_MEDIA = gql`
   }
 `;
 
+export const GET_USERS = gql`
+  query Users($q: String, $fillWithFollowing: Boolean, $offset: Int!, $limit: Int!) {
+    users(q: $q, fillWithFollowing: $fillWithFollowing, offset: $offset, limit: $limit) {
+      id
+      slug
+      name
+      avatar
+    }
+  }
+`
+
 export const GET_ACTIVITIES = gql`
   query Activities($offset: Int!, $limit: Int!) {
     activities(offset: $offset, limit: $limit) @connection(key: "activities") {

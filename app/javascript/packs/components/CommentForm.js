@@ -9,12 +9,12 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
 import Grid from '@material-ui/core/Grid';
 import { Mutation } from "react-apollo";
 
 import UserAvatar from './UserAvatar';
 import withCurrentSession from './withCurrentSession';
+import InteractiveTextInput from './InteractiveTextInput';
 import { CREATE_COMMENT, GET_COMMENTS_BY_MEDIUM, GET_MEDIUM } from '../queries';
 
 import Logo from './Logo';
@@ -48,11 +48,11 @@ class CommentForm extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.autoFocus) {
-      setTimeout(() => {
-        this.input.current.focus();
-      }, 100)
-    }
+    // if (this.props.autoFocus) {
+    //   setTimeout(() => {
+    //     this.input.current.focus();
+    //   }, 100)
+    // }
   }
 
   render() {
@@ -132,7 +132,7 @@ class CommentForm extends React.Component {
                 <UserAvatar user={currentSession.user} />
               </Grid>
               <Grid item className={classes.textFieldContainer}>
-                <TextField
+                <InteractiveTextInput
                   inputProps={{
                     ref: this.input,
                     autoFocus
@@ -147,7 +147,9 @@ class CommentForm extends React.Component {
                   rows={1}
                   rowsMax={12}
                   value={this.state.body}
-                  onChange={(e) => this.setState({ body: e.target.value })}
+                  onChange={(e) => {
+                    this.setState({ body: e.target.value })
+                  }}
                   onFocus={() => this.setState({ showAction: true })}
                 />
               </Grid>

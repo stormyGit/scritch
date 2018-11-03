@@ -30,6 +30,7 @@ import EmptyList from './EmptyList';
 import withCurrentSession from './withCurrentSession';
 import ScrollArea from 'react-scrollbar';
 import FormattedText from './FormattedText';
+import InteractiveTextInput from './InteractiveTextInput';
 import timeAgo from '../timeAgo';
 
 import { combineUUIDs } from '../utils';
@@ -183,7 +184,7 @@ class MessageInput extends React.Component {
               </div>
             </Grid>
             <Grid item className={classes.messageGrid}>
-              <TextField
+              <InteractiveTextInput
                 InputProps={{
                   className: classes.messageInput
                 }}
@@ -304,7 +305,7 @@ class ChatDialog extends React.Component {
       return (
         <Grid container spacing={8} key={message.id} alignItems="flex-end" wrap="nowrap" style={{ marginBottom: last ? 4 : 16 }}>
           <Grid item className={classes.messageBox} style={{ marginRight: 8, marginLeft: 56 }}>
-            <FormattedText text={message.body} className={classes.messageText} />
+            <FormattedText text={message.body} className={classes.messageText} onChangeLocation={onClose} />
             <Timestamp />
           </Grid>
           <Grid
@@ -333,7 +334,7 @@ class ChatDialog extends React.Component {
             </Link>
           </Grid>
           <Grid item className={classes.messageBox} style={{ marginLeft: 8, marginRight: 56 }}>
-            <FormattedText text={message.body} className={classes.messageText} />
+            <FormattedText text={message.body} className={classes.messageText} onChangeLocation={onClose} />
             <Timestamp />
           </Grid>
         </Grid>

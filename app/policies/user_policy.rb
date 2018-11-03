@@ -1,7 +1,13 @@
 class UserPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope
+      if user.present?
+        scope
+          .where.not("? = SOME(users.blocked_users_ids)", user.uuid)
+          .where.not(users: { uuid: Array(user.blocked_users_ids) })
+      else
+        scope.none
+      end
     end
   end
 

@@ -47,6 +47,7 @@ import MediumDeletionDialog from './MediumDeletionDialog';
 import fileUploadService from '../fileUploadService';
 import GlobalProgress from './GlobalProgress';
 import MultipleMediaDialog from './MultipleMediaDialog';
+import InteractiveTextInput from './InteractiveTextInput';
 
 import { CREATE_MEDIUM, GET_MEDIUM, UPDATE_MEDIUM } from '../queries';
 
@@ -267,7 +268,7 @@ class EditMediumDialog extends React.Component {
               margin="dense"
               fullWidth
             />
-            <TextField
+            <InteractiveTextInput
               label="Description"
               name="description"
               value={this.state.description}

@@ -56,6 +56,14 @@ module Types
       argument :id, ID, required: true
     end
 
+    field :users, [UserType], null: false do
+      description "Search users"
+      argument :q, String, required: false
+      argument :fill_with_following, Boolean, required: false
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
     field :session, SessionType, null: true do
       description "Find current session"
     end
@@ -159,6 +167,22 @@ module Types
 
     def user(arguments = {})
       User.find(arguments[:id])
+    end
+
+    def users(arguments = {})
+      users =
+        if arguments[:q].present?
+          UserPolicy::Scope.new(context[:current_user], User.all).resolve
+            .where("users.uuid::varchar = ? OR users.name % ? OR users.slug % ?", arguments[:q], arguments[:q], arguments[:q])
+        elsif arguments[:fill_with_following] && context[:current_user].present?
+          UserPolicy::Scope.new(context[:current_user],
+            User.where(uuid: FollowPolicy::Scope.new(context[:current_user], Follow.where(follower_id: context[:current_user])).resolve.select(:followable_id))
+          ).resolve
+        else
+          User.none
+        end
+
+      users.offset(arguments[:offset]).limit(arguments[:limit] > 10 ? 10 : arguments[:limit])
     end
 
     def session(arguments = {})
