@@ -1,5 +1,5 @@
 ActiveAdmin.register Medium do
-  permit_params :user_id, :title, :description
+  permit_params :user_id, :title, :description, :share_on_twitter
 
   action_item :refuse, only: [:show, :edit] do
     if resource.refused_at.present?
@@ -21,10 +21,12 @@ ActiveAdmin.register Medium do
   end
 
   action_item :accept, only: [:show, :edit] do
-    if resource.published_at.present?
-      link_to('Reencode', accept_admin_medium_path(resource), method: :put)
-    elsif resource.video_encoding_job.blank?
-      link_to('Accept and encode', accept_admin_medium_path(resource), method: :put)
+    unless resource.refused_at.present?
+      if resource.published_at.present?
+        link_to('Reencode', accept_admin_medium_path(resource), method: :put)
+      elsif resource.video_encoding_job.blank?
+        link_to('Accept and encode', accept_admin_medium_path(resource), method: :put)
+      end
     end
   end
 
@@ -51,6 +53,7 @@ ActiveAdmin.register Medium do
     end
 
     column :user
+    column :share_on_twitter
     column :created_at
     column :updated_at
 
@@ -91,6 +94,7 @@ ActiveAdmin.register Medium do
       f.input :id
       f.input :title
       f.input :description
+      f.input :share_on_twitter
     end
     f.actions
   end
