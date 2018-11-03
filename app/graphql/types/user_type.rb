@@ -22,6 +22,8 @@ module Types
 
     field :blocked, Boolean, null: false
 
+    field :unread_announcements_count, Integer, null: false
+
     def banner
       object.banner_url
     end
@@ -64,6 +66,12 @@ module Types
       else
         false
       end
+    end
+
+    def unread_announcements_count
+      raise Pundit::NotAuthorizedError unless UserPolicy.new(context[:current_user], object).has_unread_announcements?
+
+      Announcement.where("announcements.created_at > ?", object.last_announcements_read).count
     end
   end
 end

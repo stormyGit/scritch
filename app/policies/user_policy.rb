@@ -26,4 +26,8 @@ class UserPolicy < ApplicationPolicy
   def follow?
     user.present? && user != record
   end
+
+  def has_unread_announcements?
+    user.present? && user == record
+  end
 end

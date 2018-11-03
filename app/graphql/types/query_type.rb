@@ -22,6 +22,12 @@ module Types
       argument :limit, Integer, required: true
     end
 
+    field :announcements, [AnnouncementType], null: false do
+      description "Announcements"
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
     field :likes_by_user, [LikeType], null: false do
       description "List likes by user"
       argument :user_id, ID, required: true
@@ -142,6 +148,13 @@ module Types
         .order(created_at: :desc)
         .offset(arguments[:offset]).limit(arguments[:limit])
         .includes(:owner, :recipient, :trackable)
+    end
+
+    def announcements(arguments = {})
+      Announcement
+        .order(created_at: :desc)
+        .offset(arguments[:offset])
+        .limit(arguments[:limit])
     end
 
     def likes_by_user(arguments = {})

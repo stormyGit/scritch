@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_02_083124) do
+ActiveRecord::Schema.define(version: 2018_11_03_115037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -82,6 +82,13 @@ ActiveRecord::Schema.define(version: 2018_11_02_083124) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "announcements", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "banned_users", force: :cascade do |t|
@@ -312,6 +319,7 @@ ActiveRecord::Schema.define(version: 2018_11_02_083124) do
     t.string "website"
     t.boolean "public", default: true
     t.string "blocked_users_ids", default: [], array: true
+    t.datetime "last_announcements_read"
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end
