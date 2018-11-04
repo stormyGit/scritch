@@ -60,10 +60,6 @@ const styles = theme => ({
   commentBody: {
     fontStyle: "italic",
   },
-  highlight: {
-    display: 'inline-block',
-    fontWeight: 'bold'
-  },
   announcement: {
     alignItems: 'flex-start',
   }

@@ -1,6 +1,6 @@
-import AWS from "aws-sdk";
-import crypto from 'crypto';
 import Evaporate from 'evaporate';
+import md5 from 'js-md5';
+import { sha256 } from 'js-sha256';
 
 var config = {
   signerUrl: '/s3/sign',
@@ -8,8 +8,8 @@ var config = {
   bucket: process.env.TEMPORARY_S3_BUCKET,
   awsRegion: process.env.TEMPORARY_S3_REGION,
   computeContentMd5: true,
-  cryptoMd5Method: (data) => { AWS.util.crypto.md5(data, 'base64') },
-  cryptoHexEncodedHash256: (data) => { return AWS.util.crypto.sha256(data, 'hex'); },
+  cryptoMd5Method: (data) => ( md5.base64(data) ),
+  cryptoHexEncodedHash256: (data) => ( sha256.hex(data) ),
 };
 
 export default () => {

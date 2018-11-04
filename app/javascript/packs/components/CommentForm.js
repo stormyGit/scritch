@@ -1,6 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form'
 import { withStyles } from '@material-ui/core/styles';
 import gql from "graphql-tag";
 import Button from '@material-ui/core/Button';

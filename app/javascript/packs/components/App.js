@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider, connect } from 'react-redux';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ApolloProvider, withApollo, Query } from 'react-apollo';
 import { createHttpLink } from 'apollo-link-http';
 
-import store from '../store.js';
 import apolloClient from '../apolloClient';
 import AppRouter from './AppRouter';
 import themeSelector from '../themeSelector';
@@ -74,11 +72,9 @@ export default class AppBootstrap extends React.Component {
       <ApolloProvider client={apolloClient}>
         <Query query={GET_THEME}>
           {({ data, loading, error }) => (
-            <Provider store={store}>
-              <MuiThemeProvider theme={makeTheme(data.theme)}>
-                <ConnectedApp />
-              </MuiThemeProvider>
-            </Provider>
+            <MuiThemeProvider theme={makeTheme(data.theme)}>
+              <ConnectedApp />
+            </MuiThemeProvider>
           )}
         </Query>
       </ApolloProvider>

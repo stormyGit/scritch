@@ -98,7 +98,6 @@ const styles = theme => ({
     marginBottom: 5,
     lineHeight: '36px',
     flexShrink: 0,
-    transition: "max-width 0.5s ease",
     maxWidth: "calc(100vw - 256px)"
   },
   toolBar: {

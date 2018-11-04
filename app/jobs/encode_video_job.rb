@@ -13,12 +13,6 @@ class EncodeVideoJob < ApplicationJob
       codec: "libx264",
       bandwidth: 800000,
       resolution: 480,
-      name: 'medium'
-    },
-    {
-      codec: "libx264",
-      bandwidth: 400000,
-      resolution: 480,
       name: 'low'
     }
   ]
