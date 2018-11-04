@@ -689,7 +689,7 @@ class User extends React.Component {
                   {
                     currentSession && currentSession.user.id !== user.id &&
                       <div className={classes.titleBarContainerUserActions}>
-                        {this.renderMessageButton(user)}
+                        {user.chatEnabled && this.renderMessageButton(user)}
                         {this.renderFollowButton(user)}
                         {this.renderMoreUserOptions(user)}
                       </div>
@@ -717,7 +717,7 @@ class User extends React.Component {
                        {
                          currentSession && currentSession.user.id !== user.id &&
                            <div className={classes.titleBarContainerUserActions}>
-                             {this.renderMessageButton(user)}
+                             {user.chatEnabled && this.renderMessageButton(user)}
                              {this.renderFollowButton(user)}
                              {this.renderMoreUserOptions(user)}
                            </div>

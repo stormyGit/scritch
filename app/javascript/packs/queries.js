@@ -106,6 +106,7 @@ export const UPDATE_USER = gql`
         id
         name
         public
+        chatEnabled
         slug
         avatar
         banner
@@ -114,6 +115,7 @@ export const UPDATE_USER = gql`
         theme
         mediaCount
         followingCount
+        unreadAnnouncementsCount
       }
     }
   }
@@ -142,7 +144,6 @@ export const UPDATE_MEDIUM = gql`
         user {
           id
           slug
-          public
           name
           avatar
         }
@@ -406,6 +407,7 @@ export const GET_USER = gql`
     user(id: $id) {
       id
       public
+      chatEnabled
       slug
       name
       avatar
@@ -503,6 +505,7 @@ export const GET_SESSION = gql`
         id
         name
         public
+        chatEnabled
         slug
         avatar
         banner

@@ -8,6 +8,7 @@ class Mutations::UpdateUser < Mutations::BaseMutation
   argument :banner, String, required: false
   argument :avatar, String, required: false
   argument :public, Boolean, required: false
+  argument :chat_enabled, Boolean, required: false
 
   argument :remove_banner, Boolean, required: false
   argument :remove_avatar, Boolean, required: false

@@ -39,33 +39,6 @@ class Settings extends React.Component {
     accountSuppressionAlertOpen: false,
   }
 
-  componentDidMount() {
-    if (this.props.currentSession) {
-      this.setInitialValues(this.props.currentSession.user);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if ((this.props.currentSession !== nextProps.currentSession || this.props.open !== nextProps.open) && nextProps.currentSession) {
-      this.setInitialValues(nextProps.currentSession.user);
-    }
-  }
-
-  setInitialValues(user) {
-    this.setState({
-      slug: user.slug,
-    });
-  }
-
-  // <TextField
-  //   label="Username"
-  //   value={this.state.slug}
-  //   onChange={(e) => this.setState({ slug: e.target.value })}
-  //   margin="dense"
-  //   fullWidth
-  // />
-
-
   render() {
     const { classes, match, width, currentSession } = this.props;
 
@@ -81,34 +54,52 @@ class Settings extends React.Component {
         <GlobalProgress absolute />
         <DialogTitle>{"Account and security"}</DialogTitle>
         <DialogContent>
-          <Grid container spacing={0}>
-            <Grid item>
-              <Mutation
-                mutation={UPDATE_USER}
-                update={(cache, { data: { updateUser } }) => {
-                  cache.writeQuery({
-                    query: GET_SESSION,
-                    data: { session: { ...currentSession, user: updateUser.user } }
-                  });
-                }}
-              >
-                {( updateUser, { data }) => (
-                  <FormControlLabel
-                    control={
-                      <Switch
-                        checked={currentSession.user.public}
-                        onChange={(e, value) => {
-                          updateUser({ variables: { input: { id: currentSession.user.id, public: !currentSession.user.public }}});
-                        }}
-                        color="primary"
-                      />
-                    }
-                    label="Show my likes, subscriptions and followers"
-                  />
-                )}
-              </Mutation>
-            </Grid>
-          </Grid>
+          <Mutation
+            mutation={UPDATE_USER}
+            update={(cache, { data: { updateUser } }) => {
+              cache.writeQuery({
+                query: GET_SESSION,
+                data: { session: { ...currentSession, user: updateUser.user } }
+              });
+            }}
+          >
+            {( updateUser, { data }) => (
+              <React.Fragment>
+                <Grid container spacing={0}>
+                  <Grid item>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={currentSession.user.public}
+                          onChange={(e, value) => {
+                            updateUser({ variables: { input: { id: currentSession.user.id, public: !currentSession.user.public }}});
+                          }}
+                          color="primary"
+                        />
+                      }
+                      label="Show my likes, subscriptions and followers"
+                    />
+                  </Grid>
+                </Grid>
+                <Grid container spacing={0}>
+                  <Grid item>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          checked={currentSession.user.chatEnabled}
+                          onChange={(e, value) => {
+                            updateUser({ variables: { input: { id: currentSession.user.id, chatEnabled: !currentSession.user.chatEnabled }}});
+                          }}
+                          color="primary"
+                        />
+                      }
+                      label="Accept direct messages"
+                    />
+                  </Grid>
+                </Grid>
+              </React.Fragment>
+            )}
+          </Mutation>
           <React.Fragment>
             <Mutation
               mutation={UPDATE_USER}

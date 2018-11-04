@@ -4,6 +4,7 @@ module Types
     field :id, ID, null: false
     field :slug, ID, null: false
     field :public, Boolean, null: false
+    field :chat_enabled, Boolean, null: false
     field :name, String, null: false
     field :published_media, [MediumType], null: false
     field :avatar, String, null: true

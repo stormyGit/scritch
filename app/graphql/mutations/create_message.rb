@@ -6,6 +6,8 @@ class Mutations::CreateMessage < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve(arguments)
+    raise Pundit::NotAuthorizedError unless UserPolicy.new(context[:current_user], User.find(arguments[:recipient_id])).message?
+
     message = Message.new(body: arguments[:body])
     message.sender = context[:current_user]
     message.chat = Chat.find_or_create_by(uuid: IdXor.xor_ids(arguments[:recipient_id], context[:current_user].id)) do |chat|

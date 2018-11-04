@@ -30,4 +30,16 @@ class UserPolicy < ApplicationPolicy
   def has_unread_announcements?
     user.present? && user == record
   end
+
+  def message?
+    return false if user.blank?
+
+    if Chat.find_by(uuid: IdXor.xor_ids(user.uuid, record.uuid)).present?
+      true
+    elsif record.chat_enabled?
+      true
+    else
+      false
+    end
+  end
 end

@@ -1,7 +1,7 @@
 class Message < ApplicationRecord
   self.primary_key = :uuid
 
-  belongs_to :chat
+  belongs_to :chat, touch: true
   belongs_to :sender, class_name: "User"
 
   after_create :mark_recipient_as_unread
