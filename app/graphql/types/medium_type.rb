@@ -54,5 +54,9 @@ module Types
     def comments_count
       object.comments_count
     end
+
+    def tag_list
+      object.tags.map(&:name)
+    end
   end
 end

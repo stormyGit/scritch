@@ -28,7 +28,6 @@ import ResponsiveDialog from './ResponsiveDialog';
 import UserAvatar from './UserAvatar';
 import EmptyList from './EmptyList';
 import withCurrentSession from './withCurrentSession';
-import ScrollArea from 'react-scrollbar';
 import FormattedText from './FormattedText';
 import InteractiveTextInput from './InteractiveTextInput';
 import timeAgo from '../timeAgo';
@@ -59,9 +58,6 @@ const styles = (theme) => ({
   },
   messageInput: {
     paddingTop: 12
-  },
-  scrollArea: {
-    flex: 1,
   },
   timestamp: {
     paddingRight: 4,

@@ -140,7 +140,7 @@ module Types
         media = media.where(user_id: arguments[:user_id])
       end
 
-      media.includes(:taggings).offset(arguments[:offset]).limit(arguments[:limit])
+      media.includes(:tags).offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def activities(arguments = {})
@@ -174,12 +174,17 @@ module Types
     end
 
     def comments_by_medium(arguments = {})
+      raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], Medium.find(arguments[:medium_id])).show?
+
       CommentPolicy::Scope.new(context[:current_user], Comment.where(medium_id: arguments[:medium_id], parent_id: arguments[:parent_id])).resolve
         .order(updated_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def user(arguments = {})
-      User.find(arguments[:id])
+      user = User.find(arguments[:id])
+      raise Pundit::NotAuthorizedError unless UserPolicy.new(context[:current_user], user).show?
+
+      user
     end
 
     def users(arguments = {})
