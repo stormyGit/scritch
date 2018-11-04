@@ -166,7 +166,7 @@ class AppLayout extends React.Component {
   }
 
   checkPornographyDisclaimer(props) {
-    if (/bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent)) {
+    if (/bot|googlebot|crawler|spider|robot|crawling|prerender/i.test(navigator.userAgent)) {
       return ;
     }
 
