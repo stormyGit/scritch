@@ -32,7 +32,7 @@ class SendTweetJob < ApplicationJob
       { body: " ", truncate: 280 },
       { body: Rails.application.routes.url_helpers.video_url(id: medium.slug + "-" + medium.uuid, host: ENV['DOMAIN']), truncate: 280 },
       { body: " ", truncate: 280 },
-      { body: medium.tag_list.map { |tag| "##{tag}" }.join(" "), truncate: 30 }
+      { body: (medium.tag_list + Array(ENV['TWITTER_DEFAULT_TAGS'].split(','))).uniq.map { |tag| "##{tag}" }.join(" "), truncate: 30 }
     ]
 
     body = elems.reduce("") do |body, elem|
