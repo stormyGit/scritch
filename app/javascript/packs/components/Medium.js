@@ -137,7 +137,7 @@ class Medium extends React.Component {
                                       name="Twitter"
                                       url="https://twitter.com/intent/tweet/"
                                       params={{
-                                        text: medium.title,
+                                        text: `${medium.title} via @${process.env.TWITTER_ACCOUNT}`,
                                         url: window.location.href
                                       }}
                                       className={classes.socialButton}

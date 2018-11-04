@@ -166,6 +166,10 @@ class AppLayout extends React.Component {
   }
 
   checkPornographyDisclaimer(props) {
+    if (/bot|googlebot|crawler|spider|robot|crawling/i.test(navigator.userAgent)) {
+      return ;
+    }
+
     const isValidated = localStorage.getItem('pornographyDisclaimerValidated');
     if (process.env.ENABLE_PORNOGRAPHY_DISCLAIMER === 'true' && isValidated !== 'true' && !props.currentSession) {
       this.setState({ pornographyDisclaimer: true })
