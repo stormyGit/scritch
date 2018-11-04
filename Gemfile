@@ -94,3 +94,4 @@ gem "active_link_to"
 gem "chartkick"
 gem 'rails_autolink'
 gem "twitter"
+gem 'prerender_rails'
