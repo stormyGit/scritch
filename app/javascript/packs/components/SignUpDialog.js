@@ -166,13 +166,13 @@ class SignUpDialog extends React.Component {
               </div>
             }
             {
-              false &&
+              true &&
                 <Typography
                   variant="caption"
                   className={classes.troubleLink}
                   onClick={() => this.setState({ alternativeLogin: true })}
                 >
-                  Having trouble logging in?
+                  Having trouble signin in?
                 </Typography>
             }
           </DialogContent>
@@ -181,7 +181,6 @@ class SignUpDialog extends React.Component {
           open={this.state.alternativeLogin}
           onClose={() => {
             this.setState({ alternativeLogin: false });
-            onClose();
           }}
         />
       </React.Fragment>
