@@ -69,10 +69,19 @@ class EncodeVideoJob < ApplicationJob
   end
 
   def get_thumbnail!
-    call_command "ffmpeg -i #{input_path} -vcodec mjpeg -vframes 1 -an -f rawvideo -ss #{video_middle} #{thumbnail_path}"
+    call_command "ffmpeg -i #{input_path} -vcodec mjpeg -vframes 1  -filter:v scale=\"1080:-1\" -an -f rawvideo -ss #{video_middle} #{thumbnail_path}"
 
-    public_url = upload(thumbnail_path, "#{root_dir}/thumbnail.jpg")
-    @medium.update(thumbnail_key: "#{root_dir}/thumbnail.jpg", remote_thumbnail_url: MediumStorage.key_to_url("#{root_dir}/thumbnail.jpg"))
+    upload(thumbnail_path, "#{root_dir}/thumbnail.jpg")
+    @medium.update({
+      thumbnail_key: "#{root_dir}/thumbnail.jpg",
+    })
+
+    call_command "ffmpeg -i #{input_path} -vcodec mjpeg -vframes 1  -filter:v scale=\"640:-1\" -an -f rawvideo -ss #{video_middle} #{small_thumbnail_path}"
+
+    upload(small_thumbnail_path, "#{root_dir}/small_thumbnail.jpg")
+    @medium.update({
+      small_thumbnail_key: "#{root_dir}/small_thumbnail.jpg",
+    })
   end
 
   def get_preview!
@@ -103,6 +112,10 @@ class EncodeVideoJob < ApplicationJob
 
   def thumbnail_path
     Shellwords.escape("#{@wdir}/thumbnail.jpeg")
+  end
+
+  def small_thumbnail_path
+    Shellwords.escape("#{@wdir}/small_thumbnail.jpeg")
   end
 
   def preview_path

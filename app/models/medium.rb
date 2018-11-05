@@ -30,8 +30,6 @@ class Medium < ApplicationRecord
   scope :published, -> { where.not(published_at: nil) }
   scope :publicly_available, -> { where(visibility: 'public') }
 
-  mount_uploader :thumbnail, ThumbnailUploader
-
   def push_video_encoding_job!
     update(video_encoding_job_id: EncodeVideoJob.perform_later(self).job_id)
   end

@@ -7,8 +7,7 @@ module Types
     field :description, String, null: true
     field :key, String, null: true
     field :thumbnail_key, String, null: true
-    field :regular_thumbnail, String, null: true
-    field :small_thumbnail, String, null: true
+    field :small_thumbnail_key, String, null: true
     field :preview_key, String, null: true
     field :temporary_key, String, null: false
     field :duration, Integer, null: true
@@ -33,14 +32,6 @@ module Types
 
     def liked
       context[:current_user].present? ? object.likers.find_by(uuid: context[:current_user].id).present? : false
-    end
-
-    def regular_thumbnail
-      object.thumbnail_url(:regular)
-    end
-
-    def small_thumbnail
-      object.thumbnail_url(:small)
     end
 
     def related_media
