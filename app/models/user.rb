@@ -27,6 +27,9 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true
 
+  has_many :list_users, dependent: :destroy
+  has_many :lists
+
   def set_theme
     self.theme === ENV["DEFAULT_THEME"] || 'dark'
   end
