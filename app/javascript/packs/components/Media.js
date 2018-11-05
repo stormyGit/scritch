@@ -122,7 +122,7 @@ class Media extends React.Component {
                       users,
                       media,
                       horizontal: (query.q && query.q.length > 0 && (width === 'lg' || width === 'xl')),
-                      hasMore: ((media.length % limit) === 0 && this.state.hasMore),
+                      hasMore: ((media.length % limit) === 0 && this.state.hasMore && media.length > 0),
                       onLoadMore: () => {
                         fetchMore({
                           variables: {

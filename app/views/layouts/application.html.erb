@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= ENV['SITE_NAME'] %></title>
+    <% if @meta[:title].present? %>
+      <title><%= @meta[:title] + " | " + ENV['SITE_NAME'] %></title>
+    <% else %>
+      <title><%= ENV['SITE_NAME'] %></title>
+    <% end %>
     <meta name="theme-color" content="<%= ENV["DEFAULT_THEME"] == 'dark' ? "#111" : "#eee" %>">
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">

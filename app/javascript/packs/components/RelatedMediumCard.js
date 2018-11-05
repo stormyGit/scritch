@@ -59,7 +59,7 @@ const styles = theme => ({
 
 class MediumCard extends React.Component {
   state = {
-    thumbnailKey: this.props.medium.thumbnailKey
+    thumbnailKey: this.props.medium.smallThumbnailKey
   }
 
   renderMedia() {
@@ -75,9 +75,9 @@ class MediumCard extends React.Component {
     const handleOnMouseLeave = () => {
 
       previewImage.onload = () => {
-        this.setState({ thumbnailKey: medium.thumbnailKey });
+        this.setState({ thumbnailKey: medium.smallThumbnailKey });
       };
-      previewImage.src = keyToCdnUrl(medium.thumbnailKey);
+      previewImage.src = keyToCdnUrl(medium.smallThumbnailKey);
     }
 
     return (
@@ -91,7 +91,7 @@ class MediumCard extends React.Component {
           }
         }}
         onMouseLeave={() => {
-          if (this.state.thumbnailKey !== medium.thumbnailKey && (width === 'lg' || width === 'xl')) {
+          if (this.state.thumbnailKey !== medium.smallThumbnailKey && (width === 'lg' || width === 'xl')) {
             handleOnMouseLeave();
           }
         }}

@@ -3,6 +3,7 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
 
     @meta[:type] = 'profile'
+    @meta[:title] = user.name
     @meta["profile:first_name"] = user.name
     @meta["profile:username"] = user.slug
 

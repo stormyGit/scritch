@@ -103,7 +103,7 @@ const GET_ACTIVE_PREVIEW = gql`
 
 class MediumCard extends React.Component {
   state = {
-    thumbnailKey: this.props.medium.thumbnailKey,
+    thumbnailKey: this.props.medium.smallThumbnailKey,
   }
 
   renderHeader() {
@@ -135,9 +135,9 @@ class MediumCard extends React.Component {
     }
     const handleOnMouseLeave = () => {
       previewImage.onload = () => {
-        this.setState({ thumbnailKey: medium.thumbnailKey });
+        this.setState({ thumbnailKey: medium.smallThumbnailKey });
       };
-      previewImage.src = keyToCdnUrl(medium.thumbnailKey);
+      previewImage.src = keyToCdnUrl(medium.smallThumbnailKey);
     }
 
     return (
@@ -154,7 +154,7 @@ class MediumCard extends React.Component {
                 if (isVisible && this.state.thumbnailKey !== medium.previewKey) {
                   handleOnMouseEnter();
                 }
-                if (!isVisible && this.state.thumbnailKey !== medium.thumbnailKey) {
+                if (!isVisible && this.state.thumbnailKey !== medium.smallThumbnailKey) {
                   handleOnMouseLeave();
                 }
               }}
@@ -163,7 +163,7 @@ class MediumCard extends React.Component {
                 medium.publishedAt ?
                   <CardMedia
                     className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
-                    image={this.state.thumbnailKey === data.activePreview ? keyToCdnUrl(this.state.thumbnailKey) : keyToCdnUrl(medium.thumbnailKey)}
+                    image={this.state.thumbnailKey === data.activePreview ? keyToCdnUrl(this.state.thumbnailKey) : keyToCdnUrl(medium.smallThumbnailKey)}
                     title={medium.title}
                     onMouseEnter={() => {
                       if (this.state.thumbnailKey !== medium.previewKey && (width === 'lg' || width === 'xl')) {
@@ -171,7 +171,7 @@ class MediumCard extends React.Component {
                       }
                     }}
                     onMouseLeave={() => {
-                      if (this.state.thumbnailKey !== medium.thumbnailKey && (width === 'lg' || width === 'xl')) {
+                      if (this.state.thumbnailKey !== medium.smallThumbnailKey && (width === 'lg' || width === 'xl')) {
                         handleOnMouseLeave();
                       }
                     }}
