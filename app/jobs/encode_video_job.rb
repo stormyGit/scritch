@@ -71,8 +71,8 @@ class EncodeVideoJob < ApplicationJob
   def get_thumbnail!
     call_command "ffmpeg -i #{input_path} -vcodec mjpeg -vframes 1 -an -f rawvideo -ss #{video_middle} #{thumbnail_path}"
 
-    upload(thumbnail_path, "#{root_dir}/thumbnail.jpg")
-    @medium.update(thumbnail_key: "#{root_dir}/thumbnail.jpg")
+    public_url = upload(thumbnail_path, "#{root_dir}/thumbnail.jpg")
+    @medium.update(thumbnail_key: "#{root_dir}/thumbnail.jpg", remote_thumbnail_url: MediumStorage.key_to_url("#{root_dir}/thumbnail.jpg"))
   end
 
   def get_preview!
