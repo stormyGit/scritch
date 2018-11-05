@@ -17,7 +17,7 @@ namespace :media do
       image.combine_options do |c|
         c.resize "1080x"
         c.gravity 'center'
-        c.quality 90
+        c.quality 85
         c.repage.+
       end
 
@@ -32,7 +32,7 @@ namespace :media do
       image.combine_options do |c|
         c.resize "640x"
         c.gravity 'center'
-        c.quality 90
+        c.quality 85
         c.repage.+
       end
 

@@ -69,14 +69,14 @@ class EncodeVideoJob < ApplicationJob
   end
 
   def get_thumbnail!
-    call_command "ffmpeg -i #{input_path} -vcodec mjpeg -vframes 1  -filter:v scale=\"1080:-1\" -an -f rawvideo -ss #{video_middle} #{thumbnail_path}"
+    call_command "ffmpeg -i #{input_path} -vcodec mjpeg -vframes 1 -filter:v scale=\"1080:-1\" -q:v 10 -an -f rawvideo -ss #{video_middle} #{thumbnail_path}"
 
     upload(thumbnail_path, "#{root_dir}/thumbnail.jpg")
     @medium.update({
       thumbnail_key: "#{root_dir}/thumbnail.jpg",
     })
 
-    call_command "ffmpeg -i #{input_path} -vcodec mjpeg -vframes 1  -filter:v scale=\"640:-1\" -an -f rawvideo -ss #{video_middle} #{small_thumbnail_path}"
+    call_command "ffmpeg -i #{input_path} -vcodec mjpeg -vframes 1 -filter:v scale=\"640:-1\" -q:v 10 -an -f rawvideo -ss #{video_middle} #{small_thumbnail_path}"
 
     upload(small_thumbnail_path, "#{root_dir}/small_thumbnail.jpg")
     @medium.update({
