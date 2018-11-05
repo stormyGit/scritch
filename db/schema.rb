@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_04_103957) do
+ActiveRecord::Schema.define(version: 2018_11_05_130635) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -198,6 +198,7 @@ ActiveRecord::Schema.define(version: 2018_11_04_103957) do
     t.datetime "published_at"
     t.datetime "refused_at"
     t.boolean "share_on_twitter", default: true
+    t.string "thumbnail"
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
     t.index ["slug"], name: "index_media_on_slug", unique: true
   end
