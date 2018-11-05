@@ -191,6 +191,13 @@ export const GET_MEDIA = gql`
         avatar
       }
     }
+    users(q: $q, fillWithFollowing: false, offset: 0, limit: 2) {
+      id
+      slug
+      name
+      avatar
+      mediaCount
+    }
   }
 `;
 

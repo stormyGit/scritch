@@ -217,7 +217,7 @@ class MediumCard extends React.Component {
                 label={tag}
                 variant={"outlined"}
                 className={classes.chip}
-                component={(props) => <Link to={`/videos?${queryString.stringify({ q: tag })}`} {...props} />}
+                component={(props) => <Link rel="nofollow" to={`/videos?${queryString.stringify({ q: tag })}`} {...props} />}
               />
             ))
         }

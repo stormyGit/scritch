@@ -201,14 +201,6 @@ class Settings extends React.Component {
         <DialogActions>
           <Grid container spacing={0} justify="space-between">
             <Grid item>
-              <Button
-                color={"secondary"}
-                onClick={() => {
-                  this.setState({ accountSuppressionAlertOpen: true });
-                }}
-                >
-                  Delete your account
-              </Button>
               <Mutation
                 mutation={DELETE_SESSION}
               >
@@ -226,6 +218,14 @@ class Settings extends React.Component {
                   </Button>
                 )}
               </Mutation>
+              <Button
+                color={"secondary"}
+                onClick={() => {
+                  this.setState({ accountSuppressionAlertOpen: true });
+                }}
+                >
+                  Delete your account
+              </Button>
             </Grid>
             <Grid item>
               <Button

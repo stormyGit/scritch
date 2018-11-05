@@ -23,6 +23,7 @@ import TelegramLoginButton from 'react-telegram-login';
 import { withRouter } from 'react-router-dom';
 
 import ResponsiveDialog from './ResponsiveDialog';
+import SignUpAlternativeDialog from './SignUpAlternativeDialog';
 import themeSelector from '../themeSelector';
 
 import { Mutation, Query } from "react-apollo";
@@ -56,12 +57,19 @@ const styles = theme => ({
     left: '50%',
     top: 0,
     marginLeft: -16
+  },
+  troubleLink: {
+    textAlign: 'center',
+    textDecoration: 'underline',
+    marginTop: theme.spacing.unit * 2,
+    cursor: 'pointer',
   }
 })
 
 class SignUpDialog extends React.Component {
   state = {
-    submiting: false
+    submiting: false,
+    alternativeLogin: false,
   }
 
   handleTelegramResponse(response) {
@@ -81,83 +89,102 @@ class SignUpDialog extends React.Component {
     const { classes, open, onClose, loading, width } = this.props;
 
     return (
-      <ResponsiveDialog
-        open={open}
-        onClose={onClose}
-      >
-        {
-          (width !== 'lg' && width !== 'xl' || true) &&
-            <DialogTitle
-              className={classes.titleBarContainer}
-            >
-              <Grid container spacing={0} alignItems="center" justify="space-between">
-                <Grid item>
-                  <Typography variant="h6" noWrap color={"inherit"}>
-                    Login with Telegram
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <IconButton color="inherit" onClick={onClose} aria-label="Close">
-                    <CloseIcon />
-                  </IconButton>
-                </Grid>
-              </Grid>
-            </DialogTitle>
-        }
-        <DialogContent>
-          <DialogContentText>
-            {`We use `}
-            <a href="https://telegram.org/blog/login" target="_blank" rel="noopener" className={classes.link}>Telegram Login for Websites</a>
-            {` to allow users to easily sign-in without having to provide an email address and a password. Please note that:`}
-          </DialogContentText>
-          <List>
-            <ListItem>
-             <ListItemIcon>
-               <CheckIcon />
-             </ListItemIcon>
-             <ListItemText inset primary={`You must be ${process.env.MINIMUM_AGE} or older to use ${process.env.SITE_NAME}.`} />
-            </ListItem>
-            <ListItem>
-             <ListItemIcon>
-               <CheckIcon />
-             </ListItemIcon>
-             <ListItemText inset primary="Telegram will share your username, handle, avatar, bio and ID. Telegram will not share your phone number, contacts and messages." />
-            </ListItem>
-            <ListItem>
-             <ListItemIcon>
-               <CheckIcon />
-             </ListItemIcon>
-             <ListItemText inset primary="A unique session identifier will be stored in your browser to keep you connected." />
-            </ListItem>
-          </List>
+      <React.Fragment>
+        <ResponsiveDialog
+          open={open}
+          onClose={onClose}
+        >
           {
-            <div className={classes.loginButtonContainer}>
-              <div className={classes.loginButton}>
-                {
-                  !this.state.submiting && (process.env.NODE_ENV === 'production' ?
-                    <TelegramLoginButton dataOnauth={(response) => this.handleTelegramResponse(response)} botName={`${process.env.TELEGRAM_BOT_NAME}`} /> :
-                    <Button
-                      onClick={() => {
-                        this.handleTelegramResponse({
-                          auth_date:1537829184,
-                          first_name:"Coontail",
-                          hash:"1c7bc6a02407b952d8c521f151b07a338834e62394e78ea5e5a1863e13c63993",
-                          id:122117046,
-                          photo_url:"https://t.me/i/userpic/320/Coontail.jpg",
-                          username:"Coontail",
-                        })
-                      }}
-                      variant="contained"
-                    >
-                      Login test
-                    </Button>)
-                }
-              </div>
-              <CircularProgress className={classes.telegramLoader} size={32} />
-            </div>
+            (width !== 'lg' && width !== 'xl' || true) &&
+              <DialogTitle
+                className={classes.titleBarContainer}
+              >
+                <Grid container spacing={0} alignItems="center" justify="space-between">
+                  <Grid item>
+                    <Typography variant="h6" noWrap color={"inherit"}>
+                      Login with Telegram
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <IconButton color="inherit" onClick={onClose} aria-label="Close">
+                      <CloseIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </DialogTitle>
           }
-        </DialogContent>
-      </ResponsiveDialog>
+          <DialogContent>
+            <DialogContentText>
+              {`We use `}
+              <a href="https://telegram.org/blog/login" target="_blank" rel="noopener" className={classes.link}>Telegram Login for Websites</a>
+              {` to allow users to easily sign-in without having to provide an email address and a password. Please note that:`}
+            </DialogContentText>
+            <List>
+              <ListItem>
+               <ListItemIcon>
+                 <CheckIcon />
+               </ListItemIcon>
+               <ListItemText inset primary={`You must be ${process.env.MINIMUM_AGE} or older to use ${process.env.SITE_NAME}.`} />
+              </ListItem>
+              <ListItem>
+               <ListItemIcon>
+                 <CheckIcon />
+               </ListItemIcon>
+               <ListItemText inset primary="Telegram will share your username, handle, avatar, bio and ID. Telegram will not share your phone number, contacts and messages." />
+              </ListItem>
+              <ListItem>
+               <ListItemIcon>
+                 <CheckIcon />
+               </ListItemIcon>
+               <ListItemText inset primary="A unique session identifier will be stored in your browser to keep you connected." />
+              </ListItem>
+            </List>
+            {
+              <div className={classes.loginButtonContainer}>
+                <div className={classes.loginButton}>
+                  {
+                    !this.state.submiting && (process.env.NODE_ENV === 'production' ?
+                      <TelegramLoginButton dataOnauth={(response) => this.handleTelegramResponse(response)} botName={`${process.env.TELEGRAM_BOT_NAME}`} /> :
+                      <Button
+                        onClick={() => {
+                          this.handleTelegramResponse({
+                            auth_date:1537829184,
+                            first_name:"Coontail",
+                            hash:"1c7bc6a02407b952d8c521f151b07a338834e62394e78ea5e5a1863e13c63993",
+                            id:122117046,
+                            photo_url:"https://t.me/i/userpic/320/Coontail.jpg",
+                            username:"Coontail",
+                          })
+                        }}
+                        variant="contained"
+                      >
+                        Login test
+                      </Button>)
+                  }
+                </div>
+                <CircularProgress className={classes.telegramLoader} size={32} />
+              </div>
+            }
+            {
+              false &&
+                <Typography
+                  variant="caption"
+                  className={classes.troubleLink}
+                  onClick={() => this.setState({ alternativeLogin: true })}
+                >
+                  Having trouble logging in?
+                </Typography>
+            }
+          </DialogContent>
+        </ResponsiveDialog>
+        <SignUpAlternativeDialog
+          open={this.state.alternativeLogin}
+          onClose={() => {
+            this.setState({ alternativeLogin: false });
+            onClose();
+          }}
+        />
+      </React.Fragment>
     );
   }
 }

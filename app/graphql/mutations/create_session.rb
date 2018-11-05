@@ -12,9 +12,9 @@ class Mutations::CreateSession < Mutations::BaseMutation
 
   def resolve(params)
     telegram_hash = params.delete :telegram_hash
-
     check_string = params.map { |k, v| "#{k.to_s.gsub(/^telegram_/, '')}=#{v}" }.sort.join("\n")
     if OpenSSL::HMAC.hexdigest("SHA256", Digest::SHA256.digest(Telegram.bot.token), check_string) != telegram_hash
+      ExceptionNotifier.notify_exception Exception.new("Telegram hash mismatch: #{telegram_hash}: #{params.to_json}")
       raise Pundit::NotAuthorizedError
     end
 
