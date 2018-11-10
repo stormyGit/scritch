@@ -10,6 +10,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -33,6 +36,7 @@ import GlobalProgress from './GlobalProgress';
 import PornographyDisclaimer from './PornographyDisclaimer';
 import ActivitiesDialog from './ActivitiesDialog';
 import ChatDialog from './ChatDialog';
+import SettingsDialog from './SettingsDialog';
 
 import UserAvatar from './UserAvatar';
 import Logo from './Logo';
@@ -135,6 +139,7 @@ class AppLayout extends React.Component {
     pornographyDisclaimer: false,
     activitiesDialog: false,
     chatDialog: false,
+    settingsDialog: false,
     query: {},
   }
 
@@ -346,13 +351,37 @@ class AppLayout extends React.Component {
                     }
                     {
                       currentSession &&
-                        <ButtonBase
-                          component={(props) => <Link to={`/${currentSession.user.slug}`} {...props} />}
-                          focusRipple
-                          className={classes.rightButton}
-                        >
-                          <UserAvatar user={currentSession.user} />
-                        </ButtonBase>
+                        <React.Fragment>
+                          <ButtonBase
+                            focusRipple
+                            className={classes.rightButton}
+                            onClick={(event) => this.setState({ userMenuAnchor: event.currentTarget })}
+                          >
+                            <UserAvatar user={currentSession.user} />
+                          </ButtonBase>
+                          <Menu
+                            id={`user-menu`}
+                            anchorEl={this.state.userMenuAnchor}
+                            open={Boolean(this.state.userMenuAnchor)}
+                            onClose={() => this.setState({ userMenuAnchor: null })}
+                          >
+                            <MenuItem
+                              component={(props) => <Link to={`/${currentSession.user.slug}`} {...props} />}
+                              onClick={() => {
+                                this.setState({ userMenuAnchor: null })
+                              }}
+                            >
+                              Profile
+                            </MenuItem>
+                            <MenuItem
+                              onClick={() => {
+                                this.setState({ userMenuAnchor: null, settingsDialog: true })
+                              }}
+                            >
+                              Settings and security
+                            </MenuItem>
+                          </Menu>
+                        </React.Fragment>
                     }
                     {
                       !currentSession &&
@@ -410,6 +439,10 @@ class AppLayout extends React.Component {
               open={this.state.uploadDialog}
               onClose={() => this.setState({ uploadDialog: false })}
               uploadEnabled
+            />
+            <SettingsDialog
+              open={this.state.settingsDialog}
+              onClose={() => this.setState({ settingsDialog: false })}
             />
             {currentSession && <ActivitiesDialog open={this.state.activitiesDialog} onClose={() => this.setState({ activitiesDialog: false })} />}
             <div id="scoll-parent">
