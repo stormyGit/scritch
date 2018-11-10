@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import icon from '../../../assets/images/android-icon-48x48.png';
+import icon from '../../../assets/images/logo.png';
 
 const styles = theme => ({
   container: {
@@ -9,25 +9,10 @@ const styles = theme => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  logo: {
-    position: 'relative',
-    alignItems: 'center',
-    display: 'flex',
-  },
   icon: {
-    marginRight: theme.spacing.unit,
-    width: 48,
-    height: 48
+    height: 48,
+    width: 64
   },
-  brand: {
-    fontFamily: "'Monoton', cursive",
-    fontSize: '2.5em',
-  },
-  beta: {
-    position: 'absolute',
-    bottom: -1,
-    right: 0,
-  }
 })
 
 class Logo extends React.Component {
@@ -36,18 +21,7 @@ class Logo extends React.Component {
 
     return (
       <div className={classes.container}>
-        <div className={classes.logo}>
-          <img src={icon} className={classes.icon} />
-          <Typography variant="h6" color="inherit" component={'span'} noWrap className={classes.brand} {...props}>
-            {process.env.SITE_NAME}
-          </Typography>
-          {
-            process.env.ENABLE_BETA === 'true' &&
-              <Typography variant="caption" color="inherit" component={'span'} noWrap className={classes.beta}>
-                Beta
-              </Typography>
-          }
-        </div>
+        <img src={icon} className={classes.icon} />
       </div>
     );
   }
