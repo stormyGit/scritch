@@ -210,7 +210,7 @@ ActiveRecord::Schema.define(version: 2018_11_10_153732) do
     t.string "picture"
     t.integer "width"
     t.integer "height"
-    t.json "details"
+    t.json "data"
     t.json "exif"
     t.integer "size"
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin

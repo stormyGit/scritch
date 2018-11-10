@@ -6,7 +6,8 @@ module Types
     field :title, String, null: false
     field :description, String, null: true
     field :picture, String, null: false
-    field :duration, Integer, null: true
+    field :width, Integer, null: true
+    field :height, Integer, null: true
     field :created_at, String, null: true
     field :user, UserType, null: true
     field :comments, [CommentType], null: false

@@ -18,6 +18,7 @@ import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Gallery from 'react-grid-gallery';
 
 import withWidth from '@material-ui/core/withWidth';
 
@@ -403,13 +404,16 @@ class User extends React.Component {
           return (
             <React.Fragment>
               <Grid container spacing={8}>
-                {
-                  data.media.map((medium) => (
-                    <Grid item xs={12} key={medium.id}>
-                      <MediumCard medium={medium} horizontal={width === 'lg' || width === 'xl'} />
-                    </Grid>
-                  ))
-                }
+                <Grid item xs={12}>
+                  <Gallery
+                    images={data.media.map((medium) => ({
+                      src: medium.picture,
+                      thumbnail: medium.picture,
+                      thumbnailWidth: medium.width,
+                      thumbnailHeight: medium.height,
+                    }))}
+                  />
+                </Grid>
                 {
                   data.media.length < user.mediaCount &&
                     <LoadMoreButton

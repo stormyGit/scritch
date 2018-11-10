@@ -13,7 +13,7 @@ class MediaController < ApplicationController
 
     @meta[:type] = 'picture.other'
     @meta[:title] = medium.title
-    @meta[:image] = MediumStorage.key_to_cdn_url medium.thumbnail_key
+    @meta[:image] = medium.picture_url
     @meta[:description] = medium.description
 
     render "application/index"

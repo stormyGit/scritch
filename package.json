@@ -27,6 +27,7 @@
     "react-avatar-editor": "^11.0.4",
     "react-dom": "^16.4.2",
     "react-dropzone": "^5.1.0",
+    "react-grid-gallery": "^0.5.3",
     "react-linkify": "^0.2.2",
     "react-router-dom": "^4.3.1",
     "react-telegram-login": "^1.0.3",

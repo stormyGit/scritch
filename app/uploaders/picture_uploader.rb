@@ -9,8 +9,8 @@ class PictureUploader < SecureUploader
     if file.present? && model.present?
       image = ::MiniMagick::Image.open(file.file)
       model.width, model.height = image[:dimensions]
-      model.exif = image.exif
-      model.details = image.details
+      # model.exif = image.exif
+      # model.data = image.data
       model.size = image.size
     end
   end

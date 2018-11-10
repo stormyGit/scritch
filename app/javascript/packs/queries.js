@@ -135,6 +135,10 @@ export const UPDATE_MEDIUM = gql`
         viewsCount
         createdAt
         picture
+        width
+        height
+        width
+        height
         commentsDisabled
         tagList
         user {
@@ -149,6 +153,10 @@ export const UPDATE_MEDIUM = gql`
           title
           description
           picture
+          width
+          height
+          width
+          height
           createdAt
           user {
             id
@@ -169,6 +177,8 @@ export const GET_MEDIA = gql`
       title
       description
       picture
+      width
+      height
       createdAt
       commentsCount
       likesCount
@@ -270,6 +280,8 @@ query GetLikesByUser($userId: ID!, $offset: Int!, $limit: Int!) {
       title
       description
       picture
+      width
+      height
       createdAt
       commentsCount
       likesCount
@@ -359,6 +371,8 @@ export const GET_MEDIUM = gql`
       title
       description
       picture
+      width
+      height
       commentsCount
       likesCount
       liked
@@ -378,6 +392,8 @@ export const GET_MEDIUM = gql`
         title
         description
         picture
+        width
+        height
         createdAt
         user {
           id
