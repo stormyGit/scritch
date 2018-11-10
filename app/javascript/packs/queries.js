@@ -129,19 +129,14 @@ export const UPDATE_MEDIUM = gql`
         slug
         title
         description
-        key
-        duration
         commentsCount
         likesCount
         liked
         viewsCount
-        publishedAt
-        thumbnailKey
-        smallThumbnailKey
+        createdAt
+        picture
         commentsDisabled
         tagList
-        visibility
-        restriction
         user {
           id
           slug
@@ -153,11 +148,8 @@ export const UPDATE_MEDIUM = gql`
           slug
           title
           description
-          thumbnailKey
-          smallThumbnailKey
-          previewKey
-          duration
-          publishedAt
+          picture
+          createdAt
           user {
             id
             slug
@@ -176,17 +168,12 @@ export const GET_MEDIA = gql`
       slug
       title
       description
-      previewKey
-      thumbnailKey
-      smallThumbnailKey
-      publishedAt
-      duration
+      picture
+      createdAt
       commentsCount
       likesCount
       viewsCount
       tagList
-      visibility
-      restriction
       user {
         id
         slug
@@ -282,18 +269,13 @@ query GetLikesByUser($userId: ID!, $offset: Int!, $limit: Int!) {
       slug
       title
       description
-      previewKey
-      thumbnailKey
-      smallThumbnailKey
-      publishedAt
-      duration
+      picture
+      createdAt
       commentsCount
       likesCount
       viewsCount
       liked
       tagList
-      visibility
-      restriction
       user {
         id
         slug
@@ -376,19 +358,14 @@ export const GET_MEDIUM = gql`
       slug
       title
       description
-      key
-      duration
+      picture
       commentsCount
       likesCount
       liked
       viewsCount
-      publishedAt
-      thumbnailKey
-      smallThumbnailKey
+      createdAt
       commentsDisabled
       tagList
-      visibility
-      restriction
       user {
         id
         slug
@@ -400,11 +377,8 @@ export const GET_MEDIUM = gql`
         slug
         title
         description
-        thumbnailKey
-        smallThumbnailKey
-        previewKey
-        duration
-        publishedAt
+        picture
+        createdAt
         user {
           id
           slug

@@ -5,6 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
@@ -22,7 +23,6 @@ import queryString from 'query-string';
 import { GET_MEDIUM } from '../queries';
 
 import RelatedMediumCard from './RelatedMediumCard';
-import CardVideo from './CardVideo';
 import CommentForm from './CommentForm';
 import FormattedText from './FormattedText';
 import LikeButton from './LikeButton';
@@ -88,6 +88,11 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     marginBottom: theme.spacing.unit
   },
+  media: {
+    width: '100%',
+    height: 'calc(100vh - 110px)',
+    objectFit: 'cover'
+  },
 });
 
 class Medium extends React.Component {
@@ -118,7 +123,12 @@ class Medium extends React.Component {
               <div className={classes.container} key={medium.id}>
                 <PageTitle>{!loading && medium ? medium.title : null}</PageTitle>
                 <Card className={classes.card} elevation={0}>
-                  {medium.publishedAt ? <CardVideo medium={medium} /> : <div className={classes.UnderReview}><UnderReview /></div>}
+                  <CardMedia
+                    className={classes.media}
+                    image={medium.picture}
+                    title={medium.title}
+                  >
+                  </CardMedia>
                   <Grid container spacing={8}>
                     <Grid item lg={8} xs={12}>
                       <CardContent>
@@ -179,7 +189,7 @@ class Medium extends React.Component {
                                 </Link>
                               }
                               title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}
-                              subheader={medium.publishedAt ? timeAgo.format(dayjs(medium.publishedAt).toDate()) : 'Under review'}
+                              subheader={medium.createdAt ? timeAgo.format(dayjs(medium.createdAt).toDate()) : 'Under review'}
                             />
                           </Grid>
                           {
@@ -189,7 +199,7 @@ class Medium extends React.Component {
                                   onClick={() => this.setState({ editMedium: true })}
                                   variant="outlined"
                                 >
-                                  Edit video
+                                  Edit picture
                                 </Button>
                               </Grid>
                           }
@@ -208,7 +218,7 @@ class Medium extends React.Component {
                                   label={tag}
                                   variant={"outlined"}
                                   className={classes.chip}
-                                  component={(props) => <Link rel="nofollow" to={`/videos?${queryString.stringify({ q: tag })}`} {...props} />}
+                                  component={(props) => <Link rel="nofollow" to={`/pictures?${queryString.stringify({ q: tag })}`} {...props} />}
                                 />
                               ))
                           }

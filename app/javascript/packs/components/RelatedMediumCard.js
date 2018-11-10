@@ -17,7 +17,6 @@ import { Link, withRouter } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { keyToCdnUrl } from '../mediaService';
 import timeAgo from '../timeAgo';
-import Duration from './Duration';
 
 const styles = theme => ({
   card: {
@@ -59,44 +58,17 @@ const styles = theme => ({
 
 class MediumCard extends React.Component {
   state = {
-    thumbnailKey: this.props.medium.smallThumbnailKey
   }
 
   renderMedia() {
     const { classes, medium, horizontal, width } = this.props;
 
-    let previewImage = new Image();
-    const handleOnMouseEnter = () => {
-      previewImage.onload = () => {
-        this.setState({ thumbnailKey: medium.previewKey });
-      };
-      previewImage.src = keyToCdnUrl(medium.previewKey);
-    }
-    const handleOnMouseLeave = () => {
-
-      previewImage.onload = () => {
-        this.setState({ thumbnailKey: medium.smallThumbnailKey });
-      };
-      previewImage.src = keyToCdnUrl(medium.smallThumbnailKey);
-    }
-
     return (
       <CardMedia
         className={classes.horizontalMedia}
-        image={keyToCdnUrl(this.state.thumbnailKey)}
+        image={medium.picture}
         title={medium.title}
-        onMouseEnter={() => {
-          if (this.state.thumbnailKey !== medium.previewKey && (width === 'lg' || width === 'xl')) {
-            handleOnMouseEnter();
-          }
-        }}
-        onMouseLeave={() => {
-          if (this.state.thumbnailKey !== medium.smallThumbnailKey && (width === 'lg' || width === 'xl')) {
-            handleOnMouseLeave();
-          }
-        }}
       >
-        <Duration duration={medium.duration} />
       </CardMedia>
     );
   }
@@ -116,7 +88,7 @@ class MediumCard extends React.Component {
         </div>
         <div>
           <Typography gutterBottom variant="body2" component="h2" className={classes.text}  noWrap>
-            {timeAgo.format(dayjs(medium.publishedAt).toDate())}
+            {timeAgo.format(dayjs(medium.createdAt).toDate())}
           </Typography>
         </div>
       </CardContent>
@@ -128,11 +100,11 @@ class MediumCard extends React.Component {
 
     return (
       <Card className={[classes.card, classes.horizontalCard].join(' ')} elevation={0}>
-        <CardActionArea component={(props) => <Link to={`/videos/${medium.slug}-${medium.id}`} {...props} />} className={classes.horizontalMediaContainer}>
+        <CardActionArea component={(props) => <Link to={`/pictures/${medium.slug}-${medium.id}`} {...props} />} className={classes.horizontalMediaContainer}>
           {this.renderMedia()}
         </CardActionArea>
         <div className={classes.horizontalContent}>
-          <CardActionArea component={(props) => <Link to={`/videos/${medium.slug}-${medium.id}`} {...props} />} className={classes.horizontalInfos}>
+          <CardActionArea component={(props) => <Link to={`/pictures/${medium.slug}-${medium.id}`} {...props} />} className={classes.horizontalInfos}>
             {this.renderContent()}
           </CardActionArea>
         </div>

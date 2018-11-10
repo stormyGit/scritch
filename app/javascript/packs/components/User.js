@@ -191,7 +191,7 @@ class User extends React.Component {
 
   handleRequestSearch(q) {
     this.props.history.push({
-      pathname: '/videos',
+      pathname: '/pictures',
       search: queryString.stringify({ q })
     });
   }

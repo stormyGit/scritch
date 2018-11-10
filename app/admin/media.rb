@@ -22,7 +22,7 @@ ActiveAdmin.register Medium do
 
   action_item :accept, only: [:show, :edit] do
     unless resource.refused_at.present?
-      if resource.published_at.present?
+      if resource.created_at.present?
         link_to('Reencode', accept_admin_medium_path(resource), method: :put)
       elsif resource.video_encoding_job.blank?
         link_to('Accept and encode', accept_admin_medium_path(resource), method: :put)

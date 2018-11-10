@@ -194,58 +194,6 @@ class ActivitiesDialog extends React.Component {
     );
   }
 
-  renderMediumCreate(activity) {
-    const { classes } = this.props;
-
-    return (
-      <ListItem
-        key={activity.id}
-      >
-        <UserAvatar user={activity.owner} />
-        <ListItemText
-          primary={
-            <React.Fragment>
-              <Typography variant="body1">
-                {`Your video `}
-                <Typography variant="body2" component="span" className={classes.highlight}>
-                  {activity.trackable.title}
-                </Typography>
-                {` is being reviewed.`}
-              </Typography>
-            </React.Fragment>
-          }
-          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
-        />
-      </ListItem>
-    );
-  }
-
-  renderMediumAccepted(activity) {
-    const { classes } = this.props;
-
-    return (
-      <ListItem
-        key={activity.id}
-      >
-        <UserAvatar user={activity.owner} />
-        <ListItemText
-          primary={
-            <React.Fragment>
-              <Typography variant="body1">
-                {`Your video `}
-                <Typography variant="body2" component="span" className={classes.highlight}>
-                  {activity.trackable.title}
-                </Typography>
-                {` was accepted and is being processed.`}
-              </Typography>
-            </React.Fragment>
-          }
-          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
-        />
-      </ListItem>
-    );
-  }
-
   renderMediumRefused(activity) {
     const { classes } = this.props;
 
@@ -263,39 +211,6 @@ class ActivitiesDialog extends React.Component {
                   {activity.trackable.title}
                 </Typography>
                 {` was refused.`}
-              </Typography>
-            </React.Fragment>
-          }
-          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
-        />
-      </ListItem>
-    );
-  }
-
-  renderMediumPublished(activity) {
-    const { classes } = this.props;
-
-    return (
-      <ListItem
-        key={activity.id}
-        button
-        onClick={() => {
-          this.props.history.push({
-            pathname: `/videos/${activity.trackable.id}`
-          });
-          this.props.onClose();
-        }}
-      >
-        <UserAvatar user={activity.owner} />
-        <ListItemText
-          primary={
-            <React.Fragment>
-              <Typography variant="body1">
-                {`Your video `}
-                <Typography variant="body2" component="span" className={classes.highlight}>
-                  {activity.trackable.title}
-                </Typography>
-                {` was successfully published.`}
               </Typography>
             </React.Fragment>
           }
@@ -339,12 +254,6 @@ class ActivitiesDialog extends React.Component {
         return (this.renderFollowCreate(activity));
       case 'comment.create':
         return (this.renderCommentCreate(activity));
-      case 'medium.create':
-        return (this.renderMediumCreate(activity));
-      case 'medium.accepted':
-        return (this.renderMediumAccepted(activity));
-      case 'medium.published':
-        return (this.renderMediumPublished(activity));
       case 'medium.refused':
         return (this.renderMediumRefused(activity));
       case 'report.create':

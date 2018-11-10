@@ -28,7 +28,6 @@ import Grid from '@material-ui/core/Grid';
 import { Link, withRouter } from 'react-router-dom';
 import { keyToCdnUrl } from '../mediaService';
 import timeAgo from '../timeAgo';
-import Duration from './Duration';
 import UserAvatar from './UserAvatar';
 import TruncatedText from './TruncatedText';
 import UnderReview from './UnderReview';
@@ -103,7 +102,6 @@ const GET_ACTIVE_PREVIEW = gql`
 
 class MediumCard extends React.Component {
   state = {
-    thumbnailKey: this.props.medium.smallThumbnailKey,
   }
 
   renderHeader() {
@@ -117,7 +115,7 @@ class MediumCard extends React.Component {
           </Link>
         }
         title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}
-        subheader={medium.publishedAt ? timeAgo.format(dayjs(medium.publishedAt).toDate()) : "Under review"}
+        subheader={medium.createdAt ? timeAgo.format(dayjs(medium.createdAt).toDate()) : "Under review"}
       />
     );
   }
@@ -125,62 +123,16 @@ class MediumCard extends React.Component {
   renderMedia() {
     const { classes, medium, horizontal, width, client } = this.props;
 
-    let previewImage = new Image();
-    const handleOnMouseEnter = () => {
-      previewImage.onload = () => {
-        this.setState({ thumbnailKey: medium.previewKey });
-        client.writeData({ data: { activePreview: medium.previewKey }});
-      };
-      previewImage.src = keyToCdnUrl(medium.previewKey);
-    }
-    const handleOnMouseLeave = () => {
-      previewImage.onload = () => {
-        this.setState({ thumbnailKey: medium.smallThumbnailKey });
-      };
-      previewImage.src = keyToCdnUrl(medium.smallThumbnailKey);
-    }
-
     return (
       <Query query={GET_ACTIVE_PREVIEW}>
         {({ data }) => (
           <div className={horizontal ? undefined : classes.cardMediaContainer}>
-            <VisibilitySensor
-              active={width !== 'lg' && width !== 'xl'}
-              minTopValue={100}
-              onChange={(isVisible) => {
-                if (width === 'lg' || width === 'xl') {
-                  return;
-                }
-                if (isVisible && this.state.thumbnailKey !== medium.previewKey) {
-                  handleOnMouseEnter();
-                }
-                if (!isVisible && this.state.thumbnailKey !== medium.smallThumbnailKey) {
-                  handleOnMouseLeave();
-                }
-              }}
+            <CardMedia
+              className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
+              image={medium.picture}
+              title={medium.title}
             >
-              {
-                medium.publishedAt ?
-                  <CardMedia
-                    className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
-                    image={this.state.thumbnailKey === data.activePreview ? keyToCdnUrl(this.state.thumbnailKey) : keyToCdnUrl(medium.smallThumbnailKey)}
-                    title={medium.title}
-                    onMouseEnter={() => {
-                      if (this.state.thumbnailKey !== medium.previewKey && (width === 'lg' || width === 'xl')) {
-                        handleOnMouseEnter();
-                      }
-                    }}
-                    onMouseLeave={() => {
-                      if (this.state.thumbnailKey !== medium.smallThumbnailKey && (width === 'lg' || width === 'xl')) {
-                        handleOnMouseLeave();
-                      }
-                    }}
-                  >
-                    <Duration duration={medium.duration} />
-                  </CardMedia> :
-                  <UnderReview />
-              }
-            </VisibilitySensor>
+            </CardMedia>
           </div>
         )}
       </Query>
@@ -217,7 +169,7 @@ class MediumCard extends React.Component {
                 label={tag}
                 variant={"outlined"}
                 className={classes.chip}
-                component={(props) => <Link rel="nofollow" to={`/videos?${queryString.stringify({ q: tag })}`} {...props} />}
+                component={(props) => <Link rel="nofollow" to={`/pictures?${queryString.stringify({ q: tag })}`} {...props} />}
               />
             ))
         }
@@ -269,7 +221,7 @@ class MediumCard extends React.Component {
     return (
       <Card className={classes.card} elevation={0}>
         {this.renderHeader()}
-        <CardActionArea component={(props) => <Link to={`/videos/${medium.slug}-${medium.id}`} {...props} />}>
+        <CardActionArea component={(props) => <Link to={`/pictures/${medium.slug}-${medium.id}`} {...props} />}>
           {this.renderMedia()}
           {this.renderContent()}
         </CardActionArea>
@@ -284,12 +236,12 @@ class MediumCard extends React.Component {
 
     return (
       <Card className={[classes.card, classes.horizontalCard].join(' ')} elevation={0}>
-        <CardActionArea component={(props) => <Link to={`/videos/${medium.slug}-${medium.id}`} {...props} />} className={classes.horizontalMediaContainer}>
+        <CardActionArea component={(props) => <Link to={`/pictures/${medium.slug}-${medium.id}`} {...props} />} className={classes.horizontalMediaContainer}>
           {this.renderMedia()}
         </CardActionArea>
         <div className={classes.horizontalContent}>
           {this.renderHeader()}
-          <CardActionArea component={(props) => <Link to={`/videos/${medium.slug}-${medium.id}`} {...props} />} className={classes.horizontalInfos}>
+          <CardActionArea component={(props) => <Link to={`/pictures/${medium.slug}-${medium.id}`} {...props} />} className={classes.horizontalInfos}>
             {this.renderContent()}
           </CardActionArea>
           {this.renderTags()}

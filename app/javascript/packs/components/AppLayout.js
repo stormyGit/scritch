@@ -24,7 +24,7 @@ import BackIcon from '@material-ui/icons/ArrowBack';
 import { Link, withRouter } from 'react-router-dom'
 import TelegramLoginButton from 'react-telegram-login';
 import SignUpDialog from './SignUpDialog';
-import EditMediumDialog from './EditMediumDialog';
+import MultipleMediaDialog from './MultipleMediaDialog';
 import TemporaryDrawer from './TemporaryDrawer';
 import AppBottomNavigation from './AppBottomNavigation';
 import withCurrentSession from './withCurrentSession';
@@ -177,7 +177,7 @@ class AppLayout extends React.Component {
 
   handleRequestSearch(q) {
     this.props.history.push({
-      pathname: '/videos',
+      pathname: '/pictures',
       search: queryString.stringify({ q })
     });
   }
@@ -406,19 +406,10 @@ class AppLayout extends React.Component {
             </AppBar>
             <SignUpDialog open={this.state.signUpDialog} onClose={() => this.setState({ signUpDialog: false })} />
             <ChatDialog open={this.state.chatDialog} onClose={() => this.setState({ chatDialog: false })} />
-            <EditMediumDialog
+            <MultipleMediaDialog
               open={this.state.uploadDialog}
               onClose={() => this.setState({ uploadDialog: false })}
               uploadEnabled
-              medium={{
-                title: '',
-                description: '',
-                commentsDisabled: false,
-                tagList: [],
-                temporaryKey: null,
-                visibility: 'public',
-                restriction: 'none',
-              }}
             />
             {currentSession && <ActivitiesDialog open={this.state.activitiesDialog} onClose={() => this.setState({ activitiesDialog: false })} />}
             <div id="scoll-parent">

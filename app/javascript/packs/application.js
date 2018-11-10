@@ -16,7 +16,6 @@ import 'whatwg-fetch'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './components/App'
-import fileUploadService from './fileUploadService';
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(

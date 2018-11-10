@@ -123,7 +123,7 @@ class AnnouncementsDialog extends React.Component {
                             data.announcements.map((announcement) => (
                               <ListItem key={announcement.id} className={classes.announcement}>
                                 <UserAvatar user={announcement.sender} />
-                                <ListItemText primary={<FormattedText text={announcement.body} />} secondary={timeAgo.format(dayjs(announcement.publishedAt).toDate())} />
+                                <ListItemText primary={<FormattedText text={announcement.body} />} secondary={timeAgo.format(dayjs(announcement.createdAt).toDate())} />
                               </ListItem>
                             ))
                           }

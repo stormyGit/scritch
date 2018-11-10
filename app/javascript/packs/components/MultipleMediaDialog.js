@@ -46,7 +46,6 @@ import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
 
 import { withStyles } from '@material-ui/core/styles';
 import ResponsiveDialog from './ResponsiveDialog';
-import fileUploadService from '../fileUploadService';
 import GlobalProgress from './GlobalProgress';
 
 import { CREATE_MEDIUM } from '../queries';
@@ -73,7 +72,7 @@ const dropZoneStyles = theme => ({
   },
   progress: {
     color: "white",
-  }
+  },
 });
 
 const processFileName = (file) => (
@@ -92,17 +91,6 @@ class DropZoneField extends React.Component {
     file: null,
     uploaded: false
   }
-  evaporate = null;
-
-  componentDidMount() {
-    this.evaporate = fileUploadService();
-  }
-
-  componentWillUnmount() {
-    this.evaporate.then((evaporate) => {
-      evaporate.cancel();
-    });
-  }
 
   handleDrop(files) {
     if (this.state.disabled) {
@@ -110,24 +98,18 @@ class DropZoneField extends React.Component {
     }
 
     const pushFile = (index) => {
-      this.evaporate.then((evaporate) => (
-        evaporate.add({
-          file: files[index],
-          name: uuidv4(),
-          progress: (p, stats) => {
-            this.setState({ file: files[index], progress: stats });
-          }
-        }).then((temporaryKey) => {
-          this.props.onUploaded(files[index], temporaryKey);
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        this.props.onLoaded(files[index], reader.result);
 
-          if (files[index + 1]) {
-            pushFile(index + 1);
-          } else {
-            this.setState({ uploaded: true })
-            this.props.onComplete();
-          }
-        })
-      ))
+        if (files[index + 1]) {
+          pushFile(index + 1);
+        } else {
+          this.setState({ uploaded: true })
+          this.props.onComplete();
+        }
+      });
+      reader.readAsDataURL(files[index]);
     }
     pushFile(0);
     this.setState({ disabled: true });
@@ -141,7 +123,7 @@ class DropZoneField extends React.Component {
       <Dropzone
         multiple={true}
         className={classes.root}
-        accept="video/mp4,video/x-m4v,video/*,video/quicktime"
+        accept="image/png,image/x-png,image/jpeg"
         style={{
           height: width === 'lg' || width === 'xl' ? 220 : 130,
           pointerEvents: this.state.disabled ? 'none' : 'auto',
@@ -153,7 +135,7 @@ class DropZoneField extends React.Component {
           this.state.uploaded &&
             <div>
               <Typography variant="h6" color="inherit" noWrap>
-                All videos were successfuly imported
+                All pictures were successfuly imported
               </Typography>
             </div>
         }
@@ -196,8 +178,8 @@ class DropZoneField extends React.Component {
               >
                 {
                   (width === 'lg' || width === 'xl') ?
-                    "Select or drag video files to upload" :
-                    "Select video files to upload"
+                    "Select or drag picture files to upload" :
+                    "Select picture files to upload"
                 }
               </Typography>
             </div>
@@ -220,7 +202,11 @@ const styles = theme => ({
   },
   link: {
     color: theme.palette.text.primary,
-  }
+  },
+  chipInput: {
+    marginBottom: theme.spacing.unit * 2,
+  },
+
 });
 
 class MultipleMediaDialog extends React.Component {
@@ -230,8 +216,6 @@ class MultipleMediaDialog extends React.Component {
     commentsEnabled: true,
     shareOnTwitter: true,
     tagList: [],
-    visibility: '',
-    restriction: '',
     uploaded: false,
     complete: false,
     uploading: false,
@@ -245,8 +229,6 @@ class MultipleMediaDialog extends React.Component {
 
   setInitialValues() {
     this.setState({
-      visibility: '',
-      restriction: '',
       uploaded: false,
       complete: false,
       uploading: false,
@@ -265,42 +247,21 @@ class MultipleMediaDialog extends React.Component {
           disableEscapeKeyDown={this.state.uploading}
         >
           <GlobalProgress absolute />
-          <DialogTitle>Import multiple videos</DialogTitle>
+          <DialogTitle>Upload pictures</DialogTitle>
           <DialogContent
             className={classes.dialogContent}
-            style={{
-              paddingTop: uploadEnabled ? 12 : 0
-            }}
           >
-            <DialogContentText variant="body2">
-              {`Please select the default visibility and restriction settings you want to apply to all your videos. The name of each video file will be used as a title.`}
-            </DialogContentText>
-            <FormControl fullWidth margin={'dense'}>
-              <InputLabel htmlFor="visibility-helper">Visibility</InputLabel>
-              <Select
-                disabled={this.state.uploading}
-                value={this.state.visibility}
-                onChange={(e) => {  this.setState({ visibility: e.target.value }) }}
-                input={<Input name="visibility" id="visibility-helper" />}
-              >
-                <MenuItem value={'public'}>Public</MenuItem>
-                <MenuItem value={'unlisted'}>Unlisted</MenuItem>
-              </Select>
-            </FormControl>
-
-            <FormControl fullWidth margin={'dense'}>
-              <InputLabel htmlFor="restriction-helper">Restriction</InputLabel>
-              <Select
-                disabled={this.state.uploading}
-                value={this.state.restriction}
-                onChange={(e) => { this.setState({ restriction: e.target.value }) }}
-                input={<Input name="restriction" id="restriction-helper" />}
-              >
-                <MenuItem value={'none'}>No restriction</MenuItem>
-                <MenuItem value={'registered'}>Registered users only</MenuItem>
-                <MenuItem value={'content_producers'}>{`Other ${process.env.CONTENT_PRODUCERS_NAME} only`}</MenuItem>
-              </Select>
-            </FormControl>
+            <ChipInput
+              fullWidth
+              label="Tags"
+              newChipKeyCodes={[13, 188, 32]}
+              InputProps={{
+                margin: "dense"
+              }}
+              defaultValue={this.state.tagList}
+              onChange={(tagList) => { this.setState({ tagList }) }}
+              className={classes.chipInput}
+            />
             <FormControlLabel
               margin={'dense'}
               control={
@@ -320,8 +281,7 @@ class MultipleMediaDialog extends React.Component {
                   margin={'dense'}
                   control={
                     <Switch
-                      disabled={this.state.restriction !== 'none' || this.state.visibility !== 'public'}
-                      checked={this.state.shareOnTwitter && this.state.restriction === 'none' && this.state.visibility === 'public'}
+                      checked={this.state.shareOnTwitter}
                       onChange={() => {
                         this.setState({ shareOnTwitter: !this.state.shareOnTwitter })
                       }}
@@ -330,7 +290,7 @@ class MultipleMediaDialog extends React.Component {
                   }
                   label={
                     <span>
-                      <span>{`Share on `}</span>
+                      <span>{`Allow sharing on `}</span>
                       <a className={classes.link} target="_blank" href={`https://twitter.com/${process.env.TWITTER_ACCOUNT}`}>{`@${process.env.TWITTER_ACCOUNT}`}</a>
                       <span>{` Twitter feed`}</span>
                     </span>
@@ -338,7 +298,6 @@ class MultipleMediaDialog extends React.Component {
                 />
             }
             {
-              this.state.visibility !== '' && this.state.restriction !== '' &&
               <Mutation mutation={CREATE_MEDIUM}>
                 {
                   (createMedium, { called }) => {
@@ -347,18 +306,16 @@ class MultipleMediaDialog extends React.Component {
                        onStart={() => {
                          this.setState({ uploading: true });
                        }}
-                       onUploaded={(file, temporaryKey) => {
+                       onLoaded={(file, result) => {
                          createMedium({
                            variables: {
                              input: {
                                title: processFileName(file),
                                description: this.state.description,
                                commentsDisabled: !this.state.commentsEnabled,
-                               shareOnTwitter: this.state.shareOnTwitter && this.state.restriction === 'none' && this.state.visibility === 'public',
-                               temporaryKey,
+                               shareOnTwitter: this.state.shareOnTwitter,
+                               picture: result,
                                tagList: this.state.tagList,
-                               visibility: this.state.visibility,
-                               restriction: this.state.restriction,
                              }
                            }
                          });

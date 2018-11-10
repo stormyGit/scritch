@@ -127,11 +127,11 @@ module Types
       media =
         case arguments[:sort]
         when 'latest'
-          media.order("media.published_at DESC, media.created_at DESC")
+          media.order("media.created_at DESC, media.created_at DESC")
         when 'trending'
           media.order(["media.likes_count DESC, media.created_at DESC"])
         when 'subscriptions'
-          media.where(user: context[:current_user].all_following).order("media.published_at DESC, media.created_at DESC")
+          media.where(user: context[:current_user].all_following).order("media.created_at DESC, media.created_at DESC")
         else
           media
         end

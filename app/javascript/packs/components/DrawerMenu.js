@@ -143,7 +143,7 @@ class DrawerMenu extends React.Component {
                   <React.Fragment>
                     <ListItem
                       button
-                      selected={location.pathname === '/' || location.pathname === '/videos'}
+                      selected={location.pathname === '/' || location.pathname === '/pictures'}
                       onClick={() => {
                         this.props.history.push({
                           pathname: '/'
@@ -156,7 +156,7 @@ class DrawerMenu extends React.Component {
                       <ListItemIcon className={classes.text} color='secondary'>
                         <OnDemandVideoIcon />
                       </ListItemIcon>
-                      <ListItemText primary="Latest Videos" primaryTypographyProps={{ className: classes.text }} />
+                      <ListItemText primary="Latest Pictures" primaryTypographyProps={{ className: classes.text }} />
                     </ListItem>
                     <ListItem
                       button

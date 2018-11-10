@@ -19,8 +19,8 @@ class AppRouter extends React.Component {
                 <Route exact path='/' component={LatestVideos} />
                 <Route exact path='/trending' component={Trending} />
                 <Route exact path='/subscriptions' component={Subscriptions} />
-                <Route exact path='/videos' component={LatestVideos} />
-                <Route exact path='/videos/:id' component={Medium} />
+                <Route exact path='/pictures' component={LatestVideos} />
+                <Route exact path='/pictures/:id' component={Medium} />
                 <Route exact path='/:id' component={User} />
                 <Route exact path='/:id/:tab' component={User} />
               </Switch>

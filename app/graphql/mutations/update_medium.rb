@@ -2,11 +2,9 @@ class Mutations::UpdateMedium < Mutations::BaseMutation
   argument :id, ID, required: true
   argument :title, String, required: true
   argument :description, String, required: false
+  argument :share_on_twitter, Boolean, required: false
   argument :comments_disabled, Boolean, required: false
   argument :tag_list, [String], required: false
-
-  argument :visibility, String, required: true
-  argument :restriction, String, required: true
 
   field :medium, Types::MediumType, null: true
   field :errors, [String], null: false

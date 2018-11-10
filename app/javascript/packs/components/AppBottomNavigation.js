@@ -60,7 +60,7 @@ class AppBottomNavigation extends React.Component {
   }
 
   handleLocation(location) {
-    if (location.pathname === '/videos' || location.pathname === '/') {
+    if (location.pathname === '/pictures' || location.pathname === '/') {
       this.setState({ value: 'latest'});
     }
     else if (location.pathname === '/trending') {
