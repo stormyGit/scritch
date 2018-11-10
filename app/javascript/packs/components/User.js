@@ -72,7 +72,7 @@ const styles = theme => ({
     position: 'relative',
     overflow: 'visible',
     alignItems: 'flex-end',
-    paddingTop: '33%',
+    paddingTop: '20%',
   },
   userProfileGridListTile: {
     overflow: 'visible',
@@ -133,7 +133,7 @@ const styles = theme => ({
   },
   placeholderBanner: {
     width: '100%',
-    paddingTop: '33%',
+    paddingTop: '20%',
   },
   bannerImageContainer: {
     position: 'relative',
@@ -408,9 +408,9 @@ class User extends React.Component {
                   <Gallery
                     images={data.media.map((medium) => ({
                       src: medium.picture,
-                      thumbnail: medium.picture,
-                      thumbnailWidth: medium.width,
-                      thumbnailHeight: medium.height,
+                      thumbnail: medium.thumbnail,
+                      thumbnailWidth: medium.width / (medium.height / 256.0),
+                      thumbnailHeight: 256,
                     }))}
                   />
                 </Grid>
@@ -581,13 +581,16 @@ class User extends React.Component {
           return (
             <React.Fragment>
               <Grid container spacing={8}>
-                {
-                  data.likesByUser.map((like) => (
-                    <Grid item xs={12} key={like.id}>
-                      <MediumCard medium={like.medium} horizontal={width === 'lg' || width === 'xl'} />
-                    </Grid>
-                  ))
-                }
+                <Grid item xs={12}>
+                  <Gallery
+                    images={data.likesByUser.map((like) => ({
+                      src: like.medium.picture,
+                      thumbnail: like.medium.thumbnail,
+                      thumbnailWidth: like.medium.width / (like.medium.height / 256.0),
+                      thumbnailHeight: 256,
+                    }))}
+                  />
+                </Grid>
                 {
                   data.likesByUser.length < user.likesCount &&
                     <LoadMoreButton
@@ -807,7 +810,7 @@ class User extends React.Component {
                                   value="likes"
                                   disabled={isPrivate}
                                   label={isPrivate ? <Private /> : data.user.likesCount}
-                                  icon="Likes"
+                                  icon="Scritches"
                                 />
                               </Tabs>
                             </Grid>

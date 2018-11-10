@@ -52,7 +52,7 @@ const styles = theme => ({
   },
   bannerContainer: {
     width: '100%',
-    paddingTop: '33%',
+    paddingTop: '20%',
     position: 'relative',
   },
   editAvatarButton: {

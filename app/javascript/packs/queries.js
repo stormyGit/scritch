@@ -135,6 +135,7 @@ export const UPDATE_MEDIUM = gql`
         viewsCount
         createdAt
         picture
+        thumbnail
         width
         height
         width
@@ -153,6 +154,7 @@ export const UPDATE_MEDIUM = gql`
           title
           description
           picture
+          thumbnail
           width
           height
           width
@@ -177,6 +179,7 @@ export const GET_MEDIA = gql`
       title
       description
       picture
+      thumbnail
       width
       height
       createdAt
@@ -280,6 +283,7 @@ query GetLikesByUser($userId: ID!, $offset: Int!, $limit: Int!) {
       title
       description
       picture
+      thumbnail
       width
       height
       createdAt
@@ -371,6 +375,7 @@ export const GET_MEDIUM = gql`
       title
       description
       picture
+      thumbnail
       width
       height
       commentsCount
@@ -392,6 +397,7 @@ export const GET_MEDIUM = gql`
         title
         description
         picture
+        thumbnail
         width
         height
         createdAt

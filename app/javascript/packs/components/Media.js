@@ -3,6 +3,8 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Gallery from 'react-grid-gallery';
+
 import queryString from 'query-string';
 import withWidth from '@material-ui/core/withWidth';
 import Button from '@material-ui/core/Button';
@@ -66,13 +68,16 @@ class Media extends React.Component {
                 </Grid>
               </Grid>
           }
-          {
-            media.map((medium) => (
-              <Grid item item xs={12} lg={8} key={medium.id} style={{ marginLeft: 'auto', marginRight: 'auto'}}>
-                <MediumCard medium={medium} horizontal />
-              </Grid>
-            ))
-          }
+          <Grid item item xs={12} lg={8} style={{ marginLeft: 'auto', marginRight: 'auto'}}>
+            <Gallery
+              images={media.map((medium) => ({
+                src: medium.picture,
+                thumbnail: medium.thumbnail,
+                thumbnailWidth: medium.width / (medium.height / 256.0),
+                thumbnailHeight: 256,
+              }))}
+            />
+          </Grid>
           {hasMore && <LoadMoreButton onClick={() => onLoadMore()} />}
         </React.Fragment>
       );

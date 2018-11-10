@@ -4,6 +4,9 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ApolloProvider, withApollo, Query } from 'react-apollo';
 import { createHttpLink } from 'apollo-link-http';
+import blue from '@material-ui/core/colors/blue';
+import deepPurple from '@material-ui/core/colors/deepPurple';
+import teal from '@material-ui/core/colors/teal';
 
 import apolloClient from '../apolloClient';
 import AppRouter from './AppRouter';
@@ -21,6 +24,12 @@ const makeTheme = (type) => {
       },
       palette: {
         background,
+        primary: {
+          main: '#3492ca'
+        },
+        secondary: {
+          main: '#ff6f00'
+        },
         type: type
       },
     })

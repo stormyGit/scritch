@@ -78,7 +78,7 @@ const dropZoneStyles = theme => ({
 const processFileName = (file) => (
   file.name
    .replace(/\.[^.]+$/, '')
-   .replace(/[^a-zA-Z]+/, ' ')
+   .replace(/[^a-zA-Z0-9]+/, ' ')
    .split(' ').filter((word) => word.length > 0)
    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
    .join(' ')

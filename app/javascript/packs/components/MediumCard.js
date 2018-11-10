@@ -127,7 +127,7 @@ class MediumCard extends React.Component {
           <div className={horizontal ? undefined : classes.cardMediaContainer}>
             <CardMedia
               className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
-              image={medium.picture}
+              image={medium.thumbnail}
               title={medium.title}
             >
             </CardMedia>

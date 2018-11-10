@@ -90,7 +90,7 @@ const styles = theme => ({
   },
   media: {
     width: '100%',
-    height: 'calc(100vh - 110px)',
+    height: 'calc(100vh - 56px)',
     objectFit: 'cover'
   },
 });

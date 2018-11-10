@@ -6,6 +6,7 @@ module Types
     field :title, String, null: false
     field :description, String, null: true
     field :picture, String, null: false
+    field :thumbnail, String, null: false
     field :width, Integer, null: true
     field :height, Integer, null: true
     field :created_at, String, null: true
@@ -41,6 +42,14 @@ module Types
 
     def picture
       object.picture_url
+    end
+
+    def thumbnail
+      object.picture_url(:thumbnail)
+    end
+
+    def square
+      object.picture_url(:square)
     end
 
     def created_at
