@@ -188,7 +188,7 @@ class MediumCard extends React.Component {
                   disabled
                 >
                   <CommentIcon className={classes.leftIcon} />
-                  {countFormat(medium.commentsCount, 'comment', 'comments')}
+                  {medium.commentsCount}
                 </Button>
               </Grid>
               <Grid item>
@@ -196,7 +196,7 @@ class MediumCard extends React.Component {
                   disabled
                 >
                   <FavoriteIcon className={classes.leftIcon} />
-                  {countFormat(medium.likesCount, 'scritch', 'scritches')}
+                  {medium.likesCount}
                 </Button>
               </Grid>
             </Grid>

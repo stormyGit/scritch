@@ -1153,7 +1153,7 @@ DEPENDENCIES
   bulma-rails (~> 0.7.1)
   byebug
   capybara (>= 2.15)
-  carrierwave (~> 1.2.2)
+  carrierwave (~> 1.2.3)
   carrierwave-base64
   chartkick
   chromedriver-helper

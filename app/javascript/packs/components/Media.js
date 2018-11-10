@@ -96,7 +96,7 @@ class Media extends React.Component {
         }
         {
           media.map((medium) => (
-            <Grid item xs={12} md={6} lg={4} key={medium.id}>
+            <Grid item xs={12} md={4} lg={3} key={medium.id}>
               <MediumCard medium={medium} />
             </Grid>
           ))
@@ -115,7 +115,7 @@ class Media extends React.Component {
       <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, offset: 0, limit }} fetchPolicy="network-only">
         {({ data: { media, users }, loading, error, fetchMore }) => (
           <React.Fragment>
-            <Grid container lol={console.log(users)} className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
+            <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
               {
                   !loading && !error &&
                     this.renderResults({

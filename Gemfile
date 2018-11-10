@@ -81,7 +81,7 @@ gem 'acts_as_follower', github: 'tcocca/acts_as_follower', branch: 'master'
 gem 'telegram-bot', github: 'telegram-bot-rb/telegram-bot'
 gem 'pundit'
 gem "mini_magick"
-gem 'carrierwave', '~> 1.2.2'
+gem 'carrierwave', '~> 1.2.3'
 gem 'carrierwave-base64'
 gem 'kaminari'
 gem 'public_activity'
