@@ -44,7 +44,7 @@ const PrivacyPolicyDialog = ({ classes, open, onClose }) => (
           <ListItemIcon>
             <CheckIcon />
           </ListItemIcon>
-          <ListItemText inset primary={`By uploading content on ${process.env.SITE_NAME}, you grant us permission to use and alter this content for the sole purpose of providing our service (e.g. to crop and resize images and videos).`} />
+          <ListItemText inset primary={`By uploading content on ${process.env.SITE_NAME}, you grant us permission to use and alter this content for the sole purpose of providing our service (e.g. to crop and resize pictures).`} />
         </ListItem>
         <ListItem>
           <ListItemIcon>

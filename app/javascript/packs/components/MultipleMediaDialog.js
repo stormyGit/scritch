@@ -98,16 +98,18 @@ class DropZoneField extends React.Component {
     }
 
     const pushFile = (index) => {
+      this.setState({ file: files[index], uploading: true })
+
       const reader = new FileReader();
       reader.addEventListener('load', () => {
-        this.props.onLoaded(files[index], reader.result);
-
-        if (files[index + 1]) {
-          pushFile(index + 1);
-        } else {
-          this.setState({ uploaded: true })
-          this.props.onComplete();
-        }
+        this.props.onLoaded(files[index], reader.result).then(() => {
+          if (files[index + 1]) {
+            pushFile(index + 1);
+          } else {
+            this.setState({ uploaded: true, uploading: false })
+            this.props.onComplete();
+          }
+        });
       });
       reader.readAsDataURL(files[index]);
     }
@@ -140,21 +142,14 @@ class DropZoneField extends React.Component {
             </div>
         }
         {
-          !this.state.uploaded && this.state.progress && this.state.progress.remainingSize > 0 &&
+          this.state.uploading &&
             <div>
               <CircularProgress
                 className={classes.progress}
-                variant={"static"}
-                value={parseInt(this.state.progress.totalUploaded / this.state.progress.fileSize * 95) + 5}
                 style={{
                   marginBottom: width === 'lg' || width === 'xl' ? 16 : 0
                 }}
               />
-              <Typography variant="h6" color="inherit" noWrap>
-                {
-                  this.state.progress.secondsLeft >= 0 ? `${this.state.progress.secondsLeft}s. remaining` : `Uploading`
-                }
-              </Typography>
               <Typography variant="caption" color="inherit" noWrap>
                 {
                   this.state.file.name
@@ -163,7 +158,7 @@ class DropZoneField extends React.Component {
             </div>
         }
         {
-          !this.state.uploaded && !this.state.progress &&
+          !this.state.uploaded && !this.state.uploading &&
             <div>
               <CloudUploadIcon
                 className={classes.uploadIcon}
@@ -246,7 +241,6 @@ class MultipleMediaDialog extends React.Component {
           disableBackdropClick={this.state.uploading}
           disableEscapeKeyDown={this.state.uploading}
         >
-          <GlobalProgress absolute />
           <DialogTitle>Upload pictures</DialogTitle>
           <DialogContent
             className={classes.dialogContent}
@@ -306,7 +300,7 @@ class MultipleMediaDialog extends React.Component {
                        onStart={() => {
                          this.setState({ uploading: true });
                        }}
-                       onLoaded={(file, result) => {
+                       onLoaded={(file, result) => (
                          createMedium({
                            variables: {
                              input: {
@@ -318,8 +312,8 @@ class MultipleMediaDialog extends React.Component {
                                tagList: this.state.tagList,
                              }
                            }
-                         });
-                       }}
+                         })
+                       )}
                        onComplete={() => {
                          this.setState({ complete: true });
                        }}

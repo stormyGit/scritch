@@ -160,7 +160,7 @@ const styles = theme => ({
 
 class User extends React.Component {
   state = {
-    tab: 'videos',
+    tab: 'pictures',
     showUnfollow: false,
     editProfileDialog: false,
     chatDialog: false,
@@ -185,7 +185,7 @@ class User extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.match.params.tab !== nextProps.match.params.tab) {
-      this.setState({ tab: nextProps.match.params.tab || 'videos' });
+      this.setState({ tab: nextProps.match.params.tab || 'pictures' });
     }
   }
 
@@ -395,7 +395,7 @@ class User extends React.Component {
           if (data.media.length === 0) {
             return (
               <EmptyList
-                label={`${user.name} doesn't have any videos.`}
+                label={`${user.name} doesn't have any pictures.`}
               />
             )
           }
@@ -783,9 +783,9 @@ class User extends React.Component {
                                 fullWidth
                               >
                                 <Tab
-                                  value="videos"
+                                  value="pictures"
                                   label={data.user.mediaCount}
-                                  icon="Videos"
+                                  icon="Pictures"
                                 />
                                 <Tab
                                   value="following"
@@ -814,7 +814,7 @@ class User extends React.Component {
                       </div>
                       <Grid container className={classes.root} spacing={8} justify="center">
                         <Grid item item xs={12} lg={8}>
-                          {this.state.tab === 'videos' && this.renderMedia(data.user)}
+                          {this.state.tab === 'pictures' && this.renderMedia(data.user)}
                           {this.state.tab === 'following' && this.renderFollowing(data.user)}
                           {this.state.tab === 'followers' && this.renderFollowers(data.user)}
                           {this.state.tab === 'likes' && this.renderLikes(data.user)}

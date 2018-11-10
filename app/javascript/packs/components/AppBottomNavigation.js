@@ -10,9 +10,9 @@ import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Icon from '@material-ui/core/Icon';
 
-import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
+import SubscriptionsIcon from '@material-ui/icons/ViewCarousel';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
-import OnDemandVideoIcon from '@material-ui/icons/OndemandVideo';
+import PicturesIcon from '@material-ui/icons/PhotoLibrary';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 
@@ -104,7 +104,7 @@ class AppBottomNavigation extends React.Component {
             }}
             label="Latest"
             value="latest"
-            icon={<OnDemandVideoIcon />}
+            icon={<PicturesIcon />}
           />
           <BottomNavigationAction
             className={classes.action}

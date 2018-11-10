@@ -114,23 +114,10 @@ class EditMediumDialog extends React.Component {
           <DialogContent
             className={classes.dialogContent}
             style={{
-              paddingTop: uploadEnabled ? 12 : 0,
+              paddingTop: 0,
               marginTop: medium.id ? 0 : 16,
             }}
           >
-            {
-              uploadEnabled &&
-              <React.Fragment>
-                 <DropZoneFieldWithStyle
-                  onChange={(temporaryKey) => {
-                    this.setState({ temporaryKey });
-                  }}
-                 />
-                 <DialogContentText variant="body2">
-                  {`Please do not publish content that doesn't belong to you and do not publish videos of other ${process.env.CONTENT_PRODUCERS_NAME} without their authorization.`}
-                 </DialogContentText>
-              </React.Fragment>
-            }
             <TextField
               label="Title"
               name="title"

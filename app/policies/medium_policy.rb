@@ -2,7 +2,7 @@ class MediumPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if user.blank?
-        scope.where(refused_at: nil).published
+        scope.where(refused_at: nil)
       else
         scope
           .where("media.user_id = ? OR media.created_at IS NOT NULL", user.uuid)

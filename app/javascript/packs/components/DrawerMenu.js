@@ -14,9 +14,9 @@ import Typography from '@material-ui/core/Typography';
 import Badge from '@material-ui/core/Badge';
 import withWidth from '@material-ui/core/withWidth';
 
-import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
+import SubscriptionsIcon from '@material-ui/icons/ViewCarousel';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
-import OnDemandVideoIcon from '@material-ui/icons/OndemandVideo';
+import PictureIcon from '@material-ui/icons/PhotoLibrary';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ToysIcon from '@material-ui/icons/Toys';
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
@@ -35,7 +35,7 @@ import PrivacyPolicyDialog from './PrivacyPolicyDialog';
 import SettingsDialog from './SettingsDialog';
 import SignUpDialog from './SignUpDialog';
 import AnnouncementsDialog from './AnnouncementsDialog';
-import EditMediumDialog from './EditMediumDialog';
+import MultipleMediaDialog from './MultipleMediaDialog';
 
 import ProfileAvatar from './ProfileAvatar';
 import themeSelector from '../themeSelector';
@@ -154,7 +154,7 @@ class DrawerMenu extends React.Component {
                       }}
                     >
                       <ListItemIcon className={classes.text} color='secondary'>
-                        <OnDemandVideoIcon />
+                        <PictureIcon />
                       </ListItemIcon>
                       <ListItemText primary="Latest Pictures" primaryTypographyProps={{ className: classes.text }} />
                     </ListItem>
@@ -282,16 +282,6 @@ class DrawerMenu extends React.Component {
                     <ListItemText primary="Contact us" primaryTypographyProps={{ className: classes.text }} />
                   </ListItem>
               }
-              <Divider />
-              <ListItem
-                button
-                component={(props) => <a href={`https://lab.howlr.im`} target="_blank" {...props} />}
-              >
-                <ListItemIcon className={classes.text}>
-                  <ToysIcon />
-                </ListItemIcon>
-                <ListItemText primary="Friends' projects" primaryTypographyProps={{ className: classes.text }} />
-              </ListItem>
             </List>
           </div>
         </div>
@@ -340,7 +330,7 @@ class DrawerMenu extends React.Component {
             }
           }}
         />
-        <EditMediumDialog
+        <MultipleMediaDialog
           open={this.state.uploadDialog}
           uploadEnabled
           onClose={() => {
@@ -348,15 +338,6 @@ class DrawerMenu extends React.Component {
             if (this.props.onClose) {
               this.props.onClose();
             }
-          }}
-          medium={{
-            title: '',
-            description: '',
-            commentsDisabled: false,
-            tagList: [],
-            temporaryKey: null,
-            visibility: 'public',
-            restriction: 'none',
           }}
         />
       </React.Fragment>

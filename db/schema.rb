@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_10_120855) do
+ActiveRecord::Schema.define(version: 2018_11_10_133907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -198,20 +198,12 @@ ActiveRecord::Schema.define(version: 2018_11_10_120855) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "user_id"
-    t.string "key"
-    t.string "video_encoding_job_id"
-    t.string "temporary_key"
-    t.string "thumbnail_key"
-    t.string "preview_key"
     t.integer "duration"
     t.string "slug"
     t.integer "views_count", default: 0
     t.integer "comments_count", default: 0
     t.integer "likes_count", default: 0
     t.boolean "comments_disabled", default: false
-    t.string "visibility", default: "public"
-    t.string "restriction", default: "none"
-    t.datetime "published_at"
     t.datetime "refused_at"
     t.boolean "share_on_twitter", default: true
     t.string "small_thumbnail_key"

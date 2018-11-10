@@ -21,8 +21,6 @@ import NoFavoriteIcon from '@material-ui/icons/FavoriteBorder';
 import dayjs from 'dayjs';
 import queryString from 'query-string';
 
-import VisibilitySensor from 'react-visibility-sensor';
-
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Link, withRouter } from 'react-router-dom';
@@ -198,7 +196,7 @@ class MediumCard extends React.Component {
                   disabled
                 >
                   <FavoriteIcon className={classes.leftIcon} />
-                  {countFormat(medium.likesCount, 'like', 'likes')}
+                  {countFormat(medium.likesCount, 'scritch', 'scritches')}
                 </Button>
               </Grid>
             </Grid>

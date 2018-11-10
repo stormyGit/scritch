@@ -109,7 +109,7 @@ class LikeButton extends React.Component {
               this.setState({ likesDialog: true })
             }}
           >
-            {countFormat(likesCount, 'like', 'likes')}
+            {countFormat(likesCount, 'scritch', 'scritches')}
           </Button>
         </div>
         <LikesDialog

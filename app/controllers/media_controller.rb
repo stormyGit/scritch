@@ -11,7 +11,7 @@ class MediaController < ApplicationController
 
     medium = Medium.find(uuid[0])
 
-    @meta[:type] = 'video.other'
+    @meta[:type] = 'picture.other'
     @meta[:title] = medium.title
     @meta[:image] = MediumStorage.key_to_cdn_url medium.thumbnail_key
     @meta[:description] = medium.description

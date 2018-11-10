@@ -10,8 +10,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 
-import VisibilitySensor from 'react-visibility-sensor';
-
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { Link, withRouter } from 'react-router-dom';
@@ -66,7 +64,7 @@ class MediumCard extends React.Component {
             </Grid>
             <Grid item className={classes.videoCount}>
               <Typography variant="button">
-                {countFormat(user.mediaCount, 'video', 'videos')}
+                {countFormat(user.mediaCount, 'picture', 'pictures')}
               </Typography>
             </Grid>
           </Grid>

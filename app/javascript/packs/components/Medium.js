@@ -49,7 +49,7 @@ const styles = theme => ({
     borderRadius: 0,
     backgroundColor: theme.palette.background,
   },
-  videoInfo: {
+  pictureInfo: {
     paddingBottom: theme.spacing.unit,
   },
   userInfo: {
@@ -132,7 +132,7 @@ class Medium extends React.Component {
                   <Grid container spacing={8}>
                     <Grid item lg={8} xs={12}>
                       <CardContent>
-                        <div className={classes.videoInfo}>
+                        <div className={classes.pictureInfo}>
                           <Grid container spacing={8} justify="space-between" wrap="nowrap">
                             <Grid item>
                               <Typography gutterBottom variant="h5" component="h2" className={classes.mediumTitle} noWrap>

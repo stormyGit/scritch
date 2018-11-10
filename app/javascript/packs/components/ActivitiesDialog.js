@@ -111,7 +111,7 @@ class ActivitiesDialog extends React.Component {
                 <Typography variant="body2" component="span" className={classes.highlight}>
                   {activity.owner.name}
                 </Typography>
-                {` liked your video `}
+                {` liked your picture `}
                 <Typography variant="body2" component="span" className={classes.highlight}>
                   {activity.trackable.medium.title}
                 </Typography>
@@ -146,7 +146,7 @@ class ActivitiesDialog extends React.Component {
                 <Typography variant="body2" component="span" className={classes.highlight}>
                   {activity.owner.name}
                 </Typography>
-                {` commented on your video `}
+                {` commented on your picture `}
                 <Typography variant="body2" component="span" className={classes.highlight}>
                   {activity.trackable.medium.title}
                 </Typography>
@@ -206,7 +206,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`Your video `}
+                {`Your picture `}
                 <Typography variant="body2" component="span" className={classes.highlight}>
                   {activity.trackable.title}
                 </Typography>
