@@ -248,9 +248,6 @@ class Medium extends React.Component {
                     </Grid>
                     <Grid item lg={4} xs={12}>
                       <CardContent>
-                        <Typography gutterBottom variant="h6" component="h3">
-                          Watch more
-                        </Typography>
                         {
                           medium.relatedMedia.map((medium) => (
                             <div className={classes.relatedMedia} key={medium.id}>

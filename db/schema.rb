@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_10_153732) do
+ActiveRecord::Schema.define(version: 2018_11_11_051044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -144,6 +144,34 @@ ActiveRecord::Schema.define(version: 2018_11_10_153732) do
     t.integer "replies_count", default: 0
   end
 
+  create_table "editions", force: :cascade do |t|
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string "country"
+    t.string "city"
+    t.string "kind"
+    t.integer "year"
+    t.string "name"
+    t.uuid "event_id"
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.string "venue"
+    t.integer "attendance"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "picture"
+    t.index "to_tsvector('english'::regconfig, (name)::text)", name: "index_editions_on_name", using: :gin
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "name"
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index "to_tsvector('english'::regconfig, (name)::text)", name: "index_events_on_name", using: :gin
+  end
+
   create_table "follows", id: :serial, force: :cascade do |t|
     t.string "followable_type", null: false
     t.string "follower_type", null: false
@@ -213,6 +241,7 @@ ActiveRecord::Schema.define(version: 2018_11_10_153732) do
     t.json "data"
     t.json "exif"
     t.integer "size"
+    t.uuid "edition_id"
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
     t.index ["slug"], name: "index_media_on_slug", unique: true
   end

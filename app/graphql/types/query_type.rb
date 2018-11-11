@@ -106,6 +106,31 @@ module Types
       description "List blocked users"
     end
 
+    field :event, EventType, null: false do
+      description "Find a event by ID"
+      argument :id, ID, required: true
+    end
+
+    field :events, [EventType], null: false do
+      description "List events"
+      argument :q, String, required: false
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
+    field :edition, EditionType, null: false do
+      description "Find a edition by ID"
+      argument :id, ID, required: true
+    end
+
+    field :editions, [EditionType], null: false do
+      description "List editions"
+      argument :q, String, required: false
+      argument :event_id, ID, required: false
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
     def medium(arguments = {})
       medium = Medium.includes(comments: [:user]).find(arguments[:id])
       raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).show?
@@ -141,6 +166,38 @@ module Types
       end
 
       media.includes(:tags).offset(arguments[:offset]).limit(arguments[:limit])
+    end
+
+    def event(arguments)
+      Event.find(arguments[:id])
+    end
+
+    def events(arguments)
+      events = Event.all
+
+      if arguments[:q].present?
+        events = events.where("events.name @@ ?", arguments[:q])
+      end
+
+      events.offset(arguments[:offset]).limit(arguments[:limit])
+    end
+
+    def edition(arguments)
+      Edition.find(arguments[:id])
+    end
+
+    def editions
+      editions = Edition.all
+
+      if arguments[:event_id].present?
+        editions = editions.where("editions.event_id = ?", arguments[:event_id])
+      end
+
+      if arguments[:q].present?
+        editions = editions.where("editions.name @@ ?", arguments[:q])
+      end
+
+      editions.offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def activities(arguments = {})

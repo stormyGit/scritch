@@ -12,6 +12,7 @@ class Medium < ApplicationRecord
   has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity', dependent: :destroy
 
   belongs_to :user
+  belongs_to :edition
 
   has_many :likes, dependent: :destroy
   has_many :likers, through: :likes, source: :user
