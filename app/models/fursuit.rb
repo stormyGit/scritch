@@ -5,9 +5,9 @@ class Fursuit < ApplicationRecord
   friendly_id :name, use: :slugged
 
   # has_many :fursuit_custom_attributes, dependent: :destroy
-  # belongs_to :fursuit_style, optional: true
-  # belongs_to :fursuit_specy, optional: true
-  # belongs_to :fursuit_leg_type, optional: true
+  belongs_to :fursuit_style, optional: true
+  belongs_to :fursuit_specy, optional: true
+  belongs_to :fursuit_leg_type, optional: true
 
   has_one_attached :avatar
 

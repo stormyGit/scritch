@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_11_180251) do
+ActiveRecord::Schema.define(version: 2018_11_11_182842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -195,9 +195,33 @@ ActiveRecord::Schema.define(version: 2018_11_11_180251) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
+  create_table "fursuit_leg_types", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "fursuit_species", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "fursuit_styles", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "fursuits", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "fursuit_style_id"
+    t.bigint "fursuit_specy_id"
+    t.bigint "fursuit_leg_type_id"
+    t.index ["fursuit_leg_type_id"], name: "index_fursuits_on_fursuit_leg_type_id"
+    t.index ["fursuit_specy_id"], name: "index_fursuits_on_fursuit_specy_id"
+    t.index ["fursuit_style_id"], name: "index_fursuits_on_fursuit_style_id"
   end
 
   create_table "likes", force: :cascade do |t|
