@@ -198,17 +198,6 @@ class AppLayout extends React.Component {
       appBarPadding = 8;
     }
 
-    if (this.state.pornographyDisclaimer) {
-      return (
-        <PornographyDisclaimer
-          open
-          onClose={() => {
-            localStorage.setItem('pornographyDisclaimerValidated', "true");
-            this.setState({ pornographyDisclaimer: false });
-          }}
-        />
-      )
-    }
 
     return (
       <React.Fragment>
