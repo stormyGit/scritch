@@ -33,7 +33,6 @@ import AppBottomNavigation from './AppBottomNavigation';
 import withCurrentSession from './withCurrentSession';
 import SearchBar from './SearchBar';
 import GlobalProgress from './GlobalProgress';
-import PornographyDisclaimer from './PornographyDisclaimer';
 import ActivitiesDialog from './ActivitiesDialog';
 import ChatDialog from './ChatDialog';
 import SettingsDialog from './SettingsDialog';
@@ -136,7 +135,6 @@ class AppLayout extends React.Component {
     signUpDialog: false,
     drawer: false,
     searchEnabled: false,
-    pornographyDisclaimer: false,
     activitiesDialog: false,
     chatDialog: false,
     settingsDialog: false,
@@ -144,14 +142,11 @@ class AppLayout extends React.Component {
   }
 
   componentDidMount() {
-    this.checkPornographyDisclaimer(this.props);
 
     this.handleQuery(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.checkPornographyDisclaimer(nextProps);
-
     if (this.props.location.search !== nextProps.location.search) {
       this.handleQuery(nextProps)
     }
@@ -167,17 +162,6 @@ class AppLayout extends React.Component {
   handleQuery(props) {
     const query = queryString.parse(props.location.search);
     this.setState({ query, searchEnabled: (props.width !== 'xl' && props.width !== 'lg' && query.q && query.q.length > 0) })
-  }
-
-  checkPornographyDisclaimer(props) {
-    if (/bot|googlebot|crawler|spider|robot|crawling|prerender/i.test(navigator.userAgent)) {
-      return ;
-    }
-
-    const isValidated = localStorage.getItem('pornographyDisclaimerValidated');
-    if (process.env.ENABLE_PORNOGRAPHY_DISCLAIMER === 'true' && isValidated !== 'true' && !props.currentSession) {
-      this.setState({ pornographyDisclaimer: true })
-    }
   }
 
   handleRequestSearch(q) {
@@ -196,18 +180,6 @@ class AppLayout extends React.Component {
       appBarPadding = 16;
     } else {
       appBarPadding = 8;
-    }
-
-    if (this.state.pornographyDisclaimer) {
-      return (
-        <PornographyDisclaimer
-          open
-          onClose={() => {
-            localStorage.setItem('pornographyDisclaimerValidated', "true");
-            this.setState({ pornographyDisclaimer: false });
-          }}
-        />
-      )
     }
 
     return (
