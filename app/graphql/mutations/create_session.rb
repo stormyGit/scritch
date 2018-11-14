@@ -20,6 +20,7 @@ class Mutations::CreateSession < Mutations::BaseMutation
 
     user = User.find_or_create_by(telegram_id: params[:telegram_id]) do |user|
       user.telegram_id = params[:telegram_id]
+      puts "\n\n>>>>>>>>>>>>>>\n\n#{params}\n\n\n\n"
 
       if params[:telegram_last_name].present?
         user.name = "#{params[:telegram_first_name]} #{params[:telegram_last_name]}"
@@ -43,6 +44,7 @@ class Mutations::CreateSession < Mutations::BaseMutation
       rescue => error
         ExceptionNotifier.notify_exception(error)
       end
+
     end
 
     session = Session.new(user: user)

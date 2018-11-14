@@ -310,15 +310,6 @@ class AppLayout extends React.Component {
                               </IconButton>
                             )}
                           </Query>
-                          <Query query={GET_UNREAD_CHATS_COUNT} pollInterval={parseInt(process.env.UNREAD_CHATS_COUNT_REFRESH_INTERVAL)}>
-                            {({ loading, error, data }) => (
-                              <IconButton
-                                onClick={() => this.setState({ chatDialog: true })}
-                              >
-                                {loading || !data || data.unreadChatsCount <= 0 ? <ChatButtleEmptyIcon /> : <ChatButtleIcon />}
-                              </IconButton>
-                            )}
-                          </Query>
                         </div>
                     }
                     {
@@ -368,7 +359,7 @@ class AppLayout extends React.Component {
                   </Hidden>
                   <Hidden lgUp>
                     {
-                      currentSession && !this.state.searchEnabled &&
+                      console.log(currentSession) && currentSession && !this.state.searchEnabled &&
                         <React.Fragment>
                           <Query query={GET_UNREAD_ACTIVITY_COUNT} pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}>
                             {({ loading, error, data }) => (
