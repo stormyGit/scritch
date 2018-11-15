@@ -28,6 +28,7 @@ import { Link, withRouter } from 'react-router-dom'
 import TelegramLoginButton from 'react-telegram-login';
 import SignUpDialog from './SignUpDialog';
 import MultipleMediaDialog from './MultipleMediaDialog';
+import PermanentDrawer from './PermanentDrawer';
 import TemporaryDrawer from './TemporaryDrawer';
 import AppBottomNavigation from './AppBottomNavigation';
 import withCurrentSession from './withCurrentSession';
@@ -186,6 +187,9 @@ class AppLayout extends React.Component {
       <React.Fragment>
         <GlobalProgress />
         <div className={classes.root}>
+          <Hidden mdDown>
+            <PermanentDrawer />
+          </Hidden>
           <Hidden lgUp>
             <TemporaryDrawer
               open={this.state.drawer}
@@ -413,7 +417,9 @@ class AppLayout extends React.Component {
             </div>
           </main>
         </div>
-        <AppBottomNavigation />
+        <Hidden lgUp>
+          <AppBottomNavigation />
+        </Hidden>
       </React.Fragment>
     );
   }

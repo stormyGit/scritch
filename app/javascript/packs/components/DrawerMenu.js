@@ -160,10 +160,10 @@ class DrawerMenu extends React.Component {
                     </ListItem>
                     <ListItem
                       button
-                      selected={location.pathname === '/trending'}
+                      selected={location.pathname === '/databases'}
                       onClick={() => {
                         this.props.history.push({
-                          pathname: '/trending'
+                          pathname: '/databases'
                         });
                         if (this.props.onClose) {
                           this.props.onClose();
