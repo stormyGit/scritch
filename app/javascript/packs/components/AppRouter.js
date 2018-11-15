@@ -17,7 +17,7 @@ class AppRouter extends React.Component {
             <AppLayout>
               <Switch location={location}>
                 <Route exact path='/' component={LatestPictures} />
-                <Route exact path='/trending' component={Trending} />
+                <Route exact path='/databases' component={Trending} />
                 <Route exact path='/subscriptions' component={Subscriptions} />
                 <Route exact path='/pictures' component={LatestPictures} />
                 <Route exact path='/pictures/:id' component={Medium} />

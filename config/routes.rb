@@ -47,7 +47,7 @@ Rails.application.routes.draw do
 
   get "/pictures/:id", to: "media#show", as: 'video'
   get "/pictures", to: "media#index"
-  get "/trending", to: "media#index"
+  get "/databases", to: "media#index"
   get "/subscriptions", to: "media#index"
   get "/:id", to: "users#show"
   get "/:id/:filter", to: "users#show"

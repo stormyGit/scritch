@@ -4,7 +4,6 @@ import PageTitle from './PageTitle';
 
 export default (props) => (
   <React.Fragment>
-    <PageTitle>Trending</PageTitle>
-    <Media sort="trending" {...props} />
+    <PageTitle>Databases</PageTitle>
   </React.Fragment>
 )

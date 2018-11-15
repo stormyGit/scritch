@@ -40,7 +40,7 @@ const styles = theme => ({
 
 const routes = {
   latest: '/',
-  trending: '/trending',
+  databases: '/databases',
   subscriptions: '/subscriptions',
 };
 
@@ -63,8 +63,8 @@ class AppBottomNavigation extends React.Component {
     if (location.pathname === '/pictures' || location.pathname === '/') {
       this.setState({ value: 'latest'});
     }
-    else if (location.pathname === '/trending') {
-      this.setState({ value: 'trending'});
+    else if (location.pathname === '/databases') {
+      this.setState({ value: 'databases'});
     }
     else if (location.pathname === '/subscriptions') {
       this.setState({ value: 'subscriptions'});
@@ -112,8 +112,8 @@ class AppBottomNavigation extends React.Component {
               label: classes.label,
               selected: classes.selected,
             }}
-            label="Trending"
-            value="trending"
+            label="Databases"
+            value="databases"
             icon={<WhatshotIcon />}
           />
           {

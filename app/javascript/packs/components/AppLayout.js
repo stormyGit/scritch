@@ -413,9 +413,7 @@ class AppLayout extends React.Component {
             </div>
           </main>
         </div>
-        <Hidden lgUp>
-          <AppBottomNavigation />
-        </Hidden>
+        <AppBottomNavigation />
       </React.Fragment>
     );
   }
