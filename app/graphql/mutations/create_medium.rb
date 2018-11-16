@@ -12,7 +12,7 @@ class Mutations::CreateMedium < Mutations::BaseMutation
   def resolve(arguments)
     medium = Medium.new(arguments)
     medium.user = context[:current_user]
-
+    puts ">>>>>\n\n\n#{arguments}\n\n\n\n>>>>>"
     raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).create?
 
     if medium.save
