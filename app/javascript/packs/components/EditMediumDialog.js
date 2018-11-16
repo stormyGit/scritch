@@ -162,29 +162,6 @@ class EditMediumDialog extends React.Component {
               }
               label={this.state.commentsEnabled ? "Comments enabled" : "Comments disabled"}
             />
-            {
-              process.env.TWITTER_ACCOUNT &&
-                <FormControlLabel
-                  margin={'dense'}
-                  control={
-                    <Switch
-                      disabled={this.state.restriction !== 'none' || this.state.visibility !== 'public'}
-                      checked={this.state.shareOnTwitter && this.state.restriction === 'none' && this.state.visibility === 'public'}
-                      onChange={() => {
-                        this.setState({ shareOnTwitter: !this.state.shareOnTwitter })
-                      }}
-                      color="primary"
-                    />
-                  }
-                  label={
-                    <span>
-                      <span>{`Allow sharing on `}</span>
-                      <a className={classes.link} target="_blank" href={`https://twitter.com/${process.env.TWITTER_ACCOUNT}`}>{`@${process.env.TWITTER_ACCOUNT}`}</a>
-                      <span>{` Twitter feed`}</span>
-                    </span>
-                  }
-                />
-            }
           </DialogContent>
           <DialogActions>
             <Grid container spacing={0} justify="space-between">

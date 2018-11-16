@@ -270,28 +270,6 @@ class MultipleMediaDialog extends React.Component {
               label={this.state.commentsEnabled ? "Comments enabled" : "Comments disabled"}
             />
             {
-              process.env.TWITTER_ACCOUNT &&
-                <FormControlLabel
-                  margin={'dense'}
-                  control={
-                    <Switch
-                      checked={this.state.shareOnTwitter}
-                      onChange={() => {
-                        this.setState({ shareOnTwitter: !this.state.shareOnTwitter })
-                      }}
-                      color="primary"
-                    />
-                  }
-                  label={
-                    <span>
-                      <span>{`Allow sharing on `}</span>
-                      <a className={classes.link} target="_blank" href={`https://twitter.com/${process.env.TWITTER_ACCOUNT}`}>{`@${process.env.TWITTER_ACCOUNT}`}</a>
-                      <span>{` Twitter feed`}</span>
-                    </span>
-                  }
-                />
-            }
-            {
               <Mutation mutation={CREATE_MEDIUM}>
                 {
                   (createMedium, { called }) => {
