@@ -635,8 +635,8 @@ export const LOAD_MAKERS = gql`
 `;
 
 export const LOAD_EVENTS = gql`
-  query Events($name: String) {
-    events(name: $name) {
+  query Events($name: String, $limit: Int!, $offset: Int!) {
+    events(name: $name, limit: $limit, offset: $offset) {
       id
       name
       slug
@@ -648,7 +648,7 @@ export const LOAD_EVENTS = gql`
 //
 
 export const LOAD_FURSUITS = gql`
-  query Fursuits($name: String, $species: String, $legs: String, $style: String, $limit: Int!,$offset: Int!) {
+  query Fursuits($name: String, $species: String, $legs: String, $style: String, $limit: Int!, $offset: Int!) {
     fursuits(name: $name, fursuitSpecy: $species, fursuitLegType: $legs, fursuitStyle: $style, limit: $limit, offset: $offset) {
       id
       name

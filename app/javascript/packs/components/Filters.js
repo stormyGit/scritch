@@ -155,7 +155,6 @@ class Filters extends React.Component {
       case "Editions":
         return this.props.editionFilters
         break;
-
     }
   }
 

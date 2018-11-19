@@ -113,7 +113,7 @@ module Types
 
     field :events, [EventType], null: false do
       description "List events"
-      argument :q, String, required: false
+      argument :name, String, required: false
       argument :offset, Integer, required: true
       argument :limit, Integer, required: true
     end
@@ -171,14 +171,7 @@ module Types
       if arguments[:name].present?
         fursuits = fursuits.where("name ilike ?", "%#{arguments[:name]}%")
       end
-      if arguments[:offset].present?
-        fursuits = fursuits.offset(arguments[:offset])
-      end
-      if arguments[:limit].present?
-        fursuits = fursuits.limit(arguments[:limit])
-      end
-
-      fursuits.order(:name)
+      fursuits.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
     end
 
     def maker(arguments)
@@ -195,13 +188,9 @@ module Types
       if arguments[:name].present?
         makers = makers.where("name ilike ?", "%#{arguments[:name]}%")
       end
-      if arguments[:offset].present?
-        makers = makers.offset(arguments[:offset])
-      end
-      if arguments[:limit].present?
-        makers = makers.limit(arguments[:limit])
-      end
-      makers = makers.order(:name)
+
+      makers.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
+
     end
 
     def medium(arguments = {})
@@ -248,11 +237,11 @@ module Types
     def events(arguments)
       events = Event.all
 
-      if arguments[:q].present?
-        events = events.where("events.name @@ ?", arguments[:q])
+      if arguments[:name].present?
+        events = events.where("name ilike ?", "%#{arguments[:name]}%")
       end
 
-      events.offset(arguments[:offset]).limit(arguments[:limit])
+      events.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
     end
 
     def edition(arguments)

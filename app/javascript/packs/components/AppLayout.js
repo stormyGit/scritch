@@ -375,16 +375,6 @@ class AppLayout extends React.Component {
                               </IconButton>
                             )}
                           </Query>
-                          <Query query={GET_UNREAD_CHATS_COUNT} pollInterval={parseInt(process.env.UNREAD_CHATS_COUNT_REFRESH_INTERVAL)}>
-                            {({ loading, error, data }) => (
-                              <IconButton
-                                className={classes.tinyButton}
-                                onClick={() => this.setState({ chatDialog: true })}
-                              >
-                                {loading || !data || data.unreadChatsCount <= 0 ? <ChatButtleEmptyIcon /> : <ChatButtleIcon />}
-                              </IconButton>
-                            )}
-                          </Query>
                         </React.Fragment>
                     }
                     {

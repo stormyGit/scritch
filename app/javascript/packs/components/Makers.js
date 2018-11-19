@@ -106,7 +106,7 @@ class Makers extends React.Component {
       <Query query={LOAD_MAKERS} variables={ {...criteria, limit, offset: 0} } fetchPolicy="network-only">
         {({ data, loading, error, fetchMore }) => (
           <React.Fragment>
-            <div style={{paddingTop: 10}}>
+            <div style={{padding: 10}}>
               <Filters currentFilter="Makers" onChange={(value) => { console.log(value); this.setState({criteria: value});}} />
             </div>
             <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
