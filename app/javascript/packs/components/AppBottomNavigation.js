@@ -83,10 +83,10 @@ class AppBottomNavigation extends React.Component {
   render() {
     const { classes } = this.props;
     const { value } = this.state;
+
     if (!value) {
       return (null);
     }
-    console.log(123);
 
     return (
       <React.Fragment>
