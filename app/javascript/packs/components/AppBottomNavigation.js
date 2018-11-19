@@ -63,7 +63,7 @@ class AppBottomNavigation extends React.Component {
     if (location.pathname === '/pictures' || location.pathname === '/') {
       this.setState({ value: 'latest'});
     }
-    else if (location.pathname === '/fursuits') {
+    else if (location.pathname === '/databases') {
       this.setState({ value: 'databases'});
     }
     else if (location.pathname === '/subscriptions') {
@@ -83,10 +83,10 @@ class AppBottomNavigation extends React.Component {
   render() {
     const { classes } = this.props;
     const { value } = this.state;
-
     if (!value) {
       return (null);
     }
+    console.log(123);
 
     return (
       <React.Fragment>
