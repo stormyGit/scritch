@@ -173,7 +173,7 @@ class DrawerMenu extends React.Component {
                       <ListItemIcon className={classes.text} color='secondary'>
                         <WhatshotIcon />
                       </ListItemIcon>
-                      <ListItemText primary="Trending" primaryTypographyProps={{ className: classes.text }} />
+                      <ListItemText primary="Databases" primaryTypographyProps={{ className: classes.text }} />
                     </ListItem>
                     {
                       currentSession &&

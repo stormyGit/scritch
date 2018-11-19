@@ -221,7 +221,6 @@ class MediumCard extends React.Component {
         {this.renderHeader()}
         <CardActionArea component={(props) => <Link to={`/pictures/${medium.slug}-${medium.id}`} {...props} />}>
           {this.renderMedia()}
-          {this.renderContent()}
         </CardActionArea>
         {this.renderTags()}
         {this.renderActions()}

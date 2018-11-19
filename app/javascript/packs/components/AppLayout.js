@@ -363,7 +363,7 @@ class AppLayout extends React.Component {
                   </Hidden>
                   <Hidden lgUp>
                     {
-                      console.log(currentSession) && currentSession && !this.state.searchEnabled &&
+                      currentSession && !this.state.searchEnabled &&
                         <React.Fragment>
                           <Query query={GET_UNREAD_ACTIVITY_COUNT} pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}>
                             {({ loading, error, data }) => (

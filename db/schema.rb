@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_11_182842) do
+ActiveRecord::Schema.define(version: 2018_11_19_103115) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -219,6 +219,10 @@ ActiveRecord::Schema.define(version: 2018_11_11_182842) do
     t.bigint "fursuit_style_id"
     t.bigint "fursuit_specy_id"
     t.bigint "fursuit_leg_type_id"
+    t.string "name"
+    t.string "slug"
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.integer "creation_year"
     t.index ["fursuit_leg_type_id"], name: "index_fursuits_on_fursuit_leg_type_id"
     t.index ["fursuit_specy_id"], name: "index_fursuits_on_fursuit_specy_id"
     t.index ["fursuit_style_id"], name: "index_fursuits_on_fursuit_style_id"
@@ -246,6 +250,14 @@ ActiveRecord::Schema.define(version: 2018_11_11_182842) do
     t.uuid "list_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "makers", force: :cascade do |t|
+    t.string "name"
+    t.string "web"
+    t.string "country"
+    t.string "slug"
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
   end
 
   create_table "media", force: :cascade do |t|
