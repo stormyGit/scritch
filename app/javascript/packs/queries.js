@@ -622,3 +622,49 @@ export const DELETE_LIKE = gql`
     }
   }
 `;
+
+export const LOAD_MAKERS = gql`
+  query Makers($name: String, $country: String, $limit: Int!,$offset: Int!) {
+    makers(name: $name, country: $country, limit: $limit, offset: $offset) {
+      id
+      name
+      country
+      slug
+    }
+  }
+`;
+
+export const LOAD_EVENTS = gql`
+  query Events($name: String) {
+    events(name: $name) {
+      id
+      name
+      slug
+    }
+  }
+`;
+
+//
+//
+
+export const LOAD_FURSUITS = gql`
+  query Fursuits($name: String, $species: String, $legs: String, $style: String, $limit: Int!,$offset: Int!) {
+    fursuits(name: $name, fursuitSpecy: $species, fursuitLegType: $legs, fursuitStyle: $style, limit: $limit, offset: $offset) {
+      id
+      name
+      creationYear
+      slug
+    }
+  }
+`;
+
+export const LOAD_PHOTOGRAPHERS = gql`
+  query Photographers($name: String, $country: String) {
+    photographers(name: $name, country: $country) {
+      id
+      name
+      country
+      slug
+    }
+  }
+`;

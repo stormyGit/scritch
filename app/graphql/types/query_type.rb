@@ -131,6 +131,79 @@ module Types
       argument :limit, Integer, required: true
     end
 
+    field :fursuits, [FursuitType], null: false do
+      description "List fursuits"
+      argument :name, String, required: false
+      argument :limit, Integer, required: false
+      argument :offset, Integer, required: false
+      argument :fursuit_specy, String, required: false
+      argument :fursuit_style, String, required: false
+      argument :fursuit_leg_type, String, required: false
+    end
+
+    field :maker, MakerType, null: false do
+      description "Find a maker by ID"
+      argument :id, ID, required: true
+    end
+
+    field :makers, [MakerType], null: false do
+      description "List makers"
+      argument :limit, Integer, required: false
+      argument :offset, Integer, required: false
+      argument :name, String, required: false
+      argument :country, String, required: false
+    end
+
+    def fursuits(arguments)
+      fursuits = Fursuit.all
+      if arguments[:fursuit_specy].present?
+        fursuits = fursuits.where(fursuit_specy_id: FursuitSpecy.find_by(name: arguments[:fursuit_specy]))
+      end
+
+      if arguments[:fursuit_style].present?
+        fursuits = fursuits.where(fursuit_style_id: FursuitStyle.find_by(name: arguments[:fursuit_style]))
+      end
+
+      if arguments[:fursuit_leg_type].present?
+        fursuits = fursuits.where(fursuit_leg_type_id: FursuitLegType.find_by(name: arguments[:fursuit_leg_type]))
+      end
+
+      if arguments[:name].present?
+        fursuits = fursuits.where("name ilike ?", "%#{arguments[:name]}%")
+      end
+      if arguments[:offset].present?
+        fursuits = fursuits.offset(arguments[:offset])
+      end
+      if arguments[:limit].present?
+        fursuits = fursuits.limit(arguments[:limit])
+      end
+
+      fursuits.order(:name)
+    end
+
+    def maker(arguments)
+      Maker.find(arguments[:id])
+    end
+
+    def makers(arguments)
+      makers = Maker.all
+
+      if arguments[:country].present?
+        makers = makers.where(country: arguments[:country])
+      end
+
+      if arguments[:name].present?
+        makers = makers.where("name ilike ?", "%#{arguments[:name]}%")
+      end
+      if arguments[:offset].present?
+        makers = makers.offset(arguments[:offset])
+      end
+      if arguments[:limit].present?
+        makers = makers.limit(arguments[:limit])
+      end
+      makers = makers.order(:name)
+    end
+
     def medium(arguments = {})
       medium = Medium.includes(comments: [:user]).find(arguments[:id])
       raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).show?
