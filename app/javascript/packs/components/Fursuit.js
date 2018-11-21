@@ -150,7 +150,7 @@ class Fursuit extends React.Component {
               <div className={classes.container} key={fursuit.id}>
                 <PageTitle>{!loading && fursuit ? fursuit.name : null}</PageTitle>
                 <Grid container spacing={8}>
-                  <Grid item lg={8} xs={12}>
+                  <Grid item lg={9} xs={12}>
 
                     <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, offset: 0, limit, fursuitId: fursuit.id }} fetchPolicy="network-only">
                       {({ data, loading, error, fetchMore }) => {
@@ -212,7 +212,7 @@ class Fursuit extends React.Component {
                       }}
                     </Query>
                   </Grid>
-                  <Grid item lg={4} xs={12}>
+                  <Grid item lg={3} xs={12}>
                     <div className={classes.pictureInfo}>
                       <Grid container spacing={8} justify="space-between" wrap="nowrap">
                         <Grid item>
