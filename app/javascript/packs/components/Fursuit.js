@@ -13,7 +13,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Divider from '@material-ui/core/Divider';
 import Chip from '@material-ui/core/Chip';
 import CommentIcon from '@material-ui/icons/Comment';
-import { Link } from 'react-router-dom';
 import timeAgo from '../timeAgo';
 import UserAvatar from './UserAvatar';
 import PageTitle from './PageTitle';
@@ -21,6 +20,7 @@ import dayjs from 'dayjs';
 import queryString from 'query-string';
 import Gallery from 'react-grid-gallery';
 import EmptyList from './EmptyList';
+import LoadMoreButton from './LoadMoreButton';
 
 import { LOAD_FURSUIT, GET_MEDIA } from '../queries';
 
@@ -35,6 +35,7 @@ import SocialButton from './SocialButton';
 import TwitterIcon from '../icons/Twitter';
 import TelegramIcon from '../icons/Telegram';
 import countFormat from '../countFormat';
+import { Link, withRouter } from 'react-router-dom';
 
 const styles = theme => ({
   container: {
@@ -98,9 +99,16 @@ const styles = theme => ({
 
 class Fursuit extends React.Component {
   state = {
-    editFursuit: false
+    editFursuit: false,
+    currentImage: 0
   }
+  constructor(props){
+      super(props);
 
+
+      this.onCurrentImageChange = this.onCurrentImageChange.bind(this);
+      this.goToImage = this.goToImage.bind(this);
+    }
   renderCommentsCount(count) {
     if (count === 0) {
       return (`No comments`);
@@ -111,11 +119,22 @@ class Fursuit extends React.Component {
     return (`${count} comments`);
   }
 
+  onCurrentImageChange(index) {
+    console.log(this.state.currentImage);
+    console.log(index);
+    this.setState({ currentImage: index });
+  }
+
+  goToImage(media) {
+    console.log(this.state.currentImage);
+    this.props.history.push(`/pictures/${media[this.state.currentImage].id}`);
+    console.log(this.state.currentImage);
+  }
+
   render() {
     const { classes, match, currentSession } = this.props;
-    let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
+    let limit = parseInt(process.env.USER_MEDIA_PAGE_SIZE);
     const query = queryString.parse(location.search)
-
 
     return (
       <Query query={LOAD_FURSUIT} variables={{ id: match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0] }}>
@@ -152,6 +171,11 @@ class Fursuit extends React.Component {
                             <Grid container spacing={8}>
                               <Grid item xs={12}>
                                 <Gallery
+                                  customControls={[
+                                    <Button color="secondary" key="goToImage" onClick={() => this.goToImage(data.media)}>Go to picture</Button>
+                                  ]}
+                                  backdropClosesModal
+                                  currentImageWillChange={this.onCurrentImageChange}
                                   images={data.media.map((medium) => ({
                                     src: medium.picture,
                                     thumbnail: medium.thumbnail,
@@ -248,4 +272,4 @@ class Fursuit extends React.Component {
   }
 }
 
-export default withStyles(styles)(withCurrentSession(Fursuit));
+export default withStyles(styles)(withRouter(withCurrentSession(Fursuit)));
