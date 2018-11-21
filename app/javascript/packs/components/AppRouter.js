@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 
 import Medium from './Medium';
+import Fursuit from './Fursuit';
 import LatestPictures from './LatestPictures';
 import Trending from './Trending';
 import Subscriptions from './Subscriptions';
@@ -21,6 +22,7 @@ class AppRouter extends React.Component {
                 <Route exact path='/subscriptions' component={Subscriptions} />
                 <Route exact path='/pictures' component={LatestPictures} />
                 <Route exact path='/pictures/:id' component={Medium} />
+                <Route exact path='/fursuits/:id' component={Fursuit} />
                 <Route exact path='/:id' component={User} />
                 <Route exact path='/:id/:tab' component={User} />
               </Switch>

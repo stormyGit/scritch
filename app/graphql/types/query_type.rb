@@ -12,6 +12,7 @@ module Types
       argument :q, String, required: false
       argument :sort, String, required: false
       argument :user_id, ID, required: false
+      argument :fursuit_id, ID, required: false
       argument :offset, Integer, required: true
       argument :limit, Integer, required: true
     end
@@ -131,6 +132,11 @@ module Types
       argument :limit, Integer, required: true
     end
 
+    field :fursuit, FursuitType, null: false do
+      description "Find a fursuit by ID"
+      argument :id, ID, required: true
+    end
+
     field :fursuits, [FursuitType], null: false do
       description "List fursuits"
       argument :name, String, required: false
@@ -152,6 +158,11 @@ module Types
       argument :offset, Integer, required: false
       argument :name, String, required: false
       argument :country, String, required: false
+    end
+
+
+    def fursuit(arguments)
+      Fursuit.find(arguments[:id])
     end
 
     def fursuits(arguments)
@@ -205,6 +216,7 @@ module Types
     def media(arguments = {})
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
 
+      puts "\n\n\n\n#{arguments}\n\n\n\n\n"
       if arguments[:q].present?
         media = media
           .joins(:user)
@@ -225,6 +237,10 @@ module Types
 
       if arguments[:user_id].present?
         media = media.where(user_id: arguments[:user_id])
+      end
+
+      if arguments[:fursuit_id].present?
+        media = media.where(fursuit_id: arguments[:fursuit_id])
       end
 
       media.includes(:tags).offset(arguments[:offset]).limit(arguments[:limit])

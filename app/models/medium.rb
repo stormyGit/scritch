@@ -21,6 +21,8 @@ class Medium < ApplicationRecord
 
   has_many :comments
 
+  belongs_to :fursuit, optional: true
+
   validates :picture, presence: true
   validates :title, presence: true
 
