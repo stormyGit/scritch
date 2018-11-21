@@ -170,7 +170,7 @@ class EditMediumDialog extends React.Component {
                   color="secondary"
                   onClick={() => this.setState({ mediumDeletion: true })}
                 >
-                  Delete video
+                  Delete picture
                 </Button>
               </Grid>
               <Grid item>

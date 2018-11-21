@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_19_103115) do
+ActiveRecord::Schema.define(version: 2018_11_21_060923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -283,6 +283,7 @@ ActiveRecord::Schema.define(version: 2018_11_19_103115) do
     t.json "exif"
     t.integer "size"
     t.uuid "edition_id"
+    t.uuid "fursuit_id"
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
     t.index ["slug"], name: "index_media_on_slug", unique: true
   end

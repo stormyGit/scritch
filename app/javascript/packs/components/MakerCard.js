@@ -129,7 +129,7 @@ class MakerCard extends React.Component {
           <div className={horizontal ? undefined : classes.cardMediaContainer}>
             <CardMedia
               className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
-              image={require('../photo.jpg')} //{maker.thumbnail}
+              image={require('../photo.jpg')} //{maker.thumbnail} TODO
               title={maker.name}
             >
             </CardMedia>

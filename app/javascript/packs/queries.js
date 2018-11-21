@@ -172,8 +172,8 @@ export const UPDATE_MEDIUM = gql`
 `;
 
 export const GET_MEDIA = gql`
-  query Media($q: String, $sort: String, $userId: ID, $offset: Int!, $limit: Int!) {
-    media(q: $q, sort: $sort, userId: $userId, offset: $offset, limit: $limit) {
+  query Media($q: String, $sort: String, $userId: ID, $offset: Int!, $limit: Int!, $fursuitId: ID) {
+    media(q: $q, sort: $sort, userId: $userId, offset: $offset, limit: $limit, fursuitId: $fursuitId) {
       id
       slug
       title
@@ -646,6 +646,17 @@ export const LOAD_EVENTS = gql`
 
 //
 //
+
+export const LOAD_FURSUIT = gql`
+  query Fursuit($id: ID!) {
+    fursuit(id: $id) {
+      id
+      name
+      slug
+      mediaCount
+    }
+  }
+`;
 
 export const LOAD_FURSUITS = gql`
   query Fursuits($name: String, $species: String, $legs: String, $style: String, $limit: Int!, $offset: Int!) {

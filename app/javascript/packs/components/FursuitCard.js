@@ -129,7 +129,7 @@ class FursuitCard extends React.Component {
           <div className={horizontal ? undefined : classes.cardMediaContainer}>
             <CardMedia
               className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
-              image={require('../photo.jpg')} //{fursuit.thumbnail}
+              image={require('../photo.jpg')} //{fursuit.thumbnail} TODO
               title={fursuit.name}
             >
             </CardMedia>
