@@ -218,11 +218,11 @@ class MediumCard extends React.Component {
 
     return (
       <Card className={classes.card} elevation={0}>
-        {this.renderHeader()}
+        {false && this.renderHeader()}
         <CardActionArea component={(props) => <Link to={`/pictures/${medium.slug}-${medium.id}`} {...props} />}>
           {this.renderMedia()}
         </CardActionArea>
-        {this.renderTags()}
+        {false && this.renderTags()}
         {this.renderActions()}
       </Card>
     )

@@ -174,6 +174,8 @@ class Fursuit extends React.Component {
                                   customControls={[
                                     <Button color="secondary" key="goToImage" onClick={() => this.goToImage(data.media)}>Go to picture</Button>
                                   ]}
+                                  enableLightbox={true}
+                                  enableImageSelection={false}
                                   backdropClosesModal
                                   currentImageWillChange={this.onCurrentImageChange}
                                   images={data.media.map((medium) => ({
