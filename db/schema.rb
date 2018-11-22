@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_21_060923) do
+ActiveRecord::Schema.define(version: 2018_11_22_080031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -199,33 +199,39 @@ ActiveRecord::Schema.define(version: 2018_11_21_060923) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+  end
+
+  create_table "fursuit_makers", force: :cascade do |t|
+    t.uuid "fursuit_id"
+    t.uuid "maker_id"
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
   end
 
   create_table "fursuit_species", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
   end
 
   create_table "fursuit_styles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
   end
 
   create_table "fursuits", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "fursuit_style_id"
-    t.bigint "fursuit_specy_id"
-    t.bigint "fursuit_leg_type_id"
     t.string "name"
     t.string "slug"
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
     t.integer "creation_year"
-    t.index ["fursuit_leg_type_id"], name: "index_fursuits_on_fursuit_leg_type_id"
-    t.index ["fursuit_specy_id"], name: "index_fursuits_on_fursuit_specy_id"
-    t.index ["fursuit_style_id"], name: "index_fursuits_on_fursuit_style_id"
+    t.uuid "fursuit_leg_type_id"
+    t.uuid "fursuit_style_id"
+    t.uuid "fursuit_specy_id"
   end
 
   create_table "likes", force: :cascade do |t|

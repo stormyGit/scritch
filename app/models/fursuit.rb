@@ -14,8 +14,8 @@ class Fursuit < ApplicationRecord
   # has_many :fursuit_users, dependent: :destroy
   # has_many :users, through: :fursuit_users
   #
-  # has_many :fursuit_makers, dependent: :destroy
-  # has_many :makers, through: :fursuit_makers
+  has_many :fursuit_makers, dependent: :destroy
+  has_many :makers, through: :fursuit_makers
   #
   has_many :fursuits
   # has_many :fursuit_media, dependent: :destroy
