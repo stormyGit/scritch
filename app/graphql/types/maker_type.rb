@@ -5,8 +5,7 @@ module Types
     field :name, String, null: false
     field :country, String, null: false
     field :slug, String, null: false
-    field :web_1, String, null: true
-    field :web_2, String, null: true
+    field :web, String, null: true
     field :fursuits, [FursuitType], null: false
     field :user, UserType, null: false
   end

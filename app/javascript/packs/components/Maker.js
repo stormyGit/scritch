@@ -21,8 +21,9 @@ import queryString from 'query-string';
 import Gallery from 'react-grid-gallery';
 import EmptyList from './EmptyList';
 import LoadMoreButton from './LoadMoreButton';
+import FursuitCard from './FursuitCard';
 
-import { LOAD_FURSUIT, GET_MEDIA } from '../queries';
+import { LOAD_MAKER, LOAD_FURSUITS } from '../queries';
 
 import Media from './Media';
 import CommentForm from './CommentForm';
@@ -60,7 +61,7 @@ const styles = theme => ({
   },
   text: {
   },
-  fursuitTitle: {
+  makerTitle: {
     maxWidth: "40vw",
     marginBottom: 0,
     fontWeight: 200
@@ -98,9 +99,9 @@ const styles = theme => ({
   },
 });
 
-class Fursuit extends React.Component {
+class Maker extends React.Component {
   state = {
-    editFursuit: false,
+    editMaker: false,
     currentImage: 0
   }
   constructor(props){
@@ -138,90 +139,41 @@ class Fursuit extends React.Component {
     const query = queryString.parse(location.search)
 
     return (
-      <Query query={LOAD_FURSUIT} variables={{ id: match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0] }}>
+      <Query query={LOAD_MAKER} variables={{ id: match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0] }}>
         {({ loading, error, data }) => {
-          const fursuit = data ? data.fursuit : null;
+          const maker = data ? data.maker : null;
 
           if (error)
             console.log ("ERR >>> ", error);
-          console.log("Data >>> ", fursuit);
+          console.log("Data >>> ", maker);
 
+          console.log(data);
           return (
-            !loading && !error && fursuit &&
-              <div className={classes.container} key={fursuit.id}>
-                <PageTitle>{!loading && fursuit ? fursuit.name : null}</PageTitle>
+            !loading && !error && maker &&
+              <div className={classes.container} key={maker.id}>
+                <PageTitle>{!loading && maker ? maker.name : null}</PageTitle>
                 <Grid container spacing={8}>
                   <Grid item lg={9} xs={12}>
-
-                    <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, offset: 0, limit, fursuitId: fursuit.id }} fetchPolicy="network-only">
-                      {({ data, loading, error, fetchMore }) => {
-                        if (loading || error) {
-                          return (null);
-                        }
-
-                        if (data.media.length === 0) {
-                          return (
-                            <EmptyList
-                              label={`${fursuit.name} doesn't have any pictures.`}
-                            />
-                          )
-                        }
-
-                        return (
-                          <React.Fragment>
-                            <Grid container spacing={8}>
-                              <Grid item xs={12}>
-                                <Gallery
-                                  customControls={[
-                                    <Button color="secondary" key="goToImage" onClick={() => this.goToImage(data.media)}>Go to picture</Button>
-                                  ]}
-                                  enableLightbox={true}
-                                  enableImageSelection={false}
-                                  backdropClosesModal
-                                  currentImageWillChange={this.onCurrentImageChange}
-                                  images={data.media.map((medium) => ({
-                                    src: medium.picture,
-                                    thumbnail: medium.thumbnail,
-                                    thumbnailWidth: medium.width / (medium.height / 256.0),
-                                    thumbnailHeight: 256,
-                                  }))}
-                                />
-                              </Grid>
-                              {
-                                data.media.length < fursuit.mediaCount &&
-                                  <LoadMoreButton
-                                    onClick={() => {
-                                      fetchMore({
-                                        variables: {
-                                          offset: data.media.length,
-                                          limit
-                                        },
-                                        updateQuery: (prev, { fetchMoreResult }) => {
-                                          if (!fetchMoreResult) return prev;
-
-                                          return Object.assign({}, prev, {
-                                            media: [...prev.media, ...fetchMoreResult.media]
-                                          });
-                                        }
-                                      });
-                                    }}
-                                  />
-                              }
-                            </Grid>
-                          </React.Fragment>
-                        );
-                      }}
-                    </Query>
+                  <div style={{padding: 5}} />
+                  {
+                    data.maker.fursuits.map((fursuit) => {
+                      return (
+                        <Grid item xs={6} md={4} lg={3} key={fursuit.id}>
+                          <FursuitCard  key={fursuit.id} fursuit={fursuit} />
+                        </Grid>
+                      );
+                    })
+                  }
                   </Grid>
                   <Grid item lg={3} xs={12}>
                     <div className={classes.pictureInfo}>
                       <Grid container spacing={8} justify="space-between" wrap="nowrap">
                         <Grid item>
-                          <Typography gutterBottom variant="h6" component="h2" color="secondary" className={classes.fursuitTitle} noWrap>
-                            {fursuit.name}
+                          <Typography gutterBottom variant="h6" component="h2" color="secondary" className={classes.makerTitle} noWrap>
+                            {maker.name}
                           </Typography>
-                          <Typography gutterBottom variant="h5" component="h2" className={classes.fursuitTitle} noWrap>
-                            {fursuit.creationYear}
+                          <Typography gutterBottom variant="h5" component="h2" className={classes.makerTitle} noWrap>
+                            {maker.country}
                           </Typography>
                         </Grid>
 
@@ -231,7 +183,7 @@ class Fursuit extends React.Component {
                                   name="Twitter"
                                   url="https://twitter.com/intent/tweet/"
                                   params={{
-                                    text: `${fursuit.name} via @${process.env.TWITTER_ACCOUNT}`,
+                                    text: `${maker.name} via @${process.env.TWITTER_ACCOUNT}`,
                                     url: window.location.href
                                   }}
                                   className={classes.socialButton}
@@ -243,7 +195,7 @@ class Fursuit extends React.Component {
                                   className={classes.socialButton}
                                   url="https://telegram.me/share/url"
                                   params={{
-                                    text: fursuit.name,
+                                    text: maker.name,
                                     url: window.location.href
                                   }}
                                 >
@@ -256,38 +208,17 @@ class Fursuit extends React.Component {
                       <Grid container spacing={8} alignItems='center' justify="center">
                         <Grid xs={4} item />
                         <Grid xs={4} item>
-                          <img src={require('../stormy.jpg')} title={fursuit.name} width='100%' style={{borderRadius: '100%'}}/>
+                          <img src={require('../stormy.jpg')} title={maker.name} width='100%' style={{borderRadius: '100%'}}/>
                         </Grid>
                         <Grid xs={4} item />
                       </Grid>
                       <Grid container spacing={8} >
                         <Grid item>
-                          <Typography gutterBottom variant="h6" component="h2" color="secondary" className={classes.fursuitTitle} noWrap>
-                            Made by
+                          <Typography gutterBottom variant="h6" component="h2" color="secondary" className={classes.makerTitle} noWrap>
+                            Website
                           </Typography>
-                          <Typography gutterBottom variant="h5" component="h2" className={classes.fursuitTitle} noWrap>
-                            {fursuit.makers.length > 0 ? fursuit.makers[0].name : "Unknown"}
-                          </Typography>
-                          <div style={{padding: 10}} />
-                          <Typography gutterBottom variant="h6" component="h2" color="secondary" className={classes.fursuitTitle} noWrap>
-                            Species
-                          </Typography>
-                          <Typography gutterBottom variant="h5" component="h2" className={classes.fursuitTitle} noWrap>
-                            {fursuit.fursuitSpecy ? fursuit.fursuitSpecy.name : "Unknown"}
-                          </Typography>
-                          <div style={{padding: 10}} />
-                          <Typography gutterBottom variant="h6" component="h2" color="secondary" className={classes.fursuitTitle} noWrap>
-                            Style
-                          </Typography>
-                          <Typography gutterBottom variant="h5" component="h2" className={classes.fursuitTitle} noWrap>
-                            {fursuit.fursuitStyle ? fursuit.fursuitStyle.name : "Unknown"}
-                          </Typography>
-                          <div style={{padding: 10}} />
-                          <Typography gutterBottom variant="h6" component="h2" color="secondary" className={classes.fursuitTitle} noWrap>
-                            Leg Type
-                          </Typography>
-                          <Typography gutterBottom variant="h5" component="h2" className={classes.fursuitTitle} noWrap>
-                            {fursuit.fursuitLegType ? fursuit.fursuitLegType.name : "Unknown"}
+                          <Typography gutterBottom variant="h5" component="h2" className={classes.makerTitle} noWrap>
+                            {maker.web ? maker.web : "Unknown"}
                           </Typography>
                           <div style={{padding: 10}} />
 
@@ -305,4 +236,4 @@ class Fursuit extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withCurrentSession(Fursuit)));
+export default withStyles(styles)(withRouter(withCurrentSession(Maker)));
