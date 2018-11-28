@@ -215,11 +215,11 @@ class DrawerMenu extends React.Component {
               }
             </List>
           </div>
-          <div style={{textAlign: 'center', paddingTop: 10}}>
-            <img src={require('../1.png')} style={{width: '80%'}} />
+          <div style={{textAlign: 'center', padding: 10}}>
+            <img src={require('../1.gif')} style={{width: '80%'}} />
           </div>
-          <div style={{textAlign: 'center', paddingTop: 10}}>
-            <img src={require('../2.png')} style={{width: '80%'}} />
+          <div style={{textAlign: 'center', padding: 10}}>
+            <img src={require('../2.gif')} style={{width: '80%'}} />
           </div>
           <div>
             <List disablePadding={width !== 'lg' && width !== 'xl'}>
