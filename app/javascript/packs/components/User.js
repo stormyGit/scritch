@@ -330,6 +330,7 @@ class User extends React.Component {
       <React.Fragment>
         <IconButton
           id="moreUserOptionsButton"
+          color="secondary"
           onClick={() => this.setState({ moreMenu: true })}
           style={{
             marginLeft: 8,
@@ -500,7 +501,7 @@ class User extends React.Component {
     );
   }
 
-  renderFollowers(user) {
+  renderFursuits(user) {
     const { width } = this.props;
     let offset = 0;
     let limit = parseInt(process.env.FOLLOWERS_PAGE_SIZE);
@@ -696,7 +697,6 @@ class User extends React.Component {
                   {
                     currentSession && currentSession.user.id !== user.id &&
                       <div className={classes.titleBarContainerUserActions}>
-                        {user.chatEnabled && this.renderMessageButton(user)}
                         {this.renderFollowButton(user)}
                         {this.renderMoreUserOptions(user)}
                       </div>
@@ -795,23 +795,30 @@ class User extends React.Component {
                                   icon="Pictures"
                                 />
                                 <Tab
-                                  value="following"
-                                  disabled={isPrivate}
-                                  label={isPrivate ? <Private /> : data.user.followingCount}
-                                  icon="Following"
-                                />
-                                <Tab
-                                  value="followers"
+                                  value="fursuits"
                                   disabled={isPrivate}
                                   label={isPrivate ? <Private /> : data.user.followersCount}
-                                  icon="Followers"
+                                  icon="Fursuits"
                                 />
-                                <Tab
-                                  value="likes"
-                                  disabled={isPrivate}
-                                  label={isPrivate ? <Private /> : data.user.likesCount}
-                                  icon="Scritches"
-                                />
+                                {
+                                  currentSession.user.id == data.user.id &&
+                                  <Tab
+                                    value="following"
+                                    disabled={isPrivate}
+                                    label={isPrivate ? <Private /> : data.user.followingCount}
+                                    icon="Following"
+                                  />
+                                }
+                                {
+                                  currentSession.user.id == data.user.id &&
+                                  <Tab
+                                    value="likes"
+                                    disabled={isPrivate}
+                                    label={isPrivate ? <Private /> : data.user.likesCount}
+                                    icon="Scritches"
+                                  />
+                                }
+                              }
                               </Tabs>
                             </Grid>
                             <Grid item xs lg>
@@ -822,20 +829,15 @@ class User extends React.Component {
                       <Grid container className={classes.root} spacing={8} justify="center">
                         <Grid item item xs={12} lg={8}>
                           {this.state.tab === 'pictures' && this.renderMedia(data.user)}
+                          {this.state.tab === 'fursuits' && this.renderFursuits(data.user)}
                           {this.state.tab === 'following' && this.renderFollowing(data.user)}
-                          {this.state.tab === 'followers' && this.renderFollowers(data.user)}
-                          {this.state.tab === 'likes' && this.renderLikes(data.user)}
+                          {currentSession.id === data.user.id && this.state.tab === 'likes' && this.renderLikes(data.user)}
                         </Grid>
                       </Grid>
                       <EditProfileDialog
                         user={data.user}
                         open={this.state.editProfileDialog}
                         onClose={() => this.setState({ editProfileDialog: false })}
-                      />
-                      <ChatDialog
-                        user={data.user}
-                        open={this.state.chatDialog}
-                        onClose={() => this.setState({ chatDialog: false })}
                       />
                       <ReportDialog
                         user={data.user}

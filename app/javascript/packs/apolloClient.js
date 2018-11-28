@@ -9,7 +9,7 @@ const apolloClient = new ApolloClient({
     operation.setContext({
       headers: {
         authorization: token ? `Bearer ${token}` : "",
-      }
+    }
     });
   },
   clientState: {
