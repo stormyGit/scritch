@@ -77,23 +77,7 @@ class Settings extends React.Component {
                           color="primary"
                         />
                       }
-                      label="Show my likes, subscriptions and followers"
-                    />
-                  </Grid>
-                </Grid>
-                <Grid container spacing={0}>
-                  <Grid item>
-                    <FormControlLabel
-                      control={
-                        <Switch
-                          checked={currentSession.user.chatEnabled}
-                          onChange={(e, value) => {
-                            updateUser({ variables: { input: { id: currentSession.user.id, chatEnabled: !currentSession.user.chatEnabled }}});
-                          }}
-                          color="primary"
-                        />
-                      }
-                      label="Accept direct messages"
+                      label="Let others see the fursuit(s) I own"
                     />
                   </Grid>
                 </Grid>

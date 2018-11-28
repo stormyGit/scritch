@@ -121,7 +121,7 @@ class Medium extends React.Component {
           return (
             !loading && !error && medium &&
               <div className={classes.container} key={medium.id}>
-                <PageTitle>{!loading && medium ? medium.title : null}</PageTitle>
+                <PageTitle>{!loading && medium ? `Picture #${medium.id.split('-')[medium.id.split('-').length - 5]}` : null}</PageTitle>
                 <Card className={classes.card} elevation={0}>
                   <CardMedia
                     className={classes.media}
