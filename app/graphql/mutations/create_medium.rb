@@ -4,7 +4,9 @@ class Mutations::CreateMedium < Mutations::BaseMutation
   argument :picture, String, required: true
   argument :comments_disabled, Boolean, required: true
   argument :share_on_twitter, Boolean, required: false
-  argument :tag_list, [String], required: false
+  argument :edition_id, ID, required: false
+  argument :category_id, ID, required: false
+  argument :panel_id, ID, required: false
 
   field :medium, Types::MediumType, null: true
   field :errors, [String], null: false
@@ -12,7 +14,6 @@ class Mutations::CreateMedium < Mutations::BaseMutation
   def resolve(arguments)
     medium = Medium.new(arguments)
     medium.user = context[:current_user]
-    puts ">>>>>\n\n\n#{arguments}\n\n\n\n>>>>>"
     raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).create?
 
     if medium.save
