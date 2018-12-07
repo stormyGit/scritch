@@ -516,7 +516,7 @@ class User extends React.Component {
           if (data.followersByUser.length === 0) {
             return (
               <EmptyList
-                label={`${user.name} doesn't have any followers.`}
+                label={`${user.name} doesn't have any fursuits.`}
               />
             )
           }

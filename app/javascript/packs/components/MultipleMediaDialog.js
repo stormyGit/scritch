@@ -26,9 +26,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import IconButton from '@material-ui/core/IconButton';
+
+import Select from 'react-select';
 
 import withWidth from '@material-ui/core/withWidth';
 
@@ -48,7 +49,7 @@ import { withStyles } from '@material-ui/core/styles';
 import ResponsiveDialog from './ResponsiveDialog';
 import GlobalProgress from './GlobalProgress';
 
-import { CREATE_MEDIUM } from '../queries';
+import { LOAD_EVENTS, LOAD_EDITIONS, CREATE_MEDIUM } from '../queries';
 
 const dropZoneStyles = theme => ({
   root: {
@@ -73,6 +74,9 @@ const dropZoneStyles = theme => ({
   progress: {
     color: "white",
   },
+  selectInput: {
+    fontFamily: theme.typography.fontFamily,
+  }
 });
 
 const processFileName = (file) => (
@@ -210,7 +214,10 @@ class MultipleMediaDialog extends React.Component {
     description: '',
     commentsEnabled: true,
     shareOnTwitter: true,
-    tagList: [],
+    mediaEvent: {},
+    mediaEdition: {},
+    eventList: [],
+    editionList: [],
     uploaded: false,
     complete: false,
     uploading: false,
@@ -230,6 +237,7 @@ class MultipleMediaDialog extends React.Component {
     });
   }
 
+
   render() {
     const { classes, uploadEnabled } = this.props;
 
@@ -245,17 +253,50 @@ class MultipleMediaDialog extends React.Component {
           <DialogContent
             className={classes.dialogContent}
           >
-            <ChipInput
-              fullWidth
-              label="Tags"
-              newChipKeyCodes={[13, 188, 32]}
-              InputProps={{
-                margin: "dense"
+            <Query query={LOAD_EVENTS} variables={{ sort: "latest", offset: 0, limit: 150 }} fetchPolicy="network-only">
+              {({ data, loading, error, fetchMore }) => {
+                if (loading || error) {
+                  return (null);
+                }
+
+                const eventList = [];
+                data.events.map((e) => eventList.push({value: e.id, label: e.name}));
+                return(
+                  <Select
+                    fullWidth
+                    placeholder="Event"
+                    isSearchable
+                    onChange={(mediaEvent) => { this.setState({mediaEvent: mediaEvent}) }}
+                    options={eventList}
+                    classNamePrefix={classes.selectInput}
+                  />
+                );
               }}
-              defaultValue={this.state.tagList}
-              onChange={(tagList) => { this.setState({ tagList }) }}
-              className={classes.chipInput}
-            />
+            </Query>
+
+            {
+              Object.keys(this.state.mediaEvent).length != 0 &&
+              <Query query={LOAD_EDITIONS} variables={{ sort: "latest", offset: 0, limit: 150, eventId: this.state.mediaEvent.value }} fetchPolicy="network-only">
+                {({ data, loading, error, fetchMore }) => {
+                  if (loading || error) {
+                    return (null);
+                  }
+
+                  const editionList = [];
+                  data.editions.map((e) => editionList.push({value: e.id, label: e.name}))
+                  return(
+                    <Select
+                      fullWidth
+                      placeholder="Edition"
+                      isSearchable
+                      onChange={(mediaEdition) => { this.setState({mediaEdition: mediaEdition}) }}
+                      options={editionList}
+                      classNamePrefix={classes.selectInput}
+                    />
+                  );
+                }}
+              </Query>
+            }
             <FormControlLabel
               margin={'dense'}
               control={
@@ -287,7 +328,7 @@ class MultipleMediaDialog extends React.Component {
                                commentsDisabled: !this.state.commentsEnabled,
                                shareOnTwitter: this.state.shareOnTwitter,
                                picture: result,
-                               tagList: this.state.tagList,
+                               editionId: this.state.mediaEdition.value,
                              }
                            }
                          })
