@@ -49,7 +49,7 @@ import { withStyles } from '@material-ui/core/styles';
 import ResponsiveDialog from './ResponsiveDialog';
 import GlobalProgress from './GlobalProgress';
 
-import { LOAD_EVENTS, LOAD_EDITIONS, CREATE_MEDIUM } from '../queries';
+import { LOAD_EVENTS, LOAD_EDITIONS, LOAD_CATEGORIES, CREATE_MEDIUM } from '../queries';
 
 const dropZoneStyles = theme => ({
   root: {
@@ -203,7 +203,7 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit * 2,
   },
   selectInput: {
-    fontFamily: theme.typography.fontFamily
+    fontFamily: theme.typography.fontFamily,
   }
 
 });
@@ -216,6 +216,7 @@ class MultipleMediaDialog extends React.Component {
     shareOnTwitter: true,
     mediaEvent: {},
     mediaEdition: {},
+    mediaCategory: {},
     eventList: [],
     editionList: [],
     uploaded: false,
@@ -253,6 +254,30 @@ class MultipleMediaDialog extends React.Component {
           <DialogContent
             className={classes.dialogContent}
           >
+            <Typography>The following will apply to all the pictures you are uploading</Typography>
+            <div style={{padding: 5}}></div>
+            <Query query={LOAD_CATEGORIES} variables={{ sort: "latest", offset: 0, limit: 150 }} fetchPolicy="network-only">
+              {({ data, loading, error, fetchMore }) => {
+                if (loading || error) {
+                  return (null);
+                }
+                const categoryList = [];
+                data.categories.map((e) => categoryList.push({value: e.id, label: e.name}));
+                return(
+                  <Select
+                    fullWidth
+                    placeholder="Category"
+                    isSearchable
+                    onChange={(mediaCategory) => { this.setState({mediaCategory: mediaCategory}) }}
+                    options={categoryList}
+                    className={classes.selectInput}
+                  />
+                );
+              }}
+            </Query>
+            <div style={{padding: 5}}></div>
+            <hr />
+            <div style={{padding: 5}}></div>
             <Query query={LOAD_EVENTS} variables={{ sort: "latest", offset: 0, limit: 150 }} fetchPolicy="network-only">
               {({ data, loading, error, fetchMore }) => {
                 if (loading || error) {
@@ -274,6 +299,7 @@ class MultipleMediaDialog extends React.Component {
               }}
             </Query>
 
+            <div style={{padding: 5}}></div>
             {
               Object.keys(this.state.mediaEvent).length != 0 &&
               <Query query={LOAD_EDITIONS} variables={{ sort: "latest", offset: 0, limit: 150, eventId: this.state.mediaEvent.value }} fetchPolicy="network-only">
@@ -297,19 +323,22 @@ class MultipleMediaDialog extends React.Component {
                 }}
               </Query>
             }
-            <FormControlLabel
-              margin={'dense'}
-              control={
-                <Switch
-                  checked={this.state.commentsEnabled}
-                  onChange={() => {
-                    this.setState({ commentsEnabled: !this.state.commentsEnabled })
-                  }}
-                  color="primary"
-                />
-              }
-              label={this.state.commentsEnabled ? "Comments enabled" : "Comments disabled"}
-            />
+            {
+              false &&
+              <FormControlLabel
+                margin={'dense'}
+                control={
+                  <Switch
+                    checked={this.state.commentsEnabled}
+                    onChange={() => {
+                      this.setState({ commentsEnabled: !this.state.commentsEnabled })
+                    }}
+                    color="primary"
+                  />
+                }
+                label={this.state.commentsEnabled ? "Comments enabled" : "Comments disabled"}
+              />
+            }
             {
               <Mutation mutation={CREATE_MEDIUM}>
                 {
@@ -325,10 +354,11 @@ class MultipleMediaDialog extends React.Component {
                              input: {
                                title: processFileName(file),
                                description: this.state.description,
-                               commentsDisabled: !this.state.commentsEnabled,
+                               commentsDisabled: false,
                                shareOnTwitter: this.state.shareOnTwitter,
                                picture: result,
                                editionId: this.state.mediaEdition.value,
+                               categoryId: this.state.mediaCategory.value,
                              }
                            }
                          })

@@ -160,6 +160,22 @@ module Types
       argument :country, String, required: false
     end
 
+    field :categories, [CategoryType], null: false do
+      description "List makers"
+      argument :limit, Integer, required: false
+      argument :offset, Integer, required: false
+      argument :name, String, required: false
+    end
+
+    def categories(arguments)
+      categories = Category.all
+
+      if arguments[:name].present?
+        categories = categories.where
+      end
+      categories.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
+    end
+
 
     def fursuit(arguments)
       Fursuit.find(arguments[:id])
@@ -180,7 +196,7 @@ module Types
       end
 
       if arguments[:name].present?
-        fursuits = fursuits.where("name ilike ?", "%#{arguments[:name]}%")
+        fursuits = fursuits.where("name @@ ? or name ilike ?", arguments[:name], "%#{arguments[:name]}%")
       end
       fursuits.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
     end
@@ -197,7 +213,7 @@ module Types
       end
 
       if arguments[:name].present?
-        makers = makers.where("name ilike ?", "%#{arguments[:name]}%")
+        makers = makers.where("name @@ ? or name ilike ?", arguments[:name], "%#{arguments[:name]}%")
       end
 
       makers.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
@@ -253,7 +269,7 @@ module Types
       events = Event.all
 
       if arguments[:name].present?
-        events = events.where("name ilike ?", "%#{arguments[:name]}%")
+        events = events.where
       end
 
       events.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
@@ -274,7 +290,7 @@ module Types
         editions = editions.where("editions.name @@ ?", arguments[:name])
       end
 
-      editions.offset(arguments[:offset]).limit(arguments[:limit])
+      editions.offset(arguments[:offset]).limit(arguments[:limit]).order(year: :desc)
     end
 
     def activities(arguments = {})

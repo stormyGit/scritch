@@ -651,6 +651,15 @@ export const LOAD_MAKERS = gql`
   }
 `;
 
+export const LOAD_CATEGORIES = gql`
+  query Categories($name: String, $limit: Int!, $offset: Int!) {
+    categories(name: $name, limit: $limit, offset: $offset) {
+      id
+      name
+    }
+  }
+`;
+
 export const LOAD_EVENTS = gql`
   query Events($name: String, $limit: Int!, $offset: Int!) {
     events(name: $name, limit: $limit, offset: $offset) {
