@@ -171,7 +171,7 @@ module Types
       categories = Category.all
 
       if arguments[:name].present?
-        categories = categories.where
+        categories = categories.where("name @@ ? or name ilike ?", arguments[:name], "%#{arguments[:name]}%")
       end
       categories.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
     end
@@ -269,7 +269,7 @@ module Types
       events = Event.all
 
       if arguments[:name].present?
-        events = events.where
+        events = events.where("name @@ ? or name ilike ?", arguments[:name], "%#{arguments[:name]}%")
       end
 
       events.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
