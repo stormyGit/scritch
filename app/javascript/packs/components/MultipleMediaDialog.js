@@ -73,9 +73,6 @@ const dropZoneStyles = theme => ({
   },
   progress: {
     color: "white",
-  },
-  selectInput: {
-    fontFamily: theme.typography.fontFamily,
   }
 });
 
@@ -205,6 +202,9 @@ const styles = theme => ({
   chipInput: {
     marginBottom: theme.spacing.unit * 2,
   },
+  selectInput: {
+    fontFamily: theme.typography.fontFamily
+  }
 
 });
 
@@ -268,7 +268,7 @@ class MultipleMediaDialog extends React.Component {
                     isSearchable
                     onChange={(mediaEvent) => { this.setState({mediaEvent: mediaEvent}) }}
                     options={eventList}
-                    classNamePrefix={classes.selectInput}
+                    className={classes.selectInput}
                   />
                 );
               }}
@@ -291,7 +291,7 @@ class MultipleMediaDialog extends React.Component {
                       isSearchable
                       onChange={(mediaEdition) => { this.setState({mediaEdition: mediaEdition}) }}
                       options={editionList}
-                      classNamePrefix={classes.selectInput}
+                      className={classes.selectInput}
                     />
                   );
                 }}
