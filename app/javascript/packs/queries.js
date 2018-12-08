@@ -135,6 +135,8 @@ export const UPDATE_MEDIUM = gql`
         viewsCount
         createdAt
         picture
+        completion
+        fursuitsCount
         thumbnail
         width
         height
@@ -182,6 +184,8 @@ export const GET_MEDIA = gql`
       thumbnail
       width
       height
+      completion
+      fursuitsCount
       createdAt
       commentsCount
       likesCount
@@ -379,6 +383,8 @@ export const GET_MEDIUM = gql`
       width
       height
       commentsCount
+      completion
+      fursuitsCount
       likesCount
       liked
       viewsCount

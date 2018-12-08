@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   get "/fursuits/:id", to: "fursuits#index"
   get "/makers/:id", to: "makers#index"
   get "/databases", to: "media#index"
+  get "/tag", to: "media#index"
   get "/subscriptions", to: "media#index"
   get "/:id", to: "users#show"
   get "/:id/:filter", to: "users#show"

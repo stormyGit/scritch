@@ -30,4 +30,24 @@ class Medium < ApplicationRecord
   validates :title, presence: true
 
   mount_base64_uploader :picture, PictureUploader
+
+  def get_completion
+    completion = 20
+
+    if self.edition.present?
+      completion += 10
+    end
+
+    if self.category.present?
+      completion += 10
+    end
+
+    if self.fursuits_count.present?
+      completion += 10
+      completion += (50 * (1 / self.fursuits_count)) # self.fursuits.count / self.fursuits_count
+    end
+
+
+    completion
+  end
 end

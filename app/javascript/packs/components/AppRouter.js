@@ -5,6 +5,7 @@ import Medium from './Medium';
 import Fursuit from './Fursuit';
 import Maker from './Maker';
 import LatestPictures from './LatestPictures';
+import TagPage from './TagPage';
 import Trending from './Trending';
 import Subscriptions from './Subscriptions';
 import User from './User';
@@ -20,6 +21,7 @@ class AppRouter extends React.Component {
               <Switch location={location}>
                 <Route exact path='/' component={LatestPictures} />
                 <Route exact path='/databases' component={Trending} />
+                <Route exact path='/tag' component={TagPage} />
                 <Route exact path='/subscriptions' component={Subscriptions} />
                 <Route exact path='/pictures' component={LatestPictures} />
                 <Route exact path='/pictures/:id' component={Medium} />

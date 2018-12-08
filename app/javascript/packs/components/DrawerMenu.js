@@ -29,6 +29,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
 import ContactSupportIcon from '@material-ui/icons/ContactSupport';
 import AnnouncementIcon from '@material-ui/icons/Announcement';
+import TagIcon from '@material-ui/icons/AssignmentTurnedIn';
 
 import TermsDialog from './TermsDialog';
 import PrivacyPolicyDialog from './PrivacyPolicyDialog';
@@ -194,6 +195,26 @@ class DrawerMenu extends React.Component {
                             <SubscriptionsIcon />
                           </ListItemIcon>
                           <ListItemText primary="Subscriptions" primaryTypographyProps={{ className: classes.text }} />
+                        </ListItem>
+                    }
+                    {
+                      currentSession &&
+                        <ListItem
+                          button
+                          selected={location.pathname === '/tag'}
+                          onClick={() => {
+                            this.props.history.push({
+                              pathname: '/tag'
+                            });
+                            if (this.props.onClose) {
+                              this.props.onClose();
+                            }
+                          }}
+                        >
+                          <ListItemIcon className={classes.text} color='secondary'>
+                            <TagIcon />
+                          </ListItemIcon>
+                          <ListItemText primary="Tag" primaryTypographyProps={{ className: classes.text }} />
                         </ListItem>
                     }
                   </React.Fragment>

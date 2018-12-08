@@ -11,6 +11,7 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import Icon from '@material-ui/core/Icon';
 
 import SubscriptionsIcon from '@material-ui/icons/ViewCarousel';
+import TagIcon from '@material-ui/icons/AssignmentTurnedIn';
 import WhatshotIcon from '@material-ui/icons/Whatshot';
 import PicturesIcon from '@material-ui/icons/PhotoLibrary';
 import NotificationsIcon from '@material-ui/icons/Notifications';
@@ -42,6 +43,7 @@ const routes = {
   latest: '/',
   databases: '/databases',
   subscriptions: '/subscriptions',
+  tag: '/tag',
 };
 
 class AppBottomNavigation extends React.Component {
@@ -68,6 +70,9 @@ class AppBottomNavigation extends React.Component {
     }
     else if (location.pathname === '/subscriptions') {
       this.setState({ value: 'subscriptions'});
+    }
+    else if (location.pathname === '/tag') {
+      this.setState({ value: 'tag'});
     }
     else {
       this.setState({ value: null });
@@ -127,6 +132,19 @@ class AppBottomNavigation extends React.Component {
                 label="Subscriptions"
                 value="subscriptions"
                 icon={<SubscriptionsIcon />}
+              />
+          }
+          {
+            this.props.currentSession &&
+              <BottomNavigationAction
+                className={classes.action}
+                classes={{
+                  label: classes.label,
+                  selected: classes.selected,
+                }}
+                label="Tag"
+                value="tag"
+                icon={<TagIcon />}
               />
           }
         </BottomNavigation>

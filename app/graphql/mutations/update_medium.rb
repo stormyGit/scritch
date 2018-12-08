@@ -15,6 +15,8 @@ class Mutations::UpdateMedium < Mutations::BaseMutation
 
     raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).update?
 
+    medium.completion = medium.get_completion()
+
     if medium.save
       {
         medium: medium,

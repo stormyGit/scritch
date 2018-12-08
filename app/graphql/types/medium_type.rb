@@ -9,6 +9,8 @@ module Types
     field :thumbnail, String, null: false
     field :width, Integer, null: true
     field :height, Integer, null: true
+    field :fursuits_count, Integer, null: true
+    field :completion, Integer, null: true
     field :created_at, String, null: true
     field :user, UserType, null: true
     field :comments, [CommentType], null: false
