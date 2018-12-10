@@ -527,6 +527,7 @@ export const GET_SESSION = gql`
         bio
         website
         theme
+        tagTutorial
         mediaCount
         followingCount
         unreadAnnouncementsCount

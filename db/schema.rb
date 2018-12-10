@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_08_074503) do
+ActiveRecord::Schema.define(version: 2018_12_09_214701) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -433,6 +433,7 @@ ActiveRecord::Schema.define(version: 2018_12_08_074503) do
     t.string "blocked_users_ids", default: [], array: true
     t.datetime "last_announcements_read"
     t.boolean "chat_enabled", default: true
+    t.boolean "tag_tutorial", default: true
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end

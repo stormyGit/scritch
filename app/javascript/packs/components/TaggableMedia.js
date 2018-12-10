@@ -17,16 +17,43 @@ import EmptyList from './EmptyList';
 import LoadMoreButton from './LoadMoreButton';
 import UserCard from './UserCard';
 
+import withCurrentSession from './withCurrentSession';
+
+import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import CheckIcon from '@material-ui/icons/Check';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@material-ui/core/IconButton';
+import ResponsiveDialog from './ResponsiveDialog';
+
+import TagDialog from './TagDialog';
+
 const styles = theme => ({
   root: {
     width: '100%',
     padding: theme.spacing.unit * 1,
     paddingRight: 0
+  },
+  tagButton: {
+    padding: theme.spacing.unit * 2,
+
   }
 });
 
 class TaggableMedia extends React.Component {
   state = {
+    tutoDialog: !this.props.currentSession.user.tagTutorial,
+    tagDialog: false,
     hasMore: true
   }
 
@@ -112,7 +139,7 @@ class TaggableMedia extends React.Component {
   }
 
   render() {
-    const { classes, location, width } = this.props;
+    const { classes, currentSession, location, width } = this.props;
     const query = queryString.parse(location.search)
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
 
@@ -120,6 +147,8 @@ class TaggableMedia extends React.Component {
       <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, offset: 0, limit }} fetchPolicy="network-only">
         {({ data: { media, users }, loading, error, fetchMore }) => (
           <React.Fragment>
+            <div style={{padding: 5}}></div>
+            <Button size="large" className={classes.tagButton} onClick={() => this.setState({tagDialog: true})}>GET RANDOM PICS TO TAG</Button>
             <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
               {
                   !loading && !error &&
@@ -150,6 +179,47 @@ class TaggableMedia extends React.Component {
                     })
               }
             </Grid>
+            {
+              !this.props.currentSession.user.tagTutorial &&
+              <ResponsiveDialog
+                open={this.state.tutoDialog}
+              >
+                {
+                  (width !== 'lg' && width !== 'xl' || true) &&
+                    <DialogTitle>
+                      <Grid container spacing={0} alignItems="center" justify="space-between">
+                        <Grid item>
+                          <Typography variant="h6" noWrap color={"inherit"}>
+                            Tag Page Tutorial
+                          </Typography>
+                        </Grid>
+                        <Grid item>
+                          <IconButton color="inherit" onClick={() => this.setState({tutoDialog: false})} aria-label="Close">
+                            <CloseIcon />
+                          </IconButton>
+                        </Grid>
+                      </Grid>
+                    </DialogTitle>
+                }
+                <DialogContent>
+                  <DialogContentText>
+                    Welcome to the tag page
+                  </DialogContentText>
+                  <List>
+                    <ListItem>
+                     <ListItemIcon>
+                       <CheckIcon />
+                     </ListItemIcon>
+                     <ListItemText inset primary="This is where you tag stuff" />
+                    </ListItem>
+                  </List>
+                </DialogContent>
+              </ResponsiveDialog>
+            }
+            {
+              !loading && !error &&
+              <TagDialog open={this.state.tagDialog} onClose={() => this.setState({ tagDialog: false })} medium={media[0]} />
+            }
           </React.Fragment>
         )}
       </Query>
@@ -157,4 +227,4 @@ class TaggableMedia extends React.Component {
   }
 }
 
-export default withStyles(styles)(withWidth()(TaggableMedia));
+export default withStyles(styles)(withWidth()(withCurrentSession(TaggableMedia)));

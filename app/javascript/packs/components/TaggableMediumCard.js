@@ -32,6 +32,8 @@ import TruncatedText from './TruncatedText';
 import UnderReview from './UnderReview';
 import countFormat from '../countFormat';
 
+import TagDialog from './TagDialog';
+
 const styles = theme => ({
   card: {
     width: '100%',
@@ -101,6 +103,7 @@ const GET_ACTIVE_PREVIEW = gql`
 
 class TaggableMediumCard extends React.Component {
   state = {
+    tagDialog: false
   }
 
   renderHeader() {
@@ -203,12 +206,15 @@ class TaggableMediumCard extends React.Component {
     const { classes, medium } = this.props;
 
     return (
-      <Card className={classes.card} elevation={0}>
-        <CardActionArea component={(props) => <Link to={`/pictures/${medium.id}`} {...props} />}>
-          {this.renderMedia()}
-        </CardActionArea>
-        {this.renderActions()}
-      </Card>
+      <React.Fragment>
+        <Card className={classes.card} elevation={0}>
+          <CardActionArea onClick={() => this.setState({tagDialog: true})}>
+            {this.renderMedia()}
+          </CardActionArea>
+          {this.renderActions()}
+        </Card>
+        <TagDialog open={this.state.tagDialog} onClose={() => this.setState({tagDialog: false})} medium={medium} />
+      </React.Fragment>
     )
   }
 
@@ -217,7 +223,7 @@ class TaggableMediumCard extends React.Component {
 
     return (
       <Card className={[classes.card, classes.horizontalCard].join(' ')} elevation={0}>
-        <CardActionArea component={(props) => <Link to={`/pictures/${medium.id}`} {...props} />} className={classes.horizontalMediaContainer}>
+        <CardActionArea className={classes.horizontalMediaContainer}>
           {this.renderMedia()}
         </CardActionArea>
         <div className={classes.horizontalContent}>
