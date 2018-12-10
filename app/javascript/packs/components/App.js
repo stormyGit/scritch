@@ -28,7 +28,7 @@ const makeTheme = (type) => {
           main: '#3492ca'
         },
         secondary: {
-          main: '#ff6f00'
+          main: '#DF0174'
         },
         type: type
       },
