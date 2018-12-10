@@ -15,6 +15,7 @@ module Types
       argument :fursuit_id, ID, required: false
       argument :offset, Integer, required: true
       argument :limit, Integer, required: true
+      argument :tagging, Boolean, required: false
     end
 
     field :activities, [ActivityType], null: false do
@@ -256,6 +257,10 @@ module Types
 
       if arguments[:fursuit_id].present?
         media = media.where(fursuit_id: arguments[:fursuit_id])
+      end
+      puts "\n\n\n\n\n#{arguments}\n\n\n\n"
+      if arguments[:tagging].present?
+        media = media.where.not(completion: 100).order(:completion)
       end
 
       media.includes(:tags).offset(arguments[:offset]).limit(arguments[:limit])

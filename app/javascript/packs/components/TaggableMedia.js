@@ -144,7 +144,7 @@ class TaggableMedia extends React.Component {
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
-      <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, offset: 0, limit }} fetchPolicy="network-only">
+      <Query query={GET_MEDIA} variables={{ q: query.q, offset: 0, limit, tagging: true }} fetchPolicy="network-only">
         {({ data: { media, users }, loading, error, fetchMore }) => (
           <React.Fragment>
             <div style={{padding: 5}}></div>

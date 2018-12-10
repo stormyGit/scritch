@@ -187,8 +187,8 @@ export const UPDATE_MEDIUM = gql`
 `;
 
 export const GET_MEDIA = gql`
-  query Media($q: String, $sort: String, $userId: ID, $offset: Int!, $limit: Int!, $fursuitId: ID) {
-    media(q: $q, sort: $sort, userId: $userId, offset: $offset, limit: $limit, fursuitId: $fursuitId) {
+  query Media($q: String, $sort: String, $userId: ID, $offset: Int!, $limit: Int!, $fursuitId: ID, $tagging: Boolean) {
+    media(q: $q, sort: $sort, userId: $userId, offset: $offset, limit: $limit, fursuitId: $fursuitId, tagging: $tagging) {
       id
       slug
       title
