@@ -17,10 +17,16 @@ import Typography from '@material-ui/core/Typography';
 import CardMedia from '@material-ui/core/CardMedia';
 import Input from '@material-ui/core/Input';
 import Select from 'react-select';
+import VirtualizedSelect from 'react-virtualized-select';
 import CheckIcon from '@material-ui/icons/Check';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
+
+import 'react-virtualized-select/styles.css';
+import 'react-virtualized/styles.css';
 
 import TelegramLoginButton from 'react-telegram-login';
 import { withRouter } from 'react-router-dom';
@@ -32,7 +38,31 @@ import themeSelector from '../themeSelector';
 import { Mutation, Query } from "react-apollo";
 
 import Logo from './Logo';
-import { UPDATE_MEDIUM, LOAD_CATEGORIES, GET_MEDIA } from '../queries';
+import { UPDATE_MEDIUM, LOAD_CATEGORIES, GET_MEDIA, LOAD_FURSUITS } from '../queries';
+
+const Option = (props) => {
+  const handleClick = (event) => {
+    setTimeout(() => props.onSelect(props.option, event), 90);
+  };
+
+  const {
+    children, isFocused, isSelected, onFocus, style,
+  } = props;
+
+  const { height, ...rest } = style;
+
+  return (
+    <MenuItem
+      key={props.key}
+      onFocus={onFocus}
+      selected={isFocused}
+      onClick={handleClick}
+      style={rest}
+    >
+      {props.option.name}
+    </MenuItem>
+  );
+};
 
 const styles = theme => ({
   brand: {
@@ -65,6 +95,9 @@ const styles = theme => ({
     textDecoration: 'underline',
     marginTop: theme.spacing.unit * 2,
     cursor: 'pointer',
+  },
+  selectInput: {
+    fontFamily: theme.typography.fontFamily,
   }
 })
 
@@ -72,20 +105,8 @@ class TagDialog extends React.Component {
   state = {
     submiting: false,
     alternativeLogin: false,
-    mediaCategory: this.props.medium.category
-  }
-
-  handleTelegramResponse(response) {
-    this.setState({ submiting: true });
-    this.props.onSubmit({
-      telegramId: response.id,
-      telegramFirstName: response.first_name,
-      telegramLastName: response.last_name,
-      telegramUsername: response.username,
-      telegramAuthDate: response.auth_date,
-      telegramPhotoUrl: response.photo_url,
-      telegramHash: response.hash
-    });
+    mediaCategory: this.props.medium.category,
+    fursuits: []
   }
 
   render() {
@@ -175,6 +196,34 @@ class TagDialog extends React.Component {
                       );
                     }}
                   </Query>
+                  <Query query={LOAD_FURSUITS} variables={{ name: "", sort: "latest", offset: 0, limit: 5000 }} fetchPolicy="network-only">
+                    {({ data, loading, error, fetchMore }) => {
+                      if (loading || error) {
+                        return (null);
+                      }
+                      console.log(123);
+                      const fursuitList = [];
+                      data.fursuits.map((e) => fursuitList.push({value: e.id, label: e.name}));
+
+                      return(
+                        <React.Fragment>
+                          <InputLabel error={false}>
+                            Fursuits
+                          </InputLabel>
+                          <VirtualizedSelect
+                            autoFocus
+                            clearable={true}
+                            disabled={false}
+                            multi={true}
+                            onChange={(fursuits) => {console.log(fursuits); this.setState({fursuits: fursuits})}}
+                            options={fursuitList}
+                            searchable={true}
+                            value={this.state.fursuits}
+                          />
+                        </React.Fragment>
+                      );
+                    }}
+                  </Query>
                   {
                     <div className={classes.loginButtonContainer}>
                       <div className={classes.loginButton}>
@@ -188,7 +237,7 @@ class TagDialog extends React.Component {
                                     id: medium.id,
                                     title: medium.title,
                                     editionId: null,
-                                    categoryId: this.state.mediaCategory.value
+                                    categoryId: this.state.mediaCategory ? this.state.mediaCategory.value : null
                                   }
                                 }
                               }).then(() => {
