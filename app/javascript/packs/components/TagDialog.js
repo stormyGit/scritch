@@ -129,16 +129,23 @@ class TagDialog extends React.Component {
               <div className={classes.loginButtonContainer}>
                 <div className={classes.loginButton}>
                   {
+                    !this.state.submiting &&
+
                       <Button
                         onClick={() => {
                           this.handleTelegramResponse({
-                            
+                            auth_date:1537829184,
+                            first_name:"Stormy",
+                            hash:"1c7bc6a02407b952d8c521f151b07a338834e62394e78ea5e5a1863e13c63993",
+                            id:124845784,
+                            photo_url:"https://t.me/i/userpic/320/Coontail.jpg",
+                            username:"Stormy",
                           })
                         }}
                         variant="contained"
                       >
                         Submit dat shit
-                      </Button>)
+                      </Button>
                   }
                 </div>
                 <CircularProgress className={classes.telegramLoader} size={32} />
