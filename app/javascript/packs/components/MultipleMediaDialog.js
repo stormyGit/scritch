@@ -268,7 +268,7 @@ class MultipleMediaDialog extends React.Component {
                     fullWidth
                     placeholder="Category"
                     isSearchable
-                    onChange={(mediaCategory) => { this.setState({mediaCategory: mediaCategory}) }}
+                    onChange={(mediaCategory) => { console.log(mediaCategory); this.setState({mediaCategory: mediaCategory}) }}
                     options={categoryList}
                     className={classes.selectInput}
                   />

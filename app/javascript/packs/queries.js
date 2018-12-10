@@ -144,6 +144,19 @@ export const UPDATE_MEDIUM = gql`
         height
         commentsDisabled
         tagList
+        category {
+          id
+          name
+        }
+        edition {
+          id
+          name
+          year
+          event {
+            id
+            name
+          }
+        }
         user {
           id
           slug
@@ -191,6 +204,18 @@ export const GET_MEDIA = gql`
       likesCount
       viewsCount
       tagList
+      category {
+        id
+        name
+      }
+      edition {
+        id
+        name
+        event {
+          id
+          name
+        }
+      }
       user {
         id
         slug
@@ -391,6 +416,19 @@ export const GET_MEDIUM = gql`
       createdAt
       commentsDisabled
       tagList
+      category {
+        id
+        name
+      }
+      edition {
+        id
+        name
+        year
+        event {
+          id
+          name
+        }
+      }
       user {
         id
         slug

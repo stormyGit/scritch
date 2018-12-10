@@ -16,6 +16,9 @@ module Types
     field :comments, [CommentType], null: false
     field :related_media, [MediumType], null: false
 
+    field :edition, EditionType, null: true
+    field :category, CategoryType, null: true
+
     field :comments_count, Integer, null: false
     field :likes_count, Integer, null: false
     field :views_count, Integer, null: false

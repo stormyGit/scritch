@@ -14,6 +14,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import CardMedia from '@material-ui/core/CardMedia';
+import Input from '@material-ui/core/Input';
+import Select from 'react-select';
 import CheckIcon from '@material-ui/icons/Check';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CloseIcon from '@material-ui/icons/Close';
@@ -29,7 +32,7 @@ import themeSelector from '../themeSelector';
 import { Mutation, Query } from "react-apollo";
 
 import Logo from './Logo';
-import { CREATE_SESSION, GET_SESSION } from '../queries';
+import { UPDATE_MEDIUM, LOAD_CATEGORIES } from '../queries';
 
 const styles = theme => ({
   brand: {
@@ -48,7 +51,6 @@ const styles = theme => ({
     position: 'relative',
   },
   loginButton: {
-    zIndex: 1,
     position: 'relative',
     minHeight: 48
   },
@@ -70,6 +72,7 @@ class TagDialog extends React.Component {
   state = {
     submiting: false,
     alternativeLogin: false,
+    mediaCategory: this.props.medium.category
   }
 
   handleTelegramResponse(response) {
@@ -89,110 +92,142 @@ class TagDialog extends React.Component {
     const { classes, open, onClose, loading, width, medium } = this.props;
 
     return (
-      <React.Fragment>
-        <ResponsiveDialog
-          open={open}
-          onClose={onClose}
-        >
-          {
-            (width !== 'lg' && width !== 'xl' || true) &&
-              <DialogTitle
-                className={classes.titleBarContainer}
-              >
-                <Grid container spacing={0} alignItems="center" justify="space-between">
-                  <Grid item>
-                    <Typography variant="h6" noWrap color={"inherit"}>
-                      Tag da pic
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <IconButton color="inherit" onClick={onClose} aria-label="Close">
-                      <CloseIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </DialogTitle>
-          }
-          <DialogContent>
-            <DialogContentText>
-              {`Here goes dat pic`}
-            </DialogContentText>
-            <List>
-              <ListItem>
-               <ListItemIcon>
-                 <CheckIcon />
-               </ListItemIcon>
-               <ListItemText inset primary={`Tagging dat pic #${medium.id}, put dem fields here`} />
-              </ListItem>
-            </List>
+      <Mutation
+        mutation={UPDATE_MEDIUM}
+      >
+      {
+      (updateMedium, { called }) => {
+        return (
+          <React.Fragment>
+          <ResponsiveDialog
+            open={open}
+            onClose={onClose}
+          >
             {
-              <div className={classes.loginButtonContainer}>
-                <div className={classes.loginButton}>
-                  {
-                    !this.state.submiting &&
-
-                      <Button
-                        onClick={() => {
-                          this.handleTelegramResponse({
-                            auth_date:1537829184,
-                            first_name:"Stormy",
-                            hash:"1c7bc6a02407b952d8c521f151b07a338834e62394e78ea5e5a1863e13c63993",
-                            id:124845784,
-                            photo_url:"https://t.me/i/userpic/320/Coontail.jpg",
-                            username:"Stormy",
-                          })
-                        }}
-                        variant="contained"
-                      >
-                        Submit dat shit
-                      </Button>
-                  }
-                </div>
-                <CircularProgress className={classes.telegramLoader} size={32} />
-              </div>
-            }
-            {
-              true &&
-                <Typography
-                  variant="caption"
-                  className={classes.troubleLink}
-                  onClick={() => this.setState({ alternativeLogin: true })}
+              (width !== 'lg' && width !== 'xl' || true) &&
+                <DialogTitle
+                  className={classes.titleBarContainer}
                 >
-                  This is porn? Report dat shit
-                </Typography>
+                  <Grid container spacing={0} alignItems="center" justify="space-between">
+                    <Grid item>
+                      <Typography variant="h6" noWrap color={"inherit"}>
+                        Tag da pic
+                      </Typography>
+                    </Grid>
+                    <Grid item>
+                      <IconButton color="inherit" onClick={onClose} aria-label="Close">
+                        <CloseIcon />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
+                </DialogTitle>
             }
-          </DialogContent>
-        </ResponsiveDialog>
-        <SignUpAlternativeDialog
-          open={this.state.alternativeLogin}
-          onClose={() => {
-            this.setState({ alternativeLogin: false });
-          }}
-        />
-      </React.Fragment>
+            <DialogContent>
+              <DialogContent>
+                <img
+                  src={`${medium.thumbnail}`}
+                  title={medium.title}
+                />
+              </DialogContent>
+              <List>
+                <ListItem>
+                 <ListItemIcon>
+                   <CheckIcon />
+                 </ListItemIcon>
+                 <ListItemText inset primary={`Tagging dat pic #${medium.id}, put dem fields here`} />
+                </ListItem>
+              </List>
+              {
+                medium.edition &&
+                <React.Fragment>
+                  <Input
+                    fullWidth
+                    defaultValue={medium.edition.event.name}
+                    placeholder="Event"
+                    disabled
+                  />
+                  <Input
+                    fullWidth
+                    defaultValue={medium.edition.name}
+                    placeholder="Event"
+                    disabled
+                  />
+                </React.Fragment>
+              }
+              <Query query={LOAD_CATEGORIES} variables={{ sort: "latest", offset: 0, limit: 150 }} fetchPolicy="network-only">
+                {({ data, loading, error, fetchMore }) => {
+                  if (loading || error) {
+                    return (null);
+                  }
+                  const categoryList = [];
+                  data.categories.map((e) => categoryList.push({value: e.id, label: e.name}));
+
+                  return(
+                    <Select
+                      fullWidth
+                      placeholder="Category"
+                      isSearchable
+                      defaultValue={medium.category ? {value: medium.category.id, label: medium.category.name} : null}
+                      onChange={(mediaCategory) => { this.setState({mediaCategory: mediaCategory}) }}
+                      options={categoryList}
+                      className={classes.selectInput}
+                    />
+                  );
+                }}
+              </Query>
+              {
+                <div className={classes.loginButtonContainer}>
+                  <div className={classes.loginButton}>
+                    {
+                        <Button
+                          onClick={() => {
+                            console.log("here");
+                            updateMedium({
+                              variables: {
+                                input: {
+                                  id: medium.id,
+                                  title: medium.title,
+                                  editionId: null,
+                                  categoryId: this.state.mediaCategory.value
+                                }
+                              }
+                            }).then(() => {
+                              onClose();
+                            })
+                          }}
+                        >
+                          Submit dat shit
+                        </Button>
+                    }
+                  </div>
+                  <CircularProgress className={classes.telegramLoader} size={32} />
+                </div>
+              }
+              {
+                true &&
+                  <Typography
+                    variant="caption"
+                    className={classes.troubleLink}
+                    onClick={() => this.setState({ alternativeLogin: true })}
+                  >
+                    This is porn? Report dat shit
+                  </Typography>
+              }
+            </DialogContent>
+          </ResponsiveDialog>
+          <SignUpAlternativeDialog
+            open={this.state.alternativeLogin}
+            onClose={() => {
+              this.setState({ alternativeLogin: false });
+            }}
+          />
+        </React.Fragment>
+      );
+    }
+  }
+      </Mutation>
     );
   }
 }
 
-const FormWithMutation = (props) => (
-  <Mutation
-    mutation={CREATE_SESSION}
-  >
-    {(createSession, { data, loading, called }) => {
-      return (
-        <TagDialog
-          loading={loading}
-          onSubmit={(input) => {
-            createSession({ variables: { input } }).then(({ data: { createSession: { session }}}) => {
-              localStorage.setItem('token', session.id);
-              location.reload();
-            })
-          }}
-          {...props}
-        />
-      );
-    }}
-  </Mutation>
-)
-
-export default withStyles(styles)(withRouter(withWidth()(FormWithMutation)));
+export default withStyles(styles)(withRouter(withWidth()(TagDialog)));

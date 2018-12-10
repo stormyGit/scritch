@@ -15,5 +15,6 @@ module Types
     field :year, Integer, null: false
     field :start_date, String, null: false
     field :end_date, String, null: false
+    field :event, EventType, null: true
   end
 end
