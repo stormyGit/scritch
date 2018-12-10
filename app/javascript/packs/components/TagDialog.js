@@ -111,7 +111,7 @@ class TagDialog extends React.Component {
                       <Grid container spacing={0} alignItems="center" justify="space-between">
                         <Grid item>
                           <Typography variant="h6" noWrap color={"inherit"}>
-                            Tag da pic
+                            Tag dat pic
                           </Typography>
                         </Grid>
                         <Grid item>
