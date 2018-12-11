@@ -24,6 +24,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
+import SearchBar from 'material-ui-search-bar';
 
 import 'react-virtualized-select/styles.css';
 import 'react-virtualized/styles.css';
@@ -35,6 +36,10 @@ import { withRouter } from 'react-router-dom';
 import ResponsiveDialog from './ResponsiveDialog';
 import SignUpAlternativeDialog from './SignUpAlternativeDialog';
 import themeSelector from '../themeSelector';
+
+import EmptyList from './EmptyList';
+import LoadMoreButton from './LoadMoreButton';
+import FursuitMiniCard from './FursuitMiniCard';
 
 import { Mutation, Query } from "react-apollo";
 
@@ -100,19 +105,84 @@ const styles = theme => ({
   },
   selectInput: {
     fontFamily: theme.typography.fontFamily,
-  }
+  },
+  searchBar: {
+    width: '100%'
+  },
 })
 
 class TagDialog extends React.Component {
-  state = {
-    submiting: false,
-    alternativeLogin: false,
-    mediaCategory: this.props.medium.category,
-    fursuits: []
+  constructor(props) {
+    super(props);
+    this.state = {
+      submiting: false,
+      alternativeLogin: false,
+      mediaCategory: this.props.medium.category,
+      fursuits: [],
+      query: ""
+    };
+  }
+
+  handleSearch(val) {
+    if (this.state.query.length >= 1 && val.length < 1) {
+      this.reset = true;
+    }
+
+    if (this.loadEventTimer) {
+      clearTimeout(this.loadEventTimer);
+    }
+
+    if (val.length >= 1) {
+      this.loadEventTimer = setTimeout(() => {
+        this.setState({ query: val })
+      }, 500);
+    }
+    else if (this.reset) {
+      clearTimeout(this.loadEventTimer);
+      this.setState({ query: val })
+      this.reset = false;
+    }
+  }
+
+  renderResults({ data, onLoadMore, hasMore }) {
+    const { classes } = this.props;
+
+    if (data.length === 0) {
+      const { location } = this.props;
+      const query = queryString.parse(location.search)
+
+      if (query.q) {
+        return (
+          <EmptyList
+            label={`No results were found for your search term: ${query.q}`}
+          />
+        )
+      } else {
+        return (
+          <EmptyList
+            label={`No results`}
+          />
+        )
+      }
+    }
+
+    return (
+      <React.Fragment>
+        {
+          data.fursuits.map((fursuit) => (
+            <Grid item xs={4} md={3} lg={2} key={fursuit.id}>
+              <FursuitMiniCard fursuit={fursuit} onClick={(payload) => console.log(payload)} />
+            </Grid>
+          ))
+        }
+        {hasMore && <LoadMoreButton onClick={() => onLoadMore()} />}
+      </React.Fragment>
+    );
   }
 
   render() {
     const { classes, open, onClose, loading, width, medium } = this.props;
+    let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
       <Mutation
@@ -198,39 +268,58 @@ class TagDialog extends React.Component {
                       );
                     }}
                   </Query>
-                  {
-                    false &&
-                    "HERE GOES A FURSUIT DB COMPONENT ADAPTED FOR TAGGING"
-                  }
-                  <Query query={LOAD_FURSUITS} variables={{ name: "", sort: "latest", offset: 0, limit: 5000 }} >
-                    {({ data, loading, error, fetchMore }) => {
-                      if (loading || error) {
-                        return (null);
-                      }
-                      const fursuitList = [];
-                      data.fursuits.map((e) => fursuitList.push({value: e.id, label: e.name}));
-                      const filterOptions = createFilterOptions(fursuitList);
 
-                      return(
-                        <React.Fragment>
-                          <InputLabel error={false}>
-                            Fursuits
-                          </InputLabel>
-                          <Select
-                            autoFocus
-                            clearable={true}
-                            disabled={false}
-                            isMulti={true}
-                            onChange={(fursuits) => {this.setState({fursuits: fursuits})}}
-                            options={fursuitList}
-                            searchable={true}
-                            filterOptions={filterOptions}
-                            value={this.state.fursuits}
-                          />
-                        </React.Fragment>
-                      );
-                    }}
-                  </Query>
+                  <div style={{padding: 8}}></div>
+
+                  <React.Fragment>
+                    <InputLabel error={false}>
+                      Fursuits
+                    </InputLabel>
+                    <SearchBar
+                      className={classes.searchBar}
+                      onChange={(value) => this.handleSearch(value)}
+                      value={this.state.query}
+                      onCancelSearch={() => this.handleSearch("")}
+                    />
+                    {
+                      this.state.query.length >= 1 &&
+                      <Query query={LOAD_FURSUITS} variables={ { name: this.state.query, limit, offset: 0} }>
+                        {({ data, loading, error, fetchMore }) => (
+                          <React.Fragment>
+
+                            <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
+                              {
+                                !loading && !error &&
+                                  this.renderResults({
+                                    data,
+                                    hasMore: ((data.fursuits.length % limit) === 0 && this.state.hasMore && data.fursuits.length > 0),
+                                    onLoadMore: () => {
+                                      fetchMore({
+                                        variables: {
+                                          offset: data.fursuits.length,
+                                          limit
+                                        },
+                                        updateQuery: (prev, { fetchMoreResult }) => {
+                                          if (!fetchMoreResult) return prev;
+
+                                          if (fetchMoreResult.fursuits.length === 0) {
+                                            this.setState({ hasMore: false })
+                                          } else {
+                                            return Object.assign({}, prev, {
+                                              fursuits: [...prev.fursuits, ...fetchMoreResult.fursuits]
+                                            });
+                                          }
+                                        }
+                                      });
+                                    }
+                                  })
+                              }
+                            </Grid>
+                          </React.Fragment>
+                        )}
+                      </Query>
+                    }
+                  </React.Fragment>
                   {
                     <div className={classes.loginButtonContainer}>
                       <div className={classes.loginButton}>
