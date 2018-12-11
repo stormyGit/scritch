@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_09_214701) do
+ActiveRecord::Schema.define(version: 2018_12_11_074849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -360,15 +360,16 @@ ActiveRecord::Schema.define(version: 2018_12_09_214701) do
   create_table "reports", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.text "description"
-    t.uuid "user_id"
+    t.uuid "resource_id"
     t.uuid "reporter_id"
     t.string "status", default: "new"
     t.bigint "assignee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "resource"
     t.index ["assignee_id"], name: "index_reports_on_assignee_id"
     t.index ["reporter_id"], name: "index_reports_on_reporter_id"
-    t.index ["user_id"], name: "index_reports_on_user_id"
+    t.index ["resource_id"], name: "index_reports_on_resource_id"
   end
 
   create_table "sessions", force: :cascade do |t|

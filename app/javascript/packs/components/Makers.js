@@ -103,7 +103,7 @@ class Makers extends React.Component {
     const criteria = this.state.criteria;
 
     return (
-      <Query query={LOAD_MAKERS} variables={ {...criteria, limit, offset: 0} } fetchPolicy="network-only">
+      <Query query={LOAD_MAKERS} variables={ {...criteria, limit, offset: 0} }>
         {({ data, loading, error, fetchMore }) => (
           <React.Fragment>
             <div style={{padding: 10}}>

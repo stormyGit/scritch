@@ -153,7 +153,7 @@ class Fursuit extends React.Component {
                 <Grid container spacing={8}>
                   <Grid item lg={9} xs={12}>
 
-                    <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, offset: 0, limit, fursuitId: fursuit.id }} fetchPolicy="network-only">
+                    <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, offset: 0, limit, fursuitId: fursuit.id }}>
                       {({ data, loading, error, fetchMore }) => {
                         if (loading || error) {
                           return (null);

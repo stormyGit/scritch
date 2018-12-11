@@ -275,7 +275,7 @@ class ActivitiesDialog extends React.Component {
         className={classes.root}
       >
         <GlobalProgress absolute />
-          <Query query={GET_ACTIVITIES} variables={{ offset, limit }} fetchPolicy="network-only">
+          <Query query={GET_ACTIVITIES} variables={{ offset, limit }}>
             {({ loading, error, data, fetchMore }) => {
               if (loading || error || !data.activities) {
                 return (null);

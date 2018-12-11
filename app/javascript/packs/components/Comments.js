@@ -18,7 +18,7 @@ class Comments extends React.Component {
       <Query
         query={GET_COMMENTS_BY_MEDIUM}
         variables={{ mediumId: medium.id, parentId: (parent ? parent.id : null), offset, limit }}
-        fetchPolicy="network-only"
+       
       >
         {({ data, loading, error, fetchMore }) => {
           if (loading || error) {

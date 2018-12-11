@@ -515,7 +515,7 @@ class ChatDialogLoader extends React.Component {
       >
         {
           open && !this.state.user &&
-            <Query query={GET_CHATS} variables={{ sort: "latest", offset, limit }} fetchPolicy="network-only" pollInterval={parseInt(process.env.MESSAGES_REFRESH_INTERVAL)}>
+            <Query query={GET_CHATS} variables={{ sort: "latest", offset, limit }} pollInterval={parseInt(process.env.MESSAGES_REFRESH_INTERVAL)}>
               {({ data, loading, error, fetchMore }) => {
                 if (loading || error) {
                   return (null);
@@ -538,7 +538,7 @@ class ChatDialogLoader extends React.Component {
         }
         {
           open && this.state.user &&
-            <Query query={GET_MESSAGES} variables={{ sort: "latest", chatId: combineUUIDs(this.state.user.id, currentSession.user.id), offset, limit }} fetchPolicy="network-only" pollInterval={parseInt(process.env.MESSAGES_REFRESH_INTERVAL)}>
+            <Query query={GET_MESSAGES} variables={{ sort: "latest", chatId: combineUUIDs(this.state.user.id, currentSession.user.id), offset, limit }} pollInterval={parseInt(process.env.MESSAGES_REFRESH_INTERVAL)}>
               {({ data, loading, error, fetchMore }) => {
                 if (loading || error) {
                   return (null);

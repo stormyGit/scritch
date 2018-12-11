@@ -256,7 +256,7 @@ class MultipleMediaDialog extends React.Component {
           >
             <Typography>The following will apply to all the pictures you are uploading</Typography>
             <div style={{padding: 5}}></div>
-            <Query query={LOAD_CATEGORIES} variables={{ sort: "latest", offset: 0, limit: 150 }} fetchPolicy="network-only">
+            <Query query={LOAD_CATEGORIES} variables={{ sort: "latest", offset: 0, limit: 150 }}>
               {({ data, loading, error, fetchMore }) => {
                 if (loading || error) {
                   return (null);
@@ -279,7 +279,7 @@ class MultipleMediaDialog extends React.Component {
             <div style={{padding: 5}}></div>
             <hr />
             <div style={{padding: 5}}></div>
-            <Query query={LOAD_EVENTS} variables={{ sort: "latest", offset: 0, limit: 150 }} fetchPolicy="network-only">
+            <Query query={LOAD_EVENTS} variables={{ sort: "latest", offset: 0, limit: 150 }}>
               {({ data, loading, error, fetchMore }) => {
                 if (loading || error) {
                   return (null);
@@ -304,7 +304,7 @@ class MultipleMediaDialog extends React.Component {
             <div style={{padding: 5}}></div>
             {
               Object.keys(this.state.mediaEvent).length != 0 && this.state.mediaEvent.value &&
-              <Query query={LOAD_EDITIONS} variables={{ sort: "latest", offset: 0, limit: 150, eventId: this.state.mediaEvent.value }} fetchPolicy="network-only">
+              <Query query={LOAD_EDITIONS} variables={{ sort: "latest", offset: 0, limit: 150, eventId: this.state.mediaEvent.value }}>
                 {({ data, loading, error, fetchMore }) => {
                   if (loading || error) {
                     return (null);

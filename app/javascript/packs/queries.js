@@ -151,7 +151,6 @@ export const UPDATE_MEDIUM = gql`
         edition {
           id
           name
-          year
           event {
             id
             name
@@ -423,7 +422,6 @@ export const GET_MEDIUM = gql`
       edition {
         id
         name
-        year
         event {
           id
           name

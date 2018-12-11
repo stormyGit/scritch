@@ -388,7 +388,7 @@ class User extends React.Component {
     let limit = parseInt(process.env.USER_MEDIA_PAGE_SIZE);
 
     return (
-      <Query query={GET_MEDIA} variables={{ sort: "latest", userId: user.id, offset, limit }} fetchPolicy="network-only">
+      <Query query={GET_MEDIA} variables={{ sort: "latest", userId: user.id, offset, limit }}>
         {({ data, loading, error, fetchMore }) => {
           if (loading || error) {
             return (null);
@@ -840,7 +840,8 @@ class User extends React.Component {
                         onClose={() => this.setState({ editProfileDialog: false })}
                       />
                       <ReportDialog
-                        user={data.user}
+                        resource="user"
+                        resourceId={data.user.id}
                         open={this.state.reportDialog}
                         onClose={() => this.setState({ reportDialog: false, moreMenu: false })}
                       />

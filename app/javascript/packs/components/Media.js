@@ -117,7 +117,7 @@ class Media extends React.Component {
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
-      <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, offset: 0, limit }} fetchPolicy="network-only">
+      <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, offset: 0, limit }}>
         {({ data: { media, users }, loading, error, fetchMore }) => (
           <React.Fragment>
             <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>

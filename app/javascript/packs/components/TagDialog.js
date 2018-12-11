@@ -177,7 +177,7 @@ class TagDialog extends React.Component {
                       />
                     </React.Fragment>
                   }
-                  <Query query={LOAD_CATEGORIES} variables={{ sort: "latest", offset: 0, limit: 150 }} fetchPolicy="network-only">
+                  <Query query={LOAD_CATEGORIES} variables={{ sort: "latest", offset: 0, limit: 150 }}>
                     {({ data, loading, error, fetchMore }) => {
                       if (loading || error) {
                         return (null);

@@ -1,5 +1,6 @@
 class Mutations::CreateReport < Mutations::BaseMutation
-  argument :user_id, ID, required: true
+  argument :resource_id, ID, required: true
+  argument :resource, String, required: true
   argument :description, String, required: true
 
   field :report, Types::ReportType, null: true

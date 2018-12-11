@@ -20,7 +20,7 @@ import { CREATE_REPORT } from '../queries';
 const styles = theme => ({
 });
 
-class Settings extends React.Component {
+class ReportDialog extends React.Component {
   state = {
     description: ''
   }
@@ -44,16 +44,19 @@ class Settings extends React.Component {
       return (null);
     }
 
+    console.log(this.props);
+
     return (
       <ResponsiveDialog
         open={this.props.open}
         onClose={this.props.onClose}
       >
         <GlobalProgress absolute />
-        <DialogTitle>{`Report ${user.name}`}</DialogTitle>
+
+        <DialogTitle>{`Report ${this.props.resource}`}</DialogTitle>
         <DialogContent>
           <TextField
-            label="Please tell use more…"
+            label="Please tell us more…"
             name="description"
             value={this.state.description}
             onChange={(e) => this.setState({ description: e.target.value })}
@@ -79,7 +82,7 @@ class Settings extends React.Component {
               <Button
                 disabled={!!this.state.description.match(/^\s*$/)}
                 onClick={() => {
-                  createReport({ variables: { input: { description: this.state.description, userId: user.id }}})
+                  createReport({ variables: { input: { description: this.state.description, resourceId: this.props.resourceId, resource: this.props.resource }}})
                     .then(() => {
                       this.props.onClose();
                     });
@@ -97,6 +100,6 @@ class Settings extends React.Component {
 
 export default withStyles(styles)(
   withApollo(
-    withCurrentSession(Settings)
+    withCurrentSession(ReportDialog)
   )
 );

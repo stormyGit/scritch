@@ -130,7 +130,7 @@ class LikeDialogLoader extends React.Component {
       >
         {
           open &&
-            <Query query={GET_LIKES} variables={{ mediumId: medium.id, offset, limit }} fetchPolicy="network-only">
+            <Query query={GET_LIKES} variables={{ mediumId: medium.id, offset, limit }}>
               {({ data, loading, error, fetchMore }) => {
                 if (loading || error) {
                   return (null);
