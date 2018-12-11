@@ -88,11 +88,17 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     marginBottom: theme.spacing.unit
   },
-  media: {
+  mediaH: {
     width: '100%',
-    height: 'calc(100vh - 56px)',
-    objectFit: 'cover'
+    maxHeight: 'calc(100vh - 56px)',
+    objectFit: 'contain'
   },
+  mediaV: {
+    width: '50%',
+    height: 'calc(100vh - 56px)',
+    objectFit: 'contain'
+  },
+
 });
 
 class Medium extends React.Component {
@@ -117,18 +123,24 @@ class Medium extends React.Component {
       <Query query={GET_MEDIUM} variables={{ id: match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0] }}>
         {({ loading, error, data }) => {
           const medium = data ? data.medium : null;
+          !loading && !error && medium && console.log(medium.height, medium.width);
 
           return (
             !loading && !error && medium &&
               <div className={classes.container} key={medium.id}>
                 <PageTitle>{!loading && medium ? `Picture #${medium.id.split('-')[medium.id.split('-').length - 5]}` : null}</PageTitle>
                 <Card className={classes.card} elevation={0}>
-                  <CardMedia
-                    className={classes.media}
-                    image={medium.picture}
-                    title={medium.title}
-                  >
-                  </CardMedia>
+                  <Grid container spacing={8}>
+                    <Grid item lg={1} xs={12} />
+                    <Grid item lg={10} xs={12}>
+                      <img
+                        className={classes.mediaH}
+                        src={`${medium.picture}`}
+                        title={medium.title}
+                      />
+                    </Grid>
+                    <Grid item lg={1} xs={12} />
+                  </Grid>
                   <Grid container spacing={8}>
                     <Grid item lg={8} xs={12}>
                       <CardContent>
