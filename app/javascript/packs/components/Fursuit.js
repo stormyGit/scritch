@@ -121,15 +121,11 @@ class Fursuit extends React.Component {
   }
 
   onCurrentImageChange(index) {
-    console.log(this.state.currentImage);
-    console.log(index);
     this.setState({ currentImage: index });
   }
 
   goToImage(media) {
-    console.log(this.state.currentImage);
     this.props.history.push(`/pictures/${media[this.state.currentImage].id}`);
-    console.log(this.state.currentImage);
   }
 
   render() {
@@ -141,10 +137,6 @@ class Fursuit extends React.Component {
       <Query query={LOAD_FURSUIT} variables={{ id: match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0] }}>
         {({ loading, error, data }) => {
           const fursuit = data ? data.fursuit : null;
-
-          if (error)
-            console.log ("ERR >>> ", error);
-          console.log("Data >>> ", fursuit);
 
           return (
             !loading && !error && fursuit &&

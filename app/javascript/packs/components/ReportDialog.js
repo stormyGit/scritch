@@ -44,8 +44,6 @@ class ReportDialog extends React.Component {
       return (null);
     }
 
-    console.log(this.props);
-
     return (
       <ResponsiveDialog
         open={this.props.open}

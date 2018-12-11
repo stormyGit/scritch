@@ -107,12 +107,9 @@ class Makers extends React.Component {
         {({ data, loading, error, fetchMore }) => (
           <React.Fragment>
             <div style={{padding: 10}}>
-              <Filters currentFilter="Makers" onChange={(value) => { console.log(value); this.setState({criteria: value});}} />
+              <Filters currentFilter="Makers" onChange={(value) => { this.setState({criteria: value});}} />
             </div>
             <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
-              {
-                error && console.log(error)
-              }
               {
                 !loading && !error &&
                   this.renderResults({
@@ -126,7 +123,6 @@ class Makers extends React.Component {
                           limit
                         },
                         updateQuery: (prev, { fetchMoreResult }) => {
-                          console.log(fetchMoreResult);
                           if (!fetchMoreResult) return prev;
 
                           if (fetchMoreResult.makers.length === 0) {

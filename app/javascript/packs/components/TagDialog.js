@@ -207,7 +207,6 @@ class TagDialog extends React.Component {
                       if (loading || error) {
                         return (null);
                       }
-                      console.log(123);
                       const fursuitList = [];
                       data.fursuits.map((e) => fursuitList.push({value: e.id, label: e.name}));
                       const filterOptions = createFilterOptions(fursuitList);
@@ -222,7 +221,7 @@ class TagDialog extends React.Component {
                             clearable={true}
                             disabled={false}
                             isMulti={true}
-                            onChange={(fursuits) => {console.log(fursuits); this.setState({fursuits: fursuits})}}
+                            onChange={(fursuits) => {this.setState({fursuits: fursuits})}}
                             options={fursuitList}
                             searchable={true}
                             filterOptions={filterOptions}
@@ -238,7 +237,6 @@ class TagDialog extends React.Component {
                         {
                           <Button
                             onClick={() => {
-                              console.log("here");
                               updateMedium({
                                 variables: {
                                   input: {

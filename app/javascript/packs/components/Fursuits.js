@@ -109,12 +109,9 @@ class Fursuits extends React.Component {
         {({ data, loading, error, fetchMore }) => (
           <React.Fragment>
             <div style={{padding: 10}}>
-              <Filters currentFilter="Fursuits" onChange={(value) => { console.log(value); this.setState({criteria: value});}} />
+              <Filters currentFilter="Fursuits" onChange={(value) => {this.setState({criteria: value});}} />
             </div>
             <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
-              {
-                error && console.log(error)
-              }
               {
                 !loading && !error &&
                   this.renderResults({
@@ -128,7 +125,6 @@ class Fursuits extends React.Component {
                           limit
                         },
                         updateQuery: (prev, { fetchMoreResult }) => {
-                          console.log(fetchMoreResult);
                           if (!fetchMoreResult) return prev;
 
                           if (fetchMoreResult.fursuits.length === 0) {

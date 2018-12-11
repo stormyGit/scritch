@@ -34,7 +34,6 @@ class Assets extends React.Component {
   }
 
   handleChange = (e, value) => {
-    console.log(value);
     this.setState({ currentFilter: value });
   }
 

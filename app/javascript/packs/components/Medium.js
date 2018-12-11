@@ -123,7 +123,6 @@ class Medium extends React.Component {
       <Query query={GET_MEDIUM} variables={{ id: match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0] }}>
         {({ loading, error, data }) => {
           const medium = data ? data.medium : null;
-          !loading && !error && medium && console.log(medium.height, medium.width);
 
           return (
             !loading && !error && medium &&

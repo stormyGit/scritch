@@ -122,15 +122,11 @@ class Maker extends React.Component {
   }
 
   onCurrentImageChange(index) {
-    console.log(this.state.currentImage);
-    console.log(index);
     this.setState({ currentImage: index });
   }
 
   goToImage(media) {
-    console.log(this.state.currentImage);
     this.props.history.push(`/pictures/${media[this.state.currentImage].id}`);
-    console.log(this.state.currentImage);
   }
 
   render() {
@@ -143,11 +139,6 @@ class Maker extends React.Component {
         {({ loading, error, data }) => {
           const maker = data ? data.maker : null;
 
-          if (error)
-            console.log ("ERR >>> ", error);
-          console.log("Data >>> ", maker);
-
-          console.log(data);
           return (
             !loading && !error && maker &&
               <div className={classes.container} key={maker.id}>

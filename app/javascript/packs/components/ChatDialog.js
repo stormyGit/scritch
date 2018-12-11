@@ -168,7 +168,7 @@ class MessageInput extends React.Component {
               }
             });
           } catch (e) {
-            console.log(e);
+
           }
         }}
       >
@@ -283,7 +283,7 @@ class ChatDialog extends React.Component {
             }
           });
         } catch(e) {
-          // console.log(e)
+
         }
       }
     });
