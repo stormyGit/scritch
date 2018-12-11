@@ -261,11 +261,12 @@ class MultipleMediaDialog extends React.Component {
                 if (loading || error) {
                   return (null);
                 }
-                const categoryList = [];
+                const categoryList = [{value: null, label: "Not applicable"}];
                 data.categories.map((e) => categoryList.push({value: e.id, label: e.name}));
                 return(
                   <Select
                     fullWidth
+                    clearable={true}
                     placeholder="Category"
                     isSearchable
                     onChange={(mediaCategory) => { console.log(mediaCategory); this.setState({mediaCategory: mediaCategory}) }}
@@ -284,11 +285,12 @@ class MultipleMediaDialog extends React.Component {
                   return (null);
                 }
 
-                const eventList = [];
+                const eventList = [{value: null, label: "Not applicable"}];
                 data.events.map((e) => eventList.push({value: e.id, label: e.name}));
                 return(
                   <Select
                     fullWidth
+                    clearable={true}
                     placeholder="Event"
                     isSearchable
                     onChange={(mediaEvent) => { this.setState({mediaEvent: mediaEvent}) }}
@@ -301,18 +303,19 @@ class MultipleMediaDialog extends React.Component {
 
             <div style={{padding: 5}}></div>
             {
-              Object.keys(this.state.mediaEvent).length != 0 &&
+              Object.keys(this.state.mediaEvent).length != 0 && this.state.mediaEvent.value &&
               <Query query={LOAD_EDITIONS} variables={{ sort: "latest", offset: 0, limit: 150, eventId: this.state.mediaEvent.value }} fetchPolicy="network-only">
                 {({ data, loading, error, fetchMore }) => {
                   if (loading || error) {
                     return (null);
                   }
 
-                  const editionList = [];
+                  const editionList = [{value: null, label: "Not applicable"}];
                   data.editions.map((e) => editionList.push({value: e.id, label: e.name}))
                   return(
                     <Select
                       fullWidth
+                      clearable={true}
                       placeholder="Edition"
                       isSearchable
                       onChange={(mediaEdition) => { this.setState({mediaEdition: mediaEdition}) }}

@@ -27,6 +27,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 
 import 'react-virtualized-select/styles.css';
 import 'react-virtualized/styles.css';
+import createFilterOptions from 'react-select-fast-filter-options'
 
 import TelegramLoginButton from 'react-telegram-login';
 import { withRouter } from 'react-router-dom';
@@ -39,6 +40,7 @@ import { Mutation, Query } from "react-apollo";
 
 import Logo from './Logo';
 import { UPDATE_MEDIUM, LOAD_CATEGORIES, GET_MEDIA, LOAD_FURSUITS } from '../queries';
+
 
 const Option = (props) => {
   const handleClick = (event) => {
@@ -196,7 +198,11 @@ class TagDialog extends React.Component {
                       );
                     }}
                   </Query>
-                  <Query query={LOAD_FURSUITS} variables={{ name: "", sort: "latest", offset: 0, limit: 5000 }} fetchPolicy="network-only">
+                  {
+                    false &&
+                    "HERE GOES A FURSUIT DB COMPONENT ADAPTED FOR TAGGING"
+                  }
+                  <Query query={LOAD_FURSUITS} variables={{ name: "", sort: "latest", offset: 0, limit: 5000 }} >
                     {({ data, loading, error, fetchMore }) => {
                       if (loading || error) {
                         return (null);
@@ -204,20 +210,22 @@ class TagDialog extends React.Component {
                       console.log(123);
                       const fursuitList = [];
                       data.fursuits.map((e) => fursuitList.push({value: e.id, label: e.name}));
+                      const filterOptions = createFilterOptions(fursuitList);
 
                       return(
                         <React.Fragment>
                           <InputLabel error={false}>
                             Fursuits
                           </InputLabel>
-                          <VirtualizedSelect
+                          <Select
                             autoFocus
                             clearable={true}
                             disabled={false}
-                            multi={true}
+                            isMulti={true}
                             onChange={(fursuits) => {console.log(fursuits); this.setState({fursuits: fursuits})}}
                             options={fursuitList}
                             searchable={true}
+                            filterOptions={filterOptions}
                             value={this.state.fursuits}
                           />
                         </React.Fragment>
