@@ -171,7 +171,17 @@ class TagDialog extends React.Component {
         {
           data.fursuits.map((fursuit) => (
             <Grid item xs={4} md={3} lg={2} key={fursuit.id}>
-              <FursuitMiniCard fursuit={fursuit} onClick={(payload) => console.log(payload)} />
+              <FursuitMiniCard
+                fursuit={fursuit}
+                onClick={
+                  (payload) => {
+                    this.setState((prevState) => ({
+                      query: "",
+                      fursuits: [...prevState.fursuits, payload]
+                    }))
+                  }
+                }
+                />
             </Grid>
           ))
         }
