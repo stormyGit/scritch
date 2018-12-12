@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 import timeAgo from '../timeAgo';
 import UserAvatar from './UserAvatar';
 import PageTitle from './PageTitle';
+import FursuitMiniCard from './FursuitMiniCard';
 import dayjs from 'dayjs';
 import queryString from 'query-string';
 
@@ -215,24 +216,23 @@ class Medium extends React.Component {
                               </Grid>
                           }
                         </Grid>
-                        <Typography className={classes.text} component="div">
-                          <FormattedText variant="inherit" text={medium.description || 'No description'} />
-                        </Typography>
                         <div className={classes.tags}>
-                          {
-                            medium.tagList.length === 0 ?
-                              <Chip label={"No tags"} variant={"outlined"} className={[classes.chip, classes.noTags].join(' ')} /> :
-                              medium.tagList.map((tag) => (
-                                <Chip
-                                  clickable
-                                  key={tag}
-                                  label={tag}
-                                  variant={"outlined"}
-                                  className={classes.chip}
-                                  component={(props) => <Link rel="nofollow" to={`/pictures?${queryString.stringify({ q: tag })}`} {...props} />}
-                                />
+                          <Typography gutterBottom variant="subtitle1" noWrap>
+                            {"Fursuits"}
+                          </Typography>
+                          <Grid container spacing={8} >
+                            {
+                              medium.fursuits.length != 0 &&
+                              medium.fursuits.map((fursuit) => (
+                                <Grid item lg={2} xs={2} key={fursuit.id}>
+                                  <FursuitMiniCard
+                                    onClick={(e) => console.log(e)}
+                                    fursuit={fursuit}
+                                  />
+                                </Grid>
                               ))
-                          }
+                            }
+                          </Grid>
                         </div>
                       </CardContent>
                       <CardContent>

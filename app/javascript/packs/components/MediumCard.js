@@ -145,9 +145,6 @@ class MediumCard extends React.Component {
         <Typography gutterBottom variant="h5" component="h2" className={classes.text}  noWrap={!horizontal}>
           {medium.title}
         </Typography>
-        <Typography component="p" className={classes.text} noWrap={!horizontal}>
-          <TruncatedText limit={100}>{medium.description || `No description`}</TruncatedText>
-        </Typography>
       </CardContent>
     );
   }
@@ -158,18 +155,14 @@ class MediumCard extends React.Component {
     return (
       <CardContent className={classes.tags}>
         {
-          medium.tagList.length === 0 ?
-            <Chip label={"No tags"} variant={"outlined"} className={[classes.chip, classes.noTags].join(' ')} /> :
-            medium.tagList.map((tag) => (
-              <Chip
-                clickable
-                key={tag}
-                label={tag}
-                variant={"outlined"}
-                className={classes.chip}
-                component={(props) => <Link rel="nofollow" to={`/pictures?${queryString.stringify({ q: tag })}`} {...props} />}
-              />
-            ))
+          medium.fursuits.length != 0 &&
+          medium.fursuits.map((fursuit) => (
+            <FursuitMiniCard
+              onClick={(e) => console.log(e)}
+              fursuit={fursuit}
+              key={fursuit.id}
+            />
+          ))
         }
       </CardContent>
     );

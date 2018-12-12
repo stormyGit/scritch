@@ -173,7 +173,7 @@ class TagDialog extends React.Component {
       <React.Fragment>
         {
           data.fursuits.map((fursuit) => (
-            <Grid item xs={4} md={3} lg={2} key={fursuit.id}>
+            <Grid item xs={3} key={fursuit.id}>
               <FursuitMiniCard
                 fursuit={fursuit}
                 onClick={
@@ -196,8 +196,6 @@ class TagDialog extends React.Component {
   render() {
     const { classes, open, onClose, loading, width, medium } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
-
-    console.log(medium)
 
     if (open == false)
       return (null);
@@ -235,69 +233,71 @@ class TagDialog extends React.Component {
                     </DialogTitle>
                 }
                 <DialogContent>
-                  <DialogContent>
-                    <img
-                      src={`${medium.thumbnail}`}
-                      title={medium.title}
-                    />
-                  </DialogContent>
-                  {
-                    false &&
-                    <List>
-                      <ListItem>
-                       <ListItemIcon>
-                         <CheckIcon />
-                       </ListItemIcon>
-                       <ListItemText inset primary={`Tagging dat pic #${medium.id}, put dem fields here`} />
-                      </ListItem>
-                    </List>
-                  }
-                  {
-                    medium.edition &&
-                    <React.Fragment>
-                      <Input
-                        fullWidth
-                        defaultValue={medium.edition.event.name}
-                        placeholder="Event"
-                        disabled
+                <Grid container spacing={8}>
+                  <Grid item xs={this.state.fursuits.length > 0 ? 9 : 12}>
+                    <DialogContent>
+                      <img
+                        src={`${medium.thumbnail}`}
+                        title={medium.title}
                       />
-                      <Input
-                        fullWidth
-                        defaultValue={medium.edition.name}
-                        placeholder="Event"
-                        disabled
-                      />
-                    </React.Fragment>
-                  }
-                  <Query query={LOAD_CATEGORIES} variables={{ sort: "latest", offset: 0, limit: 150 }}>
-                    {({ data, loading, error, fetchMore }) => {
-                      if (loading || error) {
-                        return (null);
-                      }
-                      const categoryList = [];
-                      data.categories.map((e) => categoryList.push({value: e.id, label: e.name}));
-
-                      return(
-                        <Select
+                    </DialogContent>
+                    {
+                      false &&
+                      <List>
+                        <ListItem>
+                         <ListItemIcon>
+                           <CheckIcon />
+                         </ListItemIcon>
+                         <ListItemText inset primary={`Tagging dat pic #${medium.id}, put dem fields here`} />
+                        </ListItem>
+                      </List>
+                    }
+                    {
+                      medium.edition &&
+                      <React.Fragment>
+                        <Input
                           fullWidth
-                          placeholder="Category"
-                          isSearchable
-                          defaultValue={medium.category ? {value: medium.category.id, label: medium.category.name} : null}
-                          onChange={(mediaCategory) => { this.setState({mediaCategory: mediaCategory}) }}
-                          options={categoryList}
-                          className={classes.selectInput}
+                          defaultValue={medium.edition.event.name}
+                          placeholder="Event"
+                          disabled
                         />
-                      );
-                    }}
-                  </Query>
+                        <Input
+                          fullWidth
+                          defaultValue={medium.edition.name}
+                          placeholder="Event"
+                          disabled
+                        />
+                      </React.Fragment>
+                    }
+                    <Query query={LOAD_CATEGORIES} variables={{ sort: "latest", offset: 0, limit: 150 }}>
+                      {({ data, loading, error, fetchMore }) => {
+                        if (loading || error) {
+                          return (null);
+                        }
+                        const categoryList = [];
+                        data.categories.map((e) => categoryList.push({value: e.id, label: e.name}));
+
+                        return(
+                          <Select
+                            fullWidth
+                            placeholder="Category"
+                            isSearchable
+                            defaultValue={medium.category ? {value: medium.category.id, label: medium.category.name} : null}
+                            onChange={(mediaCategory) => { this.setState({mediaCategory: mediaCategory}) }}
+                            options={categoryList}
+                            className={classes.selectInput}
+                          />
+                        );
+                      }}
+                    </Query>
 
                   <div style={{padding: 8}}></div>
-                  <Grid container spacing={8}>
-                    <Grid item lg={9} xs={12}>
+
                       <TextField
                         label="Number of fursuits"
                         name="fursuitsCount"
                         variant="outlined"
+                        style={{zIndex: 0}}
                         value={this.state.fursuitsCount || ""}
                         onChange={(e) => {
                           this.setState({ fursuitsCount: e.target.value });
@@ -359,29 +359,31 @@ class TagDialog extends React.Component {
                         </Query>
                       }
                     </Grid>
-                    <Grid item lg={1} xs={12} />
-                    <Grid item lg={2} xs={12}>
-                      {
-                        console.log(this.state.fursuits)
-                      }
-                      <div style={{padding: 8}}></div>
-                      {
-                        this.state.fursuits.map((fursuit) => (
-                          <FursuitMiniCard key={fursuit.id}
-                            fursuit={fursuit}
-                            onClick={
-                              (payload) => {
-                                console.log(this.state.fursuits, payload);
-                                let index = this.state.fursuits.indexOf(payload);
-                                this.setState({
-                                  fursuits: this.state.fursuits.filter((_, i) => i !== index)
-                                })
+                    {
+                      this.state.fursuits.length > 0 &&
+                      <React.Fragment>
+                      <Grid item lg={1} xs={1} />
+                      <Grid item lg={2} xs={2}>
+                        <div style={{padding: 8}}></div>
+                        {
+                          this.state.fursuits.map((fursuit) => (
+                            <FursuitMiniCard key={fursuit.id}
+                              fursuit={fursuit}
+                              onClick={
+                                (payload) => {
+                                  console.log(this.state.fursuits, payload);
+                                  let index = this.state.fursuits.indexOf(payload);
+                                  this.setState({
+                                    fursuits: this.state.fursuits.filter((_, i) => i !== index)
+                                  })
+                                }
                               }
-                            }
-                          />
-                        ))
-                      }
-                    </Grid>
+                            />
+                          ))
+                        }
+                      </Grid>
+                      </React.Fragment>
+                    }
                   </Grid>
                   {
                     <div className={classes.loginButtonContainer}>
