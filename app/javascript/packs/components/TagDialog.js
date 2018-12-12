@@ -25,7 +25,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import SearchBar from 'material-ui-search-bar';
-
+import TextField from '@material-ui/core/TextField';
+import ScrollArea from 'react-scrollbar'
 import 'react-virtualized-select/styles.css';
 import 'react-virtualized/styles.css';
 import createFilterOptions from 'react-select-fast-filter-options'
@@ -119,6 +120,7 @@ class TagDialog extends React.Component {
       alternativeLogin: false,
       mediaCategory: this.props.medium.category,
       fursuits: [],
+      fursuitsCount: this.props.medium.fursuitsCount,
       query: ""
     };
   }
@@ -143,6 +145,7 @@ class TagDialog extends React.Component {
       this.reset = false;
     }
   }
+
 
   renderResults({ data, onLoadMore, hasMore }) {
     const { classes } = this.props;
@@ -206,6 +209,7 @@ class TagDialog extends React.Component {
                 open={open}
                 onClose={onClose}
               >
+
                 {
                   (width !== 'lg' && width !== 'xl' || true) &&
                     <DialogTitle
@@ -281,54 +285,98 @@ class TagDialog extends React.Component {
 
                   <div style={{padding: 8}}></div>
 
+                  <TextField
+                    label="Number of fursuits"
+                    name="fursuitsCount"
+                    variant="outlined"
+                    value={this.state.fursuitsCount || ""}
+                    onChange={(e) => {
+                      this.setState({ fursuitsCount: e.target.value });
+                    }}
+                    margin="dense"
+                    fullWidth
+                  />
+
+                  <div style={{padding: 8}}></div>
+
                   <React.Fragment>
+
                     <InputLabel error={false}>
                       Fursuits
                     </InputLabel>
                     <SearchBar
                       className={classes.searchBar}
+                      disabled={this.state.fursuitsCount ? this.state.fursuits.length >= this.state.fursuitsCount : true}
                       onChange={(value) => this.handleSearch(value)}
                       value={this.state.query}
                       onCancelSearch={() => this.handleSearch("")}
                     />
-                    {
-                      this.state.query.length >= 1 &&
-                      <Query query={LOAD_FURSUITS} variables={ { name: this.state.query, limit, offset: 0} }>
-                        {({ data, loading, error, fetchMore }) => (
-                          <React.Fragment>
+                    <Grid container spacing={8}>
+                      <Grid item lg={9} xs={12}>
+                      <div style={{padding: 8}}></div>
+                      {
+                        this.state.query.length >= 1 &&
+                        <Query query={LOAD_FURSUITS} variables={ { name: this.state.query, limit, offset: 0, exclude: this.state.fursuits.map(a => a.id)} }>
+                          {({ data, loading, error, fetchMore }) => (
+                            <React.Fragment>
 
-                            <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
-                              {
-                                !loading && !error &&
-                                  this.renderResults({
-                                    data,
-                                    hasMore: ((data.fursuits.length % limit) === 0 && this.state.hasMore && data.fursuits.length > 0),
-                                    onLoadMore: () => {
-                                      fetchMore({
-                                        variables: {
-                                          offset: data.fursuits.length,
-                                          limit
-                                        },
-                                        updateQuery: (prev, { fetchMoreResult }) => {
-                                          if (!fetchMoreResult) return prev;
+                              <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
+                                {
+                                  !loading && !error &&
+                                    this.renderResults({
+                                      data,
+                                      hasMore: ((data.fursuits.length % limit) === 0 && this.state.hasMore && data.fursuits.length > 0),
+                                      onLoadMore: () => {
+                                        fetchMore({
+                                          variables: {
+                                            offset: data.fursuits.length,
+                                            limit
+                                          },
+                                          updateQuery: (prev, { fetchMoreResult }) => {
+                                            if (!fetchMoreResult) return prev;
 
-                                          if (fetchMoreResult.fursuits.length === 0) {
-                                            this.setState({ hasMore: false })
-                                          } else {
-                                            return Object.assign({}, prev, {
-                                              fursuits: [...prev.fursuits, ...fetchMoreResult.fursuits]
-                                            });
+                                            if (fetchMoreResult.fursuits.length === 0) {
+                                              this.setState({ hasMore: false })
+                                            } else {
+                                              return Object.assign({}, prev, {
+                                                fursuits: [...prev.fursuits, ...fetchMoreResult.fursuits]
+                                              });
+                                            }
                                           }
-                                        }
-                                      });
-                                    }
-                                  })
+                                        });
+                                      }
+                                    })
+                                }
+                              </Grid>
+                            </React.Fragment>
+                          )}
+                        </Query>
+                      }
+                    </Grid>
+                    <Grid item lg={1} xs={12} />
+                    <Grid item lg={2} xs={12}>
+                      {
+                        console.log(this.state.fursuits)
+                      }
+                      <div style={{padding: 8}}></div>
+                      {
+                        this.state.fursuits.map((fursuit) => (
+                          <FursuitMiniCard key={fursuit.id}
+                            fursuit={fursuit}
+                            onClick={
+                              (payload) => {
+                                console.log(this.state.fursuits, payload);
+                                let index = this.state.fursuits.indexOf(payload);
+                                this.setState({
+                                  fursuits: this.state.fursuits.filter((_, i) => i !== index)
+                                })
                               }
-                            </Grid>
-                          </React.Fragment>
-                        )}
-                      </Query>
-                    }
+                            }
+                          />
+                        ))
+                      }
+                    </Grid>
+                  </Grid>
                   </React.Fragment>
                   {
                     <div className={classes.loginButtonContainer}>
@@ -341,7 +389,7 @@ class TagDialog extends React.Component {
                                   input: {
                                     id: medium.id,
                                     title: medium.title,
-                                    editionId: null,
+                                    fursuitsCount: parseInt(this.state.fursuitsCount),
                                     categoryId: this.state.mediaCategory ? this.state.mediaCategory.value : null
                                   }
                                 }

@@ -751,8 +751,8 @@ export const LOAD_FURSUIT = gql`
 `;
 
 export const LOAD_FURSUITS = gql`
-  query Fursuits($name: String, $species: String, $legs: String, $style: String, $limit: Int!, $offset: Int!) {
-    fursuits(name: $name, fursuitSpecy: $species, fursuitLegType: $legs, fursuitStyle: $style, limit: $limit, offset: $offset) {
+  query Fursuits($name: String, $species: String, $legs: String, $style: String, $exclude: [ID!], $limit: Int!, $offset: Int!) {
+    fursuits(name: $name, fursuitSpecy: $species, fursuitLegType: $legs, fursuitStyle: $style, exclude: $exclude, limit: $limit, offset: $offset) {
       id
       name
       creationYear

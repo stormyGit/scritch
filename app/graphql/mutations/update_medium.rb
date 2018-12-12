@@ -6,12 +6,14 @@ class Mutations::UpdateMedium < Mutations::BaseMutation
   argument :comments_disabled, Boolean, required: false
   argument :edition_id, ID, required: false
   argument :category_id, ID, required: false
+  argument :fursuits_count, Integer, required: false
   argument :tag_list, [String], required: false
 
   field :medium, Types::MediumType, null: true
   field :errors, [String], null: false
 
   def resolve(arguments)
+    puts "\n\n\n\n\n\n#{arguments}\n\n\n\n\n"
     medium = Medium.find(arguments[:id])
     medium.assign_attributes(arguments)
 

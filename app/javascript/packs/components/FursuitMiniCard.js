@@ -97,7 +97,8 @@ const styles = theme => ({
     textAlign: 'center'
   },
   avatar: {
-    width: "100%"
+    width: "100%",
+    objectFit: 'cover'
   }
 });
 
@@ -114,17 +115,23 @@ class FursuitMiniCard extends React.Component {
   render() {
     const { classes, fursuit, onClick } = this.props;
 
+    console.log(fursuit);
+
     return (
-      <React.Fragment>
-        <Avatar
-          src={require('../photo.jpg')}
-          onClick={() => {onClick(fursuit.id)}}
-          className={classes.avatar}
-        />
-        <Typography gutterBottom variant="h6" component="h5" className={classes.text} noWrap>
-          {fursuit.name}
-        </Typography>
-      </React.Fragment>
+      <Grid container spacing={8} justify="center" alignItems="center">
+        <Grid item lg={12} xs={12}>
+          <img
+            src={require('../photo.jpg')}
+            onClick={() => {onClick(fursuit)}}
+            className={classes.avatar}
+          />
+        </Grid>
+        <Grid item lg={12} xs={12}>
+          <Typography gutterBottom variant="h6" component="h5" className={classes.text} noWrap>
+            {fursuit.name}
+          </Typography>
+        </Grid>
+      </Grid>
     );
   }
 }

@@ -141,8 +141,9 @@ module Types
     field :fursuits, [FursuitType], null: false do
       description "List fursuits"
       argument :name, String, required: false
-      argument :limit, Integer, required: false
-      argument :offset, Integer, required: false
+      argument :limit, Integer, required: true
+      argument :offset, Integer, required: true
+      argument :exclude, [ID], required: false
       argument :fursuit_specy, String, required: false
       argument :fursuit_style, String, required: false
       argument :fursuit_leg_type, String, required: false
@@ -183,6 +184,7 @@ module Types
     end
 
     def fursuits(arguments)
+      puts "\n\n\n\n\n#{arguments}\n\n\n\n\n\n"
       fursuits = Fursuit.all
       if arguments[:fursuit_specy].present?
         fursuits = fursuits.where(fursuit_specy_id: FursuitSpecy.find_by(name: arguments[:fursuit_specy]))
@@ -198,6 +200,10 @@ module Types
 
       if arguments[:name].present?
         fursuits = fursuits.where("name @@ ? or name ilike ?", arguments[:name], "%#{arguments[:name]}%")
+      end
+
+      if arguments[:exclude].present?
+        fursuits = fursuits.where.not("uuid IN (?)", arguments[:exclude])
       end
       fursuits.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
     end
