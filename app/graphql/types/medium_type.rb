@@ -16,6 +16,8 @@ module Types
     field :comments, [CommentType], null: false
     field :related_media, [MediumType], null: false
 
+    field :fursuits, [FursuitType], null: false
+
     field :edition, EditionType, null: true
     field :category, CategoryType, null: true
 
@@ -26,6 +28,10 @@ module Types
     field :liked, Boolean, null: false
     field :comments_disabled, Boolean, null: false
     field :tag_list, [String], null: false
+
+    def fursuits
+      object.fursuits.order(:name)
+    end
 
     def comments
       object.comments.order(created_at: :desc)

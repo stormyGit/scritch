@@ -119,7 +119,7 @@ class TagDialog extends React.Component {
       submiting: false,
       alternativeLogin: false,
       mediaCategory: this.props.medium.category,
-      fursuits: [],
+      fursuits: this.props.medium.fursuits,
       fursuitsCount: this.props.medium.fursuitsCount,
       query: ""
     };
@@ -197,6 +197,11 @@ class TagDialog extends React.Component {
     const { classes, open, onClose, loading, width, medium } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
 
+    console.log(medium)
+
+    if (open == false)
+      return (null);
+
     return (
       <Mutation
         mutation={UPDATE_MEDIUM}
@@ -236,14 +241,17 @@ class TagDialog extends React.Component {
                       title={medium.title}
                     />
                   </DialogContent>
-                  <List>
-                    <ListItem>
-                     <ListItemIcon>
-                       <CheckIcon />
-                     </ListItemIcon>
-                     <ListItemText inset primary={`Tagging dat pic #${medium.id}, put dem fields here`} />
-                    </ListItem>
-                  </List>
+                  {
+                    false &&
+                    <List>
+                      <ListItem>
+                       <ListItemIcon>
+                         <CheckIcon />
+                       </ListItemIcon>
+                       <ListItemText inset primary={`Tagging dat pic #${medium.id}, put dem fields here`} />
+                      </ListItem>
+                    </List>
+                  }
                   {
                     medium.edition &&
                     <React.Fragment>
@@ -284,35 +292,33 @@ class TagDialog extends React.Component {
                   </Query>
 
                   <div style={{padding: 8}}></div>
+                  <Grid container spacing={8}>
+                    <Grid item lg={9} xs={12}>
+                      <TextField
+                        label="Number of fursuits"
+                        name="fursuitsCount"
+                        variant="outlined"
+                        value={this.state.fursuitsCount || ""}
+                        onChange={(e) => {
+                          this.setState({ fursuitsCount: e.target.value });
+                        }}
+                        margin="dense"
+                        fullWidth
+                      />
 
-                  <TextField
-                    label="Number of fursuits"
-                    name="fursuitsCount"
-                    variant="outlined"
-                    value={this.state.fursuitsCount || ""}
-                    onChange={(e) => {
-                      this.setState({ fursuitsCount: e.target.value });
-                    }}
-                    margin="dense"
-                    fullWidth
-                  />
+                      <div style={{padding: 8}}></div>
 
-                  <div style={{padding: 8}}></div>
+                      <InputLabel error={false}>
+                        Fursuits
+                      </InputLabel>
+                      <SearchBar
+                        className={classes.searchBar}
+                        disabled={this.state.fursuitsCount ? this.state.fursuits.length >= this.state.fursuitsCount : true}
+                        onChange={(value) => this.handleSearch(value)}
+                        value={this.state.query}
+                        onCancelSearch={() => this.handleSearch("")}
+                      />
 
-                  <React.Fragment>
-
-                    <InputLabel error={false}>
-                      Fursuits
-                    </InputLabel>
-                    <SearchBar
-                      className={classes.searchBar}
-                      disabled={this.state.fursuitsCount ? this.state.fursuits.length >= this.state.fursuitsCount : true}
-                      onChange={(value) => this.handleSearch(value)}
-                      value={this.state.query}
-                      onCancelSearch={() => this.handleSearch("")}
-                    />
-                    <Grid container spacing={8}>
-                      <Grid item lg={9} xs={12}>
                       <div style={{padding: 8}}></div>
                       {
                         this.state.query.length >= 1 &&
@@ -377,7 +383,6 @@ class TagDialog extends React.Component {
                       }
                     </Grid>
                   </Grid>
-                  </React.Fragment>
                   {
                     <div className={classes.loginButtonContainer}>
                       <div className={classes.loginButton}>
@@ -390,7 +395,8 @@ class TagDialog extends React.Component {
                                     id: medium.id,
                                     title: medium.title,
                                     fursuitsCount: parseInt(this.state.fursuitsCount),
-                                    categoryId: this.state.mediaCategory ? this.state.mediaCategory.value : null
+                                    categoryId: this.state.mediaCategory ? this.state.mediaCategory.value : null,
+                                    fursuits: this.state.fursuits.map(a => a.id)
                                   }
                                 }
                               }).then(() => {

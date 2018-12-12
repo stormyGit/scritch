@@ -17,9 +17,8 @@ class Fursuit < ApplicationRecord
   has_many :fursuit_makers, dependent: :destroy
   has_many :makers, through: :fursuit_makers
   #
-  has_many :fursuits
-  # has_many :fursuit_media, dependent: :destroy
-  # has_many :media, through: :fursuit_media
+  has_many :fursuit_media, dependent: :destroy
+  has_many :media, through: :fursuit_media
 
   # scope :with_species, -> (id) { where(fursuit_specy_id: id) }
   # scope :with_style,   -> (id) { where(fursuit_style_id: id) }

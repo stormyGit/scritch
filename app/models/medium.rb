@@ -24,7 +24,8 @@ class Medium < ApplicationRecord
   belongs_to :category, optional: true
   belongs_to :panel, optional: true
 
-  belongs_to :fursuit, optional: true
+  has_many :fursuit_media, dependent: :destroy
+  has_many :fursuits, through: :fursuit_media
 
   validates :picture, presence: true
   validates :title, presence: true

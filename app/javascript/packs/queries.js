@@ -162,6 +162,11 @@ export const UPDATE_MEDIUM = gql`
           name
           avatar
         }
+        fursuits {
+          id
+          name
+          slug
+        }
         relatedMedia {
           id
           slug
@@ -203,6 +208,11 @@ export const GET_MEDIA = gql`
       likesCount
       viewsCount
       tagList
+      fursuits {
+        id
+        name
+        slug
+      }
       category {
         id
         name
@@ -415,6 +425,11 @@ export const GET_MEDIUM = gql`
       createdAt
       commentsDisabled
       tagList
+      fursuits {
+        id
+        name
+        slug
+      }
       category {
         id
         name
