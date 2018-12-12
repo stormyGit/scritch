@@ -27,7 +27,16 @@ const styles = theme => ({
 
 class Media extends React.Component {
   state = {
-    hasMore: true
+    hasMore: true,
+    currentImage: 0
+  }
+
+  onCurrentImageChange(index) {
+    this.setState({ currentImage: index });
+  }
+
+  goToImage(media) {
+    this.props.history.push(`/pictures/${media[this.state.currentImage].id}`);
   }
 
   renderResults({ media, users, horizontal, onLoadMore, hasMore }) {
@@ -70,6 +79,13 @@ class Media extends React.Component {
           }
           <Grid item item xs={12} lg={8} style={{ marginLeft: 'auto', marginRight: 'auto'}}>
             <Gallery
+              customControls={[
+                <Button color="secondary" key="goToImage" onClick={() => this.goToImage(media)}>Go to picture</Button>
+              ]}
+              enableLightbox={true}
+              enableImageSelection={false}
+              backdropClosesModal
+              currentImageWillChange={this.onCurrentImageChange}
               images={media.map((medium) => ({
                 src: medium.picture,
                 thumbnail: medium.thumbnail,

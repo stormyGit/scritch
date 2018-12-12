@@ -241,8 +241,9 @@ module Types
 
       if arguments[:q].present?
         media = media
+          .joins(:fursuits)
           .joins(:user)
-          .where("users.name % ? OR media.title @@ ? OR media.uuid IN (?)", arguments[:q], arguments[:q], Medium.tagged_with(arguments[:q]).select(:uuid))
+          .where("media.title @@ ? OR media.uuid IN (?) OR fursuits.name % ?", arguments[:q], Medium.tagged_with(arguments[:q]).select(:uuid), arguments[:q])
       end
 
       media =
