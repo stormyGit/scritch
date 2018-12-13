@@ -31,6 +31,9 @@ const styles = theme => ({
     width: '100%',
     padding: theme.spacing.unit * 1,
     paddingRight: 0
+  },
+  filters: {
+    paddingBottom: 0
   }
 });
 
@@ -41,6 +44,7 @@ class Fursuits extends React.Component {
     fursuitSpecy: "",
     fursuitLegType: "",
     fursuitStyle: "",
+    maker: "",
   }
 
   renderResults({ data, horizontal, onLoadMore, hasMore }) {
@@ -109,6 +113,7 @@ class Fursuits extends React.Component {
             fursuitLegType: this.state.fursuitLegType,
             fursuitStyle: this.state.fursuitStyle,
             fursuitSpecy: this.state.fursuitSpecy,
+            maker: this.state.maker,
             limit,
             offset: 0
           }
@@ -118,6 +123,7 @@ class Fursuits extends React.Component {
           <React.Fragment>
             <div style={{paddingTop: 8}}></div>
             <FursuitFilters
+              className={classes.filters}
               onChange={
                 (value) => {
                   console.log(value);
@@ -125,6 +131,7 @@ class Fursuits extends React.Component {
                     fursuitStyle: !value.fursuitStyle ? "" : value.fursuitStyle.value,
                     fursuitSpecy: !value.fursuitSpecy ? "" : value.fursuitSpecy.value,
                     fursuitLegType: !value.fursuitLegType ? "" : value.fursuitLegType.value,
+                    maker: !value.maker ? "" : value.maker.value,
                     name: value.name
                   });
                 }

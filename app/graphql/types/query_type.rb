@@ -157,6 +157,7 @@ module Types
       argument :fursuit_specy, ID, required: false
       argument :fursuit_style, ID, required: false
       argument :fursuit_leg_type, ID, required: false
+      argument :maker, ID, required: false
     end
 
     field :maker, MakerType, null: false do
@@ -221,7 +222,7 @@ module Types
       end
 
       if arguments[:maker].present?
-        fursuits = fursuits.joins(:makers).where("makers.id = ?", arguments[:maker])
+        fursuits = fursuits.joins(:makers).where("makers.uuid = ?", arguments[:maker])
       end
 
       if arguments[:name].present?

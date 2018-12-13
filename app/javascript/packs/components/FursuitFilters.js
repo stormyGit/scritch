@@ -19,7 +19,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { Link, withRouter } from 'react-router-dom';
 
-import { LOAD_LEG_TYPES, LOAD_STYLES, LOAD_SPECIES } from '../queries'
+import { LOAD_LEG_TYPES, LOAD_STYLES, LOAD_SPECIES, LOAD_MAKERS } from '../queries'
 
 import SearchBar from 'material-ui-search-bar';
 
@@ -112,8 +112,8 @@ class FursuitFilters extends React.Component {
   }
 
   clearFilters(filter) {
-    var criteria = {name: "", fursuitLegType: null, fursuitStyle: null, fursuitSpecy: null};
-    this.setState({ name: "", fursuitLegType: null, fursuitStyle: null, fursuitSpecy: null });
+    var criteria = {name: "", fursuitLegType: null, fursuitStyle: null, fursuitSpecy: null, maker: null};
+    this.setState({ name: "", fursuitLegType: null, fursuitStyle: null, fursuitSpecy: null, maker: null});
     this.props.onChange(criteria);
   }
 
@@ -166,6 +166,7 @@ class FursuitFilters extends React.Component {
                 <Select
                   fullWidth
                   placeholder="Leg Type"
+                  isClearable
                   isSearchable
                   value={this.state.fursuitLegType}
                   onChange={
@@ -173,6 +174,7 @@ class FursuitFilters extends React.Component {
                       this.setState({fursuitLegType: legType});
                       this.props.onChange({
                         name: this.state.name,
+                        maker: this.state.maker,
                         fursuitSpecy: this.state.fursuitSpecy,
                         fursuitStyle: this.state.fursuitStyle,
                         fursuitLegType: legType
@@ -216,6 +218,7 @@ class FursuitFilters extends React.Component {
                 <Select
                   fullWidth
                   placeholder="Style"
+                  isClearable
                   isSearchable
                   value={this.state.fursuitStyle}
                   onChange={
@@ -223,6 +226,7 @@ class FursuitFilters extends React.Component {
                       this.setState({fursuitStyle: style});
                       this.props.onChange({
                         name: this.state.name,
+                        maker: this.state.maker,
                         fursuitSpecy: this.state.fursuitSpecy,
                         fursuitLegType: this.state.fursuitLegType,
                         fursuitStyle: style
@@ -266,16 +270,18 @@ class FursuitFilters extends React.Component {
                 <Select
                   fullWidth
                   placeholder="Species"
+                  isClearable
                   isSearchable
                   value={this.state.fursuitSpecy}
                   onChange={
-                    (style) => {
-                      this.setState({fursuitSpecy: style});
+                    (specy) => {
+                      this.setState({fursuitSpecy: specy});
                       this.props.onChange({
                         name: this.state.name,
+                        maker: this.state.maker,
                         fursuitLegType: this.state.fursuitLegType,
                         fursuitStyle: this.state.fursuitStyle,
-                        fursuitSpecy: style
+                        fursuitSpecy: specy
                       })
                     }
                   }
@@ -290,63 +296,116 @@ class FursuitFilters extends React.Component {
     );
   }
 
+  renderMakerFilter() {
+    const {classes} = this.props;
+
+    return(
+      <Query query={LOAD_MAKERS} variables={{offset: 0, limit: 1000}}>
+        {
+          ({ data, loading, error }) => {
+            if (error || !data) {
+              return null;
+            }
+            if (loading) {
+              return (
+                <Grid item xs={4}>
+                  <CircularProgress />
+                </Grid>
+              )
+            }
+
+            const makersList = [];
+            data.makers.map((e) => makersList.push({value: e.id, label: e.name}));
+
+            return (
+              <Grid item xs={4}>
+                <Select
+                  fullWidth
+                  placeholder="Maker"
+                  isClearable
+                  isSearchable
+                  value={this.state.maker}
+                  onChange={
+                    (maker) => {
+                      this.setState({maker: maker});
+                      this.props.onChange({
+                        name: this.state.name,
+                        fursuitLegType: this.state.fursuitLegType,
+                        fursuitStyle: this.state.fursuitStyle,
+                        fursuitSpecy: this.state.fursuitSpecy,
+                        maker: maker
+                      })
+                    }
+                  }
+                  options={makersList}
+                  className={classes.selectInput}
+                />
+              </Grid>
+            );
+          }
+        }
+      </Query>
+    );
+  }
+
   renderFilters() {
     const {classes} = this.props;
 
     return (
-      <div>
-        <Grid container spacing={8}  >
-          <Grid item xs={false} lg={2} />
-          <Grid item xs={12} lg={8}>
-            <ExpansionPanel
-              expanded={this.state.expansion}
-              onChange={() => this.setState({expansion: !this.state.expansion})}
-            >
-              <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography className={classes.heading}>Filters</Typography>
-                <Typography className={classes.secondaryHeading}>Refine your search</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Grid container spacing={8} >
-                  <Grid item xs={12}>
-                    <SearchBar
-                      className={classes.searchBar}
-                      onChange={(value) => this.handleSearch(value)}
-                      value={this.state.name}
-                      onCancelSearch={() => this.handleSearch("")}
-                    />
-                  </Grid>
-                  {
-                    this.renderFursuitLegsFilter()
-                  }
-                  {
-                    this.renderFursuitStylesFilter()
-                  }
-                  {
-                    this.renderFursuitSpeciesFilter()
-                  }
-                  {
-                    false &&
-                    filters.map((filter) => (
-                      <Grid key={filter} item lg={3}>
-                      {
-                        this.renderSelect(filter)
-                      }
-                      </Grid>
-                    ))
-                  }
+      <Grid container spacing={8}  >
+        <Grid item xs={false} lg={2} />
+        <Grid item xs={12} lg={8}>
+          <ExpansionPanel
+            expanded={this.state.expansion}
+            onChange={() => this.setState({expansion: !this.state.expansion})}
+          >
+            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography className={classes.heading}>Filters</Typography>
+              <Typography className={classes.secondaryHeading}>Refine your search</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Grid container spacing={8} >
+                <Grid item xs={12}>
+                  <SearchBar
+                    className={classes.searchBar}
+                    onChange={(value) => this.handleSearch(value)}
+                    value={this.state.name}
+                    onCancelSearch={() => this.handleSearch("")}
+                  />
                 </Grid>
-              </ExpansionPanelDetails>
-              <ExpansionPanelActions>
-                <Button onClick={(value) => this.clearFilters(value)}>
-                  Clear Filters
-                </Button>
-              </ExpansionPanelActions>
-            </ExpansionPanel>
-          </Grid>
-          <Grid item xs={false} lg={3} />
+                {
+                  this.renderFursuitLegsFilter()
+                }
+                {
+                  this.renderFursuitStylesFilter()
+                }
+                {
+                  this.renderFursuitSpeciesFilter()
+                }
+                {
+                  this.renderMakerFilter()
+                }
+                {
+                  false &&
+                  filters.map((filter) => (
+                    <Grid key={filter} item lg={3}>
+                    {
+                      this.renderSelect(filter)
+                    }
+                    </Grid>
+                  ))
+                }
+              </Grid>
+            </ExpansionPanelDetails>
+            <ExpansionPanelActions>
+              <Button onClick={(value) => this.clearFilters(value)}>
+                Clear Filters
+              </Button>
+            </ExpansionPanelActions>
+          </ExpansionPanel>
         </Grid>
-      </div>
+        <Grid item xs={false} lg={3} />
+      </Grid>
     );
   }
   render() {
