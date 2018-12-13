@@ -33,7 +33,7 @@ const styles = theme => ({
     paddingRight: 0
   },
   filters: {
-    paddingBottom: 0
+    padding: theme.spacing.unit * 1
   }
 });
 
@@ -121,22 +121,22 @@ class Fursuits extends React.Component {
       >
         {({ data, loading, error, fetchMore }) => (
           <React.Fragment>
-            <div style={{paddingTop: 8}}></div>
-            <FursuitFilters
-              className={classes.filters}
-              onChange={
-                (value) => {
-                  console.log(value);
-                  this.setState({
-                    fursuitStyle: !value.fursuitStyle ? "" : value.fursuitStyle.value,
-                    fursuitSpecy: !value.fursuitSpecy ? "" : value.fursuitSpecy.value,
-                    fursuitLegType: !value.fursuitLegType ? "" : value.fursuitLegType.value,
-                    maker: !value.maker ? "" : value.maker.value,
-                    name: value.name
-                  });
+            <div className={classes.filters}>
+              <FursuitFilters
+                onChange={
+                  (value) => {
+                    console.log(value);
+                    this.setState({
+                      fursuitStyle: !value.fursuitStyle ? "" : value.fursuitStyle.value,
+                      fursuitSpecy: !value.fursuitSpecy ? "" : value.fursuitSpecy.value,
+                      fursuitLegType: !value.fursuitLegType ? "" : value.fursuitLegType.value,
+                      maker: !value.maker ? "" : value.maker.value,
+                      name: value.name
+                    });
+                  }
                 }
-              }
-            />
+              />
+            </div>
             <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
               {
                 !loading && !error &&

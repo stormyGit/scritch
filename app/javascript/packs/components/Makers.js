@@ -23,7 +23,7 @@ import Background from '../photo.jpg'
 
 import { Link, withRouter } from 'react-router-dom';
 
-import Filters from './Filters';
+import MakerFilters from './MakerFilters';
 
 
 const styles = theme => ({
@@ -100,14 +100,23 @@ class Makers extends React.Component {
     const { classes, location, width } = this.props;
     const query = {q: ""}//queryString.parse(location.search)
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
-    const criteria = this.state.criteria;
 
     return (
-      <Query query={LOAD_MAKERS} variables={ {...criteria, limit, offset: 0} }>
+      <Query query={LOAD_MAKERS} variables={ { name: this.state.name, country: this.state.country, limit, offset: 0} }>
         {({ data, loading, error, fetchMore }) => (
           <React.Fragment>
             <div style={{padding: 10}}>
-              <Filters currentFilter="Makers" onChange={(value) => { this.setState({criteria: value});}} />
+              <MakerFilters
+                onChange={
+                  (value) => {
+                    console.log(value);
+                    this.setState({
+                      country: !value.country ? "" : value.country.value,
+                      name: value.name
+                    });
+                  }
+                }
+              />
             </div>
             <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
               {

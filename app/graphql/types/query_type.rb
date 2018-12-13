@@ -173,11 +173,19 @@ module Types
       argument :country, String, required: false
     end
 
+    field :makers_country, [MakerType], null: false do
+      description "List makers"
+    end
+
     field :categories, [CategoryType], null: false do
       description "List makers"
       argument :limit, Integer, required: false
       argument :offset, Integer, required: false
       argument :name, String, required: false
+    end
+
+    def makers_country
+      Maker.select(:country).distinct.order(:country)
     end
 
     def fursuit_leg_types

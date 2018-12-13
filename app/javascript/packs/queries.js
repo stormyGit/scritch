@@ -804,6 +804,24 @@ export const LOAD_SPECIES = gql`
   }
 `;
 
+export const LOAD_MAKER_COUNTRIES = gql`
+  query makersCountry {
+    makersCountry {
+      country
+    }
+  }
+`;
+
+export const LOAD_EVENT_COUNTRIES = gql`
+  query events {
+    events {
+      editions {
+        country
+      }
+    }
+  }
+`;
+
 export const LOAD_FURSUITS = gql`
   query Fursuits($name: String, $fursuitSpecy: ID, $fursuitLegType: ID, $fursuitStyle: ID, $exclude: [ID!], $maker: ID, $limit: Int!, $offset: Int!) {
     fursuits(name: $name, fursuitSpecy: $fursuitSpecy, fursuitLegType: $fursuitLegType, fursuitStyle: $fursuitStyle, maker: $maker, exclude: $exclude, limit: $limit, offset: $offset) {
