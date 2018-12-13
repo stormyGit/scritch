@@ -761,13 +761,43 @@ export const LOAD_FURSUIT = gql`
       makers {
         name
       }
+      media {
+        id
+        slug
+        title
+        description
+        picture
+        thumbnail
+        width
+        height
+        completion
+        createdAt
+      }
+    }
+  }
+`;
+
+export const LOAD_LEG_TYPES = gql`
+  query fursuitLegTypes {
+    fursuitLegTypes {
+      id
+      name
+    }
+  }
+`;
+
+export const LOAD_STYLES = gql`
+  query fursuitStyles {
+    fursuitStyles {
+      id
+      name
     }
   }
 `;
 
 export const LOAD_FURSUITS = gql`
-  query Fursuits($name: String, $species: String, $legs: String, $style: String, $exclude: [ID!], $limit: Int!, $offset: Int!) {
-    fursuits(name: $name, fursuitSpecy: $species, fursuitLegType: $legs, fursuitStyle: $style, exclude: $exclude, limit: $limit, offset: $offset) {
+  query Fursuits($name: String, $fursuitSpecy: ID, $fursuitLegType: ID, $fursuitStyle: ID, $exclude: [ID!], $limit: Int!, $offset: Int!) {
+    fursuits(name: $name, fursuitSpecy: $fursuitSpecy, fursuitLegType: $fursuitLegType, fursuitStyle: $fursuitStyle, exclude: $exclude, limit: $limit, offset: $offset) {
       id
       name
       creationYear

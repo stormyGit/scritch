@@ -148,7 +148,10 @@ class TaggableMedia extends React.Component {
         {({ data: { media, users }, loading, error, fetchMore }) => (
           <React.Fragment>
             <div style={{padding: 5}}></div>
-            <Button size="large" className={classes.tagButton} onClick={() => this.setState({tagDialog: true})}>GET RANDOM PICS TO TAG</Button>
+            {
+              false &&
+              <Button size="large" className={classes.tagButton} onClick={() => this.setState({tagDialog: true})}>GET RANDOM PICS TO TAG</Button>
+            }
             <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
               {
                   !loading && !error &&

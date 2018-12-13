@@ -2,6 +2,13 @@ module Types
   class QueryType < Types::BaseObject
     include ActiveRecord::Sanitization::ClassMethods
 
+    field :fursuit_leg_types, [FursuitLegTypeType], null: false do
+      description "Find a medium by ID"
+    end
+    field :fursuit_styles, [FursuitStyleType], null: false do
+      description "Find a medium by ID"
+    end
+
     field :medium, MediumType, null: false do
       description "Find a medium by ID"
       argument :id, ID, required: true
@@ -144,9 +151,9 @@ module Types
       argument :limit, Integer, required: true
       argument :offset, Integer, required: true
       argument :exclude, [ID], required: false
-      argument :fursuit_specy, String, required: false
-      argument :fursuit_style, String, required: false
-      argument :fursuit_leg_type, String, required: false
+      argument :fursuit_specy, ID, required: false
+      argument :fursuit_style, ID, required: false
+      argument :fursuit_leg_type, ID, required: false
     end
 
     field :maker, MakerType, null: false do
@@ -169,6 +176,14 @@ module Types
       argument :name, String, required: false
     end
 
+    def fursuit_leg_types
+      FursuitLegType.all.order(:name)
+    end
+
+    def fursuit_styles
+      FursuitStyle.all.order(:name)
+    end
+
     def categories(arguments)
       categories = Category.all
 
@@ -184,18 +199,18 @@ module Types
     end
 
     def fursuits(arguments)
-      puts "\n\n\n\n\n#{arguments}\n\n\n\n\n\n"
+      puts "\n\n\n\n\n#{arguments}\n\n\n>>>>>\n\n\n"
       fursuits = Fursuit.all
       if arguments[:fursuit_specy].present?
-        fursuits = fursuits.where(fursuit_specy_id: FursuitSpecy.find_by(name: arguments[:fursuit_specy]))
+        fursuits = fursuits.where(fursuit_specy_id: FursuitSpecy.find(arguments[:fursuit_specy]))
       end
 
       if arguments[:fursuit_style].present?
-        fursuits = fursuits.where(fursuit_style_id: FursuitStyle.find_by(name: arguments[:fursuit_style]))
+        fursuits = fursuits.where(fursuit_style_id: FursuitStyle.find(arguments[:fursuit_style]))
       end
 
       if arguments[:fursuit_leg_type].present?
-        fursuits = fursuits.where(fursuit_leg_type_id: FursuitLegType.find_by(name: arguments[:fursuit_leg_type]))
+        fursuits = fursuits.where(fursuit_leg_type_id: FursuitLegType.find(arguments[:fursuit_leg_type]))
       end
 
       if arguments[:name].present?

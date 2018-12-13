@@ -23,7 +23,7 @@ import Background from '../photo.jpg'
 
 import { Link, withRouter } from 'react-router-dom';
 
-import Filters from './Filters';
+import FursuitFilters from './FursuitFilters';
 
 
 const styles = theme => ({
@@ -37,12 +37,10 @@ const styles = theme => ({
 class Fursuits extends React.Component {
   state = {
     hasMore: true,
-    criteria: {
-      name: "",
-      fursuit_specy: "",
-      fursuit_leg_type: "",
-      fursuit_style: "",
-    }
+    name: "",
+    fursuitSpecy: "",
+    fursuitLegType: "",
+    fursuitStyle: "",
   }
 
   renderResults({ data, horizontal, onLoadMore, hasMore }) {
@@ -102,15 +100,23 @@ class Fursuits extends React.Component {
     const { classes, location, width } = this.props;
     const query = {q: ""}//queryString.parse(location.search)
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
-    const criteria = this.state.criteria;
-
+    console.log(this.state)
     return (
-      <Query query={LOAD_FURSUITS} variables={ {...criteria, limit, offset: 0} }>
+      <Query query={LOAD_FURSUITS} variables={ {name: this.state.name, fursuitLegType: this.state.fursuitLegType, limit, offset: 0} }>
         {({ data, loading, error, fetchMore }) => (
           <React.Fragment>
-            <div style={{padding: 10}}>
-              <Filters currentFilter="Fursuits" onChange={(value) => {this.setState({criteria: value});}} />
-            </div>
+            <div style={{paddingTop: 8}}></div>
+            <FursuitFilters
+              onChange={
+                (value) => {
+                  console.log(value);
+                  this.setState({
+                    fursuitLegType: !value.fursuitLegType ? "" : value.fursuitLegType.value,
+                    name: value.name
+                  });
+                }
+              }
+            />
             <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
               {
                 !loading && !error &&

@@ -138,72 +138,65 @@ class Fursuit extends React.Component {
         {({ loading, error, data }) => {
           const fursuit = data ? data.fursuit : null;
 
+          console.log(fursuit);
           return (
             !loading && !error && fursuit &&
               <div className={classes.container} key={fursuit.id}>
                 <PageTitle>{!loading && fursuit ? fursuit.name : null}</PageTitle>
                 <Grid container spacing={8}>
                   <Grid item lg={9} xs={12}>
-
-                    <Query query={GET_MEDIA} variables={{ q: query.q, sort: this.props.sort, offset: 0, limit, fursuitId: fursuit.id }}>
-                      {({ data, loading, error, fetchMore }) => {
-                        if (loading || error) {
-                          return (null);
-                        }
-
-                        if (data.media.length === 0) {
-                          return (
-                            <EmptyList
-                              label={`${fursuit.name} doesn't have any pictures.`}
+                    <div className={classes.pictureInfo}>
+                    {
+                      fursuit.media.length === 0 &&
+                      <EmptyList
+                        label={`${fursuit.name} doesn't have any pictures.`}
+                      />
+                    }
+                    {
+                      fursuit.media.length > 0 &&
+                      <React.Fragment>
+                        <Grid container spacing={8}>
+                          <Grid item xs={12}>
+                            <Gallery
+                              customControls={[
+                                <Button color="secondary" key="goToImage" onClick={() => this.goToImage(fursuit.media)}>Go to picture</Button>
+                              ]}
+                              enableLightbox={true}
+                              enableImageSelection={false}
+                              backdropClosesModal
+                              currentImageWillChange={this.onCurrentImageChange}
+                              images={fursuit.media.map((medium) => ({
+                                src: medium.picture,
+                                thumbnail: medium.thumbnail,
+                                thumbnailWidth: medium.width / (medium.height / 256.0),
+                                thumbnailHeight: 256,
+                              }))}
                             />
-                          )
-                        }
+                          </Grid>
+                          {
+                            fursuit.media.length < fursuit.mediaCount &&
+                              <LoadMoreButton
+                                onClick={() => {
+                                  fetchMore({
+                                    variables: {
+                                      offset: fursuit.media.length,
+                                      limit
+                                    },
+                                    updateQuery: (prev, { fetchMoreResult }) => {
+                                      if (!fetchMoreResult) return prev;
 
-                        return (
-                          <React.Fragment>
-                            <Grid container spacing={8}>
-                              <Grid item xs={12}>
-                                <Gallery
-                                  customControls={[
-                                    <Button color="secondary" key="goToImage" onClick={() => this.goToImage(data.media)}>Go to picture</Button>
-                                  ]}
-                                  enableLightbox={true}
-                                  enableImageSelection={false}
-                                  backdropClosesModal
-                                  currentImageWillChange={this.onCurrentImageChange}
-                                  images={data.media.map((medium) => ({
-                                    src: medium.picture,
-                                    thumbnail: medium.thumbnail,
-                                    thumbnailWidth: medium.width / (medium.height / 256.0),
-                                    thumbnailHeight: 256,
-                                  }))}
-                                />
-                              </Grid>
-                              {
-                                data.media.length < fursuit.mediaCount &&
-                                  <LoadMoreButton
-                                    onClick={() => {
-                                      fetchMore({
-                                        variables: {
-                                          offset: data.media.length,
-                                          limit
-                                        },
-                                        updateQuery: (prev, { fetchMoreResult }) => {
-                                          if (!fetchMoreResult) return prev;
-
-                                          return Object.assign({}, prev, {
-                                            media: [...prev.media, ...fetchMoreResult.media]
-                                          });
-                                        }
+                                      return Object.assign({}, prev, {
+                                        media: [...prev.media, ...fetchMoreResult.media]
                                       });
-                                    }}
-                                  />
-                              }
-                            </Grid>
-                          </React.Fragment>
-                        );
-                      }}
-                    </Query>
+                                    }
+                                  });
+                                }}
+                              />
+                          }
+                        </Grid>
+                      </React.Fragment>
+                    }
+                    </div>
                   </Grid>
                   <Grid item lg={3} xs={12}>
                     <div className={classes.pictureInfo}>

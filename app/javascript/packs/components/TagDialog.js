@@ -125,6 +125,14 @@ class TagDialog extends React.Component {
     };
   }
 
+  isFormOk() {
+    if (this.state.fursuits.length > this.state.fursuitsCount)
+      return false
+    else if (this.state.fursuitsCount > 30)
+      return false
+    return true
+  }
+
   handleSearch(val) {
     if (this.state.query.length >= 1 && val.length < 1) {
       this.reset = true;
@@ -196,7 +204,7 @@ class TagDialog extends React.Component {
   render() {
     const { classes, open, onClose, loading, width, medium } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
-
+    console.log(123);
     if (open == false)
       return (null);
 
@@ -390,6 +398,7 @@ class TagDialog extends React.Component {
                       <div className={classes.loginButton}>
                         {
                           <Button
+                            disabled={!this.isFormOk()}
                             onClick={() => {
                               updateMedium({
                                 variables: {

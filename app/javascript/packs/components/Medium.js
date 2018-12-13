@@ -107,6 +107,10 @@ class Medium extends React.Component {
     editMedium: false
   }
 
+  goToFursuit(fursuit) {
+    this.props.history.push(`/fursuits/${fursuit}`);
+  }
+
   renderCommentsCount(count) {
     if (count === 0) {
       return (`No comments`);
@@ -226,7 +230,7 @@ class Medium extends React.Component {
                               medium.fursuits.map((fursuit) => (
                                 <Grid item lg={2} xs={2} key={fursuit.id}>
                                   <FursuitMiniCard
-                                    onClick={(e) => console.log(e)}
+                                    onClick={() => this.goToFursuit(fursuit.id)}
                                     fursuit={fursuit}
                                   />
                                 </Grid>

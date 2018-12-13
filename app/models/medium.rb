@@ -45,7 +45,7 @@ class Medium < ApplicationRecord
 
     if self.fursuits_count.present?
       completion += 10
-      completion += (50 * (1 / self.fursuits_count)) # self.fursuits.count / self.fursuits_count
+      completion += (50 * (self.fursuits.count / self.fursuits_count)) # self.fursuits.count / self.fursuits_count
     end
 
 
