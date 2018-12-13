@@ -15,10 +15,11 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { Link, withRouter } from 'react-router-dom';
 
-import { LOAD_LEG_TYPES } from '../queries'
+import { LOAD_LEG_TYPES, LOAD_STYLES, LOAD_SPECIES } from '../queries'
 
 import SearchBar from 'material-ui-search-bar';
 
@@ -101,6 +102,8 @@ class FursuitFilters extends React.Component {
     this.state = {
       expansion: false,
       fursuitLegType: null,
+      fursuitStyle: null,
+      fursuitSpecy: null,
       name: "",
     };
   }
@@ -109,8 +112,8 @@ class FursuitFilters extends React.Component {
   }
 
   clearFilters(filter) {
-    var criteria = {name: "", fursuitLegType: null};
-    this.setState({ name: "", fursuitLegType: null });
+    var criteria = {name: "", fursuitLegType: null, fursuitStyle: null, fursuitSpecy: null};
+    this.setState({ name: "", fursuitLegType: null, fursuitStyle: null, fursuitSpecy: null });
     this.props.onChange(criteria);
   }
 
@@ -135,6 +138,156 @@ class FursuitFilters extends React.Component {
       this.props.onChange({ ...this.state, name: "" });
       this.reset = false;
     }
+  }
+
+  renderFursuitLegsFilter() {
+    const {classes} = this.props;
+
+    return(
+      <Query query={LOAD_LEG_TYPES}>
+        {
+          ({ data, loading, error }) => {
+            if (error || !data) {
+              return null;
+            }
+            if (loading) {
+              return (
+                <Grid item xs={4}>
+                  <CircularProgress />
+                </Grid>
+              )
+            }
+
+            const legList = [];
+            data.fursuitLegTypes.map((e) => legList.push({value: e.id, label: e.name}));
+
+            return (
+              <Grid item xs={4}>
+                <Select
+                  fullWidth
+                  placeholder="Leg Type"
+                  isSearchable
+                  value={this.state.fursuitLegType}
+                  onChange={
+                    (legType) => {
+                      this.setState({fursuitLegType: legType});
+                      this.props.onChange({
+                        name: this.state.name,
+                        fursuitSpecy: this.state.fursuitSpecy,
+                        fursuitStyle: this.state.fursuitStyle,
+                        fursuitLegType: legType
+                      })
+                    }
+                  }
+                  options={legList}
+                  className={classes.selectInput}
+                />
+              </Grid>
+            );
+          }
+        }
+      </Query>
+    );
+  }
+
+  renderFursuitStylesFilter() {
+    const {classes} = this.props;
+
+    return(
+      <Query query={LOAD_STYLES}>
+        {
+          ({ data, loading, error }) => {
+            if (error || !data) {
+              return null;
+            }
+            if (loading) {
+              return (
+                <Grid item xs={4}>
+                  <CircularProgress />
+                </Grid>
+              )
+            }
+
+            const stylesList = [];
+            data.fursuitStyles.map((e) => stylesList.push({value: e.id, label: e.name}));
+
+            return (
+              <Grid item xs={4}>
+                <Select
+                  fullWidth
+                  placeholder="Style"
+                  isSearchable
+                  value={this.state.fursuitStyle}
+                  onChange={
+                    (style) => {
+                      this.setState({fursuitStyle: style});
+                      this.props.onChange({
+                        name: this.state.name,
+                        fursuitSpecy: this.state.fursuitSpecy,
+                        fursuitLegType: this.state.fursuitLegType,
+                        fursuitStyle: style
+                      })
+                    }
+                  }
+                  options={stylesList}
+                  className={classes.selectInput}
+                />
+              </Grid>
+            );
+          }
+        }
+      </Query>
+    );
+  }
+
+  renderFursuitSpeciesFilter() {
+    const {classes} = this.props;
+
+    return(
+      <Query query={LOAD_SPECIES}>
+        {
+          ({ data, loading, error }) => {
+            if (error || !data) {
+              return null;
+            }
+            if (loading) {
+              return (
+                <Grid item xs={4}>
+                  <CircularProgress />
+                </Grid>
+              )
+            }
+
+            const speciesList = [];
+            data.fursuitSpecies.map((e) => speciesList.push({value: e.id, label: e.name}));
+
+            return (
+              <Grid item xs={4}>
+                <Select
+                  fullWidth
+                  placeholder="Species"
+                  isSearchable
+                  value={this.state.fursuitSpecy}
+                  onChange={
+                    (style) => {
+                      this.setState({fursuitSpecy: style});
+                      this.props.onChange({
+                        name: this.state.name,
+                        fursuitLegType: this.state.fursuitLegType,
+                        fursuitStyle: this.state.fursuitStyle,
+                        fursuitSpecy: style
+                      })
+                    }
+                  }
+                  options={speciesList}
+                  className={classes.selectInput}
+                />
+              </Grid>
+            );
+          }
+        }
+      </Query>
+    );
   }
 
   renderFilters() {
@@ -164,38 +317,13 @@ class FursuitFilters extends React.Component {
                     />
                   </Grid>
                   {
-                    <Query query={LOAD_LEG_TYPES}>
-                      {
-                        ({ data, loading, error }) => {
-                          if (loading || error || !data) {
-                            return null;
-                          }
-
-                          const legList = [];
-                          data.fursuitLegTypes.map((e) => legList.push({value: e.id, label: e.name}));
-
-                          return (
-                            <Grid item xs={4}>
-                              <Select
-                                fullWidth
-                                placeholder="Leg Type"
-                                isSearchable
-                                value={this.state.fursuitLegType}
-                                onChange={
-                                  (legType) => {
-                                    console.log(legType);
-                                    this.setState({fursuitLegType: legType});
-                                    this.props.onChange({ name: this.state.name, fursuitLegType: legType })
-                                  }
-                                }
-                                options={legList}
-                                className={classes.selectInput}
-                              />
-                            </Grid>
-                          );
-                        }
-                      }
-                    </Query>
+                    this.renderFursuitLegsFilter()
+                  }
+                  {
+                    this.renderFursuitStylesFilter()
+                  }
+                  {
+                    this.renderFursuitSpeciesFilter()
                   }
                   {
                     false &&

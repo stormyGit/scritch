@@ -8,6 +8,9 @@ module Types
     field :fursuit_styles, [FursuitStyleType], null: false do
       description "Find a medium by ID"
     end
+    field :fursuit_species, [FursuitSpecyType], null: false do
+      description "Find a medium by ID"
+    end
 
     field :medium, MediumType, null: false do
       description "Find a medium by ID"
@@ -184,6 +187,10 @@ module Types
       FursuitStyle.all.order(:name)
     end
 
+    def fursuit_species
+      FursuitSpecy.all.order(:name)
+    end
+
     def categories(arguments)
       categories = Category.all
 
@@ -211,6 +218,10 @@ module Types
 
       if arguments[:fursuit_leg_type].present?
         fursuits = fursuits.where(fursuit_leg_type_id: FursuitLegType.find(arguments[:fursuit_leg_type]))
+      end
+
+      if arguments[:maker].present?
+        fursuits = fursuits.joins(:makers).where("makers.id = ?", arguments[:maker])
       end
 
       if arguments[:name].present?

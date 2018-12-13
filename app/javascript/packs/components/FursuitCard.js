@@ -80,6 +80,8 @@ const styles = theme => ({
     marginRight: theme.spacing.unit
   },
   content: {
+    paddingTop: theme.spacing.unit * 1,
+    paddingBottom: theme.spacing.unit * 1
   },
   tags: {
     overflow: "hidden",
@@ -92,6 +94,9 @@ const styles = theme => ({
   chip: {
     marginRight: theme.spacing.unit,
   },
+  text: {
+    fontWeight: 200
+  }
 });
 
 const GET_ACTIVE_PREVIEW = gql`
@@ -144,7 +149,7 @@ class FursuitCard extends React.Component {
 
     return (
       <CardContent className={classes.content}>
-        <Typography gutterBottom variant="h5" component="h2" className={classes.text}  noWrap={!horizontal}>
+        <Typography gutterBottom variant="h6" component="h4" className={classes.text}  noWrap={!horizontal}>
           {fursuit.name}
         </Typography>
       </CardContent>

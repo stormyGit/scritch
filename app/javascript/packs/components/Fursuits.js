@@ -98,11 +98,22 @@ class Fursuits extends React.Component {
 
   render() {
     const { classes, location, width } = this.props;
-    const query = {q: ""}//queryString.parse(location.search)
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
     console.log(this.state)
     return (
-      <Query query={LOAD_FURSUITS} variables={ {name: this.state.name, fursuitLegType: this.state.fursuitLegType, limit, offset: 0} }>
+      <Query
+        query={LOAD_FURSUITS}
+        variables={
+          {
+            name: this.state.name,
+            fursuitLegType: this.state.fursuitLegType,
+            fursuitStyle: this.state.fursuitStyle,
+            fursuitSpecy: this.state.fursuitSpecy,
+            limit,
+            offset: 0
+          }
+        }
+      >
         {({ data, loading, error, fetchMore }) => (
           <React.Fragment>
             <div style={{paddingTop: 8}}></div>
@@ -111,6 +122,8 @@ class Fursuits extends React.Component {
                 (value) => {
                   console.log(value);
                   this.setState({
+                    fursuitStyle: !value.fursuitStyle ? "" : value.fursuitStyle.value,
+                    fursuitSpecy: !value.fursuitSpecy ? "" : value.fursuitSpecy.value,
                     fursuitLegType: !value.fursuitLegType ? "" : value.fursuitLegType.value,
                     name: value.name
                   });
@@ -122,7 +135,7 @@ class Fursuits extends React.Component {
                 !loading && !error &&
                   this.renderResults({
                     data,
-                    horizontal: (query.q && query.q.length > 0 && (width === 'lg' || width === 'xl')),
+                    horizontal: false,
                     hasMore: ((data.fursuits.length % limit) === 0 && this.state.hasMore && data.fursuits.length > 0),
                     onLoadMore: () => {
                       fetchMore({
