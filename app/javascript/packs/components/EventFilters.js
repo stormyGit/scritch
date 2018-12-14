@@ -96,13 +96,13 @@ const styles = theme => {
   });
 };
 
-class MakerFilters extends React.Component {
+class EventFilters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       expansion: false,
       name: "",
-      country: null,
+      country: "",
     };
   }
   componentDidMount() {
@@ -226,4 +226,4 @@ class MakerFilters extends React.Component {
   }
 }
 
-export default withStyles(styles)(MakerFilters);
+export default withStyles(styles)(EventFilters);

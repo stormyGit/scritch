@@ -23,7 +23,7 @@ import Background from '../photo.jpg'
 
 import { Link, withRouter } from 'react-router-dom';
 
-import Filters from './Filters';
+import EventFilters from './EventFilters';
 
 
 const styles = theme => ({
@@ -31,6 +31,9 @@ const styles = theme => ({
     width: '100%',
     padding: theme.spacing.unit * 1,
     paddingRight: 0
+  },
+  filters: {
+    padding: theme.spacing.unit * 1
   }
 });
 
@@ -39,6 +42,7 @@ class Events extends React.Component {
     hasMore: true,
     criteria: {
       name: "",
+      country: ""
     }
   }
 
@@ -105,8 +109,18 @@ class Events extends React.Component {
       <Query query={LOAD_EVENTS} variables={ {...criteria, limit, offset: 0} }>
         {({ data, loading, error, fetchMore }) => (
           <React.Fragment>
-            <div style={{padding: 10}}>
-              <Filters currentFilter="Events" onChange={(value) => { this.setState({criteria: value});}} />
+            <div className={classes.filters}>
+              <EventFilters
+                onChange={
+                  (value) => {
+                    console.log(value);
+                    this.setState({
+                      country: !value.country ? "" : value.country.value,
+                      name: value.name
+                    });
+                  }
+                }
+              />
             </div>
             <Grid container className={classes.root} spacing={8} style={{ marginTop: (width === 'lg' || width ===  'xl') ? 4 : -4 }}>
               {

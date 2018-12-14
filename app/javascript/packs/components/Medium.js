@@ -99,6 +99,9 @@ const styles = theme => ({
     height: 'calc(100vh - 56px)',
     objectFit: 'contain'
   },
+  fursuitLink: {
+    textDecoration: 'none'
+  }
 
 });
 
@@ -229,10 +232,12 @@ class Medium extends React.Component {
                               medium.fursuits.length != 0 &&
                               medium.fursuits.map((fursuit) => (
                                 <Grid item lg={2} xs={2} key={fursuit.id}>
-                                  <FursuitMiniCard
-                                    onClick={() => this.goToFursuit(fursuit.id)}
-                                    fursuit={fursuit}
-                                  />
+                                  <Link to={`/fursuits/${fursuit.slug}-${fursuit.id}`} className={classes.fursuitLink}>
+                                    <FursuitMiniCard
+                                      onClick={() => {}}
+                                      fursuit={fursuit}
+                                    />
+                                  </Link>
                                 </Grid>
                               ))
                             }

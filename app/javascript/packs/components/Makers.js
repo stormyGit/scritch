@@ -31,6 +31,9 @@ const styles = theme => ({
     width: '100%',
     padding: theme.spacing.unit * 1,
     paddingRight: 0
+  },
+  filters: {
+    padding: theme.spacing.unit * 1
   }
 });
 
@@ -98,14 +101,13 @@ class Makers extends React.Component {
 
   render() {
     const { classes, location, width } = this.props;
-    const query = {q: ""}//queryString.parse(location.search)
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
       <Query query={LOAD_MAKERS} variables={ { name: this.state.name, country: this.state.country, limit, offset: 0} }>
         {({ data, loading, error, fetchMore }) => (
           <React.Fragment>
-            <div style={{padding: 10}}>
+            <div className={classes.filters}>
               <MakerFilters
                 onChange={
                   (value) => {
@@ -123,7 +125,7 @@ class Makers extends React.Component {
                 !loading && !error &&
                   this.renderResults({
                     data,
-                    horizontal: (query.q && query.q.length > 0 && (width === 'lg' || width === 'xl')),
+                    horizontal: false,
                     hasMore: ((data.makers.length % limit) === 0 && this.state.hasMore && data.makers.length > 0),
                     onLoadMore: () => {
                       fetchMore({

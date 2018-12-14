@@ -80,6 +80,8 @@ const styles = theme => ({
     marginRight: theme.spacing.unit
   },
   content: {
+    textAlign: 'center',
+    padding: theme.spacing.unit * 1,
   },
   tags: {
     overflow: "hidden",
@@ -126,7 +128,7 @@ class FursuitMiniCard extends React.Component {
             className={classes.avatar}
           />
         </Grid>
-        <Grid item lg={12} xs={12}>
+        <Grid item lg={12} xs={12} className={classes.content}>
           <Typography gutterBottom variant="h6" component="h5" className={classes.text} noWrap>
             {fursuit.name}
           </Typography>
