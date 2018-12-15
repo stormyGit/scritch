@@ -20,17 +20,17 @@ class Mutations::UpdateMedium < Mutations::BaseMutation
 
     raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).update?
 
-    medium.completion = medium.get_completion()
+    if arguments[:fursuits].present?
+      FursuitMedium.where(medium_id: medium.id).each do |old|
+        old.destroy
+      end
+      arguments[:fursuits].each do |fursuit|
+        FursuitMedium.create(medium_id: medium.id, fursuit_id: fursuit)
+      end
+    end
 
     if medium.save
-      if arguments[:fursuits].present?
-        FursuitMedium.where(medium_id: medium.id).each do |old|
-          old.destroy
-        end
-        arguments[:fursuits].each do |fursuit|
-          FursuitMedium.create(medium_id: medium.id, fursuit_id: fursuit)
-        end
-      end
+      medium.update!(completion: medium.get_completion())
       {
         medium: medium,
         errors: [],

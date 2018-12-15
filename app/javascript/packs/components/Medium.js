@@ -28,6 +28,7 @@ import CommentForm from './CommentForm';
 import FormattedText from './FormattedText';
 import LikeButton from './LikeButton';
 import EditMediumDialog from './EditMediumDialog';
+import TagDialog from './TagDialog';
 import Comments from './Comments';
 import UnderReview from './UnderReview';
 import withCurrentSession from './withCurrentSession';
@@ -107,7 +108,8 @@ const styles = theme => ({
 
 class Medium extends React.Component {
   state = {
-    editMedium: false
+    editMedium: false,
+    tagMedium: false
   }
 
   goToFursuit(fursuit) {
@@ -212,7 +214,7 @@ class Medium extends React.Component {
                             />
                           </Grid>
                           {
-                            currentSession && medium.user.id === currentSession.user.id &&
+                            currentSession && (medium.user.id === currentSession.user.id || currentSession.user.moderator) &&
                               <Grid item>
                                 <Button
                                   onClick={() => this.setState({ editMedium: true })}
@@ -222,11 +224,25 @@ class Medium extends React.Component {
                                 </Button>
                               </Grid>
                           }
+                          {
+                            currentSession && medium.user.id !== currentSession.user.id && medium.completion != 100 &&
+                              <Grid item>
+                                <Button
+                                  onClick={() => this.setState({ tagMedium: true })}
+                                  variant="outlined"
+                                >
+                                  Tag Picture
+                                </Button>
+                              </Grid>
+                          }
                         </Grid>
                         <div className={classes.tags}>
-                          <Typography gutterBottom variant="subtitle1" noWrap>
-                            {"Fursuits"}
-                          </Typography>
+                          {
+                            medium.fursuits.length != 0 &&
+                            <Typography gutterBottom variant="subtitle1" noWrap>
+                              {"Fursuits"}
+                            </Typography>
+                          }
                           <Grid container spacing={8} >
                             {
                               medium.fursuits.length != 0 &&
@@ -282,6 +298,11 @@ class Medium extends React.Component {
                 <EditMediumDialog
                   open={this.state.editMedium}
                   onClose={() => this.setState({ editMedium: false })}
+                  medium={medium}
+                />
+                <TagDialog
+                  open={this.state.tagMedium}
+                  onClose={() => this.setState({ tagMedium: false })}
                   medium={medium}
                 />
               </div>

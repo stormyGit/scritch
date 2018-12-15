@@ -24,10 +24,10 @@ class MediumDeletionDialog extends React.Component {
         onClose={onClose}
       >
         <GlobalProgress absolute />
-        <DialogTitle>{"Are you sure you want to delete this video?"}</DialogTitle>
+        <DialogTitle>{"Are you sure you want to delete this picture?"}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Upon confirmation, your video and all resources attached to it will be permanently deleted.
+            Upon confirmation, your picture and all resources attached to it will be permanently deleted.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
