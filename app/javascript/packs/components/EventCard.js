@@ -80,6 +80,11 @@ const styles = theme => ({
     marginRight: theme.spacing.unit
   },
   content: {
+    textAlign: 'center',
+    padding: theme.spacing.unit * 1,
+  },
+  text: {
+    fontWeight: 200
   },
   tags: {
     overflow: "hidden",

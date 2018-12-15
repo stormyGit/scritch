@@ -90,7 +90,7 @@ class Events extends React.Component {
         {
           data.events.map((event) => (
             <Grid item xs={4} md={3} lg={2} key={event.id}>
-              <EventCard event={event} />
+              <EventCard event={event} EventId={event.id} />
             </Grid>
           ))
         }

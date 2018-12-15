@@ -79,10 +79,7 @@ const styles = theme => ({
   leftIcon: {
     marginRight: theme.spacing.unit
   },
-  content: {
-    textAlign: 'center',
-    padding: theme.spacing.unit * 1,
-  },
+
   tags: {
     overflow: "hidden",
     maxHeight: theme.spacing.unit * 6,
@@ -93,6 +90,10 @@ const styles = theme => ({
   },
   chip: {
     marginRight: theme.spacing.unit,
+  },
+  content: {
+    textAlign: 'center',
+    padding: theme.spacing.unit * 1,
   },
   text: {
     fontWeight: 200

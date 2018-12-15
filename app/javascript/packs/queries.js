@@ -681,6 +681,21 @@ export const DELETE_LIKE = gql`
   }
 `;
 
+export const LOAD_EVENT = gql`
+  query Event($id: ID!) {
+    event(id: $id) {
+      id
+      name
+      slug
+      editions {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
+
 export const LOAD_MAKER = gql`
   query Maker($id: ID!) {
     maker(id: $id) {

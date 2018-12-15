@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Medium from './Medium';
 import Fursuit from './Fursuit';
 import Maker from './Maker';
+import Event from './Event';
 import LatestPictures from './LatestPictures';
 import TagPage from './TagPage';
 import Trending from './Trending';
@@ -27,6 +28,7 @@ class AppRouter extends React.Component {
                 <Route exact path='/pictures/:id' component={Medium} />
                 <Route exact path='/fursuits/:id' component={Fursuit} />
                 <Route exact path='/makers/:id' component={Maker} />
+                <Route exact path='/events/:id' component={Event} />
                 <Route exact path='/:id' component={User} />
                 <Route exact path='/:id/:tab' component={User} />
               </Switch>
