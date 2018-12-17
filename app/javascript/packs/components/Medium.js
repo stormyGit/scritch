@@ -29,6 +29,7 @@ import FormattedText from './FormattedText';
 import LikeButton from './LikeButton';
 import EditMediumDialog from './EditMediumDialog';
 import TagDialog from './TagDialog';
+import ReportDialog from './ReportDialog';
 import Comments from './Comments';
 import UnderReview from './UnderReview';
 import withCurrentSession from './withCurrentSession';
@@ -36,6 +37,11 @@ import SocialButton from './SocialButton';
 import TwitterIcon from '../icons/Twitter';
 import TelegramIcon from '../icons/Telegram';
 import countFormat from '../countFormat';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import withWidth from '@material-ui/core/withWidth';
+import OutlinedFlag from '@material-ui/icons/OutlinedFlag';
 
 const styles = theme => ({
   container: {
@@ -108,8 +114,11 @@ const styles = theme => ({
 
 class Medium extends React.Component {
   state = {
+    menuAnchor: null,
     editMedium: false,
-    tagMedium: false
+    showMenuButton: false,
+    tagMedium: false,
+    reportDialog: false
   }
 
   goToFursuit(fursuit) {
@@ -127,7 +136,7 @@ class Medium extends React.Component {
   }
 
   render() {
-    const { classes, match, currentSession } = this.props;
+    const { classes, match, currentSession, width } = this.props;
 
     return (
       <Query query={GET_MEDIUM} variables={{ id: match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0] }}>
@@ -212,7 +221,15 @@ class Medium extends React.Component {
                               title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}
                               subheader={medium.createdAt ? timeAgo.format(dayjs(medium.createdAt).toDate()) : 'Under review'}
                             />
-                          </Grid>
+                            </Grid>
+                            <Grid item style={{ flexShrink: 0 }}>
+                              <IconButton
+                                onClick={() => this.setState({ reportDialog: true })}
+                                color="secondary"
+                              >
+                                <OutlinedFlag />
+                              </IconButton>
+                            </Grid>
                           {
                             currentSession && (medium.user.id === currentSession.user.id || currentSession.user.moderator) &&
                               <Grid item>
@@ -305,6 +322,12 @@ class Medium extends React.Component {
                   onClose={() => this.setState({ tagMedium: false })}
                   medium={medium}
                 />
+                <ReportDialog
+                  open={this.state.reportDialog}
+                  onClose={() => this.setState({ reportDialog: false })}
+                  resource="medium"
+                  resourceId={medium.id}
+                />
               </div>
           );
         }}
@@ -313,4 +336,4 @@ class Medium extends React.Component {
   }
 }
 
-export default withStyles(styles)(withCurrentSession(Medium));
+export default withStyles(styles)(withCurrentSession(withWidth()(Medium)));
