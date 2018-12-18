@@ -22,6 +22,7 @@ import FormattedText from "./FormattedText";
 import UserAvatar from "./UserAvatar";
 import Comments from "./Comments";
 import CommentForm from "./CommentForm";
+import ReportDialog from "./ReportDialog";
 import withCurrentSession from "./withCurrentSession";
 import countFormat from "../countFormat";
 
@@ -67,7 +68,9 @@ class Comment extends React.Component {
   state = {
     menuAnchor: null,
     showMenuButton: false,
-    replyExpanded: false
+    replyExpanded: false,
+    reportDialog: false,
+    reportComment: null
   };
 
   render() {
@@ -118,7 +121,7 @@ class Comment extends React.Component {
                   }
                   style={{
                     visibility:
-                      canDelete &&
+                      currentSession &&
                       (this.state.showMenuButton ||
                         (width !== "xl" && width !== "lg"))
                         ? "visible"
@@ -217,6 +220,18 @@ class Comment extends React.Component {
                     )}
                   </Mutation>
                 )}
+                {currentSession && currentSession.user.id != comment.user.id && (
+                  <MenuItem
+                    onClick={() => {
+                      this.setState({
+                        reportDialog: true,
+                        reportComment: comment.id
+                      });
+                    }}
+                  >
+                    Report
+                  </MenuItem>
+                )}
               </Menu>
             </div>
           }
@@ -284,6 +299,14 @@ class Comment extends React.Component {
             </ExpansionPanelDetails>
           </ExpansionPanel>
         )}
+        <ReportDialog
+          open={this.state.reportDialog}
+          onClose={() =>
+            this.setState({ reportDialog: false, reportComment: null })
+          }
+          resource="comment"
+          resourceId={this.state.reportComment}
+        />
       </div>
     );
   }
