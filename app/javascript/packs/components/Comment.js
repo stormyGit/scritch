@@ -101,12 +101,6 @@ class Comment extends React.Component {
               <UserAvatar user={comment.user} />
             </Link>
           }
-          onMouseEnter={() => {
-            this.setState({ showMenuButton: true });
-          }}
-          onMouseLeave={() => {
-            this.setState({ showMenuButton: false });
-          }}
           action={
             <div>
               {
@@ -120,12 +114,7 @@ class Comment extends React.Component {
                     this.setState({ menuAnchor: event.currentTarget })
                   }
                   style={{
-                    visibility:
-                      currentSession &&
-                      (this.state.showMenuButton ||
-                        (width !== "xl" && width !== "lg"))
-                        ? "visible"
-                        : "hidden"
+                    visibility: currentSession
                   }}
                 >
                   <MoreVertIcon />

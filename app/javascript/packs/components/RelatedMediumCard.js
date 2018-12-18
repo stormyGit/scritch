@@ -120,9 +120,7 @@ class MediumCard extends React.Component {
         elevation={0}
       >
         <CardActionArea
-          component={props => (
-            <Link to={`/pictures/${medium.slug}-${medium.id}`} {...props} />
-          )}
+          component={props => <Link to={`/pictures/${medium.id}`} {...props} />}
           className={classes.horizontalMediaContainer}
         >
           {this.renderMedia()}
@@ -130,7 +128,7 @@ class MediumCard extends React.Component {
         <div className={classes.horizontalContent}>
           <CardActionArea
             component={props => (
-              <Link to={`/pictures/${medium.slug}-${medium.id}`} {...props} />
+              <Link to={`/pictures/${medium.id}`} {...props} />
             )}
             className={classes.horizontalInfos}
           >
