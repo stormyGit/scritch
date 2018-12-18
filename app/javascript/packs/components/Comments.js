@@ -1,13 +1,13 @@
-import React from 'react';
-import { Query } from 'react-apollo';
-import { GET_COMMENTS_BY_MEDIUM } from '../queries';
-import Comment from './Comment';
-import LoadMoreButton from './LoadMoreButton';
+import React from "react";
+import { Query } from "react-apollo";
+import { GET_COMMENTS_BY_MEDIUM } from "../queries";
+import Comment from "./Comment";
+import LoadMoreButton from "./LoadMoreButton";
 
 class Comments extends React.Component {
   state = {
     lastPageEmpty: false
-  }
+  };
 
   render() {
     const { medium, parent, commentsCount } = this.props;
@@ -17,23 +17,31 @@ class Comments extends React.Component {
     return (
       <Query
         query={GET_COMMENTS_BY_MEDIUM}
-        variables={{ mediumId: medium.id, parentId: (parent ? parent.id : null), offset, limit }}
-       
+        variables={{
+          mediumId: medium.id,
+          parentId: parent ? parent.id : null,
+          offset,
+          limit
+        }}
       >
         {({ data, loading, error, fetchMore }) => {
           if (loading || error) {
-            return (null);
+            return null;
           }
 
           return (
             <React.Fragment>
-              {
-                data.commentsByMedium.map((comment) => (
-                  <Comment comment={comment} medium={medium} key={comment.id} disableReply={parent ? true : false} />
-                ))
-              }
-              {
-                data.commentsByMedium.length < commentsCount && data.commentsByMedium.length === 0 && !this.state.lastPageEmpty &&
+              {data.commentsByMedium.map(comment => (
+                <Comment
+                  comment={comment}
+                  medium={medium}
+                  key={comment.id}
+                  disableReply={parent ? true : false}
+                />
+              ))}
+              {data.commentsByMedium.length < commentsCount &&
+                data.commentsByMedium.length === 0 &&
+                !this.state.lastPageEmpty && (
                   <LoadMoreButton
                     noMargin
                     onClick={() => {
@@ -50,13 +58,16 @@ class Comments extends React.Component {
                           }
 
                           return Object.assign({}, prev, {
-                            commentsByMedium: [...prev.commentsByMedium, ...fetchMoreResult.commentsByMedium]
+                            commentsByMedium: [
+                              ...prev.commentsByMedium,
+                              ...fetchMoreResult.commentsByMedium
+                            ]
                           });
                         }
                       });
                     }}
                   />
-              }
+                )}
             </React.Fragment>
           );
         }}

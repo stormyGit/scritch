@@ -1,22 +1,22 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import DrawerMenu from './DrawerMenu';
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
+import DrawerMenu from "./DrawerMenu";
 
 const drawerWidth = 301;
 
 const styles = theme => {
-  return ({
+  return {
     drawerPadder: {
       // width: drawerWidth,
-      height: '100%',
+      height: "100%",
       flexShrink: 0
     },
     drawerPaper: {
-      minWidth: drawerWidth,
+      minWidth: drawerWidth
     }
-  })
+  };
 };
 
 class TemporaryDrawer extends React.Component {
@@ -28,7 +28,7 @@ class TemporaryDrawer extends React.Component {
       <SwipeableDrawer
         variant="temporary"
         classes={{
-          paper: classes.drawerPaper,
+          paper: classes.drawerPaper
         }}
         open={this.props.open}
         onOpen={this.props.onOpen}

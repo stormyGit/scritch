@@ -9,8 +9,8 @@ class Fursuit < ApplicationRecord
   belongs_to :fursuit_specy, optional: true
   belongs_to :fursuit_leg_type, optional: true
 
-  has_one_attached :avatar
 
+  mount_base64_uploader :avatar, AvatarUploader
   # has_many :fursuit_users, dependent: :destroy
   # has_many :users, through: :fursuit_users
   #

@@ -1,8 +1,8 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
 
-import { Query } from 'react-apollo';
-import {LOAD_PHOTOGRAPHERS} from "../queries"
+import { Query } from "react-apollo";
+import { LOAD_PHOTOGRAPHERS } from "../queries";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -12,33 +12,31 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
 
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter } from "react-router-dom";
 
-import Filters from './Filters';
-
+import Filters from "./Filters";
 
 const styles = theme => {
-  return ({
+  return {
     root: {
-      flexGrow: 1,
+      flexGrow: 1
     },
     title: {
       color: theme.palette.primary.main,
-      fontFamily: 'Indie Flower',
-      textAlign: 'center',
-      fontSize: '5em'
+      fontFamily: "Indie Flower",
+      textAlign: "center",
+      fontSize: "5em"
     },
     subtitle: {
       color: theme.palette.primary.main,
-      fontFamily: 'Indie Flower',
-      fontSize: '3em',
-      textDecoration: 'none'
-
+      fontFamily: "Indie Flower",
+      fontSize: "3em",
+      textDecoration: "none"
     },
     content: {
       color: theme.palette.primary.main,
-      fontFamily: 'Ubuntu',
-      fontSize: '1em'
+      fontFamily: "Ubuntu",
+      fontSize: "1em"
     },
     grid: {
       paddingLeft: 5,
@@ -46,32 +44,31 @@ const styles = theme => {
     },
     paper: {
       padding: theme.spacing.unit * 2,
-      textAlign: 'center',
+      textAlign: "center",
       color: theme.palette.text.primary,
-      maxWidth: 400,
+      maxWidth: 400
     },
     filtersPaper: {
       padding: theme.spacing.unit * 2,
       height: 100,
-      borderRadius: 15,
+      borderRadius: 15
       // boxShadow: '0 1px 3px 3px rgba(255, 255, 255, 0.7)'
     },
     searchBar: {
-      width: '100%'
+      width: "100%"
     },
     filters: {
-      textAlign: 'center'
+      textAlign: "center"
     },
     link: {
-      textDecoration: 'none'
+      textDecoration: "none"
     },
     grid: {
-      textDecoration: 'none'
-
+      textDecoration: "none"
     },
     paper: {
       padding: theme.spacing.unit * 2,
-      backgroundColor: theme.palette.secondary.dark,
+      backgroundColor: theme.palette.secondary.dark
     },
     back: {
       backgroundColor: theme.palette.secondary.main
@@ -80,12 +77,12 @@ const styles = theme => {
       color: theme.palette.primary.main,
       "&:before": {
         borderColor: "white"
-      },
+      }
     },
     icon: {
-      fill: 'white'
+      fill: "white"
     }
-  });
+  };
 };
 
 class Photographers extends React.Component {
@@ -98,42 +95,56 @@ class Photographers extends React.Component {
       }
     };
   }
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   renderPhotographerList() {
-    const {classes} = this.props;
+    const { classes } = this.props;
 
     // TODO ASSET CARD COMPONENT
     return (
       <Query query={LOAD_PHOTOGRAPHERS} variables={this.state.criteria}>
         {({ data, loading, error }) => {
           if (loading) {
-            var progress = <LinearProgress classes={{ colorPrimary: classes.colorPrimary, barColorPrimary: classes.barColorPrimary }} />
-            if (!data)
-              return (null);
-          }
-          else if (error) {
-            return (null);
-          }
-          else
-            var progress = null
+            var progress = (
+              <LinearProgress
+                classes={{
+                  colorPrimary: classes.colorPrimary,
+                  barColorPrimary: classes.barColorPrimary
+                }}
+              />
+            );
+            if (!data) return null;
+          } else if (error) {
+            return null;
+          } else var progress = null;
 
           return (
             <div>
               {progress}
-              <div style={{padding: 8}}>
-                <Grid container spacing={16} >
-                {
-                  data.photographers &&
-                  data.photographers.map((photographer) => (
-                    <Grid key={photographer.id} item xs={12} lg={6} className={classes.grid} component={(props) => <Link to={`/photographers/${photographer.slug}`} {...props} />}>
-                      <Paper className={classes.paper} >
-                        <Typography className={classes.subtitle}>{photographer.name}</Typography>
-                      </Paper>
-                    </Grid>
-                  ))
-                }
+              <div style={{ padding: 8 }}>
+                <Grid container spacing={16}>
+                  {data.photographers &&
+                    data.photographers.map(photographer => (
+                      <Grid
+                        key={photographer.id}
+                        item
+                        xs={12}
+                        lg={6}
+                        className={classes.grid}
+                        component={props => (
+                          <Link
+                            to={`/photographers/${photographer.slug}`}
+                            {...props}
+                          />
+                        )}
+                      >
+                        <Paper className={classes.paper}>
+                          <Typography className={classes.subtitle}>
+                            {photographer.name}
+                          </Typography>
+                        </Paper>
+                      </Grid>
+                    ))}
                 </Grid>
               </div>
             </div>
@@ -144,11 +155,16 @@ class Photographers extends React.Component {
   }
 
   render() {
-    const {classes, photographers} = this.props;
+    const { classes, photographers } = this.props;
 
     return (
       <div>
-        <Filters currentFilter="Photographers" onChange={(value) => {this.setState({criteria: value});}} />
+        <Filters
+          currentFilter="Photographers"
+          onChange={value => {
+            this.setState({ criteria: value });
+          }}
+        />
         {this.renderPhotographerList()}
       </div>
     );

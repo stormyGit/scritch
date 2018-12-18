@@ -26,6 +26,6 @@ const years = [
   1994,
   1993,
   1992
-]
+];
 
 export { years };

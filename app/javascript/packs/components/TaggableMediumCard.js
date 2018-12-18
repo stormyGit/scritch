@@ -1,98 +1,97 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
-import { Query, withApollo } from 'react-apollo';
-import { withStyles } from '@material-ui/core/styles';
-import withWidth from '@material-ui/core/withWidth';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardHeader from '@material-ui/core/CardHeader';
-import Button from '@material-ui/core/Button';
-import Chip from '@material-ui/core/Chip';
-import IconButton from '@material-ui/core/IconButton';
-import Avatar from '@material-ui/core/Avatar';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import CommentIcon from '@material-ui/icons/Comment';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import TagIcon from '@material-ui/icons/AssignmentTurnedIn';
-import NoFavoriteIcon from '@material-ui/icons/FavoriteBorder';
-import dayjs from 'dayjs';
-import queryString from 'query-string';
+import React from "react";
+import PropTypes from "prop-types";
+import gql from "graphql-tag";
+import { Query, withApollo } from "react-apollo";
+import { withStyles } from "@material-ui/core/styles";
+import withWidth from "@material-ui/core/withWidth";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import CardHeader from "@material-ui/core/CardHeader";
+import Button from "@material-ui/core/Button";
+import Chip from "@material-ui/core/Chip";
+import IconButton from "@material-ui/core/IconButton";
+import Avatar from "@material-ui/core/Avatar";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import CommentIcon from "@material-ui/icons/Comment";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
+import NoFavoriteIcon from "@material-ui/icons/FavoriteBorder";
+import dayjs from "dayjs";
+import queryString from "query-string";
 
-import Typography from '@material-ui/core/Typography';
-import Grid from '@material-ui/core/Grid';
-import { Link, withRouter } from 'react-router-dom';
-import { keyToCdnUrl } from '../mediaService';
-import timeAgo from '../timeAgo';
-import UserAvatar from './UserAvatar';
-import TruncatedText from './TruncatedText';
-import UnderReview from './UnderReview';
-import countFormat from '../countFormat';
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import { Link, withRouter } from "react-router-dom";
+import { keyToCdnUrl } from "../mediaService";
+import timeAgo from "../timeAgo";
+import UserAvatar from "./UserAvatar";
+import TruncatedText from "./TruncatedText";
+import UnderReview from "./UnderReview";
+import countFormat from "../countFormat";
 
-import TagDialog from './TagDialog';
+import TagDialog from "./TagDialog";
 
 const styles = theme => ({
   card: {
-    width: '100%',
-    borderRadius: 0,
+    width: "100%",
+    borderRadius: 0
   },
   horizontalCard: {
-    display: 'flex',
+    display: "flex"
   },
   horizontalContent: {
-    display: 'flex',
-    flexDirection: 'column',
+    display: "flex",
+    flexDirection: "column",
     flexGrow: 1
   },
   verticalMedia: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
+    width: "100%",
+    height: "100%",
+    position: "absolute",
     top: 0,
     left: 0
   },
   horizontalMediaContainer: {
-    maxWidth: '46%',
-    minWidth: '46%',
-    minHeight: '100%',
+    maxWidth: "46%",
+    minWidth: "46%",
+    minHeight: "100%"
   },
   horizontalMedia: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
+    width: "100%",
+    height: "100%",
+    position: "absolute",
     top: 0,
     left: 0
   },
   horizontalInfos: {
-    flex: 1,
+    flex: 1
   },
   cardMediaContainer: {
-    position: 'relative',
-    paddingTop: '56%',
+    position: "relative",
+    paddingTop: "56%"
   },
   userLink: {
     color: theme.palette.text.primary,
-    textDecoration: 'none'
+    textDecoration: "none"
   },
   leftIcon: {
     marginRight: theme.spacing.unit
   },
-  content: {
-  },
+  content: {},
   tags: {
     overflow: "hidden",
     maxHeight: theme.spacing.unit * 6,
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 2
   },
   noTags: {
-    fontStyle: 'italic',
+    fontStyle: "italic"
   },
   chip: {
-    marginRight: theme.spacing.unit,
-  },
+    marginRight: theme.spacing.unit
+  }
 });
 
 const GET_ACTIVE_PREVIEW = gql`
@@ -104,7 +103,7 @@ const GET_ACTIVE_PREVIEW = gql`
 class TaggableMediumCard extends React.Component {
   state = {
     tagDialog: false
-  }
+  };
 
   renderHeader() {
     const { classes, medium } = this.props;
@@ -116,8 +115,16 @@ class TaggableMediumCard extends React.Component {
             <UserAvatar user={medium.user} />
           </Link>
         }
-        title={<Link to={`/${medium.user.slug}`} className={classes.userLink}>{medium.user.name}</Link>}
-        subheader={medium.createdAt ? timeAgo.format(dayjs(medium.createdAt).toDate()) : "Under review"}
+        title={
+          <Link to={`/${medium.user.slug}`} className={classes.userLink}>
+            {medium.user.name}
+          </Link>
+        }
+        subheader={
+          medium.createdAt
+            ? timeAgo.format(dayjs(medium.createdAt).toDate())
+            : "Under review"
+        }
       />
     );
   }
@@ -130,11 +137,12 @@ class TaggableMediumCard extends React.Component {
         {({ data }) => (
           <div className={horizontal ? undefined : classes.cardMediaContainer}>
             <CardMedia
-              className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
+              className={
+                horizontal ? classes.horizontalMedia : classes.verticalMedia
+              }
               image={medium.thumbnail}
               title={medium.title}
-            >
-            </CardMedia>
+            />
           </div>
         )}
       </Query>
@@ -146,11 +154,19 @@ class TaggableMediumCard extends React.Component {
 
     return (
       <CardContent className={classes.content}>
-        <Typography gutterBottom variant="h5" component="h2" className={classes.text}  noWrap={!horizontal}>
+        <Typography
+          gutterBottom
+          variant="h5"
+          component="h2"
+          className={classes.text}
+          noWrap={!horizontal}
+        >
           {medium.title}
         </Typography>
         <Typography component="p" className={classes.text} noWrap={!horizontal}>
-          <TruncatedText limit={100}>{medium.description || `No description`}</TruncatedText>
+          <TruncatedText limit={100}>
+            {medium.description || `No description`}
+          </TruncatedText>
         </Typography>
       </CardContent>
     );
@@ -161,20 +177,30 @@ class TaggableMediumCard extends React.Component {
 
     return (
       <CardContent className={classes.tags}>
-        {
-          medium.tagList.length === 0 ?
-            <Chip label={"No tags"} variant={"outlined"} className={[classes.chip, classes.noTags].join(' ')} /> :
-            medium.tagList.map((tag) => (
-              <Chip
-                clickable
-                key={tag}
-                label={tag}
-                variant={"outlined"}
-                className={classes.chip}
-                component={(props) => <Link rel="nofollow" to={`/pictures?${queryString.stringify({ q: tag })}`} {...props} />}
-              />
-            ))
-        }
+        {medium.tagList.length === 0 ? (
+          <Chip
+            label={"No tags"}
+            variant={"outlined"}
+            className={[classes.chip, classes.noTags].join(" ")}
+          />
+        ) : (
+          medium.tagList.map(tag => (
+            <Chip
+              clickable
+              key={tag}
+              label={tag}
+              variant={"outlined"}
+              className={classes.chip}
+              component={props => (
+                <Link
+                  rel="nofollow"
+                  to={`/pictures?${queryString.stringify({ q: tag })}`}
+                  {...props}
+                />
+              )}
+            />
+          ))
+        )}
       </CardContent>
     );
   }
@@ -188,11 +214,9 @@ class TaggableMediumCard extends React.Component {
           <Grid item>
             <Grid container spacing={0} wrap="nowrap">
               <Grid item>
-                <Button
-                  disabled
-                >
+                <Button disabled>
                   <TagIcon className={classes.leftIcon} />
-                    {medium.completion}% complete
+                  {medium.completion}% complete
                 </Button>
               </Grid>
             </Grid>
@@ -208,37 +232,48 @@ class TaggableMediumCard extends React.Component {
     return (
       <React.Fragment>
         <Card className={classes.card} elevation={0}>
-          <CardActionArea onClick={() => this.setState({tagDialog: true})}>
+          <CardActionArea onClick={() => this.setState({ tagDialog: true })}>
             {this.renderMedia()}
           </CardActionArea>
           {this.renderActions()}
         </Card>
-        {
-           this.state.tagDialog &&
-           <TagDialog open={this.state.tagDialog} onClose={() => this.setState({tagDialog: false})} medium={medium} />
-        }
+        {this.state.tagDialog && (
+          <TagDialog
+            open={this.state.tagDialog}
+            onClose={() => this.setState({ tagDialog: false })}
+            medium={medium}
+          />
+        )}
       </React.Fragment>
-    )
+    );
   }
 
   renderHorizontal() {
     const { classes, medium } = this.props;
 
     return (
-      <Card className={[classes.card, classes.horizontalCard].join(' ')} elevation={0}>
+      <Card
+        className={[classes.card, classes.horizontalCard].join(" ")}
+        elevation={0}
+      >
         <CardActionArea className={classes.horizontalMediaContainer}>
           {this.renderMedia()}
         </CardActionArea>
         <div className={classes.horizontalContent}>
           {this.renderHeader()}
-          <CardActionArea component={(props) => <Link to={`/pictures/${medium.id}`} {...props} />} className={classes.horizontalInfos}>
+          <CardActionArea
+            component={props => (
+              <Link to={`/pictures/${medium.id}`} {...props} />
+            )}
+            className={classes.horizontalInfos}
+          >
             {this.renderContent()}
           </CardActionArea>
           {this.renderTags()}
           {this.renderActions()}
         </div>
       </Card>
-    )
+    );
   }
 
   render() {
@@ -252,11 +287,7 @@ class TaggableMediumCard extends React.Component {
 }
 
 TaggableMediumCard.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(
-  withWidth()(
-    withApollo(TaggableMediumCard)
-  )
-);
+export default withStyles(styles)(withWidth()(withApollo(TaggableMediumCard)));

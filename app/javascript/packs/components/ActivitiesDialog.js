@@ -1,83 +1,90 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
-import { Query, Mutation, withApollo } from 'react-apollo';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Grid from '@material-ui/core/Grid';
+import React from "react";
+import PropTypes from "prop-types";
+import gql from "graphql-tag";
+import { Query, Mutation, withApollo } from "react-apollo";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 
-import { withRouter } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
-import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
-import timeAgo from '../timeAgo';
-import dayjs from 'dayjs';
-import ResponsiveDialog from './ResponsiveDialog';
-import GlobalProgress from './GlobalProgress';
-import UserAvatar from './UserAvatar';
-import EmptyList from './EmptyList';
-import LoadMoreButton from './LoadMoreButton';
-import TruncatedText from './TruncatedText';
+import { withRouter } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
+import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
+import timeAgo from "../timeAgo";
+import dayjs from "dayjs";
+import ResponsiveDialog from "./ResponsiveDialog";
+import GlobalProgress from "./GlobalProgress";
+import UserAvatar from "./UserAvatar";
+import EmptyList from "./EmptyList";
+import LoadMoreButton from "./LoadMoreButton";
+import TruncatedText from "./TruncatedText";
 
-import { GET_ACTIVITIES, READ_ACTIVITIES, CLEAR_ACTIVITIES, GET_UNREAD_ACTIVITY_COUNT } from '../queries';
+import {
+  GET_ACTIVITIES,
+  READ_ACTIVITIES,
+  CLEAR_ACTIVITIES,
+  GET_UNREAD_ACTIVITY_COUNT
+} from "../queries";
 
 const styles = theme => ({
   emptyNoficationContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
     paddingTop: theme.spacing.unit * 8,
-    paddingBottom: theme.spacing.unit * 8,
+    paddingBottom: theme.spacing.unit * 8
   },
   emptyNoficationIcon: {
     fontSize: 2,
-    display: 'block',
-    fontSize: '4em',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    display: "block",
+    fontSize: "4em",
+    marginLeft: "auto",
+    marginRight: "auto",
     marginBottom: theme.spacing.unit,
-    color: theme.palette.type === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
+    color:
+      theme.palette.type === "dark"
+        ? "rgba(255, 255, 255, 0.3)"
+        : "rgba(0, 0, 0, 0.3)"
   },
   notificationsContainer: {
     paddingLeft: 0,
-    paddingRight: 0,
+    paddingRight: 0
   },
   loadMoreContainer: {
     paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2
   },
   commentBody: {
-    fontStyle: "italic",
+    fontStyle: "italic"
   },
   highlight: {
-    display: 'inline-block',
-    fontWeight: 'bold'
-  },
+    display: "inline-block",
+    fontWeight: "bold"
+  }
 });
 
 class ActivitiesDialog extends React.Component {
   state = {
     hasMore: true
-  }
+  };
 
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.open && nextProps.open) {
       this.props.client.mutate({
         mutation: READ_ACTIVITIES,
         variables: { input: {} },
-        update: (cache) => {
+        update: cache => {
           cache.writeQuery({
             query: GET_UNREAD_ACTIVITY_COUNT,
             data: {
@@ -108,11 +115,19 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                <Typography variant="body2" component="span" className={classes.highlight}>
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
                   {activity.owner.name}
                 </Typography>
                 {` liked your picture `}
-                <Typography variant="body2" component="span" className={classes.highlight}>
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
                   {activity.trackable.medium.title}
                 </Typography>
               </Typography>
@@ -143,16 +158,26 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                <Typography variant="body2" component="span" className={classes.highlight}>
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
                   {activity.owner.name}
                 </Typography>
                 {` commented on your picture `}
-                <Typography variant="body2" component="span" className={classes.highlight}>
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
                   {activity.trackable.medium.title}
                 </Typography>
               </Typography>
               <Typography variant="caption" className={classes.commentBody}>
-                <TruncatedText limit={100}>{activity.trackable.body}</TruncatedText>
+                <TruncatedText limit={100}>
+                  {activity.trackable.body}
+                </TruncatedText>
               </Typography>
             </React.Fragment>
           }
@@ -181,7 +206,11 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                <Typography variant="body2" component="span" className={classes.highlight}>
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
                   {activity.owner.name}
                 </Typography>
                 {` follows you`}
@@ -198,16 +227,18 @@ class ActivitiesDialog extends React.Component {
     const { classes } = this.props;
 
     return (
-      <ListItem
-        key={activity.id}
-      >
+      <ListItem key={activity.id}>
         <UserAvatar user={activity.owner} />
         <ListItemText
           primary={
             <React.Fragment>
               <Typography variant="body1">
                 {`Your picture `}
-                <Typography variant="body2" component="span" className={classes.highlight}>
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
                   {activity.trackable.title}
                 </Typography>
                 {` was refused.`}
@@ -224,16 +255,18 @@ class ActivitiesDialog extends React.Component {
     const { classes } = this.props;
 
     return (
-      <ListItem
-        key={activity.id}
-      >
+      <ListItem key={activity.id}>
         <UserAvatar user={activity.owner} />
         <ListItemText
           primary={
             <React.Fragment>
               <Typography variant="body1">
                 {`We received your report on `}
-                <Typography variant="body2" component="span" className={classes.highlight}>
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
                   {activity.trackable.reportedUserName}
                 </Typography>
                 {`.`}
@@ -248,18 +281,18 @@ class ActivitiesDialog extends React.Component {
 
   renderActivity(activity) {
     switch (activity.key) {
-      case 'like.create':
-        return (this.renderLikeCreate(activity));
-      case 'follow.create':
-        return (this.renderFollowCreate(activity));
-      case 'comment.create':
-        return (this.renderCommentCreate(activity));
-      case 'medium.refused':
-        return (this.renderMediumRefused(activity));
-      case 'report.create':
-        return (this.renderReportCreate(activity));
+      case "like.create":
+        return this.renderLikeCreate(activity);
+      case "follow.create":
+        return this.renderFollowCreate(activity);
+      case "comment.create":
+        return this.renderCommentCreate(activity);
+      case "medium.refused":
+        return this.renderMediumRefused(activity);
+      case "report.create":
+        return this.renderReportCreate(activity);
       default:
-        return (null);
+        return null;
     }
   }
 
@@ -275,96 +308,101 @@ class ActivitiesDialog extends React.Component {
         className={classes.root}
       >
         <GlobalProgress absolute />
-          <Query query={GET_ACTIVITIES} variables={{ offset, limit }}>
-            {({ loading, error, data, fetchMore }) => {
-              if (loading || error || !data.activities) {
-                return (null);
-              }
+        <Query query={GET_ACTIVITIES} variables={{ offset, limit }}>
+          {({ loading, error, data, fetchMore }) => {
+            if (loading || error || !data.activities) {
+              return null;
+            }
 
-              return (
-                <React.Fragment>
-                  {
-                    data.activities.length === 0 ?
-                      <DialogContent className={classes.emptyNoficationContainer}>
-                        <NotificationsNoneIcon className={classes.emptyNoficationIcon} />
-                        <EmptyList
-                          label={`No recent activity`}
-                        />
-                      </DialogContent> :
-                      <DialogContent className={classes.notificationsContainer}>
-                        <List>
-                          {
-                            data.activities.map((activity) => (
-                              this.renderActivity(activity)
-                            ))
-                          }
-                        </List>
-                        {
-                          (data.activities.length % limit) === 0 && this.state.hasMore &&
-                            <div className={classes.loadMoreContainer}>
-                              <LoadMoreButton
-                                noMargin
-                                onClick={() => {
-                                  fetchMore({
-                                    variables: {
-                                      offset: data.activities.length,
-                                      limit
-                                    },
-                                    updateQuery: (prev, { fetchMoreResult }) => {
-                                      if (!fetchMoreResult) return prev;
-
-                                      if (fetchMoreResult.activities.length === 0) {
-                                        this.setState({ hasMore: false });
-                                      } else {
-                                        return Object.assign({}, prev, {
-                                          activities: [...prev.activities, ...fetchMoreResult.activities]
-                                        });
-                                      }
-                                    }
-                                  });
-                                }}
-                              />
-                            </div>
-                        }
-                    </DialogContent>
-                  }
-                  <DialogActions>
-                    <Mutation
-                      mutation={CLEAR_ACTIVITIES}
-                      update={(cache) => {
-                        cache.writeQuery({
-                          query: GET_ACTIVITIES,
-                          data: { activities: [] }
-                        });
-                        cache.writeQuery({
-                          query: GET_UNREAD_ACTIVITY_COUNT,
-                          data: {
-                            unreadActivityCount: 0
-                          }
-                        });
-                      }}
-                    >
-                      {( clearActivities, {}) => (
-                        <Button onClick={() => clearActivities({ variables: { input: {} }})} disabled={loading || error || !data || data.activities.length === 0}>
-                          Clear all notifications
-                        </Button>
+            return (
+              <React.Fragment>
+                {data.activities.length === 0 ? (
+                  <DialogContent className={classes.emptyNoficationContainer}>
+                    <NotificationsNoneIcon
+                      className={classes.emptyNoficationIcon}
+                    />
+                    <EmptyList label={`No recent activity`} />
+                  </DialogContent>
+                ) : (
+                  <DialogContent className={classes.notificationsContainer}>
+                    <List>
+                      {data.activities.map(activity =>
+                        this.renderActivity(activity)
                       )}
-                    </Mutation>
-                    <Button onClick={this.props.onClose}>
-                      Close
-                    </Button>
-                  </DialogActions>
-                </React.Fragment>
-              );
-            }}
+                    </List>
+                    {data.activities.length % limit === 0 &&
+                      this.state.hasMore && (
+                        <div className={classes.loadMoreContainer}>
+                          <LoadMoreButton
+                            noMargin
+                            onClick={() => {
+                              fetchMore({
+                                variables: {
+                                  offset: data.activities.length,
+                                  limit
+                                },
+                                updateQuery: (prev, { fetchMoreResult }) => {
+                                  if (!fetchMoreResult) return prev;
+
+                                  if (fetchMoreResult.activities.length === 0) {
+                                    this.setState({ hasMore: false });
+                                  } else {
+                                    return Object.assign({}, prev, {
+                                      activities: [
+                                        ...prev.activities,
+                                        ...fetchMoreResult.activities
+                                      ]
+                                    });
+                                  }
+                                }
+                              });
+                            }}
+                          />
+                        </div>
+                      )}
+                  </DialogContent>
+                )}
+                <DialogActions>
+                  <Mutation
+                    mutation={CLEAR_ACTIVITIES}
+                    update={cache => {
+                      cache.writeQuery({
+                        query: GET_ACTIVITIES,
+                        data: { activities: [] }
+                      });
+                      cache.writeQuery({
+                        query: GET_UNREAD_ACTIVITY_COUNT,
+                        data: {
+                          unreadActivityCount: 0
+                        }
+                      });
+                    }}
+                  >
+                    {(clearActivities, {}) => (
+                      <Button
+                        onClick={() =>
+                          clearActivities({ variables: { input: {} } })
+                        }
+                        disabled={
+                          loading ||
+                          error ||
+                          !data ||
+                          data.activities.length === 0
+                        }
+                      >
+                        Clear all notifications
+                      </Button>
+                    )}
+                  </Mutation>
+                  <Button onClick={this.props.onClose}>Close</Button>
+                </DialogActions>
+              </React.Fragment>
+            );
+          }}
         </Query>
       </ResponsiveDialog>
     );
   }
 }
 
-export default withStyles(styles)(
-  withApollo(
-    withRouter(ActivitiesDialog)
-  )
-);
+export default withStyles(styles)(withApollo(withRouter(ActivitiesDialog)));

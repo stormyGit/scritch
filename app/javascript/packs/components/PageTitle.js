@@ -1,5 +1,5 @@
-import React from 'react';
-import { withApollo } from 'react-apollo';
+import React from "react";
+import { withApollo } from "react-apollo";
 
 class PageTitle extends React.Component {
   componentDidMount() {
@@ -13,12 +13,12 @@ class PageTitle extends React.Component {
   }
 
   setPageTitle(props) {
-    props.client.writeData({ data: { pageTitle: props.children }});
+    props.client.writeData({ data: { pageTitle: props.children } });
     document.title = `${props.children} | ${process.env.SITE_NAME}`;
   }
 
   render() {
-    return (null);
+    return null;
   }
 }
 

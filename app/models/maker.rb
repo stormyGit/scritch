@@ -5,6 +5,7 @@ class Maker < ApplicationRecord
   friendly_id :name, use: :slugged
 
   belongs_to :user, optional: true
+  mount_base64_uploader :avatar, AvatarUploader
 
   has_many :fursuit_makers, dependent: :destroy
   has_many :fursuits, through: :fursuit_makers

@@ -248,6 +248,6 @@ const countries = [
   "Yemen",
   "Zambia",
   "Zimbabwe"
-]
+];
 
 export { countries };

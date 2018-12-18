@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_12_034655) do
+ActiveRecord::Schema.define(version: 2018_12_17_054039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -176,6 +176,7 @@ ActiveRecord::Schema.define(version: 2018_12_12_034655) do
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "avatar"
     t.index "to_tsvector('english'::regconfig, (name)::text)", name: "index_events_on_name", using: :gin
   end
 
@@ -247,6 +248,7 @@ ActiveRecord::Schema.define(version: 2018_12_12_034655) do
     t.uuid "fursuit_leg_type_id"
     t.uuid "fursuit_style_id"
     t.uuid "fursuit_specy_id"
+    t.string "avatar"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -279,6 +281,7 @@ ActiveRecord::Schema.define(version: 2018_12_12_034655) do
     t.string "country"
     t.string "slug"
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.string "avatar"
   end
 
   create_table "media", force: :cascade do |t|

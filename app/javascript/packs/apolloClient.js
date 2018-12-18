@@ -3,35 +3,35 @@ import ApolloClient from "apollo-boost";
 let loaderCount = 0;
 
 const apolloClient = new ApolloClient({
-  uri: '/graphql',
-  request: (operation) => {
-    const token = localStorage.getItem('token');
+  uri: "/graphql",
+  request: operation => {
+    const token = localStorage.getItem("token");
     operation.setContext({
       headers: {
-        authorization: token ? `Bearer ${token}` : "",
-    }
+        authorization: token ? `Bearer ${token}` : ""
+      }
     });
   },
   clientState: {
     defaults: {
-      theme: process.env.DEFAULT_THEME || 'dark',
+      theme: process.env.DEFAULT_THEME || "dark",
       pageTitle: null,
-      activePreview: null,
+      activePreview: null
     },
     resolvers: {
       Mutation: {
         setTheme: (_, { theme }, { cache }) => {
-          cache.writeData({ data: { theme }});
+          cache.writeData({ data: { theme } });
           return null;
         },
         setPageTitle: (_, { pageTitle }, { cache }) => {
-          cache.writeData({ data: { pageTitle }});
+          cache.writeData({ data: { pageTitle } });
           return null;
         },
         setActivePreview: (_, { activePreview }, { cache }) => {
-          cache.writeData({ data: { activePreview }});
+          cache.writeData({ data: { activePreview } });
           return null;
-        },
+        }
       }
     }
   },
@@ -40,26 +40,24 @@ const apolloClient = new ApolloClient({
 
     const globalProgresses = document.querySelectorAll(".globalProgress");
     loaderCount++;
-    Array.from(globalProgresses).forEach((globalProgress) => {
-      globalProgress.style.display = 'block';
+    Array.from(globalProgresses).forEach(globalProgress => {
+      globalProgress.style.display = "block";
     });
 
-    const handleResponse = (response) => {
+    const handleResponse = response => {
       loaderCount--;
 
       if (loaderCount === 0) {
-        Array.from(globalProgresses).forEach((globalProgress) => {
-          globalProgress.style.display = 'none';
-        })
+        Array.from(globalProgresses).forEach(globalProgress => {
+          globalProgress.style.display = "none";
+        });
       }
-      return (response);
-    }
+      return response;
+    };
 
-    return (
-      fetch(input, init)
-        .then(handleResponse)
-        .catch(handleResponse)
-    );
+    return fetch(input, init)
+      .then(handleResponse)
+      .catch(handleResponse);
   }
 });
 

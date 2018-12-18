@@ -1,19 +1,19 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import icon from '../../../assets/images/logo.png';
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
+import icon from "../../../assets/images/logo.png";
 
 const styles = theme => ({
   container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
   },
   icon: {
     height: 48,
     width: 64
-  },
-})
+  }
+});
 
 class Logo extends React.Component {
   render() {
@@ -26,6 +26,5 @@ class Logo extends React.Component {
     );
   }
 }
-
 
 export default withStyles(styles, { pureComponent: true })(Logo);

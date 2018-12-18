@@ -1,81 +1,80 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
-import { Query, Mutation } from 'react-apollo';
-import Divider from '@material-ui/core/Divider';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import uuidv4 from 'uuid/v4';
+import React from "react";
+import PropTypes from "prop-types";
+import gql from "graphql-tag";
+import { Query, Mutation } from "react-apollo";
+import Divider from "@material-ui/core/Divider";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Button from "@material-ui/core/Button";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Grow from "@material-ui/core/Grow";
+import Popper from "@material-ui/core/Popper";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import uuidv4 from "uuid/v4";
 
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
 
-import withWidth from '@material-ui/core/withWidth';
+import withWidth from "@material-ui/core/withWidth";
 
-import ChipInput from 'material-ui-chip-input'
+import ChipInput from "material-ui-chip-input";
 
-import { withRouter } from 'react-router-dom'
+import { withRouter } from "react-router-dom";
 
-import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
+import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 
-import { withStyles } from '@material-ui/core/styles';
-import ResponsiveDialog from './ResponsiveDialog';
-import MediumDeletionDialog from './MediumDeletionDialog';
-import GlobalProgress from './GlobalProgress';
-import InteractiveTextInput from './InteractiveTextInput';
+import { withStyles } from "@material-ui/core/styles";
+import ResponsiveDialog from "./ResponsiveDialog";
+import MediumDeletionDialog from "./MediumDeletionDialog";
+import GlobalProgress from "./GlobalProgress";
+import InteractiveTextInput from "./InteractiveTextInput";
 
-import { GET_MEDIUM, UPDATE_MEDIUM } from '../queries';
+import { GET_MEDIUM, UPDATE_MEDIUM } from "../queries";
 
 const styles = theme => ({
   moderationExplanation: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * 2
   },
   bannerMenu: {
-    zIndex: 2,
+    zIndex: 2
   },
-  dialogContent: {
-  },
+  dialogContent: {},
   chipInput: {
     marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit * 2,
+    marginBottom: theme.spacing.unit * 2
   },
   link: {
-    color: theme.palette.text.primary,
+    color: theme.palette.text.primary
   }
 });
 
 class EditMediumDialog extends React.Component {
   state = {
     mediumDeletion: false,
-    title: '',
-    description: '',
+    title: "",
+    description: "",
     commentsEnabled: true,
     shareOnTwitter: true,
     tagList: [],
     temporaryKey: null,
-    visibility: 'public',
-    restriction: 'none',
+    visibility: "public",
+    restriction: "none",
     multipleMedia: false
-  }
+  };
 
   componentDidMount() {
     this.setInitialValues(this.props.medium);
@@ -94,7 +93,7 @@ class EditMediumDialog extends React.Component {
       description: medium.description,
       commentsEnabled: !medium.commentsDisabled,
       shareOnTwitter: true,
-      tagList: medium.tagList,
+      tagList: medium.tagList
     });
   }
 
@@ -103,26 +102,21 @@ class EditMediumDialog extends React.Component {
 
     return (
       <React.Fragment>
-        <ResponsiveDialog
-          open={this.props.open}
-          onClose={this.props.onClose}
-        >
+        <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
           <GlobalProgress absolute />
-          {
-            medium.id && <DialogTitle>{medium.title}</DialogTitle>
-          }
+          {medium.id && <DialogTitle>{medium.title}</DialogTitle>}
           <DialogContent
             className={classes.dialogContent}
             style={{
               paddingTop: 0,
-              marginTop: medium.id ? 0 : 16,
+              marginTop: medium.id ? 0 : 16
             }}
           >
             <TextField
               label="Title"
               name="title"
               value={this.state.title}
-              onChange={(e) => this.setState({ title: e.target.value })}
+              onChange={e => this.setState({ title: e.target.value })}
               margin="dense"
               fullWidth
             />
@@ -130,7 +124,7 @@ class EditMediumDialog extends React.Component {
               label="Description"
               name="description"
               value={this.state.description}
-              onChange={(e) => this.setState({ description: e.target.value })}
+              onChange={e => this.setState({ description: e.target.value })}
               margin="dense"
               fullWidth
               multiline
@@ -145,22 +139,30 @@ class EditMediumDialog extends React.Component {
                 margin: "dense"
               }}
               defaultValue={this.state.tagList}
-              onChange={(tagList) => { this.setState({ tagList }) }}
+              onChange={tagList => {
+                this.setState({ tagList });
+              }}
               className={classes.chipInput}
             />
 
             <FormControlLabel
-              margin={'dense'}
+              margin={"dense"}
               control={
                 <Switch
                   checked={this.state.commentsEnabled}
                   onChange={() => {
-                    this.setState({ commentsEnabled: !this.state.commentsEnabled })
+                    this.setState({
+                      commentsEnabled: !this.state.commentsEnabled
+                    });
                   }}
                   color="primary"
                 />
               }
-              label={this.state.commentsEnabled ? "Comments enabled" : "Comments disabled"}
+              label={
+                this.state.commentsEnabled
+                  ? "Comments enabled"
+                  : "Comments disabled"
+              }
             />
           </DialogContent>
           <DialogActions>
@@ -174,9 +176,7 @@ class EditMediumDialog extends React.Component {
                 </Button>
               </Grid>
               <Grid item>
-                <Button onClick={this.props.onClose}>
-                  Cancel
-                </Button>
+                <Button onClick={this.props.onClose}>Cancel</Button>
                 <Mutation
                   mutation={UPDATE_MEDIUM}
                   update={(cache, { data: { updateMedium } }) => {
@@ -187,9 +187,11 @@ class EditMediumDialog extends React.Component {
                     });
                   }}
                 >
-                  {( updateMedium, { data }) => (
+                  {(updateMedium, { data }) => (
                     <Button
-                      disabled={!this.state.title || /^\s*$/.test(this.state.title)}
+                      disabled={
+                        !this.state.title || /^\s*$/.test(this.state.title)
+                      }
                       onClick={() => {
                         updateMedium({
                           variables: {
@@ -199,12 +201,12 @@ class EditMediumDialog extends React.Component {
                               description: this.state.description,
                               commentsDisabled: !this.state.commentsEnabled,
                               tagList: this.state.tagList,
-                              shareOnTwitter: this.state.shareOnTwitter,
+                              shareOnTwitter: this.state.shareOnTwitter
                             }
                           }
                         }).then(() => {
-                          this.props.onClose()
-                        })
+                          this.props.onClose();
+                        });
                       }}
                     >
                       Save
@@ -223,7 +225,7 @@ class EditMediumDialog extends React.Component {
             this.setState({ mediumDeletion: false });
             this.props.onClose();
             this.props.history.push({
-              pathname: '/'
+              pathname: "/"
             });
           }}
         />
@@ -232,8 +234,4 @@ class EditMediumDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withRouter(
-    withWidth()(EditMediumDialog)
-  )
-);
+export default withStyles(styles)(withRouter(withWidth()(EditMediumDialog)));

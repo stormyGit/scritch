@@ -1,10 +1,10 @@
-import React from 'react';
-import TaggableMedia from './TaggableMedia';
-import PageTitle from './PageTitle';
-import queryString from 'query-string';
+import React from "react";
+import TaggableMedia from "./TaggableMedia";
+import PageTitle from "./PageTitle";
+import queryString from "query-string";
 
-export default (props) => {
-  const query = queryString.parse(props.location.search)
+export default props => {
+  const query = queryString.parse(props.location.search);
   const searching = query.q && query.q.length > 0;
 
   return (
@@ -12,5 +12,5 @@ export default (props) => {
       <PageTitle>Tag</PageTitle>
       <TaggableMedia sort="latest" {...props} />
     </React.Fragment>
-  )
-}
+  );
+};
