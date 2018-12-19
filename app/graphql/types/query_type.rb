@@ -26,6 +26,7 @@ module Types
       argument :offset, Integer, required: true
       argument :limit, Integer, required: true
       argument :tagging, Boolean, required: false
+      argument :edition_id, [ID], required: false
     end
 
     field :activities, [ActivityType], null: false do
@@ -295,6 +296,10 @@ module Types
 
       if arguments[:user_id].present?
         media = media.where(user_id: arguments[:user_id])
+      end
+
+      if arguments[:edition_id].present?
+        media = media.where(edition_id: arguments[:edition_id]).joins(:edition).order("editions.year DESC")
       end
 
       if arguments[:fursuit_id].present?

@@ -199,6 +199,7 @@ export const GET_MEDIA = gql`
     $limit: Int!
     $fursuitId: ID
     $tagging: Boolean
+    $editionId: [ID!]
   ) {
     media(
       q: $q
@@ -208,6 +209,7 @@ export const GET_MEDIA = gql`
       limit: $limit
       fursuitId: $fursuitId
       tagging: $tagging
+      editionId: $editionId
     ) {
       id
       slug
@@ -729,8 +731,8 @@ export const LOAD_EVENT = gql`
       slug
       editions {
         id
+        year
         name
-        slug
       }
     }
   }

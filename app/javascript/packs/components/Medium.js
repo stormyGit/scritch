@@ -314,6 +314,11 @@ class Medium extends React.Component {
                           </Grid>
                         </Grid>
                         <div className={classes.tags}>
+                          {medium.edition && (
+                            <Typography gutterBottom variant="subtitle1" noWrap>
+                              {medium.edition.event.name} {medium.edition.name}
+                            </Typography>
+                          )}
                           {medium.fursuits.length != 0 && (
                             <Typography gutterBottom variant="subtitle1" noWrap>
                               {"Fursuits"}

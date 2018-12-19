@@ -25,7 +25,7 @@ import FursuitCard from "./FursuitCard";
 
 import { LOAD_EVENT, GET_MEDIA } from "../queries";
 
-import Media from "./Media";
+import EventMedia from "./EventMedia";
 import CommentForm from "./CommentForm";
 import FormattedText from "./FormattedText";
 import LikeButton from "./LikeButton";
@@ -49,8 +49,16 @@ const styles = theme => ({
   },
   card: {
     width: "100%",
+    borderRadius: 0
+  },
+  cardIn: {
+    width: "100%",
     borderRadius: 0,
-    backgroundColor: theme.palette.background
+    backgroundColor: theme.palette.primary.main
+  },
+  cardOut: {
+    width: "100%",
+    borderRadius: 0
   },
   pictureInfo: {
     padding: theme.spacing.unit
@@ -101,7 +109,7 @@ const styles = theme => ({
 class Event extends React.Component {
   state = {
     editEvent: false,
-    currentImage: 0
+    editionId: []
   };
   constructor(props) {
     super(props);
@@ -142,6 +150,15 @@ class Event extends React.Component {
         {({ loading, error, data }) => {
           const event = data ? data.event : null;
 
+          const allEditions = [];
+          if (!loading && !error && event) {
+            event.editions.map(edition => {
+              allEditions.push(edition.id);
+            });
+
+            console.log(allEditions);
+          }
+
           return (
             !loading &&
             !error &&
@@ -149,7 +166,15 @@ class Event extends React.Component {
               <div className={classes.container} key={event.id}>
                 <PageTitle>{!loading && event ? event.name : null}</PageTitle>
                 <Grid container spacing={8}>
-                  <Grid item lg={9} xs={12} />
+                  <Grid item lg={9} xs={12}>
+                    <EventMedia
+                      edition={
+                        this.state.editionId.length > 0
+                          ? this.state.editionId
+                          : allEditions
+                      }
+                    />
+                  </Grid>
                   <Grid item lg={3} xs={12}>
                     <div className={classes.pictureInfo}>
                       <Grid
@@ -252,6 +277,56 @@ class Event extends React.Component {
                         </Grid>
                       </Grid>
                       <Divider />
+                      <div style={{ padding: 10 }} />
+                      <Card className={classes.card}>
+                        <CardActionArea
+                          onClick={e => {
+                            this.setState({
+                              editionId: []
+                            });
+                          }}
+                        >
+                          <CardContent>
+                            <Typography>Unselect all</Typography>
+                          </CardContent>
+                        </CardActionArea>
+                      </Card>
+                      <div style={{ padding: 10 }} />
+
+                      {event.editions.map(edition => (
+                        <Card
+                          id={edition.id}
+                          key={edition.id}
+                          className={
+                            this.state.editionId.includes(edition.id)
+                              ? classes.cardIn
+                              : classes.cardOut
+                          }
+                        >
+                          <CardActionArea
+                            id={edition.id}
+                            onClick={e => {
+                              var payload = e.target.id;
+                              var index = this.state.editionId.indexOf(payload);
+                              index != -1
+                                ? this.setState({
+                                    editionId: this.state.editionId.filter(
+                                      (_, i) => i !== index
+                                    )
+                                  })
+                                : this.setState(prevState => ({
+                                    editionId: [...prevState.editionId, payload]
+                                  }));
+                            }}
+                          >
+                            <CardContent id={edition.id}>
+                              <Typography id={edition.id}>
+                                {edition.name}
+                              </Typography>
+                            </CardContent>
+                          </CardActionArea>
+                        </Card>
+                      ))}
                     </div>
                   </Grid>
                 </Grid>
