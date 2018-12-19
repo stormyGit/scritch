@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   get "/subscriptions", to: "media#index"
   get "/:id", to: "users#show"
   get "/:id/:filter", to: "users#show"
+  get "/moderation", to: "moderation#index"
   get "*path", to: "application#index"
   root to: "application#index"
 end

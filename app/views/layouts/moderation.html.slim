@@ -86,13 +86,13 @@ html lang="en"
               .level-right
                 .content.has-text-white
                   .title.is-4.has-text-white
-                    | Welcome to the Howlr moderation dashboard
+                    | Welcome to the Scritch moderation dashboard
                   = image_tag "moderator.png"
                   br
                   | We currently have
                   strong.has-text-white
                     = " #{Moderator.count} moderators "
-                  | working in the Howlr team. We closed
+                  | working in the Scritch team. We closed
                   strong.has-text-white
                     = " #{Report.where(status: ["dismissed", "accepted", "closed"]).count} reports "
                   | so far.

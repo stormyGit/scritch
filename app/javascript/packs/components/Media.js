@@ -155,6 +155,7 @@ class Media extends React.Component {
     const { classes, location, width } = this.props;
     const query = queryString.parse(location.search);
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
+    console.log(limit);
 
     return (
       <Query

@@ -1,12 +1,12 @@
-$primary: hsl(200, 33%, 35%);
+$primary: hsl(341, 66%, 34%);
 $info: hsl(0, 100%, 0%);
 
 @import "bulma";
 
 body {
-  background: #3c6478;
+  background: #901d42;
   min-height: 100vh;
-  font-family: 'Roboto';
+  font-family: "Roboto";
 }
 
 .ellipsis {
@@ -19,7 +19,7 @@ body {
 .navbar {
   border-bottom: 1px solid #eee;
   font-weight: 800;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
 }
 
 .navbar-brand {
@@ -41,7 +41,7 @@ body {
 .chart {
   margin-top: 2em;
   background-color: white;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   padding: 2em;
   border-radius: 6px;
   box-shadow: 0px 3px 6px 0px #333;
@@ -52,7 +52,7 @@ body {
   margin: 2em 4em 0 4em;
   height: calc(100vh - 56px - 4em);
   background-color: white;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   border-radius: 6px;
   box-shadow: 0px 3px 6px 0px #333;
 }
@@ -88,7 +88,10 @@ body {
   }
 }
 
-#reports, #pictures, #moderators, #banned_users {
+#reports,
+#pictures,
+#moderators,
+#banned_users {
   margin-top: 1em;
   .card {
     margin-top: 1em;
@@ -173,7 +176,8 @@ body {
   }
 }
 
-.field .control .checkbox, .field .control .radio {
+.field .control .checkbox,
+.field .control .radio {
   span {
     padding-left: 8px;
   }
@@ -192,7 +196,8 @@ body {
   position: absolute;
   margin-top: 2em;
   margin-left: 2em;
-  p, a {
+  p,
+  a {
     color: white;
   }
   a {
@@ -222,7 +227,10 @@ body {
     margin-left: 1em;
     margin-top: 1em;
   }
-  #reports, #pictures, #moderators, #banned_users {
+  #reports,
+  #pictures,
+  #moderators,
+  #banned_users {
     margin-top: 0;
   }
   #login {
