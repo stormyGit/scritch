@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_17_054039) do
+ActiveRecord::Schema.define(version: 2018_12_22_155444) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -138,6 +138,18 @@ ActiveRecord::Schema.define(version: 2018_12_17_054039) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "output"
+  end
+
+  create_table "comment_reports", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.text "description"
+    t.uuid "comment_id"
+    t.uuid "reporter_id"
+    t.string "status", default: "new"
+    t.bigint "assignee_id"
+    t.index ["assignee_id"], name: "index_comment_reports_on_assignee_id"
+    t.index ["comment_id"], name: "index_comment_reports_on_comment_id"
+    t.index ["reporter_id"], name: "index_comment_reports_on_reporter_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -316,6 +328,18 @@ ActiveRecord::Schema.define(version: 2018_12_17_054039) do
     t.index ["slug"], name: "index_media_on_slug", unique: true
   end
 
+  create_table "medium_reports", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.text "description"
+    t.uuid "medium_id"
+    t.uuid "reporter_id"
+    t.string "status", default: "new"
+    t.bigint "assignee_id"
+    t.index ["assignee_id"], name: "index_medium_reports_on_assignee_id"
+    t.index ["medium_id"], name: "index_medium_reports_on_medium_id"
+    t.index ["reporter_id"], name: "index_medium_reports_on_reporter_id"
+  end
+
   create_table "messages", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.uuid "chat_id"
@@ -371,16 +395,15 @@ ActiveRecord::Schema.define(version: 2018_12_17_054039) do
   create_table "reports", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.text "description"
-    t.uuid "resource_id"
+    t.uuid "user_id"
     t.uuid "reporter_id"
     t.string "status", default: "new"
     t.bigint "assignee_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "resource"
     t.index ["assignee_id"], name: "index_reports_on_assignee_id"
     t.index ["reporter_id"], name: "index_reports_on_reporter_id"
-    t.index ["resource_id"], name: "index_reports_on_resource_id"
+    t.index ["user_id"], name: "index_reports_on_user_id"
   end
 
   create_table "sessions", force: :cascade do |t|

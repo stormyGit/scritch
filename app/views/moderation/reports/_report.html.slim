@@ -130,7 +130,7 @@
           button.delete.close-button type="button"
 
         section.modal-card-body
-          - if report.user.bio.present? || report.user.avatar.present? || report.user.like.present? || report.user.dislike.present?
+          - if report.user.bio.present? || report.user.avatar.present?
             .content
               .title.is-6
                 | Profile information
@@ -162,7 +162,7 @@
                       label.checkbox.image-selector
                         input type="checkbox" name="mediums_to_delete[]" value=medium.id
                         figure.image
-                          = image_tag MediumStorage.key_to_cdn_url(medium.thumbnail_key)
+                          = image_tag MediumStorage.key_to_cdn_url(medium.small_thumbnail_key)
                           .delete-overlay
                             span.icon
                               i.material-icons.is-size-1 delete_forever
