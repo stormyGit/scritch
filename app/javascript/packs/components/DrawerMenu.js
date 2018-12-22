@@ -32,6 +32,7 @@ import AnnouncementIcon from "@material-ui/icons/Announcement";
 import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
 
 import TermsDialog from "./TermsDialog";
+import StormyDialog from "./StormyDialog";
 import PrivacyPolicyDialog from "./PrivacyPolicyDialog";
 import SettingsDialog from "./SettingsDialog";
 import SignUpDialog from "./SignUpDialog";
@@ -87,6 +88,7 @@ class DrawerMenu extends React.Component {
     termsDialog: false,
     settingsDialog: false,
     signUpDialog: false,
+    stormyDialog: false,
     uploadDialog: false,
     announcementsDialog: false
   };
@@ -313,51 +315,76 @@ class DrawerMenu extends React.Component {
               </ListItem>
               <ListItem
                 button
-                onClick={() => this.setState({ termsDialog: true })}
+                onClick={() => this.setState({ stormyDialog: true })}
               >
                 <ListItemIcon className={classes.text}>
                   <VerifiedUserIcon />
                 </ListItemIcon>
                 <ListItemText
-                  primary="Terms and conditions"
+                  primary="Tech complaint"
                   primaryTypographyProps={{ className: classes.text }}
                 />
               </ListItem>
-              <ListItem
-                button
-                onClick={() => this.setState({ privacyPolicyDialog: true })}
-              >
-                <ListItemIcon className={classes.text}>
-                  <AsssistantPhotoIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Privacy policy"
-                  primaryTypographyProps={{ className: classes.text }}
-                />
-              </ListItem>
-              {process.env.TELEGRAM_CONTACT && (
-                <ListItem
-                  button
-                  component={props => (
-                    <a
-                      href={`https://t.me/${process.env.TELEGRAM_CONTACT}`}
-                      target="_blank"
-                      {...props}
+              {false && (
+                <React.Fragment>
+                  <ListItem
+                    button
+                    onClick={() => this.setState({ termsDialog: true })}
+                  >
+                    <ListItemIcon className={classes.text}>
+                      <VerifiedUserIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Terms and conditions"
+                      primaryTypographyProps={{ className: classes.text }}
                     />
+                  </ListItem>
+                  <ListItem
+                    button
+                    onClick={() => this.setState({ privacyPolicyDialog: true })}
+                  >
+                    <ListItemIcon className={classes.text}>
+                      <AsssistantPhotoIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Privacy policy"
+                      primaryTypographyProps={{ className: classes.text }}
+                    />
+                  </ListItem>
+                  {process.env.TELEGRAM_CONTACT && (
+                    <ListItem
+                      button
+                      component={props => (
+                        <a
+                          href={`https://t.me/${process.env.TELEGRAM_CONTACT}`}
+                          target="_blank"
+                          {...props}
+                        />
+                      )}
+                    >
+                      <ListItemIcon className={classes.text}>
+                        <ContactSupportIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Contact us"
+                        primaryTypographyProps={{ className: classes.text }}
+                      />
+                    </ListItem>
                   )}
-                >
-                  <ListItemIcon className={classes.text}>
-                    <ContactSupportIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Contact us"
-                    primaryTypographyProps={{ className: classes.text }}
-                  />
-                </ListItem>
+                </React.Fragment>
               )}
             </List>
           </div>
         </div>
+        <StormyDialog
+          open={this.state.stormyDialog}
+          onClose={() => {
+            this.setState({ stormyDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
+          }}
+        />
         <SettingsDialog
           open={this.state.settingsDialog}
           onClose={() => {

@@ -663,6 +663,16 @@ export const CREATE_REPORT = gql`
   }
 `;
 
+export const CREATE_TECH_REPORT = gql`
+  mutation createTechReport($input: CreateTechReportInput!) {
+    createTechReport(input: $input) {
+      report {
+        id
+      }
+    }
+  }
+`;
+
 export const BLOCK_USER = gql`
   mutation blockUser($input: BlockUserInput!) {
     blockUser(input: $input) {

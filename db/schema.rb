@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_22_155444) do
+ActiveRecord::Schema.define(version: 2018_12_22_194041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -294,6 +294,9 @@ ActiveRecord::Schema.define(version: 2018_12_22_155444) do
     t.string "slug"
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
     t.string "avatar"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "reference"
   end
 
   create_table "media", force: :cascade do |t|
@@ -449,6 +452,14 @@ ActiveRecord::Schema.define(version: 2018_12_22_155444) do
     t.string "name"
     t.integer "taggings_count", default: 0
     t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
+  create_table "tech_reports", force: :cascade do |t|
+    t.string "page"
+    t.text "description"
+    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|

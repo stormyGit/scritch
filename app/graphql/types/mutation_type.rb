@@ -19,6 +19,7 @@ module Types
     field :create_message, mutation: Mutations::CreateMessage
     field :read_chat, mutation: Mutations::ReadChat
     field :create_report, mutation: Mutations::CreateReport
+    field :create_tech_report, mutation: Mutations::CreateTechReport
     field :block_user, mutation: Mutations::BlockUser
     field :unblock_user, mutation: Mutations::UnblockUser
   end
