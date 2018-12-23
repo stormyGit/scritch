@@ -52,7 +52,7 @@ class StormyDialog extends React.Component {
         <DialogTitle>Complain or suggest</DialogTitle>
         <DialogContent>
           <TextField
-            label="Tell Stormy where he f*ucked up or could do better!"
+            label="Tell us what doesn't work or what could be better done"
             name="description"
             value={this.state.description}
             onChange={e => this.setState({ description: e.target.value })}
