@@ -16,7 +16,7 @@
         .column.is-6
           = link_to "New maker", new_moderation_maker_path, class: "button", style: "width: 100%"
   br
-  p.is-size-1.has-text-centered
+  p.is-size-1.has-text-centered.has-text-primary
     | Makers
   br
   .columns.is-multiline
@@ -35,5 +35,5 @@
               = link_to "Edit", edit_moderation_maker_path(id: maker.slug)
 
   .columns
-    .column.is-6.is-offset-3
+    .column.is-6.is-offset-3.has-text-primary
       = paginate @makers

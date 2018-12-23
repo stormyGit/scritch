@@ -15,7 +15,11 @@ import ResponsiveDialog from "./ResponsiveDialog";
 import GlobalProgress from "./GlobalProgress";
 import withCurrentSession from "./withCurrentSession";
 
-import { CREATE_REPORT } from "../queries";
+import {
+  CREATE_REPORT,
+  CREATE_MEDIUM_REPORT,
+  CREATE_COMMENT_REPORT
+} from "../queries";
 
 const styles = theme => ({});
 
@@ -63,28 +67,75 @@ class ReportDialog extends React.Component {
         </DialogContent>
         <DialogActions>
           <Button onClick={this.props.onClose}>Cancel</Button>
-          <Mutation mutation={CREATE_REPORT} update={cache => {}}>
-            {(createReport, { data }) => (
-              <Button
-                disabled={!!this.state.description.match(/^\s*$/)}
-                onClick={() => {
-                  createReport({
-                    variables: {
-                      input: {
-                        description: this.state.description,
-                        resourceId: this.props.resourceId,
-                        resource: this.props.resource
+          {this.props.resource == "user" && (
+            <Mutation mutation={CREATE_REPORT} update={cache => {}}>
+              {(createReport, { data }) => (
+                <Button
+                  disabled={!!this.state.description.match(/^\s*$/)}
+                  onClick={() => {
+                    createReport({
+                      variables: {
+                        input: {
+                          description: this.state.description,
+                          userId: this.props.resourceId
+                        }
                       }
-                    }
-                  }).then(() => {
-                    this.props.onClose();
-                  });
-                }}
-              >
-                Send report
-              </Button>
-            )}
-          </Mutation>
+                    }).then(() => {
+                      this.props.onClose();
+                    });
+                  }}
+                >
+                  Send report
+                </Button>
+              )}
+            </Mutation>
+          )}
+          {this.props.resource == "comment" && (
+            <Mutation mutation={CREATE_COMMENT_REPORT} update={cache => {}}>
+              {(createCommentReport, { data }) => (
+                <Button
+                  disabled={!!this.state.description.match(/^\s*$/)}
+                  onClick={() => {
+                    createCommentReport({
+                      variables: {
+                        input: {
+                          description: this.state.description,
+                          commentId: this.props.resourceId
+                        }
+                      }
+                    }).then(() => {
+                      this.props.onClose();
+                    });
+                  }}
+                >
+                  Send report
+                </Button>
+              )}
+            </Mutation>
+          )}
+          {this.props.resource == "medium" && (
+            <Mutation mutation={CREATE_MEDIUM_REPORT} update={cache => {}}>
+              {(createMediumReport, { data }) => (
+                <Button
+                  disabled={!!this.state.description.match(/^\s*$/)}
+                  onClick={() => {
+                    createMediumReport({
+                      variables: {
+                        input: {
+                          description: this.state.description,
+                          mediumId: this.props.resourceId
+                        }
+                      }
+                    }).then(() => {
+                      this.props.onClose();
+                    });
+                  }}
+                >
+                  Send report
+                </Button>
+              )}
+            </Mutation>
+          )}
         </DialogActions>
       </ResponsiveDialog>
     );

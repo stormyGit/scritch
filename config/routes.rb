@@ -23,6 +23,20 @@ Rails.application.routes.draw do
       put :assign
       put :unassign
     end
+    resources :medium_reports do
+      put :dismiss
+      put :mark_as_accepted
+      put :reopen
+      put :assign
+      put :unassign
+    end
+    resources :comment_reports do
+      put :dismiss
+      put :mark_as_accepted
+      put :reopen
+      put :assign
+      put :unassign
+    end
     resources :users do
       put :moderate_profile
       put :ban_and_remove_account

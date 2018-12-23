@@ -1,0 +1,10 @@
+= render partial: 'moderation/shared/side_menu'
+
+#reports.container.full-height-container
+  .columns.is-centered
+    .column.is-2
+    .column.is-10
+      .columns.is-centered.is-multiline
+        - @reports.each do |report|
+          .column.is-6
+            = render partial: 'moderation/comment_reports/report', locals: { report: report }

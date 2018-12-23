@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_22_194041) do
+ActiveRecord::Schema.define(version: 2018_12_23_212852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -147,6 +147,8 @@ ActiveRecord::Schema.define(version: 2018_12_22_194041) do
     t.uuid "reporter_id"
     t.string "status", default: "new"
     t.bigint "assignee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["assignee_id"], name: "index_comment_reports_on_assignee_id"
     t.index ["comment_id"], name: "index_comment_reports_on_comment_id"
     t.index ["reporter_id"], name: "index_comment_reports_on_reporter_id"
@@ -338,6 +340,8 @@ ActiveRecord::Schema.define(version: 2018_12_22_194041) do
     t.uuid "reporter_id"
     t.string "status", default: "new"
     t.bigint "assignee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["assignee_id"], name: "index_medium_reports_on_assignee_id"
     t.index ["medium_id"], name: "index_medium_reports_on_medium_id"
     t.index ["reporter_id"], name: "index_medium_reports_on_reporter_id"
