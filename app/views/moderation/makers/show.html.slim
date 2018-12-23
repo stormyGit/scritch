@@ -1,0 +1,54 @@
+br
+.container
+  .columns
+    .column.is-4.is-offset-4
+      .columns.has-text-centered
+        .column.is-12
+          = link_to "Back", moderation_makers_path, class: "button", style: "width: 100%"
+
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        = @maker.name
+
+
+    .card-content
+      p.is-size-3
+        = "#{@maker.country}"
+      a href="#{@maker.web_1}"
+        p.is-size-4
+          = "#{@maker.web_1}"
+      br
+      br
+      - if @maker.user.present?
+        p.is-size-4
+          | Asset owned by:
+          br
+          = @maker.user.username
+      - else
+        p.is-size-4
+          | Asset not owned
+      br
+      br
+
+
+      p.is-size-4
+        | Fursuits by #{@maker.name}
+      br
+      .columns.is-multiline
+        - @maker.fursuits.each do |fursuit|
+          .column.is-3
+            .card
+              .card-content
+                = fursuit.name
+              .card-footer
+                .card-footer-item
+                  = link_to "View", moderation_fursuit_path(id: fursuit.slug)
+                .card-footer-item
+                  = link_to "Edit", edit_moderation_fursuit_path(id: fursuit.slug)
+
+    .card-footer
+      .card-footer-item
+        = link_to "Edit", edit_moderation_maker_path(id: @maker.id)
+      .card-footer-item
+        = link_to "Delete", moderation_maker_path(id: @maker.id), method: :delete, class: "has-text-danger"

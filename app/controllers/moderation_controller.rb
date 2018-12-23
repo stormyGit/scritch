@@ -2,7 +2,6 @@ class ModerationController < ApplicationController
   include ModerationHelper
 
   before_action :authenticate_moderator!
-  puts "\n\n\n\n\n\n\nJE SUIS LA\n\n\n\n\n"
   layout 'layouts/moderation'
 
   def ensure_capability!(capability)

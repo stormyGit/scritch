@@ -30,6 +30,11 @@ Rails.application.routes.draw do
       put :ban_for_a_month
       put :ban_for_a_week
     end
+    resources :makers
+    resources :fursuits
+    resources :events do
+      resources :editions
+    end
     resources :comments do
     end
     resources :moderators do

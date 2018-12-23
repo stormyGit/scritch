@@ -1,0 +1,18 @@
+br
+.container
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        | New Event
+    .card-content
+      = form_for Event.new, :url => moderation_events_path do |f|
+        .field
+          = f.label :name, "Event name"
+          = f.text_field :name, class: "input"
+
+        br
+        .field
+          = f.file_field :event_picture, multiple: true, required: true, class: "upload-file"
+
+        .field
+          = f.submit "Add event", class: "button"

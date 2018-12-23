@@ -2,6 +2,7 @@ class Moderator < ApplicationRecord
   CAPABILITIES = %w(
     analytics
     reports
+    assets
     moderators
     banned_users
   )

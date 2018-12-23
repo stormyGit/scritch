@@ -1,10 +1,10 @@
-$primary: hsl(341, 66%, 34%);
+$primary: hsl(233, 100%, 95%);
 $info: hsl(0, 100%, 0%);
 
 @import "bulma";
 
 body {
-  background: #901d42;
+  background: #00031a;
   min-height: 100vh;
   font-family: "Roboto";
 }
@@ -86,6 +86,10 @@ body {
       }
     }
   }
+}
+
+#navbar-padder {
+  padding-top: 56px;
 }
 
 #reports,

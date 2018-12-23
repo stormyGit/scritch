@@ -1,0 +1,42 @@
+#navbar-padder
+.container
+  - if flash[:notice].present?
+    .columns
+      .column.is-6.is-offset-3
+        .card.green
+          .card-content.has-text-centered
+            strong class=flash[:class]
+              = flash[:notice]
+    br
+  .columns
+    .column.is-6.is-offset-3
+      .columns.has-text-centered
+        .column.is-6
+          = link_to "Back", moderation_events_path, class: "button", style: "width: 100%"
+        .column.is-6
+          = link_to "New edition", new_moderation_event_edition_path, class: "button", style: "width: 100%"
+  br
+  p.is-size-1.has-text-centered
+    = @event.name
+  br
+  .columns.is-multiline
+    - if @editions.present?
+      - @editions.each do |edition|
+        .column.is-3
+          .card
+            .card-header
+              .card-header-title
+                = "#{@event.name} #{edition.name}"
+            .card-content
+              = "#{edition.city}, #{edition.country}"
+              br
+              = "#{edition.start_date.strftime("%d %B %Y")} - #{edition.end_date.strftime("%d %B %Y")}"
+            .card-footer
+              .card-footer-item
+                = link_to "View", moderation_event_edition_path(id: edition.id)
+              .card-footer-item
+                = link_to "Edit", edit_moderation_event_edition_path(id: edition.id)
+
+  .columns
+    .column.is-6.is-offset-3
+      = paginate @editions

@@ -1,0 +1,20 @@
+br
+.container
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        | New Maker
+    .card-content
+      = form_for Maker.new, :url => moderation_makers_path do |f|
+        .field
+          = f.label :name, "Name"
+          = f.text_field :name, class: "input"
+        .field
+          = f.label :country, "Country"
+          = f.text_field :country, class: "input"
+        .field
+          = f.label :web_1, "Website"
+          = f.text_field :web_1, class: "input"
+
+        .field
+          = f.submit "Add maker", class: "button"

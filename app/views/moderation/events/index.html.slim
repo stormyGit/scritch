@@ -1,0 +1,40 @@
+#navbar-padder
+.container
+  - if flash[:notice].present?
+    .columns
+      .column.is-6.is-offset-3
+        .card.green
+          .card-content.has-text-centered
+            strong class=flash[:class]
+              = flash[:notice]
+    br
+  .columns
+    .column.is-6.is-offset-3
+      .columns.has-text-centered
+        .column.is-6
+          = link_to "Back", moderation_path, class: "button", style: "width: 100%"
+        .column.is-6
+          = link_to "New event", new_moderation_event_path, class: "button", style: "width: 100%"
+  br
+  p.is-size-1.has-text-centered
+    | Events
+  br
+  .columns.is-multiline
+    - @events.each do |event|
+      .column.is-2.has-text-centered
+        a href=moderation_event_editions_path(event_id: event.slug)
+          .card
+            .card-image
+              - if event.event_picture.attachment.present?
+                = image_tag event.event_picture
+              - else
+                = image_tag ('eventPlaceholder.png')
+            .card-content style="height: 100px;"
+              = event.name
+            .card-footer
+              .card-footer-item
+                = link_to "Edit", edit_moderation_event_path(event.name)
+
+  .columns
+    .column.is-6.is-offset-3
+      = paginate @events

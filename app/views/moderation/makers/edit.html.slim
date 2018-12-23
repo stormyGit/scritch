@@ -1,0 +1,24 @@
+br
+.container
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        | Update Maker
+    .card-content
+      = form_for @maker, :url => moderation_maker_path, method: :put do |f|
+        .field
+          = f.label :name, "Name"
+          = f.text_field :name, class: "input"
+        .field
+          = f.label :country, "Country"
+          = f.text_field :country, class: "input"
+        .field
+          = f.label :web_1, "Website"
+          = f.text_field :web_1, class: "input"
+
+        .field
+          = f.submit "Update", class: "button"
+
+    .card-footer
+      .card-footer-item
+        = button_to "Delete maker", moderation_maker_path(@maker), method: :delete, class: "button has-text-danger"
