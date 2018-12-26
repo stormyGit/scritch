@@ -1,24 +1,24 @@
-import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import { Query, withApollo } from 'react-apollo';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import uuid from 'uuid/v4';
+import React from "react";
+import TextField from "@material-ui/core/TextField";
+import { Query, withApollo } from "react-apollo";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import uuid from "uuid/v4";
 
-import UserAvatar from './UserAvatar';
+import UserAvatar from "./UserAvatar";
 
-import { GET_USERS } from '../queries';
+import { GET_USERS } from "../queries";
 
-const MENTION_REGEXP = new RegExp('[a-zA-Z0-9-_]');
+const MENTION_REGEXP = new RegExp("[a-zA-Z0-9-_]");
 
 class InteractiveTextInput extends React.Component {
   state = {
     searchingUser: false,
     anchorEl: null,
-    q: '',
-    users: [],
-  }
+    q: "",
+    users: []
+  };
 
   constructor(props) {
     super(props);
@@ -44,21 +44,23 @@ class InteractiveTextInput extends React.Component {
       return;
     }
 
-    this.props.client.query({
-      query: GET_USERS,
-      variables: {
-        q,
-        limit: 6,
-        offset: 0,
-        fillWithFollowing: true,
-      }
-    }).then(({ data }) => {
-      this.setState({ users: data.users })
-    });
+    this.props.client
+      .query({
+        query: GET_USERS,
+        variables: {
+          q,
+          limit: 6,
+          offset: 0,
+          fillWithFollowing: true
+        }
+      })
+      .then(({ data }) => {
+        this.setState({ users: data.users });
+      });
   }
 
   getQuery(value) {
-    let q = '';
+    let q = "";
     let start = this.input.current.selectionStart;
     if (start > value.length) {
       start = value.length;
@@ -77,14 +79,14 @@ class InteractiveTextInput extends React.Component {
 
       if (char.match(MENTION_REGEXP)) {
         q = char + q;
-      } else if (char === '@') {
-        return (q);
+      } else if (char === "@") {
+        return q;
       } else {
         break;
       }
     }
 
-    return (null);
+    return null;
   }
 
   insertUser(user) {
@@ -104,14 +106,14 @@ class InteractiveTextInput extends React.Component {
     }
     let stringEnd = value.slice(start, value.length);
     if (stringEnd.length === 0) {
-      stringEnd = ' ';
+      stringEnd = " ";
     }
 
     let position;
     for (position = start; position > 0; position--) {
       const char = value[position - 1];
 
-      if (!char.match(MENTION_REGEXP) && char !== '@') {
+      if (!char.match(MENTION_REGEXP) && char !== "@") {
         break;
       }
     }
@@ -119,7 +121,7 @@ class InteractiveTextInput extends React.Component {
     const newValue = `${stringStart}@${user.slug}${stringEnd}`;
     const selectionStart = stringStart.length + user.slug.length + 2;
 
-    this.props.onChange({ target: { value: newValue }});
+    this.props.onChange({ target: { value: newValue } });
     this.input.current.value = newValue;
     this.input.current.setSelectionRange(selectionStart, selectionStart);
     this.input.current.focus();
@@ -128,11 +130,11 @@ class InteractiveTextInput extends React.Component {
 
   render() {
     if (!this.state.anchorEl) {
-      return (null);
+      return null;
     }
 
     return (
-      <div style={{ position: 'relative' }}>
+      <div style={{ position: "relative" }}>
         <TextField
           {...this.props}
           inputProps={{
@@ -140,7 +142,10 @@ class InteractiveTextInput extends React.Component {
             ref: this.input
           }}
         />
-        <div id={this.state.anchorEl} style={{ marginTop: 32, position: 'absolute' }}></div>
+        <div
+          id={this.state.anchorEl}
+          style={{ marginTop: 32, position: "absolute" }}
+        />
         <Menu
           style={{ left: 0 }}
           anchorEl={document.getElementById(this.state.anchorEl)}
@@ -150,19 +155,17 @@ class InteractiveTextInput extends React.Component {
           disableAutoFocus
           disableEnforceFocus
         >
-          {
-            this.state.users.map((user) => (
-              <MenuItem
-                key={user.id}
-                dense={false}
-                style={{ height: 32 }}
-                onClick={() => this.insertUser(user)}
-              >
-                <UserAvatar user={user} />
-                <ListItemText primary={`@${user.slug}`} />
-              </MenuItem>
-            ))
-          }
+          {this.state.users.map(user => (
+            <MenuItem
+              key={user.id}
+              dense={false}
+              style={{ height: 32 }}
+              onClick={() => this.insertUser(user)}
+            >
+              <UserAvatar user={user} />
+              <ListItemText primary={`@${user.slug}`} />
+            </MenuItem>
+          ))}
         </Menu>
       </div>
     );

@@ -6,7 +6,17 @@ class ApplicationController < ActionController::Base
 
   def index
   end
+  layout :layout_by_resource
 
+    private
+
+    def layout_by_resource
+      if devise_controller?
+        "moderation"
+      else
+        "application"
+      end
+    end
   protected
 
   def initialize_meta

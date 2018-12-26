@@ -1,0 +1,19 @@
+.columns.is-centered
+  .column.is-narrow
+    .box
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .content
+          = devise_error_messages!
+          .field
+            = f.label :email, class: "label"
+            .control
+              = f.email_field :email, autofocus: true, class: "input", required: true
+
+          .field
+            = f.label :password, class: "label"
+            .control
+              = f.password_field :password, autocomplete: "off", class: "input", required: true
+
+        .field.is-grouped
+          .control
+            = f.submit "Sign in", class: "button is-info"

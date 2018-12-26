@@ -12,14 +12,14 @@ import "es5-shim/es5-sham";
 import "es6-shim/es6-shim";
 import "es6-shim/es6-sham";
 import "es7-shim";
-import 'whatwg-fetch'
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './components/App'
+import "whatwg-fetch";
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./components/App";
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
   ReactDOM.render(
     <App />,
-    document.body.appendChild(document.getElementById('application')),
-  )
-})
+    document.body.appendChild(document.getElementById("application"))
+  );
+});

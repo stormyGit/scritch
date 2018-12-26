@@ -1,0 +1,14 @@
+br
+.container
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        | New Fursuit
+    .card-content
+      = form_for Fursuit.new, :url => moderation_fursuits_path do |f|
+        .field
+          = f.label :name, "Name"
+          = f.text_field :name, class: "input"
+
+        .field
+          = f.submit "Add fursuit", class: "button"

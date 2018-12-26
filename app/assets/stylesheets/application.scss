@@ -6,17 +6,22 @@ $info: hsl(0, 100%, 0%);
 
 body {
   background: #3c6478;
-  font-family: 'Caveat Brush';
+  font-family: "Caveat Brush";
   min-height: 100vh;
   main {
     min-height: calc(100vh - 90px - 2em);
   }
 }
 
+#navbar-padder {
+  padding-top: 56px;
+}
+
 .navbar {
   border-bottom: 1px solid #eee;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-weight: 800;
+  padding-bottom: 56px;
 }
 
 .navbar-brand {
@@ -57,7 +62,7 @@ h3 {
   }
   a {
     font-size: 1.5em;
-    font-family: 'Montserrat';
+    font-family: "Montserrat";
     margin-left: 6px;
     margin-right: 6px;
     margin-top: 6px;
@@ -69,27 +74,29 @@ h3 {
   }
 }
 
-#index, #moderation {
+#index,
+#moderation {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  p, strong {
+  p,
+  strong {
     color: white;
   }
   .statistics {
-    font-family: 'Montserrat';
+    font-family: "Montserrat";
   }
 }
 
 #moderation {
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   .level {
     margin-top: 128px;
   }
   .title {
     color: #fff;
-    font-family: 'Caveat Brush';
+    font-family: "Caveat Brush";
     font-weight: 400;
   }
   p {
@@ -148,7 +155,7 @@ h3 {
 .panel {
   margin-top: 2em;
   background-color: white;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   padding: 12px;
   border-radius: 6px;
   -moz-box-shadow: 0px 3px 6px 0px #333;
@@ -172,7 +179,8 @@ h3 {
   footer {
     padding: 2em;
   }
-  #index, #moderation {
+  #index,
+  #moderation {
     padding: 2em 1em;
     p {
       line-height: 1em;
@@ -212,7 +220,8 @@ h3 {
       .level-right {
         padding-left: 0;
       }
-      .level-left, .level-right {
+      .level-left,
+      .level-right {
         width: 100%;
       }
     }
@@ -275,12 +284,16 @@ footer {
 .rotating {
   animation: spin 1.3s linear infinite;
 }
-@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+@keyframes spin {
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
 .hearth {
   position: absolute;
   font-size: 200px;
 }
-
 
 //
 // footer.footer {

@@ -1,12 +1,12 @@
-import React from 'react';
-import AvatarEditor from 'react-avatar-editor';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import Button from '@material-ui/core/Button';
-import Slider from '@material-ui/lab/Slider';
-import { withStyles } from '@material-ui/core/styles';
+import React from "react";
+import AvatarEditor from "react-avatar-editor";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import Button from "@material-ui/core/Button";
+import Slider from "@material-ui/lab/Slider";
+import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   slider: {
@@ -17,7 +17,7 @@ const styles = theme => ({
 class ImageCropper extends React.Component {
   state = {
     zoom: 0
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -25,35 +25,41 @@ class ImageCropper extends React.Component {
   }
 
   render() {
-    const { image, onClose, onSubmit, width, height, borderRadius, classes } = this.props;
+    const {
+      image,
+      onClose,
+      onSubmit,
+      width,
+      height,
+      borderRadius,
+      classes
+    } = this.props;
 
     return (
-      <Dialog
-        open
-      >
+      <Dialog open>
         <DialogContent>
           <AvatarEditor
             style={{
-              width: '100%',
-              height: '100%'
+              width: "100%",
+              height: "100%"
             }}
             ref={this.editorRef}
             image={image}
             width={width}
             height={height}
             borderRadius={borderRadius}
-            scale={(1 + (this.state.zoom / 100.0) * 3)}
+            scale={1 + (this.state.zoom / 100.0) * 3}
           />
           <Slider
             classes={{ container: classes.slider }}
             value={this.state.zoom}
-            onChange={(event, value) => { this.setState({ zoom: value })}}
+            onChange={(event, value) => {
+              this.setState({ zoom: value });
+            }}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={onClose}>
-            Cancel
-          </Button>
+          <Button onClick={onClose}>Cancel</Button>
           <Button
             onClick={() => {
               const canvasScaled = this.editorRef.current.getImageScaledToCanvas();
@@ -66,7 +72,7 @@ class ImageCropper extends React.Component {
           </Button>
         </DialogActions>
       </Dialog>
-    )
+    );
   }
 }
 

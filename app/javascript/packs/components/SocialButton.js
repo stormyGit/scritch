@@ -1,11 +1,11 @@
 import React from "react";
-import Button from '@material-ui/core/Button';
-import queryString from 'query-string';
+import Button from "@material-ui/core/Button";
+import queryString from "query-string";
 
 export default ({ className, name, url, params, ...props }) => (
   <Button
     className={className}
-    component={(props) => (
+    component={props => (
       <a
         target="_blank"
         rel="noreferrer noopener"
@@ -18,4 +18,4 @@ export default ({ className, name, url, params, ...props }) => (
   >
     {props.children}
   </Button>
-)
+);

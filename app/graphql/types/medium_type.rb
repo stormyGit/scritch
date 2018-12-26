@@ -9,10 +9,17 @@ module Types
     field :thumbnail, String, null: false
     field :width, Integer, null: true
     field :height, Integer, null: true
+    field :fursuits_count, Integer, null: true
+    field :completion, Integer, null: true
     field :created_at, String, null: true
     field :user, UserType, null: true
     field :comments, [CommentType], null: false
     field :related_media, [MediumType], null: false
+
+    field :fursuits, [FursuitType], null: false
+
+    field :edition, EditionType, null: true
+    field :category, CategoryType, null: true
 
     field :comments_count, Integer, null: false
     field :likes_count, Integer, null: false
@@ -21,6 +28,10 @@ module Types
     field :liked, Boolean, null: false
     field :comments_disabled, Boolean, null: false
     field :tag_list, [String], null: false
+
+    def fursuits
+      object.fursuits.order(:name)
+    end
 
     def comments
       object.comments.order(created_at: :desc)

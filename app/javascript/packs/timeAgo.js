@@ -1,5 +1,5 @@
-import TimeAgo from 'javascript-time-ago'
-import en from 'javascript-time-ago/locale/en'
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
 
 TimeAgo.locale(en);
-export default new TimeAgo('en-US');
+export default new TimeAgo("en-US");

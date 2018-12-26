@@ -23,12 +23,31 @@ Rails.application.routes.draw do
       put :assign
       put :unassign
     end
+    resources :medium_reports do
+      put :dismiss
+      put :mark_as_accepted
+      put :reopen
+      put :assign
+      put :unassign
+    end
+    resources :comment_reports do
+      put :dismiss
+      put :mark_as_accepted
+      put :reopen
+      put :assign
+      put :unassign
+    end
     resources :users do
       put :moderate_profile
       put :ban_and_remove_account
       put :ban_permanently
       put :ban_for_a_month
       put :ban_for_a_week
+    end
+    resources :makers
+    resources :fursuits
+    resources :events do
+      resources :editions
     end
     resources :comments do
     end
@@ -49,10 +68,13 @@ Rails.application.routes.draw do
   get "/pictures", to: "media#index"
   get "/fursuits/:id", to: "fursuits#index"
   get "/makers/:id", to: "makers#index"
+  get "/events/:id", to: "makers#index"
   get "/databases", to: "media#index"
+  get "/tag", to: "media#index"
   get "/subscriptions", to: "media#index"
   get "/:id", to: "users#show"
   get "/:id/:filter", to: "users#show"
+  get "/moderation", to: "moderation#index"
   get "*path", to: "application#index"
   root to: "application#index"
 end

@@ -1,0 +1,21 @@
+br
+.container
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        | Update Event
+    .card-content
+      = form_for @event, :url => moderation_event_path, method: :put do |f|
+        .field
+          = f.label :name, "Event name"
+          = f.text_field :name, class: "input", value: @event.name
+
+        br
+        .field
+          = f.file_field :event_picture, class: "upload-file"
+
+        .field
+          = f.submit "Update", class: "button"
+    .card-footer
+      .card-footer-item
+        = button_to "Delete Event", moderation_event_path(@event), method: :delete, class: "button has-text-danger"

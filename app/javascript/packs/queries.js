@@ -135,6 +135,8 @@ export const UPDATE_MEDIUM = gql`
         viewsCount
         createdAt
         picture
+        completion
+        fursuitsCount
         thumbnail
         width
         height
@@ -142,11 +144,28 @@ export const UPDATE_MEDIUM = gql`
         height
         commentsDisabled
         tagList
+        category {
+          id
+          name
+        }
+        edition {
+          id
+          name
+          event {
+            id
+            name
+          }
+        }
         user {
           id
           slug
           name
           avatar
+        }
+        fursuits {
+          id
+          name
+          slug
         }
         relatedMedia {
           id
@@ -172,8 +191,26 @@ export const UPDATE_MEDIUM = gql`
 `;
 
 export const GET_MEDIA = gql`
-  query Media($q: String, $sort: String, $userId: ID, $offset: Int!, $limit: Int!, $fursuitId: ID) {
-    media(q: $q, sort: $sort, userId: $userId, offset: $offset, limit: $limit, fursuitId: $fursuitId) {
+  query Media(
+    $q: String
+    $sort: String
+    $userId: ID
+    $offset: Int!
+    $limit: Int!
+    $fursuitId: ID
+    $tagging: Boolean
+    $editionId: [ID!]
+  ) {
+    media(
+      q: $q
+      sort: $sort
+      userId: $userId
+      offset: $offset
+      limit: $limit
+      fursuitId: $fursuitId
+      tagging: $tagging
+      editionId: $editionId
+    ) {
       id
       slug
       title
@@ -182,11 +219,30 @@ export const GET_MEDIA = gql`
       thumbnail
       width
       height
+      completion
+      fursuitsCount
       createdAt
       commentsCount
       likesCount
       viewsCount
       tagList
+      fursuits {
+        id
+        name
+        slug
+      }
+      category {
+        id
+        name
+      }
+      edition {
+        id
+        name
+        event {
+          id
+          name
+        }
+      }
       user {
         id
         slug
@@ -205,15 +261,25 @@ export const GET_MEDIA = gql`
 `;
 
 export const GET_USERS = gql`
-  query Users($q: String, $fillWithFollowing: Boolean, $offset: Int!, $limit: Int!) {
-    users(q: $q, fillWithFollowing: $fillWithFollowing, offset: $offset, limit: $limit) {
+  query Users(
+    $q: String
+    $fillWithFollowing: Boolean
+    $offset: Int!
+    $limit: Int!
+  ) {
+    users(
+      q: $q
+      fillWithFollowing: $fillWithFollowing
+      offset: $offset
+      limit: $limit
+    ) {
       id
       slug
       name
       avatar
     }
   }
-`
+`;
 
 export const GET_ANNOUNCEMENTS = gql`
   query Announcements($offset: Int!, $limit: Int!) {
@@ -274,24 +340,81 @@ export const GET_ACTIVITIES = gql`
 `;
 
 export const GET_LIKES_BY_USER = gql`
-query GetLikesByUser($userId: ID!, $offset: Int!, $limit: Int!) {
-  likesByUser(userId: $userId, offset: $offset, limit: $limit) {
-    id
-    medium {
+  query GetLikesByUser($userId: ID!, $offset: Int!, $limit: Int!) {
+    likesByUser(userId: $userId, offset: $offset, limit: $limit) {
+      id
+      medium {
+        id
+        slug
+        title
+        description
+        picture
+        thumbnail
+        width
+        height
+        createdAt
+        commentsCount
+        likesCount
+        viewsCount
+        liked
+        tagList
+        user {
+          id
+          slug
+          name
+          avatar
+        }
+      }
+    }
+  }
+`;
+
+export const GET_FOLLOWERS_BY_USER = gql`
+  query GetFollowersByUser($userId: ID!, $offset: Int!, $limit: Int!) {
+    followersByUser(userId: $userId, offset: $offset, limit: $limit)
+      @connection(key: "followersByUser", filter: ["userId"]) {
       id
       slug
-      title
-      description
-      picture
-      thumbnail
-      width
-      height
+      name
+      avatar
+      bio
+      mediaCount
+    }
+  }
+`;
+
+export const GET_FOLLOWINGS_BY_USER = gql`
+  query GetFollowingsByUser($userId: ID!, $offset: Int!, $limit: Int!) {
+    followingsByUser(userId: $userId, offset: $offset, limit: $limit)
+      @connection(key: "followingsByUser", filter: ["userId"]) {
+      id
+      slug
+      name
+      avatar
+      bio
+      mediaCount
+    }
+  }
+`;
+
+export const GET_COMMENTS_BY_MEDIUM = gql`
+  query GetCommentsByMedium(
+    $mediumId: ID!
+    $parentId: ID
+    $offset: Int!
+    $limit: Int!
+  ) {
+    commentsByMedium(
+      mediumId: $mediumId
+      parentId: $parentId
+      offset: $offset
+      limit: $limit
+    ) @connection(key: "commentsByMedium", filter: ["mediumId", "parentId"]) {
+      id
+      body
       createdAt
-      commentsCount
-      likesCount
-      viewsCount
-      liked
-      tagList
+      repliesCount
+      parentId
       user {
         id
         slug
@@ -300,51 +423,6 @@ query GetLikesByUser($userId: ID!, $offset: Int!, $limit: Int!) {
       }
     }
   }
-}
-`;
-
-export const GET_FOLLOWERS_BY_USER = gql`
-query GetFollowersByUser($userId: ID!, $offset: Int!, $limit: Int!) {
-  followersByUser(userId: $userId, offset: $offset, limit: $limit) @connection(key: "followersByUser", filter: ["userId"]) {
-    id
-    slug
-    name
-    avatar
-    bio
-    mediaCount
-  }
-}
-`;
-
-export const GET_FOLLOWINGS_BY_USER = gql`
-query GetFollowingsByUser($userId: ID!, $offset: Int!, $limit: Int!) {
-  followingsByUser(userId: $userId, offset: $offset, limit: $limit) @connection(key: "followingsByUser", filter: ["userId"]) {
-    id
-    slug
-    name
-    avatar
-    bio
-    mediaCount
-  }
-}
-`;
-
-export const GET_COMMENTS_BY_MEDIUM = gql`
-query GetCommentsByMedium($mediumId: ID!, $parentId: ID, $offset: Int!, $limit: Int!) {
-  commentsByMedium(mediumId: $mediumId, parentId: $parentId, offset: $offset, limit: $limit) @connection(key: "commentsByMedium", filter: ["mediumId", "parentId"]) {
-    id
-    body
-    createdAt
-    repliesCount
-    parentId
-    user {
-      id
-      slug
-      name
-      avatar
-    }
-  }
-}
 `;
 
 export const CREATE_COMMENT = gql`
@@ -379,12 +457,31 @@ export const GET_MEDIUM = gql`
       width
       height
       commentsCount
+      completion
+      fursuitsCount
       likesCount
       liked
       viewsCount
       createdAt
       commentsDisabled
       tagList
+      fursuits {
+        id
+        name
+        slug
+      }
+      category {
+        id
+        name
+      }
+      edition {
+        id
+        name
+        event {
+          id
+          name
+        }
+      }
       user {
         id
         slug
@@ -436,7 +533,9 @@ export const GET_USER = gql`
 
 export const GET_CHATS = gql`
   query Chats($offset: Int!, $limit: Int!) {
-    chats(offset: $offset, limit: $limit) @connection(key: "messages", filter: ["chatId"]) @connection(key: "chats") {
+    chats(offset: $offset, limit: $limit)
+      @connection(key: "messages", filter: ["chatId"])
+      @connection(key: "chats") {
       id
       isUnread
       lastMessage {
@@ -468,7 +567,8 @@ export const GET_BLOCKED_USERS = gql`
 
 export const GET_MESSAGES = gql`
   query Messages($chatId: ID, $offset: Int!, $limit: Int!) {
-    messages(chatId: $chatId, offset: $offset, limit: $limit) @connection(key: "messages", filter: ["chatId"]) {
+    messages(chatId: $chatId, offset: $offset, limit: $limit)
+      @connection(key: "messages", filter: ["chatId"]) {
       id
       body
       senderId
@@ -479,7 +579,8 @@ export const GET_MESSAGES = gql`
 
 export const GET_LIKES = gql`
   query Likes($mediumId: ID, $offset: Int!, $limit: Int!) {
-    likes(mediumId: $mediumId, offset: $offset, limit: $limit) @connection(key: "likes", filter: ["mediumID"]) {
+    likes(mediumId: $mediumId, offset: $offset, limit: $limit)
+      @connection(key: "likes", filter: ["mediumID"]) {
       id
       createdAt
       user {
@@ -505,7 +606,6 @@ export const CREATE_MESSAGE = gql`
   }
 `;
 
-
 export const GET_SESSION = gql`
   query Session {
     session {
@@ -521,6 +621,7 @@ export const GET_SESSION = gql`
         bio
         website
         theme
+        tagTutorial
         mediaCount
         followingCount
         unreadAnnouncementsCount
@@ -562,6 +663,36 @@ export const CREATE_REPORT = gql`
   }
 `;
 
+export const CREATE_COMMENT_REPORT = gql`
+  mutation createCommentReport($input: CreateCommentReportInput!) {
+    createCommentReport(input: $input) {
+      report {
+        id
+      }
+    }
+  }
+`;
+
+export const CREATE_MEDIUM_REPORT = gql`
+  mutation createMediumReport($input: CreateMediumReportInput!) {
+    createMediumReport(input: $input) {
+      report {
+        id
+      }
+    }
+  }
+`;
+
+export const CREATE_TECH_REPORT = gql`
+  mutation createTechReport($input: CreateTechReportInput!) {
+    createTechReport(input: $input) {
+      report {
+        id
+      }
+    }
+  }
+`;
+
 export const BLOCK_USER = gql`
   mutation blockUser($input: BlockUserInput!) {
     blockUser(input: $input) {
@@ -591,7 +722,6 @@ export const CREATE_FOLLOW = gql`
     }
   }
 `;
-
 
 export const DELETE_FOLLOW = gql`
   mutation deleteFollow($input: DeleteFollowInput!) {
@@ -623,6 +753,21 @@ export const DELETE_LIKE = gql`
   }
 `;
 
+export const LOAD_EVENT = gql`
+  query Event($id: ID!) {
+    event(id: $id) {
+      id
+      name
+      slug
+      editions {
+        id
+        year
+        name
+      }
+    }
+  }
+`;
+
 export const LOAD_MAKER = gql`
   query Maker($id: ID!) {
     maker(id: $id) {
@@ -641,7 +786,7 @@ export const LOAD_MAKER = gql`
 `;
 
 export const LOAD_MAKERS = gql`
-  query Makers($name: String, $country: String, $limit: Int!,$offset: Int!) {
+  query Makers($name: String, $country: String, $limit: Int!, $offset: Int!) {
     makers(name: $name, country: $country, limit: $limit, offset: $offset) {
       id
       name
@@ -703,13 +848,88 @@ export const LOAD_FURSUIT = gql`
       makers {
         name
       }
+      media {
+        id
+        slug
+        title
+        description
+        picture
+        thumbnail
+        width
+        height
+        completion
+        createdAt
+      }
+    }
+  }
+`;
+
+export const LOAD_LEG_TYPES = gql`
+  query fursuitLegTypes {
+    fursuitLegTypes {
+      id
+      name
+    }
+  }
+`;
+
+export const LOAD_STYLES = gql`
+  query fursuitStyles {
+    fursuitStyles {
+      id
+      name
+    }
+  }
+`;
+
+export const LOAD_SPECIES = gql`
+  query fursuitSpecies {
+    fursuitSpecies {
+      id
+      name
+    }
+  }
+`;
+
+export const LOAD_MAKER_COUNTRIES = gql`
+  query makersCountry {
+    makersCountry {
+      country
+    }
+  }
+`;
+
+export const LOAD_EVENT_COUNTRIES = gql`
+  query events {
+    events {
+      editions {
+        country
+      }
     }
   }
 `;
 
 export const LOAD_FURSUITS = gql`
-  query Fursuits($name: String, $species: String, $legs: String, $style: String, $limit: Int!, $offset: Int!) {
-    fursuits(name: $name, fursuitSpecy: $species, fursuitLegType: $legs, fursuitStyle: $style, limit: $limit, offset: $offset) {
+  query Fursuits(
+    $name: String
+    $fursuitSpecy: ID
+    $fursuitLegType: ID
+    $fursuitStyle: ID
+    $exclude: [ID!]
+    $maker: ID
+    $limit: Int!
+    $offset: Int!
+  ) {
+    fursuits(
+      name: $name
+      fursuitSpecy: $fursuitSpecy
+      fursuitLegType: $fursuitLegType
+      fursuitStyle: $fursuitStyle
+      maker: $maker
+      exclude: $exclude
+      limit: $limit
+      offset: $offset
+    ) {
       id
       name
       creationYear

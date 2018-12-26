@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_07_211652) do
+ActiveRecord::Schema.define(version: 2018_12_23_212852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -140,6 +140,20 @@ ActiveRecord::Schema.define(version: 2018_12_07_211652) do
     t.string "output"
   end
 
+  create_table "comment_reports", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.text "description"
+    t.uuid "comment_id"
+    t.uuid "reporter_id"
+    t.string "status", default: "new"
+    t.bigint "assignee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignee_id"], name: "index_comment_reports_on_assignee_id"
+    t.index ["comment_id"], name: "index_comment_reports_on_comment_id"
+    t.index ["reporter_id"], name: "index_comment_reports_on_reporter_id"
+  end
+
   create_table "comments", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
     t.uuid "user_id"
@@ -176,6 +190,7 @@ ActiveRecord::Schema.define(version: 2018_12_07_211652) do
     t.string "slug"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "avatar"
     t.index "to_tsvector('english'::regconfig, (name)::text)", name: "index_events_on_name", using: :gin
   end
 
@@ -215,6 +230,14 @@ ActiveRecord::Schema.define(version: 2018_12_07_211652) do
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
   end
 
+  create_table "fursuit_media", force: :cascade do |t|
+    t.uuid "medium_id"
+    t.uuid "fursuit_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+  end
+
   create_table "fursuit_species", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -239,6 +262,7 @@ ActiveRecord::Schema.define(version: 2018_12_07_211652) do
     t.uuid "fursuit_leg_type_id"
     t.uuid "fursuit_style_id"
     t.uuid "fursuit_specy_id"
+    t.string "avatar"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -271,6 +295,10 @@ ActiveRecord::Schema.define(version: 2018_12_07_211652) do
     t.string "country"
     t.string "slug"
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.string "avatar"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "reference"
   end
 
   create_table "media", force: :cascade do |t|
@@ -299,8 +327,24 @@ ActiveRecord::Schema.define(version: 2018_12_07_211652) do
     t.uuid "fursuit_id"
     t.uuid "category_id"
     t.uuid "panel_id"
+    t.integer "completion", default: 0
+    t.integer "fursuits_count"
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
     t.index ["slug"], name: "index_media_on_slug", unique: true
+  end
+
+  create_table "medium_reports", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.text "description"
+    t.uuid "medium_id"
+    t.uuid "reporter_id"
+    t.string "status", default: "new"
+    t.bigint "assignee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignee_id"], name: "index_medium_reports_on_assignee_id"
+    t.index ["medium_id"], name: "index_medium_reports_on_medium_id"
+    t.index ["reporter_id"], name: "index_medium_reports_on_reporter_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -414,6 +458,14 @@ ActiveRecord::Schema.define(version: 2018_12_07_211652) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  create_table "tech_reports", force: :cascade do |t|
+    t.string "page"
+    t.text "description"
+    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
     t.string "name", null: false
@@ -431,6 +483,7 @@ ActiveRecord::Schema.define(version: 2018_12_07_211652) do
     t.string "blocked_users_ids", default: [], array: true
     t.datetime "last_announcements_read"
     t.boolean "chat_enabled", default: true
+    t.boolean "tag_tutorial", default: true
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end

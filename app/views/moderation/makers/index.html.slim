@@ -1,0 +1,39 @@
+#navbar-padder
+.container
+  - if flash[:notice].present?
+    .columns
+      .column.is-6.is-offset-3
+        .card.green
+          .card-content.has-text-centered
+            strong class=flash[:class]
+              = flash[:notice]
+    br
+  .columns
+    .column.is-6.is-offset-3
+      .columns.has-text-centered
+        .column.is-6
+          = link_to "Back", moderation_path, class: "button", style: "width: 100%"
+        .column.is-6
+          = link_to "New maker", new_moderation_maker_path, class: "button", style: "width: 100%"
+  br
+  p.is-size-1.has-text-centered.has-text-primary
+    | Makers
+  br
+  .columns.is-multiline
+    - @makers.each do |maker|
+      .column.is-3
+        .card
+          .card-header
+            .card-header-title
+              = maker.name
+          .card-content
+              = maker.country
+          .card-footer
+            .card-footer-item
+              = link_to "View", moderation_maker_path(id: maker.slug)
+            .card-footer-item
+              = link_to "Edit", edit_moderation_maker_path(id: maker.slug)
+
+  .columns
+    .column.is-6.is-offset-3.has-text-primary
+      = paginate @makers

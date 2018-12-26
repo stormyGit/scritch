@@ -1,239 +1,571 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import gql from 'graphql-tag';
-import { Query, Mutation } from 'react-apollo';
-import Divider from '@material-ui/core/Divider';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Button from '@material-ui/core/Button';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import uuidv4 from 'uuid/v4';
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
+import withWidth from "@material-ui/core/withWidth";
+import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import CardMedia from "@material-ui/core/CardMedia";
+import Input from "@material-ui/core/Input";
+import Select from "react-select";
+import VirtualizedSelect from "react-virtualized-select";
+import CheckIcon from "@material-ui/icons/Check";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputLabel from "@material-ui/core/InputLabel";
+import SearchBar from "material-ui-search-bar";
+import TextField from "@material-ui/core/TextField";
+import ScrollArea from "react-scrollbar";
+import "react-virtualized-select/styles.css";
+import "react-virtualized/styles.css";
+import createFilterOptions from "react-select-fast-filter-options";
 
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import TelegramLoginButton from "react-telegram-login";
+import { withRouter } from "react-router-dom";
 
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
+import ResponsiveDialog from "./ResponsiveDialog";
+import SignUpAlternativeDialog from "./SignUpAlternativeDialog";
+import themeSelector from "../themeSelector";
 
-import withWidth from '@material-ui/core/withWidth';
+import EmptyList from "./EmptyList";
+import LoadMoreButton from "./LoadMoreButton";
+import FursuitMiniCard from "./FursuitMiniCard";
 
-import ChipInput from 'material-ui-chip-input'
+import { Mutation, Query } from "react-apollo";
 
-import { withRouter } from 'react-router-dom'
+import Logo from "./Logo";
+import {
+  UPDATE_MEDIUM,
+  LOAD_CATEGORIES,
+  GET_MEDIA,
+  LOAD_FURSUITS,
+  LOAD_EVENTS,
+  LOAD_EDITIONS
+} from "../queries";
 
-import InsertPhotoIcon from '@material-ui/icons/InsertPhoto';
+const Option = props => {
+  const handleClick = event => {
+    setTimeout(() => props.onSelect(props.option, event), 90);
+  };
 
-import { withStyles } from '@material-ui/core/styles';
-import ResponsiveDialog from './ResponsiveDialog';
-import MediumDeletionDialog from './MediumDeletionDialog';
-import GlobalProgress from './GlobalProgress';
-import InteractiveTextInput from './InteractiveTextInput';
+  const { children, isFocused, isSelected, onFocus, style } = props;
 
-import { GET_MEDIUM, UPDATE_MEDIUM } from '../queries';
+  const { height, ...rest } = style;
+
+  return (
+    <MenuItem
+      key={props.key}
+      onFocus={onFocus}
+      selected={isFocused}
+      onClick={handleClick}
+      style={rest}
+    >
+      {props.option.name}
+    </MenuItem>
+  );
+};
 
 const styles = theme => ({
-  moderationExplanation: {
-    marginTop: theme.spacing.unit * 2,
+  brand: {
+    textAlign: "center"
   },
-  bannerMenu: {
-    zIndex: 2,
-  },
-  dialogContent: {
-  },
-  chipInput: {
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit * 2,
+  titleBarContainer: {
+    padding: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 3
   },
   link: {
-    color: theme.palette.text.primary,
+    color: theme.palette.text.primary
+  },
+  loginButtonContainer: {
+    textAlign: "center",
+    marginTop: theme.spacing.unit * 2,
+    position: "relative"
+  },
+  loginButton: {
+    position: "relative",
+    minHeight: 48
+  },
+  telegramLoader: {
+    position: "absolute",
+    left: "50%",
+    top: 0,
+    marginLeft: -16
+  },
+  troubleLink: {
+    textAlign: "center",
+    textDecoration: "underline",
+    marginTop: theme.spacing.unit * 2,
+    cursor: "pointer"
+  },
+  selectInput: {
+    fontFamily: theme.typography.fontFamily
+  },
+  searchBar: {
+    width: "100%"
   }
 });
 
 class EditMediumDialog extends React.Component {
-  state = {
-    mediumDeletion: false,
-    title: '',
-    description: '',
-    commentsEnabled: true,
-    shareOnTwitter: true,
-    tagList: [],
-    temporaryKey: null,
-    visibility: 'public',
-    restriction: 'none',
-    multipleMedia: false
+  constructor(props) {
+    super(props);
+    this.state = {
+      submiting: false,
+      alternativeLogin: false,
+      mediaEvent: this.props.medium.edition
+        ? this.props.medium.edition.event
+        : null,
+      mediaEdition: this.props.medium.edition,
+      mediaCategory: this.props.medium.category,
+      fursuits: this.props.medium.fursuits,
+      fursuitsCount: this.props.medium.fursuitsCount,
+      query: ""
+    };
   }
 
-  componentDidMount() {
-    this.setInitialValues(this.props.medium);
+  isFormOk() {
+    if (this.state.fursuits.length > this.state.fursuitsCount) return false;
+    else if (this.state.fursuitsCount > 30) return false;
+    return true;
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.open !== nextProps.open) {
-      this.setInitialValues(nextProps.medium);
+  handleSearch(val) {
+    if (this.state.query.length >= 1 && val.length < 1) {
+      this.reset = true;
+    }
+
+    if (this.loadEventTimer) {
+      clearTimeout(this.loadEventTimer);
+    }
+
+    if (val.length >= 1) {
+      this.loadEventTimer = setTimeout(() => {
+        this.setState({ query: val });
+      }, 500);
+    } else if (this.reset) {
+      clearTimeout(this.loadEventTimer);
+      this.setState({ query: val });
+      this.reset = false;
     }
   }
 
-  setInitialValues(medium) {
-    this.setState({
-      id: medium.id,
-      title: medium.title,
-      description: medium.description,
-      commentsEnabled: !medium.commentsDisabled,
-      shareOnTwitter: true,
-      tagList: medium.tagList,
-    });
-  }
+  renderResults({ data, onLoadMore, hasMore }) {
+    const { classes } = this.props;
 
-  render() {
-    const { classes, medium, uploadEnabled, width } = this.props;
+    if (data.length === 0) {
+      const { location } = this.props;
+      const query = queryString.parse(location.search);
+
+      if (query.q) {
+        return (
+          <EmptyList
+            label={`No results were found for your search term: ${query.q}`}
+          />
+        );
+      } else {
+        return <EmptyList label={`No results`} />;
+      }
+    }
 
     return (
       <React.Fragment>
-        <ResponsiveDialog
-          open={this.props.open}
-          onClose={this.props.onClose}
-        >
-          <GlobalProgress absolute />
-          {
-            medium.id && <DialogTitle>{medium.title}</DialogTitle>
-          }
-          <DialogContent
-            className={classes.dialogContent}
-            style={{
-              paddingTop: 0,
-              marginTop: medium.id ? 0 : 16,
-            }}
-          >
-            <TextField
-              label="Title"
-              name="title"
-              value={this.state.title}
-              onChange={(e) => this.setState({ title: e.target.value })}
-              margin="dense"
-              fullWidth
-            />
-            <InteractiveTextInput
-              label="Description"
-              name="description"
-              value={this.state.description}
-              onChange={(e) => this.setState({ description: e.target.value })}
-              margin="dense"
-              fullWidth
-              multiline
-              rows={3}
-              rowsMax={12}
-            />
-            <ChipInput
-              fullWidth
-              label="Tags"
-              newChipKeyCodes={[13, 188, 32]}
-              InputProps={{
-                margin: "dense"
+        {data.fursuits.map(fursuit => (
+          <Grid item xs={3} key={fursuit.id}>
+            <FursuitMiniCard
+              fursuit={fursuit}
+              onClick={payload => {
+                this.setState(prevState => ({
+                  query: "",
+                  fursuits: [...prevState.fursuits, payload]
+                }));
               }}
-              defaultValue={this.state.tagList}
-              onChange={(tagList) => { this.setState({ tagList }) }}
-              className={classes.chipInput}
             />
-
-            <FormControlLabel
-              margin={'dense'}
-              control={
-                <Switch
-                  checked={this.state.commentsEnabled}
-                  onChange={() => {
-                    this.setState({ commentsEnabled: !this.state.commentsEnabled })
-                  }}
-                  color="primary"
-                />
-              }
-              label={this.state.commentsEnabled ? "Comments enabled" : "Comments disabled"}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Grid container spacing={0} justify="space-between">
-              <Grid item>
-                <Button
-                  color="secondary"
-                  onClick={() => this.setState({ mediumDeletion: true })}
-                >
-                  Delete picture
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button onClick={this.props.onClose}>
-                  Cancel
-                </Button>
-                <Mutation
-                  mutation={UPDATE_MEDIUM}
-                  update={(cache, { data: { updateMedium } }) => {
-                    cache.writeQuery({
-                      query: GET_MEDIUM,
-                      variables: { id: medium.id },
-                      data: { medium: updateMedium.medium }
-                    });
-                  }}
-                >
-                  {( updateMedium, { data }) => (
-                    <Button
-                      disabled={!this.state.title || /^\s*$/.test(this.state.title)}
-                      onClick={() => {
-                        updateMedium({
-                          variables: {
-                            input: {
-                              id: medium.id,
-                              title: this.state.title,
-                              description: this.state.description,
-                              commentsDisabled: !this.state.commentsEnabled,
-                              tagList: this.state.tagList,
-                              shareOnTwitter: this.state.shareOnTwitter,
-                            }
-                          }
-                        }).then(() => {
-                          this.props.onClose()
-                        })
-                      }}
-                    >
-                      Save
-                    </Button>
-                  )}
-                </Mutation>
-              </Grid>
-            </Grid>
-          </DialogActions>
-        </ResponsiveDialog>
-        <MediumDeletionDialog
-          medium={medium}
-          open={this.state.mediumDeletion}
-          onClose={() => this.setState({ mediumDeletion: false })}
-          onDelete={() => {
-            this.setState({ mediumDeletion: false });
-            this.props.onClose();
-            this.props.history.push({
-              pathname: '/'
-            });
-          }}
-        />
+          </Grid>
+        ))}
+        {hasMore && <LoadMoreButton onClick={() => onLoadMore()} />}
       </React.Fragment>
+    );
+  }
+
+  render() {
+    const { classes, open, onClose, loading, width, medium } = this.props;
+    let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
+
+    if (open == false) return null;
+
+    console.log(medium, this.state ? this.state : "no state");
+
+    return (
+      <Mutation mutation={UPDATE_MEDIUM}>
+        {(updateMedium, { called }) => {
+          return (
+            <React.Fragment>
+              <ResponsiveDialog open={open} onClose={onClose}>
+                {((width !== "lg" && width !== "xl") || true) && (
+                  <DialogTitle className={classes.titleBarContainer}>
+                    <Grid
+                      container
+                      spacing={0}
+                      alignItems="center"
+                      justify="space-between"
+                    >
+                      <Grid item>
+                        <Typography variant="h6" noWrap color={"inherit"}>
+                          Tag dat pic
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <IconButton
+                          color="inherit"
+                          onClick={onClose}
+                          aria-label="Close"
+                        >
+                          <CloseIcon />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                  </DialogTitle>
+                )}
+                <DialogContent>
+                  <Grid container spacing={8}>
+                    <Grid item xs={this.state.fursuits.length > 0 ? 9 : 12}>
+                      <DialogContent>
+                        <img src={`${medium.thumbnail}`} title={medium.title} />
+                      </DialogContent>
+                      {false && (
+                        <List>
+                          <ListItem>
+                            <ListItemIcon>
+                              <CheckIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              inset
+                              primary={`Tagging picture #${medium.id}`}
+                            />
+                          </ListItem>
+                        </List>
+                      )}
+                      <Query
+                        query={LOAD_CATEGORIES}
+                        variables={{ sort: "latest", offset: 0, limit: 150 }}
+                      >
+                        {({ data, loading, error, fetchMore }) => {
+                          if (loading || error) {
+                            return null;
+                          }
+                          const categoryList = [
+                            { value: null, label: "Not applicable" }
+                          ];
+                          data.categories.map(e =>
+                            categoryList.push({ value: e.id, label: e.name })
+                          );
+                          return (
+                            <Select
+                              fullWidth
+                              clearable={true}
+                              placeholder="Category"
+                              defaultValue={
+                                medium.category
+                                  ? {
+                                      value: medium.category.id,
+                                      label: medium.category.name
+                                    }
+                                  : null
+                              }
+                              isSearchable
+                              onChange={mediaCategory => {
+                                this.setState({ mediaCategory: mediaCategory });
+                              }}
+                              options={categoryList}
+                              className={classes.selectInput}
+                            />
+                          );
+                        }}
+                      </Query>
+                      <div style={{ padding: 5 }} />
+                      <hr />
+                      <div style={{ padding: 5 }} />
+                      <Query
+                        query={LOAD_EVENTS}
+                        variables={{ sort: "latest", offset: 0, limit: 150 }}
+                      >
+                        {({ data, loading, error, fetchMore }) => {
+                          if (loading || error) {
+                            return null;
+                          }
+
+                          const eventList = [
+                            { value: null, label: "Not applicable" }
+                          ];
+                          data.events.map(e =>
+                            eventList.push({ value: e.id, label: e.name })
+                          );
+                          return (
+                            <Select
+                              fullWidth
+                              clearable={true}
+                              placeholder="Event"
+                              isSearchable
+                              defaultValue={
+                                medium.edition
+                                  ? {
+                                      value: medium.edition.event.id,
+                                      label: medium.edition.event.name
+                                    }
+                                  : null
+                              }
+                              onChange={mediaEvent => {
+                                this.setState({ mediaEvent: mediaEvent });
+                                if (mediaEvent.value == null)
+                                  this.setState({ mediaEdition: null });
+                              }}
+                              options={eventList}
+                              className={classes.selectInput}
+                            />
+                          );
+                        }}
+                      </Query>
+
+                      <div style={{ padding: 5 }} />
+                      {Object.keys(this.state.mediaEvent).length != 0 &&
+                        this.state.mediaEvent.id && (
+                          <Query
+                            query={LOAD_EDITIONS}
+                            variables={{
+                              sort: "latest",
+                              offset: 0,
+                              limit: 150,
+                              eventId: this.state.mediaEvent.id
+                            }}
+                          >
+                            {({ data, loading, error, fetchMore }) => {
+                              if (loading || error) {
+                                return null;
+                              }
+
+                              const editionList = [
+                                { value: null, label: "Not applicable" }
+                              ];
+                              data.editions.map(e =>
+                                editionList.push({ value: e.id, label: e.name })
+                              );
+                              return (
+                                <Select
+                                  fullWidth
+                                  clearable={true}
+                                  placeholder="Edition"
+                                  isSearchable
+                                  defaultValue={
+                                    medium.edition
+                                      ? {
+                                          value: medium.edition.id,
+                                          label: medium.edition.name
+                                        }
+                                      : null
+                                  }
+                                  onChange={mediaEdition => {
+                                    this.setState({
+                                      mediaEdition: mediaEdition
+                                    });
+                                  }}
+                                  options={editionList}
+                                  className={classes.selectInput}
+                                />
+                              );
+                            }}
+                          </Query>
+                        )}
+
+                      <div style={{ padding: 8 }} />
+
+                      <TextField
+                        label="Number of fursuits"
+                        name="fursuitsCount"
+                        variant="outlined"
+                        style={{ zIndex: 0 }}
+                        value={this.state.fursuitsCount || ""}
+                        onChange={e => {
+                          this.setState({ fursuitsCount: e.target.value });
+                        }}
+                        margin="dense"
+                        fullWidth
+                      />
+
+                      <div style={{ padding: 8 }} />
+
+                      <InputLabel error={false}>Fursuits</InputLabel>
+                      <SearchBar
+                        className={classes.searchBar}
+                        disabled={
+                          this.state.fursuitsCount
+                            ? this.state.fursuits.length >=
+                              this.state.fursuitsCount
+                            : true
+                        }
+                        onChange={value => this.handleSearch(value)}
+                        value={this.state.query}
+                        onCancelSearch={() => this.handleSearch("")}
+                      />
+
+                      <div style={{ padding: 8 }} />
+                      {this.state.query.length >= 1 && (
+                        <Query
+                          query={LOAD_FURSUITS}
+                          variables={{
+                            name: this.state.query,
+                            limit,
+                            offset: 0,
+                            exclude: this.state.fursuits.map(a => a.id)
+                          }}
+                        >
+                          {({ data, loading, error, fetchMore }) => (
+                            <React.Fragment>
+                              <Grid
+                                container
+                                className={classes.root}
+                                spacing={8}
+                                style={{
+                                  marginTop:
+                                    width === "lg" || width === "xl" ? 4 : -4
+                                }}
+                              >
+                                {!loading &&
+                                  !error &&
+                                  this.renderResults({
+                                    data,
+                                    hasMore:
+                                      data.fursuits.length % limit === 0 &&
+                                      this.state.hasMore &&
+                                      data.fursuits.length > 0,
+                                    onLoadMore: () => {
+                                      fetchMore({
+                                        variables: {
+                                          offset: data.fursuits.length,
+                                          limit
+                                        },
+                                        updateQuery: (
+                                          prev,
+                                          { fetchMoreResult }
+                                        ) => {
+                                          if (!fetchMoreResult) return prev;
+
+                                          if (
+                                            fetchMoreResult.fursuits.length ===
+                                            0
+                                          ) {
+                                            this.setState({ hasMore: false });
+                                          } else {
+                                            return Object.assign({}, prev, {
+                                              fursuits: [
+                                                ...prev.fursuits,
+                                                ...fetchMoreResult.fursuits
+                                              ]
+                                            });
+                                          }
+                                        }
+                                      });
+                                    }
+                                  })}
+                              </Grid>
+                            </React.Fragment>
+                          )}
+                        </Query>
+                      )}
+                    </Grid>
+                    {this.state.fursuits.length > 0 && (
+                      <React.Fragment>
+                        <Grid item lg={1} xs={1} />
+                        <Grid item lg={2} xs={2}>
+                          <div style={{ padding: 8 }} />
+                          {this.state.fursuits.map(fursuit => (
+                            <FursuitMiniCard
+                              key={fursuit.id}
+                              fursuit={fursuit}
+                              onClick={payload => {
+                                console.log(this.state.fursuits, payload);
+                                let index = this.state.fursuits.indexOf(
+                                  payload
+                                );
+                                this.setState({
+                                  fursuits: this.state.fursuits.filter(
+                                    (_, i) => i !== index
+                                  )
+                                });
+                              }}
+                            />
+                          ))}
+                        </Grid>
+                      </React.Fragment>
+                    )}
+                  </Grid>
+                  {
+                    <div className={classes.loginButtonContainer}>
+                      <div className={classes.loginButton}>
+                        {
+                          <Button
+                            disabled={!this.isFormOk()}
+                            onClick={() => {
+                              updateMedium({
+                                variables: {
+                                  input: {
+                                    id: medium.id,
+                                    title: medium.title,
+                                    fursuitsCount: parseInt(
+                                      this.state.fursuitsCount
+                                    ),
+                                    editionId: this.state.mediaEdition
+                                      ? this.state.mediaEdition.value
+                                      : null,
+                                    categoryId: this.state.mediaCategory
+                                      ? this.state.mediaCategory.value
+                                      : null,
+                                    fursuits: this.state.fursuits.map(a => a.id)
+                                  }
+                                }
+                              }).then(() => {
+                                onClose();
+                              });
+                            }}
+                          >
+                            Submit dat shit
+                          </Button>
+                        }
+                      </div>
+                    </div>
+                  }
+                  {true && (
+                    <Typography
+                      variant="caption"
+                      className={classes.troubleLink}
+                      onClick={() => this.setState({ alternativeLogin: true })}
+                    >
+                      This is porn? Report dat shit
+                    </Typography>
+                  )}
+                </DialogContent>
+              </ResponsiveDialog>
+              <SignUpAlternativeDialog
+                open={this.state.alternativeLogin}
+                onClose={() => {
+                  this.setState({ alternativeLogin: false });
+                }}
+              />
+            </React.Fragment>
+          );
+        }}
+      </Mutation>
     );
   }
 }
 
-export default withStyles(styles)(
-  withRouter(
-    withWidth()(EditMediumDialog)
-  )
-);
+export default withStyles(styles)(withRouter(withWidth()(EditMediumDialog)));

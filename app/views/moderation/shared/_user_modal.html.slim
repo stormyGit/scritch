@@ -27,7 +27,7 @@
             - user.media.each do |medium|
               .column.is-one-third
                 figure.image
-                  = image_tag MediumStorage.key_to_cdn_url(medium.thumbnail_key)
+                  = image_tag MediumStorage.key_to_cdn_url(medium.small_thumbnail_key)
 
 
     footer.modal-card-foot

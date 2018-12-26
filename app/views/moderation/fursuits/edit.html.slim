@@ -1,0 +1,48 @@
+br
+.container
+  .columns
+    .column.is-4.is-offset-4
+      .columns.has-text-centered
+        .column.is-12
+          = link_to "Back", moderation_fursuits_path, class: "button", style: "width: 100%"
+
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        | Update Fursuit
+    .card-content
+      = form_for @fursuit, :url => moderation_fursuit_path, method: :put do |f|
+        .field
+          = f.label :name, "Name"
+          = f.text_field :name, class: "input"
+        .field
+          = f.label :creation_year, "Creation Year"
+          = f.text_field :creation_year, class: "input"
+        .field
+          = f.label :makers, "Maker(s)"
+          br
+          .select.is-multiple
+            = f.select(:makers, options_for_select(Maker.all.order(:name).pluck(:name, :id)), {:include_blank => true}, { :multiple => true, :size => 6})
+        .field
+          = f.label :fursuit_specy_id, "Species"
+          br
+          .select
+            = f.select :fursuit_specy_id, options_for_select(FursuitSpecy.all.order(:name).pluck(:name, :id)), {:include_blank => true}
+        .field
+          = f.label :fursuit_style_id, "Style"
+          br
+          .select
+            = f.select :fursuit_style_id, options_for_select(FursuitStyle.all.order(:name).pluck(:name, :id)), {:include_blank => true}
+        .field
+          = f.label :fursuit_leg_type_id, "Legs"
+          br
+          .select
+            = f.select :fursuit_leg_type_id, options_for_select(FursuitLegType.all.order(:name).pluck(:name, :id), :selected => @fursuit.fursuit_leg_type_id), {:include_blank => true}
+
+
+        .field
+          = f.submit "Update", class: "button"
+
+    .card-footer
+      .card-footer-item
+        = button_to "Delete fursuit", moderation_fursuit_path(@fursuit), method: :delete, class: "button has-text-danger"

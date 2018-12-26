@@ -9,17 +9,16 @@ class Fursuit < ApplicationRecord
   belongs_to :fursuit_specy, optional: true
   belongs_to :fursuit_leg_type, optional: true
 
-  has_one_attached :avatar
 
+  mount_base64_uploader :avatar, AvatarUploader
   # has_many :fursuit_users, dependent: :destroy
   # has_many :users, through: :fursuit_users
   #
   has_many :fursuit_makers, dependent: :destroy
   has_many :makers, through: :fursuit_makers
   #
-  has_many :fursuits
-  # has_many :fursuit_media, dependent: :destroy
-  # has_many :media, through: :fursuit_media
+  has_many :fursuit_media, dependent: :destroy
+  has_many :media, through: :fursuit_media
 
   # scope :with_species, -> (id) { where(fursuit_specy_id: id) }
   # scope :with_style,   -> (id) { where(fursuit_style_id: id) }

@@ -2,6 +2,9 @@
 
 #reports.container.full-height-container
   .columns.is-centered
-    .column.is-narrow.is-half
-      - @reports.each do |report|
-        = render partial: 'moderation/reports/report', locals: { report: report }
+    .column.is-2
+    .column.is-10
+      .columns.is-centered.is-multiline
+        - @reports.each do |report|
+          .column.is-6
+            = render partial: 'moderation/reports/report', locals: { report: report }

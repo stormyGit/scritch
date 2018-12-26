@@ -2,8 +2,7 @@ class ModerationController < ApplicationController
   include ModerationHelper
 
   before_action :authenticate_moderator!
-
-  layout 'moderation'
+  layout 'layouts/moderation'
 
   def ensure_capability!(capability)
     unless current_moderator.capabilities.include?(capability)

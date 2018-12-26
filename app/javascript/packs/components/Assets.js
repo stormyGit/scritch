@@ -1,10 +1,10 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
 
-import Events from './Events';
-import Makers from './Makers';
-import Photographers from './Photographers';
-import Fursuits from './Fursuits';
+import Events from "./Events";
+import Makers from "./Makers";
+import Photographers from "./Photographers";
+import Fursuits from "./Fursuits";
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import Grid from "@material-ui/core/Grid";
@@ -14,32 +14,28 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
 
-import { Link, withRouter } from 'react-router-dom';
+import { Link, withRouter } from "react-router-dom";
 
 const styles = theme => {
-  return ({
-
-  });
+  return {};
 };
 
 class Assets extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentFilter: props.currentFilter || "fursuits",
+      currentFilter: props.currentFilter || "fursuits"
     };
   }
 
-  componentDidMount() {
-  }
+  componentDidMount() {}
 
   handleChange = (e, value) => {
-    console.log(value);
     this.setState({ currentFilter: value });
-  }
+  };
 
   render() {
-    const {classes, events, eventFilters} = this.props;
+    const { classes, events, eventFilters } = this.props;
 
     return (
       <div>

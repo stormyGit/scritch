@@ -2,6 +2,16 @@ module Types
   class QueryType < Types::BaseObject
     include ActiveRecord::Sanitization::ClassMethods
 
+    field :fursuit_leg_types, [FursuitLegTypeType], null: false do
+      description "Find a medium by ID"
+    end
+    field :fursuit_styles, [FursuitStyleType], null: false do
+      description "Find a medium by ID"
+    end
+    field :fursuit_species, [FursuitSpecyType], null: false do
+      description "Find a medium by ID"
+    end
+
     field :medium, MediumType, null: false do
       description "Find a medium by ID"
       argument :id, ID, required: true
@@ -15,6 +25,8 @@ module Types
       argument :fursuit_id, ID, required: false
       argument :offset, Integer, required: true
       argument :limit, Integer, required: true
+      argument :tagging, Boolean, required: false
+      argument :edition_id, [ID], required: false
     end
 
     field :activities, [ActivityType], null: false do
@@ -140,11 +152,13 @@ module Types
     field :fursuits, [FursuitType], null: false do
       description "List fursuits"
       argument :name, String, required: false
-      argument :limit, Integer, required: false
-      argument :offset, Integer, required: false
-      argument :fursuit_specy, String, required: false
-      argument :fursuit_style, String, required: false
-      argument :fursuit_leg_type, String, required: false
+      argument :limit, Integer, required: true
+      argument :offset, Integer, required: true
+      argument :exclude, [ID], required: false
+      argument :fursuit_specy, ID, required: false
+      argument :fursuit_style, ID, required: false
+      argument :fursuit_leg_type, ID, required: false
+      argument :maker, ID, required: false
     end
 
     field :maker, MakerType, null: false do
@@ -160,11 +174,31 @@ module Types
       argument :country, String, required: false
     end
 
+    field :makers_country, [MakerType], null: false do
+      description "List makers"
+    end
+
     field :categories, [CategoryType], null: false do
       description "List makers"
       argument :limit, Integer, required: false
       argument :offset, Integer, required: false
       argument :name, String, required: false
+    end
+
+    def makers_country
+      Maker.select(:country).distinct.order(:country)
+    end
+
+    def fursuit_leg_types
+      FursuitLegType.all.order(:name)
+    end
+
+    def fursuit_styles
+      FursuitStyle.all.order(:name)
+    end
+
+    def fursuit_species
+      FursuitSpecy.all.order(:name)
     end
 
     def categories(arguments)
@@ -182,21 +216,30 @@ module Types
     end
 
     def fursuits(arguments)
+      puts "\n\n\n\n\n#{arguments}\n\n\n>>>>>\n\n\n"
       fursuits = Fursuit.all
       if arguments[:fursuit_specy].present?
-        fursuits = fursuits.where(fursuit_specy_id: FursuitSpecy.find_by(name: arguments[:fursuit_specy]))
+        fursuits = fursuits.where(fursuit_specy_id: FursuitSpecy.find(arguments[:fursuit_specy]))
       end
 
       if arguments[:fursuit_style].present?
-        fursuits = fursuits.where(fursuit_style_id: FursuitStyle.find_by(name: arguments[:fursuit_style]))
+        fursuits = fursuits.where(fursuit_style_id: FursuitStyle.find(arguments[:fursuit_style]))
       end
 
       if arguments[:fursuit_leg_type].present?
-        fursuits = fursuits.where(fursuit_leg_type_id: FursuitLegType.find_by(name: arguments[:fursuit_leg_type]))
+        fursuits = fursuits.where(fursuit_leg_type_id: FursuitLegType.find(arguments[:fursuit_leg_type]))
+      end
+
+      if arguments[:maker].present?
+        fursuits = fursuits.joins(:makers).where("makers.uuid = ?", arguments[:maker])
       end
 
       if arguments[:name].present?
         fursuits = fursuits.where("name @@ ? or name ilike ?", arguments[:name], "%#{arguments[:name]}%")
+      end
+
+      if arguments[:exclude].present?
+        fursuits = fursuits.where.not("uuid IN (?)", arguments[:exclude])
       end
       fursuits.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
     end
@@ -234,8 +277,9 @@ module Types
 
       if arguments[:q].present?
         media = media
+          .joins(:fursuits)
           .joins(:user)
-          .where("users.name % ? OR media.title @@ ? OR media.uuid IN (?)", arguments[:q], arguments[:q], Medium.tagged_with(arguments[:q]).select(:uuid))
+          .where("media.title @@ ? OR media.uuid IN (?) OR fursuits.name % ?", arguments[:q], Medium.tagged_with(arguments[:q]).select(:uuid), arguments[:q])
       end
 
       media =
@@ -254,8 +298,16 @@ module Types
         media = media.where(user_id: arguments[:user_id])
       end
 
+      if arguments[:edition_id].present?
+        media = media.where(edition_id: arguments[:edition_id]).joins(:edition).order("editions.year DESC")
+      end
+
       if arguments[:fursuit_id].present?
         media = media.where(fursuit_id: arguments[:fursuit_id])
+      end
+      puts "\n\n\n\n\n#{arguments}\n\n\n\n"
+      if arguments[:tagging].present?
+        media = media.where.not(completion: 100).order(:completion)
       end
 
       media.includes(:tags).offset(arguments[:offset]).limit(arguments[:limit])

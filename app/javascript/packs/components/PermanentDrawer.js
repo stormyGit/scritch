@@ -1,29 +1,28 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import DrawerMenu from './DrawerMenu';
+import React from "react";
+import { withStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import DrawerMenu from "./DrawerMenu";
 
 const drawerWidth = 301;
 
 const styles = theme => {
   console.log(theme);
-  return ({
+  return {
     drawerPadder: {
       width: drawerWidth,
-      height: '100%',
+      height: "100%",
       flexShrink: 0
     },
     drawerPaper: {
-      position: 'relative',
+      position: "relative",
       width: drawerWidth,
-      position: 'fixed',
+      position: "fixed",
       backgroundColor: theme.palette.background.default,
       borderRightWidth: 0
     },
-    text: {
-    },
-    toolbar: theme.mixins.toolbar,
-  })
+    text: {},
+    toolbar: theme.mixins.toolbar
+  };
 };
 
 class PermanentDrawer extends React.Component {
@@ -36,10 +35,10 @@ class PermanentDrawer extends React.Component {
         <Drawer
           variant="permanent"
           classes={{
-            paper: classes.drawerPaper,
+            paper: classes.drawerPaper
           }}
           PaperProps={{
-            elevation: 0,
+            elevation: 0
           }}
         >
           <div className={classes.toolbar} />
