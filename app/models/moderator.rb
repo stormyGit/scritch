@@ -3,6 +3,7 @@ class Moderator < ApplicationRecord
     analytics
     reports
     assets
+    events
     moderators
     banned_users
   )

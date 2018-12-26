@@ -66,6 +66,9 @@ html lang="en"
                 | Fursuits
               = active_link_to moderation_makers_path, class: "navbar-item", class_active: 'is-active', active: :exact do
                 | Makers
+            - if moderator_can_see?("events")
+              = active_link_to moderation_events_path, class: "navbar-item", class_active: "is-active", active: :exact do
+                | Events
             - if moderator_can_see?("reports")
               = active_link_to moderation_reports_path, class: "navbar-item is-hidden-desktop is-hidden-widescreen", class_active: "is-active", active: :exact do
                 | All open reports

@@ -1,8 +1,12 @@
-class Moderation::EventsController < ApplicationController
+class Moderation::EventsController < ModerationController
   include ModerationHelper
-  before_action :check_if_moderator!
+  before_action :ensure_assets_capability!
 
   def index
+    if flash[:notice] == "Signed in successfully."
+      flash[:notice] = ""
+    end
+
     @events = Event.all.order(:name)
 
     if params[:name].present?
@@ -59,5 +63,11 @@ class Moderation::EventsController < ApplicationController
     flash[:notice] = "Event removed!"
     flash[:class] = "has-text-danger"
     redirect_to moderation_events_path
+  end
+
+  protected
+
+  def ensure_assets_capability!
+    ensure_capability! "events"
   end
 end

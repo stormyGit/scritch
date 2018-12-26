@@ -15,9 +15,9 @@ br
     .card-content
       p.is-size-3
         = "#{@maker.country}"
-      a href="#{@maker.web_1}"
+      a href="#{@maker.web}"
         p.is-size-4
-          = "#{@maker.web_1}"
+          = "#{@maker.web}"
       br
       br
       - if @maker.user.present?
@@ -37,10 +37,16 @@ br
       br
       .columns.is-multiline
         - @maker.fursuits.each do |fursuit|
-          .column.is-3
+          .column.is-2
             .card
-              .card-content
-                = fursuit.name
+              .card-header
+                .card-header-title
+                  = fursuit.name
+              .card-image
+                - if fursuit.avatar_url.present?
+                  = image_tag fursuit.avatar
+                - else
+                  = image_tag 'fursuitPlaceholder.png'
               .card-footer
                 .card-footer-item
                   = link_to "View", moderation_fursuit_path(id: fursuit.slug)
