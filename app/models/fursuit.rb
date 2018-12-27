@@ -11,8 +11,8 @@ class Fursuit < ApplicationRecord
 
 
   mount_base64_uploader :avatar, AvatarUploader
-  # has_many :fursuit_users, dependent: :destroy
-  # has_many :users, through: :fursuit_users
+  has_many :fursuit_users, dependent: :destroy
+  has_many :users, through: :fursuit_users
   #
   has_many :fursuit_makers, dependent: :destroy
   has_many :makers, through: :fursuit_makers

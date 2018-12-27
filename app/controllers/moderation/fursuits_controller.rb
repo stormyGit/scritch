@@ -58,7 +58,7 @@ class Moderation::FursuitsController < ModerationController
     fursuit.save!
     flash[:notice] = "Fursuit updated!"
     flash[:class] = "has-text-warning"
-    redirect_to moderation_fursuits_path
+    redirect_to moderation_fursuit_path(fursuit)
   end
 
   def destroy

@@ -1,0 +1,17 @@
+[
+  "Toony",
+  "Realistic",
+  "Realistic Toony"
+].map{|e| FursuitStyle.create!(name: e)}
+
+[
+  "Quad",
+  "Digitigrade",
+  "Plantigrade"
+].map{|e| FursuitLegType.create!(name: e)}
+
+[
+  "Tiger",
+  "Fox",
+  "Wolf"
+].map{|e| FursuitSpecy.create!(name: e)}

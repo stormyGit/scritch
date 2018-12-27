@@ -13,33 +13,55 @@ br
 
 
     .card-content
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
+      .columns
+        .column.is-6
+          - if @fursuit.avatar_url.present?
+            = image_tag @fursuit.avatar
+          - else
+            = image_tag 'fursuitPlaceholder.png'
+          br
+          br
+          - if @fursuit.users.present?
+            p.is-size-4
+              | Asset owned by:
+              br
+              - @fursuit.users.each do |user|
+                = user.name
+          - else
+            p.is-size-4
+              | Asset not owned
+
+        .column.is-6
+          p.is-size-4
+            | Created
+          p.is-size-5
+            = @fursuit.creation_year
+          br
+          p.is-size-4
+            | Maker
+          p.is-size-5
+            = @fursuit.makers[0].name
+          br
+          p.is-size-4
+            | Species
+          p.is-size-5
+            = @fursuit.fursuit_specy ? @fursuit.fursuit_specy.name : "none"
+          br
+          p.is-size-4
+            | Style
+          p.is-size-5
+            = @fursuit.fursuit_style ? @fursuit.fursuit_style.name : "none"
+          br
+          p.is-size-4
+            | Leg Type
+          p.is-size-5
+            = @fursuit.fursuit_leg_type ? @fursuit.fursuit_leg_type.name : "none"
+
+
+
 
     .card-footer
       .card-footer-item
-        = link_to "Edit", edit_moderation_fursuit_path(id: @fursuit.slug)
+        = link_to "Edit", edit_moderation_fursuit_path(id: @fursuit.id)
       .card-footer-item
-        = link_to "Delete", moderation_fursuit_path(id: @fursuit.slug), method: :delete, class: "has-text-danger"
+        = link_to "Delete", moderation_fursuit_path(id: @fursuit.id), method: :delete, class: "has-text-danger"
