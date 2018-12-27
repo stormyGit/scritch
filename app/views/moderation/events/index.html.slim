@@ -25,15 +25,15 @@
         a href=moderation_event_editions_path(event_id: event.slug)
           .card
             .card-image
-              - if event.event_picture.attachment.present?
-                = image_tag event.event_picture
+              - if event.avatar.present?
+                = image_tag event.avatar
               - else
                 = image_tag ('eventPlaceholder.png')
             .card-content style="height: 100px;"
               = event.name
             .card-footer
               .card-footer-item
-                = link_to "Edit", edit_moderation_event_path(event.name)
+                = link_to "Edit", edit_moderation_event_path(event.slug)
 
   .columns
     .column.is-6.is-offset-3

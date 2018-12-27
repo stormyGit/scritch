@@ -2,6 +2,7 @@ class Moderation::EventsController < ModerationController
   include ModerationHelper
   before_action :ensure_assets_capability!
 
+
   def index
     if flash[:notice] == "Signed in successfully."
       flash[:notice] = ""
@@ -17,22 +18,20 @@ class Moderation::EventsController < ModerationController
   end
 
   def show
-    @event = Event.find_by(id: params[:id])
+    @event = Event.find(params[:id])
   end
 
   def edit
-    @event = Event.find_by(id: params[:id])
+    @event = Event.find(params[:id])
   end
 
   def update
-    @event = Event.find_by(id: params[:id])
+    @event = Event.find(params[:id])
     @event.assign_attributes(params.require(:event).permit([
      :name
     ]))
     #    authorize event
-    if params[:event][:event_picture].present?
-      @event.event_picture.attach(params[:event][:event_picture].first)
-    end
+    @event.avatar = params[:event][:avatar]
     @event.save!
     flash[:notice] = "Event updated!"
     flash[:class] = "has-text-warning"
@@ -49,15 +48,15 @@ class Moderation::EventsController < ModerationController
      :name
     ]))
     #    authorize event
-    event.event_picture.attach(params[:event][:event_picture].first)
+    event.avatar = params[:event][:avatar]
     event.save!
     flash[:notice] = "Event added!"
-    flash[:class] = "has-text-primary"
+    flash[:class] = ""
     redirect_to moderation_events_path
   end
 
   def destroy
-    event = Event.find_by(id: params[:id])
+    event = Event.find(params[:id])
     event.destroy!
 
     flash[:notice] = "Event removed!"

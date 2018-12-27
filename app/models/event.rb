@@ -5,7 +5,7 @@ class Event < ApplicationRecord
   friendly_id :name, use: :slugged
 
   has_many :editions, dependent: :destroy
-  mount_base64_uploader :avatar, AvatarUploader
+  mount_uploader :avatar, AvatarUploader
 
   validates :name, presence: true
 end
