@@ -22,22 +22,22 @@ br
           = f.label :makers, "Maker(s)"
           br
           .select.is-multiple
-            = f.select(:makers, options_for_select(Maker.all.order(:name).pluck(:name, :uuid)), {:include_blank => true}, { :multiple => true, :size => 6})
+            = f.select(:makers, options_for_select(Maker.all.order(:name).pluck(:name, :uuid), @fursuit.makers), {:include_blank => true}, { :multiple => true, :size => 6})
         .field
           = f.label :fursuit_specy_id, "Species"
           br
           .select
-            = f.select :fursuit_specy_id, options_for_select(FursuitSpecy.all.order(:name).pluck(:name, :uuid), @fursuit.fursuit_specy_id), :include_blank => true
+            = f.select :fursuit_specy_id, options_for_select(FursuitSpecy.all.order(:name).pluck(:name, :uuid), @fursuit.fursuit_specy_id), {:include_blank => true}
         .field
           = f.label :fursuit_style_id, "Style"
           br
           .select
-            = f.select :fursuit_style_id, options_for_select(FursuitStyle.all.order(:name).pluck(:name, :uuid)), {:include_blank => true}
+            = f.select :fursuit_style_id, options_for_select(FursuitStyle.all.order(:name).pluck(:name, :uuid), @fursuit.fursuit_style_id), {:include_blank => true}
         .field
           = f.label :fursuit_leg_type_id, "Legs"
           br
           .select
-            = f.select :fursuit_leg_type_id, options_for_select(FursuitLegType.all.order(:name).pluck(:name, :uuid), :selected => @fursuit.fursuit_leg_type_id), {:include_blank => true}
+            = f.select :fursuit_leg_type_id, options_for_select(FursuitLegType.all.order(:name).pluck(:name, :uuid), @fursuit.fursuit_leg_type_id), {:include_blank => true}
 
 
         .field
