@@ -1,4 +1,19 @@
 #moderators.container.full-height-container
+  - if flash[:notice].present?
+    .columns
+      .column.is-6.is-offset-3
+        .card.green
+          .card-content.has-text-centered
+            strong class=flash[:class]
+              = flash[:notice]
+    br
+  .columns
+    .column.is-6.is-offset-3
+      .columns.has-text-centered
+        .column.is-6
+          = link_to "Back", moderation_path, class: "button", style: "width: 100%"
+        .column.is-6
+          = link_to "New moderator", new_moderation_moderator_path, class: "button", style: "width: 100%"
   .columns.is-multiline
     - @moderators.each do |moderator|
       .column.is-one-third

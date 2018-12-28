@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_27_183429) do
+ActiveRecord::Schema.define(version: 2018_12_28_065824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -431,8 +431,6 @@ ActiveRecord::Schema.define(version: 2018_12_27_183429) do
 
   create_table "statistics", force: :cascade do |t|
     t.integer "users"
-    t.integer "chats"
-    t.integer "messages"
     t.integer "likes"
     t.integer "media"
     t.datetime "created_at", null: false

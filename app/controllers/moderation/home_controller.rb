@@ -20,28 +20,6 @@ class Moderation::HomeController < ModerationController
       @users_count = @users_count + [[tmp_today, @users_now]]
     end
 
-    @chats_count = Statistic.pluck("date_trunc('day', created_at)", :chats)
-    @chats_count.each do |u|
-      if u.present?
-        tmp = u[0].to_s
-        u[0] = tmp[0..tmp.index(':') - 4]
-      end
-    end
-    if params[:today].present?
-      @chats_count = @chats_count + [[tmp_today, Chat.count]]
-    end
-
-    @messages_count = Statistic.pluck("date_trunc('day', created_at)", :messages)
-    @messages_count.each do |u|
-      if u.present?
-        tmp = u[0].to_s
-        u[0] = tmp[0..tmp.index(':') - 4]
-      end
-    end
-    if params[:today].present?
-      @messages_count = @messages_count + [[tmp_today, Message.count]]
-    end
-
     @likes_count = Statistic.pluck("date_trunc('day', created_at)", :likes)
     @likes_count.each do |u|
       if u.present?
@@ -61,7 +39,7 @@ class Moderation::HomeController < ModerationController
       end
     end
     if params[:today].present?
-      @media = @media + [[tmp_today, Picture.count]]
+      @media = @media + [[tmp_today, Media.count]]
     end
 
     @users_per_day = []

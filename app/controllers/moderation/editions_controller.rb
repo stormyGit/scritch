@@ -1,7 +1,6 @@
-class Moderation::EditionsController < ApplicationController
+class Moderation::EditionsController < ModerationController
   include ModerationHelper
-  before_action :check_if_moderator!
-
+  before_action :ensure_assets_capability!
 
   def index
     @event = Event.find(params[:event_id])
@@ -67,7 +66,7 @@ class Moderation::EditionsController < ApplicationController
     edition.year = edition.start_date.year
     edition.save!
     flash[:notice] = "Edition added!"
-    flash[:class] = "has-text-primary"
+    flash[:class] = ""
     redirect_to moderation_event_editions_path(event_id: params[:event_id])
   end
 
@@ -79,5 +78,11 @@ class Moderation::EditionsController < ApplicationController
     flash[:notice] = "Event removed!"
     flash[:class] = "has-text-danger"
     redirect_to moderation_event_editions_path(event_id: event)
+  end
+
+  protected
+
+  def ensure_assets_capability!
+    ensure_capability! "events"
   end
 end

@@ -1,0 +1,17 @@
+br
+.container
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        | New Moderator
+    .card-content
+      = form_for Moderator.new, :url => moderation_moderators_path do |f|
+        .field
+          = f.label :name, "Name"
+          = f.text_field :name, class: "input"
+        .field
+          = f.label :email, "email"
+          = f.text_field :email, class: "input"
+
+        .field
+          = f.submit "Add moderator", class: "button"
