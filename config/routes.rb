@@ -16,6 +16,10 @@ Rails.application.routes.draw do
         get :analytics
       end
     end
+
+    resources :tech_reports do
+    end
+
     resources :reports do
       put :dismiss
       put :mark_as_accepted

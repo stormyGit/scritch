@@ -1,0 +1,27 @@
+#moderators.container.full-height-container
+  - if flash[:notice].present?
+    .columns
+      .column.is-6.is-offset-3
+        .card.green
+          .card-content.has-text-centered
+            strong class=flash[:class]
+              = flash[:notice]
+    br
+  .columns
+    .column.is-6.is-offset-3
+      .columns.has-text-centered
+        .column.is-6.is-offset-3
+          = link_to "Back", moderation_path, class: "button", style: "width: 100%"
+  .columns.is-multiline
+    #navbar-padder
+    - @reports.each do |report|
+      .column.is-one-third
+        .card
+          .card-header
+          .card-content
+            = report.description
+          .card-footer
+            .card-footer-item
+              = link_to "Go To Page", report.page
+            .card-footer-item
+              = link_to "Delete", moderation_tech_report_path(id: report.id), class: "has-text-danger", method: :delete

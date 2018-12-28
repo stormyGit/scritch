@@ -4,6 +4,7 @@ class Moderator < ApplicationRecord
     reports
     assets
     events
+    tech
     moderators
     banned_users
   )
