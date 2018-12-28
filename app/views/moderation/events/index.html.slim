@@ -26,7 +26,7 @@
           .card
             .card-image
               - if event.avatar.present?
-                = image_tag event.avatar
+                = image_tag event.avatar_url
               - else
                 = image_tag ('eventPlaceholder.png')
             .card-content style="height: 100px;"
