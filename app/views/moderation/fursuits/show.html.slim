@@ -38,9 +38,10 @@ br
             = @fursuit.creation_year
           br
           p.is-size-4
-            | Maker
+            | Maker(s)
           p.is-size-5
-            = @fursuit.makers[0].name
+            - @fursuit.makers.present? && @fursuit.makers.each do |maker|
+              = maker.name
           br
           p.is-size-4
             | Species
