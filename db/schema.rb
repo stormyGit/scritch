@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_28_065824) do
+ActiveRecord::Schema.define(version: 2019_01_01_195511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -217,6 +217,20 @@ ActiveRecord::Schema.define(version: 2018_12_28_065824) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
+  create_table "fursuit_builds", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "fursuit_fingers", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "fursuit_leg_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -236,6 +250,13 @@ ActiveRecord::Schema.define(version: 2018_12_28_065824) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+  end
+
+  create_table "fursuit_paddings", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "fursuit_species", force: :cascade do |t|
@@ -271,6 +292,11 @@ ActiveRecord::Schema.define(version: 2018_12_28_065824) do
     t.uuid "fursuit_style_id"
     t.uuid "fursuit_specy_id"
     t.string "avatar"
+    t.uuid "fursuit_padding_id"
+    t.uuid "fursuit_build_id"
+    t.uuid "fursuit_finger_id"
+    t.string "base_color"
+    t.string "eyes_color"
   end
 
   create_table "likes", force: :cascade do |t|

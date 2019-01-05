@@ -11,7 +11,19 @@
 ].map{|e| FursuitLegType.create!(name: e)}
 
 [
-  "Tiger",
-  "Fox",
-  "Wolf"
-].map{|e| FursuitSpecy.create!(name: e)}
+  "Fullsuit",
+  "Partial"
+].map{|e| FursuitBuild.create!(name: e)}
+
+[
+  "None",
+  "Muscle",
+  "Plush"
+].map{|e| FursuitPadding.create!(name: e)}
+
+[
+  "Five",
+  "Four",
+  "Other",
+  "N/A"
+].map{|e| FursuitFingers.create!(name: e)}

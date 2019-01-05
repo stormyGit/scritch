@@ -43,18 +43,7 @@ class EventMedia extends React.Component {
     const { classes } = this.props;
 
     if (media.length === 0 && users.length === 0) {
-      const { location } = this.props;
-      const query = queryString.parse(location.search);
-
-      if (query.q) {
-        return (
-          <EmptyList
-            label={`No results were found for your search term: ${query.q}`}
-          />
-        );
-      } else {
-        return <EmptyList label={`No results`} />;
-      }
+      return <EmptyList label={`No results`} />;
     }
     if (horizontal) {
       return (
