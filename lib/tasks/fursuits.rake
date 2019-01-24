@@ -26,7 +26,7 @@ namespace :fursuits do
       puts e.to_s
       fursuit = Fursuit.create!(
         name: e[0],
-        fursuit_specy: FursuitSpecy.find_by(name: e[5]),
+        fursuit_specy: FursuitSpecy.find_by(name: e[1]),
         creation_year: e[2],
         fursuit_style: FursuitStyle.find_by(name: e[4]),
         fursuit_leg_type: FursuitLegType.find_by(name: e[5]),

@@ -7,6 +7,7 @@ class GraphqlController < ApplicationController
       current_session: current_session,
       current_user: current_user,
       current_user_references: current_user_references,
+      cookies: cookies
     }
     result = MurrsuitSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
@@ -18,7 +19,7 @@ class GraphqlController < ApplicationController
   private
 
   def current_session
-    @current_session ||= Session.find_by(uuid: authorization_token)
+    @current_session ||= Session.find_by(uuid: cookies[:token])
   end
 
   def current_user

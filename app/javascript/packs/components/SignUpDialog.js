@@ -232,7 +232,6 @@ const FormWithMutation = props => (
                   createSession: { session }
                 }
               }) => {
-                localStorage.setItem("token", session.id);
                 location.reload();
               }
             );

@@ -27,27 +27,30 @@ class Mutations::CreateSession < Mutations::BaseMutation
         user.name = params[:telegram_first_name]
       end
 
-      begin
-        profile_photos = Telegram.bot.get_user_profile_photos(user_id: params[:telegram_id], limit: 1)
-        return if profile_photos["result"]["total_count"] == 0
-
-        profile_photo_file = profile_photos["result"]["photos"][0].sort_by do |profile_photo|
-          profile_photo["width"]
-        end.last
-        if profile_photo_file.present?
-          profile_photo_file_path = Telegram.bot.get_file(file_id: profile_photo_file['file_id'])["result"]["file_path"]
-
-          user.remote_avatar_url = "https://api.telegram.org/file/bot#{Telegram.bot.token}/#{profile_photo_file_path}"
-        end
-
-      rescue => error
-        ExceptionNotifier.notify_exception(error)
-      end
+      # begin
+      #   profile_photos = Telegram.bot.get_user_profile_photos(user_id: params[:telegram_id], limit: 1)
+      #   return if profile_photos["result"]["total_count"] == 0
+      #
+      #   profile_photo_file = profile_photos["result"]["photos"][0].sort_by do |profile_photo|
+      #     profile_photo["width"]
+      #   end.last
+      #   if profile_photo_file.present?
+      #     profile_photo_file_path = Telegram.bot.get_file(file_id: profile_photo_file['file_id'])["result"]["file_path"]
+      #
+      #     user.remote_avatar_url = "https://api.telegram.org/file/bot#{Telegram.bot.token}/#{profile_photo_file_path}"
+      #   end
+      #
+      # rescue => error
+      #   ExceptionNotifier.notify_exception(error)
+      # end
 
     end
 
     session = Session.new(user: user)
+
+    puts "\n\n\n\n#{session}\n\n\n\n\n"
     if session.save
+      context[:cookies][:token] = {value: session.uuid, httponly: true, expires: Time.now + 1.week}
       {
         session: session,
         errors: [],

@@ -132,10 +132,6 @@ class SignUpAlternativeDialog extends React.Component {
                     /([0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12})/i
                   );
                   if (e.target.value.match(v4)) {
-                    localStorage.setItem(
-                      "token",
-                      e.target.value.match(v4)[1].toLowerCase()
-                    );
                     location.reload();
                   }
                 }}

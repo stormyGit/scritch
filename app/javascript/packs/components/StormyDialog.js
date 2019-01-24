@@ -46,7 +46,13 @@ class StormyDialog extends React.Component {
 
     console.log(this.props.location);
     return (
-      <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
+      <ResponsiveDialog
+        open={this.props.open}
+        onClose={() => {
+          this.props.onClose();
+          this.setState({ description: "" });
+        }}
+      >
         <GlobalProgress absolute />
 
         <DialogTitle>Complain or suggest</DialogTitle>
@@ -64,7 +70,14 @@ class StormyDialog extends React.Component {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.onClose}>Cancel</Button>
+          <Button
+            onClick={() => {
+              this.props.onClose();
+              this.setState({ description: "" });
+            }}
+          >
+            Cancel
+          </Button>
           <Mutation mutation={CREATE_TECH_REPORT} update={cache => {}}>
             {(createReport, { data }) => (
               <Button
@@ -79,6 +92,7 @@ class StormyDialog extends React.Component {
                     }
                   }).then(() => {
                     this.props.onClose();
+                    this.setState({ description: "" });
                   });
                 }}
               >
