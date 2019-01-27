@@ -23,6 +23,7 @@ import ChatButtleIcon from "@material-ui/icons/ChatBubble";
 import ChatButtleEmptyIcon from "@material-ui/icons/ChatBubbleOutline";
 import CloseIcon from "@material-ui/icons/Close";
 import BackIcon from "@material-ui/icons/ArrowBack";
+import BusinessIcon from "@material-ui/icons/Business";
 
 import { Link, withRouter } from "react-router-dom";
 import TelegramLoginButton from "react-telegram-login";
@@ -37,6 +38,7 @@ import GlobalProgress from "./GlobalProgress";
 import ActivitiesDialog from "./ActivitiesDialog";
 import ChatDialog from "./ChatDialog";
 import SettingsDialog from "./SettingsDialog";
+import AdvertiseDialog from "./AdvertiseDialog";
 
 import UserAvatar from "./UserAvatar";
 import Logo from "./Logo";
@@ -143,6 +145,7 @@ class AppLayout extends React.Component {
     activitiesDialog: false,
     chatDialog: false,
     settingsDialog: false,
+    advertiseDialog: false,
     query: {}
   };
 
@@ -352,6 +355,17 @@ class AppLayout extends React.Component {
                       </div>
                     )}
                     {currentSession && (
+                      <div className={classes.rightButton}>
+                        <IconButton
+                          onClick={() =>
+                            this.setState({ advertiseDialog: true })
+                          }
+                        >
+                          <BusinessIcon />
+                        </IconButton>
+                      </div>
+                    )}
+                    {currentSession && (
                       <React.Fragment>
                         <ButtonBase
                           focusRipple
@@ -455,19 +469,31 @@ class AppLayout extends React.Component {
               open={this.state.signUpDialog}
               onClose={() => this.setState({ signUpDialog: false })}
             />
-            <ChatDialog
-              open={this.state.chatDialog}
-              onClose={() => this.setState({ chatDialog: false })}
-            />
-            <MultipleMediaDialog
-              open={this.state.uploadDialog}
-              onClose={() => this.setState({ uploadDialog: false })}
-              uploadEnabled
-            />
-            <SettingsDialog
-              open={this.state.settingsDialog}
-              onClose={() => this.setState({ settingsDialog: false })}
-            />
+            {currentSession && (
+              <ChatDialog
+                open={this.state.chatDialog}
+                onClose={() => this.setState({ chatDialog: false })}
+              />
+            )}
+            {currentSession && (
+              <MultipleMediaDialog
+                open={this.state.uploadDialog}
+                onClose={() => this.setState({ uploadDialog: false })}
+                uploadEnabled
+              />
+            )}
+            {currentSession && (
+              <SettingsDialog
+                open={this.state.settingsDialog}
+                onClose={() => this.setState({ settingsDialog: false })}
+              />
+            )}
+            {currentSession && (
+              <AdvertiseDialog
+                open={this.state.advertiseDialog}
+                onClose={() => this.setState({ advertiseDialog: false })}
+              />
+            )}
             {currentSession && (
               <ActivitiesDialog
                 open={this.state.activitiesDialog}
