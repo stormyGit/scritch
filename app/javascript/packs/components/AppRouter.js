@@ -10,7 +10,7 @@ import TagPage from "./TagPage";
 import Trending from "./Trending";
 import Subscriptions from "./Subscriptions";
 import User from "./User";
-import AppLayout from "./AppLayout";
+import AppLayoutRemake from "./AppLayoutRemake";
 import AppFooter from "./AppFooter";
 import AppHeader from "./AppHeader";
 
@@ -21,8 +21,8 @@ class AppRouter extends React.Component {
         <Route
           render={({ location }) => (
             <React.Fragment>
-              <AppLayout>
-                <div style={{ paddingTop: 10 }} />
+              <AppLayoutRemake>
+                <div style={{ paddingTop: 20 }} />
                 <AppHeader />
                 <Switch location={location}>
                   <Route exact path="/" component={LatestPictures} />
@@ -43,7 +43,7 @@ class AppRouter extends React.Component {
                 </Switch>
                 <div style={{ paddingTop: 50 }} />
                 <AppFooter />
-              </AppLayout>
+              </AppLayoutRemake>
             </React.Fragment>
           )}
         />

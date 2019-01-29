@@ -43,7 +43,9 @@ class AppHeader extends React.Component {
       <div className={classes.root}>
         <Grid container spacing={8} className={classes.grid}>
           <Grid item xs={2}>
-            <img src={logo} style={{ width: "50%" }} />
+            <Link to="/" className={classes.rootLink}>
+              <img src={logo} style={{ width: "50%" }} />
+            </Link>
           </Grid>
           <Grid item xs={3}>
             <img src={require("../ad1.gif")} style={{ width: "100%" }} />
