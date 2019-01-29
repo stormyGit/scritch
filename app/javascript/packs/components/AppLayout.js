@@ -208,9 +208,11 @@ class AppLayout extends React.Component {
       <React.Fragment>
         <GlobalProgress />
         <div className={classes.root}>
-          <Hidden mdDown>
-            <PermanentDrawer />
-          </Hidden>
+          {false && (
+            <Hidden mdDown>
+              <PermanentDrawer />
+            </Hidden>
+          )}
           <Hidden lgUp>
             <TemporaryDrawer
               open={this.state.drawer}

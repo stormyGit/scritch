@@ -20,6 +20,7 @@ import PageTitle from "./PageTitle";
 import FursuitMiniCard from "./FursuitMiniCard";
 import dayjs from "dayjs";
 import queryString from "query-string";
+import * as Scroll from "react-scroll";
 
 import { GET_MEDIUM } from "../queries";
 
@@ -101,14 +102,28 @@ const styles = theme => ({
     objectFit: "contain"
   },
   mediaV: {
-    width: "50%",
+    transform: "rotate(90deg)",
+    width: "calc(100vh - 56px)",
     height: "calc(100vh - 56px)",
-    objectFit: "contain"
+    maxHeight: "calc(100vh - 56px)",
+    objectFit: "contain",
+    margin: "auto",
+    display: "block"
+  },
+  gridContainer: {
+    maxHeight: "calc(100vh - 56px)",
+    backgroundColor: "black"
   },
   fursuitLink: {
     textDecoration: "none"
   }
 });
+
+var ScrollLink = Scroll.Link;
+var Element = Scroll.Element;
+var Events = Scroll.Events;
+var scroll = Scroll.animateScroll;
+var scrollSpy = Scroll.scrollSpy;
 
 class Medium extends React.Component {
   state = {
@@ -118,6 +133,22 @@ class Medium extends React.Component {
     tagMedium: false,
     reportDialog: false
   };
+
+  componentDidMount() {
+    Events.scrollEvent.register("begin", function(to, element) {
+      console.log("begin", arguments);
+    });
+
+    Events.scrollEvent.register("end", function(to, element) {
+      console.log("end", arguments);
+    });
+
+    scrollSpy.update();
+  }
+  componentWillUnmount() {
+    Events.scrollEvent.remove("begin");
+    Events.scrollEvent.remove("end");
+  }
 
   goToFursuit(fursuit) {
     this.props.history.push(`/fursuits/${fursuit}`);
@@ -131,6 +162,10 @@ class Medium extends React.Component {
       return `One comment`;
     }
     return `${count} comments`;
+  }
+
+  scrollTo() {
+    scroll.scrollTo(164);
   }
 
   render() {
@@ -159,11 +194,25 @@ class Medium extends React.Component {
                     : null}
                 </PageTitle>
                 <Card className={classes.card} elevation={0}>
-                  <Grid container spacing={8}>
+                  <Grid container className={classes.gridContainer}>
                     <Grid item lg={1} xs={12} />
                     <Grid item lg={10} xs={12}>
+                      {console.log(
+                        medium.height,
+                        medium.width,
+                        JSON.parse(medium.exif).Orientation
+                      )}
                       <img
-                        className={classes.mediaH}
+                        onClick={this.scrollTo}
+                        onContextMenu={e => {
+                          e.preventDefault();
+                        }}
+                        className={
+                          medium.exif &&
+                          JSON.parse(medium.exif).Orientation === "6"
+                            ? classes.mediaV
+                            : classes.mediaH
+                        }
                         src={`${medium.picture}`}
                         title={medium.title}
                       />

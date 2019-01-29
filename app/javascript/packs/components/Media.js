@@ -142,7 +142,7 @@ class Media extends React.Component {
           </Grid>
         )}
         {media.map(medium => (
-          <Grid item xs={6} md={4} lg={3} key={medium.id}>
+          <Grid item xs={6} md={4} lg={2} key={medium.id}>
             <MediumCard medium={medium} />
           </Grid>
         ))}
