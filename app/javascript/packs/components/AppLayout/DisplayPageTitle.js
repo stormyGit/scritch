@@ -56,6 +56,7 @@ class DisplayPageTitle extends React.Component {
                 >
                   {data.pageTitle}
                 </Typography>
+                <div className={classes.separator} />
               </React.Fragment>
             )
           }

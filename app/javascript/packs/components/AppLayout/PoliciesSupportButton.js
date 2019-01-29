@@ -11,7 +11,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 
-import DatabaseIcon from "@material-ui/icons/LibraryBooks";
+import SupportIcon from "@material-ui/icons/ContactSupport";
 
 const styles = theme => ({
   menuButton: {
@@ -23,7 +23,7 @@ const styles = theme => ({
   }
 });
 
-class DatabasesButton extends React.Component {
+class PoliciesSupportButton extends React.Component {
   state = {
     anchorEl: null
   };
@@ -51,7 +51,7 @@ class DatabasesButton extends React.Component {
             onClick={event => this.handleMenu(event)}
             color="inherit"
           >
-            <DatabaseIcon />
+            <SupportIcon />
           </IconButton>
         )}
         {this.props.width === "xl" && (
@@ -60,7 +60,7 @@ class DatabasesButton extends React.Component {
             size="large"
             color="primary"
           >
-            Databases
+            Policies & Support
           </Button>
         )}
         <Menu
@@ -72,14 +72,36 @@ class DatabasesButton extends React.Component {
           open={open}
           onClose={() => this.handleClose()}
         >
-          <Link to={"/databases"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>Fursuits</MenuItem>
+          <Link to={"/"} className={classes.link}>
+            <MenuItem onClick={() => this.handleClose()}>
+              Announcements
+            </MenuItem>
           </Link>
-          <Link to={"/databases"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>Makers</MenuItem>
+          <Link to={"/"} className={classes.link}>
+            <MenuItem onClick={() => this.handleClose()}>User Guides</MenuItem>
           </Link>
-          <Link to={"/databases"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>Events</MenuItem>
+          <Link to={"/"} className={classes.link}>
+            <MenuItem onClick={() => this.handleClose()}>FAQ</MenuItem>
+          </Link>
+          <Link to={"/"} className={classes.link}>
+            <MenuItem onClick={() => this.handleClose()}>
+              Terms & Conditions
+            </MenuItem>
+          </Link>
+          <Link to={"/"} className={classes.link}>
+            <MenuItem onClick={() => this.handleClose()}>
+              Privacy Policy
+            </MenuItem>
+          </Link>
+          <Link to={"/"} className={classes.link}>
+            <MenuItem onClick={() => this.handleClose()}>
+              Code Of Conduct
+            </MenuItem>
+          </Link>
+          <Link to={"/"} className={classes.link}>
+            <MenuItem onClick={() => this.handleClose()}>
+              Report a Problem
+            </MenuItem>
           </Link>
         </Menu>
       </React.Fragment>
@@ -87,4 +109,6 @@ class DatabasesButton extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withWidth()(DatabasesButton)));
+export default withStyles(styles)(
+  withRouter(withWidth()(PoliciesSupportButton))
+);

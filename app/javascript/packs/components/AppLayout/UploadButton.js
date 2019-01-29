@@ -1,6 +1,7 @@
 import React from "react";
 import queryString from "query-string";
 import { withStyles } from "@material-ui/core/styles";
+import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
@@ -22,7 +23,12 @@ class UploadButton extends React.Component {
 
     return (
       <React.Fragment>
-        {currentSession && (
+        {this.props.width === "xl" && currentSession && (
+          <Button onClick={this.props.onClick} size="large" color="primary">
+            Upload
+          </Button>
+        )}
+        {this.props.width !== "xl" && currentSession && (
           <IconButton title="Upload" color="inherit">
             <UploadIcon onClick={this.props.onClick} />
           </IconButton>
@@ -32,17 +38,6 @@ class UploadButton extends React.Component {
   }
 }
 
-export default withStyles(styles)(withCurrentSession(UploadButton));
-
-// <React.Fragment>
-//   {currentSession && (
-//     <Button
-//       onClick={() => this.setState({ uploadDialog: true })}
-//       variant="contained"
-//       size="large"
-//       color="primary"
-//     >
-//       Upload
-//     </Button>
-//   )}
-// </React.Fragment>
+export default withStyles(styles)(
+  withCurrentSession(withWidth()(UploadButton))
+);

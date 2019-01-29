@@ -11,7 +11,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
 
-import DatabaseIcon from "@material-ui/icons/LibraryBooks";
+import SocialIcon from "@material-ui/icons/ThumbUpAlt";
 
 const styles = theme => ({
   menuButton: {
@@ -23,8 +23,9 @@ const styles = theme => ({
   }
 });
 
-class DatabasesButton extends React.Component {
+class SocialButton extends React.Component {
   state = {
+    auth: true,
     anchorEl: null
   };
 
@@ -38,7 +39,7 @@ class DatabasesButton extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const { anchorEl } = this.state;
+    const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
     return (
@@ -47,11 +48,11 @@ class DatabasesButton extends React.Component {
           <IconButton
             aria-owns={open ? "menu-appbar" : undefined}
             aria-haspopup="true"
-            title="Databases"
+            title="Social"
             onClick={event => this.handleMenu(event)}
             color="inherit"
           >
-            <DatabaseIcon />
+            <SocialIcon />
           </IconButton>
         )}
         {this.props.width === "xl" && (
@@ -60,7 +61,7 @@ class DatabasesButton extends React.Component {
             size="large"
             color="primary"
           >
-            Databases
+            Social Media & Advertisement
           </Button>
         )}
         <Menu
@@ -72,14 +73,16 @@ class DatabasesButton extends React.Component {
           open={open}
           onClose={() => this.handleClose()}
         >
+          <a href={"https://twitter.com"} className={classes.link}>
+            <MenuItem onClick={() => this.handleClose()}>Twitter</MenuItem>
+          </a>
+          <a href={"https://facebook.com"} className={classes.link}>
+            <MenuItem onClick={() => this.handleClose()}>Facebook</MenuItem>
+          </a>
           <Link to={"/databases"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>Fursuits</MenuItem>
-          </Link>
-          <Link to={"/databases"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>Makers</MenuItem>
-          </Link>
-          <Link to={"/databases"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>Events</MenuItem>
+            <MenuItem onClick={() => this.handleClose()}>
+              Advertise with Scritch
+            </MenuItem>
           </Link>
         </Menu>
       </React.Fragment>
@@ -87,4 +90,4 @@ class DatabasesButton extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withWidth()(DatabasesButton)));
+export default withStyles(styles)(withRouter(withWidth()(SocialButton)));

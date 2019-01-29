@@ -8,6 +8,9 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 
 import MultipleMediaDialog from "../MultipleMediaDialog";
+import ActivitiesDialog from "../ActivitiesDialog";
+import SettingsDialog from "../SettingsDialog";
+import SignUpDialog from "../SignUpDialog";
 
 import UploadIcon from "@material-ui/icons/CloudUpload";
 
@@ -19,7 +22,14 @@ class AppDialogs extends React.Component {
   };
 
   render() {
-    const { classes, currentSession, uploadDialog, signUpDialog } = this.props;
+    const {
+      classes,
+      currentSession,
+      uploadDialog,
+      signUpDialog,
+      settingsDialog,
+      activitiesDialog
+    } = this.props;
 
     return (
       <React.Fragment>
@@ -34,6 +44,18 @@ class AppDialogs extends React.Component {
             open={uploadDialog}
             onClose={() => this.props.closeUploadDialog()}
             uploadEnabled
+          />
+        )}
+        {currentSession && (
+          <ActivitiesDialog
+            open={activitiesDialog}
+            onClose={() => this.props.closeActivitiesDialog()}
+          />
+        )}
+        {currentSession && (
+          <SettingsDialog
+            open={settingsDialog}
+            onClose={() => this.props.closeSettingsDialog()}
           />
         )}
       </React.Fragment>

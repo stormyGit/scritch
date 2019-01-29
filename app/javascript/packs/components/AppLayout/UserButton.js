@@ -29,7 +29,11 @@ class UserButton extends React.Component {
     return (
       <React.Fragment>
         {!currentSession && (
-          <Button onClick={this.props.onClick} variant="outlined" size="large">
+          <Button
+            onClick={this.props.openSignUp}
+            variant="outlined"
+            size="large"
+          >
             Login with Telegram
           </Button>
         )}
@@ -65,9 +69,9 @@ class UserButton extends React.Component {
               <MenuItem
                 onClick={() => {
                   this.setState({
-                    userMenuAnchor: null,
-                    settingsDialog: true
+                    userMenuAnchor: null
                   });
+                  this.props.openSettings();
                 }}
               >
                 Settings and security

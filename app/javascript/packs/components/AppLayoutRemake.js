@@ -40,9 +40,14 @@ import ChatDialog from "./ChatDialog";
 import SettingsDialog from "./SettingsDialog";
 import AdvertiseDialog from "./AdvertiseDialog";
 
-import DisplayPageTitle from "./DisplayPageTitle";
 import DatabasesButton from "./AppLayout/DatabasesButton";
 import UploadButton from "./AppLayout/UploadButton";
+import SocialButton from "./AppLayout/SocialButton";
+import PoliciesSupportButton from "./AppLayout/PoliciesSupportButton";
+import GlobalSearchBar from "./AppLayout/GlobalSearchBar";
+import DisplayPageTitle from "./AppLayout/DisplayPageTitle";
+import MetricsBar from "./AppLayout/MetricsBar";
+import NotificationsButton from "./AppLayout/NotificationsButton";
 import UserButton from "./AppLayout/UserButton";
 import AppDialogs from "./AppLayout/AppDialogs";
 
@@ -89,7 +94,6 @@ const styles = theme => ({
   },
   titleZone: {
     display: "flex",
-    flexGrow: 1,
     alignItems: "center"
   },
   searchBar: {
@@ -206,19 +210,40 @@ class AppLayoutRemake extends React.Component {
                 <UploadButton
                   onClick={() => this.setState({ uploadDialog: true })}
                 />
+                <SocialButton />
+                <PoliciesSupportButton />
+                <GlobalSearchBar />
 
-                <div className={classes.titleZone}>
-                  <DisplayPageTitle />
-                </div>
+                {true && (
+                  <div className={classes.titleZone}>
+                    <DisplayPageTitle />
+                  </div>
+                )}
+
+                {width === "xl" && <MetricsBar />}
+                <NotificationsButton
+                  onClick={() => this.setState({ activitiesDialog: true })}
+                />
                 <UserButton
-                  onClick={() => this.setState({ signUpDialog: true })}
+                  openSignUp={() => this.setState({ signUpDialog: true })}
+                  openSettings={() => this.setState({ settingsDialog: true })}
                 />
               </Toolbar>
             </AppBar>
             <div id="scoll-parent">{this.props.children}</div>
             <AppDialogs
+              signUpDialog={this.state.signUpDialog}
+              closeSignUpDialog={() => this.setState({ signUpDialog: false })}
               uploadDialog={this.state.uploadDialog}
               closeUploadDialog={() => this.setState({ uploadDialog: false })}
+              activitiesDialog={this.state.activitiesDialog}
+              closeActivitiesDialog={() =>
+                this.setState({ activitiesDialog: false })
+              }
+              settingsDialog={this.state.settingsDialog}
+              closeSettingsDialog={() =>
+                this.setState({ settingsDialog: false })
+              }
             />
           </main>
         </div>
