@@ -1,5 +1,7 @@
 class FursuitsController < ApplicationController
-
+  def index
+    render "application/index"
+  end
   def show
     uuid = params[:id].match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)
     if uuid.blank?

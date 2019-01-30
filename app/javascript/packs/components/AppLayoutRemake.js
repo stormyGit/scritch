@@ -47,8 +47,9 @@ import PoliciesSupportButton from "./AppLayout/PoliciesSupportButton";
 import GlobalSearchBar from "./AppLayout/GlobalSearchBar";
 import DisplayPageTitle from "./AppLayout/DisplayPageTitle";
 import MetricsBar from "./AppLayout/MetricsBar";
-import NotificationsButton from "./AppLayout/NotificationsButton";
 import UserButton from "./AppLayout/UserButton";
+import NotificationsButton from "./AppLayout/NotificationsButton";
+import TechButton from "./AppLayout/TechButton";
 import AppDialogs from "./AppLayout/AppDialogs";
 
 import UserAvatar from "./UserAvatar";
@@ -127,6 +128,7 @@ class AppLayoutRemake extends React.Component {
     chatDialog: false,
     settingsDialog: false,
     advertiseDialog: false,
+    techDialog: false,
     query: {}
   };
 
@@ -212,7 +214,6 @@ class AppLayoutRemake extends React.Component {
                 />
                 <SocialButton />
                 <PoliciesSupportButton />
-                <GlobalSearchBar />
 
                 {true && (
                   <div className={classes.titleZone}>
@@ -220,6 +221,11 @@ class AppLayoutRemake extends React.Component {
                   </div>
                 )}
 
+                <GlobalSearchBar />
+
+                <TechButton
+                  onClick={() => this.setState({ techDialog: true })}
+                />
                 {width === "xl" && <MetricsBar />}
                 <NotificationsButton
                   onClick={() => this.setState({ activitiesDialog: true })}
@@ -244,6 +250,8 @@ class AppLayoutRemake extends React.Component {
               closeSettingsDialog={() =>
                 this.setState({ settingsDialog: false })
               }
+              techDialog={this.state.techDialog}
+              closeTechDialog={() => this.setState({ techDialog: false })}
             />
           </main>
         </div>

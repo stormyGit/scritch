@@ -14,6 +14,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import PageTitle from "./PageTitle";
 
 import EmptyList from "./EmptyList";
 import LoadMoreButton from "./LoadMoreButton";
@@ -104,82 +105,85 @@ class Fursuits extends React.Component {
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
     console.log(this.state);
     return (
-      <Query
-        query={LOAD_FURSUITS}
-        variables={{
-          name: this.state.name,
-          fursuitLegType: this.state.fursuitLegType,
-          fursuitStyle: this.state.fursuitStyle,
-          fursuitSpecy: this.state.fursuitSpecy,
-          maker: this.state.maker,
-          limit,
-          offset: 0
-        }}
-      >
-        {({ data, loading, error, fetchMore }) => (
-          <React.Fragment>
-            <div className={classes.filters}>
-              <FursuitFilters
-                onChange={value => {
-                  console.log(value);
-                  this.setState({
-                    fursuitStyle: !value.fursuitStyle
-                      ? ""
-                      : value.fursuitStyle.value,
-                    fursuitSpecy: !value.fursuitSpecy
-                      ? ""
-                      : value.fursuitSpecy.value,
-                    fursuitLegType: !value.fursuitLegType
-                      ? ""
-                      : value.fursuitLegType.value,
-                    maker: !value.maker ? "" : value.maker.value,
-                    name: value.name
-                  });
-                }}
-              />
-            </div>
-            <Grid
-              container
-              className={classes.root}
-              spacing={8}
-              style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
-            >
-              {!loading &&
-                !error &&
-                this.renderResults({
-                  data,
-                  horizontal: false,
-                  hasMore:
-                    data.fursuits.length % limit === 0 &&
-                    this.state.hasMore &&
-                    data.fursuits.length > 0,
-                  onLoadMore: () => {
-                    fetchMore({
-                      variables: {
-                        offset: data.fursuits.length,
-                        limit
-                      },
-                      updateQuery: (prev, { fetchMoreResult }) => {
-                        if (!fetchMoreResult) return prev;
-
-                        if (fetchMoreResult.fursuits.length === 0) {
-                          this.setState({ hasMore: false });
-                        } else {
-                          return Object.assign({}, prev, {
-                            fursuits: [
-                              ...prev.fursuits,
-                              ...fetchMoreResult.fursuits
-                            ]
-                          });
-                        }
-                      }
+      <React.Fragment>
+        <PageTitle>Fursuits</PageTitle>
+        <Query
+          query={LOAD_FURSUITS}
+          variables={{
+            name: this.state.name,
+            fursuitLegType: this.state.fursuitLegType,
+            fursuitStyle: this.state.fursuitStyle,
+            fursuitSpecy: this.state.fursuitSpecy,
+            maker: this.state.maker,
+            limit,
+            offset: 0
+          }}
+        >
+          {({ data, loading, error, fetchMore }) => (
+            <React.Fragment>
+              <div className={classes.filters}>
+                <FursuitFilters
+                  onChange={value => {
+                    console.log(value);
+                    this.setState({
+                      fursuitStyle: !value.fursuitStyle
+                        ? ""
+                        : value.fursuitStyle.value,
+                      fursuitSpecy: !value.fursuitSpecy
+                        ? ""
+                        : value.fursuitSpecy.value,
+                      fursuitLegType: !value.fursuitLegType
+                        ? ""
+                        : value.fursuitLegType.value,
+                      maker: !value.maker ? "" : value.maker.value,
+                      name: value.name
                     });
-                  }
-                })}
-            </Grid>
-          </React.Fragment>
-        )}
-      </Query>
+                  }}
+                />
+              </div>
+              <Grid
+                container
+                className={classes.root}
+                spacing={8}
+                style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
+              >
+                {!loading &&
+                  !error &&
+                  this.renderResults({
+                    data,
+                    horizontal: false,
+                    hasMore:
+                      data.fursuits.length % limit === 0 &&
+                      this.state.hasMore &&
+                      data.fursuits.length > 0,
+                    onLoadMore: () => {
+                      fetchMore({
+                        variables: {
+                          offset: data.fursuits.length,
+                          limit
+                        },
+                        updateQuery: (prev, { fetchMoreResult }) => {
+                          if (!fetchMoreResult) return prev;
+
+                          if (fetchMoreResult.fursuits.length === 0) {
+                            this.setState({ hasMore: false });
+                          } else {
+                            return Object.assign({}, prev, {
+                              fursuits: [
+                                ...prev.fursuits,
+                                ...fetchMoreResult.fursuits
+                              ]
+                            });
+                          }
+                        }
+                      });
+                    }
+                  })}
+              </Grid>
+            </React.Fragment>
+          )}
+        </Query>
+      </React.Fragment>
     );
   }
 }

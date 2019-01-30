@@ -72,13 +72,13 @@ class DatabasesButton extends React.Component {
           open={open}
           onClose={() => this.handleClose()}
         >
-          <Link to={"/databases"} className={classes.link}>
+          <Link to={"/fursuits"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>Fursuits</MenuItem>
           </Link>
-          <Link to={"/databases"} className={classes.link}>
+          <Link to={"/makers"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>Makers</MenuItem>
           </Link>
-          <Link to={"/databases"} className={classes.link}>
+          <Link to={"/events"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>Events</MenuItem>
           </Link>
         </Menu>

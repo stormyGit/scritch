@@ -5,6 +5,9 @@ import Medium from "./Medium";
 import Fursuit from "./Fursuit";
 import Maker from "./Maker";
 import Event from "./Event";
+import Fursuits from "./Fursuits";
+import Makers from "./Makers";
+import Events from "./Events";
 import LatestPictures from "./LatestPictures";
 import TagPage from "./TagPage";
 import Trending from "./Trending";
@@ -26,7 +29,9 @@ class AppRouter extends React.Component {
                 <AppHeader />
                 <Switch location={location}>
                   <Route exact path="/" component={LatestPictures} />
-                  <Route exact path="/databases" component={Trending} />
+                  <Route exact path="/fursuits" component={Fursuits} />
+                  <Route exact path="/makers" component={Makers} />
+                  <Route exact path="/events" component={Events} />
                   <Route exact path="/tag" component={TagPage} />
                   <Route
                     exact

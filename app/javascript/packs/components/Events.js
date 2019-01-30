@@ -14,6 +14,7 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import PageTitle from "./PageTitle";
 
 import EmptyList from "./EmptyList";
 import LoadMoreButton from "./LoadMoreButton";
@@ -105,62 +106,71 @@ class Events extends React.Component {
     const criteria = this.state.criteria;
 
     return (
-      <Query query={LOAD_EVENTS} variables={{ ...criteria, limit, offset: 0 }}>
-        {({ data, loading, error, fetchMore }) => (
-          <React.Fragment>
-            <div className={classes.filters}>
-              <EventFilters
-                onChange={value => {
-                  console.log(value);
-                  this.setState({
-                    country: !value.country ? "" : value.country.value,
-                    name: value.name
-                  });
-                }}
-              />
-            </div>
-            <Grid
-              container
-              className={classes.root}
-              spacing={8}
-              style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
-            >
-              {!loading &&
-                !error &&
-                this.renderResults({
-                  data,
-                  horizontal:
-                    query.q &&
-                    query.q.length > 0 &&
-                    (width === "lg" || width === "xl"),
-                  hasMore:
-                    data.events.length % limit === 0 &&
-                    this.state.hasMore &&
-                    data.events.length > 0,
-                  onLoadMore: () => {
-                    fetchMore({
-                      variables: {
-                        offset: data.events.length,
-                        limit
-                      },
-                      updateQuery: (prev, { fetchMoreResult }) => {
-                        if (!fetchMoreResult) return prev;
-
-                        if (fetchMoreResult.events.length === 0) {
-                          this.setState({ hasMore: false });
-                        } else {
-                          return Object.assign({}, prev, {
-                            events: [...prev.events, ...fetchMoreResult.events]
-                          });
-                        }
-                      }
+      <React.Fragment>
+        <PageTitle>Events</PageTitle>
+        <Query
+          query={LOAD_EVENTS}
+          variables={{ ...criteria, limit, offset: 0 }}
+        >
+          {({ data, loading, error, fetchMore }) => (
+            <React.Fragment>
+              <div className={classes.filters}>
+                <EventFilters
+                  onChange={value => {
+                    console.log(value);
+                    this.setState({
+                      country: !value.country ? "" : value.country.value,
+                      name: value.name
                     });
-                  }
-                })}
-            </Grid>
-          </React.Fragment>
-        )}
-      </Query>
+                  }}
+                />
+              </div>
+              <Grid
+                container
+                className={classes.root}
+                spacing={8}
+                style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
+              >
+                {!loading &&
+                  !error &&
+                  this.renderResults({
+                    data,
+                    horizontal:
+                      query.q &&
+                      query.q.length > 0 &&
+                      (width === "lg" || width === "xl"),
+                    hasMore:
+                      data.events.length % limit === 0 &&
+                      this.state.hasMore &&
+                      data.events.length > 0,
+                    onLoadMore: () => {
+                      fetchMore({
+                        variables: {
+                          offset: data.events.length,
+                          limit
+                        },
+                        updateQuery: (prev, { fetchMoreResult }) => {
+                          if (!fetchMoreResult) return prev;
+
+                          if (fetchMoreResult.events.length === 0) {
+                            this.setState({ hasMore: false });
+                          } else {
+                            return Object.assign({}, prev, {
+                              events: [
+                                ...prev.events,
+                                ...fetchMoreResult.events
+                              ]
+                            });
+                          }
+                        }
+                      });
+                    }
+                  })}
+              </Grid>
+            </React.Fragment>
+          )}
+        </Query>
+      </React.Fragment>
     );
   }
 }

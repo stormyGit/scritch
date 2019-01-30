@@ -21,6 +21,7 @@ import logo from "../../../assets/images/logo.png";
 
 const styles = theme => ({
   root: {
+    display: "flex",
     flexGrow: 1
   },
   grid: {
@@ -41,22 +42,31 @@ class AppHeader extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Grid container spacing={8} className={classes.grid}>
-          <Grid item xs={2}>
+        <Grid
+          container
+          spacing={8}
+          className={classes.grid}
+          justify="center"
+          alignItems="center"
+        >
+          <Grid item xs={1} />
+          <Grid item xs={1}>
             <Link to="/" className={classes.rootLink}>
-              <img src={logo} style={{ width: "50%" }} />
+              <img src={logo} style={{ width: "100%" }} />
             </Link>
           </Grid>
+          <Grid item xs={1} />
           <Grid item xs={3}>
-            <img src={require("../ad1.gif")} style={{ width: "100%" }} />
+            <img src={require("../ad1.gif")} style={{ width: "80%" }} />
           </Grid>
-          <Grid item xs={2} />
           <Grid item xs={3}>
-            <img src={require("../ad2.gif")} style={{ width: "100%" }} />
+            <img src={require("../ad2.gif")} style={{ width: "80%" }} />
           </Grid>
-          <Grid item xs={2}>
-            <img src={require("../1.png")} style={{ width: "50%" }} />
+          <Grid item xs={1} />
+          <Grid item xs={1}>
+            <img src={require("../1.png")} style={{ width: "100%" }} />
           </Grid>
+          <Grid item xs={1} />
         </Grid>
       </div>
     );
