@@ -32,7 +32,7 @@ import AnnouncementIcon from "@material-ui/icons/Announcement";
 import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
 
 import TermsDialog from "./TermsDialog";
-import StormyDialog from "./StormyDialog";
+import TechDialog from "./TechDialog";
 import PrivacyPolicyDialog from "./PrivacyPolicyDialog";
 import SettingsDialog from "./SettingsDialog";
 import SignUpDialog from "./SignUpDialog";
@@ -376,7 +376,7 @@ class DrawerMenu extends React.Component {
             </List>
           </div>
         </div>
-        <StormyDialog
+        <TechDialog
           open={this.state.stormyDialog}
           onClose={() => {
             this.setState({ stormyDialog: false });

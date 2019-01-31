@@ -26,7 +26,6 @@ class ApplicationController < ActionController::Base
   def set_csrf_token
     cookies["csrf-token"] = {
       value: form_authenticity_token,
-      httponly: true
     }
   end
 end
