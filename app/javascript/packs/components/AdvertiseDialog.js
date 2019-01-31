@@ -16,7 +16,7 @@ import ResponsiveDialog from "./ResponsiveDialog";
 import GlobalProgress from "./GlobalProgress";
 import withCurrentSession from "./withCurrentSession";
 
-import { CREATE_TECH_REPORT } from "../queries";
+import {} from "../queries";
 
 const styles = theme => ({});
 
