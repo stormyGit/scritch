@@ -456,6 +456,7 @@ export const GET_MEDIUM = gql`
       thumbnail
       width
       height
+      exif
       commentsCount
       completion
       fursuitsCount

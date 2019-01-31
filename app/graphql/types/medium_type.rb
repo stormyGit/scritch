@@ -9,6 +9,7 @@ module Types
     field :thumbnail, String, null: false
     field :width, Integer, null: true
     field :height, Integer, null: true
+    field :exif, String, null: true
     field :fursuits_count, Integer, null: true
     field :completion, Integer, null: true
     field :created_at, String, null: true
@@ -39,6 +40,10 @@ module Types
 
     def liked
       context[:current_user].present? ? object.likers.find_by(uuid: context[:current_user].id).present? : false
+    end
+
+    def exif
+      object.exif.to_json.to_s #TODO a proprifier
     end
 
     def related_media

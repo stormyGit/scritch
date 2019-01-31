@@ -1,15 +1,21 @@
 import ApolloClient from "apollo-boost";
 
-let loaderCount = 0;
+import Cookies from "universal-cookie";
 
+const cookies = new Cookies();
+
+console.log(123, cookies.get("csrf-token"));
+let loaderCount = 0;
 const apolloClient = new ApolloClient({
   uri: "/graphql",
   request: operation => {
     const token = localStorage.getItem("token");
     operation.setContext({
       headers: {
-        authorization: token ? `Bearer ${token}` : ""
-      }
+        authorization: `Scritcher ${cookies.get("csrf-token")}`,
+        "X-CSRF-Token": cookies.get("csrf-token")
+      },
+      credentials: "same-origin"
     });
   },
   clientState: {

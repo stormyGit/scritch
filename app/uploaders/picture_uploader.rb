@@ -12,7 +12,17 @@ class PictureUploader < SecureUploader
   def store_meta
     if file.present? && model.present?
       image = ::MiniMagick::Image.open(file.file)
-      model.width, model.height = image[:dimensions]
+      puts "\n\n\n\n#{image.exif["Orientation"]}\n\n\n\n"
+      if image.exif["Orientation"] == "6"
+        model.width = image.height
+        model.height = image.width
+      else
+        model.width = image.width
+        model.height = image.height
+      end
+      if image.exif
+        model.exif = image.exif
+      end
       # model.exif = image.exif
       # model.data = image.data
       model.size = image.size

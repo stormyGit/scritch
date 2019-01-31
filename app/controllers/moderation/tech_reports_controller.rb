@@ -16,8 +16,10 @@ class Moderation::TechReportsController < ModerationController
 
   def destroy
     @report.destroy
+    flash[:notice] = "Tech Report removed!"
+    flash[:class] = "has-text-danger"
+    redirect_back fallback_location: moderation_tech_report_path(@report)
   end
-
   protected
 
   def ensure_reports_capability!

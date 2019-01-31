@@ -16,7 +16,7 @@ import ResponsiveDialog from "./ResponsiveDialog";
 import GlobalProgress from "./GlobalProgress";
 import withCurrentSession from "./withCurrentSession";
 
-import { } from "../queries";
+import {} from "../queries";
 
 const styles = theme => ({});
 
@@ -55,10 +55,10 @@ class AdvertiseDialog extends React.Component {
       >
         <GlobalProgress absolute />
 
-        <DialogTitle>Complain or suggest</DialogTitle>
+        <DialogTitle>Advertise on Scritch!</DialogTitle>
         <DialogContent>
           <TextField
-            label="Tell us what doesn't work or what could be better done"
+            label="stuff"
             name="description"
             value={this.state.description}
             onChange={e => this.setState({ description: e.target.value })}
