@@ -226,11 +226,6 @@ export const GET_MEDIA = gql`
       likesCount
       viewsCount
       tagList
-      fursuits {
-        id
-        name
-        slug
-      }
       category {
         id
         name

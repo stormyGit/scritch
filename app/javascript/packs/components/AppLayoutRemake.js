@@ -212,7 +212,9 @@ class AppLayoutRemake extends React.Component {
                 <UploadButton
                   onClick={() => this.setState({ uploadDialog: true })}
                 />
-                <SocialButton />
+                <SocialButton
+                  openAdvertise={() => this.setState({ advertiseDialog: true })}
+                />
                 <PoliciesSupportButton />
 
                 {true && (
@@ -245,6 +247,10 @@ class AppLayoutRemake extends React.Component {
               activitiesDialog={this.state.activitiesDialog}
               closeActivitiesDialog={() =>
                 this.setState({ activitiesDialog: false })
+              }
+              advertiseDialog={this.state.advertiseDialog}
+              closeAdvertiseDialog={() =>
+                this.setState({ advertiseDialog: false })
               }
               settingsDialog={this.state.settingsDialog}
               closeSettingsDialog={() =>

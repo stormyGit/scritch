@@ -79,11 +79,14 @@ class SocialButton extends React.Component {
           <a href={"https://facebook.com"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>Facebook</MenuItem>
           </a>
-          <Link to={"/databases"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>
-              Advertise with Scritch
-            </MenuItem>
-          </Link>
+          <MenuItem
+            onClick={() => {
+              this.handleClose();
+              this.props.openAdvertise();
+            }}
+          >
+            Advertise with Scritch
+          </MenuItem>
         </Menu>
       </React.Fragment>
     );

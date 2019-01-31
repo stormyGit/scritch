@@ -13,6 +13,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import MultipleMediaDialog from "../MultipleMediaDialog";
 import ActivitiesDialog from "../ActivitiesDialog";
 import SettingsDialog from "../SettingsDialog";
+import AdvertiseDialog from "../AdvertiseDialog";
 import SignUpDialog from "../SignUpDialog";
 import TechDialog from "../TechDialog";
 
@@ -40,7 +41,8 @@ class AppDialogs extends React.Component {
       signUpDialog,
       settingsDialog,
       techDialog,
-      activitiesDialog
+      activitiesDialog,
+      advertiseDialog
     } = this.props;
 
     return (
@@ -68,6 +70,12 @@ class AppDialogs extends React.Component {
           <SettingsDialog
             open={settingsDialog}
             onClose={() => this.props.closeSettingsDialog()}
+          />
+        )}
+        {currentSession && (
+          <AdvertiseDialog
+            open={advertiseDialog}
+            onClose={() => this.props.closeAdvertiseDialog()}
           />
         )}
         <TechDialog

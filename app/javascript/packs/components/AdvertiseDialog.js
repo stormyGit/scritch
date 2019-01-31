@@ -78,28 +78,6 @@ class AdvertiseDialog extends React.Component {
           >
             Cancel
           </Button>
-          <Mutation mutation={CREATE_TECH_REPORT} update={cache => {}}>
-            {(createReport, { data }) => (
-              <Button
-                disabled={!!this.state.description.match(/^\s*$/)}
-                onClick={() => {
-                  createReport({
-                    variables: {
-                      input: {
-                        description: this.state.description,
-                        page: this.props.location.pathname
-                      }
-                    }
-                  }).then(() => {
-                    this.props.onClose();
-                    this.setState({ description: "" });
-                  });
-                }}
-              >
-                Send report
-              </Button>
-            )}
-          </Mutation>
         </DialogActions>
       </ResponsiveDialog>
     );

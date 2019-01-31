@@ -337,7 +337,8 @@ class EditMediumDialog extends React.Component {
                       </Query>
 
                       <div style={{ padding: 5 }} />
-                      {Object.keys(this.state.mediaEvent).length != 0 &&
+                      {this.state.mediaEvent &&
+                        Object.keys(this.state.mediaEvent).length != 0 &&
                         this.state.mediaEvent.id && (
                           <Query
                             query={LOAD_EDITIONS}
