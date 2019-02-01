@@ -59,30 +59,18 @@ class AppFooter extends React.Component {
           </Grid>
           <Grid item xs={8}>
             <Typography>
-              <a
-                target="_blank"
-                href={"http://www.google.com"}
-                className={classes.link}
-              >
+              <Link to={"/terms_and_conditions"} className={classes.link}>
                 Terms & Conditions
-              </a>{" "}
+              </Link>{" "}
               -{" "}
-              <a
-                target="_blank"
-                href={"http://www.google.com"}
-                className={classes.link}
-              >
+              <Link to={"/privacy_policy"} className={classes.link}>
                 Privacy Policy
-              </a>
+              </Link>
             </Typography>
             <Typography>
-              <a
-                target="_blank"
-                href={"http://www.google.com"}
-                className={classes.link}
-              >
+              <Link to={"/code_of_conduct"} className={classes.link}>
                 Code of Conduct
-              </a>{" "}
+              </Link>{" "}
               -{" "}
               <a
                 target="_blank"

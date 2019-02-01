@@ -44,7 +44,6 @@ class AdvertiseDialog extends React.Component {
       return null;
     }
 
-    console.log(this.props.location);
     return (
       <ResponsiveDialog
         open={this.props.open}

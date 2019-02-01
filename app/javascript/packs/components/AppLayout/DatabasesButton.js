@@ -67,6 +67,7 @@ class DatabasesButton extends React.Component {
           id="menu-appbar"
           anchorEl={anchorEl}
           getContentAnchorEl={null}
+          disableAutoFocusItem
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
           transformOrigin={{ vertical: "top", horizontal: "center" }}
           open={open}

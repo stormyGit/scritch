@@ -3,8 +3,9 @@ module Types
     description "Announcement object"
     field :id, ID, null: false
     field :body, String, null: false
+    field :title, String, null: false
     field :created_at, String, null: false
-    field :sender, UserType, null: false
+    field :sender, UserType, null: true #TODO
 
     def created_at
       object.created_at.iso8601

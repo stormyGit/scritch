@@ -65,6 +65,7 @@ class PoliciesSupportButton extends React.Component {
         )}
         <Menu
           id="menu-appbar"
+          disableAutoFocusItem
           anchorEl={anchorEl}
           getContentAnchorEl={null}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
@@ -72,7 +73,7 @@ class PoliciesSupportButton extends React.Component {
           open={open}
           onClose={() => this.handleClose()}
         >
-          <Link to={"/"} className={classes.link}>
+          <Link to={"/announcements"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>
               Announcements
             </MenuItem>
@@ -83,17 +84,17 @@ class PoliciesSupportButton extends React.Component {
           <Link to={"/"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>FAQ</MenuItem>
           </Link>
-          <Link to={"/"} className={classes.link}>
+          <Link to={"/terms_and_conditions"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>
               Terms & Conditions
             </MenuItem>
           </Link>
-          <Link to={"/"} className={classes.link}>
+          <Link to={"/privacy_policy"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>
               Privacy Policy
             </MenuItem>
           </Link>
-          <Link to={"/"} className={classes.link}>
+          <Link to={"/code_of_conduct"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>
               Code Of Conduct
             </MenuItem>

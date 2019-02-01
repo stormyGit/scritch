@@ -66,6 +66,7 @@ class SocialButton extends React.Component {
         )}
         <Menu
           id="menu-appbar"
+          disableAutoFocusItem
           anchorEl={anchorEl}
           getContentAnchorEl={null}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}

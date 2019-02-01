@@ -281,13 +281,8 @@ export const GET_ANNOUNCEMENTS = gql`
     announcements(offset: $offset, limit: $limit) {
       id
       body
+      title
       createdAt
-      sender {
-        id
-        slug
-        name
-        avatar
-      }
     }
   }
 `;
