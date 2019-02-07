@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_31_202304) do
+ActiveRecord::Schema.define(version: 2019_02_07_022130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -82,6 +82,21 @@ ActiveRecord::Schema.define(version: 2019_01_31_202304) do
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+  end
+
+  create_table "adverts", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.integer "width"
+    t.integer "height"
+    t.integer "size"
+    t.json "customer"
+    t.json "charge"
+    t.integer "impressions", default: 0
+    t.boolean "status", default: true
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_adverts_on_user_id"
   end
 
   create_table "announcements", force: :cascade do |t|
@@ -454,6 +469,16 @@ ActiveRecord::Schema.define(version: 2019_01_31_202304) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "sponsors", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.json "customer"
+    t.json "charge"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_sponsors_on_user_id"
   end
 
   create_table "statistics", force: :cascade do |t|

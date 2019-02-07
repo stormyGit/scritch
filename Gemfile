@@ -95,3 +95,5 @@ gem "chartkick"
 gem 'rails_autolink'
 gem "twitter"
 gem 'prerender_rails'
+
+gem 'stripe'

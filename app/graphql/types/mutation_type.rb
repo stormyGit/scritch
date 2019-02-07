@@ -24,5 +24,8 @@ module Types
     field :create_tech_report, mutation: Mutations::CreateTechReport
     field :block_user, mutation: Mutations::BlockUser
     field :unblock_user, mutation: Mutations::UnblockUser
+
+    field :create_charge, mutation: Mutations::CreateCharge
+
   end
 end

@@ -52,6 +52,8 @@ import NotificationsButton from "./AppLayout/NotificationsButton";
 import TechButton from "./AppLayout/TechButton";
 import AppDialogs from "./AppLayout/AppDialogs";
 
+import HomeIcon from "@material-ui/icons/Home";
+
 import UserAvatar from "./UserAvatar";
 import Logo from "./Logo";
 
@@ -208,10 +210,20 @@ class AppLayoutRemake extends React.Component {
                   paddingRight: appBarPadding
                 }}
               >
+                <Link to="/">
+                  <IconButton title="Upload" color="inherit">
+                    <HomeIcon color="primary" />
+                  </IconButton>
+                </Link>
+
                 <DatabasesButton />
+
                 <UploadButton
                   onClick={() => this.setState({ uploadDialog: true })}
                 />
+                <Button size="large" color="primary">
+                  Tag
+                </Button>
                 <SocialButton
                   openAdvertise={() => this.setState({ advertiseDialog: true })}
                 />

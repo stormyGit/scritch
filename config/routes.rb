@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
+  resources :sponsors
+  resources :adverts
   get '/sitemap.xml', to: redirect(Pathname.new(ENV["S3_ENDPOINT"]).join(ENV["S3_BUCKET"]).join("sitemap.xml").to_s, status: 301)
+
+  resources :charges
 
   devise_for :moderators
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -80,6 +84,7 @@ Rails.application.routes.draw do
   get "/subscriptions", to: "media#index"
 
   get "/terms_and_conditions", to: "media#index"
+  get "/faq", to: "media#index"
   get "/code_of_conduct", to: "media#index"
   get "/privacy_policy", to: "media#index"
   get "/announcements", to: "media#index"

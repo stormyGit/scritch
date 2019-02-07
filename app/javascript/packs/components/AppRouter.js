@@ -8,6 +8,7 @@ import Event from "./Event";
 import Fursuits from "./Fursuits";
 import Announcements from "./PoliciesSupport/Announcements";
 import Terms from "./PoliciesSupport/Terms";
+import Faq from "./PoliciesSupport/Faq";
 import CodeOfConduct from "./PoliciesSupport/CodeOfConduct";
 import PrivacyPolicy from "./PoliciesSupport/PrivacyPolicy";
 import Makers from "./Makers";
@@ -39,6 +40,7 @@ class AppRouter extends React.Component {
                     component={Announcements}
                   />
                   <Route exact path="/terms_and_conditions" component={Terms} />
+                  <Route exact path="/faq" component={Faq} />
                   <Route
                     exact
                     path="/privacy_policy"

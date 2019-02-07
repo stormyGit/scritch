@@ -6624,6 +6624,13 @@ react-select@^2.1.2:
     react-input-autosize "^2.2.1"
     react-transition-group "^2.2.1"
 
+react-stripe-elements@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/react-stripe-elements/-/react-stripe-elements-2.0.3.tgz#cfd0f68d00ce52a07aab1cb2b59b29dc12309486"
+  integrity sha512-aKLiWyfP0n3Gq42BKykULgoruNVRXEaeYh8NSokdgH3ubGU3nsHFZJg3LgbT/XOquttDGHE7kLhleaX+UnN81A==
+  dependencies:
+    prop-types "^15.5.10"
+
 react-telegram-login@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/react-telegram-login/-/react-telegram-login-1.0.3.tgz#95f058ebd509b55f4bb6419a7ec39cbfec748363"

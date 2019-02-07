@@ -13,6 +13,8 @@ class ApplicationController < ActionController::Base
     def layout_by_resource
       if devise_controller?
         "moderation"
+      elsif controller_name == "charges"
+        "charges"
       else
         "application"
       end
