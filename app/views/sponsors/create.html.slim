@@ -1,0 +1,28 @@
+#navbar-padder
+.container
+  - if flash[:error].present?
+    .columns
+      .column.is-6.is-offset-3
+        .card
+          .card-content.has-text-centered
+            #error_explanation
+              p.has-text-danger
+                = flash[:error]
+  .columns
+    .column.is-6.is-offset-3
+      .card
+        .card-header
+          .card-header-title.has-text-centered
+            p
+              | Thank you!
+        .card-content.has-text-centered
+          article
+            .field
+              label
+                | You are now a Scritch Sponsor!
+                br
+                = "Subcription amount: #{@amount}"
+              br
+              br
+              = button_to root_path, class: "button", class_active: "is-active", method: :get do
+                | Go Back to Scritch

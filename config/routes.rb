@@ -3,8 +3,6 @@ Rails.application.routes.draw do
   resources :adverts
   get '/sitemap.xml', to: redirect(Pathname.new(ENV["S3_ENDPOINT"]).join(ENV["S3_BUCKET"]).join("sitemap.xml").to_s, status: 301)
 
-  resources :charges
-
   devise_for :moderators
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)

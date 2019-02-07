@@ -33,16 +33,15 @@ html lang="en"
     = javascript_include_tag 'moderation', "data-turbolinks-track" => true, 'data-turbolinks-eval' => false
 
   body
-    - if @current_session.present?
-      .nav.navbar role="navigation" aria-label="dropdown navigation"
-        .navbar-brand
-          .navbar-item
-            = active_link_to root_path, class: "navbar-item", class_active: "is-active", active: :exact do
-              | Go Back
-        .navbar-end
-          .navbar-item
-            = @current_session.user.name
-          .navbar-item
+    .nav.navbar role="navigation" aria-label="dropdown navigation"
+      .navbar-brand
+        .navbar-item
+          = active_link_to root_path, class: "navbar-item", class_active: "is-active", active: :exact do
+            | Go Back
+      .navbar-end
+        .navbar-item
+          = @current_session.user.name
+        .navbar-item
 
     main
       = yield
