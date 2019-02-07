@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'sponsors/cancel', :to => "sponsors#cancel"
+  post 'sponsors/charge', :to => "sponsors#charge"
   resources :sponsors
   resources :adverts
   get '/sitemap.xml', to: redirect(Pathname.new(ENV["S3_ENDPOINT"]).join(ENV["S3_BUCKET"]).join("sitemap.xml").to_s, status: 301)
