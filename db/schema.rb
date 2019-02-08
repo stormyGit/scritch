@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_07_203748) do
+ActiveRecord::Schema.define(version: 2019_02_08_020746) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -475,13 +475,14 @@ ActiveRecord::Schema.define(version: 2019_02_07_203748) do
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
     t.json "customer"
     t.json "charge"
-    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "status"
     t.string "charge_id"
     t.string "customer_id"
-    t.index ["user_id"], name: "index_sponsors_on_user_id"
+    t.datetime "limit"
+    t.string "plan"
+    t.uuid "user_id"
   end
 
   create_table "statistics", force: :cascade do |t|

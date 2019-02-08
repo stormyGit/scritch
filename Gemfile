@@ -65,6 +65,8 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'graphql'
 
+gem 'sidekiq'
+
 gem 'graphiql-rails', group: :development
 gem 'graphql-errors'
 gem 'figaro'

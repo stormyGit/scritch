@@ -10,7 +10,12 @@ class SponsorsController < ApplicationController
   end
 
   def charge
-    ChargeSuccess.new(id: params[:data][:object][:customer]).process
+    puts "\n\n\n\n.....\n#{pp params}\n.....\n\n\n\n"
+    if params[:type] == "charge.succeeded"
+      ChargeSuccess.new(id: params[:data][:object][:customer]).process
+    elsif params[:type] == "customer.subscription.deleted"
+      SubscriptionCancel.new(id: params[:data][:object][:customer]).process
+    end
     render body: nil, status: 201
   rescue Stripe::APIConnectionError, Stripe::StripeError
     render body: nil, status: 400
@@ -47,13 +52,16 @@ class SponsorsController < ApplicationController
         : subType.present? && subType == ENV["YEAR_SUB_ID"] ?
           "$5.00" : "N/A"
 
+      user_plan = subType.present? && subType == ENV["MONTH_SUB_ID"] ? "monthly"
+        : subType.present? && subType == ENV["YEAR_SUB_ID"] ? "yearly" : nil
       sponsor = Sponsor.create(
         user: @current_session.user,
         charge: charge,
         customer: customer,
         status: "pending",
         charge_id: charge[:id],
-        customer_id: customer[:id]
+        customer_id: customer[:id],
+        plan: user_plan
       )
     end
 
@@ -63,9 +71,10 @@ class SponsorsController < ApplicationController
   end
 
   def cancel
-    sponsor = Stripe::Subscription.retreive(
-      Sponsor.find_by(user: @current_session.user).charge.id
+    sponsor = Stripe::Subscription.retrieve(
+      Sponsor.find_by(user: @current_session.user).charge_id
     )
+    sponsor.delete
   end
 
   private

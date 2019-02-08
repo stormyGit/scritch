@@ -1008,6 +1008,8 @@ GEM
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (2.0.5)
+    rack-protection (2.0.5)
+      rack
     rack-proxy (0.6.4)
       rack
     rack-test (1.1.0)
@@ -1055,6 +1057,7 @@ GEM
       json (>= 1.8)
       nokogiri (~> 1.5)
       trollop (~> 2.1)
+    redis (4.1.0)
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
@@ -1079,6 +1082,11 @@ GEM
     selenium-webdriver (3.14.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2)
+    sidekiq (5.2.5)
+      connection_pool (~> 2.2, >= 2.2.2)
+      rack (>= 1.5.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 5)
     simple_oauth (0.3.1)
     sitemap (0.3.3)
     slim (4.0.1)
@@ -1192,6 +1200,7 @@ DEPENDENCIES
   ruby-hmac
   sass-rails (~> 5.0)
   selenium-webdriver
+  sidekiq
   sitemap
   slim-rails
   spring

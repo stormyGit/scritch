@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   get 'sponsors/cancel', :to => "sponsors#cancel"
   post 'sponsors/charge', :to => "sponsors#charge"
   resources :sponsors
