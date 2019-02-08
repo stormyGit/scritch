@@ -28,7 +28,7 @@ module Types
     field :unread_announcements_count, Integer, null: false
 
     def sponsor
-      if object.sponsor.blank? || object.sponsor.status != "live"
+      if object.sponsor.blank? || object.sponsor.status == "pending"
         nil
       else
         object.sponsor

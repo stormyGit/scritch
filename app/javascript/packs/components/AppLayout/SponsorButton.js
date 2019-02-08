@@ -41,25 +41,28 @@ class SponsorButton extends React.Component {
     return (
       <React.Fragment>
         {currentSession.user.sponsor &&
-          currentSession.user.sponsor.status == "live" && (
-            <Link to="/sponsors/cancel" className={classes.link}>
+          currentSession.user.sponsor.status === "live" && (
+            <a
+              href="http://127.0.0.1:3001/sponsors/cancel"
+              className={classes.link}
+            >
               <Typography variant="subtitle1" className={classes.dataSpacer}>
                 Sponsor!
               </Typography>
-            </Link>
+            </a>
           )}
         {currentSession.user.sponsor &&
-          currentSession.user.sponsor.status != "live" && (
+          currentSession.user.sponsor.status === "canceled" && (
             <Typography variant="subtitle1" className={classes.dataSpacer}>
-              Sponsor!
+              Sponsor until {sponsorLimit.toLocaleDateString()}
             </Typography>
           )}
         {!currentSession.user.sponsor && (
-          <Link to="/sponsors/new" className={classes.link}>
+          <a href="http://127.0.0.1:3001/sponsors/new" className={classes.link}>
             <Typography variant="subtitle1" className={classes.dataSpacer}>
               Become a Sponsor!
             </Typography>
-          </Link>
+          </a>
         )}
       </React.Fragment>
     );
