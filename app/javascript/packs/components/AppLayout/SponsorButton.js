@@ -19,6 +19,9 @@ import UploadIcon from "@material-ui/icons/CloudUpload";
 const styles = theme => ({
   dataSpacer: {
     marginRight: theme.spacing.unit * 1
+  },
+  link: {
+    textDecoration: "none"
   }
 });
 
@@ -39,7 +42,7 @@ class SponsorButton extends React.Component {
       <React.Fragment>
         {currentSession.user.sponsor &&
           currentSession.user.sponsor.status == "live" && (
-            <Link to="/sponsors/cancel">
+            <Link to="/sponsors/cancel" className={classes.link}>
               <Typography variant="subtitle1" className={classes.dataSpacer}>
                 Sponsor!
               </Typography>
@@ -52,7 +55,7 @@ class SponsorButton extends React.Component {
             </Typography>
           )}
         {!currentSession.user.sponsor && (
-          <Link to="/sponsors/new">
+          <Link to="/sponsors/new" className={classes.link}>
             <Typography variant="subtitle1" className={classes.dataSpacer}>
               Become a Sponsor!
             </Typography>
