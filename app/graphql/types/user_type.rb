@@ -7,6 +7,7 @@ module Types
     field :chat_enabled, Boolean, null: false
     field :name, String, null: false
     field :published_media, [MediumType], null: false
+    field :sponsor, SponsorType, null: true
     field :avatar, String, null: true
     field :banner, String, null: true
     field :bio, String, null: true
@@ -25,6 +26,14 @@ module Types
     field :blocked, Boolean, null: false
 
     field :unread_announcements_count, Integer, null: false
+
+    def sponsor
+      if object.sponsor.blank? || object.sponsor.status != "live"
+        nil
+      else
+        object.sponsor
+      end
+    end
 
     def banner
       object.banner_url

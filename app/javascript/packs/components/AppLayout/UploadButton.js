@@ -11,7 +11,11 @@ import IconButton from "@material-ui/core/IconButton";
 
 import UploadIcon from "@material-ui/icons/CloudUpload";
 
-const styles = theme => ({});
+const styles = theme => ({
+  buttonPad: {
+    padding: theme.spacing.unit
+  }
+});
 
 class UploadButton extends React.Component {
   state = {
@@ -24,7 +28,11 @@ class UploadButton extends React.Component {
     return (
       <React.Fragment>
         {this.props.width === "xl" && currentSession && (
-          <Button onClick={this.props.onClick} size="large" color="primary">
+          <Button
+            onClick={this.props.onClick}
+            className={classes.buttonPad}
+            color="primary"
+          >
             Upload
           </Button>
         )}

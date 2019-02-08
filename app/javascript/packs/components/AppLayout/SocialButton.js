@@ -20,6 +20,9 @@ const styles = theme => ({
   },
   link: {
     textDecoration: "none"
+  },
+  buttonPad: {
+    padding: theme.spacing.unit
   }
 });
 
@@ -58,10 +61,10 @@ class SocialButton extends React.Component {
         {this.props.width === "xl" && (
           <Button
             onClick={event => this.handleMenu(event)}
-            size="large"
             color="primary"
+            className={classes.buttonPad}
           >
-            Social Media & Advertisement
+            Social & Ads
           </Button>
         )}
         <Menu

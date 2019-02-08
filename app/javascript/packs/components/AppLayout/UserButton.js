@@ -16,7 +16,11 @@ import UserAvatar from "../UserAvatar";
 
 import UploadIcon from "@material-ui/icons/CloudUpload";
 
-const styles = theme => ({});
+const styles = theme => ({
+  dataSpacer: {
+    marginRight: theme.spacing.unit * 1
+  }
+});
 
 class UserButton extends React.Component {
   state = {
@@ -25,6 +29,11 @@ class UserButton extends React.Component {
 
   render() {
     const { classes, currentSession } = this.props;
+
+    if (currentSession.user.sponsor) {
+      console.log(currentSession.user.sponsor);
+      var sponsorLimit = new Date(currentSession.user.sponsor.limit * 1000);
+    }
 
     return (
       <React.Fragment>
@@ -55,6 +64,8 @@ class UserButton extends React.Component {
               anchorEl={this.state.userMenuAnchor}
               open={Boolean(this.state.userMenuAnchor)}
               onClose={() => this.setState({ userMenuAnchor: null })}
+              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+              transformOrigin={{ vertical: "top", horizontal: "center" }}
             >
               <MenuItem
                 component={props => (
@@ -85,7 +96,7 @@ class UserButton extends React.Component {
 }
 
 export default withStyles(styles)(withRouter(withCurrentSession(UserButton)));
-
+// ship renews on: {sponsorLimit.toLocaleDateString()}
 // <React.Fragment>
 //   {currentSession && (
 //     <Button

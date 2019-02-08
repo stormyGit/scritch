@@ -1,0 +1,15 @@
+module Types
+  class SponsorType < Types::BaseObject
+    description "Sponsor object"
+    field :id, ID, null: false
+    field :user, UserType, null: false
+    field :limit, Integer, null: false
+    field :plan, String, null: false
+    field :status, String, null: false
+    field :created_at, String, null: false
+
+    def created_at
+      object.created_at.iso8601
+    end
+  end
+end

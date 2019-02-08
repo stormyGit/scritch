@@ -50,6 +50,7 @@ import MetricsBar from "./AppLayout/MetricsBar";
 import UserButton from "./AppLayout/UserButton";
 import NotificationsButton from "./AppLayout/NotificationsButton";
 import TechButton from "./AppLayout/TechButton";
+import SponsorButton from "./AppLayout/SponsorButton";
 import AppDialogs from "./AppLayout/AppDialogs";
 
 import HomeIcon from "@material-ui/icons/Home";
@@ -117,7 +118,10 @@ const styles = theme => ({
   },
   closeIcon: {},
   searchIcon: {},
-  tinyButton: {}
+  tinyButton: {},
+  buttonPad: {
+    padding: theme.spacing.unit
+  }
 });
 
 class AppLayoutRemake extends React.Component {
@@ -221,7 +225,7 @@ class AppLayoutRemake extends React.Component {
                 <UploadButton
                   onClick={() => this.setState({ uploadDialog: true })}
                 />
-                <Button size="large" color="primary">
+                <Button className={classes.buttonPad} color="primary">
                   Tag
                 </Button>
                 <SocialButton
@@ -244,6 +248,7 @@ class AppLayoutRemake extends React.Component {
                 <NotificationsButton
                   onClick={() => this.setState({ activitiesDialog: true })}
                 />
+                <SponsorButton />
                 <UserButton
                   openSignUp={() => this.setState({ signUpDialog: true })}
                   openSettings={() => this.setState({ settingsDialog: true })}

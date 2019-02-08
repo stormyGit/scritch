@@ -90,7 +90,7 @@ class SponsorsController < ApplicationController
   end
 
   def check_sponsorship
-    if @current_session.blank? || @current_session.user.sponsor.blank?
+    if @current_session.blank? || @current_session.user.sponsor.blank? || @current_session.user.sponsor.status != "live"
       redirect_to root_path
     end
   end

@@ -514,6 +514,13 @@ export const GET_USER = gql`
       followed
       following
       mediaCount
+      sponsor {
+        id
+        limit
+        plan
+        status
+        createdAt
+      }
       followersCount
       followingCount
       likesCount
@@ -612,6 +619,13 @@ export const GET_SESSION = gql`
         bio
         website
         theme
+        sponsor {
+          id
+          limit
+          plan
+          status
+          createdAt
+        }
         tagTutorial
         mediaCount
         followingCount

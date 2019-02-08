@@ -20,6 +20,9 @@ const styles = theme => ({
   },
   link: {
     textDecoration: "none"
+  },
+  buttonPad: {
+    padding: theme.spacing.unit
   }
 });
 
@@ -57,7 +60,7 @@ class DatabasesButton extends React.Component {
         {this.props.width === "xl" && (
           <Button
             onClick={event => this.handleMenu(event)}
-            size="large"
+            className={classes.buttonPad}
             color="primary"
           >
             Databases
