@@ -151,13 +151,15 @@ class Maker extends React.Component {
                 <Grid container spacing={8}>
                   <Grid item lg={9} xs={12}>
                     <div style={{ padding: 5 }} />
-                    {data.maker.fursuits.map(fursuit => {
-                      return (
-                        <Grid item xs={6} md={4} lg={3} key={fursuit.id}>
-                          <FursuitCard key={fursuit.id} fursuit={fursuit} />
-                        </Grid>
-                      );
-                    })}
+                    <Grid container spacing={8}>
+                      {data.maker.fursuits.map(fursuit => {
+                        return (
+                          <Grid item xs={6} md={4} lg={3} key={fursuit.id}>
+                            <FursuitCard key={fursuit.id} fursuit={fursuit} />
+                          </Grid>
+                        );
+                      })}
+                    </Grid>
                   </Grid>
                   <Grid item lg={3} xs={12}>
                     <div className={classes.pictureInfo}>
