@@ -165,7 +165,7 @@ class Medium extends React.Component {
   }
 
   scrollTo() {
-    scroll.scrollTo(171);
+    scroll.scrollTo(120);
   }
 
   render() {
@@ -185,276 +185,291 @@ class Medium extends React.Component {
             !loading &&
             !error &&
             medium && (
-              <div className={classes.container} key={medium.id}>
-                <PageTitle>
-                  {!loading && medium
-                    ? `Picture #${
-                        medium.id.split("-")[medium.id.split("-").length - 5]
-                      }`
-                    : null}
-                </PageTitle>
-                <Card className={classes.card} elevation={0}>
-                  <Grid container className={classes.gridContainer}>
-                    <Grid item lg={1} xs={12} />
-                    <Grid item lg={10} xs={12}>
-                      {console.log(
-                        medium.height,
-                        medium.width,
-                        JSON.parse(medium.exif).Orientation
-                      )}
-                      <img
-                        onClick={this.scrollTo}
-                        onContextMenu={e => {
-                          e.preventDefault();
-                        }}
-                        className={
-                          medium.exif &&
-                          JSON.parse(medium.exif).Orientation === "6"
-                            ? classes.mediaV
-                            : classes.mediaH
-                        }
-                        src={`${medium.picture}`}
-                        title={medium.title}
-                      />
+              <React.Fragment>
+                <div style={{ paddingTop: 10 }} />
+                <div className={classes.container} key={medium.id}>
+                  <PageTitle>
+                    {!loading && medium
+                      ? `Picture #${
+                          medium.id.split("-")[medium.id.split("-").length - 5]
+                        }`
+                      : null}
+                  </PageTitle>
+                  <Card className={classes.card} elevation={0}>
+                    <Grid container className={classes.gridContainer}>
+                      <Grid item lg={1} xs={12} />
+                      <Grid item lg={10} xs={12}>
+                        {console.log(
+                          medium.height,
+                          medium.width,
+                          JSON.parse(medium.exif).Orientation
+                        )}
+                        <img
+                          onClick={this.scrollTo}
+                          onContextMenu={e => {
+                            e.preventDefault();
+                          }}
+                          className={
+                            medium.exif &&
+                            JSON.parse(medium.exif).Orientation === "6"
+                              ? classes.mediaV
+                              : classes.mediaH
+                          }
+                          src={`${medium.picture}`}
+                          title={medium.title}
+                        />
+                      </Grid>
+                      <Grid item lg={1} xs={12} />
                     </Grid>
-                    <Grid item lg={1} xs={12} />
-                  </Grid>
-                  <Grid container spacing={8}>
-                    <Grid item lg={8} xs={12}>
-                      <CardContent>
-                        <div className={classes.pictureInfo}>
+                    <Grid container spacing={8}>
+                      <Grid item lg={8} xs={12}>
+                        <CardContent>
+                          <div className={classes.pictureInfo}>
+                            <Grid
+                              container
+                              spacing={8}
+                              justify="space-between"
+                              wrap="nowrap"
+                            >
+                              <Grid item>
+                                <Typography
+                                  gutterBottom
+                                  variant="h5"
+                                  component="h2"
+                                  className={classes.mediumTitle}
+                                  noWrap
+                                >
+                                  {`Picture #${
+                                    medium.id.split("-")[
+                                      medium.id.split("-").length - 5
+                                    ]
+                                  }`}
+                                </Typography>
+                              </Grid>
+                              <Grid item style={{ flexShrink: 0 }}>
+                                {medium.visibility === "public" && (
+                                  <React.Fragment>
+                                    <SocialButton
+                                      name="Twitter"
+                                      url="https://twitter.com/intent/tweet/"
+                                      params={{
+                                        text: `${medium.title} via @${
+                                          process.env.TWITTER_ACCOUNT
+                                        }`,
+                                        url: window.location.href
+                                      }}
+                                      className={classes.socialButton}
+                                    >
+                                      <TwitterIcon fontSize={"inherit"} />
+                                    </SocialButton>
+                                    <SocialButton
+                                      name="Telegram"
+                                      className={classes.socialButton}
+                                      url="https://telegram.me/share/url"
+                                      params={{
+                                        text: medium.title,
+                                        url: window.location.href
+                                      }}
+                                    >
+                                      <TelegramIcon fontSize={"inherit"} />
+                                    </SocialButton>
+                                  </React.Fragment>
+                                )}
+                                <LikeButton medium={medium} />
+                              </Grid>
+                            </Grid>
+                            <Grid container spacing={8} justify="space-between">
+                              <Grid item>
+                                <Typography
+                                  gutterBottom
+                                  variant="subtitle1"
+                                  noWrap
+                                >
+                                  {countFormat(
+                                    medium.viewsCount,
+                                    "view",
+                                    "views"
+                                  )}
+                                </Typography>
+                              </Grid>
+                            </Grid>
+                          </div>
+                          <Divider />
                           <Grid
                             container
-                            spacing={8}
+                            spacing={0}
                             justify="space-between"
-                            wrap="nowrap"
+                            alignItems="center"
                           >
                             <Grid item>
-                              <Typography
-                                gutterBottom
-                                variant="h5"
-                                component="h2"
-                                className={classes.mediumTitle}
-                                noWrap
-                              >
-                                {`Picture #${
-                                  medium.id.split("-")[
-                                    medium.id.split("-").length - 5
-                                  ]
-                                }`}
-                              </Typography>
+                              <CardHeader
+                                className={classes.userInfo}
+                                avatar={
+                                  <Link
+                                    to={`/${medium.user.slug}`}
+                                    className={classes.userLink}
+                                  >
+                                    <UserAvatar user={medium.user} />
+                                  </Link>
+                                }
+                                title={
+                                  <Link
+                                    to={`/${medium.user.slug}`}
+                                    className={classes.userLink}
+                                  >
+                                    {medium.user.name}
+                                  </Link>
+                                }
+                                subheader={
+                                  medium.createdAt
+                                    ? timeAgo.format(
+                                        dayjs(medium.createdAt).toDate()
+                                      )
+                                    : "Under review"
+                                }
+                              />
                             </Grid>
                             <Grid item style={{ flexShrink: 0 }}>
-                              {medium.visibility === "public" && (
-                                <React.Fragment>
-                                  <SocialButton
-                                    name="Twitter"
-                                    url="https://twitter.com/intent/tweet/"
-                                    params={{
-                                      text: `${medium.title} via @${
-                                        process.env.TWITTER_ACCOUNT
-                                      }`,
-                                      url: window.location.href
-                                    }}
-                                    className={classes.socialButton}
+                              {currentSession &&
+                                (medium.user.id === currentSession.user.id ||
+                                  currentSession.user.moderator) && (
+                                  <Button
+                                    onClick={() =>
+                                      this.setState({ editMedium: true })
+                                    }
+                                    variant="outlined"
                                   >
-                                    <TwitterIcon fontSize={"inherit"} />
-                                  </SocialButton>
-                                  <SocialButton
-                                    name="Telegram"
-                                    className={classes.socialButton}
-                                    url="https://telegram.me/share/url"
-                                    params={{
-                                      text: medium.title,
-                                      url: window.location.href
-                                    }}
+                                    Edit picture
+                                  </Button>
+                                )}
+                              {currentSession &&
+                                medium.user.id !== currentSession.user.id &&
+                                medium.completion != 100 && (
+                                  <Button
+                                    onClick={() =>
+                                      this.setState({ tagMedium: true })
+                                    }
+                                    variant="outlined"
                                   >
-                                    <TelegramIcon fontSize={"inherit"} />
-                                  </SocialButton>
-                                </React.Fragment>
-                              )}
-                              <LikeButton medium={medium} />
+                                    Tag Picture
+                                  </Button>
+                                )}
+                              <IconButton
+                                onClick={() =>
+                                  this.setState({ reportDialog: true })
+                                }
+                                color="secondary"
+                              >
+                                <OutlinedFlag />
+                              </IconButton>
                             </Grid>
                           </Grid>
-                          <Grid container spacing={8} justify="space-between">
-                            <Grid item>
+                          <div className={classes.tags}>
+                            {medium.edition && (
                               <Typography
                                 gutterBottom
                                 variant="subtitle1"
                                 noWrap
                               >
-                                {countFormat(
-                                  medium.viewsCount,
-                                  "view",
-                                  "views"
-                                )}
-                              </Typography>
-                            </Grid>
-                          </Grid>
-                        </div>
-                        <Divider />
-                        <Grid
-                          container
-                          spacing={0}
-                          justify="space-between"
-                          alignItems="center"
-                        >
-                          <Grid item>
-                            <CardHeader
-                              className={classes.userInfo}
-                              avatar={
-                                <Link
-                                  to={`/${medium.user.slug}`}
-                                  className={classes.userLink}
-                                >
-                                  <UserAvatar user={medium.user} />
-                                </Link>
-                              }
-                              title={
-                                <Link
-                                  to={`/${medium.user.slug}`}
-                                  className={classes.userLink}
-                                >
-                                  {medium.user.name}
-                                </Link>
-                              }
-                              subheader={
-                                medium.createdAt
-                                  ? timeAgo.format(
-                                      dayjs(medium.createdAt).toDate()
-                                    )
-                                  : "Under review"
-                              }
-                            />
-                          </Grid>
-                          <Grid item style={{ flexShrink: 0 }}>
-                            {currentSession &&
-                              (medium.user.id === currentSession.user.id ||
-                                currentSession.user.moderator) && (
-                                <Button
-                                  onClick={() =>
-                                    this.setState({ editMedium: true })
-                                  }
-                                  variant="outlined"
-                                >
-                                  Edit picture
-                                </Button>
-                              )}
-                            {currentSession &&
-                              medium.user.id !== currentSession.user.id &&
-                              medium.completion != 100 && (
-                                <Button
-                                  onClick={() =>
-                                    this.setState({ tagMedium: true })
-                                  }
-                                  variant="outlined"
-                                >
-                                  Tag Picture
-                                </Button>
-                              )}
-                            <IconButton
-                              onClick={() =>
-                                this.setState({ reportDialog: true })
-                              }
-                              color="secondary"
-                            >
-                              <OutlinedFlag />
-                            </IconButton>
-                          </Grid>
-                        </Grid>
-                        <div className={classes.tags}>
-                          {medium.edition && (
-                            <Typography gutterBottom variant="subtitle1" noWrap>
-                              {medium.edition.event.name} {medium.edition.name}
-                            </Typography>
-                          )}
-                          {medium.fursuits.length != 0 && (
-                            <Typography gutterBottom variant="subtitle1" noWrap>
-                              {"Fursuits"}
-                            </Typography>
-                          )}
-                          <Grid container spacing={8}>
-                            {medium.fursuits.length != 0 &&
-                              medium.fursuits.map(fursuit => (
-                                <Grid item lg={2} xs={2} key={fursuit.id}>
-                                  <Link
-                                    to={`/fursuits/${fursuit.slug}-${
-                                      fursuit.id
-                                    }`}
-                                    className={classes.fursuitLink}
-                                  >
-                                    <FursuitMiniCard
-                                      onClick={() => {}}
-                                      fursuit={fursuit}
-                                    />
-                                  </Link>
-                                </Grid>
-                              ))}
-                          </Grid>
-                        </div>
-                      </CardContent>
-                      <CardContent>
-                        {medium.commentsDisabled ? (
-                          <Typography gutterBottom variant="caption">
-                            {"Comments are disabled for this video."}
-                          </Typography>
-                        ) : (
-                          <React.Fragment>
-                            <Typography
-                              gutterBottom
-                              variant="h6"
-                              component="h3"
-                            >
-                              {countFormat(
-                                medium.commentsCount,
-                                "comment",
-                                "comments"
-                              )}
-                            </Typography>
-                            {currentSession ? (
-                              <CommentForm medium={medium} />
-                            ) : (
-                              <Typography gutterBottom variant="caption">
-                                {"You must be connected to write a comment."}
+                                {medium.edition.event.name}{" "}
+                                {medium.edition.name}
                               </Typography>
                             )}
-                            <Comments
-                              medium={medium}
-                              parent={null}
-                              commentsCount={medium.commentsCount}
-                            />
-                          </React.Fragment>
-                        )}
-                      </CardContent>
-                    </Grid>
-                    <Grid item lg={4} xs={12}>
-                      <CardContent>
-                        {medium.relatedMedia.map(medium => (
-                          <div className={classes.relatedMedia} key={medium.id}>
-                            <RelatedMediumCard medium={medium} horizontal />
+                            {medium.fursuits.length != 0 && (
+                              <Typography
+                                gutterBottom
+                                variant="subtitle1"
+                                noWrap
+                              >
+                                {"Fursuits"}
+                              </Typography>
+                            )}
+                            <Grid container spacing={8}>
+                              {medium.fursuits.length != 0 &&
+                                medium.fursuits.map(fursuit => (
+                                  <Grid item lg={2} xs={2} key={fursuit.id}>
+                                    <Link
+                                      to={`/fursuits/${fursuit.slug}-${
+                                        fursuit.id
+                                      }`}
+                                      className={classes.fursuitLink}
+                                    >
+                                      <FursuitMiniCard
+                                        onClick={() => {}}
+                                        fursuit={fursuit}
+                                      />
+                                    </Link>
+                                  </Grid>
+                                ))}
+                            </Grid>
                           </div>
-                        ))}
-                      </CardContent>
+                        </CardContent>
+                        <CardContent>
+                          {medium.commentsDisabled ? (
+                            <Typography gutterBottom variant="caption">
+                              {"Comments are disabled for this video."}
+                            </Typography>
+                          ) : (
+                            <React.Fragment>
+                              <Typography
+                                gutterBottom
+                                variant="h6"
+                                component="h3"
+                              >
+                                {countFormat(
+                                  medium.commentsCount,
+                                  "comment",
+                                  "comments"
+                                )}
+                              </Typography>
+                              {currentSession ? (
+                                <CommentForm medium={medium} />
+                              ) : (
+                                <Typography gutterBottom variant="caption">
+                                  {"You must be connected to write a comment."}
+                                </Typography>
+                              )}
+                              <Comments
+                                medium={medium}
+                                parent={null}
+                                commentsCount={medium.commentsCount}
+                              />
+                            </React.Fragment>
+                          )}
+                        </CardContent>
+                      </Grid>
+                      <Grid item lg={4} xs={12}>
+                        <CardContent>
+                          {medium.relatedMedia.map(medium => (
+                            <div
+                              className={classes.relatedMedia}
+                              key={medium.id}
+                            >
+                              <RelatedMediumCard medium={medium} horizontal />
+                            </div>
+                          ))}
+                        </CardContent>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </Card>
-                <EditMediumDialog
-                  open={this.state.editMedium}
-                  onClose={() => this.setState({ editMedium: false })}
-                  medium={medium}
-                />
-                <TagDialog
-                  open={this.state.tagMedium}
-                  onClose={() => this.setState({ tagMedium: false })}
-                  medium={medium}
-                />
-                <ReportDialog
-                  open={this.state.reportDialog}
-                  onClose={() => this.setState({ reportDialog: false })}
-                  resource="medium"
-                  resourceId={medium.id}
-                />
-              </div>
+                  </Card>
+                  <EditMediumDialog
+                    open={this.state.editMedium}
+                    onClose={() => this.setState({ editMedium: false })}
+                    medium={medium}
+                  />
+                  <TagDialog
+                    open={this.state.tagMedium}
+                    onClose={() => this.setState({ tagMedium: false })}
+                    medium={medium}
+                  />
+                  <ReportDialog
+                    open={this.state.reportDialog}
+                    onClose={() => this.setState({ reportDialog: false })}
+                    resource="medium"
+                    resourceId={medium.id}
+                  />
+                </div>
+              </React.Fragment>
             )
           );
         }}

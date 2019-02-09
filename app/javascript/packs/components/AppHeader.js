@@ -34,9 +34,10 @@ const styles = theme => ({
     color: theme.palette.text.primary
   },
   toolTip: {
-    width: "100%"
+    height: 90
   },
   advert: {
+    width: 300,
     height: 90
   },
   link: {
@@ -58,18 +59,17 @@ class AppHeader extends React.Component {
           justify="center"
           alignItems="center"
         >
-          {width == "xl" ||
-            (width == "lg" && (
-              <React.Fragment>
-                <Grid item xs={false} lg={1} />
-                <Grid item xs={false} lg={1}>
-                  <Link to="/" className={classes.rootLink}>
-                    <img src={logo} className={classes.toolTip} />
-                  </Link>
-                </Grid>
-                <Grid item xs={false} lg={1} />
-              </React.Fragment>
-            ))}
+          {(width == "xl" || width == "lg") && (
+            <React.Fragment>
+              <Grid item xs={false} lg={1} />
+              <Grid item xs={false} lg={1}>
+                <Link to="/" className={classes.rootLink}>
+                  <img src={logo} className={classes.toolTip} />
+                </Link>
+              </Grid>
+              <Grid item xs={false} lg={1} />
+            </React.Fragment>
+          )}
           <Query query={GET_ADVERTS} fetchPolicy="network-only">
             {({ loading, error, data }) => {
               if (loading || error) return null;
@@ -97,16 +97,15 @@ class AppHeader extends React.Component {
               }
             }}
           </Query>
-          {width == "xl" ||
-            (width == "lg" && (
-              <React.Fragment>
-                <Grid item xs={false} lg={1} />
-                <Grid item xs={false} lg={1}>
-                  <img src={require("../1.png")} className={classes.toolTip} />
-                </Grid>
-                <Grid item xs={false} lg={1} />
-              </React.Fragment>
-            ))}
+          {(width == "xl" || width == "lg") && (
+            <React.Fragment>
+              <Grid item xs={false} lg={1} />
+              <Grid item xs={false} lg={1}>
+                <img src={require("../1.png")} className={classes.toolTip} />
+              </Grid>
+              <Grid item xs={false} lg={1} />
+            </React.Fragment>
+          )}
         </Grid>
       </div>
     );
