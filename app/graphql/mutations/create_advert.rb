@@ -1,12 +1,5 @@
 class Mutations::CreateAdvert < Mutations::BaseMutation
-  argument :title, String, required: true
-  argument :description, String, required: false
-  argument :picture, String, required: true
-  argument :comments_disabled, Boolean, required: true
-  argument :share_on_twitter, Boolean, required: false
-  argument :edition_id, ID, required: false
-  argument :category_id, ID, required: false
-  argument :panel_id, ID, required: false
+  argument :file, String, required: true
 
   field :advert, Types::AdvertType, null: true
   field :errors, [String], null: false
@@ -14,9 +7,7 @@ class Mutations::CreateAdvert < Mutations::BaseMutation
   def resolve(arguments)
     advert = Advert.new(arguments)
     advert.user = context[:current_user]
-    raise Pundit::NotAuthorizedError unless AdvertPolicy.new(context[:current_user], advert).create?
-
-    advert.completion = advert.get_completion()
+    #raise Pundit::NotAuthorizedError unless AdvertPolicy.new(context[:current_user], advert).create?
 
     if advert.save
       {

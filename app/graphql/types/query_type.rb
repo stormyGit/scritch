@@ -29,6 +29,11 @@ module Types
       argument :edition_id, [ID], required: false
     end
 
+    field :adverts, [AdvertType], null: false do
+      description "List media"
+    end
+
+
     field :activities, [ActivityType], null: false do
       description "Activities"
       argument :offset, Integer, required: true
@@ -183,6 +188,25 @@ module Types
       argument :limit, Integer, required: false
       argument :offset, Integer, required: false
       argument :name, String, required: false
+    end
+
+    def adverts
+      advert = Advert.where(status: "live").joins(:user).where("users.available_impressions > ?", 0).take(2)
+      if advert.count == 2
+        advert.each do |e|
+          e.impressions = e.impressions + 1
+          e.user.available_impressions = e.user.available_impressions - 1
+          if e.user.available_impressions < 1
+            if e.user.available_impressions < 1
+              e.user.available_impressions = 0
+            end
+            e.status = "Out of impressions"
+          end
+          e.save
+          e.user.save
+        end
+      end
+      advert
     end
 
     def makers_country

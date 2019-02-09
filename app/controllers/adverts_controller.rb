@@ -1,12 +1,17 @@
 class AdvertsController < ApplicationController
   before_action :get_session
   before_action :check_advertiser
-  before_action :get_advert, only: [:destroy]
+  before_action :get_advert, only: [:destroy, :update]
   before_action :get_adverts, only: [:index]
   skip_before_action :verify_authenticity_token, only: :charge
 
   def index
 
+  end
+
+  def update
+    @advert.update!(status: params[:status])
+    redirect_back fallback_location: adverts_path
   end
 
   def charge

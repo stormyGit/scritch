@@ -255,6 +255,15 @@ export const GET_MEDIA = gql`
   }
 `;
 
+export const GET_ADVERTS = gql`
+  query Adverts {
+    adverts {
+      id
+      file
+    }
+  }
+`;
+
 export const GET_USERS = gql`
   query Users(
     $q: String
@@ -653,6 +662,16 @@ export const CREATE_MEDIUM = gql`
       medium {
         id
         slug
+      }
+    }
+  }
+`;
+
+export const CREATE_ADVERT = gql`
+  mutation createAdvert($input: CreateAdvertInput!) {
+    createAdvert(input: $input) {
+      advert {
+        id
       }
     }
   }

@@ -20,12 +20,20 @@
               .card-header-title
                 = "Ad ##{advert.id.split('-')[0]}"
             .card-content
+              = image_tag advert.file_url
+              br
+              = "Status: #{advert.status}"
+              br
+              = "Impressions: #{advert.impressions}"
 
-            / .card-footer
-            /   .card-footer-item
-            /     = link_to "View", moderation_event_edition_path(id: edition.id)
-            /   .card-footer-item
-            /     = link_to "Edit", edit_moderation_event_edition_path(id: edition.id)
+            .card-footer
+              .card-footer-item
+                - if advert.status == "ready"
+                  = link_to "Toggle On", advert_path(id: advert.id, status: "live"), method: :put
+                - if advert.status == "live"
+                  = link_to "Toggle Off", advert_path(id: advert.id, status: "ready"), method: :put
+              .card-footer-item
+                = link_to "Delete", advert_path(id: advert.id), method: :delete
 
   .columns
     .column.is-6.is-offset-3

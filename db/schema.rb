@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_09_054922) do
+ActiveRecord::Schema.define(version: 2019_02_09_062606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -90,12 +90,12 @@ ActiveRecord::Schema.define(version: 2019_02_09_054922) do
     t.integer "height"
     t.integer "size"
     t.integer "impressions", default: 0
-    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status"
     t.boolean "public", default: false
-    t.index ["user_id"], name: "index_adverts_on_user_id"
+    t.string "file"
+    t.string "status", default: "pending"
+    t.uuid "user_id"
   end
 
   create_table "announcements", force: :cascade do |t|

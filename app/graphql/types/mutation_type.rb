@@ -25,7 +25,7 @@ module Types
     field :block_user, mutation: Mutations::BlockUser
     field :unblock_user, mutation: Mutations::UnblockUser
 
-    field :create_charge, mutation: Mutations::CreateCharge
+    field :create_advert, mutation: Mutations::CreateAdvert
 
   end
 end

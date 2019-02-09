@@ -1,8 +1,9 @@
 module Types
-  class MediumType < Types::BaseObject
+  class AdvertType < Types::BaseObject
     description "Medium object"
     field :id, ID, null: false
-    field :status, String, null: true
+    field :status, String, null: false
+    field :public, Boolean, null: false
     field :file, String, null: false
     field :width, Integer, null: true
     field :height, Integer, null: true
