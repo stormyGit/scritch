@@ -7,6 +7,7 @@ import { GET_ADVERTS } from "../queries";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
+import withWidth from "@material-ui/core/withWidth";
 
 import Logo from "./Logo";
 
@@ -22,13 +23,21 @@ import logo from "../../../assets/images/logo.png";
 const styles = theme => ({
   root: {
     display: "flex",
-    flexGrow: 1
+    flexGrow: 1,
+    maxHeight: 100
   },
   grid: {
-    textAlign: "center"
+    textAlign: "center",
+    maxHeight: 100
   },
   icon: {
     color: theme.palette.text.primary
+  },
+  toolTip: {
+    width: "100%"
+  },
+  advert: {
+    height: 90
   },
   link: {
     textDecoration: "none",
@@ -38,7 +47,7 @@ const styles = theme => ({
 
 class AppHeader extends React.Component {
   render() {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
 
     return (
       <div className={classes.root}>
@@ -49,13 +58,18 @@ class AppHeader extends React.Component {
           justify="center"
           alignItems="center"
         >
-          <Grid item xs={1} />
-          <Grid item xs={1}>
-            <Link to="/" className={classes.rootLink}>
-              <img src={logo} style={{ width: "100%" }} />
-            </Link>
-          </Grid>
-          <Grid item xs={1} />
+          {width == "xl" ||
+            (width == "lg" && (
+              <React.Fragment>
+                <Grid item xs={false} lg={1} />
+                <Grid item xs={false} lg={1}>
+                  <Link to="/" className={classes.rootLink}>
+                    <img src={logo} className={classes.toolTip} />
+                  </Link>
+                </Grid>
+                <Grid item xs={false} lg={1} />
+              </React.Fragment>
+            ))}
           <Query query={GET_ADVERTS} fetchPolicy="network-only">
             {({ loading, error, data }) => {
               if (loading || error) return null;
@@ -65,16 +79,16 @@ class AppHeader extends React.Component {
                   data.adverts &&
                   data.adverts.length == 2 && (
                     <React.Fragment>
-                      <Grid item xs={3}>
+                      <Grid item xs={6} lg={3}>
                         <img
                           src={data.adverts[0].file}
-                          style={{ width: "80%" }}
+                          className={classes.advert}
                         />
                       </Grid>
-                      <Grid item xs={3}>
+                      <Grid item xs={6} lg={3}>
                         <img
                           src={data.adverts[1].file}
-                          style={{ width: "80%" }}
+                          className={classes.advert}
                         />
                       </Grid>
                     </React.Fragment>
@@ -83,15 +97,20 @@ class AppHeader extends React.Component {
               }
             }}
           </Query>
-          <Grid item xs={1} />
-          <Grid item xs={1}>
-            <img src={require("../1.png")} style={{ width: "100%" }} />
-          </Grid>
-          <Grid item xs={1} />
+          {width == "xl" ||
+            (width == "lg" && (
+              <React.Fragment>
+                <Grid item xs={false} lg={1} />
+                <Grid item xs={false} lg={1}>
+                  <img src={require("../1.png")} className={classes.toolTip} />
+                </Grid>
+                <Grid item xs={false} lg={1} />
+              </React.Fragment>
+            ))}
         </Grid>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(withRouter(AppHeader));
+export default withStyles(styles)(withRouter(withWidth()(AppHeader)));

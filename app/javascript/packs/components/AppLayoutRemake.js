@@ -233,7 +233,7 @@ class AppLayoutRemake extends React.Component {
                 />
                 <PoliciesSupportButton />
 
-                {true && (
+                {width === "xl" && (
                   <div className={classes.titleZone}>
                     <DisplayPageTitle />
                   </div>
