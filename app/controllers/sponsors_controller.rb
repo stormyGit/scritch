@@ -10,7 +10,6 @@ class SponsorsController < ApplicationController
   end
 
   def charge
-    puts "\n\n\n\n.....\n#{pp params}\n.....\n\n\n\n"
     if params[:type] == "charge.succeeded"
       ChargeSuccess.new(id: params[:data][:object][:customer]).process
     elsif params[:type] == "customer.subscription.deleted"

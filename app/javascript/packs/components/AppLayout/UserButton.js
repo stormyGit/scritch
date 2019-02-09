@@ -30,11 +30,6 @@ class UserButton extends React.Component {
   render() {
     const { classes, currentSession } = this.props;
 
-    if (currentSession.user.sponsor) {
-      console.log(currentSession.user.sponsor);
-      var sponsorLimit = new Date(currentSession.user.sponsor.limit * 1000);
-    }
-
     return (
       <React.Fragment>
         {!currentSession && (

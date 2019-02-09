@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_08_020746) do
+ActiveRecord::Schema.define(version: 2019_02_09_054922) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -89,13 +89,12 @@ ActiveRecord::Schema.define(version: 2019_02_08_020746) do
     t.integer "width"
     t.integer "height"
     t.integer "size"
-    t.json "customer"
-    t.json "charge"
     t.integer "impressions", default: 0
-    t.boolean "status", default: true
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "status"
+    t.boolean "public", default: false
     t.index ["user_id"], name: "index_adverts_on_user_id"
   end
 
@@ -546,6 +545,9 @@ ActiveRecord::Schema.define(version: 2019_02_08_020746) do
     t.datetime "last_announcements_read"
     t.boolean "chat_enabled", default: true
     t.boolean "tag_tutorial", default: true
+    t.json "customer"
+    t.json "charge"
+    t.integer "available_impressions", default: 0
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end

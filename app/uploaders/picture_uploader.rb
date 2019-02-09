@@ -23,7 +23,6 @@ class PictureUploader < SecureUploader
       if image.exif
         model.exif = image.exif
       end
-      # model.exif = image.exif
       # model.data = image.data
       model.size = image.size
     end

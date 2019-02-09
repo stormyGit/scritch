@@ -15,6 +15,8 @@ class ApplicationController < ActionController::Base
         "moderation"
       elsif controller_name == "sponsors"
         "sponsors"
+      elsif controller_name == "adverts"
+        "adverts"
       else
         "application"
       end

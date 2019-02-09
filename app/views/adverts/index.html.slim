@@ -1,0 +1,32 @@
+#navbar-padder
+.container
+  - if flash[:notice].present?
+    .columns
+      .column.is-6.is-offset-3
+        .card.green
+          .card-content.has-text-centered
+            strong class=flash[:class]
+              = flash[:notice]
+    br
+  p.is-size-1.has-text-centered.has-text-primary
+    | Advertiser Dashboard
+  br
+  .columns.is-multiline
+    - if @adverts.present?
+      - @adverts.each do |advert|
+        .column.is-3
+          .card
+            .card-header
+              .card-header-title
+                = "Ad ##{advert.id.split('-')[0]}"
+            .card-content
+
+            / .card-footer
+            /   .card-footer-item
+            /     = link_to "View", moderation_event_edition_path(id: edition.id)
+            /   .card-footer-item
+            /     = link_to "Edit", edit_moderation_event_edition_path(id: edition.id)
+
+  .columns
+    .column.is-6.is-offset-3
+      /= paginate @editions
