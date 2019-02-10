@@ -120,7 +120,6 @@ class Makers extends React.Component {
               <div className={classes.filters}>
                 <MakerFilters
                   onChange={value => {
-                    console.log(value);
                     this.setState({
                       country: !value.country ? "" : value.country.value,
                       name: value.name

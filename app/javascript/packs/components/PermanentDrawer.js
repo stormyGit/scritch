@@ -6,7 +6,6 @@ import DrawerMenu from "./DrawerMenu";
 const drawerWidth = 301;
 
 const styles = theme => {
-  console.log(theme);
   return {
     drawerPadder: {
       width: drawerWidth,

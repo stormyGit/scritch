@@ -203,8 +203,6 @@ class EditMediumDialog extends React.Component {
 
     if (open == false) return null;
 
-    console.log(medium, this.state ? this.state : "no state");
-
     return (
       <Mutation mutation={UPDATE_MEDIUM}>
         {(updateMedium, { called }) => {
@@ -493,7 +491,6 @@ class EditMediumDialog extends React.Component {
                               key={fursuit.id}
                               fursuit={fursuit}
                               onClick={payload => {
-                                console.log(this.state.fursuits, payload);
                                 let index = this.state.fursuits.indexOf(
                                   payload
                                 );

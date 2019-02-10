@@ -35,7 +35,6 @@ class SponsorButton extends React.Component {
     if (!currentSession) return <React.Fragment />;
 
     if (currentSession.user.sponsor) {
-      console.log(currentSession.user.sponsor);
       var sponsorLimit = new Date(currentSession.user.sponsor.limit * 1000);
     }
 

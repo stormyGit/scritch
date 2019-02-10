@@ -155,8 +155,6 @@ class Event extends React.Component {
             event.editions.map(edition => {
               allEditions.push(edition.id);
             });
-
-            console.log(allEditions);
           }
 
           return (

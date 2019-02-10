@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
 import withWidth from "@material-ui/core/withWidth";
+import uuidv4 from "uuid/v4";
 
 import Logo from "./Logo";
 
@@ -49,6 +50,7 @@ const styles = theme => ({
 class AppHeader extends React.Component {
   render() {
     const { classes, width } = this.props;
+    console.log("RENDERING APP HEADER");
 
     return (
       <div className={classes.root}>
@@ -70,14 +72,20 @@ class AppHeader extends React.Component {
               <Grid item xs={false} lg={1} />
             </React.Fragment>
           )}
-          <Query query={GET_ADVERTS} fetchPolicy="network-only">
+          <Query
+            query={GET_ADVERTS}
+            variables={{ uuid: uuidv4() }}
+            fetchPolicy="network-only"
+          >
             {({ loading, error, data }) => {
-              if (loading || error) return null;
+              if (loading || error) {
+                console.log(error);
+                return null;
+              }
               if (data) {
                 console.log(data);
-                return (
-                  data.adverts &&
-                  data.adverts.length == 2 && (
+                if (data.adverts && data.adverts.length == 2)
+                  return (
                     <React.Fragment>
                       <Grid item xs={6} lg={3}>
                         <a
@@ -104,9 +112,9 @@ class AppHeader extends React.Component {
                         </a>
                       </Grid>
                     </React.Fragment>
-                  )
-                );
-              }
+                  );
+                else return null;
+              } else return null;
             }}
           </Query>
           {(width == "xl" || width == "lg") && (

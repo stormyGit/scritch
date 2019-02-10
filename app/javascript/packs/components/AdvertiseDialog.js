@@ -107,7 +107,14 @@ class DropZoneField extends React.Component {
         {this.state.uploaded && (
           <div>
             <Typography variant="h6" color="inherit" noWrap>
-              All pictures were successfuly imported
+              File succesfully uploaded!
+            </Typography>
+            <Typography variant="h6" color="inherit" noWrap>
+              It will soon be reviewed.
+            </Typography>
+            <Typography variant="h6" color="inherit">
+              You can now access your advertiser dashboard from the Social & Ads
+              tab!
             </Typography>
           </div>
         )}
@@ -134,8 +141,8 @@ class DropZoneField extends React.Component {
             />
             <Typography variant="h6" color="inherit" noWrap>
               {width === "lg" || width === "xl"
-                ? "Select or drag picture files to upload"
-                : "Select picture files to upload"}
+                ? "Select or drag your ad file here to upload"
+                : "Select your ad file to upload"}
             </Typography>
           </div>
         )}
@@ -291,7 +298,10 @@ class AdvertiseDialog extends React.Component {
                 </Button>
                 <Button
                   disabled={!this.state.complete}
-                  onClick={this.props.onClose}
+                  onClick={() => {
+                    this.props.onClose();
+                    location.reload();
+                  }}
                 >
                   Close
                 </Button>

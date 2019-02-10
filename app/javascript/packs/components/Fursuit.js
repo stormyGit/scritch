@@ -141,7 +141,6 @@ class Fursuit extends React.Component {
         {({ loading, error, data }) => {
           const fursuit = data ? data.fursuit : null;
 
-          console.log(fursuit);
           return (
             !loading &&
             !error &&

@@ -256,8 +256,8 @@ export const GET_MEDIA = gql`
 `;
 
 export const GET_ADVERTS = gql`
-  query Adverts {
-    adverts {
+  query Adverts($uuid: ID!) {
+    adverts(uuid: $uuid) {
       id
       file
     }

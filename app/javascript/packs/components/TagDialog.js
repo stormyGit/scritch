@@ -194,7 +194,6 @@ class TagDialog extends React.Component {
   render() {
     const { classes, open, onClose, loading, width, medium } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
-    console.log(123);
     if (open == false) return null;
 
     return (
@@ -407,7 +406,6 @@ class TagDialog extends React.Component {
                               key={fursuit.id}
                               fursuit={fursuit}
                               onClick={payload => {
-                                console.log(this.state.fursuits, payload);
                                 let index = this.state.fursuits.indexOf(
                                   payload
                                 );

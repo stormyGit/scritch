@@ -134,22 +134,6 @@ class Medium extends React.Component {
     reportDialog: false
   };
 
-  componentDidMount() {
-    Events.scrollEvent.register("begin", function(to, element) {
-      console.log("begin", arguments);
-    });
-
-    Events.scrollEvent.register("end", function(to, element) {
-      console.log("end", arguments);
-    });
-
-    scrollSpy.update();
-  }
-  componentWillUnmount() {
-    Events.scrollEvent.remove("begin");
-    Events.scrollEvent.remove("end");
-  }
-
   goToFursuit(fursuit) {
     this.props.history.push(`/fursuits/${fursuit}`);
   }
@@ -199,11 +183,6 @@ class Medium extends React.Component {
                     <Grid container className={classes.gridContainer}>
                       <Grid item lg={1} xs={12} />
                       <Grid item lg={10} xs={12}>
-                        {console.log(
-                          medium.height,
-                          medium.width,
-                          JSON.parse(medium.exif).Orientation
-                        )}
                         <img
                           onClick={this.scrollTo}
                           onContextMenu={e => {

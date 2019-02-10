@@ -103,7 +103,7 @@ class Fursuits extends React.Component {
   render() {
     const { classes, location, width } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
-    console.log(this.state);
+
     return (
       <React.Fragment>
         <PageTitle>Fursuits</PageTitle>
@@ -124,7 +124,6 @@ class Fursuits extends React.Component {
               <div className={classes.filters}>
                 <FursuitFilters
                   onChange={value => {
-                    console.log(value);
                     this.setState({
                       fursuitStyle: !value.fursuitStyle
                         ? ""

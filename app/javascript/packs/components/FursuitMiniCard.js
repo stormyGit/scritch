@@ -116,8 +116,6 @@ class FursuitMiniCard extends React.Component {
   render() {
     const { classes, fursuit, onClick } = this.props;
 
-    console.log(fursuit);
-
     return (
       <Grid container spacing={8} justify="center" alignItems="center">
         <Grid item lg={12} xs={12}>

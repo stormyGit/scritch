@@ -4,7 +4,6 @@ import Cookies from "universal-cookie";
 
 const cookies = new Cookies();
 
-console.log(123, cookies.get("csrf-token"));
 let loaderCount = 0;
 const apolloClient = new ApolloClient({
   uri: "/graphql",

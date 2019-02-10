@@ -31,6 +31,8 @@ module Types
 
     field :adverts, [AdvertType], null: false do
       description "List media"
+      argument :uuid, ID, required: true
+
     end
 
 
@@ -190,8 +192,9 @@ module Types
       argument :name, String, required: false
     end
 
-    def adverts
-      advert = Advert.where(status: "live").joins(:user).where("users.available_impressions > ?", 0).take(2)
+    def adverts(args)
+      puts "\n\n\n\n\n\nFETCHING ADVERTS\n\n\n\n\n\n\n"
+      advert = Advert.order("RANDOM()").where(status: "live").joins(:user).where("users.available_impressions > ?", 0).take(2)
       if advert.count == 2
         advert.each do |e|
           e.impressions = e.impressions + 1

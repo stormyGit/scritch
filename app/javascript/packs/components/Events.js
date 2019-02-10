@@ -117,7 +117,6 @@ class Events extends React.Component {
               <div className={classes.filters}>
                 <EventFilters
                   onChange={value => {
-                    console.log(value);
                     this.setState({
                       country: !value.country ? "" : value.country.value,
                       name: value.name
