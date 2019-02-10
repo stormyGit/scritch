@@ -5,14 +5,15 @@ Rails.application.routes.draw do
   get 'sponsors/cancel', :to => "sponsors#cancel"
   post 'sponsors/charge', :to => "sponsors#charge"
   post 'adverts/charge', :to => "adverts#charge"
+  get 'adverts/:id/go_to', :to => "adverts#go_to"
   resources :sponsors
   resources :adverts
   post 'adverts/refill', :to => "adverts#refill"
   get '/sitemap.xml', to: redirect(Pathname.new(ENV["S3_ENDPOINT"]).join(ENV["S3_BUCKET"]).join("sitemap.xml").to_s, status: 301)
 
   devise_for :moderators
-  devise_for :admin_users, ActiveAdmin::Devise.config
-  ActiveAdmin.routes(self)
+  # devise_for :admin_users, ActiveAdmin::Devise.config
+  # ActiveAdmin.routes(self)
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
   end

@@ -80,16 +80,28 @@ class AppHeader extends React.Component {
                   data.adverts.length == 2 && (
                     <React.Fragment>
                       <Grid item xs={6} lg={3}>
-                        <img
-                          src={data.adverts[0].file}
-                          className={classes.advert}
-                        />
+                        <a
+                          href={`${process.env.SITE_URL}/adverts/${
+                            data.adverts[0].id
+                          }/go_to`}
+                        >
+                          <img
+                            src={data.adverts[0].file}
+                            className={classes.advert}
+                          />
+                        </a>
                       </Grid>
                       <Grid item xs={6} lg={3}>
-                        <img
-                          src={data.adverts[1].file}
-                          className={classes.advert}
-                        />
+                        <a
+                          href={`${process.env.SITE_URL}/adverts/${
+                            data.adverts[1].id
+                          }/go_to`}
+                        >
+                          <img
+                            src={data.adverts[1].file}
+                            className={classes.advert}
+                          />
+                        </a>
                       </Grid>
                     </React.Fragment>
                   )

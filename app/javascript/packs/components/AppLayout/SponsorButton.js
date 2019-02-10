@@ -44,7 +44,7 @@ class SponsorButton extends React.Component {
         {currentSession.user.sponsor &&
           currentSession.user.sponsor.status === "live" && (
             <a
-              href="http://127.0.0.1:3001/sponsors/cancel"
+              href={`${process.env.SITE_URL}/sponsors/cancel`}
               className={classes.link}
             >
               <Typography variant="subtitle1" className={classes.dataSpacer}>
@@ -59,7 +59,10 @@ class SponsorButton extends React.Component {
             </Typography>
           )}
         {!currentSession.user.sponsor && (
-          <a href="http://127.0.0.1:3001/sponsors/new" className={classes.link}>
+          <a
+            href={`${process.env.SITE_URL}/sponsors/new`}
+            className={classes.link}
+          >
             <Typography variant="subtitle1" className={classes.dataSpacer}>
               Become a Sponsor!
             </Typography>

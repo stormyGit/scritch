@@ -1,12 +1,17 @@
 class AdvertsController < ApplicationController
   before_action :get_session
   before_action :check_advertiser, except: [:charge]
-  before_action :get_advert, only: [:destroy, :update]
+  before_action :get_advert, only: [:destroy, :update, :go_to]
   before_action :get_adverts, only: [:index]
   skip_before_action :verify_authenticity_token, only: :charge
 
   def index
 
+  end
+
+  def go_to
+    @advert.update!(clicks: @advert.clicks + 1)
+    redirect_to @advert.url
   end
 
   def update
@@ -33,21 +38,21 @@ class AdvertsController < ApplicationController
       charge =
         if impressions == "1"
           Stripe::Charge.create(
-            amount: 400,
+            amount: 600,
             currency: 'usd',
             description: '100k ad impressions',
             customer: customer["id"]
           )
         elsif impressions == "2"
           Stripe::Charge.create(
-            amount: 3500,
+            amount: 5000,
             currency: 'usd',
             description: '1 million ad impressions',
             customer: customer["id"]
           )
         elsif impressions == "3"
           Stripe::Charge.create(
-            amount: 30000,
+            amount: 40000,
             currency: 'usd',
             description: '10 million ad impressions',
             customer: customer["id"]

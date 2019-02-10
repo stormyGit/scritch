@@ -2,11 +2,11 @@ class AdvertChargeSuccess
   def initialize(id: id, amount: amount)
     @cus_id = id
     @refill =
-      if amount == 400
+      if amount == 600
         100000
-      elsif amount == 3500
+      elsif amount == 5000
         1000000
-      elsif amount == 30000
+      elsif amount == 40000
         10000000
       end
   end

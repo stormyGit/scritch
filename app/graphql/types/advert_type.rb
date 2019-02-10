@@ -8,8 +8,10 @@ module Types
     field :width, Integer, null: true
     field :height, Integer, null: true
     field :created_at, String, null: true
-    field :user, UserType, null: true
-    field :impressions, Integer, null: true
+    field :user, UserType, null: false
+    field :impressions, Integer, null: false
+    field :clicks, Integer, null: false
+    field :url, String, null: false
 
     def file
       object.file_url
