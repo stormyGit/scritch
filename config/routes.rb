@@ -4,8 +4,10 @@ Rails.application.routes.draw do
 
   get 'sponsors/cancel', :to => "sponsors#cancel"
   post 'sponsors/charge', :to => "sponsors#charge"
+  post 'adverts/charge', :to => "adverts#charge"
   resources :sponsors
   resources :adverts
+  post 'adverts/refill', :to => "adverts#refill"
   get '/sitemap.xml', to: redirect(Pathname.new(ENV["S3_ENDPOINT"]).join(ENV["S3_BUCKET"]).join("sitemap.xml").to_s, status: 301)
 
   devise_for :moderators

@@ -12,29 +12,110 @@
     | Advertiser Dashboard
   br
   .columns.is-multiline
-    - if @adverts.present?
-      - @adverts.each do |advert|
-        .column.is-3
-          .card
-            .card-header
-              .card-header-title
-                = "Ad ##{advert.id.split('-')[0]}"
-            .card-content
-              = image_tag advert.file_url
-              br
-              = "Status: #{advert.status}"
-              br
-              = "Impressions: #{advert.impressions}"
+    .column.is-9
+      .columns.is-multiline
+        - if @adverts.present?
+          - @adverts.each do |advert|
+            .column.is-4
+              .card
+                .card-header
+                  .card-header-title
+                    = "Ad ##{advert.id.split('-')[0]}"
+                .card-content
+                  = image_tag advert.file_url
+                  br
+                  = "Status: #{advert.status}"
+                  br
+                  = "Impressions: #{advert.impressions}"
 
-            .card-footer
-              .card-footer-item
-                - if advert.status == "ready"
-                  = link_to "Toggle On", advert_path(id: advert.id, status: "live"), method: :put
-                - if advert.status == "live"
-                  = link_to "Toggle Off", advert_path(id: advert.id, status: "ready"), method: :put
-              .card-footer-item
-                = link_to "Delete", advert_path(id: advert.id), method: :delete
+                .card-footer
+                  .card-footer-item
+                    - if advert.status == "ready"
+                      = link_to "Toggle On", advert_path(id: advert.id, status: "live"), method: :put
+                    - if advert.status == "live"
+                      = link_to "Toggle Off", advert_path(id: advert.id, status: "ready"), method: :put
+                  .card-footer-item
+                    = link_to "Delete", advert_path(id: advert.id), method: :delete
 
+    .column.is-3
+      .card
+        .card-header
+          .card-header-title
+            | Impressions:
+        .card-content
+          | Total left
+          br
+          = @current_session.user.available_impressions
+          br
+          br
+          | Estimated expiry
+          br
+          - if @expiry == "N/A"
+            = @expiry
+          - else
+            = @expiry.strftime("%B %d, %Y")
+
+      br
+      .card
+        .card-header
+          .card-header-title
+            | Refill impressions:
+
+        .card-content
+          #showModal.button
+            | Refill
+
+  .modal
+    .modal-background
+    .modal-card
+      header.modal-card-head
+        p.modal-card-title Impression plans
+      section.modal-card-body.has-text-centered
+        .columns
+          .column.is-4
+            | 100K
+            br
+            | -
+            br
+            | $4
+            br
+            br
+            = form_tag adverts_refill_path(impressions: 1) do
+              script.stripe-button data-label="Choose" data-zip-code="true" data-amount="400" data-image="#{image_url("logo.png")}" data-allow-remember-me="false" data-description=("100K ad impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
+
+          .column.is-4
+            | 1 Million
+            br
+            | -
+            br
+            | $35
+            br
+            br
+            = form_tag adverts_refill_path(impressions: 2) do
+              script.stripe-button data-label="Choose" data-zip-code="true" data-amount="3500" data-image="#{image_url("logo.png")}" data-allow-remember-me="false" data-description=("100K ad impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
+
+          .column.is-4
+            | 10 Million
+            br
+            | -
+            br
+            | $300
+            br
+            br
+            = form_tag adverts_refill_path(impressions: 3) do
+              script.stripe-button data-label="Choose" data-zip-code="true" data-amount="30000" data-image="#{image_url("logo.png")}" data-allow-remember-me="false" data-description=("100K ad impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
+
+      footer.modal-card-foot
+        #modalClose.button Cancel
   .columns
     .column.is-6.is-offset-3
       /= paginate @editions
+
+javascript:
+  $("#showModal").click(function() {
+    $(".modal").addClass("is-active");
+  });
+
+  $("#modalClose").click(function() {
+   $(".modal").removeClass("is-active");
+  });

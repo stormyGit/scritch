@@ -1,6 +1,6 @@
 class AdvertsController < ApplicationController
   before_action :get_session
-  before_action :check_advertiser
+  before_action :check_advertiser, except: [:charge]
   before_action :get_advert, only: [:destroy, :update]
   before_action :get_adverts, only: [:index]
   skip_before_action :verify_authenticity_token, only: :charge
@@ -14,15 +14,60 @@ class AdvertsController < ApplicationController
     redirect_back fallback_location: adverts_path
   end
 
+  def refill
+    # Amount in cents
+    impressions = params[:impressions]
+    if @current_session.present? && @current_session.user.advert.present?
+      if @current_session.user.customer.present?
+
+        customer = Stripe::Customer.retrieve(@current_session.user.customer["id"])
+        customer.source = params[:stripeToken]
+      else
+        customer = Stripe::Customer.create(
+          :email => params[:stripeEmail],
+          :source  => params[:stripeToken]
+        )
+      end
+      @current_session.user.update!(customer: customer, customer_id: customer.id)
+
+      charge =
+        if impressions == "1"
+          Stripe::Charge.create(
+            amount: 400,
+            currency: 'usd',
+            description: '100k ad impressions',
+            customer: customer["id"]
+          )
+        elsif impressions == "2"
+          Stripe::Charge.create(
+            amount: 3500,
+            currency: 'usd',
+            description: '1 million ad impressions',
+            customer: customer["id"]
+          )
+        elsif impressions == "3"
+          Stripe::Charge.create(
+            amount: 30000,
+            currency: 'usd',
+            description: '10 million ad impressions',
+            customer: customer["id"]
+          )
+        end
+      @current_session.user.update!(charge: charge, charge_id: charge.id)
+    end
+    redirect_to adverts_path
+    rescue Stripe::CardError => e
+      flash[:error] = e.message
+      redirect_to new_sponsor_path
+  end
+
   def charge
-  #   if params[:type] == "charge.succeeded"
-  #     ChargeSuccess.new(id: params[:data][:object][:customer]).process
-  #   elsif params[:type] == "customer.subscription.deleted"
-  #     SubscriptionCancel.new(id: params[:data][:object][:customer]).process
-  #   end
-  #   render body: nil, status: 201
-  # rescue Stripe::APIConnectionError, Stripe::StripeError
-  #   render body: nil, status: 400
+    if params[:type] == "charge.succeeded"
+      AdvertChargeSuccess.new(id: params[:data][:object][:customer], amount: params[:data][:object][:amount]).process
+    end
+    render body: nil, status: 201
+  rescue Stripe::APIConnectionError, Stripe::StripeError
+    render body: nil, status: 400
   end
 
   def destroy
@@ -32,7 +77,13 @@ class AdvertsController < ApplicationController
   private
 
   def get_adverts
-    @adverts = @current_session.user.advert
+    @adverts = @current_session.user.advert.order(created_at: :desc)
+    @expiry =
+      if @adverts.where(status: "live").length == 0
+        "N/A"
+      else
+        Time.now() + ((@current_session.user.available_impressions / 15000) / @adverts.where(status: "live").length).days #TODO get estimate
+      end
   end
 
   def get_advert
