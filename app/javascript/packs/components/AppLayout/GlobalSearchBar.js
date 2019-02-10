@@ -48,7 +48,7 @@ class GlobalSearchBar extends React.Component {
             className={classes.searchBar}
             style={{
               paddingLeft: appBarPadding,
-              maxWidth: width === "lg" || width === "xl" ? 600 : "none",
+              maxWidth: width === "lg" || width === "xl" ? 300 : "none",
               marginRight: width === "lg" || width === "xl" ? 16 : 0
             }}
           >

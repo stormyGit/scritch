@@ -41,6 +41,7 @@ import SettingsDialog from "./SettingsDialog";
 import AdvertiseDialog from "./AdvertiseDialog";
 
 import DatabasesButton from "./AppLayout/DatabasesButton";
+import TagButton from "./AppLayout/TagButton";
 import UploadButton from "./AppLayout/UploadButton";
 import SocialButton from "./AppLayout/SocialButton";
 import PoliciesSupportButton from "./AppLayout/PoliciesSupportButton";
@@ -214,24 +215,74 @@ class AppLayoutRemake extends React.Component {
                   paddingRight: appBarPadding
                 }}
               >
-                <Link to="/">
-                  <IconButton title="Upload" color="inherit">
-                    <HomeIcon color="primary" />
+                {!this.state.searchEnabled && (
+                  <React.Fragment>
+                    <Link to="/">
+                      <IconButton title="Upload" color="inherit">
+                        <HomeIcon color="primary" />
+                      </IconButton>
+                    </Link>
+
+                    <DatabasesButton />
+
+                    <UploadButton
+                      onClick={() => this.setState({ uploadDialog: true })}
+                    />
+                    <TagButton />
+                    <SocialButton
+                      openAdvertise={() =>
+                        this.setState({ advertiseDialog: true })
+                      }
+                    />
+                    <PoliciesSupportButton />
+                  </React.Fragment>
+                )}
+
+                {this.state.searchEnabled && !query.q && (
+                  <IconButton
+                    className={classes.closeIcon}
+                    onClick={() => {
+                      this.setState({ searchEnabled: false });
+                    }}
+                  >
+                    <CloseIcon />
                   </IconButton>
-                </Link>
+                )}
+                {(this.state.searchEnabled ||
+                  width === "lg" ||
+                  width === "xl") && (
+                  <div
+                    className={classes.searchBar}
+                    style={{
+                      paddingLeft: appBarPadding,
+                      maxWidth: width === "lg" || width === "xl" ? 300 : "none",
+                      marginRight: width === "lg" || width === "xl" ? 16 : 0
+                    }}
+                  >
+                    <SearchBar
+                      autoFocus={width !== "lg" && width !== "xl" && !query.q}
+                      cancelOnEscape
+                      value={query.q}
+                      onRequestSearch={q => {
+                        if (typeof q === "string") {
+                          this.handleRequestSearch(q);
+                        }
+                      }}
+                    />
+                  </div>
+                )}
 
-                <DatabasesButton />
-
-                <UploadButton
-                  onClick={() => this.setState({ uploadDialog: true })}
-                />
-                <Button className={classes.buttonPad} color="primary">
-                  Tag
-                </Button>
-                <SocialButton
-                  openAdvertise={() => this.setState({ advertiseDialog: true })}
-                />
-                <PoliciesSupportButton />
+                {false && <GlobalSearchBar />}
+                {!this.state.searchEnabled && width !== "lg" && width !== "xl" && (
+                  <IconButton
+                    className={[classes.searchIcon, classes.tinyButton].join(
+                      " "
+                    )}
+                    onClick={() => this.setState({ searchEnabled: true })}
+                  >
+                    <SearchIcon />
+                  </IconButton>
+                )}
 
                 {width === "xl" && (
                   <div className={classes.titleZone}>
@@ -239,20 +290,24 @@ class AppLayoutRemake extends React.Component {
                   </div>
                 )}
 
-                <GlobalSearchBar />
-
-                <TechButton
-                  onClick={() => this.setState({ techDialog: true })}
-                />
-                {width === "xl" && <MetricsBar />}
-                <NotificationsButton
-                  onClick={() => this.setState({ activitiesDialog: true })}
-                />
-                <SponsorButton />
-                <UserButton
-                  openSignUp={() => this.setState({ signUpDialog: true })}
-                  openSettings={() => this.setState({ settingsDialog: true })}
-                />
+                {!this.state.searchEnabled && (
+                  <React.Fragment>
+                    <TechButton
+                      onClick={() => this.setState({ techDialog: true })}
+                    />
+                    {width === "xl" && <MetricsBar />}
+                    <NotificationsButton
+                      onClick={() => this.setState({ activitiesDialog: true })}
+                    />
+                    <SponsorButton />
+                    <UserButton
+                      openSignUp={() => this.setState({ signUpDialog: true })}
+                      openSettings={() =>
+                        this.setState({ settingsDialog: true })
+                      }
+                    />
+                  </React.Fragment>
+                )}
               </Toolbar>
             </AppBar>
             <div id="scoll-parent">{this.props.children}</div>
