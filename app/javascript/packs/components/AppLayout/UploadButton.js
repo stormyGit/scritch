@@ -33,8 +33,12 @@ class UploadButton extends React.Component {
           </Button>
         )}
         {this.props.width !== "xl" && currentSession && (
-          <IconButton title="Upload" color="inherit">
-            <UploadIcon onClick={this.props.onClick} />
+          <IconButton
+            title="Upload"
+            color="inherit"
+            onClick={this.props.onClick}
+          >
+            <UploadIcon />
           </IconButton>
         )}
       </React.Fragment>

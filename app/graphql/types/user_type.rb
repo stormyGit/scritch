@@ -24,9 +24,14 @@ module Types
     field :likes_count, Integer, null: false
 
     field :blocked, Boolean, null: false
+    field :has_adverts, Boolean, null: false
 
     field :unread_announcements_count, Integer, null: false
 
+    def has_adverts
+      object.advert.present?
+    end
+    
     def sponsor
       if object.sponsor.blank? || object.sponsor.status == "pending"
         nil

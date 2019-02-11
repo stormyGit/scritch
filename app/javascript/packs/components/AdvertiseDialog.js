@@ -13,6 +13,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import CheckIcon from "@material-ui/icons/Check";
 
 import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import uuidv4 from "uuid/v4";
 
@@ -97,6 +98,7 @@ class DropZoneField extends React.Component {
         multiple={false}
         className={classes.root}
         accept="image/png,image/x-png,image/jpeg"
+        disabled={this.props.dropzoneDisabled}
         style={{
           height: width === "lg" || width === "xl" ? 220 : 130,
           pointerEvents: this.state.disabled ? "none" : "auto",
@@ -131,21 +133,30 @@ class DropZoneField extends React.Component {
             </Typography>
           </div>
         )}
-        {!this.state.uploaded && !this.state.uploading && (
+        {this.props.dropzoneDisabled && (
           <div>
-            <CloudUploadIcon
-              className={classes.uploadIcon}
-              style={{
-                marginBottom: width === "lg" || width === "xl" ? 16 : 0
-              }}
-            />
-            <Typography variant="h6" color="inherit" noWrap>
-              {width === "lg" || width === "xl"
-                ? "Select or drag your ad file here to upload"
-                : "Select your ad file to upload"}
+            <Typography variant="h6" color="inherit">
+              Provide the target URL first
             </Typography>
           </div>
         )}
+        {!this.state.uploaded &&
+          !this.state.uploading &&
+          !this.props.dropzoneDisabled && (
+            <div>
+              <CloudUploadIcon
+                className={classes.uploadIcon}
+                style={{
+                  marginBottom: width === "lg" || width === "xl" ? 16 : 0
+                }}
+              />
+              <Typography variant="h6" color="inherit" noWrap>
+                {width === "lg" || width === "xl"
+                  ? "Select or drag your ad file here to upload"
+                  : "Select your ad file to upload"}
+              </Typography>
+            </div>
+          )}
       </Dropzone>
     );
   }
@@ -178,13 +189,8 @@ class AdvertiseDialog extends React.Component {
   state = {
     title: "",
     description: "",
-    commentsEnabled: true,
-    shareOnTwitter: true,
-    mediaEvent: {},
-    mediaEdition: {},
-    mediaCategory: {},
-    eventList: [],
-    editionList: [],
+    url: "",
+    dropzoneDisabled: true,
     uploaded: false,
     complete: false,
     uploading: false
@@ -206,6 +212,7 @@ class AdvertiseDialog extends React.Component {
 
   render() {
     const { classes, uploadEnabled } = this.props;
+    console.log(this.state.url);
 
     return (
       <React.Fragment>
@@ -237,8 +244,6 @@ class AdvertiseDialog extends React.Component {
               300x90 ad on FA going on, you should already be set to go without
               changing the file!
             </Typography>
-            <br />
-            <br />
             <List>
               <ListItem>
                 <ListItemIcon>
@@ -260,11 +265,27 @@ class AdvertiseDialog extends React.Component {
               </ListItem>
             </List>
 
+            <TextField
+              label="Target URL"
+              name="url"
+              variant="outlined"
+              style={{ zIndex: 0 }}
+              value={`http://${this.state.url}`}
+              onChange={e => {
+                this.setState({
+                  url: e.target.value.substring(7),
+                  dropzoneDisabled: e.target.value.length > 7 ? false : true
+                });
+              }}
+              margin="dense"
+              fullWidth
+            />
             {
               <Mutation mutation={CREATE_ADVERT}>
                 {(createAdvert, { called }) => {
                   return (
                     <DropZoneFieldWithStyle
+                      dropzoneDisabled={this.state.dropzoneDisabled}
                       onStart={() => {
                         this.setState({ uploading: true });
                       }}
@@ -272,7 +293,8 @@ class AdvertiseDialog extends React.Component {
                         createAdvert({
                           variables: {
                             input: {
-                              file: result
+                              file: result,
+                              url: `http://${this.state.url}`
                             }
                           }
                         })
@@ -292,7 +314,10 @@ class AdvertiseDialog extends React.Component {
               <Grid item>
                 <Button
                   disabled={this.state.uploading}
-                  onClick={this.props.onClose}
+                  onClick={() => {
+                    this.props.onClose();
+                    this.setState({ url: "" });
+                  }}
                 >
                   Cancel
                 </Button>

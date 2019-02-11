@@ -32,6 +32,7 @@ module Types
     field :adverts, [AdvertType], null: false do
       description "List media"
       argument :uuid, ID, required: true
+      argument :limit, Integer, required: true
 
     end
 
@@ -193,21 +194,18 @@ module Types
     end
 
     def adverts(args)
-      puts "\n\n\n\n\n\nFETCHING ADVERTS\n\n\n\n\n\n\n"
-      advert = Advert.order("RANDOM()").where(status: "live").joins(:user).where("users.available_impressions > ?", 0).take(2)
-      if advert.count == 2
-        advert.each do |e|
-          e.impressions = e.impressions + 1
-          e.user.available_impressions = e.user.available_impressions - 1
+      advert = Advert.order("RANDOM()").where(status: "live").joins(:user).where("users.available_impressions > ?", 0).take(args[:limit])
+      advert.each do |e|
+        e.impressions = e.impressions + 1
+        e.user.available_impressions = e.user.available_impressions - 1
+        if e.user.available_impressions < 1
           if e.user.available_impressions < 1
-            if e.user.available_impressions < 1
-              e.user.available_impressions = 0
-            end
-            e.status = "Out of impressions"
+            e.user.available_impressions = 0
           end
-          e.save
-          e.user.save
+          e.status = "Out of impressions"
         end
+        e.save
+        e.user.save
       end
       advert
     end

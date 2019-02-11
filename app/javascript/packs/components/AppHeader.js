@@ -50,7 +50,8 @@ const styles = theme => ({
 class AppHeader extends React.Component {
   render() {
     const { classes, width } = this.props;
-    console.log("RENDERING APP HEADER");
+    var limit = width != "xs" ? 2 : 1;
+    console.log(width, limit);
 
     return (
       <div className={classes.root}>
@@ -74,7 +75,7 @@ class AppHeader extends React.Component {
           )}
           <Query
             query={GET_ADVERTS}
-            variables={{ uuid: uuidv4() }}
+            variables={{ uuid: uuidv4(), limit }}
             fetchPolicy="network-only"
           >
             {({ loading, error, data }) => {
@@ -84,10 +85,10 @@ class AppHeader extends React.Component {
               }
               if (data) {
                 console.log(data);
-                if (data.adverts && data.adverts.length == 2)
+                if (data.adverts && data.adverts.length == limit)
                   return (
                     <React.Fragment>
-                      <Grid item xs={6} lg={3}>
+                      <Grid item xs={12} sm={6} lg={3}>
                         <a
                           href={`${process.env.SITE_URL}/adverts/${
                             data.adverts[0].id
@@ -99,18 +100,20 @@ class AppHeader extends React.Component {
                           />
                         </a>
                       </Grid>
-                      <Grid item xs={6} lg={3}>
-                        <a
-                          href={`${process.env.SITE_URL}/adverts/${
-                            data.adverts[1].id
-                          }/go_to`}
-                        >
-                          <img
-                            src={data.adverts[1].file}
-                            className={classes.advert}
-                          />
-                        </a>
-                      </Grid>
+                      {width !== "xs" && (
+                        <Grid item sm={6} lg={3}>
+                          <a
+                            href={`${process.env.SITE_URL}/adverts/${
+                              data.adverts[1].id
+                            }/go_to`}
+                          >
+                            <img
+                              src={data.adverts[1].file}
+                              className={classes.advert}
+                            />
+                          </a>
+                        </Grid>
+                      )}
                     </React.Fragment>
                   );
                 else return null;

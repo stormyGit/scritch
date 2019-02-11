@@ -3,17 +3,13 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter, Link } from "react-router-dom";
 import { Query } from "react-apollo";
+import { GET_ADVERTS } from "../queries";
+import uuidv4 from "uuid/v4";
+import withWidth from "@material-ui/core/withWidth";
 
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
-
-import SubscriptionsIcon from "@material-ui/icons/ViewCarousel";
-import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
-import WhatshotIcon from "@material-ui/icons/Whatshot";
-import PicturesIcon from "@material-ui/icons/PhotoLibrary";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import ShareIcon from "@material-ui/icons/Share";
 
 const styles = theme => ({
   root: {
@@ -28,30 +24,88 @@ const styles = theme => ({
   link: {
     textDecoration: "none",
     color: theme.palette.primary.main
+  },
+  toolTip: {
+    height: 90
+  },
+  advert: {
+    width: 300,
+    height: 90
   }
 });
 
 class AppFooter extends React.Component {
   render() {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
+    var limit = width !== "xs" ? 2 : 1;
+    console.log(width, limit);
 
     return (
       <div className={classes.root}>
-        <Grid container spacing={8} className={classes.grid}>
-          <Grid item xs={2} />
-          <Grid item xs={3}>
-            <img src={require("../ad3.gif")} style={{ width: "100%" }} />
-          </Grid>
-          <Grid item xs={2}>
-            <img src={require("../1.png")} style={{ width: "50%" }} />
-          </Grid>
-          <Grid item xs={3}>
-            <img src={require("../ad4.gif")} style={{ width: "100%" }} />
-          </Grid>
-          <Grid item xs={2} />
-        </Grid>
-
-        <div style={{ paddingTop: 30 }} />
+        <Query
+          query={GET_ADVERTS}
+          variables={{ uuid: uuidv4(), limit }}
+          fetchPolicy="network-only"
+        >
+          {({ loading, error, data }) => {
+            if (loading || error) {
+              console.log(error);
+              return null;
+            }
+            if (data) {
+              console.log(data);
+              if (data.adverts && data.adverts.length == limit)
+                return (
+                  <React.Fragment>
+                    <Grid container spacing={8} className={classes.grid}>
+                      {(width === "lg" || width === "xl") && (
+                        <Grid item xs={2} />
+                      )}
+                      <Grid item xs={12} sm={6} lg={3}>
+                        <a
+                          href={`${process.env.SITE_URL}/adverts/${
+                            data.adverts[0].id
+                          }/go_to`}
+                        >
+                          <img
+                            src={data.adverts[0].file}
+                            className={classes.advert}
+                          />
+                        </a>
+                      </Grid>
+                      {(width === "lg" || width === "xl") && (
+                        <Grid item xs={2}>
+                          <img
+                            src={require("../1.png")}
+                            className={classes.toolTip}
+                          />
+                        </Grid>
+                      )}
+                      {width !== "xs" && (
+                        <Grid item sm={6} lg={3}>
+                          <a
+                            href={`${process.env.SITE_URL}/adverts/${
+                              data.adverts[1].id
+                            }/go_to`}
+                          >
+                            <img
+                              src={data.adverts[1].file}
+                              className={classes.advert}
+                            />
+                          </a>
+                        </Grid>
+                      )}
+                      {(width === "lg" || width === "xl") && (
+                        <Grid item xs={2} />
+                      )}
+                    </Grid>
+                  </React.Fragment>
+                );
+              else return null;
+            } else return null;
+          }}
+        </Query>
+        <div style={{ paddingTop: 10 }} />
 
         <Grid container spacing={8} className={classes.grid}>
           <Grid item xs={2}>
@@ -98,4 +152,4 @@ class AppFooter extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(AppFooter));
+export default withStyles(styles)(withRouter(withWidth()(AppFooter)));

@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
+import withCurrentSession from "../withCurrentSession";
 
 import SocialIcon from "@material-ui/icons/ThumbUpAlt";
 
@@ -37,10 +38,10 @@ class SocialButton extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, currentSession } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
-
+    console.log(currentSession.user);
     return (
       <React.Fragment>
         {this.props.width !== "xl" && (
@@ -87,10 +88,22 @@ class SocialButton extends React.Component {
           >
             Advertise with Scritch
           </MenuItem>
+          {currentSession.user.hasAdverts && (
+            <a
+              href={`${process.env.SITE_URL}/adverts`}
+              className={classes.link}
+            >
+              <MenuItem onClick={() => this.handleClose()}>
+                Advertiser Dashboard
+              </MenuItem>
+            </a>
+          )}
         </Menu>
       </React.Fragment>
     );
   }
 }
 
-export default withStyles(styles)(withRouter(withWidth()(SocialButton)));
+export default withStyles(styles)(
+  withCurrentSession(withRouter(withWidth()(SocialButton)))
+);

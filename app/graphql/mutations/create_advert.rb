@@ -1,5 +1,6 @@
 class Mutations::CreateAdvert < Mutations::BaseMutation
   argument :file, String, required: true
+  argument :url, String, required: true
 
   field :advert, Types::AdvertType, null: true
   field :errors, [String], null: false
