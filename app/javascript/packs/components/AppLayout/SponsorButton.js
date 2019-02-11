@@ -1,20 +1,8 @@
 import React from "react";
-import queryString from "query-string";
 import { withStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-
-import UserAvatar from "../UserAvatar";
-
-import UploadIcon from "@material-ui/icons/CloudUpload";
 
 const styles = theme => ({
   dataSpacer: {

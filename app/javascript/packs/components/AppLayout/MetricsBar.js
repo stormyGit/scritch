@@ -1,14 +1,9 @@
 import React from "react";
-import queryString from "query-string";
 import { Link, withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import Icon from "@material-ui/core/Icon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPaw,

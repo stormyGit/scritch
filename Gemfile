@@ -71,10 +71,9 @@ gem 'graphiql-rails', group: :development
 gem 'graphql-errors'
 gem 'figaro'
 gem 'devise'
-gem 'activeadmin'
 gem 'ruby-hmac'
 gem 'chronofage', github: 'phorque/chronofage'
-gem 'aws-sdk'
+gem 'aws-sdk', '~> 2.0'
 gem 'fog'
 gem 'fog-aws'
 gem 'friendly_id'
@@ -97,5 +96,5 @@ gem "chartkick"
 gem 'rails_autolink'
 gem "twitter"
 gem 'prerender_rails'
-
+gem 'jquery-rails'
 gem 'stripe'

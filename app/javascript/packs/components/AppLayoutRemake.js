@@ -1,51 +1,26 @@
 import React from "react";
-import queryString from "query-string";
 import { withStyles } from "@material-ui/core/styles";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
 import withWidth from "@material-ui/core/withWidth";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import Button from "@material-ui/core/Button";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
-import Hidden from "@material-ui/core/Hidden";
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
-import ChatButtleIcon from "@material-ui/icons/ChatBubble";
-import ChatButtleEmptyIcon from "@material-ui/icons/ChatBubbleOutline";
 import CloseIcon from "@material-ui/icons/Close";
-import BackIcon from "@material-ui/icons/ArrowBack";
-import BusinessIcon from "@material-ui/icons/Business";
+import queryString from "query-string";
 
 import { Link, withRouter } from "react-router-dom";
-import TelegramLoginButton from "react-telegram-login";
-import SignUpDialog from "./SignUpDialog";
-import MultipleMediaDialog from "./MultipleMediaDialog";
-import PermanentDrawer from "./PermanentDrawer";
-import TemporaryDrawer from "./TemporaryDrawer";
-import AppBottomNavigation from "./AppBottomNavigation";
 import withCurrentSession from "./withCurrentSession";
 import SearchBar from "./SearchBar";
 import GlobalProgress from "./GlobalProgress";
-import ActivitiesDialog from "./ActivitiesDialog";
-import ChatDialog from "./ChatDialog";
-import SettingsDialog from "./SettingsDialog";
-import AdvertiseDialog from "./AdvertiseDialog";
 
 import DatabasesButton from "./AppLayout/DatabasesButton";
 import TagButton from "./AppLayout/TagButton";
 import UploadButton from "./AppLayout/UploadButton";
 import SocialButton from "./AppLayout/SocialButton";
 import PoliciesSupportButton from "./AppLayout/PoliciesSupportButton";
-import GlobalSearchBar from "./AppLayout/GlobalSearchBar";
 import DisplayPageTitle from "./AppLayout/DisplayPageTitle";
 import MetricsBar from "./AppLayout/MetricsBar";
 import UserButton from "./AppLayout/UserButton";
@@ -55,15 +30,6 @@ import SponsorButton from "./AppLayout/SponsorButton";
 import AppDialogs from "./AppLayout/AppDialogs";
 
 import HomeIcon from "@material-ui/icons/Home";
-
-import UserAvatar from "./UserAvatar";
-import Logo from "./Logo";
-
-import {
-  GET_SESSION,
-  GET_UNREAD_ACTIVITY_COUNT,
-  GET_UNREAD_CHATS_COUNT
-} from "../queries";
 
 const styles = theme => ({
   root: {
@@ -272,7 +238,6 @@ class AppLayoutRemake extends React.Component {
                   </div>
                 )}
 
-                {false && <GlobalSearchBar />}
                 {!this.state.searchEnabled && width !== "lg" && width !== "xl" && (
                   <IconButton
                     className={[classes.searchIcon, classes.tinyButton].join(

@@ -1,11 +1,7 @@
 import React from "react";
-import queryString from "query-string";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import { Link, withRouter } from "react-router-dom";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";

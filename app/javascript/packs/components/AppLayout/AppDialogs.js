@@ -1,11 +1,6 @@
 import React from "react";
-import queryString from "query-string";
 import { withStyles } from "@material-ui/core/styles";
 import withCurrentSession from "../withCurrentSession";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -16,8 +11,6 @@ import SettingsDialog from "../SettingsDialog";
 import AdvertiseDialog from "../AdvertiseDialog";
 import SignUpDialog from "../SignUpDialog";
 import TechDialog from "../TechDialog";
-
-import UploadIcon from "@material-ui/icons/CloudUpload";
 
 const styles = theme => ({
   close: {

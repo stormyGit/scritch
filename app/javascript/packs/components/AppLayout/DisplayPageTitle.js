@@ -1,5 +1,4 @@
 import React from "react";
-import queryString from "query-string";
 import { withStyles } from "@material-ui/core/styles";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
