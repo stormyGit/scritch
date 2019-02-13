@@ -10,11 +10,14 @@ import Grid from "@material-ui/core/Grid";
 import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from "@material-ui/icons/Close";
 import queryString from "query-string";
+import Hidden from "@material-ui/core/Hidden";
+import Slide from "@material-ui/core/Slide";
 
 import { Link, withRouter } from "react-router-dom";
 import withCurrentSession from "./withCurrentSession";
 import SearchBar from "./SearchBar";
 import GlobalProgress from "./GlobalProgress";
+import PermanentDrawer from "./PermanentDrawer";
 
 import DatabasesButton from "./AppLayout/DatabasesButton";
 import TagButton from "./AppLayout/TagButton";
@@ -28,6 +31,7 @@ import NotificationsButton from "./AppLayout/NotificationsButton";
 import TechButton from "./AppLayout/TechButton";
 import SponsorButton from "./AppLayout/SponsorButton";
 import AppDialogs from "./AppLayout/AppDialogs";
+import MenuIcon from "@material-ui/icons/Menu";
 
 import HomeIcon from "@material-ui/icons/Home";
 
@@ -95,7 +99,7 @@ class AppLayoutRemake extends React.Component {
   state = {
     uploadDialog: false,
     signUpDialog: false,
-    drawer: false,
+    mainDrawer: true,
     searchEnabled: false,
     activitiesDialog: false,
     chatDialog: false,
@@ -164,6 +168,11 @@ class AppLayoutRemake extends React.Component {
       <React.Fragment>
         <GlobalProgress />
         <div className={classes.root}>
+          {this.state.mainDrawer && (
+            <Hidden mdDown>
+              <PermanentDrawer />
+            </Hidden>
+          )}
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <AppBar
@@ -183,11 +192,15 @@ class AppLayoutRemake extends React.Component {
               >
                 {!this.state.searchEnabled && (
                   <React.Fragment>
-                    <Link to="/">
-                      <IconButton title="Upload" color="inherit">
-                        <HomeIcon color="primary" />
-                      </IconButton>
-                    </Link>
+                    <IconButton
+                      title="Menu"
+                      color="inherit"
+                      onClick={() =>
+                        this.setState({ mainDrawer: !this.state.mainDrawer })
+                      }
+                    >
+                      <MenuIcon color="primary" />
+                    </IconButton>
 
                     <DatabasesButton />
 
@@ -275,7 +288,7 @@ class AppLayoutRemake extends React.Component {
                 )}
               </Toolbar>
             </AppBar>
-            <div id="scoll-parent">{this.props.children}</div>
+            <div>{this.props.children}</div>
             <AppDialogs
               signUpDialog={this.state.signUpDialog}
               closeSignUpDialog={() => this.setState({ signUpDialog: false })}

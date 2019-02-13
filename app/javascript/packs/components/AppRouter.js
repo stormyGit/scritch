@@ -21,6 +21,7 @@ import User from "./User";
 import AppLayoutRemake from "./AppLayoutRemake";
 import AppFooter from "./AppFooter";
 import AppHeader from "./AppHeader";
+import PerfectScrollbar from "react-perfect-scrollbar";
 
 class AppRouter extends React.Component {
   render() {
@@ -30,46 +31,52 @@ class AppRouter extends React.Component {
           render={({ location }) => (
             <React.Fragment>
               <AppLayoutRemake>
-                <div style={{ paddingTop: 20 }} />
-                <AppHeader />
-                <Switch location={location}>
-                  <Route exact path="/" component={LatestPictures} />
-                  <Route
-                    exact
-                    path="/announcements"
-                    component={Announcements}
-                  />
-                  <Route exact path="/terms_and_conditions" component={Terms} />
-                  <Route exact path="/faq" component={Faq} />
-                  <Route
-                    exact
-                    path="/privacy_policy"
-                    component={PrivacyPolicy}
-                  />
-                  <Route
-                    exact
-                    path="/code_of_conduct"
-                    component={CodeOfConduct}
-                  />
-                  <Route exact path="/fursuits" component={Fursuits} />
-                  <Route exact path="/makers" component={Makers} />
-                  <Route exact path="/events" component={Events} />
-                  <Route exact path="/tag" component={TagPage} />
-                  <Route
-                    exact
-                    path="/subscriptions"
-                    component={Subscriptions}
-                  />
-                  <Route exact path="/pictures" component={LatestPictures} />
-                  <Route exact path="/pictures/:id" component={Medium} />
-                  <Route exact path="/fursuits/:id" component={Fursuit} />
-                  <Route exact path="/makers/:id" component={Maker} />
-                  <Route exact path="/events/:id" component={Event} />
-                  <Route exact path="/:id" component={User} />
-                  <Route exact path="/:id/:tab" component={User} />
-                </Switch>
-                <div style={{ paddingTop: 50 }} />
-                <AppFooter />
+                <PerfectScrollbar>
+                  <div style={{ paddingTop: 20 }} />
+                  <AppHeader />
+                  <Switch location={location}>
+                    <Route exact path="/" component={LatestPictures} />
+                    <Route
+                      exact
+                      path="/announcements"
+                      component={Announcements}
+                    />
+                    <Route
+                      exact
+                      path="/terms_and_conditions"
+                      component={Terms}
+                    />
+                    <Route exact path="/faq" component={Faq} />
+                    <Route
+                      exact
+                      path="/privacy_policy"
+                      component={PrivacyPolicy}
+                    />
+                    <Route
+                      exact
+                      path="/code_of_conduct"
+                      component={CodeOfConduct}
+                    />
+                    <Route exact path="/fursuits" component={Fursuits} />
+                    <Route exact path="/makers" component={Makers} />
+                    <Route exact path="/events" component={Events} />
+                    <Route exact path="/tag" component={TagPage} />
+                    <Route
+                      exact
+                      path="/subscriptions"
+                      component={Subscriptions}
+                    />
+                    <Route exact path="/pictures" component={LatestPictures} />
+                    <Route exact path="/pictures/:id" component={Medium} />
+                    <Route exact path="/fursuits/:id" component={Fursuit} />
+                    <Route exact path="/makers/:id" component={Maker} />
+                    <Route exact path="/events/:id" component={Event} />
+                    <Route exact path="/:id" component={User} />
+                    <Route exact path="/:id/:tab" component={User} />
+                  </Switch>
+                  <div style={{ paddingTop: 20 }} />
+                  <AppFooter />
+                </PerfectScrollbar>
               </AppLayoutRemake>
             </React.Fragment>
           )}

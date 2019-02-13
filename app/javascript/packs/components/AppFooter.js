@@ -49,7 +49,6 @@ class AppFooter extends React.Component {
         >
           {({ loading, error, data }) => {
             if (loading || error) {
-              console.log(error);
               return null;
             }
             if (data) {

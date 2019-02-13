@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import DrawerMenu from "./DrawerMenu";
 
-const drawerWidth = 301;
+const drawerWidth = 250;
 
 const styles = theme => {
   return {

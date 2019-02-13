@@ -291,40 +291,47 @@ class Event extends React.Component {
                       </Card>
                       <div style={{ padding: 10 }} />
 
-                      {event.editions.map(edition => (
-                        <Card
-                          id={edition.id}
-                          key={edition.id}
-                          className={
-                            this.state.editionId.includes(edition.id)
-                              ? classes.cardIn
-                              : classes.cardOut
-                          }
-                        >
-                          <CardActionArea
+                      {event.editions
+                        .sort((a, b) => (a.name < b.name ? 1 : -1))
+                        .map(edition => (
+                          <Card
                             id={edition.id}
-                            onClick={e => {
-                              var payload = e.target.id;
-                              var index = this.state.editionId.indexOf(payload);
-                              index != -1
-                                ? this.setState({
-                                    editionId: this.state.editionId.filter(
-                                      (_, i) => i !== index
-                                    )
-                                  })
-                                : this.setState(prevState => ({
-                                    editionId: [...prevState.editionId, payload]
-                                  }));
-                            }}
+                            key={edition.id}
+                            className={
+                              this.state.editionId.includes(edition.id)
+                                ? classes.cardIn
+                                : classes.cardOut
+                            }
                           >
-                            <CardContent id={edition.id}>
-                              <Typography id={edition.id}>
-                                {edition.name}
-                              </Typography>
-                            </CardContent>
-                          </CardActionArea>
-                        </Card>
-                      ))}
+                            <CardActionArea
+                              id={edition.id}
+                              onClick={e => {
+                                var payload = e.target.id;
+                                var index = this.state.editionId.indexOf(
+                                  payload
+                                );
+                                index != -1
+                                  ? this.setState({
+                                      editionId: this.state.editionId.filter(
+                                        (_, i) => i !== index
+                                      )
+                                    })
+                                  : this.setState(prevState => ({
+                                      editionId: [
+                                        ...prevState.editionId,
+                                        payload
+                                      ]
+                                    }));
+                              }}
+                            >
+                              <CardContent id={edition.id}>
+                                <Typography id={edition.id}>
+                                  {edition.name}
+                                </Typography>
+                              </CardContent>
+                            </CardActionArea>
+                          </Card>
+                        ))}
                     </div>
                   </Grid>
                 </Grid>

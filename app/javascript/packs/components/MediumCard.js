@@ -16,8 +16,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Avatar from "@material-ui/core/Avatar";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import CommentIcon from "@material-ui/icons/Comment";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import NoFavoriteIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Star";
+import EyeIcon from "@material-ui/icons/RemoveRedEye";
 import dayjs from "dayjs";
 import queryString from "query-string";
 
@@ -29,12 +29,28 @@ import timeAgo from "../timeAgo";
 import UserAvatar from "./UserAvatar";
 import TruncatedText from "./TruncatedText";
 import UnderReview from "./UnderReview";
-import countFormat from "../countFormat";
+import countContractor from "../countContractor";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaw, faEye, faStar } from "@fortawesome/free-solid-svg-icons";
 
 const styles = theme => ({
   card: {
     width: "100%",
-    borderRadius: 0
+    borderRadius: 0,
+    position: "relative"
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    backgroundImage:
+      theme.type == "dark"
+        ? "linear-gradient(#000000ff, #00000000)"
+        : "linear-gradient(#000000ff, #00000000)"
+  },
+  typo: {
+    color: "#ffffffaa"
   },
   horizontalCard: {
     display: "flex"
@@ -75,7 +91,8 @@ const styles = theme => ({
     textDecoration: "none"
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing.unit,
+    fontSize: 15
   },
   content: {},
   tags: {
@@ -98,7 +115,9 @@ const GET_ACTIVE_PREVIEW = gql`
 `;
 
 class MediumCard extends React.Component {
-  state = {};
+  state = {
+    displayMetrics: false
+  };
 
   renderHeader() {
     const { classes, medium } = this.props;
@@ -138,6 +157,7 @@ class MediumCard extends React.Component {
               image={medium.thumbnail}
               title={medium.title}
             />
+            {this.renderActions()}
           </div>
         )}
       </Query>
@@ -183,31 +203,38 @@ class MediumCard extends React.Component {
     const { classes, medium } = this.props;
 
     return (
-      <CardActions>
+      <div className={classes.overlay}>
         <Grid container spacing={8} justify="space-between" wrap="nowrap">
           <Grid item>
             <Grid container spacing={0} wrap="nowrap">
               <Grid item>
-                <Button disabled>
-                  <CommentIcon className={classes.leftIcon} />
-                  {medium.commentsCount}
+                <Button disabled style={{ color: "#ffffffaa", fontSize: 15 }}>
+                  <CommentIcon size="small" className={classes.leftIcon} />
+                  {countContractor(medium.commentsCount)}
                 </Button>
               </Grid>
               <Grid item>
-                <Button disabled>
-                  <FavoriteIcon className={classes.leftIcon} />
-                  {medium.likesCount}
+                <Button disabled style={{ color: "#ffffffaa", fontSize: 15 }}>
+                  <FontAwesomeIcon icon={faPaw} className={classes.leftIcon} />
+                  {countContractor(medium.likesCount)}
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button disabled style={{ color: "#ffffffaa", fontSize: 15 }}>
+                  <FontAwesomeIcon icon={faStar} className={classes.leftIcon} />
+                  {countContractor(medium.likesCount)}
                 </Button>
               </Grid>
             </Grid>
           </Grid>
           <Grid item>
-            <Button disabled>
-              {countFormat(medium.viewsCount, "view", "views")}
+            <Button disabled style={{ color: "#ffffffaa", fontSize: 15 }}>
+              <FontAwesomeIcon icon={faEye} className={classes.leftIcon} />
+              {countContractor(medium.viewsCount)}
             </Button>
           </Grid>
         </Grid>
-      </CardActions>
+      </div>
     );
   }
 
@@ -223,7 +250,7 @@ class MediumCard extends React.Component {
           {this.renderMedia()}
         </CardActionArea>
         {false && this.renderTags()}
-        {this.renderActions()}
+        {false && this.renderActions()}
       </Card>
     );
   }

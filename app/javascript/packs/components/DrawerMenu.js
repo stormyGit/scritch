@@ -1,14 +1,12 @@
 import React from "react";
-
 import { withStyles } from "@material-ui/core/styles";
-
 import { Query, Mutation, withApollo } from "react-apollo";
-
 import Divider from "@material-ui/core/Divider";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Collapse from "@material-ui/core/Collapse";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
@@ -41,7 +39,8 @@ import MultipleMediaDialog from "./MultipleMediaDialog";
 
 import ProfileAvatar from "./ProfileAvatar";
 import themeSelector from "../themeSelector";
-
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
 import BannerPlaceholder from "./BannerPlaceholder";
 
 import { Link, withRouter } from "react-router-dom";
@@ -78,6 +77,12 @@ const styles = theme => {
     },
     infoText: {
       marginLeft: theme.spacing.unit * 2
+    },
+    nested: {
+      paddingLeft: theme.spacing.unit * 4
+    },
+    text: {
+      color: theme.palette.text.primary
     }
   };
 };
@@ -87,6 +92,7 @@ class DrawerMenu extends React.Component {
     privacyPolicyDialog: false,
     termsDialog: false,
     settingsDialog: false,
+    databaseList: false,
     signUpDialog: false,
     stormyDialog: false,
     uploadDialog: false,
@@ -178,14 +184,8 @@ class DrawerMenu extends React.Component {
                   </ListItem>
                   <ListItem
                     button
-                    selected={location.pathname === "/databases"}
                     onClick={() => {
-                      this.props.history.push({
-                        pathname: "/databases"
-                      });
-                      if (this.props.onClose) {
-                        this.props.onClose();
-                      }
+                      this.setState({ databaseList: !this.state.databaseList });
                     }}
                   >
                     <ListItemIcon className={classes.text} color="secondary">
@@ -195,7 +195,71 @@ class DrawerMenu extends React.Component {
                       primary="Databases"
                       primaryTypographyProps={{ className: classes.text }}
                     />
+                    {this.state.databaseList ? (
+                      <ExpandLess className={classes.text} />
+                    ) : (
+                      <ExpandMore className={classes.text} />
+                    )}
                   </ListItem>
+                  <Collapse
+                    in={this.state.databaseList}
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    <List component="div" disablePadding>
+                      <ListItem
+                        button
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/fursuits"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
+                        className={classes.nested}
+                      >
+                        <ListItemText
+                          primary="Fursuits"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/makers"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
+                        className={classes.nested}
+                      >
+                        <ListItemText
+                          primary="Makers"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/events"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
+                        className={classes.nested}
+                      >
+                        <ListItemText
+                          primary="Events"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                    </List>
+                  </Collapse>
                   {currentSession && (
                     <ListItem
                       button
@@ -261,12 +325,6 @@ class DrawerMenu extends React.Component {
                 </React.Fragment>
               )}
             </List>
-          </div>
-          <div style={{ textAlign: "center", padding: 10 }}>
-            <img src={require("../1.gif")} style={{ width: "80%" }} />
-          </div>
-          <div style={{ textAlign: "center", padding: 10 }}>
-            <img src={require("../2.gif")} style={{ width: "80%" }} />
           </div>
           <div>
             <List disablePadding={width !== "lg" && width !== "xl"}>
