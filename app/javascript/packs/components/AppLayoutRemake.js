@@ -33,8 +33,6 @@ import SponsorButton from "./AppLayout/SponsorButton";
 import AppDialogs from "./AppLayout/AppDialogs";
 import MenuIcon from "@material-ui/icons/Menu";
 
-import HomeIcon from "@material-ui/icons/Home";
-
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -202,18 +200,17 @@ class AppLayoutRemake extends React.Component {
                       <MenuIcon color="primary" />
                     </IconButton>
 
-                    <DatabasesButton />
-
                     <UploadButton
                       onClick={() => this.setState({ uploadDialog: true })}
                     />
-                    <TagButton />
                     <SocialButton
                       openAdvertise={() =>
                         this.setState({ advertiseDialog: true })
                       }
                     />
-                    <PoliciesSupportButton />
+                    <PoliciesSupportButton
+                      openTech={() => this.setState({ techDialog: true })}
+                    />
                   </React.Fragment>
                 )}
 
@@ -270,9 +267,6 @@ class AppLayoutRemake extends React.Component {
 
                 {!this.state.searchEnabled && (
                   <React.Fragment>
-                    <TechButton
-                      onClick={() => this.setState({ techDialog: true })}
-                    />
                     {width === "xl" && <MetricsBar />}
                     <NotificationsButton
                       onClick={() => this.setState({ activitiesDialog: true })}

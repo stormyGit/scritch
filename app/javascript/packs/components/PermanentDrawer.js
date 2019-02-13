@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import DrawerMenu from "./DrawerMenu";
+import DrawerMenuRemake from "./DrawerMenuRemake";
 
 const drawerWidth = 250;
 
@@ -41,7 +41,7 @@ class PermanentDrawer extends React.Component {
           }}
         >
           <div className={classes.toolbar} />
-          <DrawerMenu disableProfile disableNotifications disableUpload />
+          <DrawerMenuRemake disableProfile disableNotifications disableUpload />
         </Drawer>
       </React.Fragment>
     );

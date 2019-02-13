@@ -142,9 +142,8 @@ class FursuitFilters extends React.Component {
     }
 
     if (val.length >= 1) {
-      this.loadEventTimer = setTimeout(() => {
-        this.props.onChange({ ...this.state, name: val });
-      }, 500);
+      console.log(123123123);
+      this.props.onChange({ ...this.state, name: val });
     } else if (this.reset) {
       clearTimeout(this.loadEventTimer);
       this.props.onChange({ ...this.state, name: "" });

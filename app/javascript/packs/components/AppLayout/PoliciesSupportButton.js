@@ -99,8 +99,13 @@ class PoliciesSupportButton extends React.Component {
             </MenuItem>
           </Link>
           <Link to={"/"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>
-              Report a Problem
+            <MenuItem
+              onClick={() => {
+                this.handleClose();
+                this.props.openTech();
+              }}
+            >
+              Report an Issue
             </MenuItem>
           </Link>
         </Menu>

@@ -124,6 +124,7 @@ class Fursuits extends React.Component {
               <div className={classes.filters}>
                 <FursuitFilters
                   onChange={value => {
+                    console.log(456456456);
                     this.setState({
                       fursuitStyle: !value.fursuitStyle
                         ? ""
