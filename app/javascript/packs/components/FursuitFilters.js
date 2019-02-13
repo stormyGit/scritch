@@ -142,8 +142,9 @@ class FursuitFilters extends React.Component {
     }
 
     if (val.length >= 1) {
-      console.log(123123123);
-      this.props.onChange({ ...this.state, name: val });
+      this.loadEventTimer = setTimeout(() => {
+        this.props.onChange({ ...this.state, name: val });
+      }, 1000);
     } else if (this.reset) {
       clearTimeout(this.loadEventTimer);
       this.props.onChange({ ...this.state, name: "" });
@@ -318,6 +319,7 @@ class FursuitFilters extends React.Component {
             );
           }
 
+          console.log(data.makers);
           const makersList = [];
           data.makers.map(e => makersList.push({ value: e.id, label: e.name }));
 

@@ -25,6 +25,7 @@ import Background from "../photo.jpg";
 import { Link, withRouter } from "react-router-dom";
 
 import FursuitFilters from "./FursuitFilters";
+import FursuitFiltersMakers from "./FursuitFiltersMakers";
 
 const styles = theme => ({
   root: {
@@ -100,6 +101,38 @@ class Fursuits extends React.Component {
     );
   }
 
+  renderFilters() {
+    const { classes, location, width } = this.props;
+    return (
+      <div className={classes.filters}>
+        <FursuitFilters
+          onChange={value => {
+            console.log(456456456);
+            this.setState({
+              fursuitStyle: !value.fursuitStyle ? "" : value.fursuitStyle.value,
+              fursuitSpecy: !value.fursuitSpecy ? "" : value.fursuitSpecy.value,
+              fursuitLegType: !value.fursuitLegType
+                ? ""
+                : value.fursuitLegType.value,
+              maker: !value.maker ? "" : value.maker.value,
+              name: value.name
+            });
+          }}
+        />
+        {false && (
+          <FursuitFiltersMakers
+            onChange={value => {
+              console.log(4568);
+              this.setState({
+                maker: value.maker.value
+              });
+            }}
+          />
+        )}
+      </div>
+    );
+  }
+
   render() {
     const { classes, location, width } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
@@ -107,6 +140,7 @@ class Fursuits extends React.Component {
     return (
       <React.Fragment>
         <PageTitle>Fursuits</PageTitle>
+        {this.renderFilters()}
         <Query
           query={LOAD_FURSUITS}
           variables={{
@@ -121,26 +155,6 @@ class Fursuits extends React.Component {
         >
           {({ data, loading, error, fetchMore }) => (
             <React.Fragment>
-              <div className={classes.filters}>
-                <FursuitFilters
-                  onChange={value => {
-                    console.log(456456456);
-                    this.setState({
-                      fursuitStyle: !value.fursuitStyle
-                        ? ""
-                        : value.fursuitStyle.value,
-                      fursuitSpecy: !value.fursuitSpecy
-                        ? ""
-                        : value.fursuitSpecy.value,
-                      fursuitLegType: !value.fursuitLegType
-                        ? ""
-                        : value.fursuitLegType.value,
-                      maker: !value.maker ? "" : value.maker.value,
-                      name: value.name
-                    });
-                  }}
-                />
-              </div>
               <Grid
                 container
                 className={classes.root}
