@@ -8,8 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPaw,
   faStar,
-  faEye,
-  faImage
+  faUsers,
+  faTags
 } from "@fortawesome/free-solid-svg-icons";
 
 const styles = theme => ({
@@ -40,14 +40,30 @@ class MetricsBar extends React.Component {
               <Link to="/" className={classes.link}>
                 Zebra
               </Link>
-              <FontAwesomeIcon icon={faPaw} className={classes.dataSpacer} /> 0
-              <FontAwesomeIcon icon={faStar} className={classes.dataSpacer} /> 0
-              <FontAwesomeIcon icon={faEye} className={classes.dataSpacer} /> 0
               <FontAwesomeIcon
-                icon={faImage}
+                title="Scritches"
+                icon={faPaw}
                 className={classes.dataSpacer}
               />{" "}
-              0
+              {currentSession.user.likedCount}
+              <FontAwesomeIcon
+                title="Favorites"
+                icon={faStar}
+                className={classes.dataSpacer}
+              />{" "}
+              {currentSession.user.favedCount}
+              <FontAwesomeIcon
+                title="Followers"
+                icon={faUsers}
+                className={classes.dataSpacer}
+              />{" "}
+              {currentSession.user.followersCount}
+              <FontAwesomeIcon
+                title="Tagged in"
+                icon={faTags}
+                className={classes.dataSpacer}
+              />{" "}
+              {currentSession.user.taggedCount}
             </Typography>
           </div>
         )}

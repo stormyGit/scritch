@@ -523,6 +523,14 @@ export const GET_USER = gql`
       followed
       following
       mediaCount
+      fursuits {
+        id
+        name
+        makers {
+          id
+          name
+        }
+      }
       sponsor {
         id
         limit
@@ -638,7 +646,11 @@ export const GET_SESSION = gql`
         }
         tagTutorial
         mediaCount
+        likedCount
+        favedCount
+        taggedCount
         followingCount
+        followersCount
         unreadAnnouncementsCount
       }
     }

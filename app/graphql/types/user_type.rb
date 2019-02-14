@@ -7,6 +7,7 @@ module Types
     field :chat_enabled, Boolean, null: false
     field :name, String, null: false
     field :published_media, [MediumType], null: false
+    field :fursuits, [FursuitType], null: false
     field :sponsor, SponsorType, null: true
     field :avatar, String, null: true
     field :banner, String, null: true
@@ -23,6 +24,10 @@ module Types
     field :following_count, Integer, null: false
     field :likes_count, Integer, null: false
 
+    field :liked_count, Integer, null: false
+    field :faved_count, Integer, null: false
+    field :tagged_count, Integer, null: false
+
     field :blocked, Boolean, null: false
     field :has_adverts, Boolean, null: false
 
@@ -31,7 +36,11 @@ module Types
     def has_adverts
       object.advert.present?
     end
-    
+
+    def fursuits
+      object.fursuits
+    end
+
     def sponsor
       if object.sponsor.blank? || object.sponsor.status == "pending"
         nil
@@ -74,6 +83,18 @@ module Types
 
     def likes_count
       LikePolicy::Scope.new(context[:current_user], object.likes).resolve.count
+    end
+
+    def liked_count
+      Like.where(medium: Medium.where(user: object)).distinct.count
+    end
+
+    def faved_count #TODO
+      Like.where(medium: Medium.where(user: object)).distinct.count
+    end
+
+    def tagged_count
+      FursuitMedium.where(fursuit: object.fursuits).distinct.count
     end
 
     def blocked

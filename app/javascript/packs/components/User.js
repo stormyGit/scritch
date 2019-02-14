@@ -72,7 +72,7 @@ const styles = theme => ({
     position: "relative",
     overflow: "visible",
     alignItems: "flex-end",
-    paddingTop: "20%"
+    paddingTop: 90
   },
   userProfileGridListTile: {
     overflow: "visible"
@@ -738,7 +738,7 @@ class User extends React.Component {
             root: classes.userProfileGridListRoot
           }}
         >
-          {this.renderBanner(user.banner, user.slug)}
+          {false && this.renderBanner(user.banner, user.slug)}
           <Hidden mdDown>
             <GridListTileBar
               className={classes.titleBar}
@@ -882,8 +882,10 @@ class User extends React.Component {
                                 label={
                                   isPrivate ? (
                                     <Private />
+                                  ) : data.user.fursuits ? (
+                                    data.user.fursuits.length
                                   ) : (
-                                    data.user.followersCount
+                                    0
                                   )
                                 }
                                 icon="Fursuits"
