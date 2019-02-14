@@ -38,14 +38,6 @@ const styles = theme => ({
     width: "100%",
     borderRadius: 0
   },
-  horizontalCard: {
-    display: "flex"
-  },
-  horizontalContent: {
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1
-  },
   verticalMedia: {
     width: "100%",
     height: "100%",
@@ -53,103 +45,37 @@ const styles = theme => ({
     top: 0,
     left: 0
   },
-  horizontalMediaContainer: {
-    maxWidth: "46%",
-    minWidth: "46%",
-    minHeight: "100%"
-  },
-  horizontalMedia: {
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-    top: 0,
-    left: 0
-  },
-  horizontalInfos: {
-    flex: 1
-  },
   cardMediaContainer: {
     position: "relative",
     paddingTop: "56%"
   },
-  userLink: {
-    color: theme.palette.text.primary,
-    textDecoration: "none"
-  },
-  leftIcon: {
-    marginRight: theme.spacing.unit
-  },
-
-  tags: {
-    overflow: "hidden",
-    maxHeight: theme.spacing.unit * 6,
-    marginBottom: theme.spacing.unit * 2
-  },
-  noTags: {
-    fontStyle: "italic"
-  },
-  chip: {
-    marginRight: theme.spacing.unit
-  },
   content: {
     textAlign: "center",
-    padding: theme.spacing.unit * 1
+    padding: theme.spacing.unit * 0.1
   },
   text: {
+    fontWeight: 200
+  },
+  subtext: {
+    fontSize: 15,
     fontWeight: 200
   }
 });
 
-const GET_ACTIVE_PREVIEW = gql`
-  {
-    activePreview @client
-  }
-`;
-
 class FursuitCard extends React.Component {
   state = {};
-
-  renderHeader() {
-    const { classes, fursuit } = this.props;
-
-    return (
-      <CardHeader
-        avatar={
-          <Link to={`/${fursuit.user.slug}`} className={classes.userLink}>
-            <UserAvatar user={fursuit.user} />
-          </Link>
-        }
-        title={
-          <Link to={`/${fursuit.user.slug}`} className={classes.userLink}>
-            {fursuit.user.name}
-          </Link>
-        }
-        subheader={
-          fursuit.createdAt
-            ? timeAgo.format(dayjs(fursuit.createdAt).toDate())
-            : "Under review"
-        }
-      />
-    );
-  }
 
   renderMedia() {
     const { classes, fursuit, horizontal, width, client } = this.props;
 
     return (
-      <Query query={GET_ACTIVE_PREVIEW}>
-        {({ data }) => (
-          <div className={horizontal ? undefined : classes.cardMediaContainer}>
-            <CardMedia
-              className={
-                horizontal ? classes.horizontalMedia : classes.verticalMedia
-              }
-              image={fursuit.avatar ? fursuit.avatar : require("../photo.jpg")} //{fursuit.thumbnail} TODO
-              title={fursuit.name}
-            />
-          </div>
-        )}
-      </Query>
+      <div className={classes.cardMediaContainer}>
+        <CardMedia
+          className={classes.verticalMedia}
+          image={fursuit.avatar ? fursuit.avatar : require("../photo.jpg")} //{fursuit.thumbnail} TODO
+          title={fursuit.name}
+        />
+      </div>
     );
   }
 
@@ -163,76 +89,20 @@ class FursuitCard extends React.Component {
           variant="h6"
           component="h4"
           className={classes.text}
-          noWrap={!horizontal}
+          noWrap
         >
           {fursuit.name}
         </Typography>
+        <Typography
+          gutterBottom
+          variant="h6"
+          component="h6"
+          className={classes.subtext}
+          noWrap
+        >
+          {fursuit.makers[0].name}
+        </Typography>
       </CardContent>
-    );
-  }
-
-  renderTags() {
-    const { classes, fursuit } = this.props;
-
-    return (
-      <CardContent className={classes.tags}>
-        {fursuit.tagList.length === 0 ? (
-          <Chip
-            label={"No tags"}
-            variant={"outlined"}
-            className={[classes.chip, classes.noTags].join(" ")}
-          />
-        ) : (
-          fursuit.tagList.map(tag => (
-            <Chip
-              clickable
-              key={tag}
-              label={tag}
-              variant={"outlined"}
-              className={classes.chip}
-              component={props => (
-                <Link
-                  rel="nofollow"
-                  to={`/fursuits?${queryString.stringify({ q: tag })}`}
-                  {...props}
-                />
-              )}
-            />
-          ))
-        )}
-      </CardContent>
-    );
-  }
-
-  renderActions() {
-    const { classes, fursuit } = this.props;
-
-    return (
-      <CardActions>
-        <Grid container spacing={8} justify="space-between" wrap="nowrap">
-          <Grid item>
-            <Grid container spacing={0} wrap="nowrap">
-              <Grid item>
-                <Button disabled>
-                  <CommentIcon className={classes.leftIcon} />
-                  {fursuit.commentsCount}
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button disabled>
-                  <FavoriteIcon className={classes.leftIcon} />
-                  {fursuit.likesCount}
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Button disabled>
-              {countFormat(fursuit.viewsCount, "view", "views")}
-            </Button>
-          </Grid>
-        </Grid>
-      </CardActions>
     );
   }
 
@@ -241,60 +111,21 @@ class FursuitCard extends React.Component {
 
     return (
       <Card className={classes.card} elevation={0}>
-        {false && this.renderHeader()}
         <CardActionArea
-          component={props => (
-            <Link to={`/fursuits/${fursuit.slug}-${fursuit.id}`} {...props} />
-          )}
+          onClick={() => {
+            this.props.openFursuit(fursuit);
+          }}
         >
           {this.renderMedia()}
           {this.renderContent()}
         </CardActionArea>
-        {false && this.renderTags()}
-        {false && this.renderActions()}
-      </Card>
-    );
-  }
-
-  renderHorizontal() {
-    const { classes, fursuit } = this.props;
-
-    return (
-      <Card
-        className={[classes.card, classes.horizontalCard].join(" ")}
-        elevation={0}
-      >
-        <CardActionArea
-          component={props => (
-            <Link to={`/fursuits/${fursuit.slug}-${fursuit.id}`} {...props} />
-          )}
-          className={classes.horizontalMediaContainer}
-        >
-          {this.renderMedia()}
-        </CardActionArea>
-        <div className={classes.horizontalContent}>
-          {this.renderHeader()}
-          <CardActionArea
-            component={props => (
-              <Link to={`/fursuits/${fursuit.slug}-${fursuit.id}`} {...props} />
-            )}
-            className={classes.horizontalInfos}
-          >
-            {this.renderContent()}
-          </CardActionArea>
-          {this.renderTags()}
-          {this.renderActions()}
-        </div>
       </Card>
     );
   }
 
   render() {
-    const { horizontal } = this.props;
+    const {} = this.props;
 
-    if (horizontal) {
-      return this.renderHorizontal();
-    }
     return this.renderVertical();
   }
 }

@@ -959,6 +959,10 @@ export const LOAD_FURSUITS = gql`
       name
       creationYear
       slug
+      makers {
+        id
+        name
+      }
     }
   }
 `;

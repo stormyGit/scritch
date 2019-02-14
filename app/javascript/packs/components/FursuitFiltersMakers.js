@@ -135,7 +135,6 @@ class FursuitFiltersMakers extends React.Component {
             );
           }
 
-          console.log(data.makers);
           const makersList = [];
           data.makers.map(e => makersList.push({ value: e.id, label: e.name }));
 

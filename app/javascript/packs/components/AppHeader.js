@@ -51,7 +51,6 @@ class AppHeader extends React.Component {
   render() {
     const { classes, width } = this.props;
     var limit = width != "xs" ? 2 : 1;
-    console.log(width, limit);
 
     return (
       <div className={classes.root}>
@@ -80,11 +79,9 @@ class AppHeader extends React.Component {
           >
             {({ loading, error, data }) => {
               if (loading || error) {
-                console.log(error);
                 return null;
               }
               if (data) {
-                console.log(data);
                 if (data.adverts && data.adverts.length == limit)
                   return (
                     <React.Fragment>

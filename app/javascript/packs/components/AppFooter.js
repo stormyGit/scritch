@@ -52,7 +52,6 @@ class AppFooter extends React.Component {
               return null;
             }
             if (data) {
-              console.log(data);
               if (data.adverts && data.adverts.length == limit)
                 return (
                   <React.Fragment>

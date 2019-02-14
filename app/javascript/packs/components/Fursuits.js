@@ -26,6 +26,7 @@ import { Link, withRouter } from "react-router-dom";
 
 import FursuitFilters from "./FursuitFilters";
 import FursuitFiltersMakers from "./FursuitFiltersMakers";
+import FursuitModal from "./FursuitModal";
 
 const styles = theme => ({
   root: {
@@ -45,7 +46,9 @@ class Fursuits extends React.Component {
     fursuitSpecy: "",
     fursuitLegType: "",
     fursuitStyle: "",
-    maker: ""
+    maker: "",
+    fursuit: null,
+    openFursuit: false
   };
 
   renderResults({ data, horizontal, onLoadMore, hasMore }) {
@@ -93,7 +96,12 @@ class Fursuits extends React.Component {
       <React.Fragment>
         {data.fursuits.map(fursuit => (
           <Grid item xs={4} md={3} lg={2} key={fursuit.id}>
-            <FursuitCard fursuit={fursuit} />
+            <FursuitCard
+              fursuit={fursuit}
+              openFursuit={fursuit => {
+                this.setState({ openFursuit: true, fursuit: fursuit });
+              }}
+            />
           </Grid>
         ))}
         {hasMore && <LoadMoreButton onClick={() => onLoadMore()} />}
@@ -107,7 +115,6 @@ class Fursuits extends React.Component {
       <div className={classes.filters}>
         <FursuitFilters
           onChange={value => {
-            console.log(456456456);
             this.setState({
               fursuitStyle: !value.fursuitStyle ? "" : value.fursuitStyle.value,
               fursuitSpecy: !value.fursuitSpecy ? "" : value.fursuitSpecy.value,
@@ -122,7 +129,6 @@ class Fursuits extends React.Component {
         {false && (
           <FursuitFiltersMakers
             onChange={value => {
-              console.log(4568);
               this.setState({
                 maker: value.maker.value
               });
@@ -141,6 +147,13 @@ class Fursuits extends React.Component {
       <React.Fragment>
         <PageTitle>Fursuits</PageTitle>
         {this.renderFilters()}
+        {this.state.openFursuit && this.state.fursuit && (
+          <FursuitModal
+            open={this.state.openFursuit}
+            onClose={() => this.setState({ openFursuit: false, fursuit: null })}
+            fursuit={this.state.fursuit}
+          />
+        )}
         <Query
           query={LOAD_FURSUITS}
           variables={{

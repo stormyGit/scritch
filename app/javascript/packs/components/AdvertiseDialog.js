@@ -212,7 +212,6 @@ class AdvertiseDialog extends React.Component {
 
   render() {
     const { classes, uploadEnabled } = this.props;
-    console.log(this.state.url);
 
     return (
       <React.Fragment>

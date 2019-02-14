@@ -131,6 +131,7 @@ class Fursuit extends React.Component {
     let limit = parseInt(process.env.USER_MEDIA_PAGE_SIZE);
     const query = queryString.parse(location.search);
 
+    console.log(match.params.id);
     return (
       <Query
         query={LOAD_FURSUIT}
@@ -140,7 +141,9 @@ class Fursuit extends React.Component {
       >
         {({ loading, error, data }) => {
           const fursuit = data ? data.fursuit : null;
+          error && console.log(error);
 
+          fursuit && console.log(fursuit);
           return (
             !loading &&
             !error &&
