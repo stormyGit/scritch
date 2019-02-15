@@ -48,7 +48,7 @@ class PoliciesSupportButton extends React.Component {
             aria-haspopup="true"
             title="Databases"
             onClick={event => this.handleMenu(event)}
-            color="inherit"
+            color="primary"
           >
             <SupportIcon />
           </IconButton>

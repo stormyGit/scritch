@@ -53,7 +53,6 @@ class UserButton extends React.Component {
               anchorEl={this.state.userMenuAnchor}
               open={Boolean(this.state.userMenuAnchor)}
               onClose={() => this.setState({ userMenuAnchor: null })}
-              anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
               transformOrigin={{ vertical: "top", horizontal: "center" }}
             >
               <MenuItem

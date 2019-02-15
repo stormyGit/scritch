@@ -1,6 +1,10 @@
 import React from "react";
 import { Query } from "react-apollo";
-import { GET_ANNOUNCEMENTS } from "../../queries";
+import {
+  GET_ANNOUNCEMENTS,
+  READ_ANNOUNCEMENTS,
+  GET_SESSION
+} from "../../queries";
 import withWidth from "@material-ui/core/withWidth";
 import { withStyles } from "@material-ui/core/styles";
 

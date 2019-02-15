@@ -254,6 +254,7 @@ class AppLayoutRemake extends React.Component {
                       " "
                     )}
                     onClick={() => this.setState({ searchEnabled: true })}
+                    color="primary"
                   >
                     <SearchIcon />
                   </IconButton>
@@ -271,7 +272,6 @@ class AppLayoutRemake extends React.Component {
                     <NotificationsButton
                       onClick={() => this.setState({ activitiesDialog: true })}
                     />
-                    <SponsorButton />
                     <UserButton
                       openSignUp={() => this.setState({ signUpDialog: true })}
                       openSettings={() =>

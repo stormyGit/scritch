@@ -378,6 +378,9 @@ module Types
     end
 
     def announcements(arguments = {})
+      if !context[:current_user].nil?
+        context[:current_user].update!(last_announcements_read: Time.now())
+      end
       Announcement
         .order(created_at: :desc)
         .offset(arguments[:offset])

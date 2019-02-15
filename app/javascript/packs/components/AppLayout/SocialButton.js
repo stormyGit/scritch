@@ -41,7 +41,7 @@ class SocialButton extends React.Component {
     const { classes, currentSession } = this.props;
     const { auth, anchorEl } = this.state;
     const open = Boolean(anchorEl);
-    console.log(currentSession.user);
+
     return (
       <React.Fragment>
         {this.props.width !== "xl" && (
@@ -50,7 +50,7 @@ class SocialButton extends React.Component {
             aria-haspopup="true"
             title="Social"
             onClick={event => this.handleMenu(event)}
-            color="inherit"
+            color="primary"
           >
             <SocialIcon />
           </IconButton>

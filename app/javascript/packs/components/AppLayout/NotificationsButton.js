@@ -12,8 +12,6 @@ import { GET_UNREAD_ACTIVITY_COUNT } from "../../queries";
 
 const styles = theme => ({
   rightButton: {
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
     display: "inline-block"
   }
 });
@@ -37,7 +35,7 @@ class NotificationsButton extends React.Component {
               )}
             >
               {({ loading, error, data }) => (
-                <IconButton onClick={this.props.onClick}>
+                <IconButton color="primary" onClick={this.props.onClick}>
                   {loading || !data || data.unreadActivityCount <= 0 ? (
                     <NotificationsNoneIcon />
                   ) : (

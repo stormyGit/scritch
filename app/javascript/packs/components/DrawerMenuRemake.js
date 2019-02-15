@@ -13,6 +13,9 @@ import Badge from "@material-ui/core/Badge";
 import withWidth from "@material-ui/core/withWidth";
 
 import SubscriptionsIcon from "@material-ui/icons/ViewCarousel";
+import DashboardIcon from "@material-ui/icons/Web";
+import StatsIcon from "@material-ui/icons/Poll";
+import FaveIcon from "@material-ui/icons/Star";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 import PictureIcon from "@material-ui/icons/PhotoLibrary";
 import SettingsIcon from "@material-ui/icons/Settings";
@@ -91,10 +94,13 @@ const styles = theme => {
 class DrawerMenu extends React.Component {
   state = {
     settingsDialog: false,
-    databaseList: false
+    databaseList: false,
+    sponsorMenu: true
   };
   render() {
     const { classes, location, currentSession, width } = this.props;
+    if (currentSession.user.sponsor)
+      var sponsorLimit = new Date(currentSession.user.sponsor.limit * 1000);
 
     return (
       <React.Fragment>
@@ -234,7 +240,66 @@ class DrawerMenu extends React.Component {
                     />
                   </ListItem>
                 )}
-                {currentSession && currentSession.user.sponsor && (
+                <ListItem
+                  button
+                  selected={location.pathname === "/stats"}
+                  onClick={() => {
+                    this.props.history.push({
+                      pathname: "/stats"
+                    });
+                    if (this.props.onClose) {
+                      this.props.onClose();
+                    }
+                  }}
+                >
+                  <ListItemIcon className={classes.text} color="secondary">
+                    <StatsIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Stats"
+                    primaryTypographyProps={{ className: classes.text }}
+                  />
+                </ListItem>
+              </React.Fragment>
+            </List>
+          </div>
+          {currentSession.user.sponsor && (
+            <div>
+              <ListItem
+                button
+                onClick={() => {
+                  this.setState({ sponsorMenu: !this.state.sponsorMenu });
+                }}
+              >
+                <ListItemIcon className={classes.text} color="secondary">
+                  <DatabaseIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Sponsor Menu"
+                  primaryTypographyProps={{ className: classes.text }}
+                />
+                {this.state.sponsorMenu ? (
+                  <ExpandLess className={classes.text} />
+                ) : (
+                  <ExpandMore className={classes.text} />
+                )}
+              </ListItem>
+              <Collapse
+                in={this.state.sponsorMenu}
+                timeout="auto"
+                unmountOnExit
+              >
+                <List component="div" disablePadding>
+                  <ListItem button disabled className={classes.nested}>
+                    <ListItemText
+                      primary={
+                        currentSession.user.sponsor.status == "live"
+                          ? `Renews: ${sponsorLimit.toLocaleDateString()}`
+                          : `Expires ${sponsorLimit.toLocaleDateString()}`
+                      }
+                      primaryTypographyProps={{ className: classes.text }}
+                    />
+                  </ListItem>
                   <ListItem
                     button
                     selected={location.pathname === "/subscriptions"}
@@ -255,14 +320,86 @@ class DrawerMenu extends React.Component {
                       primaryTypographyProps={{ className: classes.text }}
                     />
                   </ListItem>
-                )}
-              </React.Fragment>
-            </List>
-          </div>
+                  <ListItem
+                    button
+                    selected={location.pathname === "/favorites"}
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/favorites"
+                      });
+                      if (this.props.onClose) {
+                        this.props.onClose();
+                      }
+                    }}
+                  >
+                    <ListItemIcon className={classes.text} color="secondary">
+                      <FaveIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Favorites Gallery"
+                      primaryTypographyProps={{ className: classes.text }}
+                    />
+                  </ListItem>
+                  <ListItem
+                    button
+                    selected={location.pathname === "/sponsors"}
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/sponsors"
+                      });
+                      if (this.props.onClose) {
+                        this.props.onClose();
+                      }
+                    }}
+                  >
+                    <ListItemIcon className={classes.text} color="secondary">
+                      <DashboardIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Sponsor Dashboard"
+                      primaryTypographyProps={{ className: classes.text }}
+                    />
+                  </ListItem>
+                </List>
+              </Collapse>
+            </div>
+          )}
           <div>
+            {console.log(currentSession.user)}
             <List disablePadding={width !== "lg" && width !== "xl"}>
               {currentSession && !this.props.disableSettings && (
                 <React.Fragment>
+                  <ListItem
+                    button
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/announcements"
+                      });
+                      if (this.props.onClose) {
+                        this.props.onClose();
+                      }
+                    }}
+                  >
+                    <ListItemIcon className={classes.text}>
+                      {currentSession &&
+                      currentSession.user.unreadAnnouncementsCount > 0 ? (
+                        <Badge
+                          badgeContent={
+                            currentSession.user.unreadAnnouncementsCount
+                          }
+                          color="primary"
+                        >
+                          <AnnouncementIcon />
+                        </Badge>
+                      ) : (
+                        <AnnouncementIcon />
+                      )}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Announcements"
+                      primaryTypographyProps={{ className: classes.text }}
+                    />
+                  </ListItem>
                   <Divider />
                   <ListItem
                     button

@@ -35,7 +35,7 @@ class UploadButton extends React.Component {
         {this.props.width !== "xl" && currentSession && (
           <IconButton
             title="Upload"
-            color="inherit"
+            color="primary"
             onClick={this.props.onClick}
           >
             <UploadIcon />
