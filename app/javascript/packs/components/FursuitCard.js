@@ -100,7 +100,7 @@ class FursuitCard extends React.Component {
           className={classes.subtext}
           noWrap
         >
-          {fursuit.makers[0].name}
+          {fursuit.makers[0] && fursuit.makers[0].name}
         </Typography>
       </CardContent>
     );

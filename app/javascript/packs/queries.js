@@ -972,7 +972,9 @@ export const LOAD_FURSUITS = gql`
       creationYear
       slug
       makers {
-        id
+        name
+      }
+      fursuitSpecy {
         name
       }
     }

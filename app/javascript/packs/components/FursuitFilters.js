@@ -17,6 +17,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+import { makersList } from "../makers";
 import { Link, withRouter } from "react-router-dom";
 
 import {
@@ -306,47 +307,27 @@ class FursuitFilters extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Query query={LOAD_MAKERS} variables={{ offset: 0, limit: 1000 }}>
-        {({ data, loading, error }) => {
-          if (error || !data) {
-            return null;
-          }
-          if (loading) {
-            return (
-              <Grid item xs={4}>
-                <CircularProgress />
-              </Grid>
-            );
-          }
-
-          const makersList = [];
-          data.makers.map(e => makersList.push({ value: e.id, label: e.name }));
-
-          return (
-            <Grid item xs={4}>
-              <Select
-                fullWidth
-                placeholder="Maker"
-                isClearable
-                isSearchable
-                value={this.state.maker}
-                onChange={maker => {
-                  this.setState({ maker: maker });
-                  this.props.onChange({
-                    name: this.state.name,
-                    fursuitLegType: this.state.fursuitLegType,
-                    fursuitStyle: this.state.fursuitStyle,
-                    fursuitSpecy: this.state.fursuitSpecy,
-                    maker: maker
-                  });
-                }}
-                options={makersList}
-                className={classes.selectInput}
-              />
-            </Grid>
-          );
-        }}
-      </Query>
+      <Grid item xs={4}>
+        <Select
+          fullWidth
+          placeholder="Maker"
+          isClearable
+          isSearchable
+          value={this.state.maker}
+          onChange={maker => {
+            this.setState({ maker: maker });
+            this.props.onChange({
+              name: this.state.name,
+              fursuitLegType: this.state.fursuitLegType,
+              fursuitStyle: this.state.fursuitStyle,
+              fursuitSpecy: this.state.fursuitSpecy,
+              maker: maker
+            });
+          }}
+          options={makersList}
+          className={classes.selectInput}
+        />
+      </Grid>
     );
   }
 
