@@ -581,7 +581,7 @@ DEPENDENCIES
   active_link_to
   acts-as-taggable-on (~> 6.0)
   acts_as_follower!
-  aws-sdk (~> 2.11.222)
+  aws-sdk (~> 2.0)
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.1.0)
   bulma-rails (~> 0.7.1)
