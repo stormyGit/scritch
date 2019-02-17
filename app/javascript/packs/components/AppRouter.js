@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import withCurrentSession from "./withCurrentSession";
 
 import Medium from "./Medium";
 import Fursuit from "./Fursuit";
@@ -21,10 +22,13 @@ import User from "./User";
 import AppLayoutRemake from "./AppLayoutRemake";
 import AppFooter from "./AppFooter";
 import AppHeader from "./AppHeader";
+import MustLog from "./MustLog";
+
 import PerfectScrollbar from "react-perfect-scrollbar";
 
 class AppRouter extends React.Component {
   render() {
+    const { currentSession } = this.props;
     return (
       <BrowserRouter>
         <Route
@@ -57,22 +61,62 @@ class AppRouter extends React.Component {
                       path="/code_of_conduct"
                       component={CodeOfConduct}
                     />
-                    <Route exact path="/fursuits" component={Fursuits} />
-                    <Route exact path="/makers" component={Makers} />
-                    <Route exact path="/events" component={Events} />
-                    <Route exact path="/tag" component={TagPage} />
+                    <Route
+                      exact
+                      path="/fursuits"
+                      component={currentSession ? Fursuits : MustLog}
+                    />
+                    <Route
+                      exact
+                      path="/makers"
+                      component={currentSession ? Makers : MustLog}
+                    />
+                    <Route
+                      exact
+                      path="/events"
+                      component={currentSession ? Events : MustLog}
+                    />
+                    <Route
+                      exact
+                      path="/tag"
+                      component={currentSession ? TagPage : MustLog}
+                    />
                     <Route
                       exact
                       path="/subscriptions"
-                      component={Subscriptions}
+                      component={currentSession ? Subscriptions : MustLog}
                     />
                     <Route exact path="/pictures" component={LatestPictures} />
-                    <Route exact path="/pictures/:id" component={Medium} />
-                    <Route exact path="/fursuits/:id" component={Fursuit} />
-                    <Route exact path="/makers/:id" component={Maker} />
-                    <Route exact path="/events/:id" component={Event} />
-                    <Route exact path="/:id" component={User} />
-                    <Route exact path="/:id/:tab" component={User} />
+                    <Route
+                      exact
+                      path="/pictures/:id"
+                      component={currentSession ? Medium : MustLog}
+                    />
+                    <Route
+                      exact
+                      path="/fursuits/:id"
+                      component={currentSession ? Fursuit : MustLog}
+                    />
+                    <Route
+                      exact
+                      path="/makers/:id"
+                      component={currentSession ? Maker : MustLog}
+                    />
+                    <Route
+                      exact
+                      path="/events/:id"
+                      component={currentSession ? Event : MustLog}
+                    />
+                    <Route
+                      exact
+                      path="/:id"
+                      component={currentSession ? User : MustLog}
+                    />
+                    <Route
+                      exact
+                      path="/:id/:tab"
+                      component={currentSession ? User : MustLog}
+                    />
                   </Switch>
                   <div style={{ paddingTop: 20 }} />
                   <AppFooter />
@@ -86,4 +130,4 @@ class AppRouter extends React.Component {
   }
 }
 
-export default AppRouter;
+export default withCurrentSession(AppRouter);

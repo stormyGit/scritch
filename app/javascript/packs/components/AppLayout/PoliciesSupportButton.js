@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Button from "@material-ui/core/Button";
+import withCurrentSession from "../withCurrentSession";
 
 import SupportIcon from "@material-ui/icons/ContactSupport";
 
@@ -36,7 +37,7 @@ class PoliciesSupportButton extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, currentSession } = this.props;
     const { anchorEl } = this.state;
     const open = Boolean(anchorEl);
 
@@ -98,7 +99,7 @@ class PoliciesSupportButton extends React.Component {
               Code Of Conduct
             </MenuItem>
           </Link>
-          <Link to={"/"} className={classes.link}>
+          {currentSession && (
             <MenuItem
               onClick={() => {
                 this.handleClose();
@@ -107,7 +108,7 @@ class PoliciesSupportButton extends React.Component {
             >
               Report an Issue
             </MenuItem>
-          </Link>
+          )}
         </Menu>
       </React.Fragment>
     );
@@ -115,5 +116,5 @@ class PoliciesSupportButton extends React.Component {
 }
 
 export default withStyles(styles)(
-  withRouter(withWidth()(PoliciesSupportButton))
+  withRouter(withWidth()(withCurrentSession(PoliciesSupportButton)))
 );

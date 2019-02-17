@@ -49,7 +49,6 @@ import DatabaseIcon from "@material-ui/icons/LibraryBooks";
 
 import { Link, withRouter } from "react-router-dom";
 
-import { GET_SESSION } from "../queries";
 import withCurrentSession from "./withCurrentSession";
 
 const styles = theme => {
@@ -91,7 +90,7 @@ const styles = theme => {
   };
 };
 
-class DrawerMenu extends React.Component {
+class DrawerMenuRemake extends React.Component {
   state = {
     settingsDialog: false,
     databaseList: false,
@@ -99,8 +98,11 @@ class DrawerMenu extends React.Component {
   };
   render() {
     const { classes, location, currentSession, width } = this.props;
-    if (currentSession.user.sponsor)
-      var sponsorLimit = new Date(currentSession.user.sponsor.limit * 1000);
+    const user =
+      currentSession && currentSession.user ? currentSession.user : null;
+
+    if (user && user.sponsor)
+      var sponsorLimit = new Date(user.sponsor.limit * 1000);
 
     return (
       <React.Fragment>
@@ -161,62 +163,74 @@ class DrawerMenu extends React.Component {
                   timeout="auto"
                   unmountOnExit
                 >
-                  <List component="div" disablePadding>
-                    <ListItem
-                      button
-                      onClick={() => {
-                        this.props.history.push({
-                          pathname: "/fursuits"
-                        });
-                        if (this.props.onClose) {
-                          this.props.onClose();
-                        }
-                      }}
-                      className={classes.nested}
-                      selected={location.pathname === "/fursuits"}
-                    >
-                      <ListItemText
-                        primary="Fursuits"
-                        primaryTypographyProps={{ className: classes.text }}
-                      />
-                    </ListItem>
-                    <ListItem
-                      button
-                      selected={location.pathname === "/makers"}
-                      onClick={() => {
-                        this.props.history.push({
-                          pathname: "/makers"
-                        });
-                        if (this.props.onClose) {
-                          this.props.onClose();
-                        }
-                      }}
-                      className={classes.nested}
-                    >
-                      <ListItemText
-                        primary="Makers"
-                        primaryTypographyProps={{ className: classes.text }}
-                      />
-                    </ListItem>
-                    <ListItem
-                      button
-                      selected={location.pathname === "/events"}
-                      onClick={() => {
-                        this.props.history.push({
-                          pathname: "/events"
-                        });
-                        if (this.props.onClose) {
-                          this.props.onClose();
-                        }
-                      }}
-                      className={classes.nested}
-                    >
-                      <ListItemText
-                        primary="Events"
-                        primaryTypographyProps={{ className: classes.text }}
-                      />
-                    </ListItem>
-                  </List>
+                  {user && (
+                    <List component="div" disablePadding>
+                      <ListItem
+                        button
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/fursuits"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
+                        className={classes.nested}
+                        selected={location.pathname === "/fursuits"}
+                      >
+                        <ListItemText
+                          primary="Fursuits"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        selected={location.pathname === "/makers"}
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/makers"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
+                        className={classes.nested}
+                      >
+                        <ListItemText
+                          primary="Makers"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        selected={location.pathname === "/events"}
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/events"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
+                        className={classes.nested}
+                      >
+                        <ListItemText
+                          primary="Events"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                    </List>
+                  )}
+                  {!user && (
+                    <List component="div" disablePadding>
+                      <ListItem button disabled className={classes.nested}>
+                        <ListItemText
+                          primary="You must be logged in"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                    </List>
+                  )}
                 </Collapse>
                 {currentSession && (
                   <ListItem
@@ -240,30 +254,32 @@ class DrawerMenu extends React.Component {
                     />
                   </ListItem>
                 )}
-                <ListItem
-                  button
-                  selected={location.pathname === "/stats"}
-                  onClick={() => {
-                    this.props.history.push({
-                      pathname: "/stats"
-                    });
-                    if (this.props.onClose) {
-                      this.props.onClose();
-                    }
-                  }}
-                >
-                  <ListItemIcon className={classes.text} color="secondary">
-                    <StatsIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Stats"
-                    primaryTypographyProps={{ className: classes.text }}
-                  />
-                </ListItem>
+                {user && (
+                  <ListItem
+                    button
+                    selected={location.pathname === "/stats"}
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/stats"
+                      });
+                      if (this.props.onClose) {
+                        this.props.onClose();
+                      }
+                    }}
+                  >
+                    <ListItemIcon className={classes.text} color="secondary">
+                      <StatsIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Stats"
+                      primaryTypographyProps={{ className: classes.text }}
+                    />
+                  </ListItem>
+                )}
               </React.Fragment>
             </List>
           </div>
-          {currentSession.user.sponsor && (
+          {user && user.sponsor && (
             <div>
               <ListItem
                 button
@@ -293,7 +309,7 @@ class DrawerMenu extends React.Component {
                   <ListItem button disabled className={classes.nested}>
                     <ListItemText
                       primary={
-                        currentSession.user.sponsor.status == "live"
+                        user.sponsor.status == "live"
                           ? `Renews: ${sponsorLimit.toLocaleDateString()}`
                           : `Expires ${sponsorLimit.toLocaleDateString()}`
                       }
@@ -365,7 +381,7 @@ class DrawerMenu extends React.Component {
             </div>
           )}
           <div>
-            {console.log(currentSession.user)}
+            {console.log(user)}
             <List disablePadding={width !== "lg" && width !== "xl"}>
               {currentSession && !this.props.disableSettings && (
                 <React.Fragment>
@@ -381,12 +397,9 @@ class DrawerMenu extends React.Component {
                     }}
                   >
                     <ListItemIcon className={classes.text}>
-                      {currentSession &&
-                      currentSession.user.unreadAnnouncementsCount > 0 ? (
+                      {currentSession && user.unreadAnnouncementsCount > 0 ? (
                         <Badge
-                          badgeContent={
-                            currentSession.user.unreadAnnouncementsCount
-                          }
+                          badgeContent={user.unreadAnnouncementsCount}
                           color="primary"
                         >
                           <AnnouncementIcon />
@@ -435,5 +448,5 @@ class DrawerMenu extends React.Component {
 }
 
 export default withRouter(
-  withStyles(styles)(withCurrentSession(withWidth()(DrawerMenu)))
+  withStyles(styles)(withCurrentSession(withWidth()(DrawerMenuRemake)))
 );
