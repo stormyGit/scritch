@@ -59,20 +59,20 @@ export const CLEAR_ACTIVITIES = gql`
   }
 `;
 
-export const DELETE_SESSION = gql`
-  mutation deleteSession($input: DeleteSessionInput!) {
-    deleteSession(input: $input) {
-      session {
+export const DELETE_USER = gql`
+  mutation deleteUser($input: DeleteUserInput!) {
+    deleteUser(input: $input) {
+      user {
         id
       }
     }
   }
 `;
 
-export const DELETE_USER = gql`
-  mutation deleteUser($input: DeleteUserInput!) {
-    deleteUser(input: $input) {
-      user {
+export const DELETE_SESSION = gql`
+  mutation deleteSession($input: DeleteSessionInput!) {
+    deleteSession(input: $input) {
+      session {
         id
       }
     }

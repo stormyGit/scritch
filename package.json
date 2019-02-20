@@ -13,6 +13,7 @@
     "apollo-cache-persist": "^0.1.1",
     "apollo-link-context": "^1.0.9",
     "babel-preset-react": "^6.24.1",
+    "dateformat": "^3.0.3",
     "dayjs": "^1.7.5",
     "dotenv": "^6.0.0",
     "es5-shim": "^4.5.12",

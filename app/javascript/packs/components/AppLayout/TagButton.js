@@ -16,7 +16,7 @@ const styles = theme => ({
   }
 });
 
-class DatabasesButton extends React.Component {
+class TagButton extends React.Component {
   render() {
     const { classes } = this.props;
 
@@ -41,4 +41,4 @@ class DatabasesButton extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withWidth()(DatabasesButton)));
+export default withStyles(styles)(withRouter(withWidth()(TagButton)));

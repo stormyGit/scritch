@@ -44,7 +44,7 @@ class SocialButton extends React.Component {
 
     return (
       <React.Fragment>
-        {this.props.width !== "xl" && (
+        {this.props.width !== "xl" && this.props.width !== "lg" && (
           <IconButton
             aria-owns={open ? "menu-appbar" : undefined}
             aria-haspopup="true"
@@ -55,13 +55,13 @@ class SocialButton extends React.Component {
             <SocialIcon />
           </IconButton>
         )}
-        {this.props.width === "xl" && (
+        {(this.props.width === "xl" || this.props.width === "lg") && (
           <Button
             onClick={event => this.handleMenu(event)}
             color="primary"
             className={classes.buttonPad}
           >
-            Social & Ads
+            Ads & Social
           </Button>
         )}
         <Menu

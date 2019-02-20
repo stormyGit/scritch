@@ -10,16 +10,12 @@ import Icon from "@material-ui/core/Icon";
 import withWidth from "@material-ui/core/withWidth";
 import uuidv4 from "uuid/v4";
 
-import Logo from "./Logo";
-
 import SubscriptionsIcon from "@material-ui/icons/ViewCarousel";
 import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 import PicturesIcon from "@material-ui/icons/PhotoLibrary";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import ShareIcon from "@material-ui/icons/Share";
-
-import logo from "../../../assets/images/logo.png";
 
 const styles = theme => ({
   root: {
@@ -61,17 +57,6 @@ class AppHeader extends React.Component {
           justify="center"
           alignItems="center"
         >
-          {(width == "xl" || width == "lg") && (
-            <React.Fragment>
-              <Grid item xs={false} lg={1} />
-              <Grid item xs={false} lg={1}>
-                <Link to="/" className={classes.rootLink}>
-                  <img src={logo} className={classes.toolTip} />
-                </Link>
-              </Grid>
-              <Grid item xs={false} lg={1} />
-            </React.Fragment>
-          )}
           <Query
             query={GET_ADVERTS}
             variables={{ uuid: uuidv4(), limit }}
@@ -85,7 +70,7 @@ class AppHeader extends React.Component {
                 if (data.adverts && data.adverts.length == limit)
                   return (
                     <React.Fragment>
-                      <Grid item xs={12} sm={6} lg={3}>
+                      <Grid item xs={12} sm={6} lg={4}>
                         <a
                           href={`${process.env.SITE_URL}/adverts/${
                             data.adverts[0].id
@@ -97,8 +82,16 @@ class AppHeader extends React.Component {
                           />
                         </a>
                       </Grid>
+                      {(width === "xl" || width === "lg") && (
+                        <Grid item xs={false} lg={4}>
+                          <img
+                            src={require("../pixelTooltip.png")}
+                            className={classes.toolTip}
+                          />
+                        </Grid>
+                      )}
                       {width !== "xs" && (
-                        <Grid item sm={6} lg={3}>
+                        <Grid item sm={6} lg={4}>
                           <a
                             href={`${process.env.SITE_URL}/adverts/${
                               data.adverts[1].id
@@ -117,15 +110,6 @@ class AppHeader extends React.Component {
               } else return null;
             }}
           </Query>
-          {(width == "xl" || width == "lg") && (
-            <React.Fragment>
-              <Grid item xs={false} lg={1} />
-              <Grid item xs={false} lg={1}>
-                <img src={require("../1.png")} className={classes.toolTip} />
-              </Grid>
-              <Grid item xs={false} lg={1} />
-            </React.Fragment>
-          )}
         </Grid>
       </div>
     );

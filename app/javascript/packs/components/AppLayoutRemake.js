@@ -32,6 +32,8 @@ import TechButton from "./AppLayout/TechButton";
 import SponsorButton from "./AppLayout/SponsorButton";
 import AppDialogs from "./AppLayout/AppDialogs";
 import MenuIcon from "@material-ui/icons/Menu";
+import Logo from "./Logo";
+import logo from "../../../assets/images/logo.png";
 
 const styles = theme => ({
   root: {
@@ -90,6 +92,12 @@ const styles = theme => ({
   tinyButton: {},
   buttonPad: {
     padding: theme.spacing.unit
+  },
+  menuLeftPadding: {
+    paddingLeft: theme.spacing.unit
+  },
+  menuRightPadding: {
+    paddingRight: theme.spacing.unit
   }
 });
 
@@ -190,6 +198,9 @@ class AppLayoutRemake extends React.Component {
               >
                 {!this.state.searchEnabled && (
                   <React.Fragment>
+                    <Link to="/" className={classes.rootLink}>
+                      <img src={logo} />
+                    </Link>
                     <IconButton
                       title="Menu"
                       color="inherit"
@@ -199,6 +210,32 @@ class AppLayoutRemake extends React.Component {
                     >
                       <MenuIcon color="primary" />
                     </IconButton>
+                    {(this.state.searchEnabled ||
+                      width === "lg" ||
+                      width === "xl") && (
+                      <div
+                        className={classes.searchBar}
+                        style={{
+                          paddingLeft: appBarPadding,
+                          maxWidth:
+                            width === "lg" || width === "xl" ? 200 : "none",
+                          marginRight: width === "lg" || width === "xl" ? 16 : 0
+                        }}
+                      >
+                        <SearchBar
+                          autoFocus={
+                            width !== "lg" && width !== "xl" && !query.q
+                          }
+                          cancelOnEscape
+                          value={query.q}
+                          onRequestSearch={q => {
+                            if (typeof q === "string") {
+                              this.handleRequestSearch(q);
+                            }
+                          }}
+                        />
+                      </div>
+                    )}
 
                     <UploadButton
                       onClick={() => this.setState({ uploadDialog: true })}
@@ -223,29 +260,6 @@ class AppLayoutRemake extends React.Component {
                   >
                     <CloseIcon />
                   </IconButton>
-                )}
-                {(this.state.searchEnabled ||
-                  width === "lg" ||
-                  width === "xl") && (
-                  <div
-                    className={classes.searchBar}
-                    style={{
-                      paddingLeft: appBarPadding,
-                      maxWidth: width === "lg" || width === "xl" ? 300 : "none",
-                      marginRight: width === "lg" || width === "xl" ? 16 : 0
-                    }}
-                  >
-                    <SearchBar
-                      autoFocus={width !== "lg" && width !== "xl" && !query.q}
-                      cancelOnEscape
-                      value={query.q}
-                      onRequestSearch={q => {
-                        if (typeof q === "string") {
-                          this.handleRequestSearch(q);
-                        }
-                      }}
-                    />
-                  </div>
                 )}
 
                 {!this.state.searchEnabled && width !== "lg" && width !== "xl" && (

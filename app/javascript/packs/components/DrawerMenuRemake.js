@@ -11,7 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
 import withWidth from "@material-ui/core/withWidth";
-
+import dateFormat from "dateformat";
 import SubscriptionsIcon from "@material-ui/icons/ViewCarousel";
 import DashboardIcon from "@material-ui/icons/Web";
 import StatsIcon from "@material-ui/icons/Poll";
@@ -86,6 +86,9 @@ const styles = theme => {
     },
     text: {
       color: theme.palette.text.primary
+    },
+    link: {
+      textDecoration: "none"
     }
   };
 };
@@ -149,7 +152,7 @@ class DrawerMenuRemake extends React.Component {
                     <DatabaseIcon />
                   </ListItemIcon>
                   <ListItemText
-                    primary="Databases"
+                    primary="Browse"
                     primaryTypographyProps={{ className: classes.text }}
                   />
                   {this.state.databaseList ? (
@@ -165,6 +168,24 @@ class DrawerMenuRemake extends React.Component {
                 >
                   {user && (
                     <List component="div" disablePadding>
+                      <ListItem
+                        button
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/pictures"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
+                        className={classes.nested}
+                        selected={location.pathname === "/pictures"}
+                      >
+                        <ListItemText
+                          primary="Media"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
                       <ListItem
                         button
                         onClick={() => {
@@ -249,7 +270,7 @@ class DrawerMenuRemake extends React.Component {
                       <TagIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary="Tag Tool"
+                      primary="Tag Media"
                       primaryTypographyProps={{ className: classes.text }}
                     />
                   </ListItem>
@@ -271,7 +292,7 @@ class DrawerMenuRemake extends React.Component {
                       <StatsIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary="Stats"
+                      primary="Statistics"
                       primaryTypographyProps={{ className: classes.text }}
                     />
                   </ListItem>
@@ -306,12 +327,18 @@ class DrawerMenuRemake extends React.Component {
                 unmountOnExit
               >
                 <List component="div" disablePadding>
-                  <ListItem button disabled className={classes.nested}>
+                  <ListItem button disabled>
                     <ListItemText
                       primary={
                         user.sponsor.status == "live"
-                          ? `Renews: ${sponsorLimit.toLocaleDateString()}`
-                          : `Expires ${sponsorLimit.toLocaleDateString()}`
+                          ? `Renews: ${dateFormat(
+                              sponsorLimit,
+                              "mmmm dS, yyyy"
+                            )}`
+                          : `Expires ${dateFormat(
+                              sponsorLimit,
+                              "mmmm dS, yyyy"
+                            )}`
                       }
                       primaryTypographyProps={{ className: classes.text }}
                     />
@@ -356,26 +383,23 @@ class DrawerMenuRemake extends React.Component {
                       primaryTypographyProps={{ className: classes.text }}
                     />
                   </ListItem>
-                  <ListItem
-                    button
-                    selected={location.pathname === "/sponsors"}
-                    onClick={() => {
-                      this.props.history.push({
-                        pathname: "/sponsors"
-                      });
-                      if (this.props.onClose) {
-                        this.props.onClose();
-                      }
-                    }}
+                  <a
+                    href={`${process.env.SITE_URL}/sponsors`}
+                    className={classes.link}
                   >
-                    <ListItemIcon className={classes.text} color="secondary">
-                      <DashboardIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Sponsor Dashboard"
-                      primaryTypographyProps={{ className: classes.text }}
-                    />
-                  </ListItem>
+                    <ListItem
+                      button
+                      selected={location.pathname === "/sponsors"}
+                    >
+                      <ListItemIcon className={classes.text} color="secondary">
+                        <DashboardIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Sponsor Dashboard"
+                        primaryTypographyProps={{ className: classes.text }}
+                      />
+                    </ListItem>
+                  </a>
                 </List>
               </Collapse>
             </div>
@@ -426,6 +450,29 @@ class DrawerMenuRemake extends React.Component {
                       primaryTypographyProps={{
                         noWrap: true
                       }}
+                    />
+                  </ListItem>
+                </React.Fragment>
+              )}
+              {!currentSession && !this.props.disableSettings && (
+                <React.Fragment>
+                  <ListItem
+                    button
+                    onClick={() => {
+                      this.props.history.push({
+                        pathname: "/announcements"
+                      });
+                      if (this.props.onClose) {
+                        this.props.onClose();
+                      }
+                    }}
+                  >
+                    <ListItemIcon className={classes.text}>
+                      <AnnouncementIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Announcements"
+                      primaryTypographyProps={{ className: classes.text }}
                     />
                   </ListItem>
                 </React.Fragment>

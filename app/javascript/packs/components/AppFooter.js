@@ -42,24 +42,27 @@ class AppFooter extends React.Component {
 
     return (
       <div className={classes.root}>
-        <Query
-          query={GET_ADVERTS}
-          variables={{ uuid: uuidv4(), limit }}
-          fetchPolicy="network-only"
+        <Grid
+          container
+          spacing={8}
+          className={classes.grid}
+          justify="center"
+          alignItems="center"
         >
-          {({ loading, error, data }) => {
-            if (loading || error) {
-              return null;
-            }
-            if (data) {
-              if (data.adverts && data.adverts.length == limit)
-                return (
-                  <React.Fragment>
-                    <Grid container spacing={8} className={classes.grid}>
-                      {(width === "lg" || width === "xl") && (
-                        <Grid item xs={2} />
-                      )}
-                      <Grid item xs={12} sm={6} lg={3}>
+          <Query
+            query={GET_ADVERTS}
+            variables={{ uuid: uuidv4(), limit }}
+            fetchPolicy="network-only"
+          >
+            {({ loading, error, data }) => {
+              if (loading || error) {
+                return null;
+              }
+              if (data) {
+                if (data.adverts && data.adverts.length == limit)
+                  return (
+                    <React.Fragment>
+                      <Grid item xs={12} sm={6} lg={4}>
                         <a
                           href={`${process.env.SITE_URL}/adverts/${
                             data.adverts[0].id
@@ -71,16 +74,16 @@ class AppFooter extends React.Component {
                           />
                         </a>
                       </Grid>
-                      {(width === "lg" || width === "xl") && (
-                        <Grid item xs={2}>
+                      {(width === "xl" || width === "lg") && (
+                        <Grid item xs={false} lg={4}>
                           <img
-                            src={require("../1.png")}
+                            src={require("../pixelTooltip.png")}
                             className={classes.toolTip}
                           />
                         </Grid>
                       )}
                       {width !== "xs" && (
-                        <Grid item sm={6} lg={3}>
+                        <Grid item sm={6} lg={4}>
                           <a
                             href={`${process.env.SITE_URL}/adverts/${
                               data.adverts[1].id
@@ -93,16 +96,13 @@ class AppFooter extends React.Component {
                           </a>
                         </Grid>
                       )}
-                      {(width === "lg" || width === "xl") && (
-                        <Grid item xs={2} />
-                      )}
-                    </Grid>
-                  </React.Fragment>
-                );
-              else return null;
-            } else return null;
-          }}
-        </Query>
+                    </React.Fragment>
+                  );
+                else return null;
+              } else return null;
+            }}
+          </Query>
+        </Grid>
         <div style={{ paddingTop: 10 }} />
 
         <Grid container spacing={8} className={classes.grid}>

@@ -23,24 +23,27 @@ class UploadButton extends React.Component {
 
     return (
       <React.Fragment>
-        {this.props.width === "xl" && currentSession && (
-          <Button
-            onClick={this.props.onClick}
-            className={classes.buttonPad}
-            color="primary"
-          >
-            Upload
-          </Button>
-        )}
-        {this.props.width !== "xl" && currentSession && (
-          <IconButton
-            title="Upload"
-            color="primary"
-            onClick={this.props.onClick}
-          >
-            <UploadIcon />
-          </IconButton>
-        )}
+        {(this.props.width === "xl" || this.props.width === "lg") &&
+          currentSession && (
+            <Button
+              onClick={this.props.onClick}
+              className={classes.buttonPad}
+              color="primary"
+            >
+              Upload
+            </Button>
+          )}
+        {this.props.width !== "xl" &&
+          this.props.width !== "lg" &&
+          currentSession && (
+            <IconButton
+              title="Upload"
+              color="primary"
+              onClick={this.props.onClick}
+            >
+              <UploadIcon />
+            </IconButton>
+          )}
       </React.Fragment>
     );
   }

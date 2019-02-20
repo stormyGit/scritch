@@ -7,6 +7,8 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import { DELETE_SESSION } from "../../queries";
+import { Query, Mutation, withApollo } from "react-apollo";
 
 import UserAvatar from "../UserAvatar";
 
@@ -75,6 +77,23 @@ class UserButton extends React.Component {
               >
                 Settings and security
               </MenuItem>
+
+              <Mutation mutation={DELETE_SESSION}>
+                {(deleteSession, { data }) => (
+                  <MenuItem
+                    onClick={() => {
+                      deleteSession({
+                        variables: { input: { id: currentSession.id } }
+                      }).then(() => {
+                        localStorage.setItem("token", null);
+                        location.reload();
+                      });
+                    }}
+                  >
+                    Logout
+                  </MenuItem>
+                )}
+              </Mutation>
             </Menu>
           </React.Fragment>
         )}
@@ -84,16 +103,3 @@ class UserButton extends React.Component {
 }
 
 export default withStyles(styles)(withRouter(withCurrentSession(UserButton)));
-// ship renews on: {sponsorLimit.toLocaleDateString()}
-// <React.Fragment>
-//   {currentSession && (
-//     <Button
-//       onClick={() => this.setState({ uploadDialog: true })}
-//       variant="contained"
-//       size="large"
-//       color="primary"
-//     >
-//       Upload
-//     </Button>
-//   )}
-// </React.Fragment>
