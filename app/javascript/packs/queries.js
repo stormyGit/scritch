@@ -805,34 +805,6 @@ export const LOAD_EVENT = gql`
   }
 `;
 
-export const LOAD_MAKER = gql`
-  query Maker($id: ID!) {
-    maker(id: $id) {
-      id
-      name
-      slug
-      web
-      country
-      fursuits {
-        id
-        name
-        slug
-      }
-    }
-  }
-`;
-
-export const LOAD_MAKERS = gql`
-  query Makers($name: String, $country: String, $limit: Int!, $offset: Int!) {
-    makers(name: $name, country: $country, limit: $limit, offset: $offset) {
-      id
-      name
-      country
-      slug
-    }
-  }
-`;
-
 export const LOAD_CATEGORIES = gql`
   query Categories($name: String, $limit: Int!, $offset: Int!) {
     categories(name: $name, limit: $limit, offset: $offset) {
@@ -865,117 +837,11 @@ export const LOAD_EDITIONS = gql`
 //
 //
 
-export const LOAD_FURSUIT = gql`
-  query Fursuit($id: ID!) {
-    fursuit(id: $id) {
-      id
-      name
-      slug
-      mediaCount
-      creationYear
-      fursuitLegType {
-        name
-      }
-      fursuitSpecy {
-        name
-      }
-      fursuitStyle {
-        name
-      }
-      makers {
-        name
-      }
-      media {
-        id
-        slug
-        title
-        description
-        picture
-        thumbnail
-        width
-        height
-        completion
-        createdAt
-      }
-    }
-  }
-`;
-
-export const LOAD_LEG_TYPES = gql`
-  query fursuitLegTypes {
-    fursuitLegTypes {
-      id
-      name
-    }
-  }
-`;
-
-export const LOAD_STYLES = gql`
-  query fursuitStyles {
-    fursuitStyles {
-      id
-      name
-    }
-  }
-`;
-
-export const LOAD_SPECIES = gql`
-  query fursuitSpecies {
-    fursuitSpecies {
-      id
-      name
-    }
-  }
-`;
-
-export const LOAD_MAKER_COUNTRIES = gql`
-  query makersCountry {
-    makersCountry {
-      country
-    }
-  }
-`;
-
 export const LOAD_EVENT_COUNTRIES = gql`
   query events {
     events {
       editions {
         country
-      }
-    }
-  }
-`;
-
-export const LOAD_FURSUITS = gql`
-  query Fursuits(
-    $name: String
-    $fursuitSpecy: ID
-    $fursuitLegType: ID
-    $fursuitStyle: ID
-    $exclude: [ID!]
-    $maker: ID
-    $limit: Int!
-    $offset: Int!
-  ) {
-    fursuits(
-      name: $name
-      fursuitSpecy: $fursuitSpecy
-      fursuitLegType: $fursuitLegType
-      fursuitStyle: $fursuitStyle
-      maker: $maker
-      exclude: $exclude
-      limit: $limit
-      offset: $offset
-    ) {
-      id
-      name
-      creationYear
-      slug
-      makers {
-        name
-      }
-      fursuitSpecy {
-        name
       }
     }
   }

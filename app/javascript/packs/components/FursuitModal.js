@@ -13,7 +13,6 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import GlobalProgress from "./GlobalProgress";
-import { DELETE_MEDIUM } from "../queries";
 
 const styles = theme => ({
   link: {

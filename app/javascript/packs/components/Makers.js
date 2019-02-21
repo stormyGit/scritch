@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Query } from "react-apollo";
-import { LOAD_MAKERS } from "../queries";
+import { LOAD_MAKERS } from "../queries/makerQueries";
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
 

@@ -23,7 +23,8 @@ import EmptyList from "./EmptyList";
 import LoadMoreButton from "./LoadMoreButton";
 import FursuitCard from "./FursuitCard";
 
-import { LOAD_MAKER, LOAD_FURSUITS } from "../queries";
+import { LOAD_FURSUITS } from "../queries/fursuitQueries";
+import { LOAD_MAKER } from "../queries/makerQueries";
 
 import Media from "./Media";
 import CommentForm from "./CommentForm";

@@ -11,6 +11,16 @@ module Types
     field :fursuit_species, [FursuitSpecyType], null: false do
       description "Find a medium by ID"
     end
+    field :fursuit_fingers, [FursuitFingerType], null: false do
+      description "Find a medium by ID"
+    end
+    field :fursuit_builds, [FursuitBuildType], null: false do
+      description "Find a medium by ID"
+    end
+    field :fursuit_paddings, [FursuitPaddingType], null: false do
+      description "Find a medium by ID"
+    end
+
 
     field :medium, MediumType, null: false do
       description "Find a medium by ID"
@@ -166,6 +176,11 @@ module Types
       argument :fursuit_specy, ID, required: false
       argument :fursuit_style, ID, required: false
       argument :fursuit_leg_type, ID, required: false
+      argument :fursuit_build, ID, required: false
+      argument :fursuit_padding, ID, required: false
+      argument :fursuit_fingers, ID, required: false
+      argument :fursuit_color, String, required: false
+      argument :fursuit_eyes, String, required: false
       argument :maker, ID, required: false
     end
 
@@ -226,6 +241,18 @@ module Types
       FursuitSpecy.all.order(:name)
     end
 
+    def fursuit_paddings
+      FursuitPadding.all.order(:name)
+    end
+
+    def fursuit_builds
+      FursuitBuild.all.order(:name)
+    end
+
+    def fursuit_fingers
+      FursuitFinger.all.order(:name)
+    end
+
     def categories(arguments)
       categories = Category.all
 
@@ -255,12 +282,32 @@ module Types
         fursuits = fursuits.where(fursuit_leg_type_id: FursuitLegType.find(arguments[:fursuit_leg_type]))
       end
 
+      if arguments[:fursuit_build].present?
+        fursuits = fursuits.where(fursuit_build_id: FursuitBuild.find(arguments[:fursuit_build]))
+      end
+
+      if arguments[:fursuit_fingers].present?
+        fursuits = fursuits.where(fursuit_finger_id: FursuitFinger.find(arguments[:fursuit_fingers]))
+      end
+
+      if arguments[:fursuit_padding].present?
+        fursuits = fursuits.where(fursuit_padding_id: FursuitPadding.find(arguments[:fursuit_padding]))
+      end
+
+      if arguments[:fursuit_color].present?
+        fursuits = fursuits.where(base_color: arguments[:fursuit_color])
+      end
+
+      if arguments[:fursuit_eyes].present?
+        fursuits = fursuits.where(eyes_color: arguments[:fursuit_eyes])
+      end
+
       if arguments[:maker].present?
         fursuits = fursuits.joins(:makers).where("makers.uuid = ?", arguments[:maker])
       end
 
       if arguments[:name].present?
-        fursuits = fursuits.where("name @@ ? or name ilike ?", arguments[:name], "%#{arguments[:name]}%")
+        fursuits = fursuits.where("fursuits.name @@ ? or fursuits.name ilike ?", arguments[:name], "%#{arguments[:name]}%")
       end
 
       if arguments[:exclude].present?

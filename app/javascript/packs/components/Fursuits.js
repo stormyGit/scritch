@@ -1,7 +1,7 @@
 import React from "react";
 
 import { Query } from "react-apollo";
-import { LOAD_FURSUITS } from "../queries";
+import { LOAD_FURSUITS } from "../queries/fursuitQueries";
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
 
@@ -25,7 +25,6 @@ import Background from "../photo.jpg";
 import { Link, withRouter } from "react-router-dom";
 
 import FursuitFilters from "./FursuitFilters";
-import FursuitFiltersMakers from "./FursuitFiltersMakers";
 import FursuitModal from "./FursuitModal";
 
 const styles = theme => ({
@@ -46,10 +45,30 @@ class Fursuits extends React.Component {
     fursuitSpecy: "",
     fursuitLegType: "",
     fursuitStyle: "",
+    fursuitBuild: "",
+    fursuitPadding: "",
+    fursuitFingers: "",
+    fursuitColor: "",
+    fursuitEyes: "",
     maker: "",
     fursuit: null,
     openFursuit: false
   };
+
+  clearFilters() {
+    this.setState({
+      name: "",
+      fursuitSpecy: "",
+      fursuitLegType: "",
+      fursuitStyle: "",
+      fursuitBuild: "",
+      fursuitPadding: "",
+      fursuitFingers: "",
+      fursuitColor: "",
+      fursuitEyes: "",
+      maker: ""
+    });
+  }
 
   renderResults({ data, horizontal, onLoadMore, hasMore }) {
     const { classes } = this.props;
@@ -115,26 +134,11 @@ class Fursuits extends React.Component {
       <div className={classes.filters}>
         <FursuitFilters
           onChange={value => {
-            this.setState({
-              fursuitStyle: !value.fursuitStyle ? "" : value.fursuitStyle.value,
-              fursuitSpecy: !value.fursuitSpecy ? "" : value.fursuitSpecy.value,
-              fursuitLegType: !value.fursuitLegType
-                ? ""
-                : value.fursuitLegType.value,
-              maker: !value.maker ? "" : value.maker.value,
-              name: value.name
-            });
+            console.log(value);
+            this.setState({ [value.label]: value.value });
           }}
+          clearFilters={() => this.clearFilters()}
         />
-        {false && (
-          <FursuitFiltersMakers
-            onChange={value => {
-              this.setState({
-                maker: value.maker.value
-              });
-            }}
-          />
-        )}
       </div>
     );
   }
@@ -142,7 +146,7 @@ class Fursuits extends React.Component {
   render() {
     const { classes, location, width } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
-
+    console.log(this.state);
     return (
       <React.Fragment>
         <PageTitle>Fursuits</PageTitle>
@@ -161,6 +165,11 @@ class Fursuits extends React.Component {
             fursuitLegType: this.state.fursuitLegType,
             fursuitStyle: this.state.fursuitStyle,
             fursuitSpecy: this.state.fursuitSpecy,
+            fursuitBuild: this.state.fursuitBuild,
+            fursuitPadding: this.state.fursuitPadding,
+            fursuitFingers: this.state.fursuitFingers,
+            fursuitColor: this.state.fursuitColor,
+            fursuitEyes: this.state.fursuitEyes,
             maker: this.state.maker,
             limit,
             offset: 0

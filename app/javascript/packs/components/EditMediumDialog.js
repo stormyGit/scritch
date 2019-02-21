@@ -49,10 +49,10 @@ import {
   UPDATE_MEDIUM,
   LOAD_CATEGORIES,
   GET_MEDIA,
-  LOAD_FURSUITS,
   LOAD_EVENTS,
   LOAD_EDITIONS
 } from "../queries";
+import { LOAD_FURSUITS } from "../queries/fursuitQueries";
 
 const Option = props => {
   const handleClick = event => {

@@ -45,12 +45,9 @@ import FursuitMiniCard from "./FursuitMiniCard";
 import { Mutation, Query } from "react-apollo";
 
 import Logo from "./Logo";
-import {
-  UPDATE_MEDIUM,
-  LOAD_CATEGORIES,
-  GET_MEDIA,
-  LOAD_FURSUITS
-} from "../queries";
+import { UPDATE_MEDIUM, LOAD_CATEGORIES, GET_MEDIA } from "../queries";
+
+import { LOAD_FURSUITS } from "../queries/fursuitQueries";
 
 const Option = props => {
   const handleClick = event => {

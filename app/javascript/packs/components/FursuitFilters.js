@@ -20,12 +20,19 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { makersList } from "../makers";
 import { Link, withRouter } from "react-router-dom";
 
+import { fursuitColors } from "../fursuitColors";
+import { fursuitEyes } from "../fursuitEyes";
+
 import {
   LOAD_LEG_TYPES,
   LOAD_STYLES,
   LOAD_SPECIES,
-  LOAD_MAKERS
-} from "../queries";
+  LOAD_BUILDS,
+  LOAD_PADDINGS,
+  LOAD_FINGERS
+} from "../queries/fursuitQueries";
+
+import { LOAD_MAKERS } from "../queries/makerQueries";
 
 import SearchBar from "material-ui-search-bar";
 
@@ -108,6 +115,11 @@ class FursuitFilters extends React.Component {
       fursuitLegType: null,
       fursuitStyle: null,
       fursuitSpecy: null,
+      fursuitBuild: null,
+      fursuitPadding: null,
+      fursuitFingers: null,
+      fursuitColor: null,
+      fursuitEyes: null,
       name: ""
     };
   }
@@ -119,16 +131,15 @@ class FursuitFilters extends React.Component {
       fursuitLegType: null,
       fursuitStyle: null,
       fursuitSpecy: null,
+      fursuitBuild: null,
+      fursuitPadding: null,
+      fursuitFingers: null,
+      fursuitColor: null,
+      fursuitEyes: null,
       maker: null
     };
-    this.setState({
-      name: "",
-      fursuitLegType: null,
-      fursuitStyle: null,
-      fursuitSpecy: null,
-      maker: null
-    });
-    this.props.onChange(criteria);
+    this.setState(criteria);
+    this.props.clearFilters();
   }
 
   handleSearch(val) {
@@ -144,11 +155,11 @@ class FursuitFilters extends React.Component {
 
     if (val.length >= 1) {
       this.loadEventTimer = setTimeout(() => {
-        this.props.onChange({ ...this.state, name: val });
+        this.props.onChange({ label: "name", value: val });
       }, 1000);
     } else if (this.reset) {
       clearTimeout(this.loadEventTimer);
-      this.props.onChange({ ...this.state, name: "" });
+      this.props.onChange({ label: "name", value: "" });
       this.reset = false;
     }
   }
@@ -186,11 +197,8 @@ class FursuitFilters extends React.Component {
                 onChange={legType => {
                   this.setState({ fursuitLegType: legType });
                   this.props.onChange({
-                    name: this.state.name,
-                    maker: this.state.maker,
-                    fursuitSpecy: this.state.fursuitSpecy,
-                    fursuitStyle: this.state.fursuitStyle,
-                    fursuitLegType: legType
+                    label: "fursuitLegType",
+                    value: legType ? legType.value : null
                   });
                 }}
                 options={legList}
@@ -236,11 +244,8 @@ class FursuitFilters extends React.Component {
                 onChange={style => {
                   this.setState({ fursuitStyle: style });
                   this.props.onChange({
-                    name: this.state.name,
-                    maker: this.state.maker,
-                    fursuitSpecy: this.state.fursuitSpecy,
-                    fursuitLegType: this.state.fursuitLegType,
-                    fursuitStyle: style
+                    label: "fursuitStyle",
+                    value: style ? style.value : null
                   });
                 }}
                 options={stylesList}
@@ -286,11 +291,8 @@ class FursuitFilters extends React.Component {
                 onChange={specy => {
                   this.setState({ fursuitSpecy: specy });
                   this.props.onChange({
-                    name: this.state.name,
-                    maker: this.state.maker,
-                    fursuitLegType: this.state.fursuitLegType,
-                    fursuitStyle: this.state.fursuitStyle,
-                    fursuitSpecy: specy
+                    label: "fursuitSpecy",
+                    value: specy ? specy.value : null
                   });
                 }}
                 options={speciesList}
@@ -300,6 +302,197 @@ class FursuitFilters extends React.Component {
           );
         }}
       </Query>
+    );
+  }
+
+  renderFursuitBuildFilter() {
+    const { classes } = this.props;
+
+    return (
+      <Query query={LOAD_BUILDS}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          const buildList = [];
+          data.fursuitBuilds.map(e =>
+            buildList.push({ value: e.id, label: e.name })
+          );
+
+          return (
+            <Grid item xs={4}>
+              <Select
+                fullWidth
+                placeholder="Build"
+                isClearable
+                isSearchable
+                value={this.state.fursuitBuild}
+                onChange={build => {
+                  this.setState({ fursuitBuild: build });
+                  this.props.onChange({
+                    label: "fursuitBuild",
+                    value: build ? build.value : null
+                  });
+                }}
+                options={buildList}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    );
+  }
+
+  renderFursuitPaddingFilter() {
+    const { classes } = this.props;
+
+    return (
+      <Query query={LOAD_PADDINGS}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          const paddingList = [];
+          data.fursuitPaddings.map(e =>
+            paddingList.push({ value: e.id, label: e.name })
+          );
+
+          return (
+            <Grid item xs={4}>
+              <Select
+                fullWidth
+                placeholder="Padding"
+                isClearable
+                isSearchable
+                value={this.state.fursuitPadding}
+                onChange={padding => {
+                  this.setState({ fursuitPadding: padding });
+                  this.props.onChange({
+                    label: "fursuitPadding",
+                    value: padding ? padding.value : null
+                  });
+                }}
+                options={paddingList}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    );
+  }
+
+  renderFursuitFingersFilter() {
+    const { classes } = this.props;
+
+    return (
+      <Query query={LOAD_FINGERS}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          const fingersList = [];
+          data.fursuitFingers.map(e =>
+            fingersList.push({ value: e.id, label: e.name })
+          );
+
+          return (
+            <Grid item xs={4}>
+              <Select
+                fullWidth
+                placeholder="Fingers"
+                isClearable
+                isSearchable
+                value={this.state.fursuitFingers}
+                onChange={fingers => {
+                  this.setState({ fursuitFingers: fingers });
+                  this.props.onChange({
+                    label: "fursuitFingers",
+                    value: fingers ? fingers.value : null
+                  });
+                }}
+                options={fingersList}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    );
+  }
+
+  renderFursuitColorFilter() {
+    const { classes } = this.props;
+
+    return (
+      <Grid item xs={4}>
+        <Select
+          fullWidth
+          placeholder="Base Color"
+          isClearable
+          isSearchable
+          value={this.state.fursuitColor}
+          onChange={color => {
+            this.setState({ fursuitColor: color });
+            this.props.onChange({
+              label: "fursuitColor",
+              value: color ? color.value : null
+            });
+          }}
+          options={fursuitColors}
+          className={classes.selectInput}
+        />
+      </Grid>
+    );
+  }
+
+  renderFursuitEyesFilter() {
+    const { classes } = this.props;
+
+    return (
+      <Grid item xs={4}>
+        <Select
+          fullWidth
+          placeholder="Eyes Color"
+          isClearable
+          isSearchable
+          value={this.state.fursuitEyes}
+          onChange={color => {
+            this.setState({ fursuitEyes: color });
+            this.props.onChange({
+              label: "fursuitEyes",
+              value: color ? color.value : null
+            });
+          }}
+          options={fursuitEyes}
+          className={classes.selectInput}
+        />
+      </Grid>
     );
   }
 
@@ -317,11 +510,8 @@ class FursuitFilters extends React.Component {
           onChange={maker => {
             this.setState({ maker: maker });
             this.props.onChange({
-              name: this.state.name,
-              fursuitLegType: this.state.fursuitLegType,
-              fursuitStyle: this.state.fursuitStyle,
-              fursuitSpecy: this.state.fursuitSpecy,
-              maker: maker
+              label: "maker",
+              value: maker.value
             });
           }}
           options={makersList}
@@ -361,13 +551,12 @@ class FursuitFilters extends React.Component {
                 {this.renderFursuitLegsFilter()}
                 {this.renderFursuitStylesFilter()}
                 {this.renderFursuitSpeciesFilter()}
+                {this.renderFursuitBuildFilter()}
+                {this.renderFursuitPaddingFilter()}
+                {this.renderFursuitFingersFilter()}
+                {this.renderFursuitColorFilter()}
+                {this.renderFursuitEyesFilter()}
                 {this.renderMakerFilter()}
-                {false &&
-                  filters.map(filter => (
-                    <Grid key={filter} item lg={3}>
-                      {this.renderSelect(filter)}
-                    </Grid>
-                  ))}
               </Grid>
             </ExpansionPanelDetails>
             <ExpansionPanelActions>

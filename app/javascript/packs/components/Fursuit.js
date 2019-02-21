@@ -22,7 +22,8 @@ import Gallery from "react-grid-gallery";
 import EmptyList from "./EmptyList";
 import LoadMoreButton from "./LoadMoreButton";
 
-import { LOAD_FURSUIT, GET_MEDIA } from "../queries";
+import { GET_MEDIA } from "../queries";
+import { LOAD_FURSUIT } from "../queries/fursuitQueries";
 
 import Media from "./Media";
 import CommentForm from "./CommentForm";
