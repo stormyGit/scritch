@@ -1,5 +1,5 @@
 import React from "react";
-import { GET_SESSION } from "../queries";
+import { GET_SESSION } from "../queries/globalQueries";
 import { Query } from "react-apollo";
 
 export default component => props => (

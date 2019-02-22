@@ -1,6 +1,6 @@
 import React from "react";
-import Media from "./Media";
-import PageTitle from "./PageTitle";
+import Media from "./Media/Media";
+import PageTitle from "./Global/PageTitle";
 import queryString from "query-string";
 
 export default props => {

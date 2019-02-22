@@ -8,7 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 
-import { GET_UNREAD_ACTIVITY_COUNT } from "../../queries";
+import { GET_UNREAD_ACTIVITY_COUNT } from "../../queries/activityQueries";
 
 const styles = theme => ({
   rightButton: {

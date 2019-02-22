@@ -2,7 +2,7 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import DrawerMenu from "./DrawerMenu";
+import DrawerMenu from "./DrawerMenuRemake";
 
 const drawerWidth = 301;
 

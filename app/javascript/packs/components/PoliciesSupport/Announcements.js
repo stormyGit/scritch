@@ -1,18 +1,14 @@
 import React from "react";
 import { Query } from "react-apollo";
-import {
-  GET_ANNOUNCEMENTS,
-  READ_ANNOUNCEMENTS,
-  GET_SESSION
-} from "../../queries";
+import { GET_ANNOUNCEMENTS } from "../../queries/announcementQueries";
 import withWidth from "@material-ui/core/withWidth";
 import { withStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
-import PageTitle from "../PageTitle";
+import PageTitle from "../Global/PageTitle";
 import AnnouncementCard from "./AnnouncementCard";
 
-import LoadMoreButton from "../LoadMoreButton";
+import LoadMoreButton from "../Global/LoadMoreButton";
 
 const styles = theme => ({
   root: {

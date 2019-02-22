@@ -5,12 +5,12 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
-import MultipleMediaDialog from "../MultipleMediaDialog";
-import ActivitiesDialog from "../ActivitiesDialog";
-import SettingsDialog from "../SettingsDialog";
-import AdvertiseDialog from "../AdvertiseDialog";
-import SignUpDialog from "../SignUpDialog";
-import TechDialog from "../TechDialog";
+import MultipleMediaDialog from "../Media/MultipleMediaDialog";
+import ActivitiesDialog from "../AppDialogs/ActivitiesDialog";
+import SettingsDialog from "../AppDialogs/SettingsDialog";
+import AdvertiseDialog from "../AppDialogs/AdvertiseDialog";
+import SignUpDialog from "../AppDialogs/SignUpDialog";
+import TechDialog from "../AppDialogs/TechDialog";
 
 const styles = theme => ({
   close: {

@@ -9,10 +9,10 @@ import deepPurple from "@material-ui/core/colors/deepPurple";
 import teal from "@material-ui/core/colors/teal";
 
 import apolloClient from "../apolloClient";
-import AppRouter from "./AppRouter";
+import AppRouter from "./Global/AppRouter";
 import themeSelector from "../themeSelector";
 
-import { GET_SESSION, GET_THEME } from "../queries";
+import { GET_SESSION, GET_THEME } from "../queries/globalQueries";
 
 const makeTheme = type => {
   const background = type === "dark" ? { paper: "#222", default: "#333" } : {};

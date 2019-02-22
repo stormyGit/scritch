@@ -19,10 +19,9 @@ import ContinueIcon from "@material-ui/icons/ArrowForward";
 
 import { withRouter } from "react-router-dom";
 
-import ResponsiveDialog from "./ResponsiveDialog";
+import ResponsiveDialog from "./Global/ResponsiveDialog";
 
-import Logo from "./Logo";
-import { CREATE_SESSION, GET_SESSION } from "../queries";
+import Logo from "./Global/Logo";
 
 const styles = theme => ({
   brand: {

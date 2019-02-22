@@ -2,7 +2,7 @@ import React from "react";
 import withWidth from "@material-ui/core/withWidth";
 import { withStyles } from "@material-ui/core/styles";
 
-import PageTitle from "../PageTitle";
+import PageTitle from "../Global/PageTitle";
 
 const styles = theme => ({
   root: {

@@ -5,6 +5,7 @@ import withWidth from "@material-ui/core/withWidth";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
+import PageTitle from "../Global/PageTitle";
 
 import codeConduct from "../../codeConduct";
 
@@ -81,7 +82,12 @@ class CodeOfConduct extends React.Component {
   render() {
     const { horizontal } = this.props;
 
-    return this.renderVertical();
+    return (
+      <React.Fragment>
+        <PageTitle>Code Of Conduct</PageTitle>
+        {this.renderVertical()}
+      </React.Fragment>
+    );
   }
 }
 

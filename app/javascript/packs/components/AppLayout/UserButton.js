@@ -7,10 +7,10 @@ import ButtonBase from "@material-ui/core/ButtonBase";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { DELETE_SESSION } from "../../queries";
+import { DELETE_SESSION } from "../../queries/globalQueries";
 import { Query, Mutation, withApollo } from "react-apollo";
 
-import UserAvatar from "../UserAvatar";
+import UserAvatar from "../Users/UserAvatar";
 
 const styles = theme => ({
   dataSpacer: {

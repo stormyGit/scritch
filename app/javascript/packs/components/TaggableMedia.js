@@ -9,13 +9,12 @@ import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
 import Button from "@material-ui/core/Button";
 
-import { GET_MEDIA, GET_USERS } from "../queries";
+import { GET_MEDIA } from "../queries/mediaQueries";
 
-import AppLayout from "./AppLayout";
 import TaggableMediumCard from "./TaggableMediumCard";
-import EmptyList from "./EmptyList";
-import LoadMoreButton from "./LoadMoreButton";
-import UserCard from "./UserCard";
+import EmptyList from "./Global/EmptyList";
+import LoadMoreButton from "./Global/LoadMoreButton";
+import UserCard from "./Users/UserCard";
 
 import withCurrentSession from "./withCurrentSession";
 
@@ -34,7 +33,7 @@ import CheckIcon from "@material-ui/icons/Check";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
-import ResponsiveDialog from "./ResponsiveDialog";
+import ResponsiveDialog from "./Global/ResponsiveDialog";
 
 import TagDialog from "./TagDialog";
 

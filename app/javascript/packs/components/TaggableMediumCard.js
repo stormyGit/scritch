@@ -27,10 +27,8 @@ import Grid from "@material-ui/core/Grid";
 import { Link, withRouter } from "react-router-dom";
 import { keyToCdnUrl } from "../mediaService";
 import timeAgo from "../timeAgo";
-import UserAvatar from "./UserAvatar";
-import TruncatedText from "./TruncatedText";
-import UnderReview from "./UnderReview";
-import countFormat from "../countFormat";
+import UserAvatar from "./Users/UserAvatar";
+import TruncatedText from "./Global/TruncatedText";
 
 import TagDialog from "./TagDialog";
 

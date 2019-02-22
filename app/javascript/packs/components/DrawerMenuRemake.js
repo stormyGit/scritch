@@ -32,16 +32,12 @@ import ContactSupportIcon from "@material-ui/icons/ContactSupport";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
 
-import TermsDialog from "./TermsDialog";
-import TechDialog from "./TechDialog";
-import PrivacyPolicyDialog from "./PrivacyPolicyDialog";
-import SettingsDialog from "./SettingsDialog";
-import SignUpDialog from "./SignUpDialog";
-import AnnouncementsDialog from "./AnnouncementsDialog";
-import MultipleMediaDialog from "./MultipleMediaDialog";
+import SettingsDialog from "./AppDialogs/SettingsDialog";
+import SignUpDialog from "./AppDialogs/SignUpDialog";
+import AnnouncementsDialog from "./AppDialogs/AnnouncementsDialog";
+import MultipleMediaDialog from "./Media/MultipleMediaDialog";
 
-import ProfileAvatar from "./ProfileAvatar";
-import themeSelector from "../themeSelector";
+import ProfileAvatar from "./Users/ProfileAvatar";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import HomeIcon from "@material-ui/icons/Home";

@@ -30,22 +30,22 @@ import ScrollArea from "react-scrollbar";
 import "react-virtualized-select/styles.css";
 import "react-virtualized/styles.css";
 import createFilterOptions from "react-select-fast-filter-options";
-
+import { Mutation, Query } from "react-apollo";
 import TelegramLoginButton from "react-telegram-login";
 import { withRouter } from "react-router-dom";
 
-import ResponsiveDialog from "./ResponsiveDialog";
-import SignUpAlternativeDialog from "./SignUpAlternativeDialog";
 import themeSelector from "../themeSelector";
 
-import EmptyList from "./EmptyList";
-import LoadMoreButton from "./LoadMoreButton";
-import FursuitMiniCard from "./FursuitMiniCard";
+import ResponsiveDialog from "./Global/ResponsiveDialog";
+import EmptyList from "./Global/EmptyList";
+import LoadMoreButton from "./Global/LoadMoreButton";
+import Logo from "./Global/Logo";
 
-import { Mutation, Query } from "react-apollo";
-
-import Logo from "./Logo";
-import { UPDATE_MEDIUM, LOAD_CATEGORIES, GET_MEDIA } from "../queries";
+import SignUpAlternativeDialog from "./AppDialogs/SignUpAlternativeDialog";
+import FursuitMiniCard from "./Fursuits/FursuitMiniCard";
+import { UPDATE_MEDIUM } from "../queries/mediaMutations";
+import { LOAD_CATEGORIES } from "../queries/categoryQueries";
+import { GET_MEDIA } from "../queries/mediaQueries";
 
 import { LOAD_FURSUITS } from "../queries/fursuitQueries";
 
