@@ -313,7 +313,7 @@ module Types
       if arguments[:exclude].present?
         fursuits = fursuits.where.not("uuid IN (?)", arguments[:exclude])
       end
-      fursuits.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
+      fursuits.offset(arguments[:offset]).limit(arguments[:limit]).order(:name, :uuid)
     end
 
     def maker(arguments)

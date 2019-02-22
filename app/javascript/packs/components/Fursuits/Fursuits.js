@@ -144,13 +144,14 @@ class Fursuits extends React.Component {
   }
 
   render() {
-    const { classes, location, width } = this.props;
-    let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
+    const { classes, location, width, searching } = this.props;
+    const query = searching ? queryString.parse(location.search) : null;
+    let limit = query ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
     console.log(this.state);
     return (
       <React.Fragment>
-        <PageTitle>Fursuits</PageTitle>
-        {this.renderFilters()}
+        {!searching && <PageTitle>Fursuits</PageTitle>}
+        {!searching && this.renderFilters()}
         {this.state.openFursuit && this.state.fursuit && (
           <FursuitModal
             open={this.state.openFursuit}
@@ -161,7 +162,7 @@ class Fursuits extends React.Component {
         <Query
           query={LOAD_FURSUITS}
           variables={{
-            name: this.state.name,
+            name: searching ? query.q : this.state.name,
             fursuitLegType: this.state.fursuitLegType,
             fursuitStyle: this.state.fursuitStyle,
             fursuitSpecy: this.state.fursuitSpecy,

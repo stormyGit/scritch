@@ -24,6 +24,7 @@ import PrivacyPolicy from "../PoliciesSupport/PrivacyPolicy";
 import TagPage from "../TagPage";
 import LatestPictures from "../LatestPictures";
 import Subscriptions from "../Subscriptions";
+import SearchPage from "../SearchPage";
 
 import AppLayoutRemake from "./AppLayoutRemake";
 import AppFooter from "./AppFooter";
@@ -86,6 +87,11 @@ class AppRouter extends React.Component {
                       exact
                       path="/tag"
                       component={currentSession ? TagPage : MustLog}
+                    />
+                    <Route
+                      exact
+                      path="/search"
+                      component={currentSession ? SearchPage : MustLog}
                     />
                     <Route
                       exact

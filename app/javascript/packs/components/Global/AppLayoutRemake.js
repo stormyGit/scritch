@@ -142,7 +142,7 @@ class AppLayoutRemake extends React.Component {
 
   handleRequestSearch(q) {
     this.props.history.push({
-      pathname: "/pictures",
+      pathname: "/search",
       search: queryString.stringify({ q })
     });
   }

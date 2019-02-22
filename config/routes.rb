@@ -87,6 +87,7 @@ Rails.application.routes.draw do
   get "/makers", to: "makers#index"
   get "/events", to: "events#index"
   get "/tag", to: "media#index"
+  get "/search", to: "media#index"
   get "/subscriptions", to: "media#index"
 
   get "/terms_and_conditions", to: "media#index"
