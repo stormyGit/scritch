@@ -14,6 +14,7 @@ import withCurrentSession from "../withCurrentSession";
 import SearchBar from "../Global/SearchBar";
 import GlobalProgress from "../Global/GlobalProgress";
 import PermanentDrawer from "../PermanentDrawer";
+import TemporaryDrawer from "../TemporaryDrawer";
 
 import DatabasesButton from "../AppLayout/DatabasesButton";
 import TagButton from "../AppLayout/TagButton";
@@ -102,6 +103,7 @@ class AppLayoutRemake extends React.Component {
     uploadDialog: false,
     signUpDialog: false,
     mainDrawer: true,
+    tempDrawer: false,
     searchEnabled: false,
     activitiesDialog: false,
     chatDialog: false,
@@ -171,10 +173,17 @@ class AppLayoutRemake extends React.Component {
         <GlobalProgress />
         <div className={classes.root}>
           {this.state.mainDrawer && (
-            <Hidden mdDown>
+            <Hidden smDown>
               <PermanentDrawer />
             </Hidden>
           )}
+          <Hidden mdUp>
+            <TemporaryDrawer
+              open={this.state.tempDrawer}
+              onOpen={() => this.setState({ tempDrawer: true })}
+              onClose={() => this.setState({ tempDrawer: false })}
+            />
+          </Hidden>
           <main className={classes.content}>
             <div className={classes.toolbar} />
             <AppBar
@@ -197,15 +206,17 @@ class AppLayoutRemake extends React.Component {
                     <Link to="/" className={classes.rootLink}>
                       <img src={logo} />
                     </Link>
-                    <IconButton
-                      title="Menu"
-                      color="inherit"
-                      onClick={() =>
-                        this.setState({ mainDrawer: !this.state.mainDrawer })
-                      }
-                    >
-                      <MenuIcon color="primary" />
-                    </IconButton>
+                    <Hidden smDown>
+                      <IconButton
+                        title="Menu"
+                        color="inherit"
+                        onClick={() =>
+                          this.setState({ mainDrawer: !this.state.mainDrawer })
+                        }
+                      >
+                        <MenuIcon color="primary" />
+                      </IconButton>
+                    </Hidden>
                     {(this.state.searchEnabled ||
                       width === "lg" ||
                       width === "xl") && (

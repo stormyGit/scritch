@@ -511,7 +511,7 @@ class FursuitFilters extends React.Component {
             this.setState({ maker: maker });
             this.props.onChange({
               label: "maker",
-              value: maker.value
+              value: maker ? maker.value : null
             });
           }}
           options={makersList}
