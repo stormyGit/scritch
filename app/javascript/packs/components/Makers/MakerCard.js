@@ -68,16 +68,9 @@ const styles = theme => ({
   text: {
     fontWeight: 200
   },
-  tags: {
-    overflow: "hidden",
-    maxHeight: theme.spacing.unit * 6,
-    marginBottom: theme.spacing.unit * 2
-  },
-  noTags: {
-    fontStyle: "italic"
-  },
-  chip: {
-    marginRight: theme.spacing.unit
+  subtext: {
+    fontSize: 15,
+    fontWeight: 200
   }
 });
 
@@ -107,12 +100,21 @@ class MakerCard extends React.Component {
       <CardContent className={classes.content}>
         <Typography
           gutterBottom
-          variant="h5"
-          component="h2"
+          variant="h6"
+          component="h4"
           className={classes.text}
-          noWrap={!horizontal}
+          noWrap
         >
           {maker.name}
+        </Typography>
+        <Typography
+          gutterBottom
+          variant="h6"
+          component="h6"
+          className={classes.subtext}
+          noWrap
+        >
+          {maker.country}
         </Typography>
       </CardContent>
     );

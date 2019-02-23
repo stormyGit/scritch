@@ -41,10 +41,17 @@ class Makers extends React.Component {
     }
   };
 
-  renderResults({ data, horizontal, onLoadMore, hasMore }) {
+  clearFilters() {
+    this.setState({
+      name: "",
+      country: ""
+    });
+  }
+
+  renderResults({ data, onLoadMore, hasMore }) {
     const { classes } = this.props;
 
-    if (data.length === 0) {
+    if (data.makers.length === 0) {
       const { location } = this.props;
       const query = queryString.parse(location.search);
 
@@ -57,29 +64,6 @@ class Makers extends React.Component {
       } else {
         return <EmptyList label={`No results`} />;
       }
-    }
-    if (horizontal) {
-      return (
-        <React.Fragment>
-          <Grid
-            item
-            item
-            xs={12}
-            lg={8}
-            style={{ marginLeft: "auto", marginRight: "auto" }}
-          >
-            <Gallery
-              images={data.makers.map(maker => ({
-                src: maker.picture,
-                thumbnail: maker.thumbnail,
-                thumbnailWidth: maker.width / (medium.height / 256.0),
-                thumbnailHeight: 256
-              }))}
-            />
-          </Grid>
-          {hasMore && <LoadMoreButton onClick={() => onLoadMore()} />}
-        </React.Fragment>
-      );
     }
 
     return (
@@ -95,16 +79,17 @@ class Makers extends React.Component {
   }
 
   render() {
-    const { classes, location, width } = this.props;
-    let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
+    const { classes, location, width, searching } = this.props;
+    const query = searching ? queryString.parse(location.search) : null;
+    let limit = query ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
       <React.Fragment>
-        <PageTitle>Makers</PageTitle>
+        {!searching && <PageTitle>Fursuits</PageTitle>}
         <Query
           query={LOAD_MAKERS}
           variables={{
-            name: this.state.name,
+            name: searching ? query.q : this.state.name,
             country: this.state.country,
             limit,
             offset: 0
@@ -112,16 +97,17 @@ class Makers extends React.Component {
         >
           {({ data, loading, error, fetchMore }) => (
             <React.Fragment>
-              <div className={classes.filters}>
-                <MakerFilters
-                  onChange={value => {
-                    this.setState({
-                      country: !value.country ? "" : value.country.value,
-                      name: value.name
-                    });
-                  }}
-                />
-              </div>
+              {!searching && (
+                <div className={classes.filters}>
+                  <MakerFilters
+                    onChange={value => {
+                      console.log(value);
+                      this.setState({ [value.label]: value.value });
+                    }}
+                    clearFilters={() => this.clearFilters()}
+                  />
+                </div>
+              )}
               <Grid
                 container
                 className={classes.root}
@@ -132,7 +118,6 @@ class Makers extends React.Component {
                   !error &&
                   this.renderResults({
                     data,
-                    horizontal: false,
                     hasMore:
                       data.makers.length % limit === 0 &&
                       this.state.hasMore &&

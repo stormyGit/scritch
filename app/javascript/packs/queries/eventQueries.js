@@ -16,10 +16,11 @@ export const LOAD_EVENT = gql`
 `;
 
 export const LOAD_EVENTS = gql`
-  query Events($name: String, $limit: Int!, $offset: Int!) {
-    events(name: $name, limit: $limit, offset: $offset) {
+  query Events($name: String, $country: String, $limit: Int!, $offset: Int!) {
+    events(name: $name, country: $country, limit: $limit, offset: $offset) {
       id
       name
+      country
       slug
     }
   }
@@ -35,12 +36,8 @@ export const LOAD_EDITIONS = gql`
   }
 `;
 
-export const LOAD_EVENT_COUNTRIES = gql`
-  query events {
-    events {
-      editions {
-        country
-      }
-    }
+export const LOAD_EVENTS_COUNTRIES = gql`
+  query eventsCountry {
+    eventsCountry
   }
 `;

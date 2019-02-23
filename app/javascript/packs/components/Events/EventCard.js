@@ -11,8 +11,9 @@ import CardMedia from "@material-ui/core/CardMedia";
 import queryString from "query-string";
 
 import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import { Link, withRouter } from "react-router-dom";
+
+import Background from "../../photo.jpg";
 
 const styles = theme => ({
   card: {
@@ -67,24 +68,11 @@ const styles = theme => ({
   text: {
     fontWeight: 200
   },
-  tags: {
-    overflow: "hidden",
-    maxHeight: theme.spacing.unit * 6,
-    marginBottom: theme.spacing.unit * 2
-  },
-  noTags: {
-    fontStyle: "italic"
-  },
-  chip: {
-    marginRight: theme.spacing.unit
+  subtext: {
+    fontSize: 15,
+    fontWeight: 200
   }
 });
-
-const GET_ACTIVE_PREVIEW = gql`
-  {
-    activePreview @client
-  }
-`;
 
 class EventCard extends React.Component {
   state = {};
@@ -93,19 +81,15 @@ class EventCard extends React.Component {
     const { classes, event, horizontal, width, client } = this.props;
 
     return (
-      <Query query={GET_ACTIVE_PREVIEW}>
-        {({ data }) => (
-          <div className={horizontal ? undefined : classes.cardMediaContainer}>
-            <CardMedia
-              className={
-                horizontal ? classes.horizontalMedia : classes.verticalMedia
-              }
-              image={require("../../photo.jpg")} //{event.thumbnail}
-              title={event.name}
-            />
-          </div>
-        )}
-      </Query>
+      <div className={horizontal ? undefined : classes.cardMediaContainer}>
+        <CardMedia
+          className={
+            horizontal ? classes.horizontalMedia : classes.verticalMedia
+          }
+          image={require("../../photo.jpg")} //{event.thumbnail} TODO
+          title={event.name}
+        />
+      </div>
     );
   }
 
@@ -116,12 +100,21 @@ class EventCard extends React.Component {
       <CardContent className={classes.content}>
         <Typography
           gutterBottom
-          variant="h5"
-          component="h2"
+          variant="h6"
+          component="h4"
           className={classes.text}
-          noWrap={!horizontal}
+          noWrap
         >
           {event.name}
+        </Typography>
+        <Typography
+          gutterBottom
+          variant="h6"
+          component="h6"
+          className={classes.subtext}
+          noWrap
+        >
+          {event.country}
         </Typography>
       </CardContent>
     );

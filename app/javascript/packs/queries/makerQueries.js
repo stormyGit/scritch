@@ -30,8 +30,6 @@ export const LOAD_MAKER = gql`
 
 export const LOAD_MAKER_COUNTRIES = gql`
   query makersCountry {
-    makersCountry {
-      country
-    }
+    makersCountry
   }
 `;

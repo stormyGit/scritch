@@ -11,6 +11,8 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import GlobalProgress from "../Global/GlobalProgress";
+import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
+import { Query } from "react-apollo";
 
 const styles = theme => ({
   link: {
@@ -27,91 +29,112 @@ class FursuitModal extends React.Component {
     console.log(fursuit);
     if (!fursuit) return null;
     return (
-      <ResponsiveDialog open={open} onClose={onClose}>
-        <GlobalProgress absolute />
-        <DialogTitle>{fursuit.name}</DialogTitle>
-        <DialogContent>
-          <Grid container spacing={8}>
-            <Grid item xs={6}>
-              <DialogContentText>Species</DialogContentText>
-              <Typography
-                gutterBottom
-                variant="h6"
-                component="h4"
-                className={classes.text}
-                noWrap
-              >
-                {fursuit.fursuitSpecy.name}
-              </Typography>
-              <DialogContentText>Made by</DialogContentText>
-              <Typography
-                gutterBottom
-                variant="h6"
-                component="h4"
-                className={classes.text}
-                noWrap
-              >
-                {fursuit.makers[0] ? fursuit.makers[0].name : "Unknown"}
-              </Typography>
-              <DialogContentText>Created in</DialogContentText>
-              <Typography
-                gutterBottom
-                variant="h6"
-                component="h4"
-                className={classes.text}
-                noWrap
-              >
-                {fursuit.creationYear ? fursuit.creationYear : "Unknown"}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <DialogContentText>Species</DialogContentText>
-              <Typography
-                gutterBottom
-                variant="h6"
-                component="h4"
-                className={classes.text}
-                noWrap
-              >
-                {fursuit.fursuitSpecy.name}
-              </Typography>
-              <DialogContentText>Made by</DialogContentText>
-              <Typography
-                gutterBottom
-                variant="h6"
-                component="h4"
-                className={classes.text}
-                noWrap
-              >
-                {fursuit.makers[0] ? fursuit.makers[0].name : "Unknown"}
-              </Typography>
-              <DialogContentText>Created in</DialogContentText>
-              <Typography
-                gutterBottom
-                variant="h6"
-                component="h4"
-                className={classes.text}
-                noWrap
-              >
-                {fursuit.creationYear ? fursuit.creationYear : "Unknown"}
-              </Typography>
-            </Grid>
-          </Grid>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose} autoFocus>
-            Close
-          </Button>
-          <Link
-            to={`/fursuits/${fursuit.slug}-${fursuit.id}`}
-            className={classes.link}
-          >
-            <Button onClick={onClose} autoFocus>
-              View full page
-            </Button>
-          </Link>
-        </DialogActions>
-      </ResponsiveDialog>
+      <Query
+        query={LOAD_FURSUIT}
+        variables={{
+          id: fursuit.id
+        }}
+      >
+        {({ loading, error, data }) => {
+          if (!data.fursuit) return null;
+          let localFursuit = data.fursuit;
+          return (
+            <ResponsiveDialog open={open} onClose={onClose}>
+              <GlobalProgress absolute />
+              <DialogTitle>{localFursuit.name}</DialogTitle>
+              <DialogContent>
+                <Grid container spacing={8}>
+                  <Grid item xs={6}>
+                    <DialogContentText>Species</DialogContentText>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="h4"
+                      className={classes.text}
+                      noWrap
+                    >
+                      {localFursuit.fursuitSpecy.name}
+                    </Typography>
+                    <DialogContentText>Made by</DialogContentText>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="h4"
+                      className={classes.text}
+                      noWrap
+                    >
+                      {localFursuit.makers[0]
+                        ? localFursuit.makers[0].name
+                        : "Unknown"}
+                    </Typography>
+                    <DialogContentText>Created in</DialogContentText>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="h4"
+                      className={classes.text}
+                      noWrap
+                    >
+                      {localFursuit.creationYear
+                        ? localFursuit.creationYear
+                        : "Unknown"}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <DialogContentText>Species</DialogContentText>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="h4"
+                      className={classes.text}
+                      noWrap
+                    >
+                      {localFursuit.fursuitSpecy.name}
+                    </Typography>
+                    <DialogContentText>Made by</DialogContentText>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="h4"
+                      className={classes.text}
+                      noWrap
+                    >
+                      {localFursuit.makers[0]
+                        ? localFursuit.makers[0].name
+                        : "Unknown"}
+                    </Typography>
+                    <DialogContentText>Created in</DialogContentText>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="h4"
+                      className={classes.text}
+                      noWrap
+                    >
+                      {localFursuit.creationYear
+                        ? localFursuit.creationYear
+                        : "Unknown"}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={onClose} autoFocus>
+                  Close
+                </Button>
+                <Link
+                  to={`/fursuits/${localFursuit.slug}-${localFursuit.id}`}
+                  className={classes.link}
+                >
+                  <Button onClick={onClose} autoFocus>
+                    View full page
+                  </Button>
+                </Link>
+              </DialogActions>
+            </ResponsiveDialog>
+          );
+        }}
+      </Query>
     );
   }
 }

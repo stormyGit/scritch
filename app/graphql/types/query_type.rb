@@ -145,6 +145,7 @@ module Types
     field :events, [EventType], null: false do
       description "List events"
       argument :name, String, required: false
+      argument :country, String, required: false
       argument :offset, Integer, required: true
       argument :limit, Integer, required: true
     end
@@ -197,8 +198,12 @@ module Types
       argument :country, String, required: false
     end
 
-    field :makers_country, [MakerType], null: false do
+    field :makers_country, [String], null: false do
       description "List makers"
+    end
+
+    field :events_country, [String], null: false do
+      description "List events"
     end
 
     field :categories, [CategoryType], null: false do
@@ -226,7 +231,11 @@ module Types
     end
 
     def makers_country
-      Maker.select(:country).distinct.order(:country)
+      Maker.all.distinct.order(:country).pluck(:country)
+    end
+
+    def events_country
+      Edition.all.distinct.order(:country).pluck(:country)
     end
 
     def fursuit_leg_types
@@ -351,7 +360,7 @@ module Types
         media = media
           .joins(:fursuits)
           .joins(:user)
-          .where("media.title @@ ? OR media.uuid IN (?) OR fursuits.name % ?", arguments[:q], Medium.tagged_with(arguments[:q]).select(:uuid), arguments[:q])
+          .where("media.title @@ ? OR media.uuid IN (?) OR fursuits.name @@ ?", arguments[:q], Medium.tagged_with(arguments[:q]).select(:uuid), arguments[:q])
       end
 
       media =
@@ -377,7 +386,6 @@ module Types
       if arguments[:fursuit_id].present?
         media = media.where(fursuit_id: arguments[:fursuit_id])
       end
-      puts "\n\n\n\n\n#{arguments}\n\n\n\n"
       if arguments[:tagging].present?
         media = media.where.not(completion: 100).order(:completion)
       end
@@ -393,10 +401,14 @@ module Types
       events = Event.all
 
       if arguments[:name].present?
-        events = events.where("name @@ ? or name ilike ?", arguments[:name], "%#{arguments[:name]}%")
+        events = events.where("events.name @@ ? or events.name ilike ?", arguments[:name], "%#{arguments[:name]}%")
       end
 
-      events.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
+      if arguments[:country].present?
+        events = events.joins(:editions).where("editions.country = ?", arguments[:country])
+      end
+
+      events.offset(arguments[:offset]).limit(arguments[:limit]).distinct.order(:name)
     end
 
     def edition(arguments)

@@ -62,7 +62,7 @@ class FursuitCard extends React.Component {
   }
 
   renderContent() {
-    const { classes, fursuit, horizontal } = this.props;
+    const { classes, fursuit, withMaker } = this.props;
 
     return (
       <CardContent className={classes.content}>
@@ -75,15 +75,17 @@ class FursuitCard extends React.Component {
         >
           {fursuit.name}
         </Typography>
-        <Typography
-          gutterBottom
-          variant="h6"
-          component="h6"
-          className={classes.subtext}
-          noWrap
-        >
-          {fursuit.makers[0] && fursuit.makers[0].name}
-        </Typography>
+        {withMaker && (
+          <Typography
+            gutterBottom
+            variant="h6"
+            component="h6"
+            className={classes.subtext}
+            noWrap
+          >
+            {fursuit.makers[0] && fursuit.makers[0].name}
+          </Typography>
+        )}
       </CardContent>
     );
   }

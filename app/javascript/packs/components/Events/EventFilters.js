@@ -17,6 +17,8 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
+import { LOAD_EVENTS_COUNTRIES } from "../../queries/eventQueries";
+
 import { Link, withRouter } from "react-router-dom";
 
 import { countries } from "../../countries";
@@ -100,15 +102,18 @@ class EventFilters extends React.Component {
     this.state = {
       expansion: false,
       name: "",
-      country: ""
+      country: null
     };
   }
   componentDidMount() {}
 
   clearFilters(filter) {
-    var criteria = { name: "", country: "" };
-    this.setState({ name: "", country: "" });
-    this.props.onChange(criteria);
+    var criteria = {
+      name: "",
+      country: null
+    };
+    this.setState(criteria);
+    this.props.clearFilters();
   }
 
   handleSearch(val) {
@@ -124,11 +129,11 @@ class EventFilters extends React.Component {
 
     if (val.length >= 1) {
       this.loadEventTimer = setTimeout(() => {
-        this.props.onChange({ ...this.state, name: val });
-      }, 500);
+        this.props.onChange({ label: "name", value: val });
+      }, 1000);
     } else if (this.reset) {
       clearTimeout(this.loadEventTimer);
-      this.props.onChange({ ...this.state, name: "" });
+      this.props.onChange({ label: "name", value: "" });
       this.reset = false;
     }
   }
@@ -136,28 +141,48 @@ class EventFilters extends React.Component {
   renderCountryFilter() {
     const { classes } = this.props;
 
-    const countryList = [];
-    countries.map(e => countryList.push({ value: e, label: e }));
-
     return (
-      <Grid item xs={4}>
-        <Select
-          fullWidth
-          placeholder="Country"
-          isClearable
-          isSearchable
-          value={this.state.country}
-          options={countryList}
-          onChange={country => {
-            this.setState({ country: country });
-            this.props.onChange({
-              name: this.state.name,
-              country: country
-            });
-          }}
-          className={classes.selectInput}
-        />
-      </Grid>
+      <Query query={LOAD_EVENTS_COUNTRIES}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          console.log(data);
+          const countriesList = [];
+          data.eventsCountry.map(e =>
+            countriesList.push({ value: e, label: e })
+          );
+
+          return (
+            <Grid item xs={4}>
+              <Select
+                fullWidth
+                placeholder="Country"
+                isClearable
+                isSearchable
+                value={this.state.country}
+                onChange={country => {
+                  this.setState({ country: country });
+                  this.props.onChange({
+                    label: "country",
+                    value: country ? country.value : null
+                  });
+                }}
+                options={countriesList}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
     );
   }
 

@@ -70,10 +70,10 @@ class Fursuits extends React.Component {
     });
   }
 
-  renderResults({ data, horizontal, onLoadMore, hasMore }) {
+  renderResults({ data, onLoadMore, hasMore, withMaker }) {
     const { classes } = this.props;
 
-    if (data.length === 0) {
+    if (data.fursuits.length === 0) {
       const { location } = this.props;
       const query = queryString.parse(location.search);
 
@@ -87,35 +87,12 @@ class Fursuits extends React.Component {
         return <EmptyList label={`No results`} />;
       }
     }
-    if (horizontal) {
-      return (
-        <React.Fragment>
-          <Grid
-            item
-            item
-            xs={12}
-            lg={8}
-            style={{ marginLeft: "auto", marginRight: "auto" }}
-          >
-            <Gallery
-              images={data.fursuits.map(fursuit => ({
-                src: fursuit.picture,
-                thumbnail: fursuit.thumbnail,
-                thumbnailWidth: fursuit.width / (medium.height / 256.0),
-                thumbnailHeight: 256
-              }))}
-            />
-          </Grid>
-          {hasMore && <LoadMoreButton onClick={() => onLoadMore()} />}
-        </React.Fragment>
-      );
-    }
-
     return (
       <React.Fragment>
         {data.fursuits.map(fursuit => (
           <Grid item xs={4} md={3} lg={2} key={fursuit.id}>
             <FursuitCard
+              withMaker={true}
               fursuit={fursuit}
               openFursuit={fursuit => {
                 this.setState({ openFursuit: true, fursuit: fursuit });
@@ -147,7 +124,7 @@ class Fursuits extends React.Component {
     const { classes, location, width, searching } = this.props;
     const query = searching ? queryString.parse(location.search) : null;
     let limit = query ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
-    console.log(this.state);
+
     return (
       <React.Fragment>
         {!searching && <PageTitle>Fursuits</PageTitle>}

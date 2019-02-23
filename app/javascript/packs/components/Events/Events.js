@@ -39,10 +39,17 @@ class Events extends React.Component {
     }
   };
 
-  renderResults({ data, horizontal, onLoadMore, hasMore }) {
+  clearFilters() {
+    this.setState({
+      name: "",
+      country: ""
+    });
+  }
+
+  renderResults({ data, onLoadMore, hasMore }) {
     const { classes } = this.props;
 
-    if (data.length === 0) {
+    if (data.events.length === 0) {
       const { location } = this.props;
       const query = queryString.parse(location.search);
 
@@ -55,29 +62,6 @@ class Events extends React.Component {
       } else {
         return <EmptyList label={`No results`} />;
       }
-    }
-    if (horizontal) {
-      return (
-        <React.Fragment>
-          <Grid
-            item
-            item
-            xs={12}
-            lg={8}
-            style={{ marginLeft: "auto", marginRight: "auto" }}
-          >
-            <Gallery
-              images={data.events.map(event => ({
-                src: event.picture,
-                thumbnail: event.thumbnail,
-                thumbnailWidth: event.width / (medium.height / 256.0),
-                thumbnailHeight: 256
-              }))}
-            />
-          </Grid>
-          {hasMore && <LoadMoreButton onClick={() => onLoadMore()} />}
-        </React.Fragment>
-      );
     }
 
     return (
@@ -93,30 +77,36 @@ class Events extends React.Component {
   }
 
   render() {
-    const { classes, location, width } = this.props;
-    const query = { q: "" }; //queryString.parse(location.search)
-    let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
+    const { classes, location, width, searching } = this.props;
+    const query = searching ? queryString.parse(location.search) : null;
+    let limit = query ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
     const criteria = this.state.criteria;
-
+    console.log(this.state);
     return (
       <React.Fragment>
-        <PageTitle>Events</PageTitle>
+        {!searching && <PageTitle>Events</PageTitle>}
         <Query
           query={LOAD_EVENTS}
-          variables={{ ...criteria, limit, offset: 0 }}
+          variables={{
+            name: searching ? query.q : this.state.name,
+            country: this.state.country,
+            limit,
+            offset: 0
+          }}
         >
           {({ data, loading, error, fetchMore }) => (
             <React.Fragment>
-              <div className={classes.filters}>
-                <EventFilters
-                  onChange={value => {
-                    this.setState({
-                      country: !value.country ? "" : value.country.value,
-                      name: value.name
-                    });
-                  }}
-                />
-              </div>
+              {!searching && (
+                <div className={classes.filters}>
+                  <EventFilters
+                    onChange={value => {
+                      console.log(value);
+                      this.setState({ [value.label]: value.value });
+                    }}
+                    clearFilters={() => this.clearFilters()}
+                  />
+                </div>
+              )}
               <Grid
                 container
                 className={classes.root}
@@ -127,10 +117,6 @@ class Events extends React.Component {
                   !error &&
                   this.renderResults({
                     data,
-                    horizontal:
-                      query.q &&
-                      query.q.length > 0 &&
-                      (width === "lg" || width === "xl"),
                     hasMore:
                       data.events.length % limit === 0 &&
                       this.state.hasMore &&
