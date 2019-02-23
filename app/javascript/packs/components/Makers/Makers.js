@@ -37,14 +37,16 @@ class Makers extends React.Component {
     hasMore: true,
     criteria: {
       name: "",
-      country: ""
+      country: "",
+      region: ""
     }
   };
 
   clearFilters() {
     this.setState({
       name: "",
-      country: ""
+      country: "",
+      region: ""
     });
   }
 
@@ -85,12 +87,13 @@ class Makers extends React.Component {
 
     return (
       <React.Fragment>
-        {!searching && <PageTitle>Fursuits</PageTitle>}
+        {!searching && <PageTitle>Makers</PageTitle>}
         <Query
           query={LOAD_MAKERS}
           variables={{
             name: searching ? query.q : this.state.name,
             country: this.state.country,
+            region: this.state.region,
             limit,
             offset: 0
           }}

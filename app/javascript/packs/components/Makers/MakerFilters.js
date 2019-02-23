@@ -18,10 +18,9 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 import { LOAD_MAKER_COUNTRIES } from "../../queries/makerQueries";
+import { LOAD_MAKER_REGIONS } from "../../queries/makerQueries";
 
 import { Link, withRouter } from "react-router-dom";
-
-import { countries } from "../../countries";
 
 import SearchBar from "material-ui-search-bar";
 
@@ -102,7 +101,8 @@ class MakerFilters extends React.Component {
     this.state = {
       expansion: false,
       name: "",
-      country: null
+      country: null,
+      region: null
     };
   }
   componentDidMount() {}
@@ -110,7 +110,8 @@ class MakerFilters extends React.Component {
   clearFilters(filter) {
     var criteria = {
       name: "",
-      country: null
+      country: null,
+      region: null
     };
     this.setState(criteria);
     this.props.clearFilters();
@@ -162,21 +163,86 @@ class MakerFilters extends React.Component {
           );
 
           return (
+            <React.Fragment>
+              <Grid item xs={4}>
+                <Select
+                  fullWidth
+                  placeholder="Country"
+                  isClearable
+                  isSearchable
+                  value={this.state.country}
+                  onChange={country => {
+                    if (!country)
+                      this.setState({ country: country, region: null });
+                    else this.setState({ country: country });
+                    this.props.onChange({
+                      label: "country",
+                      value: country ? country.value : null
+                    });
+                    this.props.onChange({
+                      label: "region",
+                      value: country ? this.state.region : null
+                    });
+                  }}
+                  options={countriesList}
+                  className={classes.selectInput}
+                />
+              </Grid>
+              {this.state.country &&
+                this.renderRegionFilter(this.state.country)}
+            </React.Fragment>
+          );
+        }}
+      </Query>
+    );
+  }
+
+  renderRegionFilter(country) {
+    const { classes } = this.props;
+
+    return (
+      <Query query={LOAD_MAKER_REGIONS} variables={{ country: country.value }}>
+        {({ data, loading, error }) => {
+          if (
+            error ||
+            !data ||
+            !data.makersRegion ||
+            data.makersRegion.length == 0
+          ) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          const regionsList = [];
+          data.makersRegion.map(
+            e => e && regionsList.push({ value: e, label: e })
+          );
+          console.log(regionsList);
+          if (regionsList.length == 0) {
+            return null;
+          }
+          return (
             <Grid item xs={4}>
               <Select
                 fullWidth
-                placeholder="Country"
+                placeholder="Region"
                 isClearable
                 isSearchable
-                value={this.state.country}
-                onChange={country => {
-                  this.setState({ country: country });
+                value={this.state.region}
+                onChange={region => {
+                  this.setState({ region: region });
                   this.props.onChange({
-                    label: "country",
-                    value: country ? country.value : null
+                    label: "region",
+                    value: region ? region.value : null
                   });
                 }}
-                options={countriesList}
+                options={regionsList}
                 className={classes.selectInput}
               />
             </Grid>

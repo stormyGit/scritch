@@ -196,10 +196,16 @@ module Types
       argument :offset, Integer, required: false
       argument :name, String, required: false
       argument :country, String, required: false
+      argument :region, String, required: false
     end
 
-    field :makers_country, [String], null: false do
+    field :makers_country, [String, null:true], null: false do
       description "List makers"
+    end
+
+    field :makers_region, [String, null:true], null: false do
+      description "List makers"
+      argument :country, String, required: true
     end
 
     field :events_country, [String], null: false do
@@ -232,6 +238,10 @@ module Types
 
     def makers_country
       Maker.all.distinct.order(:country).pluck(:country)
+    end
+
+    def makers_region(args)
+      Maker.where(country: args[:country]).distinct.order(:region).pluck(:region)
     end
 
     def events_country
@@ -330,10 +340,15 @@ module Types
     end
 
     def makers(arguments)
+      puts "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n#{arguments}"
       makers = Maker.all
 
       if arguments[:country].present?
         makers = makers.where(country: arguments[:country])
+      end
+
+      if arguments[:region].present?
+        makers = makers.where(region: arguments[:region])
       end
 
       if arguments[:name].present?
