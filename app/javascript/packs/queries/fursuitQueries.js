@@ -4,6 +4,7 @@ export const LOAD_FURSUITS = gql`
   query Fursuits(
     $name: String
     $fursuitSpecy: ID
+    $hybridSpecy: [String]
     $fursuitLegType: ID
     $fursuitStyle: ID
     $fursuitBuild: ID
@@ -19,6 +20,7 @@ export const LOAD_FURSUITS = gql`
     fursuits(
       name: $name
       fursuitSpecy: $fursuitSpecy
+      hybridSpecy: $hybridSpecy
       fursuitLegType: $fursuitLegType
       fursuitStyle: $fursuitStyle
       fursuitBuild: $fursuitBuild
@@ -36,6 +38,10 @@ export const LOAD_FURSUITS = gql`
       creationYear
       slug
       makers {
+        name
+      }
+      isHybrid
+      hybridSpecies {
         name
       }
       fursuitSpecy {
@@ -57,6 +63,10 @@ export const LOAD_FURSUIT = gql`
         name
       }
       fursuitSpecy {
+        name
+      }
+      isHybrid
+      hybridSpecies {
         name
       }
       fursuitStyle {
@@ -102,6 +112,15 @@ export const LOAD_STYLES = gql`
 export const LOAD_SPECIES = gql`
   query fursuitSpecies {
     fursuitSpecies {
+      id
+      name
+    }
+  }
+`;
+
+export const LOAD_HYBRID_SPECIES = gql`
+  query hybridSpecies($fursuitSpecies: [String]!) {
+    hybridSpecies(fursuitSpecies: $fursuitSpecies) {
       id
       name
     }

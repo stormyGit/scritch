@@ -93,14 +93,14 @@ class Media extends React.Component {
   }
 
   render() {
-    const { classes, location, width } = this.props;
-    const query = queryString.parse(location.search);
-    let limit = query === "" ? parseInt(process.env.MEDIA_PAGE_SIZE) : 12;
+    const { classes, location, width, searching } = this.props;
+    const query = searching ? queryString.parse(location.search) : null;
+    let limit = query ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
       <Query
         query={GET_MEDIA}
-        variables={{ q: query.q, sort: this.props.sort, offset: 0, limit }}
+        variables={{ sort: this.props.sort, offset: 0, limit }}
       >
         {({ data: { media, users }, loading, error, fetchMore }) => (
           <React.Fragment>

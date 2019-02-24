@@ -297,11 +297,13 @@ class Fursuit extends React.Component {
                             variant="h5"
                             component="h2"
                             className={classes.fursuitTitle}
-                            noWrap
+                            noWrap={false}
                           >
-                            {fursuit.fursuitSpecy
-                              ? fursuit.fursuitSpecy.name
-                              : "Unknown"}
+                            {fursuit.isHybrid
+                              ? fursuit.hybridSpecies
+                                  .map(e => e.name)
+                                  .join(", ")
+                              : fursuit.fursuitSpecy.name}
                           </Typography>
                           <div style={{ padding: 10 }} />
                           <Typography

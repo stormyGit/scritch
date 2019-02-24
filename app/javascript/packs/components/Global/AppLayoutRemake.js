@@ -95,6 +95,9 @@ const styles = theme => ({
   },
   menuRightPadding: {
     paddingRight: theme.spacing.unit
+  },
+  pointer: {
+    cursor: "pointer"
   }
 });
 
@@ -203,20 +206,13 @@ class AppLayoutRemake extends React.Component {
               >
                 {!this.state.searchEnabled && (
                   <React.Fragment>
-                    <Link to="/" className={classes.rootLink}>
-                      <img src={logo} />
-                    </Link>
-                    <Hidden smDown>
-                      <IconButton
-                        title="Menu"
-                        color="inherit"
-                        onClick={() =>
-                          this.setState({ mainDrawer: !this.state.mainDrawer })
-                        }
-                      >
-                        <MenuIcon color="primary" />
-                      </IconButton>
-                    </Hidden>
+                    <img
+                      onClick={() =>
+                        this.setState({ mainDrawer: !this.state.mainDrawer })
+                      }
+                      src={logo}
+                      className={classes.pointer}
+                    />
                     {(this.state.searchEnabled ||
                       width === "lg" ||
                       width === "xl") && (

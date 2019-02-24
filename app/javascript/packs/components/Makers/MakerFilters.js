@@ -172,16 +172,14 @@ class MakerFilters extends React.Component {
                   isSearchable
                   value={this.state.country}
                   onChange={country => {
-                    if (!country)
-                      this.setState({ country: country, region: null });
-                    else this.setState({ country: country });
+                    this.setState({ country: country, region: null });
                     this.props.onChange({
                       label: "country",
                       value: country ? country.value : null
                     });
                     this.props.onChange({
                       label: "region",
-                      value: country ? this.state.region : null
+                      value: null
                     });
                   }}
                   options={countriesList}
@@ -261,15 +259,20 @@ class MakerFilters extends React.Component {
         <Grid item xs={12} lg={8}>
           <ExpansionPanel
             expanded={this.state.expansion}
-            onChange={() => this.setState({ expansion: !this.state.expansion })}
+            onChange={() =>
+              this.state.expansion == false &&
+              this.setState({ expansion: !this.state.expansion })
+            }
           >
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>Filters</Typography>
-              <Typography className={classes.secondaryHeading}>
-                Refine your search
-              </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
+            <ExpansionPanelSummary
+              expandIcon={
+                <ExpandMoreIcon
+                  onClick={() =>
+                    this.setState({ expansion: !this.state.expansion })
+                  }
+                />
+              }
+            >
               <Grid container spacing={8}>
                 <Grid item xs={12}>
                   <SearchBar
@@ -277,8 +280,13 @@ class MakerFilters extends React.Component {
                     onChange={value => this.handleSearch(value)}
                     value={this.state.name}
                     onCancelSearch={() => this.handleSearch("")}
+                    placeholder="Search..."
                   />
                 </Grid>
+              </Grid>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Grid container spacing={8}>
                 {this.renderCountryFilter()}
                 {false &&
                   filters.map(filter => (

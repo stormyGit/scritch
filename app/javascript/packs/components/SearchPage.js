@@ -27,10 +27,6 @@ export default props => {
         <Typography variant="h4">Fursuits</Typography>
       </div>
       <Fursuits searching={true} {...props} />
-      <div style={{ paddingTop: 5, paddingLeft: 30 }}>
-        <Typography variant="h4">Media</Typography>
-      </div>
-      <Media sort="latest" {...props} />
     </React.Fragment>
   );
 };

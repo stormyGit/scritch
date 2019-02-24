@@ -43,6 +43,7 @@ class Fursuits extends React.Component {
     hasMore: true,
     name: "",
     fursuitSpecy: "",
+    hybridSpecy: [],
     fursuitLegType: "",
     fursuitStyle: "",
     fursuitBuild: "",
@@ -59,6 +60,7 @@ class Fursuits extends React.Component {
     this.setState({
       name: "",
       fursuitSpecy: "",
+      hybridSpecy: [],
       fursuitLegType: "",
       fursuitStyle: "",
       fursuitBuild: "",
@@ -142,6 +144,7 @@ class Fursuits extends React.Component {
             name: searching ? query.q : this.state.name,
             fursuitLegType: this.state.fursuitLegType,
             fursuitStyle: this.state.fursuitStyle,
+            hybridSpecy: this.state.hybridSpecy,
             fursuitSpecy: this.state.fursuitSpecy,
             fursuitBuild: this.state.fursuitBuild,
             fursuitPadding: this.state.fursuitPadding,

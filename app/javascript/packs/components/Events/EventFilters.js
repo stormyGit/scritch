@@ -195,15 +195,20 @@ class EventFilters extends React.Component {
         <Grid item xs={12} lg={8}>
           <ExpansionPanel
             expanded={this.state.expansion}
-            onChange={() => this.setState({ expansion: !this.state.expansion })}
+            onChange={() =>
+              this.state.expansion == false &&
+              this.setState({ expansion: !this.state.expansion })
+            }
           >
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>Filters</Typography>
-              <Typography className={classes.secondaryHeading}>
-                Refine your search
-              </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
+            <ExpansionPanelSummary
+              expandIcon={
+                <ExpandMoreIcon
+                  onClick={() =>
+                    this.setState({ expansion: !this.state.expansion })
+                  }
+                />
+              }
+            >
               <Grid container spacing={8}>
                 <Grid item xs={12}>
                   <SearchBar
@@ -211,8 +216,13 @@ class EventFilters extends React.Component {
                     onChange={value => this.handleSearch(value)}
                     value={this.state.name}
                     onCancelSearch={() => this.handleSearch("")}
+                    placeholder="Search..."
                   />
                 </Grid>
+              </Grid>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Grid container spacing={8}>
                 {this.renderCountryFilter()}
                 {false &&
                   filters.map(filter => (

@@ -53,7 +53,9 @@ class FursuitModal extends React.Component {
                       className={classes.text}
                       noWrap
                     >
-                      {localFursuit.fursuitSpecy.name}
+                      {localFursuit.isHybrid
+                        ? localFursuit.hybridSpecies.map(e => e.name).join(", ")
+                        : localFursuit.fursuitSpecy.name}
                     </Typography>
                     <DialogContentText>Made by</DialogContentText>
                     <Typography
@@ -89,7 +91,9 @@ class FursuitModal extends React.Component {
                       className={classes.text}
                       noWrap
                     >
-                      {localFursuit.fursuitSpecy.name}
+                      {localFursuit.isHybrid
+                        ? localFursuit.hybridSpecies.map(e => e.name).join(", ")
+                        : localFursuit.fursuitSpecy.name}
                     </Typography>
                     <DialogContentText>Made by</DialogContentText>
                     <Typography

@@ -11,6 +11,10 @@ module Types
     field :fursuit_species, [FursuitSpecyType], null: false do
       description "Find a medium by ID"
     end
+    field :hybrid_species, [FursuitSpecyType], null: false do
+      description "Find a medium by ID"
+      argument :fursuit_species, [String, null: true], required: true
+    end
     field :fursuit_fingers, [FursuitFingerType], null: false do
       description "Find a medium by ID"
     end
@@ -20,7 +24,6 @@ module Types
     field :fursuit_paddings, [FursuitPaddingType], null: false do
       description "Find a medium by ID"
     end
-
 
     field :medium, MediumType, null: false do
       description "Find a medium by ID"
@@ -175,6 +178,7 @@ module Types
       argument :offset, Integer, required: true
       argument :exclude, [ID], required: false
       argument :fursuit_specy, ID, required: false
+      argument :hybrid_specy, [String, null: true], required: false
       argument :fursuit_style, ID, required: false
       argument :fursuit_leg_type, ID, required: false
       argument :fursuit_build, ID, required: false
@@ -260,6 +264,14 @@ module Types
       FursuitSpecy.all.order(:name)
     end
 
+    def hybrid_species(args)
+      puts "\n\n\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>\n\n\n#{args}\n\n\n"
+      if (args[:fursuit_species] == [])
+        return FursuitSpecy.all.order(:name)
+      end
+      Hybrid.joins(:fursuit_species).where("fursuit_species.name IN (?)", args[:fursuit_species]).map{|e| e.fursuit_species}.flatten.uniq.sort_by{|e| e.name}
+    end
+
     def fursuit_paddings
       FursuitPadding.all.order(:name)
     end
@@ -291,6 +303,10 @@ module Types
       fursuits = Fursuit.all
       if arguments[:fursuit_specy].present?
         fursuits = fursuits.where(fursuit_specy_id: FursuitSpecy.find(arguments[:fursuit_specy]))
+      end
+
+      if arguments[:hybrid_specy].present?
+        fursuits.where(hybrid: Hybrid.joins(:fursuit_species).where("fursuit_species.name IN (?)", arguments[:hybrid_specy]))
       end
 
       if arguments[:fursuit_style].present?

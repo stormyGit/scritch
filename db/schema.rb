@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_23_100250) do
+ActiveRecord::Schema.define(version: 2019_02_24_065812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -283,6 +283,16 @@ ActiveRecord::Schema.define(version: 2019_02_23_100250) do
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
   end
 
+  create_table "fursuit_specy_hybrids", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.uuid "fursuit_specy_id", null: false
+    t.uuid "hybrid_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fursuit_specy_id"], name: "index_fursuit_specy_hybrids_on_fursuit_specy_id"
+    t.index ["hybrid_id"], name: "index_fursuit_specy_hybrids_on_hybrid_id"
+  end
+
   create_table "fursuit_styles", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -314,6 +324,15 @@ ActiveRecord::Schema.define(version: 2019_02_23_100250) do
     t.uuid "fursuit_finger_id"
     t.string "base_color"
     t.string "eyes_color"
+    t.boolean "is_hybrid"
+  end
+
+  create_table "hybrids", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.uuid "fursuit_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fursuit_id"], name: "index_hybrids_on_fursuit_id"
   end
 
   create_table "likes", force: :cascade do |t|

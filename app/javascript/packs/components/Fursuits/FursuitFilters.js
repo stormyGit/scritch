@@ -16,6 +16,8 @@ import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { makersList } from "../../makers";
 import { Link, withRouter } from "react-router-dom";
@@ -27,6 +29,7 @@ import {
   LOAD_LEG_TYPES,
   LOAD_STYLES,
   LOAD_SPECIES,
+  LOAD_HYBRID_SPECIES,
   LOAD_BUILDS,
   LOAD_PADDINGS,
   LOAD_FINGERS
@@ -115,6 +118,8 @@ class FursuitFilters extends React.Component {
       fursuitLegType: null,
       fursuitStyle: null,
       fursuitSpecy: null,
+      hybridSpecies: null,
+      hybridSearch: false,
       fursuitBuild: null,
       fursuitPadding: null,
       fursuitFingers: null,
@@ -131,6 +136,8 @@ class FursuitFilters extends React.Component {
       fursuitLegType: null,
       fursuitStyle: null,
       fursuitSpecy: null,
+      hybridSpecies: null,
+      hybridSearch: false,
       fursuitBuild: null,
       fursuitPadding: null,
       fursuitFingers: null,
@@ -269,7 +276,7 @@ class FursuitFilters extends React.Component {
           }
           if (loading) {
             return (
-              <Grid item xs={4}>
+              <Grid item xs={7}>
                 <CircularProgress />
               </Grid>
             );
@@ -281,7 +288,7 @@ class FursuitFilters extends React.Component {
           );
 
           return (
-            <Grid item xs={4}>
+            <Grid item xs={7}>
               <Select
                 fullWidth
                 placeholder="Species"
@@ -302,6 +309,84 @@ class FursuitFilters extends React.Component {
           );
         }}
       </Query>
+    );
+  }
+
+  renderHybridSpeciesFilter() {
+    const { classes } = this.props;
+    this.state.hybridSpecies &&
+      console.log(this.state.hybridSpecies.map(e => e.label));
+    return (
+      <Query
+        query={LOAD_HYBRID_SPECIES}
+        variables={{
+          fursuitSpecies: this.state.hybridSpecies
+            ? this.state.hybridSpecies.map(e => e.label)
+            : []
+        }}
+      >
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={7}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+          console.log(data);
+          const speciesList = [];
+          data.hybridSpecies.map(e =>
+            speciesList.push({ value: e.id, label: e.name })
+          );
+
+          return (
+            <Grid item xs={7}>
+              <Select
+                fullWidth
+                placeholder="Species"
+                isClearable
+                isSearchable
+                isMulti
+                value={this.state.hybridSpecies}
+                onChange={specy => {
+                  console.log(specy);
+                  this.setState({ hybridSpecies: specy });
+                  this.props.onChange({
+                    label: "hybridSpecy",
+                    value: specy.map(e => e.label)
+                  });
+                }}
+                options={speciesList}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    );
+  }
+
+  renderHybridCheck() {
+    const { classes } = this.props;
+
+    return (
+      <Grid item xs={5}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={this.state.hybridSearch}
+              onChange={() =>
+                this.setState({ hybridSearch: event.target.checked })
+              }
+              value={this.state.hybridSearch}
+            />
+          }
+          label="Activate hybrid species search"
+        />
+      </Grid>
     );
   }
 
@@ -500,7 +585,7 @@ class FursuitFilters extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Grid item xs={4}>
+      <Grid item xs={8}>
         <Select
           fullWidth
           placeholder="Maker"
@@ -530,15 +615,20 @@ class FursuitFilters extends React.Component {
         <Grid item xs={12} lg={8}>
           <ExpansionPanel
             expanded={this.state.expansion}
-            onChange={() => this.setState({ expansion: !this.state.expansion })}
+            onChange={() =>
+              this.state.expansion == false &&
+              this.setState({ expansion: !this.state.expansion })
+            }
           >
-            <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography className={classes.heading}>Filters</Typography>
-              <Typography className={classes.secondaryHeading}>
-                Refine your search
-              </Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
+            <ExpansionPanelSummary
+              expandIcon={
+                <ExpandMoreIcon
+                  onClick={() =>
+                    this.setState({ expansion: !this.state.expansion })
+                  }
+                />
+              }
+            >
               <Grid container spacing={8}>
                 <Grid item xs={12}>
                   <SearchBar
@@ -546,17 +636,24 @@ class FursuitFilters extends React.Component {
                     onChange={value => this.handleSearch(value)}
                     value={this.state.name}
                     onCancelSearch={() => this.handleSearch("")}
+                    placeholder="Search..."
                   />
                 </Grid>
+              </Grid>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <Grid container spacing={8}>
                 {this.renderFursuitLegsFilter()}
                 {this.renderFursuitStylesFilter()}
-                {this.renderFursuitSpeciesFilter()}
                 {this.renderFursuitBuildFilter()}
                 {this.renderFursuitPaddingFilter()}
                 {this.renderFursuitFingersFilter()}
                 {this.renderFursuitColorFilter()}
                 {this.renderFursuitEyesFilter()}
                 {this.renderMakerFilter()}
+                {this.renderHybridCheck()}
+                {!this.state.hybridSearch && this.renderFursuitSpeciesFilter()}
+                {this.state.hybridSearch && this.renderHybridSpeciesFilter()}
               </Grid>
             </ExpansionPanelDetails>
             <ExpansionPanelActions>
