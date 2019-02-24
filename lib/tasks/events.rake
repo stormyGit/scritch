@@ -1,3 +1,5 @@
+require 'csv'
+
 namespace :events do
   task :fetch => :environment do
     i = 0

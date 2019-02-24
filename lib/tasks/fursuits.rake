@@ -1,3 +1,5 @@
+require 'csv'
+
 namespace :fursuits do
   task :fetch, [:filepath] => :environment do |t, args|
     i = 0
