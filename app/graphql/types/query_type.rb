@@ -266,10 +266,10 @@ module Types
 
     def hybrid_species(args)
       puts "\n\n\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>\n\n\n#{args}\n\n\n"
-      if (args[:fursuit_species] == [])
+      # if (args[:fursuit_species] == [])
         return FursuitSpecy.all.order(:name)
-      end
-      Hybrid.joins(:fursuit_species).where("fursuit_species.name IN (?)", args[:fursuit_species]).map{|e| e.fursuit_species}.flatten.uniq.sort_by{|e| e.name}
+      # end
+      # Hybrid.joins(:fursuit_species).where("fursuit_species.name IN (?)", args[:fursuit_species]).map{|e| e.fursuit_species}.flatten.uniq.sort_by{|e| e.name}
     end
 
     def fursuit_paddings
@@ -299,14 +299,13 @@ module Types
     end
 
     def fursuits(arguments)
-      puts "\n\n\n\n\n#{arguments}\n\n\n>>>>>\n\n\n"
       fursuits = Fursuit.all
       if arguments[:fursuit_specy].present?
         fursuits = fursuits.where(fursuit_specy_id: FursuitSpecy.find(arguments[:fursuit_specy]))
       end
 
       if arguments[:hybrid_specy].present?
-        fursuits.where(hybrid: Hybrid.joins(:fursuit_species).where("fursuit_species.name IN (?)", arguments[:hybrid_specy]))
+        fursuits = fursuits.where(is_hybrid: true).joins(:fursuit_species).distinct.where("fursuit_species.uuid IN (?)", arguments[:hybrid_specy])
       end
 
       if arguments[:fursuit_style].present?

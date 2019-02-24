@@ -356,7 +356,7 @@ class FursuitFilters extends React.Component {
                   this.setState({ hybridSpecies: specy });
                   this.props.onChange({
                     label: "hybridSpecy",
-                    value: specy.map(e => e.label)
+                    value: specy
                   });
                 }}
                 options={speciesList}

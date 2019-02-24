@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_24_065812) do
+ActiveRecord::Schema.define(version: 2019_02_24_114022) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -324,7 +324,7 @@ ActiveRecord::Schema.define(version: 2019_02_24_065812) do
     t.uuid "fursuit_finger_id"
     t.string "base_color"
     t.string "eyes_color"
-    t.boolean "is_hybrid"
+    t.boolean "is_hybrid", default: false
   end
 
   create_table "hybrids", force: :cascade do |t|

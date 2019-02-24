@@ -13,6 +13,7 @@ class Fursuit < ApplicationRecord
   belongs_to :fursuit_leg_type, optional: true
 
   has_one :hybrid
+  has_many :fursuit_species, through: :hybrid
 
   mount_base64_uploader :avatar, AvatarUploader
   has_many :fursuit_users

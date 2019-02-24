@@ -52,6 +52,7 @@ class Fursuits extends React.Component {
     fursuitColor: "",
     fursuitEyes: "",
     maker: "",
+    request: 0,
     fursuit: null,
     openFursuit: false
   };
@@ -114,7 +115,10 @@ class Fursuits extends React.Component {
         <FursuitFilters
           onChange={value => {
             console.log(value);
-            this.setState({ [value.label]: value.value });
+            this.setState({
+              [value.label]: value.value,
+              request: this.state.request + 1
+            });
           }}
           clearFilters={() => this.clearFilters()}
         />
@@ -126,7 +130,7 @@ class Fursuits extends React.Component {
     const { classes, location, width, searching } = this.props;
     const query = searching ? queryString.parse(location.search) : null;
     let limit = query ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
-
+    console.log(this.state.hybridSpecy);
     return (
       <React.Fragment>
         {!searching && <PageTitle>Fursuits</PageTitle>}
@@ -144,7 +148,7 @@ class Fursuits extends React.Component {
             name: searching ? query.q : this.state.name,
             fursuitLegType: this.state.fursuitLegType,
             fursuitStyle: this.state.fursuitStyle,
-            hybridSpecy: this.state.hybridSpecy,
+            hybridSpecy: this.state.hybridSpecy.map(e => e.value),
             fursuitSpecy: this.state.fursuitSpecy,
             fursuitBuild: this.state.fursuitBuild,
             fursuitPadding: this.state.fursuitPadding,
