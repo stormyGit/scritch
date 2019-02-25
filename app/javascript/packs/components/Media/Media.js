@@ -121,7 +121,7 @@ class Media extends React.Component {
   }
 
   render() {
-    const { classes, location, width, searching } = this.props;
+    const { classes, location, home, width, searching } = this.props;
     const query = searching ? queryString.parse(location.search) : null;
     let limit = query
       ? 12
@@ -131,7 +131,7 @@ class Media extends React.Component {
 
     return (
       <React.Fragment>
-        {this.renderMediaFilters()}
+        {!searching && !home && this.renderMediaFilters()}
         <Query
           query={GET_MEDIA}
           variables={{ sort: this.props.sort, offset: 0, limit }}

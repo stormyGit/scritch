@@ -180,7 +180,7 @@ class MediaFilters extends React.Component {
               fursuit={fursuit}
               onClick={payload => {
                 this.setState(prevState => ({
-                  query: "",
+                  name: "",
                   fursuits: [...prevState.fursuits, payload]
                 }));
               }}

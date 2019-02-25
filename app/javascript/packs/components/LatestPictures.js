@@ -13,15 +13,15 @@ export default props => {
       <div style={{ paddingTop: 5, paddingLeft: 30 }}>
         <Typography variant="h4">Latest Pictures</Typography>
       </div>
-      <Media sort="latest" limit={12} {...props} />
+      <Media home={true} sort="latest" limit={12} {...props} />
       <div style={{ paddingTop: 5, paddingLeft: 30 }}>
         <Typography variant="h4">Most Scritched</Typography>
       </div>
-      <Media sort="scritches" limit={12} {...props} />
+      <Media home={true} sort="scritches" limit={12} {...props} />
       <div style={{ paddingTop: 5, paddingLeft: 30 }}>
         <Typography variant="h4">Random Pictures</Typography>
       </div>
-      <Media sort="random" limit={12} {...props} />
+      <Media home={true} sort="random" limit={12} {...props} />
     </React.Fragment>
   );
 };
