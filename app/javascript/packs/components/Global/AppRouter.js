@@ -5,6 +5,7 @@ import withCurrentSession from "../withCurrentSession";
 import Fursuit from "../Fursuits/Fursuit";
 import Fursuits from "../Fursuits/Fursuits";
 
+import Media from "../Media/Media";
 import Medium from "../Media/Medium";
 
 import User from "../Users/User";
@@ -91,7 +92,11 @@ class AppRouter extends React.Component {
                     path="/subscriptions"
                     component={currentSession ? Subscriptions : MustLog}
                   />
-                  <Route exact path="/pictures" component={LatestPictures} />
+                  <Route
+                    exact
+                    path="/pictures"
+                    component={currentSession ? Media : MustLog}
+                  />
                   <Route
                     exact
                     path="/pictures/:id"

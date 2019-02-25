@@ -104,7 +104,6 @@ class Makers extends React.Component {
                 <div className={classes.filters}>
                   <MakerFilters
                     onChange={value => {
-                      console.log(value);
                       this.setState({ [value.label]: value.value });
                     }}
                     clearFilters={() => this.clearFilters()}

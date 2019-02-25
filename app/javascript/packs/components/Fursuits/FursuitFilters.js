@@ -314,8 +314,7 @@ class FursuitFilters extends React.Component {
 
   renderHybridSpeciesFilter() {
     const { classes } = this.props;
-    this.state.hybridSpecies &&
-      console.log(this.state.hybridSpecies.map(e => e.label));
+
     return (
       <Query
         query={LOAD_HYBRID_SPECIES}
@@ -336,7 +335,6 @@ class FursuitFilters extends React.Component {
               </Grid>
             );
           }
-          console.log(data);
           const speciesList = [];
           data.hybridSpecies.map(e =>
             speciesList.push({ value: e.id, label: e.name })
@@ -352,7 +350,6 @@ class FursuitFilters extends React.Component {
                 isMulti
                 value={this.state.hybridSpecies}
                 onChange={specy => {
-                  console.log(specy);
                   this.setState({ hybridSpecies: specy });
                   this.props.onChange({
                     label: "hybridSpecy",

@@ -26,8 +26,8 @@ const styles = theme => ({
 class FursuitModal extends React.Component {
   render() {
     const { classes, width, open, onClose, fursuit } = this.props;
-    console.log(fursuit);
     if (!fursuit) return null;
+
     return (
       <Query
         query={LOAD_FURSUIT}

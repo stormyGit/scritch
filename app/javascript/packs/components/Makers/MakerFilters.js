@@ -156,7 +156,6 @@ class MakerFilters extends React.Component {
             );
           }
 
-          console.log(data);
           const countriesList = [];
           data.makersCountry.map(e =>
             countriesList.push({ value: e, label: e })
@@ -221,7 +220,6 @@ class MakerFilters extends React.Component {
           data.makersRegion.map(
             e => e && regionsList.push({ value: e, label: e })
           );
-          console.log(regionsList);
           if (regionsList.length == 0) {
             return null;
           }

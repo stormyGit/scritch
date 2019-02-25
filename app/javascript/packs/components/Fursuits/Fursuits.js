@@ -114,7 +114,6 @@ class Fursuits extends React.Component {
       <div className={classes.filters}>
         <FursuitFilters
           onChange={value => {
-            console.log(value);
             this.setState({
               [value.label]: value.value,
               request: this.state.request + 1
@@ -130,7 +129,7 @@ class Fursuits extends React.Component {
     const { classes, location, width, searching } = this.props;
     const query = searching ? queryString.parse(location.search) : null;
     let limit = query ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
-    console.log(this.state.hybridSpecy);
+
     return (
       <React.Fragment>
         {!searching && <PageTitle>Fursuits</PageTitle>}

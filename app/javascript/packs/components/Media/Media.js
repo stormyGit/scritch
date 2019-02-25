@@ -3,7 +3,6 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Gallery from "react-grid-gallery";
 
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
@@ -13,6 +12,7 @@ import { GET_MEDIA } from "../../queries/mediaQueries";
 import { GET_USERS } from "../../queries/userQueries";
 
 import MediumCard from "./MediumCard";
+import MediaFilters from "./MediaFilters";
 import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
 import UserCard from "../Users/UserCard";
@@ -22,21 +22,49 @@ const styles = theme => ({
     width: "100%",
     padding: theme.spacing.unit * 1,
     paddingRight: 0
+  },
+  filters: {
+    padding: theme.spacing.unit * 1
   }
 });
 
 class Media extends React.Component {
   state = {
-    hasMore: true,
-    currentImage: 0
+    fursuits: [],
+    user: null,
+    event: null,
+    edition: null,
+    category: null,
+    subEvent: null,
+    sorting: "latest",
+    hasMore: true
   };
 
-  onCurrentImageChange(index) {
-    this.setState({ currentImage: index });
+  clearFilters() {
+    this.setState({
+      fursuits: [],
+      user: null,
+      event: null,
+      edition: null,
+      category: null,
+      subEvent: null,
+      sorting: "latest"
+    });
   }
 
-  goToImage(media) {
-    this.props.history.push(`/pictures/${media[this.state.currentImage].id}`);
+  renderMediaFilters() {
+    const { classes } = this.props;
+
+    return (
+      <div className={classes.filters}>
+        <MediaFilters
+          onChange={value => {
+            this.setState({ [value.label]: value.value });
+          }}
+          clearFilters={() => this.clearFilters()}
+        />
+      </div>
+    );
   }
 
   renderResults({ media, users, horizontal, onLoadMore, hasMore }) {
@@ -95,54 +123,61 @@ class Media extends React.Component {
   render() {
     const { classes, location, width, searching } = this.props;
     const query = searching ? queryString.parse(location.search) : null;
-    let limit = query ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
+    let limit = query
+      ? 12
+      : this.props.limit
+      ? this.props.limit
+      : parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
-      <Query
-        query={GET_MEDIA}
-        variables={{ sort: this.props.sort, offset: 0, limit }}
-      >
-        {({ data: { media, users }, loading, error, fetchMore }) => (
-          <React.Fragment>
-            <Grid
-              container
-              className={classes.root}
-              spacing={8}
-              style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
-            >
-              {!loading &&
-                !error &&
-                this.renderResults({
-                  users,
-                  media,
-                  hasMore:
-                    media.length % limit === 0 &&
-                    this.state.hasMore &&
-                    media.length > 0,
-                  onLoadMore: () => {
-                    fetchMore({
-                      variables: {
-                        offset: media.length,
-                        limit
-                      },
-                      updateQuery: (prev, { fetchMoreResult }) => {
-                        if (!fetchMoreResult) return prev;
+      <React.Fragment>
+        {this.renderMediaFilters()}
+        <Query
+          query={GET_MEDIA}
+          variables={{ sort: this.props.sort, offset: 0, limit }}
+        >
+          {({ data: { media, users }, loading, error, fetchMore }) => (
+            <React.Fragment>
+              <Grid
+                container
+                className={classes.root}
+                spacing={8}
+                style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
+              >
+                {!loading &&
+                  !error &&
+                  this.renderResults({
+                    users,
+                    media,
+                    hasMore:
+                      media.length % limit === 0 &&
+                      this.state.hasMore &&
+                      media.length > 0,
+                    onLoadMore: () => {
+                      fetchMore({
+                        variables: {
+                          offset: media.length,
+                          limit
+                        },
+                        updateQuery: (prev, { fetchMoreResult }) => {
+                          if (!fetchMoreResult) return prev;
 
-                        if (fetchMoreResult.media.length === 0) {
-                          this.setState({ hasMore: false });
-                        } else {
-                          return Object.assign({}, prev, {
-                            media: [...prev.media, ...fetchMoreResult.media]
-                          });
+                          if (fetchMoreResult.media.length === 0) {
+                            this.setState({ hasMore: false });
+                          } else {
+                            return Object.assign({}, prev, {
+                              media: [...prev.media, ...fetchMoreResult.media]
+                            });
+                          }
                         }
-                      }
-                    });
-                  }
-                })}
-            </Grid>
-          </React.Fragment>
-        )}
-      </Query>
+                      });
+                    }
+                  })}
+              </Grid>
+            </React.Fragment>
+          )}
+        </Query>
+      </React.Fragment>
     );
   }
 }

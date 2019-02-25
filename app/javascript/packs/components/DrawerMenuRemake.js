@@ -401,7 +401,6 @@ class DrawerMenuRemake extends React.Component {
             </div>
           )}
           <div>
-            {console.log(user)}
             <List disablePadding={width !== "lg" && width !== "xl"}>
               {currentSession && !this.props.disableSettings && (
                 <React.Fragment>

@@ -397,8 +397,10 @@ module Types
         case arguments[:sort]
         when 'latest'
           media.order("media.created_at DESC, media.created_at DESC")
-        when 'trending'
+        when 'scritches'
           media.order(["media.likes_count DESC, media.created_at DESC"])
+        when 'random'
+          media.order("RANDOM()")
         when 'subscriptions'
           media.where(user: context[:current_user].all_following).order("media.created_at DESC, media.created_at DESC")
         else

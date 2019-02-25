@@ -155,7 +155,6 @@ class EventFilters extends React.Component {
             );
           }
 
-          console.log(data);
           const countriesList = [];
           data.eventsCountry.map(e =>
             countriesList.push({ value: e, label: e })

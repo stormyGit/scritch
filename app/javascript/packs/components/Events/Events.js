@@ -81,7 +81,7 @@ class Events extends React.Component {
     const query = searching ? queryString.parse(location.search) : null;
     let limit = query ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
     const criteria = this.state.criteria;
-    console.log(this.state);
+
     return (
       <React.Fragment>
         {!searching && <PageTitle>Events</PageTitle>}
@@ -100,7 +100,6 @@ class Events extends React.Component {
                 <div className={classes.filters}>
                   <EventFilters
                     onChange={value => {
-                      console.log(value);
                       this.setState({ [value.label]: value.value });
                     }}
                     clearFilters={() => this.clearFilters()}

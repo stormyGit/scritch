@@ -106,7 +106,6 @@ class Maker extends React.Component {
       <React.Fragment>
         {this.state.openFursuit && this.state.fursuit && (
           <React.Fragment>
-            {console.log(this.state.fursuit)}
             <FursuitModal
               open={this.state.openFursuit}
               onClose={() =>

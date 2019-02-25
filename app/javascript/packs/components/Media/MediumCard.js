@@ -186,11 +186,7 @@ class MediumCard extends React.Component {
       <CardContent className={classes.tags}>
         {medium.fursuits.length != 0 &&
           medium.fursuits.map(fursuit => (
-            <FursuitMiniCard
-              onClick={e => console.log(e)}
-              fursuit={fursuit}
-              key={fursuit.id}
-            />
+            <FursuitMiniCard fursuit={fursuit} key={fursuit.id} />
           ))}
       </CardContent>
     );
