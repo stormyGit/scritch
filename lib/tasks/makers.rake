@@ -21,7 +21,7 @@ namespace :makers do
       if e[3] == 1
         next
       end
-      Maker.create!(name: e[0], country: e[1], region: e[4] web: e[2], reference: e[3])
+      Maker.create!(name: e[0], country: e[1], region: e[4], web: e[2], reference: e[3])
     end
 
   end
