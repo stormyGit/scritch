@@ -8,6 +8,8 @@ export const GET_MEDIA = gql`
     $offset: Int!
     $limit: Int!
     $fursuitId: ID
+    $categoryId: ID
+    $fursuits: [ID]
     $tagging: Boolean
     $editionId: [ID!]
   ) {
@@ -18,6 +20,8 @@ export const GET_MEDIA = gql`
       offset: $offset
       limit: $limit
       fursuitId: $fursuitId
+      categoryId: $categoryId
+      fursuits: $fursuits
       tagging: $tagging
       editionId: $editionId
     ) {

@@ -59,6 +59,7 @@ class Media extends React.Component {
       <div className={classes.filters}>
         <MediaFilters
           onChange={value => {
+            console.log(value);
             this.setState({ [value.label]: value.value });
           }}
           clearFilters={() => this.clearFilters()}
@@ -87,29 +88,6 @@ class Media extends React.Component {
 
     return (
       <React.Fragment>
-        {users.length > 0 && (
-          <Grid
-            item
-            item
-            xs={12}
-            lg={8}
-            style={{ marginLeft: "auto", marginRight: "auto" }}
-          >
-            <Grid container spacing={8}>
-              {users.map(user => (
-                <Grid
-                  item
-                  item
-                  xs={12}
-                  lg={users.length === 1 ? 12 : 6}
-                  key={user.id}
-                >
-                  <UserCard user={user} />
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-        )}
         {media.map(medium => (
           <Grid item xs={12} sm={6} md={3} xl={2} key={medium.id}>
             <MediumCard medium={medium} />
@@ -128,13 +106,22 @@ class Media extends React.Component {
       : this.props.limit
       ? this.props.limit
       : parseInt(process.env.MEDIA_PAGE_SIZE);
-
+    console.log(this.state.fursuits);
     return (
       <React.Fragment>
         {!searching && !home && this.renderMediaFilters()}
         <Query
           query={GET_MEDIA}
-          variables={{ sort: this.props.sort, offset: 0, limit }}
+          variables={{
+            sort: this.props.sort,
+            editionId: this.state.edition ? this.state.edition.value : null,
+            categoryId: this.state.category ? this.state.category.value : null,
+            fursuits: this.state.fursuits
+              ? this.state.fursuits.map(e => e.id)
+              : null,
+            offset: 0,
+            limit
+          }}
         >
           {({ data: { media, users }, loading, error, fetchMore }) => (
             <React.Fragment>

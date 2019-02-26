@@ -183,6 +183,10 @@ class MediaFilters extends React.Component {
                   name: "",
                   fursuits: [...prevState.fursuits, payload]
                 }));
+                this.props.onChange({
+                  label: "fursuits",
+                  value: [...this.state.fursuits, payload]
+                });
               }}
             />
           </Grid>
@@ -416,7 +420,7 @@ class MediaFilters extends React.Component {
     const { classes } = this.props;
 
     const sortingList = [
-      { label: "Latest", value: "latest" },
+      { label: "Latest First", value: "latest" },
       { label: "Most Scritched", value: "scritches" },
       { label: "Most Viewed", value: "views" }
     ];
@@ -561,9 +565,8 @@ class MediaFilters extends React.Component {
           <Grid item xs={false} lg={2}>
             <Grid container spacing={8}>
               {this.state.fursuits.map(fursuit => (
-                <Grid item xs={6}>
+                <Grid item xs={6} key={fursuit.id}>
                   <FursuitMiniCard
-                    key={fursuit.id}
                     fursuit={fursuit}
                     onClick={payload => {
                       let index = this.state.fursuits.indexOf(payload);
@@ -571,6 +574,10 @@ class MediaFilters extends React.Component {
                         fursuits: this.state.fursuits.filter(
                           (_, i) => i !== index
                         )
+                      });
+                      this.props.onChange({
+                        label: "fursuits",
+                        value: this.state.fursuits.filter((_, i) => i !== index)
                       });
                     }}
                   />

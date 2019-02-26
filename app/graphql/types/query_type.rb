@@ -36,6 +36,8 @@ module Types
       argument :sort, String, required: false
       argument :user_id, ID, required: false
       argument :fursuit_id, ID, required: false
+      argument :category_id, ID, required: false
+      argument :fursuits, [ID, null: true], required: false
       argument :offset, Integer, required: true
       argument :limit, Integer, required: true
       argument :tagging, Boolean, required: false
@@ -384,6 +386,10 @@ module Types
     end
 
     def media(arguments = {})
+
+      puts "\n" * 30
+      puts arguments
+      puts "\n" * 30
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
 
       if arguments[:q].present?
@@ -415,8 +421,15 @@ module Types
         media = media.where(edition_id: arguments[:edition_id]).joins(:edition).order("editions.year DESC")
       end
 
+      if arguments[:category_id].present?
+        media = media.where(category_id: arguments[:category_id])
+      end
+
       if arguments[:fursuit_id].present?
-        media = media.where(fursuit_id: arguments[:fursuit_id])
+        media = media.joins(:fursuits).where("fursuits.uuid = ?", arguments[:fursuit_id])
+      end
+      if arguments[:fursuits].present?
+        media = media.joins(:fursuits).where("fursuits.uuid IN (?)", arguments[:fursuits])
       end
       if arguments[:tagging].present?
         media = media.where.not(completion: 100).order(:completion)
