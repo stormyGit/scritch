@@ -18,7 +18,11 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import { LOAD_EVENTS, LOAD_EDITIONS } from "../../queries/eventQueries";
+import {
+  LOAD_EVENTS,
+  LOAD_EDITIONS,
+  LOAD_SUB_EVENTS
+} from "../../queries/eventQueries";
 import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 
@@ -318,11 +322,15 @@ class MediaFilters extends React.Component {
     const { classes } = this.props;
     return (
       <Query
-        query={LOAD_EDITIONS}
-        variables={{ eventId: this.state.event.value, limit: 100, offset: 0 }}
+        query={LOAD_SUB_EVENTS}
+        variables={{
+          editionId: this.state.edition.value,
+          limit: 100,
+          offset: 0
+        }}
       >
         {({ data, loading, error }) => {
-          if (error || !data || !data.editions || data.editions.length == 0) {
+          if (error || !data || !data.subEvents || data.subEvents.length == 0) {
             return null;
           }
           if (loading) {
@@ -333,29 +341,29 @@ class MediaFilters extends React.Component {
             );
           }
 
-          const editionsList = [];
-          data.editions.map(
-            e => e && editionsList.push({ value: e.id, label: e.name })
+          const subEventsList = [];
+          data.subEvents.map(
+            e => e && subEventsList.push({ value: e.id, label: e.name })
           );
-          if (editionsList.length == 0) {
+          if (subEventsList.length == 0) {
             return null;
           }
           return (
             <Grid item xs={4}>
               <Select
                 fullWidth
-                placeholder="Edition"
+                placeholder="Sub Event"
                 isClearable
                 isSearchable
-                value={this.state.edition}
-                onChange={edition => {
-                  this.setState({ edition: edition });
+                value={this.state.subEvent}
+                onChange={subEvent => {
+                  this.setState({ subEvent: subEvent });
                   this.props.onChange({
-                    label: "edition",
-                    value: edition
+                    label: "subEvent",
+                    value: subEvent
                   });
                 }}
-                options={editionsList}
+                options={subEventsList}
                 className={classes.selectInput}
               />
             </Grid>

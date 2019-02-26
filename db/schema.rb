@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_25_210600) do
+ActiveRecord::Schema.define(version: 2019_02_26_050304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -402,6 +402,7 @@ ActiveRecord::Schema.define(version: 2019_02_25_210600) do
     t.uuid "panel_id"
     t.integer "completion", default: 0
     t.integer "fursuits_count"
+    t.uuid "sub_event_id"
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
     t.index ["slug"], name: "index_media_on_slug", unique: true
   end
@@ -514,6 +515,15 @@ ActiveRecord::Schema.define(version: 2019_02_25_210600) do
     t.integer "media"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "sub_events", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.string "name"
+    t.uuid "edition_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["edition_id"], name: "index_sub_events_on_edition_id"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|

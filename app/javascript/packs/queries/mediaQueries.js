@@ -9,6 +9,7 @@ export const GET_MEDIA = gql`
     $limit: Int!
     $fursuitId: ID
     $categoryId: ID
+    $subEventId: ID
     $fursuits: [ID]
     $tagging: Boolean
     $editionId: [ID!]
@@ -21,6 +22,7 @@ export const GET_MEDIA = gql`
       limit: $limit
       fursuitId: $fursuitId
       categoryId: $categoryId
+      subEventId: $subEventId
       fursuits: $fursuits
       tagging: $tagging
       editionId: $editionId

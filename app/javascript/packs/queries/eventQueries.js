@@ -36,6 +36,20 @@ export const LOAD_EDITIONS = gql`
   }
 `;
 
+export const LOAD_SUB_EVENTS = gql`
+  query SubEvents($name: String, $limit: Int!, $offset: Int!, $editionId: ID!) {
+    subEvents(
+      name: $name
+      limit: $limit
+      offset: $offset
+      editionId: $editionId
+    ) {
+      id
+      name
+    }
+  }
+`;
+
 export const LOAD_EVENTS_COUNTRIES = gql`
   query eventsCountry {
     eventsCountry

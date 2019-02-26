@@ -20,6 +20,7 @@ module Types
     field :fursuits, [FursuitType], null: false
 
     field :edition, EditionType, null: true
+    field :sub_event, SubEventType, null: true
     field :category, CategoryType, null: true
 
     field :comments_count, Integer, null: false

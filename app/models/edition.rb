@@ -6,6 +6,7 @@ class Edition < ApplicationRecord
 
   belongs_to :event
   has_many :media
+  has_many :sub_event, dependent: :destroy
 
   mount_base64_uploader :picture, PictureUploader
 

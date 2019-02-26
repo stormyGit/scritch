@@ -21,6 +21,7 @@ class Medium < ApplicationRecord
 
   has_many :comments
 
+  belongs_to :sub_event, optional: true
   belongs_to :category, optional: true
   belongs_to :panel, optional: true
 

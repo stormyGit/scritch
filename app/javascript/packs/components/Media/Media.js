@@ -106,7 +106,6 @@ class Media extends React.Component {
       : this.props.limit
       ? this.props.limit
       : parseInt(process.env.MEDIA_PAGE_SIZE);
-    console.log(this.state.fursuits);
     return (
       <React.Fragment>
         {!searching && !home && this.renderMediaFilters()}
@@ -116,6 +115,7 @@ class Media extends React.Component {
             sort: this.props.sort,
             editionId: this.state.edition ? this.state.edition.value : null,
             categoryId: this.state.category ? this.state.category.value : null,
+            subEventId: this.state.subEvent ? this.state.subEvent.value : null,
             fursuits: this.state.fursuits
               ? this.state.fursuits.map(e => e.id)
               : null,

@@ -37,6 +37,7 @@ module Types
       argument :user_id, ID, required: false
       argument :fursuit_id, ID, required: false
       argument :category_id, ID, required: false
+      argument :sub_event_id, ID, required: false
       argument :fursuits, [ID, null: true], required: false
       argument :offset, Integer, required: true
       argument :limit, Integer, required: true
@@ -164,6 +165,14 @@ module Types
       description "List editions"
       argument :name, String, required: false
       argument :event_id, ID, required: false
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
+    field :sub_events, [SubEventType], null: false do
+      description "List sub events"
+      argument :name, String, required: false
+      argument :edition_id, ID, required: true
       argument :offset, Integer, required: true
       argument :limit, Integer, required: true
     end
@@ -420,6 +429,9 @@ module Types
       if arguments[:edition_id].present?
         media = media.where(edition_id: arguments[:edition_id]).joins(:edition).order("editions.year DESC")
       end
+      if arguments[:sub_event_id].present?
+        media = media.where(sub_event_id: arguments[:sub_event_id])
+      end
 
       if arguments[:category_id].present?
         media = media.where(category_id: arguments[:category_id])
@@ -472,6 +484,16 @@ module Types
       end
 
       editions.offset(arguments[:offset]).limit(arguments[:limit]).order(year: :desc)
+    end
+
+    def sub_events(arguments)
+      sub_events = SubEvent.where("sub_events.edition_id = ?", arguments[:edition_id])
+
+      if arguments[:name].present?
+        sub_events = sub_events.where("sub_events.name @@ ?", arguments[:name])
+      end
+
+      sub_events.offset(arguments[:offset]).limit(arguments[:limit]).order(:name)
     end
 
     def activities(arguments = {})
