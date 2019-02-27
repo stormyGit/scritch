@@ -24,6 +24,8 @@ export const UPDATE_USER = gql`
         bio
         website
         theme
+        showAds
+        showTooltips
         mediaCount
         followingCount
         unreadAnnouncementsCount

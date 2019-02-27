@@ -44,6 +44,8 @@ export const GET_SESSION = gql`
         bio
         website
         theme
+        showAds
+        showTooltips
         hasAdverts
         sponsor {
           id

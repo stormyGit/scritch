@@ -8,7 +8,7 @@ module Types
     field :editions, [EditionType], null: true
 
     def country
-      object.editions.order("editions.year DESC").last.country
+      object.editions.order("editions.year DESC").first.country
     end
   end
 end

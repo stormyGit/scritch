@@ -132,6 +132,84 @@ class Settings extends React.Component {
                 </Grid>
               )}
             </Mutation>
+            {currentSession.user.sponsor && (
+              <Mutation
+                mutation={UPDATE_USER}
+                update={(cache, { data: { updateUser } }) => {
+                  cache.writeQuery({
+                    query: GET_SESSION,
+                    data: {
+                      session: { ...currentSession, user: updateUser.user }
+                    }
+                  });
+                }}
+              >
+                {(updateUser, { data }) => (
+                  <Grid container spacing={0}>
+                    <Grid item>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={currentSession.user.showAds}
+                            onChange={(e, value) => {
+                              updateUser({
+                                variables: {
+                                  input: {
+                                    id: currentSession.user.id,
+                                    showAds: value
+                                  }
+                                }
+                              });
+                            }}
+                            color="primary"
+                          />
+                        }
+                        label="Show ads"
+                      />
+                    </Grid>
+                  </Grid>
+                )}
+              </Mutation>
+            )}
+            {currentSession && (
+              <Mutation
+                mutation={UPDATE_USER}
+                update={(cache, { data: { updateUser } }) => {
+                  cache.writeQuery({
+                    query: GET_SESSION,
+                    data: {
+                      session: { ...currentSession, user: updateUser.user }
+                    }
+                  });
+                }}
+              >
+                {(updateUser, { data }) => (
+                  <Grid container spacing={0}>
+                    <Grid item>
+                      <FormControlLabel
+                        control={
+                          <Switch
+                            checked={currentSession.user.showTooltips}
+                            onChange={(e, value) => {
+                              updateUser({
+                                variables: {
+                                  input: {
+                                    id: currentSession.user.id,
+                                    showTooltips: value
+                                  }
+                                }
+                              });
+                            }}
+                            color="primary"
+                          />
+                        }
+                        label="Show tooltips"
+                      />
+                    </Grid>
+                  </Grid>
+                )}
+              </Mutation>
+            )}
             <Dialog
               open={this.state.accountSuppressionAlertOpen}
               onClose={() =>

@@ -19,6 +19,9 @@ module Types
     field :followed, Boolean, null: false
     field :following, Boolean, null: false
 
+    field :show_ads, Boolean, null: false
+    field :show_tooltips, Boolean, null: false
+
     field :media_count, Integer, null: false
     field :followers_count, Integer, null: false
     field :following_count, Integer, null: false

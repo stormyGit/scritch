@@ -16,6 +16,8 @@ export const GET_USERS = gql`
       id
       slug
       name
+      showAds
+      showTooltips
       avatar
     }
   }
@@ -33,6 +35,8 @@ export const GET_USER = gql`
       banner
       bio
       website
+      showAds
+      showTooltips
       followed
       following
       mediaCount

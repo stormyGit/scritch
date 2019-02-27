@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
 import withWidth from "@material-ui/core/withWidth";
+import withCurrentSession from "../withCurrentSession";
 import uuidv4 from "uuid/v4";
 
 import SubscriptionsIcon from "@material-ui/icons/ViewCarousel";
@@ -45,8 +46,36 @@ const styles = theme => ({
 
 class AppHeader extends React.Component {
   render() {
-    const { classes, width } = this.props;
+    const { classes, width, currentSession } = this.props;
     var limit = width != "xs" ? 2 : 1;
+
+    if (
+      !currentSession ||
+      (!currentSession.user.showAds && !currentSession.user.showTooltips)
+    )
+      return null;
+
+    if (!currentSession.user.showAds && currentSession.user.showTooltips)
+      return (
+        <div className={classes.root}>
+          <Grid
+            container
+            spacing={8}
+            className={classes.grid}
+            justify="center"
+            alignItems="center"
+          >
+            <Grid item xs={false} lg={4} />
+            <Grid item xs={false} lg={4}>
+              <img
+                src={require("../../pixelTooltip.png")}
+                className={classes.toolTip}
+              />
+            </Grid>
+            <Grid item xs={false} lg={4} />
+          </Grid>
+        </div>
+      );
 
     return (
       <div className={classes.root}>
@@ -64,7 +93,7 @@ class AppHeader extends React.Component {
           >
             {({ loading, error, data }) => {
               if (loading || error) {
-                return null;
+                return <div style={{ height: 100, width: 100 }} />;
               }
               if (data) {
                 if (data.adverts && data.adverts.length == limit)
@@ -82,14 +111,19 @@ class AppHeader extends React.Component {
                           />
                         </a>
                       </Grid>
-                      {(width === "xl" || width === "lg") && (
-                        <Grid item xs={false} lg={4}>
-                          <img
-                            src={require("../../pixelTooltip.png")}
-                            className={classes.toolTip}
-                          />
-                        </Grid>
-                      )}
+                      {(width === "xl" || width === "lg") &&
+                        currentSession.user.showTooltips && (
+                          <Grid item xs={false} lg={4}>
+                            <img
+                              src={require("../../pixelTooltip.png")}
+                              className={classes.toolTip}
+                            />
+                          </Grid>
+                        )}
+                      {(width === "xl" || width === "lg") &&
+                        !currentSession.user.showTooltips && (
+                          <Grid item xs={false} lg={4} />
+                        )}
                       {width !== "xs" && (
                         <Grid item sm={6} lg={4}>
                           <a
@@ -116,4 +150,6 @@ class AppHeader extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withWidth()(AppHeader)));
+export default withStyles(styles)(
+  withRouter(withWidth()(withCurrentSession(AppHeader)))
+);

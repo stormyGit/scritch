@@ -6,6 +6,7 @@ import { Query } from "react-apollo";
 import { GET_ADVERTS } from "../../queries/advertQueries";
 import uuidv4 from "uuid/v4";
 import withWidth from "@material-ui/core/withWidth";
+import withCurrentSession from "../withCurrentSession";
 
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -36,75 +37,118 @@ const styles = theme => ({
 
 class AppFooter extends React.Component {
   render() {
-    const { classes, width } = this.props;
+    const { classes, width, currentSession } = this.props;
     var limit = width !== "xs" ? 2 : 1;
     console.log(width);
+    var adRibbon;
+
+    if (
+      !currentSession ||
+      (!currentSession.user.showAds && !currentSession.user.showTooltips)
+    )
+      adRibbon = null;
+
+    if (
+      currentSession &&
+      !currentSession.user.showAds &&
+      currentSession.user.showTooltips
+    )
+      adRibbon = (
+        <React.Fragment>
+          <Grid
+            container
+            spacing={8}
+            className={classes.grid}
+            justify="center"
+            alignItems="center"
+          >
+            <Grid item xs={false} lg={4} />
+            <Grid item xs={false} lg={4}>
+              <img
+                src={require("../../pixelTooltip.png")}
+                className={classes.toolTip}
+              />
+            </Grid>
+            <Grid item xs={false} lg={4} />
+          </Grid>
+          <div style={{ paddingTop: 10 }} />
+        </React.Fragment>
+      );
 
     return (
       <div className={classes.root}>
-        <Grid
-          container
-          spacing={8}
-          className={classes.grid}
-          justify="center"
-          alignItems="center"
-        >
-          <Query
-            query={GET_ADVERTS}
-            variables={{ uuid: uuidv4(), limit }}
-            fetchPolicy="network-only"
-          >
-            {({ loading, error, data }) => {
-              if (loading || error) {
-                return null;
-              }
-              if (data) {
-                if (data.adverts && data.adverts.length == limit)
-                  return (
-                    <React.Fragment>
-                      <Grid item xs={12} sm={6} lg={4}>
-                        <a
-                          href={`${process.env.SITE_URL}/adverts/${
-                            data.adverts[0].id
-                          }/go_to`}
-                        >
-                          <img
-                            src={data.adverts[0].file}
-                            className={classes.advert}
-                          />
-                        </a>
-                      </Grid>
-                      {(width === "xl" || width === "lg") && (
-                        <Grid item xs={false} lg={4}>
-                          <img
-                            src={require("../../pixelTooltip.png")}
-                            className={classes.toolTip}
-                          />
-                        </Grid>
-                      )}
-                      {width !== "xs" && (
-                        <Grid item sm={6} lg={4}>
-                          <a
-                            href={`${process.env.SITE_URL}/adverts/${
-                              data.adverts[1].id
-                            }/go_to`}
-                          >
-                            <img
-                              src={data.adverts[1].file}
-                              className={classes.advert}
-                            />
-                          </a>
-                        </Grid>
-                      )}
-                    </React.Fragment>
-                  );
-                else return null;
-              } else return null;
-            }}
-          </Query>
-        </Grid>
-        <div style={{ paddingTop: 10 }} />
-
+        {adRibbon}
+        {currentSession && currentSession.user.showAds && (
+          <React.Fragment>
+            <Grid
+              container
+              spacing={8}
+              className={classes.grid}
+              justify="center"
+              alignItems="center"
+            >
+              <Query
+                query={GET_ADVERTS}
+                variables={{ uuid: uuidv4(), limit }}
+                fetchPolicy="network-only"
+              >
+                {({ loading, error, data }) => {
+                  if (loading || error) {
+                    return null;
+                  }
+                  if (data) {
+                    if (data.adverts && data.adverts.length == limit)
+                      return (
+                        <React.Fragment>
+                          <Grid item xs={12} sm={6} lg={4}>
+                            <a
+                              href={`${process.env.SITE_URL}/adverts/${
+                                data.adverts[0].id
+                              }/go_to`}
+                            >
+                              <img
+                                src={data.adverts[0].file}
+                                className={classes.advert}
+                              />
+                            </a>
+                          </Grid>
+                          {(width === "xl" || width === "lg") &&
+                            currentSession.user.showTooltips && (
+                              <Grid item xs={false} lg={4}>
+                                <img
+                                  src={require("../../pixelTooltip.png")}
+                                  className={classes.toolTip}
+                                />
+                              </Grid>
+                            )}
+                          {(width === "xl" || width === "lg") &&
+                            !currentSession.user.showTooltips && (
+                              <Grid item xs={false} lg={4} />
+                            )}
+                          {width !== "xs" && (
+                            <Grid item sm={6} lg={4}>
+                              <a
+                                href={`${process.env.SITE_URL}/adverts/${
+                                  data.adverts[1].id
+                                }/go_to`}
+                              >
+                                <img
+                                  src={data.adverts[1].file}
+                                  className={classes.advert}
+                                />
+                              </a>
+                            </Grid>
+                          )}
+                        </React.Fragment>
+                      );
+                    else return null;
+                  } else return null;
+                }}
+              </Query>
+            </Grid>
+            <div style={{ paddingTop: 10 }} />
+          </React.Fragment>
+        )}
         <Grid container spacing={8} className={classes.grid}>
           <Grid item xs={2}>
             {false && <ShareIcon className={classes.icon} />}
@@ -150,4 +194,6 @@ class AppFooter extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withWidth()(AppFooter)));
+export default withStyles(styles)(
+  withRouter(withWidth()(withCurrentSession(AppFooter)))
+);
