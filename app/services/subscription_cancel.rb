@@ -1,5 +1,5 @@
 class SubscriptionCancel
-  def initialize(id: id)
+  def initialize(id)
     @cus_id = id
   end
 

@@ -1,5 +1,5 @@
 class AdvertChargeSuccess
-  def initialize(id: id, amount: amount)
+  def initialize(id, amount)
     @cus_id = id
     @refill =
       if amount == 600

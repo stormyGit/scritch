@@ -141,7 +141,7 @@ class Medium extends React.Component {
   }
 
   scrollTo() {
-    scroll.scrollTo(120);
+    scroll.scrollTo(122);
   }
 
   render() {

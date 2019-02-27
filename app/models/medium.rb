@@ -19,7 +19,7 @@ class Medium < ApplicationRecord
 
   has_many :views, dependent: :destroy
 
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   belongs_to :sub_event, optional: true
   belongs_to :category, optional: true
