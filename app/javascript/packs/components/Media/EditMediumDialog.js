@@ -487,16 +487,6 @@ class EditMediumDialog extends React.Component {
                             <FursuitMiniCard
                               key={fursuit.id}
                               fursuit={fursuit}
-                              onClick={payload => {
-                                let index = this.state.fursuits.indexOf(
-                                  payload
-                                );
-                                this.setState({
-                                  fursuits: this.state.fursuits.filter(
-                                    (_, i) => i !== index
-                                  )
-                                });
-                              }}
                             />
                           ))}
                         </Grid>

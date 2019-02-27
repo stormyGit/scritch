@@ -46,6 +46,10 @@ export const GET_MEDIA = gql`
         id
         name
       }
+      fursuits {
+        id
+        name
+      }
       edition {
         id
         name

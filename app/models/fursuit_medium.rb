@@ -3,4 +3,5 @@ class FursuitMedium < ApplicationRecord
 
   belongs_to :fursuit
   belongs_to :medium
+  belongs_to :user
 end

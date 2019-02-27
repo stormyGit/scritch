@@ -118,10 +118,11 @@ class TagDialog extends React.Component {
       submiting: false,
       alternativeLogin: false,
       mediaCategory: this.props.medium.category,
-      fursuits: this.props.medium.fursuits,
+      fursuits: this.props.medium.fursuits ? this.props.medium.fursuits : [],
       fursuitsCount: this.props.medium.fursuitsCount,
       query: ""
     };
+    console.log(this.props.medium);
   }
 
   isFormOk() {
@@ -402,16 +403,6 @@ class TagDialog extends React.Component {
                             <FursuitMiniCard
                               key={fursuit.id}
                               fursuit={fursuit}
-                              onClick={payload => {
-                                let index = this.state.fursuits.indexOf(
-                                  payload
-                                );
-                                this.setState({
-                                  fursuits: this.state.fursuits.filter(
-                                    (_, i) => i !== index
-                                  )
-                                });
-                              }}
                             />
                           ))}
                         </Grid>
