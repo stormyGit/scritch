@@ -401,13 +401,6 @@ module Types
       puts "\n" * 30
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
 
-      if arguments[:q].present?
-        media = media
-          .joins(:fursuits)
-          .joins(:user)
-          .where("media.title @@ ? OR media.uuid IN (?) OR fursuits.name @@ ?", arguments[:q], Medium.tagged_with(arguments[:q]).select(:uuid), arguments[:q])
-      end
-
       media =
         case arguments[:sort]
         when 'latest'

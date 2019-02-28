@@ -179,19 +179,6 @@ class MediumCard extends React.Component {
     );
   }
 
-  renderTags() {
-    const { classes, medium } = this.props;
-
-    return (
-      <CardContent className={classes.tags}>
-        {medium.fursuits.length != 0 &&
-          medium.fursuits.map(fursuit => (
-            <FursuitMiniCard fursuit={fursuit} key={fursuit.id} />
-          ))}
-      </CardContent>
-    );
-  }
-
   renderActions() {
     const { classes, medium } = this.props;
 

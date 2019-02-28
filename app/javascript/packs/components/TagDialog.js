@@ -41,7 +41,7 @@ import EmptyList from "./Global/EmptyList";
 import LoadMoreButton from "./Global/LoadMoreButton";
 import Logo from "./Global/Logo";
 
-import SignUpAlternativeDialog from "./AppDialogs/SignUpAlternativeDialog";
+import ReportDialog from "./AppDialogs/ReportDialog";
 import FursuitMiniCard from "./Fursuits/FursuitMiniCard";
 import { UPDATE_MEDIUM } from "../queries/mediaMutations";
 import { LOAD_CATEGORIES } from "../queries/categoryQueries";
@@ -108,6 +108,10 @@ const styles = theme => ({
   },
   searchBar: {
     width: "100%"
+  },
+  mediaH: {},
+  mediaV: {
+    transform: "rotate(90deg)"
   }
 });
 
@@ -116,7 +120,7 @@ class TagDialog extends React.Component {
     super(props);
     this.state = {
       submiting: false,
-      alternativeLogin: false,
+      reportDialog: false,
       mediaCategory: this.props.medium.category,
       fursuits: this.props.medium.fursuits ? this.props.medium.fursuits : [],
       fursuitsCount: this.props.medium.fursuitsCount,
@@ -210,7 +214,7 @@ class TagDialog extends React.Component {
                     >
                       <Grid item>
                         <Typography variant="h6" noWrap color={"inherit"}>
-                          Tag dat pic
+                          {`Picture #${medium.id.split("-")[0]}`}
                         </Typography>
                       </Grid>
                       <Grid item>
@@ -228,8 +232,18 @@ class TagDialog extends React.Component {
                 <DialogContent>
                   <Grid container spacing={8}>
                     <Grid item xs={this.state.fursuits.length > 0 ? 9 : 12}>
-                      <DialogContent>
-                        <img src={`${medium.thumbnail}`} title={medium.title} />
+                      <DialogContent style={{ textAlign: "center" }}>
+                        <img
+                          src={`${medium.thumbnail}`}
+                          title={medium.title}
+                          className={
+                            medium.exif &&
+                            JSON.parse(medium.exif).Orientation === "6"
+                              ? classes.mediaV
+                              : classes.mediaH
+                          }
+                          style={{ maxWidth: "100%" }}
+                        />
                       </DialogContent>
                       {false && (
                         <List>
@@ -262,6 +276,7 @@ class TagDialog extends React.Component {
                           />
                         </React.Fragment>
                       )}
+                      <div style={{ padding: 5 }} />
                       <Query
                         query={LOAD_CATEGORIES}
                         variables={{ sort: "latest", offset: 0, limit: 150 }}
@@ -435,7 +450,7 @@ class TagDialog extends React.Component {
                               });
                             }}
                           >
-                            Submit dat shit
+                            Submit
                           </Button>
                         }
                       </div>
@@ -445,18 +460,18 @@ class TagDialog extends React.Component {
                     <Typography
                       variant="caption"
                       className={classes.troubleLink}
-                      onClick={() => this.setState({ alternativeLogin: true })}
+                      onClick={() => this.setState({ reportDialog: true })}
                     >
-                      This is porn? Report dat shit
+                      Report picture
                     </Typography>
                   )}
                 </DialogContent>
               </ResponsiveDialog>
-              <SignUpAlternativeDialog
-                open={this.state.alternativeLogin}
-                onClose={() => {
-                  this.setState({ alternativeLogin: false });
-                }}
+              <ReportDialog
+                open={this.state.reportDialog}
+                onClose={() => this.setState({ reportDialog: false })}
+                resource="medium"
+                resourceId={medium.id}
               />
             </React.Fragment>
           );

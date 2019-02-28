@@ -42,7 +42,10 @@ class ReportDialog extends React.Component {
 
   render() {
     const { classes, currentSession, user } = this.props;
-
+    var resourceName;
+    if (this.props.resource == "medium") resourceName = "Picture";
+    if (this.props.resource == "comment") resourceName = "Comment";
+    if (this.props.resource == "user") resourceName = "User";
     if (!currentSession) {
       return null;
     }
@@ -51,7 +54,7 @@ class ReportDialog extends React.Component {
       <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
         <GlobalProgress absolute />
 
-        <DialogTitle>{`Report ${this.props.resource}`}</DialogTitle>
+        <DialogTitle>{`Report ${resourceName}`}</DialogTitle>
         <DialogContent>
           <TextField
             label="Please tell us more…"

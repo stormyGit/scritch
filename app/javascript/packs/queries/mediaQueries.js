@@ -34,6 +34,7 @@ export const GET_MEDIA = gql`
       picture
       thumbnail
       width
+      exif
       height
       completion
       fursuitsCount
@@ -43,10 +44,6 @@ export const GET_MEDIA = gql`
       viewsCount
       tagList
       category {
-        id
-        name
-      }
-      fursuits {
         id
         name
       }
