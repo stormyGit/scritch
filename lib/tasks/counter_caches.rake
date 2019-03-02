@@ -5,7 +5,7 @@ namespace :counter_caches do
       Medium.reset_counters medium.id, :likers
       Medium.reset_counters medium.id, :comments
       Medium.reset_counters medium.id, :views
-      Medium.reset_counters medium.id, :faveds
+      Medium.reset_counters medium.id, :favers
     end
   end
 end

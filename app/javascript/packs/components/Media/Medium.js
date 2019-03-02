@@ -248,7 +248,9 @@ class Medium extends React.Component {
                                   </React.Fragment>
                                 )}
                                 <LikeButton medium={medium} />
-                                <FaveButton medium={medium} />
+                                {currentSession.user.sponsor && (
+                                  <FaveButton medium={medium} />
+                                )}
                               </Grid>
                             </Grid>
                             <Grid container spacing={8} justify="space-between">

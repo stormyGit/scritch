@@ -88,12 +88,16 @@ module Types
       LikePolicy::Scope.new(context[:current_user], object.likes).resolve.count
     end
 
+    def faves_count
+      FavePolicy::Scope.new(context[:current_user], object.faves).resolve.count
+    end
+
     def liked_count
       Like.where(medium: Medium.where(user: object)).distinct.count
     end
 
     def faved_count #TODO
-      Like.where(medium: Medium.where(user: object)).distinct.count
+      Fave.where(medium: Medium.where(user: object)).distinct.count
     end
 
     def tagged_count

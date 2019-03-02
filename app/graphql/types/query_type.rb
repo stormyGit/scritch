@@ -42,6 +42,7 @@ module Types
       argument :offset, Integer, required: true
       argument :limit, Integer, required: true
       argument :tagging, Boolean, required: false
+      argument :faves, Boolean, required: false
       argument :edition_id, [ID], required: false
     end
 
@@ -413,8 +414,11 @@ module Types
     end
 
     def media(arguments = {})
-
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
+
+      if arguments[:faves].present?
+        media = media.joins(:faves).where("faves.user_id = ?", context[:current_user].uuid)
+      end
 
       media =
         case arguments[:sort]

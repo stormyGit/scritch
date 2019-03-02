@@ -202,7 +202,7 @@ class MediumCard extends React.Component {
               <Grid item>
                 <Button disabled style={{ color: "#ffffffaa", fontSize: 15 }}>
                   <FontAwesomeIcon icon={faStar} className={classes.leftIcon} />
-                  {countContractor(medium.likesCount)}
+                  {countContractor(medium.favesCount)}
                 </Button>
               </Grid>
             </Grid>

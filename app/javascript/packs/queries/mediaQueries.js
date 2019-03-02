@@ -12,6 +12,7 @@ export const GET_MEDIA = gql`
     $subEventId: ID
     $fursuits: [ID]
     $tagging: Boolean
+    $faves: Boolean
     $editionId: [ID!]
   ) {
     media(
@@ -25,6 +26,7 @@ export const GET_MEDIA = gql`
       subEventId: $subEventId
       fursuits: $fursuits
       tagging: $tagging
+      faves: $faves
       editionId: $editionId
     ) {
       id

@@ -100,20 +100,22 @@ class Media extends React.Component {
   }
 
   render() {
-    const { classes, location, home, width, searching } = this.props;
+    const { classes, location, home, width, searching, faves } = this.props;
     const query = searching ? queryString.parse(location.search) : null;
     let limit = query
       ? 12
       : this.props.limit
       ? this.props.limit
       : parseInt(process.env.MEDIA_PAGE_SIZE);
+
     return (
       <React.Fragment>
-        {!searching && <PageTitle>Pictures</PageTitle>}
+        {!searching && !faves && <PageTitle>Pictures</PageTitle>}
         {!searching && !home && this.renderMediaFilters()}
         <Query
           query={GET_MEDIA}
           variables={{
+            faves: faves ? faves : false,
             sort: this.props.sort,
             editionId: this.state.edition ? this.state.edition.value : null,
             categoryId: this.state.category ? this.state.category.value : null,

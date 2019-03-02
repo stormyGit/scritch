@@ -24,6 +24,7 @@ import PrivacyPolicy from "../PoliciesSupport/PrivacyPolicy";
 
 import TagPage from "../TagPage";
 import LatestPictures from "../LatestPictures";
+import Favorites from "../Favorites";
 import Subscriptions from "../Subscriptions";
 import SearchPage from "../SearchPage";
 
@@ -91,6 +92,15 @@ class AppRouter extends React.Component {
                     exact
                     path="/subscriptions"
                     component={currentSession ? Subscriptions : MustLog}
+                  />
+                  <Route
+                    exact
+                    path="/favorites"
+                    component={
+                      currentSession && currentSession.user.sponsor
+                        ? Favorites
+                        : MustLog
+                    }
                   />
                   <Route
                     exact

@@ -21,8 +21,6 @@ import { LOAD_EVENTS_COUNTRIES } from "../../queries/eventQueries";
 
 import { Link, withRouter } from "react-router-dom";
 
-import { countries } from "../../countries";
-
 import SearchBar from "material-ui-search-bar";
 
 const styles = theme => {

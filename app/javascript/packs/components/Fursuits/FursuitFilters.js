@@ -19,7 +19,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import { makersList } from "../../makers";
 import { Link, withRouter } from "react-router-dom";
 
 import { fursuitColors } from "../../fursuitColors";
