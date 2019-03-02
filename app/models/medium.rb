@@ -17,6 +17,9 @@ class Medium < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :likers, through: :likes, source: :user
 
+  has_many :faves, dependent: :destroy
+  has_many :favers, through: :faves, source: :user
+
   has_many :views, dependent: :destroy
 
   has_many :comments, dependent: :destroy

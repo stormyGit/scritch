@@ -16,6 +16,7 @@ import MediaFilters from "./MediaFilters";
 import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
 import UserCard from "../Users/UserCard";
+import PageTitle from "../Global/PageTitle";
 
 const styles = theme => ({
   root: {
@@ -36,7 +37,7 @@ class Media extends React.Component {
     edition: null,
     category: null,
     subEvent: null,
-    sorting: "latest",
+    sort: "latest",
     hasMore: true
   };
 
@@ -48,7 +49,7 @@ class Media extends React.Component {
       edition: null,
       category: null,
       subEvent: null,
-      sorting: "latest"
+      sort: "latest"
     });
   }
 
@@ -108,6 +109,7 @@ class Media extends React.Component {
       : parseInt(process.env.MEDIA_PAGE_SIZE);
     return (
       <React.Fragment>
+        {!searching && <PageTitle>Pictures</PageTitle>}
         {!searching && !home && this.renderMediaFilters()}
         <Query
           query={GET_MEDIA}

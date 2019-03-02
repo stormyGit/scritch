@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_27_084147) do
+ActiveRecord::Schema.define(version: 2019_03_02_040500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -211,6 +211,16 @@ ActiveRecord::Schema.define(version: 2019_02_27_084147) do
     t.index "to_tsvector('english'::regconfig, (name)::text)", name: "index_events_on_name", using: :gin
   end
 
+  create_table "faves", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.uuid "medium_id", null: false
+    t.uuid "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["medium_id"], name: "index_faves_on_medium_id"
+    t.index ["user_id"], name: "index_faves_on_user_id"
+  end
+
   create_table "follows", id: :serial, force: :cascade do |t|
     t.string "followable_type", null: false
     t.string "follower_type", null: false
@@ -407,6 +417,7 @@ ActiveRecord::Schema.define(version: 2019_02_27_084147) do
     t.integer "completion", default: 0
     t.integer "fursuits_count"
     t.uuid "sub_event_id"
+    t.integer "faves_count", default: 0
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
     t.index ["slug"], name: "index_media_on_slug", unique: true
   end

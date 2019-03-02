@@ -31,6 +31,8 @@ export const UPDATE_MEDIUM = gql`
         commentsCount
         likesCount
         liked
+        favesCount
+        faved
         viewsCount
         createdAt
         picture
@@ -134,6 +136,26 @@ export const DELETE_LIKE = gql`
   mutation deleteLike($input: DeleteLikeInput!) {
     deleteLike(input: $input) {
       like {
+        id
+      }
+    }
+  }
+`;
+
+export const CREATE_FAVE = gql`
+  mutation createFave($input: CreateFaveInput!) {
+    createFave(input: $input) {
+      fave {
+        id
+      }
+    }
+  }
+`;
+
+export const DELETE_FAVE = gql`
+  mutation deleteFave($input: DeleteFaveInput!) {
+    deleteFave(input: $input) {
+      fave {
         id
       }
     }

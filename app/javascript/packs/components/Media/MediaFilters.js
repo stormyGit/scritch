@@ -116,7 +116,7 @@ class MediaFilters extends React.Component {
       edition: null,
       category: null,
       subEvent: null,
-      sorting: { label: "Latest", value: "latest" },
+      sort: { label: "Latest", value: "latest" },
       name: "",
       expansion: false
     };
@@ -131,7 +131,7 @@ class MediaFilters extends React.Component {
       edition: null,
       category: null,
       subEvent: null,
-      sorting: "latest",
+      sort: "latest",
       name: ""
     };
     this.setState(criteria);
@@ -444,12 +444,12 @@ class MediaFilters extends React.Component {
             fullWidth
             isClearable
             isSearchable
-            value={this.state.sorting}
-            onChange={sorting => {
-              this.setState({ sorting: sorting });
+            value={this.state.sort}
+            onChange={sort => {
+              this.setState({ sort: sort });
               this.props.onChange({
-                label: "sorting",
-                value: sorting ? sorting.value : ""
+                label: "sort",
+                value: sort ? sort.value : ""
               });
             }}
             options={sortingList}

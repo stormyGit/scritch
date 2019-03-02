@@ -41,6 +41,7 @@ export const GET_MEDIA = gql`
       createdAt
       commentsCount
       likesCount
+      favesCount
       viewsCount
       tagList
       category {
@@ -89,6 +90,8 @@ export const GET_MEDIUM = gql`
       fursuitsCount
       likesCount
       liked
+      favesCount
+      faved
       viewsCount
       createdAt
       commentsDisabled
@@ -168,6 +171,22 @@ export const GET_LIKES = gql`
   query Likes($mediumId: ID, $offset: Int!, $limit: Int!) {
     likes(mediumId: $mediumId, offset: $offset, limit: $limit)
       @connection(key: "likes", filter: ["mediumID"]) {
+      id
+      createdAt
+      user {
+        id
+        slug
+        name
+        avatar
+      }
+    }
+  }
+`;
+
+export const GET_FAVES = gql`
+  query Faves($mediumId: ID, $offset: Int!, $limit: Int!) {
+    faves(mediumId: $mediumId, offset: $offset, limit: $limit)
+      @connection(key: "faves", filter: ["mediumID"]) {
       id
       createdAt
       user {

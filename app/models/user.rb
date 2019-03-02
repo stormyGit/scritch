@@ -26,6 +26,9 @@ class User < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :likeds, through: :likes, source: :medium
 
+  has_many :faves, dependent: :destroy
+  has_many :faveds, through: :likes, source: :medium
+
   has_many :chats_as_sender, class_name: "Chat", foreign_key: :sender_id, dependent: :destroy, inverse_of: :sender
   has_many :chats_as_recipient, class_name: "Chat", foreign_key: :recipient_id, dependent: :destroy, inverse_of: :recipient
 

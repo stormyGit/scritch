@@ -27,6 +27,7 @@ import { GET_MEDIUM } from "../../queries/mediaQueries";
 import RelatedMediumCard from "./RelatedMediumCard";
 import CommentForm from "./CommentForm";
 import LikeButton from "./LikeButton";
+import FaveButton from "./FaveButton";
 import Comments from "./Comments";
 import EditMediumDialog from "./EditMediumDialog";
 import TagDialog from "../TagDialog";
@@ -247,6 +248,7 @@ class Medium extends React.Component {
                                   </React.Fragment>
                                 )}
                                 <LikeButton medium={medium} />
+                                <FaveButton medium={medium} />
                               </Grid>
                             </Grid>
                             <Grid container spacing={8} justify="space-between">

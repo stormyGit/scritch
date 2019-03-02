@@ -22,17 +22,17 @@ const styles = theme => ({
   root: {
     display: "flex",
     flexGrow: 1,
-    maxHeight: 100
+    maxHeight: 125
   },
   grid: {
     textAlign: "center",
-    maxHeight: 100
+    maxHeight: 125
   },
   icon: {
     color: theme.palette.text.primary
   },
   toolTip: {
-    height: 90
+    height: 125
   },
   advert: {
     width: 300,
@@ -93,7 +93,7 @@ class AppHeader extends React.Component {
           >
             {({ loading, error, data }) => {
               if (loading || error) {
-                return <div style={{ height: 100, width: 100 }} />;
+                return <div style={{ height: 125, width: 100 }} />;
               }
               if (data) {
                 if (data.adverts && data.adverts.length == limit)

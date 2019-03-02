@@ -72,6 +72,13 @@ module Types
       argument :limit, Integer, required: true
     end
 
+    field :faves_by_user, [FaveType], null: false do
+      description "List faves by user"
+      argument :user_id, ID, required: true
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
     field :followers_by_user, [UserType], null: false do
       description "List followers by user"
       argument :user_id, ID, required: true
@@ -134,6 +141,13 @@ module Types
 
     field :likes, [LikeType], null: false do
       description "List likes"
+      argument :medium_id, ID, required: false
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
+    field :faves, [FaveType], null: false do
+      description "List faves"
       argument :medium_id, ID, required: false
       argument :offset, Integer, required: true
       argument :limit, Integer, required: true
@@ -310,6 +324,10 @@ module Types
     end
 
     def fursuits(arguments)
+      puts "\n" * 30
+      puts arguments
+      puts "\n" * 30
+
       fursuits = Fursuit.all
       if arguments[:fursuit_specy].present?
         fursuits = fursuits.where(fursuit_specy_id: FursuitSpecy.find(arguments[:fursuit_specy]))
@@ -396,9 +414,6 @@ module Types
 
     def media(arguments = {})
 
-      puts "\n" * 30
-      puts arguments
-      puts "\n" * 30
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
 
       media =
@@ -510,6 +525,10 @@ module Types
       LikePolicy::Scope.new(context[:current_user], Like.where(user_id: arguments[:user_id])).resolve.order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
     end
 
+    def faves_by_user(arguments = {})
+      FavePolicy::Scope.new(context[:current_user], Fave.where(user_id: arguments[:user_id])).resolve.order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
+    end
+
     def followers_by_user(arguments = {})
       follows = FollowPolicy::Scope.new(context[:current_user], Follow.where(followable_id: User.find(arguments[:user_id]))).resolve.order(created_at: :desc)
 
@@ -584,6 +603,10 @@ module Types
 
     def likes(arguments = {})
       LikePolicy::Scope.new(context[:current_user], Like.where(medium_id: arguments[:medium_id])).resolve.order("likes.created_at DESC")#.offset(arguments[:offset]).limit(arguments[:limit])
+    end
+
+    def faves(arguments = {})
+      FavePolicy::Scope.new(context[:current_user], Fave.where(medium_id: arguments[:medium_id])).resolve.order("faves.created_at DESC")#.offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def blocked_users(arguments = {})

@@ -8,6 +8,8 @@ module Types
     field :delete_follow, mutation: Mutations::DeleteFollow
     field :create_like, mutation: Mutations::CreateLike
     field :delete_like, mutation: Mutations::DeleteLike
+    field :create_fave, mutation: Mutations::CreateFave
+    field :delete_fave, mutation: Mutations::DeleteFave
     field :delete_session, mutation: Mutations::DeleteSession
     field :delete_user, mutation: Mutations::DeleteUser
     field :update_user, mutation: Mutations::UpdateUser

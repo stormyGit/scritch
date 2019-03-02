@@ -25,9 +25,11 @@ module Types
 
     field :comments_count, Integer, null: false
     field :likes_count, Integer, null: false
+    field :faves_count, Integer, null: false
     field :views_count, Integer, null: false
 
     field :liked, Boolean, null: false
+    field :faved, Boolean, null: false
     field :comments_disabled, Boolean, null: false
     field :tag_list, [String], null: false
 
@@ -41,6 +43,10 @@ module Types
 
     def liked
       context[:current_user].present? ? object.likers.find_by(uuid: context[:current_user].id).present? : false
+    end
+
+    def faved
+      context[:current_user].present? ? object.favers.find_by(uuid: context[:current_user].id).present? : false
     end
 
     def exif
@@ -75,6 +81,10 @@ module Types
 
     def likes_count
       object.likes_count
+    end
+
+    def faves_count
+      object.faves_count
     end
 
     def comments_count

@@ -10,7 +10,7 @@ export default props => {
   return (
     <React.Fragment>
       <PageTitle>Home</PageTitle>
-      <div style={{ paddingTop: 5, paddingLeft: 30 }}>
+      <div style={{ paddingTop: 30, paddingLeft: 30 }}>
         <Typography variant="h4">Latest Pictures</Typography>
       </div>
       <Media home={true} sort="latest" limit={12} {...props} />
