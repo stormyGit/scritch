@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_02_040500) do
+ActiveRecord::Schema.define(version: 2019_03_04_030131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -314,6 +314,16 @@ ActiveRecord::Schema.define(version: 2019_03_02_040500) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+  end
+
+  create_table "fursuit_subscriptions", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.uuid "fursuit_id"
+    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fursuit_id"], name: "index_fursuit_subscriptions_on_fursuit_id"
+    t.index ["user_id"], name: "index_fursuit_subscriptions_on_user_id"
   end
 
   create_table "fursuit_users", force: :cascade do |t|

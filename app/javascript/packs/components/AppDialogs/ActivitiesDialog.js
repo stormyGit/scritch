@@ -26,6 +26,7 @@ import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
 import TruncatedText from "../Global/TruncatedText";
 import UserAvatar from "../Users/UserAvatar";
+import Avatar from "@material-ui/core/Avatar";
 
 import {
   GET_ACTIVITIES,
@@ -71,6 +72,9 @@ const styles = theme => ({
   highlight: {
     display: "inline-block",
     fontWeight: "bold"
+  },
+  avatar: {
+    background: "black"
   }
 });
 
@@ -281,6 +285,39 @@ class ActivitiesDialog extends React.Component {
     );
   }
 
+  renderFursuitMediumCreate(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+        onClick={() => {
+          this.props.history.push({
+            pathname: `/pictures/${activity.trackable.medium.id}`
+          });
+          this.props.onClose();
+        }}
+      >
+        <Avatar
+          src={activity.trackable.medium.thumbnail}
+          className={classes.avatar}
+        />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your fursuit ${
+                  activity.trackable.fursuit.name
+                } has been tagged in a new picture!`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
   renderActivity(activity) {
     switch (activity.key) {
       case "like.create":
@@ -293,6 +330,8 @@ class ActivitiesDialog extends React.Component {
         return this.renderMediumRefused(activity);
       case "report.create":
         return this.renderReportCreate(activity);
+      case "fursuit_medium.create":
+        return this.renderFursuitMediumCreate(activity);
       default:
         return null;
     }
@@ -316,6 +355,7 @@ class ActivitiesDialog extends React.Component {
               return null;
             }
 
+            console.log(data.activities);
             return (
               <React.Fragment>
                 {data.activities.length === 0 ? (

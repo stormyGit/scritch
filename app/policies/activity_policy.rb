@@ -5,12 +5,7 @@ class ActivityPolicy < ApplicationPolicy
         scope.none
       else
         scope
-          .where(recipient: user)
-          .where.not(owner: user)
-          .joins("INNER JOIN users AS recipients ON recipients.uuid = activities.recipient_id")
-          .joins("INNER JOIN users AS owners ON owners.uuid = activities.owner_id")
-          .where.not("owners.uuid::text = SOME(recipients.blocked_users_ids)")
-          .where.not("recipients.uuid::text = SOME(owners.blocked_users_ids)")
+          .where(recipient: user).where.not(owner: user)
       end
     end
   end

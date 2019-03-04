@@ -15,6 +15,8 @@ class Fursuit < ApplicationRecord
   has_one :hybrid, dependent: :destroy
   has_many :fursuit_species, through: :hybrid
 
+  has_many :fursuit_subscriptions, dependent: :destroy
+
   mount_base64_uploader :avatar, AvatarUploader
   has_many :fursuit_users, dependent: :destroy
   has_many :users, through: :fursuit_users
@@ -25,16 +27,15 @@ class Fursuit < ApplicationRecord
   has_many :fursuit_media, dependent: :destroy
   has_many :media, through: :fursuit_media
 
-  # scope :with_species, -> (id) { where(fursuit_specy_id: id) }
-  # scope :with_style,   -> (id) { where(fursuit_style_id: id) }
-  # scope :with_legs,    -> (id) { where(fursuit_leg_type_id: id) }
-  # scope :by_maker,     -> (id) { joins(:fursuit_makers).where("fursuit_makers.maker_id = ?", id) }
-
   def slug_candidates
     [
       :name,
       [:name, :creation_year]
     ]
+  end
+
+  def subscribers
+    User.where(uuid: self.fursuit_subscriptions.pluck(:user_id))
   end
 
   def maker

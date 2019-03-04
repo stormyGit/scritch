@@ -19,6 +19,17 @@ export const GET_ACTIVITIES = gql`
             title
           }
         }
+        ... on FursuitMedium {
+          id
+          medium {
+            id
+            thumbnail
+          }
+          fursuit {
+            id
+            name
+          }
+        }
         ... on Medium {
           id
           title

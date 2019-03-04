@@ -32,6 +32,8 @@ class User < ApplicationRecord
   has_many :chats_as_sender, class_name: "Chat", foreign_key: :sender_id, dependent: :destroy, inverse_of: :sender
   has_many :chats_as_recipient, class_name: "Chat", foreign_key: :recipient_id, dependent: :destroy, inverse_of: :recipient
 
+  has_many :fursuit_subscriptions, dependent: :destroy
+
   before_validation :check_slug_uniqueness, if: :will_save_change_to_slug?
   before_create :set_theme
 
@@ -62,5 +64,9 @@ class User < ApplicationRecord
 
   def is_banned?
     BannedUser.find_last_active_ban_for(self.telegram_id).present?
+  end
+
+  def subscriptions
+    Fursuit.where(uuid: self.fursuit_subscriptions.pluck(:fursuit_id))
   end
 end

@@ -31,6 +31,7 @@
     "react-avatar-editor": "^11.0.4",
     "react-dom": "^16.4.2",
     "react-dropzone": "^5.1.0",
+    "react-facebook-login": "^4.1.1",
     "react-grid-gallery": "^0.5.3",
     "react-linkify": "^0.2.2",
     "react-markdown": "^4.0.6",
