@@ -91,6 +91,8 @@ class Fursuit extends React.Component {
     let limit = parseInt(process.env.USER_MEDIA_PAGE_SIZE);
     const query = queryString.parse(location.search);
 
+    var image;
+
     return (
       <Query
         query={LOAD_FURSUIT}
@@ -101,6 +103,17 @@ class Fursuit extends React.Component {
         {({ loading, error, data }) => {
           const fursuit = data ? data.fursuit : null;
 
+          if (fursuit) {
+            if (fursuit.isHybrid) image = require("images/species/Hybrid.png");
+            else
+              try {
+                image = require(`images/species/${
+                  fursuit.fursuitSpecy.name
+                }.png`);
+              } catch (ex) {
+                image = require("images/species/Missingno (No Avatar Graphic Found).png");
+              }
+          }
           return (
             !loading &&
             !error &&
@@ -247,7 +260,7 @@ class Fursuit extends React.Component {
                         <Grid xs={4} item />
                         <Grid xs={4} item>
                           <img
-                            src={require("../../stormy.jpg")}
+                            src={image}
                             title={fursuit.name}
                             width="100%"
                             style={{ borderRadius: "100%" }}

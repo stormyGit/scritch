@@ -95,11 +95,21 @@ class FursuitMiniCard extends React.Component {
   render() {
     const { classes, fursuit, onClick } = this.props;
 
+    var image;
+
+    if (fursuit.isHybrid) image = require("images/species/Hybrid.png");
+    else
+      try {
+        image = require(`images/species/${fursuit.fursuitSpecy.name}.png`);
+      } catch (ex) {
+        image = require("images/species/Missingno (No Avatar Graphic Found).png");
+      }
+
     return (
       <Grid container spacing={8} justify="center" alignItems="center">
         <Grid item lg={12} xs={12}>
           <img
-            src={require("../../photo.jpg")}
+            src={image}
             onClick={() => {
               onClick(fursuit);
             }}

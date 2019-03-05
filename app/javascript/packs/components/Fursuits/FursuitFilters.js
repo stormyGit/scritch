@@ -21,6 +21,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { Link, withRouter } from "react-router-dom";
 
+import { makersList } from "../../makersList";
 import { fursuitColors } from "../../fursuitColors";
 import { fursuitEyes } from "../../fursuitEyes";
 

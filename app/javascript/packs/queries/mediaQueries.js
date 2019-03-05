@@ -101,6 +101,10 @@ export const GET_MEDIUM = gql`
       fursuits {
         id
         name
+        isHybrid
+        fursuitSpecy {
+          name
+        }
         slug
       }
       category {

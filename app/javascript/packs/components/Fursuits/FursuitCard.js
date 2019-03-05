@@ -13,8 +13,6 @@ import queryString from "query-string";
 import Typography from "@material-ui/core/Typography";
 import { Link, withRouter } from "react-router-dom";
 
-import Background from "../../photo.jpg";
-
 const styles = theme => ({
   card: {
     width: "100%",
@@ -49,12 +47,22 @@ class FursuitCard extends React.Component {
 
   renderMedia() {
     const { classes, fursuit, horizontal, width, client } = this.props;
+    var image;
 
+    if (fursuit.isHybrid) image = require("images/species/Hybrid.png");
+    else
+      try {
+        image = require(`images/species/${fursuit.fursuitSpecy.name}.png`);
+      } catch (ex) {
+        image = require("images/species/Missingno (No Avatar Graphic Found).png");
+      }
+
+    console.log(fursuit);
     return (
       <div className={classes.cardMediaContainer}>
         <CardMedia
           className={classes.verticalMedia}
-          image={fursuit.avatar ? fursuit.avatar : require("../../photo.jpg")} //{fursuit.thumbnail} TODO
+          image={image}
           title={fursuit.name}
         />
       </div>
