@@ -431,9 +431,9 @@ module Types
         when 'subscriptions'
           media
             .where("media.uuid IN (? UNION ?)",
-              Medium.where(user: User.first.all_following)
+              Medium.where(user: context[:current_user].all_following)
                 .select(:uuid),
-              Medium.joins(:fursuits).where("fursuits.uuid IN (?)", User.first.subscriptions.pluck(:uuid))
+              Medium.joins(:fursuits).where("fursuits.uuid IN (?)", context[:current_user].subscriptions.pluck(:uuid))
                 .select(:uuid)).order(["media.created_at DESC, media.created_at DESC"])
         else
           media
