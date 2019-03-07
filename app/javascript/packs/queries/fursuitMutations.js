@@ -10,3 +10,23 @@ export const UPDATE_FURSUIT = gql`
     }
   }
 `;
+
+export const CREATE_SUBSCRIPTION = gql`
+  mutation createSubscription($input: CreateSubscriptionInput!) {
+    createSubscription(input: $input) {
+      subscription {
+        id
+      }
+    }
+  }
+`;
+
+export const DELETE_SUBSCRIPTION = gql`
+  mutation deleteSubscription($input: DeleteSubscriptionInput!) {
+    deleteSubscription(input: $input) {
+      subscription {
+        id
+      }
+    }
+  }
+`;

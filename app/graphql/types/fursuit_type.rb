@@ -8,6 +8,7 @@ module Types
     field :media_count, Integer, null: true
     field :claimed, Boolean, null: false
     field :possessed, Boolean, null: false
+    field :followed, Boolean, null: false
     field :is_hybrid, Boolean, null: false
     field :media, [MediumType], null: true
     field :makers, [MakerType], null: true
@@ -23,6 +24,10 @@ module Types
 
     def possessed
       FursuitUser.where(user: context[:current_user], fursuit: object).count > 0
+    end
+
+    def followed
+      FursuitSubscription.where(user: context[:current_user], fursuit: object).count > 0
     end
 
     def media_count

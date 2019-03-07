@@ -1,5 +1,5 @@
 import React from "react";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -15,6 +15,10 @@ import EditFursuitDialog from "./EditFursuitDialog";
 import Media from "../Media/Media";
 
 import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
+import {
+  CREATE_SUBSCRIPTION,
+  DELETE_SUBSCRIPTION
+} from "../../queries/fursuitMutations";
 
 import withCurrentSession from "../withCurrentSession";
 import SocialButton from "../Global/SocialButton";
@@ -79,6 +83,9 @@ const styles = theme => ({
     width: "100%",
     height: "calc(100vh - 56px)",
     objectFit: "cover"
+  },
+  followButtonSpacer: {
+    width: 132
   }
 });
 
@@ -88,6 +95,82 @@ class Fursuit extends React.Component {
     claimDialog: false,
     editFursuitDialog: false
   };
+
+  renderFollowButton(fursuit) {
+    const { width } = this.props;
+
+    if (fursuit.followed) {
+      return (
+        <Mutation
+          mutation={DELETE_SUBSCRIPTION}
+          update={(cache, { data: { createFollow } }) => {
+            cache.writeQuery({
+              query: LOAD_FURSUIT,
+              variables: { id: fursuit.id },
+              data: {
+                fursuit: {
+                  ...fursuit,
+                  followed: false
+                }
+              }
+            });
+          }}
+        >
+          {(deleteFollow, { data }) => (
+            <Button
+              size={width !== "lg" && width !== "xl" ? "small" : "medium"}
+              className={
+                width === "lg" || width === "xl"
+                  ? this.props.classes.followButtonSpacer
+                  : null
+              }
+              color={this.state.showUnfollow ? "secondary" : "primary"}
+              onMouseEnter={() => this.setState({ showUnfollow: true })}
+              onMouseLeave={() => this.setState({ showUnfollow: false })}
+              onClick={() => {
+                deleteFollow({
+                  variables: { input: { fursuitId: fursuit.id } }
+                });
+              }}
+            >
+              {this.state.showUnfollow ? "Unfollow" : "Following"}
+            </Button>
+          )}
+        </Mutation>
+      );
+    } else {
+      return (
+        <Mutation
+          mutation={CREATE_SUBSCRIPTION}
+          update={(cache, { data: { createFollow } }) => {
+            cache.writeQuery({
+              query: LOAD_FURSUIT,
+              variables: { id: fursuit.id },
+              data: {
+                fursuit: {
+                  ...fursuit,
+                  followed: true
+                }
+              }
+            });
+          }}
+        >
+          {(createFollow, { data }) => (
+            <Button
+              size={width !== "lg" && width !== "xl" ? "small" : "medium"}
+              onClick={() => {
+                createFollow({
+                  variables: { input: { fursuitId: fursuit.id } }
+                });
+              }}
+            >
+              Follow
+            </Button>
+          )}
+        </Mutation>
+      );
+    }
+  }
 
   renderFursuitMedia() {
     const { classes, match, currentSession } = this.props;
@@ -137,13 +220,13 @@ class Fursuit extends React.Component {
                   {!loading && fursuit ? fursuit.name : null}
                 </PageTitle>
                 <React.Fragment>
-                  {!fursuit.claimed && !fursuit.possessed && !fursuit.users && (
-                    <Grid
-                      container
-                      spacing={8}
-                      justify="space-between"
-                      wrap="nowrap"
-                    >
+                  <Grid
+                    container
+                    spacing={8}
+                    justify="space-between"
+                    wrap="nowrap"
+                  >
+                    {!fursuit.claimed && !fursuit.possessed && !fursuit.users && (
                       <Grid item>
                         <Button
                           color="primary"
@@ -152,15 +235,8 @@ class Fursuit extends React.Component {
                           Claim fursuit
                         </Button>
                       </Grid>
-                    </Grid>
-                  )}
-                  {!fursuit.claimed && !fursuit.possessed && fursuit.users && (
-                    <Grid
-                      container
-                      spacing={8}
-                      justify="space-between"
-                      wrap="nowrap"
-                    >
+                    )}
+                    {!fursuit.claimed && !fursuit.possessed && fursuit.users && (
                       <Grid item>
                         <Button
                           color="primary"
@@ -169,15 +245,8 @@ class Fursuit extends React.Component {
                           Contest Claim
                         </Button>
                       </Grid>
-                    </Grid>
-                  )}
-                  {fursuit.possessed && (
-                    <Grid
-                      container
-                      spacing={8}
-                      justify="space-between"
-                      wrap="nowrap"
-                    >
+                    )}
+                    {fursuit.possessed && (
                       <Grid item>
                         <Button
                           color="primary"
@@ -188,8 +257,11 @@ class Fursuit extends React.Component {
                           Edit fursuit
                         </Button>
                       </Grid>
-                    </Grid>
-                  )}
+                    )}
+                    {!fursuit.claimed &&
+                      !fursuit.possessed &&
+                      this.renderFollowButton(fursuit)}
+                  </Grid>
                 </React.Fragment>
                 <div className={classes.pictureInfo}>
                   <Grid

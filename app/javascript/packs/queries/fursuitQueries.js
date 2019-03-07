@@ -60,6 +60,7 @@ export const LOAD_FURSUIT = gql`
       mediaCount
       claimed
       possessed
+      followed
       creationYear
       fursuitLegType {
         name

@@ -6,6 +6,8 @@ module Types
     field :delete_comment, mutation: Mutations::DeleteComment
     field :create_follow, mutation: Mutations::CreateFollow
     field :delete_follow, mutation: Mutations::DeleteFollow
+    field :create_subscription, mutation: Mutations::CreateSubscription
+    field :delete_subscription, mutation: Mutations::DeleteSubscription
     field :create_like, mutation: Mutations::CreateLike
     field :delete_like, mutation: Mutations::DeleteLike
     field :create_fave, mutation: Mutations::CreateFave
@@ -27,7 +29,6 @@ module Types
     field :block_user, mutation: Mutations::BlockUser
     field :unblock_user, mutation: Mutations::UnblockUser
     field :create_advert, mutation: Mutations::CreateAdvert
-
     field :create_claim, mutation: Mutations::CreateClaim
   end
 end

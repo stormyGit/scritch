@@ -429,7 +429,12 @@ module Types
         when 'random'
           media.order("RANDOM()")
         when 'subscriptions'
-          media.where(user: context[:current_user].all_following).order("media.created_at DESC, media.created_at DESC")
+          media
+            .where("media.uuid IN (? UNION ?)",
+              Medium.where(user: User.first.all_following)
+                .select(:uuid),
+              Medium.joins(:fursuits).where("fursuits.uuid IN (?)", User.first.subscriptions.pluck(:uuid))
+                .select(:uuid)).order(["media.created_at DESC, media.created_at DESC"])
         else
           media
         end
