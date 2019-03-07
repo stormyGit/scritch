@@ -58,6 +58,8 @@ export const LOAD_FURSUIT = gql`
       name
       slug
       mediaCount
+      claimed
+      possessed
       creationYear
       fursuitLegType {
         name
@@ -74,18 +76,6 @@ export const LOAD_FURSUIT = gql`
       }
       makers {
         name
-      }
-      media {
-        id
-        slug
-        title
-        description
-        picture
-        thumbnail
-        width
-        height
-        completion
-        createdAt
       }
     }
   }

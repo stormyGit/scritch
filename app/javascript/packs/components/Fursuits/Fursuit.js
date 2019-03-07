@@ -10,8 +10,10 @@ import queryString from "query-string";
 import Gallery from "react-grid-gallery";
 import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
+import FursuitClaimDialog from "./FursuitClaimDialog";
+import EditFursuitDialog from "./EditFursuitDialog";
+import Media from "../Media/Media";
 
-import { GET_MEDIA } from "../../queries/mediaQueries";
 import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
 
 import withCurrentSession from "../withCurrentSession";
@@ -82,11 +84,23 @@ const styles = theme => ({
 
 class Fursuit extends React.Component {
   state = {
-    editFursuit: false,
-    currentImage: 0
+    currentImage: 0,
+    claimDialog: false,
+    editFursuitDialog: false
   };
 
-  render() {
+  renderFursuitMedia() {
+    const { classes, match, currentSession } = this.props;
+    console.log(match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0]);
+    return (
+      <Media
+        fursuit={true}
+        fursuitId={match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0]}
+      />
+    );
+  }
+
+  renderFursuitData() {
     const { classes, match, currentSession } = this.props;
     let limit = parseInt(process.env.USER_MEDIA_PAGE_SIZE);
     const query = queryString.parse(location.search);
@@ -118,259 +132,268 @@ class Fursuit extends React.Component {
             !loading &&
             !error &&
             fursuit && (
-              <div className={classes.container} key={fursuit.id}>
+              <React.Fragment>
                 <PageTitle>
                   {!loading && fursuit ? fursuit.name : null}
                 </PageTitle>
-                <Grid container spacing={8}>
-                  <Grid item lg={9} xs={12}>
-                    <div className={classes.pictureInfo}>
-                      {fursuit.media.length === 0 && (
-                        <EmptyList
-                          label={`${fursuit.name} doesn't have any pictures.`}
-                        />
-                      )}
-                      {fursuit.media.length > 0 && (
-                        <React.Fragment>
-                          <Grid container spacing={8}>
-                            <Grid item xs={12}>
-                              <Gallery
-                                customControls={[
-                                  <Button
-                                    color="secondary"
-                                    key="goToImage"
-                                    onClick={() =>
-                                      this.goToImage(fursuit.media)
-                                    }
-                                  >
-                                    Go to picture
-                                  </Button>
-                                ]}
-                                enableLightbox={true}
-                                enableImageSelection={false}
-                                backdropClosesModal
-                                currentImageWillChange={
-                                  this.onCurrentImageChange
-                                }
-                                images={fursuit.media.map(medium => ({
-                                  src: medium.picture,
-                                  thumbnail: medium.thumbnail,
-                                  thumbnailWidth:
-                                    medium.width / (medium.height / 256.0),
-                                  thumbnailHeight: 256
-                                }))}
-                              />
-                            </Grid>
-                            {fursuit.media.length < fursuit.mediaCount && (
-                              <LoadMoreButton
-                                onClick={() => {
-                                  fetchMore({
-                                    variables: {
-                                      offset: fursuit.media.length,
-                                      limit
-                                    },
-                                    updateQuery: (
-                                      prev,
-                                      { fetchMoreResult }
-                                    ) => {
-                                      if (!fetchMoreResult) return prev;
-
-                                      return Object.assign({}, prev, {
-                                        media: [
-                                          ...prev.media,
-                                          ...fetchMoreResult.media
-                                        ]
-                                      });
-                                    }
-                                  });
-                                }}
-                              />
-                            )}
-                          </Grid>
-                        </React.Fragment>
-                      )}
-                    </div>
-                  </Grid>
-                  <Grid item lg={3} xs={12}>
-                    <div className={classes.pictureInfo}>
-                      <Grid
-                        container
-                        spacing={8}
-                        justify="space-between"
-                        wrap="nowrap"
-                      >
-                        <Grid item>
-                          <Typography
-                            gutterBottom
-                            variant="h6"
-                            component="h2"
-                            color="secondary"
-                            className={classes.fursuitTitle}
-                            noWrap
-                          >
-                            {fursuit.name}
-                          </Typography>
-                          <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="h2"
-                            className={classes.fursuitTitle}
-                            noWrap
-                          >
-                            {fursuit.creationYear}
-                          </Typography>
-                        </Grid>
-
-                        <Grid item style={{ flexShrink: 0 }}>
-                          <React.Fragment>
-                            <SocialButton
-                              name="Twitter"
-                              url="https://twitter.com/intent/tweet/"
-                              params={{
-                                text: `${fursuit.name} via @${
-                                  process.env.TWITTER_ACCOUNT
-                                }`,
-                                url: window.location.href
-                              }}
-                              className={classes.socialButton}
-                            >
-                              <TwitterIcon fontSize={"inherit"} />
-                            </SocialButton>
-                            <SocialButton
-                              name="Telegram"
-                              className={classes.socialButton}
-                              url="https://telegram.me/share/url"
-                              params={{
-                                text: fursuit.name,
-                                url: window.location.href
-                              }}
-                            >
-                              <TelegramIcon fontSize={"inherit"} />
-                            </SocialButton>
-                          </React.Fragment>
-                        </Grid>
+                <React.Fragment>
+                  {!fursuit.claimed && !fursuit.possessed && !fursuit.users && (
+                    <Grid
+                      container
+                      spacing={8}
+                      justify="space-between"
+                      wrap="nowrap"
+                    >
+                      <Grid item>
+                        <Button
+                          color="primary"
+                          onClick={() => this.setState({ claimDialog: true })}
+                        >
+                          Claim fursuit
+                        </Button>
                       </Grid>
+                    </Grid>
+                  )}
+                  {!fursuit.claimed && !fursuit.possessed && fursuit.users && (
+                    <Grid
+                      container
+                      spacing={8}
+                      justify="space-between"
+                      wrap="nowrap"
+                    >
+                      <Grid item>
+                        <Button
+                          color="primary"
+                          onClick={() => this.setState({ claimDialog: true })}
+                        >
+                          Contest Claim
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  )}
+                  {fursuit.possessed && (
+                    <Grid
+                      container
+                      spacing={8}
+                      justify="space-between"
+                      wrap="nowrap"
+                    >
+                      <Grid item>
+                        <Button
+                          color="primary"
+                          onClick={() =>
+                            this.setState({ editFursuitDialog: true })
+                          }
+                        >
+                          Edit fursuit
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  )}
+                </React.Fragment>
+                <div className={classes.pictureInfo}>
+                  <Grid
+                    container
+                    spacing={8}
+                    justify="space-between"
+                    wrap="nowrap"
+                  >
+                    <Grid item>
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="secondary"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        {fursuit.name}
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        {fursuit.creationYear}
+                      </Typography>
+                    </Grid>
+
+                    <Grid item style={{ flexShrink: 0 }}>
+                      <React.Fragment>
+                        <SocialButton
+                          name="Twitter"
+                          url="https://twitter.com/intent/tweet/"
+                          params={{
+                            text: `${fursuit.name} via @${
+                              process.env.TWITTER_ACCOUNT
+                            }`,
+                            url: window.location.href
+                          }}
+                          className={classes.socialButton}
+                        >
+                          <TwitterIcon fontSize={"inherit"} />
+                        </SocialButton>
+                        <SocialButton
+                          name="Telegram"
+                          className={classes.socialButton}
+                          url="https://telegram.me/share/url"
+                          params={{
+                            text: fursuit.name,
+                            url: window.location.href
+                          }}
+                        >
+                          <TelegramIcon fontSize={"inherit"} />
+                        </SocialButton>
+                      </React.Fragment>
+                    </Grid>
+                  </Grid>
+                  <div style={{ padding: 10 }} />
+                  <Grid
+                    container
+                    spacing={8}
+                    alignItems="center"
+                    justify="center"
+                  >
+                    <Grid xs={4} item />
+                    <Grid xs={4} item>
+                      <img
+                        src={image}
+                        title={fursuit.name}
+                        width="100%"
+                        style={{ borderRadius: "100%" }}
+                      />
+                    </Grid>
+                    <Grid xs={4} item />
+                  </Grid>
+                  <Grid container spacing={8}>
+                    <Grid item>
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="secondary"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        Made by
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        {fursuit.makers.length > 0
+                          ? fursuit.makers[0].name
+                          : "Unknown"}
+                      </Typography>
                       <div style={{ padding: 10 }} />
-                      <Grid
-                        container
-                        spacing={8}
-                        alignItems="center"
-                        justify="center"
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="secondary"
+                        className={classes.fursuitTitle}
+                        noWrap
                       >
-                        <Grid xs={4} item />
-                        <Grid xs={4} item>
-                          <img
-                            src={image}
-                            title={fursuit.name}
-                            width="100%"
-                            style={{ borderRadius: "100%" }}
-                          />
-                        </Grid>
-                        <Grid xs={4} item />
-                      </Grid>
-                      <Grid container spacing={8}>
-                        <Grid item>
-                          <Typography
-                            gutterBottom
-                            variant="h6"
-                            component="h2"
-                            color="secondary"
-                            className={classes.fursuitTitle}
-                            noWrap
-                          >
-                            Made by
-                          </Typography>
-                          <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="h2"
-                            className={classes.fursuitTitle}
-                            noWrap
-                          >
-                            {fursuit.makers.length > 0
-                              ? fursuit.makers[0].name
-                              : "Unknown"}
-                          </Typography>
-                          <div style={{ padding: 10 }} />
-                          <Typography
-                            gutterBottom
-                            variant="h6"
-                            component="h2"
-                            color="secondary"
-                            className={classes.fursuitTitle}
-                            noWrap
-                          >
-                            Species
-                          </Typography>
-                          <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="h2"
-                            className={classes.fursuitTitle}
-                            noWrap={false}
-                          >
-                            {fursuit.isHybrid
-                              ? fursuit.hybridSpecies
-                                  .map(e => e.name)
-                                  .join(", ")
-                              : fursuit.fursuitSpecy.name}
-                          </Typography>
-                          <div style={{ padding: 10 }} />
-                          <Typography
-                            gutterBottom
-                            variant="h6"
-                            component="h2"
-                            color="secondary"
-                            className={classes.fursuitTitle}
-                            noWrap
-                          >
-                            Style
-                          </Typography>
-                          <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="h2"
-                            className={classes.fursuitTitle}
-                            noWrap
-                          >
-                            {fursuit.fursuitStyle
-                              ? fursuit.fursuitStyle.name
-                              : "Unknown"}
-                          </Typography>
-                          <div style={{ padding: 10 }} />
-                          <Typography
-                            gutterBottom
-                            variant="h6"
-                            component="h2"
-                            color="secondary"
-                            className={classes.fursuitTitle}
-                            noWrap
-                          >
-                            Leg Type
-                          </Typography>
-                          <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="h2"
-                            className={classes.fursuitTitle}
-                            noWrap
-                          >
-                            {fursuit.fursuitLegType
-                              ? fursuit.fursuitLegType.name
-                              : "Unknown"}
-                          </Typography>
-                          <div style={{ padding: 10 }} />
-                        </Grid>
-                      </Grid>
-                      <Divider />
-                    </div>
+                        Species
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap={false}
+                      >
+                        {fursuit.isHybrid
+                          ? fursuit.hybridSpecies.map(e => e.name).join(", ")
+                          : fursuit.fursuitSpecy.name}
+                      </Typography>
+                      <div style={{ padding: 10 }} />
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="secondary"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        Style
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        {fursuit.fursuitStyle
+                          ? fursuit.fursuitStyle.name
+                          : "Unknown"}
+                      </Typography>
+                      <div style={{ padding: 10 }} />
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="secondary"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        Leg Type
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        {fursuit.fursuitLegType
+                          ? fursuit.fursuitLegType.name
+                          : "Unknown"}
+                      </Typography>
+                      <div style={{ padding: 10 }} />
+                    </Grid>
                   </Grid>
-                </Grid>
-              </div>
+                  <Divider />
+                </div>
+                <FursuitClaimDialog
+                  fursuit={fursuit.id}
+                  open={this.state.claimDialog}
+                  onClose={() => this.setState({ claimDialog: false })}
+                />
+                <EditFursuitDialog
+                  fursuit={fursuit}
+                  open={this.state.editFursuitDialog}
+                  onClose={() => this.setState({ editFursuitDialog: false })}
+                />
+              </React.Fragment>
             )
           );
         }}
       </Query>
+    );
+  }
+
+  render() {
+    const { classes, match, currentSession } = this.props;
+    return (
+      <React.Fragment>
+        <div className={classes.container}>
+          <Grid container spacing={8}>
+            <Grid item lg={10} xs={12}>
+              {this.renderFursuitMedia()}
+            </Grid>
+            <Grid item lg={2} xs={12}>
+              {this.renderFursuitData()}
+            </Grid>
+          </Grid>
+        </div>
+      </React.Fragment>
     );
   }
 }

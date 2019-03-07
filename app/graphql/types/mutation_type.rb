@@ -26,8 +26,8 @@ module Types
     field :create_tech_report, mutation: Mutations::CreateTechReport
     field :block_user, mutation: Mutations::BlockUser
     field :unblock_user, mutation: Mutations::UnblockUser
-
     field :create_advert, mutation: Mutations::CreateAdvert
 
+    field :create_claim, mutation: Mutations::CreateClaim
   end
 end

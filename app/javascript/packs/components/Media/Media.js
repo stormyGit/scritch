@@ -100,7 +100,16 @@ class Media extends React.Component {
   }
 
   render() {
-    const { classes, location, home, width, searching, faves } = this.props;
+    const {
+      classes,
+      location,
+      home,
+      width,
+      searching,
+      fursuit,
+      faves,
+      fursuitId
+    } = this.props;
     const query = searching ? queryString.parse(location.search) : null;
     let limit = query
       ? 12
@@ -110,8 +119,8 @@ class Media extends React.Component {
 
     return (
       <React.Fragment>
-        {!searching && !faves && <PageTitle>Pictures</PageTitle>}
-        {!searching && !home && this.renderMediaFilters()}
+        {!fursuit && !searching && !faves && <PageTitle>Pictures</PageTitle>}
+        {!fursuit && !searching && !home && this.renderMediaFilters()}
         <Query
           query={GET_MEDIA}
           variables={{
@@ -120,6 +129,7 @@ class Media extends React.Component {
             editionId: this.state.edition ? this.state.edition.value : null,
             categoryId: this.state.category ? this.state.category.value : null,
             subEventId: this.state.subEvent ? this.state.subEvent.value : null,
+            fursuitId: this.props.fursuitId,
             fursuits: this.state.fursuits
               ? this.state.fursuits.map(e => e.id)
               : null,

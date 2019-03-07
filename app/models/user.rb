@@ -19,6 +19,7 @@ class User < ApplicationRecord
   has_many :sessions, dependent: :destroy
 
   has_many :fursuit_media
+  has_many :tag_reports, dependent: :destroy
 
   has_many :fursuit_users, dependent: :destroy
   has_many :fursuits, through: :fursuit_users

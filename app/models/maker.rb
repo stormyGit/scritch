@@ -10,6 +10,8 @@ class Maker < ApplicationRecord
   has_many :fursuit_makers, dependent: :destroy
   has_many :fursuits, through: :fursuit_makers
 
+  has_many :maker_claims, dependent: :destroy
+
   def self.as_options_for_react_select
     distinct.order(:name).pluck(:name)
   end

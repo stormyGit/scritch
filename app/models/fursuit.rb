@@ -15,6 +15,8 @@ class Fursuit < ApplicationRecord
   has_one :hybrid, dependent: :destroy
   has_many :fursuit_species, through: :hybrid
 
+  has_many :claims, dependent: :destroy
+
   has_many :fursuit_subscriptions, dependent: :destroy
 
   mount_base64_uploader :avatar, AvatarUploader

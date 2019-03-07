@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_04_030131) do
+ActiveRecord::Schema.define(version: 2019_03_06_034253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -155,6 +155,18 @@ ActiveRecord::Schema.define(version: 2019_03_04_030131) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "output"
+  end
+
+  create_table "claims", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.uuid "fursuit_id", null: false
+    t.uuid "user_id", null: false
+    t.string "status", default: "open", null: false
+    t.boolean "conflictual", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fursuit_id"], name: "index_claims_on_fursuit_id"
+    t.index ["user_id"], name: "index_claims_on_user_id"
   end
 
   create_table "comment_reports", force: :cascade do |t|
@@ -385,6 +397,18 @@ ActiveRecord::Schema.define(version: 2019_03_04_030131) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "maker_claims", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.uuid "maker_id", null: false
+    t.uuid "user_id", null: false
+    t.string "status", default: "open", null: false
+    t.boolean "conflictual", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["maker_id"], name: "index_maker_claims_on_maker_id"
+    t.index ["user_id"], name: "index_maker_claims_on_user_id"
+  end
+
   create_table "makers", force: :cascade do |t|
     t.string "name"
     t.string "web"
@@ -549,6 +573,16 @@ ActiveRecord::Schema.define(version: 2019_03_04_030131) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["edition_id"], name: "index_sub_events_on_edition_id"
+  end
+
+  create_table "tag_reports", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.uuid "fursuit_medium_id", null: false
+    t.uuid "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fursuit_medium_id"], name: "index_tag_reports_on_fursuit_medium_id"
+    t.index ["user_id"], name: "index_tag_reports_on_user_id"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|
