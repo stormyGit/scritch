@@ -9,11 +9,6 @@ class GraphqlController < ApplicationController
       current_user_references: current_user_references,
       cookies: cookies
     }
-    puts "\n" * 30
-    puts query
-    puts variables
-    puts operation_name
-    puts "\n" * 30
     result = MurrsuitSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue => e

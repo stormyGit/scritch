@@ -13,6 +13,6 @@ class ChargeSuccess
   private
 
   def sponsor
-    @sponsor ||= Sponsor.where(customer_id: @cus_id).first!
+    Sponsor.where(customer_id: @cus_id).first!
   end
 end

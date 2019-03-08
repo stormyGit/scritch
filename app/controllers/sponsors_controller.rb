@@ -26,10 +26,16 @@ class SponsorsController < ApplicationController
 
     if @current_session.present? && @current_session.user.sponsor.blank?
 
-      customer = Stripe::Customer.create(
-        :email => params[:stripeEmail],
-        :source  => params[:stripeToken])
+      if @current_session.user.sponsor.present?
 
+        customer = Stripe::Customer.retrieve(@current_session.user.sponsor.customer_id)
+        customer.source = params[:stripeToken]
+      else
+        customer = Stripe::Customer.create(
+          :email => params[:stripeEmail],
+          :source  => params[:stripeToken]
+        )
+      end
       charge =
         if subType == ENV["MONTH_SUB_ID"]
           Stripe::Subscription.create(
