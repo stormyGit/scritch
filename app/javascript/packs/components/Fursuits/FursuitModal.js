@@ -13,6 +13,7 @@ import { withStyles } from "@material-ui/core/styles";
 import GlobalProgress from "../Global/GlobalProgress";
 import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
 import { Query } from "react-apollo";
+import FursuitAvatar from "./FursuitAvatar";
 
 const styles = theme => ({
   link: {
@@ -44,6 +45,16 @@ class FursuitModal extends React.Component {
               <DialogTitle>{localFursuit.name}</DialogTitle>
               <DialogContent>
                 <Grid container spacing={8}>
+                  <Grid item xs={5} />
+                  <Grid item xs={2}>
+                    <FursuitAvatar
+                      src={localFursuit.avatar}
+                      specy={
+                        fursuit.isHybrid ? "Hybrid" : fursuit.fursuitSpecy.name
+                      }
+                    />
+                  </Grid>
+                  <Grid item xs={5} />
                   <Grid item xs={6}>
                     <DialogContentText>Species</DialogContentText>
                     <Typography
@@ -81,46 +92,92 @@ class FursuitModal extends React.Component {
                     >
                       {localFursuit.creationYear
                         ? localFursuit.creationYear
+                        : "Unknown"}
+                    </Typography>
+                    <DialogContentText>Style</DialogContentText>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="h2"
+                      className={classes.text}
+                      noWrap
+                    >
+                      {localFursuit.fursuitStyle
+                        ? localFursuit.fursuitStyle.name
+                        : "Unknown"}
+                    </Typography>
+                    <DialogContentText>Leg Type</DialogContentText>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="h2"
+                      className={classes.text}
+                      noWrap
+                    >
+                      {localFursuit.fursuitLegType
+                        ? localFursuit.fursuitLegType.name
                         : "Unknown"}
                     </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <DialogContentText>Species</DialogContentText>
+                    <DialogContentText>Build</DialogContentText>
                     <Typography
                       gutterBottom
-                      variant="h6"
-                      component="h4"
+                      variant="h5"
+                      component="h2"
                       className={classes.text}
                       noWrap
                     >
-                      {localFursuit.isHybrid
-                        ? `Hybrid (${localFursuit.hybridSpecies
-                            .map(e => e.name)
-                            .join(", ")})`
-                        : localFursuit.fursuitSpecy.name}
-                    </Typography>
-                    <DialogContentText>Made by</DialogContentText>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="h4"
-                      className={classes.text}
-                      noWrap
-                    >
-                      {localFursuit.makers[0]
-                        ? localFursuit.makers[0].name
+                      {localFursuit.fursuitBuild
+                        ? localFursuit.fursuitBuild.name
                         : "Unknown"}
                     </Typography>
-                    <DialogContentText>Created in</DialogContentText>
+                    <DialogContentText>Padding</DialogContentText>
                     <Typography
                       gutterBottom
-                      variant="h6"
-                      component="h4"
+                      variant="h5"
+                      component="h2"
                       className={classes.text}
                       noWrap
                     >
-                      {localFursuit.creationYear
-                        ? localFursuit.creationYear
+                      {localFursuit.fursuitPadding
+                        ? localFursuit.fursuitPadding.name
+                        : "Unknown"}
+                    </Typography>
+                    <DialogContentText>Fingers</DialogContentText>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="h2"
+                      className={classes.text}
+                      noWrap
+                    >
+                      {localFursuit.fursuitFinger
+                        ? localFursuit.fursuitFinger.name
+                        : "Unknown"}
+                    </Typography>
+                    <DialogContentText>Base Color</DialogContentText>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="h2"
+                      className={classes.text}
+                      noWrap
+                    >
+                      {localFursuit.baseColor
+                        ? localFursuit.baseColor
+                        : "Unknown"}
+                    </Typography>
+                    <DialogContentText>Eyes Color</DialogContentText>
+                    <Typography
+                      gutterBottom
+                      variant="h5"
+                      component="h2"
+                      className={classes.text}
+                      noWrap
+                    >
+                      {localFursuit.eyesColor
+                        ? localFursuit.eyesColor
                         : "Unknown"}
                     </Typography>
                   </Grid>
