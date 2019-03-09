@@ -30,5 +30,6 @@ module Types
     field :unblock_user, mutation: Mutations::UnblockUser
     field :create_advert, mutation: Mutations::CreateAdvert
     field :create_claim, mutation: Mutations::CreateClaim
+    field :update_fursuit, mutation: Mutations::UpdateFursuit
   end
 end

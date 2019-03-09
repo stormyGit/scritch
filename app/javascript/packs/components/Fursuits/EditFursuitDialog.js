@@ -123,7 +123,7 @@ class EditFursuitDialog extends React.Component {
   state = {
     name: "",
     slug: "",
-    bio: "",
+    creationYear: 0,
     website: "",
     banner: null,
     avatar: null,
@@ -269,6 +269,14 @@ class EditFursuitDialog extends React.Component {
               margin="dense"
               fullWidth
             />
+            <TextField
+              label="Creation year"
+              name="creationYear"
+              value={this.state.creationYear}
+              onChange={e => this.setState({ creationYear: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.props.onClose}>Cancel</Button>
@@ -282,11 +290,12 @@ class EditFursuitDialog extends React.Component {
                         input: {
                           id: fursuit.id,
                           name: this.state.name,
-                          creationYear: this.state.creationYear,
+                          creationYear: this.state.creationYear
+                            ? parseInt(this.state.creationYear)
+                            : 0,
                           ...(this.state.avatar !== fursuit.avatar
                             ? { avatar: this.state.avatar }
-                            : {}),
-                          removeAvatar: this.state.removeAvatar
+                            : {})
                         }
                       }
                     }).then(updated => {
