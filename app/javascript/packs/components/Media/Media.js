@@ -3,6 +3,7 @@ import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import { Link, withRouter } from "react-router-dom";
 
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
@@ -74,9 +75,9 @@ class Media extends React.Component {
 
     if (media.length === 0 && users.length === 0) {
       const { location } = this.props;
-      const query = queryString.parse(location.search);
+      const query = location.search ? queryString.parse(location.search) : null;
 
-      if (query.q) {
+      if (query && query.q) {
         return (
           <EmptyList
             label={`No results were found for your search term: ${query.q}`}
@@ -183,4 +184,4 @@ class Media extends React.Component {
   }
 }
 
-export default withStyles(styles)(withWidth()(Media));
+export default withStyles(styles)(withWidth()(withRouter(Media)));

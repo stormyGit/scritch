@@ -11,6 +11,7 @@ import Gallery from "react-grid-gallery";
 import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
 import FursuitClaimDialog from "./FursuitClaimDialog";
+import FursuitAvatar from "./FursuitAvatar";
 import EditFursuitDialog from "./EditFursuitDialog";
 import Media from "../Media/Media";
 
@@ -330,11 +331,13 @@ class Fursuit extends React.Component {
                   >
                     <Grid xs={4} item />
                     <Grid xs={4} item>
-                      <img
-                        src={image}
-                        title={fursuit.name}
-                        width="100%"
-                        style={{ borderRadius: "100%" }}
+                      <FursuitAvatar
+                        specy={
+                          fursuit.isHybrid
+                            ? "Hybrid"
+                            : fursuit.fursuitSpecy.name
+                        }
+                        avatar={fursuit.avatar}
                       />
                     </Grid>
                     <Grid xs={4} item />

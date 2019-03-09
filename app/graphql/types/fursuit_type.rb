@@ -8,6 +8,7 @@ module Types
     field :media_count, Integer, null: true
     field :claimed, Boolean, null: false
     field :possessed, Boolean, null: false
+    field :avatar, String, null: true
     field :followed, Boolean, null: false
     field :is_hybrid, Boolean, null: false
     field :media, [MediumType], null: true
@@ -15,6 +16,11 @@ module Types
     field :users, [UserType], null: true
     field :fursuit_style, FursuitStyleType, null: true
     field :fursuit_leg_type, FursuitLegTypeType, null: true
+    field :fursuit_build, FursuitBuildType, null: true
+    field :fursuit_padding, FursuitPaddingType, null: true
+    field :fursuit_finger, FursuitFingerType, null: true
+    field :base_color, String, null: true
+    field :eyes_color, String, null: true
     field :hybrid_species, [FursuitSpecyType], null: true
     field :fursuit_specy, FursuitSpecyType, null: true
 
@@ -32,6 +38,10 @@ module Types
 
     def media_count
       Medium.where(fursuit_id: object.id).distinct.count
+    end
+
+    def avatar
+      object.avatar_url(:thumbnail)
     end
 
     def media

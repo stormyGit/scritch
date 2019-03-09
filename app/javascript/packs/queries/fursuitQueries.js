@@ -36,6 +36,7 @@ export const LOAD_FURSUITS = gql`
       id
       name
       creationYear
+      avatar
       slug
       makers {
         name
@@ -61,21 +62,41 @@ export const LOAD_FURSUIT = gql`
       claimed
       possessed
       followed
+      avatar
       creationYear
       fursuitLegType {
+        id
         name
       }
       fursuitSpecy {
+        id
         name
       }
       isHybrid
       hybridSpecies {
+        id
+        name
+      }
+      fursuitBuild {
+        id
+        name
+      }
+      fursuitPadding {
+        id
+        name
+      }
+      fursuitFinger {
+        id
         name
       }
       fursuitStyle {
+        id
         name
       }
+      baseColor
+      eyesColor
       makers {
+        id
         name
       }
     }

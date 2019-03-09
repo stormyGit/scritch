@@ -27,6 +27,7 @@ import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 import ImageCropper from "../Global/ImageCropper";
 import FursuitAvatar from "./FursuitAvatar";
+import FursuitEditFields from "./FursuitEditFields";
 
 import { UPDATE_FURSUIT } from "../../queries/fursuitMutations";
 
@@ -122,15 +123,19 @@ const styles = theme => ({
 class EditFursuitDialog extends React.Component {
   state = {
     name: "",
-    slug: "",
     creationYear: 0,
-    website: "",
-    banner: null,
     avatar: null,
-    bannerMenu: false,
-    avatarMenu: false,
-    bannerToEdit: null,
-    avatarToEdit: null
+    fursuitLegType: null,
+    fursuitStyle: null,
+    fursuitSpecy: null,
+    hybridSpecies: null,
+    hybridSearch: false,
+    fursuitBuild: null,
+    fursuitPadding: null,
+    fursuitFinger: null,
+    fursuitColor: null,
+    fursuitEyes: null,
+    maker: null
   };
 
   constructor(props) {
@@ -157,8 +162,22 @@ class EditFursuitDialog extends React.Component {
     this.setState({
       id: fursuit.id,
       name: fursuit.name || "",
-      creationYear: "",
-      avatar: fursuit.avatar
+      creationYear: fursuit.creationYear,
+      avatar: fursuit.avatar,
+      fursuitLegType: fursuit.fursuitLegType && fursuit.fursuitLegType.id,
+      fursuitStyle: fursuit.fursuitStyle && fursuit.fursuitStyle.id,
+      fursuitSpecy: fursuit.fursuitSpecy && fursuit.fursuitSpecy.id,
+      hybridSpecies:
+        fursuit.isHybrid &&
+        fursuit.hybridSpecies.map(option => ({
+          value: option.id
+        })),
+      hybridSearch: fursuit.isHybrid,
+      fursuitBuild: fursuit.fursuitBuild && fursuit.fursuitBuild.id,
+      fursuitPadding: fursuit.fursuitPadding && fursuit.fursuitPadding.id,
+      fursuitFinger: fursuit.fursuitFinger && fursuit.fursuitFinger.id,
+      baseColor: fursuit.baseColor,
+      eyesColor: fursuit.eyesColor
     });
   }
 
@@ -277,6 +296,15 @@ class EditFursuitDialog extends React.Component {
               margin="dense"
               fullWidth
             />
+            <FursuitEditFields
+              fursuit={fursuit}
+              onChange={value => {
+                console.log(value);
+                this.setState({
+                  [value.label]: value.value
+                });
+              }}
+            />
           </DialogContent>
           <DialogActions>
             <Button onClick={this.props.onClose}>Cancel</Button>
@@ -285,11 +313,20 @@ class EditFursuitDialog extends React.Component {
                 <Button
                   disabled={!this.state.name || /^\s*$/.test(this.state.name)}
                   onClick={() => {
+                    console.log(this.state);
                     updateFursuit({
                       variables: {
                         input: {
                           id: fursuit.id,
                           name: this.state.name,
+                          fursuitFingerId: this.state.fursuitFinger,
+                          fursuitBuildId: this.state.fursuitBuild,
+                          fursuitStyleId: this.state.fursuitStyle,
+                          fursuitSpecyId: this.state.fursuitSpecy,
+                          fursuitLegTypeId: this.state.fursuitLegType,
+                          baseColor: this.state.baseColor,
+                          eyesColor: this.state.eyesColor,
+                          isHybrid: this.state.isHybrid,
                           creationYear: this.state.creationYear
                             ? parseInt(this.state.creationYear)
                             : 0,

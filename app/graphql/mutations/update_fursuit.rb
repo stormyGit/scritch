@@ -10,8 +10,10 @@ class Mutations::UpdateFursuit < Mutations::BaseMutation
   argument :fursuit_finger_id, ID, required: false
   argument :is_hybrid, Boolean, required: false
   argument :fursuit_specy_id, ID, required: false
-  argument :fursuit_species, [ID], required: false
+  argument :hybrid_species, [ID], required: false
   argument :avatar, String, required: false
+  argument :base_color, String, required: false
+  argument :eyes_color, String, required: false
 
   field :fursuit, Types::FursuitType, null: true
   field :errors, [String], null: false
