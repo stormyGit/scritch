@@ -32,7 +32,7 @@ class EventMedia extends React.Component {
   renderResults({ media, horizontal, onLoadMore, hasMore }) {
     const { classes } = this.props;
 
-    if (media.length === 0 && users.length === 0) {
+    if (media.length === 0) {
       return <EmptyList label={`No results`} />;
     }
 

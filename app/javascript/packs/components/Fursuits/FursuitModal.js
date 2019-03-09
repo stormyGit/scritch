@@ -39,6 +39,23 @@ class FursuitModal extends React.Component {
         {({ loading, error, data }) => {
           if (!data.fursuit) return null;
           let localFursuit = data.fursuit;
+
+          var image;
+
+          if (localFursuit.avatar) image = localFursuit.avatar;
+          else {
+            if (localFursuit.isHybrid)
+              image = require("images/species/Hybrid.png");
+            else
+              try {
+                image = require(`images/species/${
+                  localFursuit.fursuitSpecy.name
+                }.png`);
+              } catch (ex) {
+                image = require("images/species/Missingno (No Avatar Graphic Found).png");
+              }
+          }
+
           return (
             <ResponsiveDialog open={open} onClose={onClose}>
               <GlobalProgress absolute />
@@ -47,12 +64,7 @@ class FursuitModal extends React.Component {
                 <Grid container spacing={8}>
                   <Grid item xs={5} />
                   <Grid item xs={2}>
-                    <FursuitAvatar
-                      src={localFursuit.avatar}
-                      specy={
-                        fursuit.isHybrid ? "Hybrid" : fursuit.fursuitSpecy.name
-                      }
-                    />
+                    <img src={image} style={{ width: "100%" }} />
                   </Grid>
                   <Grid item xs={5} />
                   <Grid item xs={6}>
@@ -97,8 +109,8 @@ class FursuitModal extends React.Component {
                     <DialogContentText>Style</DialogContentText>
                     <Typography
                       gutterBottom
-                      variant="h5"
-                      component="h2"
+                      variant="h6"
+                      component="h4"
                       className={classes.text}
                       noWrap
                     >
@@ -109,8 +121,8 @@ class FursuitModal extends React.Component {
                     <DialogContentText>Leg Type</DialogContentText>
                     <Typography
                       gutterBottom
-                      variant="h5"
-                      component="h2"
+                      variant="h6"
+                      component="h4"
                       className={classes.text}
                       noWrap
                     >
@@ -123,8 +135,8 @@ class FursuitModal extends React.Component {
                     <DialogContentText>Build</DialogContentText>
                     <Typography
                       gutterBottom
-                      variant="h5"
-                      component="h2"
+                      variant="h6"
+                      component="h4"
                       className={classes.text}
                       noWrap
                     >
@@ -135,8 +147,8 @@ class FursuitModal extends React.Component {
                     <DialogContentText>Padding</DialogContentText>
                     <Typography
                       gutterBottom
-                      variant="h5"
-                      component="h2"
+                      variant="h6"
+                      component="h4"
                       className={classes.text}
                       noWrap
                     >
@@ -147,8 +159,8 @@ class FursuitModal extends React.Component {
                     <DialogContentText>Fingers</DialogContentText>
                     <Typography
                       gutterBottom
-                      variant="h5"
-                      component="h2"
+                      variant="h6"
+                      component="h4"
                       className={classes.text}
                       noWrap
                     >
@@ -159,8 +171,8 @@ class FursuitModal extends React.Component {
                     <DialogContentText>Base Color</DialogContentText>
                     <Typography
                       gutterBottom
-                      variant="h5"
-                      component="h2"
+                      variant="h6"
+                      component="h4"
                       className={classes.text}
                       noWrap
                     >
@@ -171,8 +183,8 @@ class FursuitModal extends React.Component {
                     <DialogContentText>Eyes Color</DialogContentText>
                     <Typography
                       gutterBottom
-                      variant="h5"
-                      component="h2"
+                      variant="h6"
+                      component="h4"
                       className={classes.text}
                       noWrap
                     >

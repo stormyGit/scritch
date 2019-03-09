@@ -97,13 +97,16 @@ class FursuitMiniCard extends React.Component {
 
     var image;
 
-    if (fursuit.isHybrid) image = require("images/species/Hybrid.png");
-    else
-      try {
-        image = require(`images/species/${fursuit.fursuitSpecy.name}.png`);
-      } catch (ex) {
-        image = require("images/species/Missingno (No Avatar Graphic Found).png");
-      }
+    if (fursuit.avatar) image = fursuit.avatar;
+    else {
+      if (fursuit.isHybrid) image = require("images/species/Hybrid.png");
+      else
+        try {
+          image = require(`images/species/${fursuit.fursuitSpecy.name}.png`);
+        } catch (ex) {
+          image = require("images/species/Missingno (No Avatar Graphic Found).png");
+        }
+    }
 
     return (
       <Grid container spacing={8} justify="center" alignItems="center">
