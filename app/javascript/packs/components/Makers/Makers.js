@@ -15,8 +15,6 @@ import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
 import MakerCard from "./MakerCard";
 
-import Background from "../../photo.jpg";
-
 import { Link, withRouter } from "react-router-dom";
 
 import MakerFilters from "./MakerFilters";

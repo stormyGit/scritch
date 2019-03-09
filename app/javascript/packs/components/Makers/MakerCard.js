@@ -13,8 +13,6 @@ import queryString from "query-string";
 import Typography from "@material-ui/core/Typography";
 import { Link, withRouter } from "react-router-dom";
 
-import Background from "../../photo.jpg";
-
 const styles = theme => ({
   card: {
     width: "100%",
@@ -86,7 +84,7 @@ class MakerCard extends React.Component {
           className={
             horizontal ? classes.horizontalMedia : classes.verticalMedia
           }
-          image={require("../../photo.jpg")} //{maker.thumbnail} TODO
+          image={require("images/makerPlaceholder.png")} //{maker.thumbnail} TODO
           title={maker.name}
         />
       </div>
