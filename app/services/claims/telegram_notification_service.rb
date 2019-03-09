@@ -25,10 +25,12 @@ module Claims
 
     def notification_text
       %(
-          [User #{claim.user.name} has claimed this fursuit]:
+          User [#{claim.user.name}]#{claim.user.telegram_username.present? ? "(@#{claim.user.telegram_username})" : ""} has claimed this fursuit:
 
-          #{claim.fursuit.name}
-          #{claim.fursuit.is_hybrid ? "Hybrid" : fursuit_specy.name}
+          * #{claim.fursuit.name}
+
+          * Species: #{claim.fursuit.is_hybrid ? "Hybrid" : claim.fursuit.fursuit_specy.name}
+          * Maker: #{claim.fursuit.makers[0] ? claim.fursuit.makers[0].name : "Unknown"}
       )
     end
 

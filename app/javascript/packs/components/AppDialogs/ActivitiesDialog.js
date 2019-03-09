@@ -27,6 +27,7 @@ import LoadMoreButton from "../Global/LoadMoreButton";
 import TruncatedText from "../Global/TruncatedText";
 import UserAvatar from "../Users/UserAvatar";
 import Avatar from "@material-ui/core/Avatar";
+import FursuitAvatar from "../Fursuits/FursuitAvatar";
 
 import {
   GET_ACTIVITIES,
@@ -318,6 +319,42 @@ class ActivitiesDialog extends React.Component {
     );
   }
 
+  renderFursuitUserCreate(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+        onClick={() => {
+          this.props.history.push({
+            pathname: `/fursuits/${activity.trackable.fursuit.id}`
+          });
+          this.props.onClose();
+        }}
+      >
+        <FursuitAvatar
+          specy={
+            activity.trackable.fursuit.isHybrid
+              ? "Hybrid"
+              : activity.trackable.fursuit.fursuitSpecy.name
+          }
+        />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`You have succesfully claimed ${
+                  activity.trackable.fursuit.name
+                }!`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
   renderActivity(activity) {
     switch (activity.key) {
       case "like.create":
@@ -332,6 +369,8 @@ class ActivitiesDialog extends React.Component {
         return this.renderReportCreate(activity);
       case "fursuit_medium.create":
         return this.renderFursuitMediumCreate(activity);
+      case "fursuit_user.create":
+        return this.renderFursuitUserCreate(activity);
       default:
         return null;
     }

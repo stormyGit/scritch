@@ -20,6 +20,7 @@ class Mutations::CreateSession < Mutations::BaseMutation
 
     user = User.find_or_create_by(telegram_id: params[:telegram_id]) do |user|
       user.telegram_id = params[:telegram_id]
+      user.telegram_username = params[:telegram_username]
 
       if params[:telegram_last_name].present?
         user.name = "#{params[:telegram_first_name]} #{params[:telegram_last_name]}"

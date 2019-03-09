@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_06_034253) do
+ActiveRecord::Schema.define(version: 2019_03_09_014938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -645,6 +645,7 @@ ActiveRecord::Schema.define(version: 2019_03_06_034253) do
     t.string "customer_id"
     t.boolean "show_ads", default: true
     t.boolean "show_tooltips", default: true
+    t.string "telegram_username"
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end

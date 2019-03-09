@@ -30,6 +30,21 @@ export const GET_ACTIVITIES = gql`
             name
           }
         }
+        ... on FursuitUser {
+          id
+          user {
+            id
+            name
+          }
+          fursuit {
+            id
+            name
+            isHybrid
+            fursuitSpecy {
+              name
+            }
+          }
+        }
         ... on Medium {
           id
           title
