@@ -84,7 +84,9 @@ class MakerCard extends React.Component {
           className={
             horizontal ? classes.horizontalMedia : classes.verticalMedia
           }
-          image={require("images/makerPlaceholder.png")} //{maker.thumbnail} TODO
+          image={
+            maker.avatar ? maker.avatar : require("images/makerPlaceholder.png")
+          }
           title={maker.name}
         />
       </div>

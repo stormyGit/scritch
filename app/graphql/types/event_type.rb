@@ -4,11 +4,16 @@ module Types
     field :id, ID, null: false
     field :name, String, null: false
     field :country, String, null: false
+    field :avatar, String, null: true
     field :slug, String, null: false
     field :editions, [EditionType], null: true
 
     def country
       object.editions.order("editions.year DESC").first.country
+    end
+
+    def avatar
+      object.avatar_url(:thumbnail)
     end
   end
 end

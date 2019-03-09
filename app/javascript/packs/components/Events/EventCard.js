@@ -84,7 +84,9 @@ class EventCard extends React.Component {
           className={
             horizontal ? classes.horizontalMedia : classes.verticalMedia
           }
-          image={require("images/eventPlaceholder.png")} //{event.thumbnail} TODO
+          image={
+            event.avatar ? event.avatar : require("images/eventPlaceholder.png")
+          }
           title={event.name}
         />
       </div>

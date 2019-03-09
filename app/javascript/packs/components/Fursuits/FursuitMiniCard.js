@@ -83,12 +83,6 @@ const styles = theme => ({
   }
 });
 
-const GET_ACTIVE_PREVIEW = gql`
-  {
-    activePreview @client
-  }
-`;
-
 class FursuitMiniCard extends React.Component {
   state = {};
 

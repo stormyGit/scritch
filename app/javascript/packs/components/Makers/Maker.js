@@ -2,6 +2,7 @@ import React from "react";
 import { Query } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import PageTitle from "../Global/PageTitle";
@@ -75,6 +76,9 @@ const styles = theme => ({
     width: "100%",
     height: "calc(100vh - 56px)",
     objectFit: "cover"
+  },
+  link: {
+    textDecoration: "none"
   }
 });
 
@@ -86,15 +90,6 @@ class Maker extends React.Component {
   };
   constructor(props) {
     super(props);
-  }
-  renderCommentsCount(count) {
-    if (count === 0) {
-      return `No comments`;
-    }
-    if (count === 1) {
-      return `One comment`;
-    }
-    return `${count} comments`;
   }
 
   render() {
@@ -167,7 +162,6 @@ class Maker extends React.Component {
                               component="h2"
                               color="secondary"
                               className={classes.makerTitle}
-                              noWrap
                             >
                               {maker.name}
                             </Typography>
@@ -176,9 +170,9 @@ class Maker extends React.Component {
                               variant="h5"
                               component="h2"
                               className={classes.makerTitle}
-                              noWrap
                             >
                               {maker.country}
+                              {maker.region && `, ${maker.region}`}
                             </Typography>
                           </Grid>
 
@@ -221,7 +215,11 @@ class Maker extends React.Component {
                           <Grid xs={4} item />
                           <Grid xs={4} item>
                             <img
-                              src={require("../../stormy.jpg")}
+                              src={
+                                maker.avatar
+                                  ? maker.avatar
+                                  : require("images/makerPlaceholder.png")
+                              }
                               title={maker.name}
                               width="100%"
                               style={{ borderRadius: "100%" }}
@@ -237,19 +235,36 @@ class Maker extends React.Component {
                               component="h2"
                               color="secondary"
                               className={classes.makerTitle}
-                              noWrap
                             >
                               Website
                             </Typography>
-                            <Typography
-                              gutterBottom
-                              variant="h5"
-                              component="h2"
-                              className={classes.makerTitle}
-                              noWrap
-                            >
-                              {maker.web ? maker.web : "Unknown"}
-                            </Typography>
+                            {maker.web && (
+                              <a
+                                className={classes.link}
+                                target="_blank"
+                                href={maker.web}
+                              >
+                                <Button
+                                  gutterBottom
+                                  variant="h5"
+                                  component="h2"
+                                  color="primary"
+                                  className={classes.makerTitle}
+                                >
+                                  Open in a new tab
+                                </Button>
+                              </a>
+                            )}
+                            {!maker.web && (
+                              <Typography
+                                gutterBottom
+                                variant="h5"
+                                component="h2"
+                                className={classes.makerTitle}
+                              >
+                                Unknown
+                              </Typography>
+                            )}
                             <div style={{ padding: 10 }} />
                           </Grid>
                         </Grid>

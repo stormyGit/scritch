@@ -225,7 +225,11 @@ class Event extends React.Component {
                         <Grid xs={4} item />
                         <Grid xs={4} item>
                           <img
-                            src={require("../../stormy.jpg")}
+                            src={
+                              event.avatar
+                                ? event.avatar
+                                : require("images/eventPlaceholder.png")
+                            }
                             title={event.name}
                             width="100%"
                             style={{ borderRadius: "100%" }}

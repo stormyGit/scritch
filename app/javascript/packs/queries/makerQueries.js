@@ -31,6 +31,8 @@ export const LOAD_MAKER = gql`
       slug
       web
       country
+      region
+      avatar
       fursuits {
         id
         name
