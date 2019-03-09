@@ -432,6 +432,112 @@ class Fursuit extends React.Component {
                           : "Unknown"}
                       </Typography>
                       <div style={{ padding: 10 }} />
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="secondary"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        Build
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        {fursuit.fursuitBuild
+                          ? fursuit.fursuitBuild.name
+                          : "Unknown"}
+                      </Typography>
+                      <div style={{ padding: 10 }} />
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="secondary"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        Padding
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        {fursuit.fursuitPadding
+                          ? fursuit.fursuitPadding.name
+                          : "Unknown"}
+                      </Typography>
+                      <div style={{ padding: 10 }} />
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="secondary"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        Fingers
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        {fursuit.fursuitFinger
+                          ? fursuit.fursuitFinger.name
+                          : "Unknown"}
+                      </Typography>
+                      <div style={{ padding: 10 }} />
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="secondary"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        Base Color
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        {fursuit.baseColor ? fursuit.baseColor : "Unknown"}
+                      </Typography>
+                      <div style={{ padding: 10 }} />
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="secondary"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        Eyes Color
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        {fursuit.eyesColor ? fursuit.eyesColor : "Unknown"}
+                      </Typography>
+                      <div style={{ padding: 10 }} />
                     </Grid>
                   </Grid>
                   <Divider />
