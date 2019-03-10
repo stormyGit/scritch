@@ -21,16 +21,17 @@ import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 import withCurrentSession from "../withCurrentSession";
 
-import { CREATE_CLAIM } from "../../queries/claimMutations";
+import { CREATE_MAKER_CLAIM } from "../../queries/claimMutations";
 
 const styles = theme => ({});
 
-class FursuitClaimDialog extends React.Component {
+class MakerClaimDialog extends React.Component {
   state = {};
 
   render() {
-    const { classes, currentSession, fursuit } = this.props;
+    const { classes, currentSession, maker } = this.props;
 
+    console.log(maker);
     if (!currentSession) {
       return null;
     }
@@ -44,7 +45,7 @@ class FursuitClaimDialog extends React.Component {
       >
         <GlobalProgress absolute />
 
-        <DialogTitle>Claim this fursuit</DialogTitle>
+        <DialogTitle>Claim this maker</DialogTitle>
         <DialogContent>
           <List>
             <ListItem>
@@ -53,7 +54,7 @@ class FursuitClaimDialog extends React.Component {
               </ListItemIcon>
               <ListItemText
                 inset
-                primary="Claiming this fursuit will allow you to modify it and be notified when it is tagged in a picture"
+                primary="Claiming this maker will allow you to modify it and be notified when it is tagged in a picture"
               />
             </ListItem>
             <ListItem>
@@ -71,7 +72,7 @@ class FursuitClaimDialog extends React.Component {
               </ListItemIcon>
               <ListItemText
                 inset
-                primary="Claiming a fursuit that is not yours will have consequences on your account."
+                primary="Claiming a maker that is not yours will have consequences on your account."
               />
             </ListItem>
           </List>
@@ -84,14 +85,14 @@ class FursuitClaimDialog extends React.Component {
           >
             Cancel
           </Button>
-          <Mutation mutation={CREATE_CLAIM} update={cache => {}}>
-            {(createClaim, { data }) => (
+          <Mutation mutation={CREATE_MAKER_CLAIM} update={cache => {}}>
+            {(createMakerClaim, { data }) => (
               <Button
                 onClick={() => {
-                  createClaim({
+                  createMakerClaim({
                     variables: {
                       input: {
-                        fursuitId: this.props.fursuit
+                        makerId: this.props.maker
                       }
                     }
                   }).then(() => {
@@ -111,5 +112,5 @@ class FursuitClaimDialog extends React.Component {
 }
 
 export default withStyles(styles)(
-  withApollo(withRouter(withCurrentSession(FursuitClaimDialog)))
+  withApollo(withRouter(withCurrentSession(MakerClaimDialog)))
 );

@@ -9,6 +9,8 @@ import PageTitle from "../Global/PageTitle";
 import queryString from "query-string";
 import FursuitCard from "../Fursuits/FursuitCard";
 import FursuitModal from "../Fursuits/FursuitModal";
+import EditMakerDialog from "./EditMakerDialog";
+import MakerClaimDialog from "./MakerClaimDialog";
 
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import { LOAD_MAKER } from "../../queries/makerQueries";
@@ -86,7 +88,8 @@ class Maker extends React.Component {
   state = {
     editMaker: false,
     fursuit: null,
-    openFursuit: false
+    openFursuit: false,
+    claimDialog: false
   };
   constructor(props) {
     super(props);
@@ -148,6 +151,51 @@ class Maker extends React.Component {
                       </Grid>
                     </Grid>
                     <Grid item lg={3} xs={12}>
+                      <React.Fragment>
+                        <Grid
+                          container
+                          spacing={8}
+                          justify="space-between"
+                          wrap="nowrap"
+                        >
+                          {!maker.claimed && !maker.possessed && !maker.user && (
+                            <Grid item>
+                              <Button
+                                color="primary"
+                                onClick={() =>
+                                  this.setState({ claimDialog: true })
+                                }
+                              >
+                                Claim maker
+                              </Button>
+                            </Grid>
+                          )}
+                          {!maker.claimed && !maker.possessed && maker.user && (
+                            <Grid item>
+                              <Button
+                                color="primary"
+                                onClick={() =>
+                                  this.setState({ claimDialog: true })
+                                }
+                              >
+                                Contest Claim
+                              </Button>
+                            </Grid>
+                          )}
+                          {maker.possessed && (
+                            <Grid item>
+                              <Button
+                                color="primary"
+                                onClick={() =>
+                                  this.setState({ editMaker: true })
+                                }
+                              >
+                                Edit maker
+                              </Button>
+                            </Grid>
+                          )}
+                        </Grid>
+                      </React.Fragment>
                       <div className={classes.pictureInfo}>
                         <Grid
                           container
@@ -272,6 +320,16 @@ class Maker extends React.Component {
                       </div>
                     </Grid>
                   </Grid>
+                  <MakerClaimDialog
+                    maker={maker.id}
+                    open={this.state.claimDialog}
+                    onClose={() => this.setState({ claimDialog: false })}
+                  />
+                  <EditMakerDialog
+                    maker={maker}
+                    open={this.state.editMaker}
+                    onClose={() => this.setState({ editMaker: false })}
+                  />
                 </div>
               )
             );

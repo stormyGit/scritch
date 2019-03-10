@@ -9,3 +9,13 @@ export const CREATE_CLAIM = gql`
     }
   }
 `;
+
+export const CREATE_MAKER_CLAIM = gql`
+  mutation createMakerClaim($input: CreateMakerClaimInput!) {
+    createMakerClaim(input: $input) {
+      makerClaim {
+        id
+      }
+    }
+  }
+`;

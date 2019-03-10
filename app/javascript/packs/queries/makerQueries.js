@@ -33,6 +33,12 @@ export const LOAD_MAKER = gql`
       country
       region
       avatar
+      claimed
+      possessed
+      user {
+        id
+        name
+      }
       fursuits {
         id
         name

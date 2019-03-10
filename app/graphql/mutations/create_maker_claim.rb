@@ -1,14 +1,14 @@
-class Mutations::CreateClaim < Mutations::BaseMutation
-  argument :fursuit_id, ID, required: true
+class Mutations::CreateMakerClaim < Mutations::BaseMutation
+  argument :maker_id, ID, required: true
 
-  field :claim, Types::ClaimType, null: true
+  field :maker_claim, Types::MakerClaimType, null: true
   field :errors, [String], null: false
 
   def resolve(arguments)
-    claim = Claim.new(arguments)
+    claim = MakerClaim.new(arguments)
     claim.user = context[:current_user]
 
-    if claim.fursuit.users.present?
+    if claim.maker.user.present?
       claim.conflictual = true
     end
 

@@ -9,10 +9,24 @@ module Types
     field :avatar, String, null: true
     field :web, String, null: true
     field :fursuits, [FursuitType], null: false
-    field :user, UserType, null: false
+    field :user, UserType, null: true
+    field :claimed, Boolean, null: false
+    field :possessed, Boolean, null: false
+
+    def claimed
+      MakerClaim.where(user: context[:current_user], maker: object).count > 0
+    end
+
+    def possessed
+      object.user == context[:current_user]
+    end
 
     def avatar
       object.avatar_url(:thumbnail)
+    end
+
+    def fursuits
+      object.fursuits.order("fursuits.name")
     end
 
   end
