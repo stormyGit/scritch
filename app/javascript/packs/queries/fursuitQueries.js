@@ -59,6 +59,9 @@ export const LOAD_FURSUIT = gql`
       name
       slug
       mediaCount
+      followersCount
+      likesCount
+      favesCount
       claimed
       possessed
       followed
@@ -98,6 +101,7 @@ export const LOAD_FURSUIT = gql`
       makers {
         id
         name
+        slug
       }
     }
   }

@@ -223,35 +223,6 @@ class Maker extends React.Component {
                               {maker.region && `, ${maker.region}`}
                             </Typography>
                           </Grid>
-
-                          <Grid item style={{ flexShrink: 0 }}>
-                            <React.Fragment>
-                              <SocialButton
-                                name="Twitter"
-                                url="https://twitter.com/intent/tweet/"
-                                params={{
-                                  text: `${maker.name} via @${
-                                    process.env.TWITTER_ACCOUNT
-                                  }`,
-                                  url: window.location.href
-                                }}
-                                className={classes.socialButton}
-                              >
-                                <TwitterIcon fontSize={"inherit"} />
-                              </SocialButton>
-                              <SocialButton
-                                name="Telegram"
-                                className={classes.socialButton}
-                                url="https://telegram.me/share/url"
-                                params={{
-                                  text: maker.name,
-                                  url: window.location.href
-                                }}
-                              >
-                                <TelegramIcon fontSize={"inherit"} />
-                              </SocialButton>
-                            </React.Fragment>
-                          </Grid>
                         </Grid>
                         <div style={{ padding: 10 }} />
                         <Grid

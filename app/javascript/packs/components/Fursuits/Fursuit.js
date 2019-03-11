@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Tooltip from "@material-ui/core/Tooltip";
 import Divider from "@material-ui/core/Divider";
 import PageTitle from "../Global/PageTitle";
 import queryString from "query-string";
@@ -14,6 +15,13 @@ import FursuitClaimDialog from "./FursuitClaimDialog";
 import FursuitAvatar from "./FursuitAvatar";
 import EditFursuitDialog from "./EditFursuitDialog";
 import Media from "../Media/Media";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPaw,
+  faStar,
+  faUsers,
+  faTags
+} from "@fortawesome/free-solid-svg-icons";
 
 import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
 import {
@@ -87,6 +95,15 @@ const styles = theme => ({
   },
   followButtonSpacer: {
     width: 132
+  },
+  metrics: {
+    display: "flex"
+  },
+  dataSpacer: {
+    marginLeft: theme.spacing.unit * 2
+  },
+  link: {
+    textDecoration: "none"
   }
 });
 
@@ -287,35 +304,6 @@ class Fursuit extends React.Component {
                         {fursuit.creationYear}
                       </Typography>
                     </Grid>
-
-                    <Grid item style={{ flexShrink: 0 }}>
-                      <React.Fragment>
-                        <SocialButton
-                          name="Twitter"
-                          url="https://twitter.com/intent/tweet/"
-                          params={{
-                            text: `${fursuit.name} via @${
-                              process.env.TWITTER_ACCOUNT
-                            }`,
-                            url: window.location.href
-                          }}
-                          className={classes.socialButton}
-                        >
-                          <TwitterIcon fontSize={"inherit"} />
-                        </SocialButton>
-                        <SocialButton
-                          name="Telegram"
-                          className={classes.socialButton}
-                          url="https://telegram.me/share/url"
-                          params={{
-                            text: fursuit.name,
-                            url: window.location.href
-                          }}
-                        >
-                          <TelegramIcon fontSize={"inherit"} />
-                        </SocialButton>
-                      </React.Fragment>
-                    </Grid>
                   </Grid>
                   <div style={{ padding: 10 }} />
                   <Grid
@@ -339,6 +327,47 @@ class Fursuit extends React.Component {
                   </Grid>
                   <Grid container spacing={8}>
                     <Grid item>
+                      <div style={{ padding: 10 }} />
+                      <React.Fragment>
+                        {currentSession && (
+                          <div className={classes.metrics}>
+                            <Tooltip title="Scritches">
+                              <Typography variant="subtitle1">
+                                <FontAwesomeIcon icon={faPaw} />{" "}
+                                {fursuit.likesCount}
+                              </Typography>
+                            </Tooltip>
+                            <Tooltip title="Favorites">
+                              <Typography
+                                variant="subtitle1"
+                                className={classes.dataSpacer}
+                              >
+                                <FontAwesomeIcon icon={faStar} />{" "}
+                                {fursuit.favesCount}
+                              </Typography>
+                            </Tooltip>
+                            <Tooltip title="Followers">
+                              <Typography
+                                variant="subtitle1"
+                                className={classes.dataSpacer}
+                              >
+                                <FontAwesomeIcon icon={faUsers} />{" "}
+                                {fursuit.followersCount}
+                              </Typography>
+                            </Tooltip>
+                            <Tooltip title="Pictures">
+                              <Typography
+                                variant="subtitle1"
+                                className={classes.dataSpacer}
+                              >
+                                <FontAwesomeIcon icon={faTags} />{" "}
+                                {fursuit.mediaCount}
+                              </Typography>
+                            </Tooltip>
+                          </div>
+                        )}
+                      </React.Fragment>
+                      <div style={{ padding: 10 }} />
                       <Typography
                         gutterBottom
                         variant="h6"
@@ -349,17 +378,34 @@ class Fursuit extends React.Component {
                       >
                         Made by
                       </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.makers.length > 0
-                          ? fursuit.makers[0].name
-                          : "Unknown"}
-                      </Typography>
+                      {fursuit.makers && fursuit.makers.length > 0 && (
+                        <Link
+                          to={`/makers/${fursuit.makers[0].slug}`}
+                          className={classes.link}
+                        >
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="h2"
+                            color="primary"
+                            className={classes.fursuitTitle}
+                            noWrap
+                          >
+                            {fursuit.makers[0].name}
+                          </Typography>
+                        </Link>
+                      )}
+                      {fursuit.makers && fursuit.makers.length == 0 && (
+                        <Typography
+                          gutterBottom
+                          variant="h5"
+                          component="h2"
+                          className={classes.fursuitTitle}
+                          noWrap
+                        >
+                          Unknown
+                        </Typography>
+                      )}
                       <div style={{ padding: 10 }} />
                       <Typography
                         gutterBottom

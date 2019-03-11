@@ -238,7 +238,7 @@ module Types
       argument :country, String, required: true
     end
 
-    field :events_country, [String], null: false do
+    field :events_country, [String, null: true], null: false do
       description "List events"
     end
 

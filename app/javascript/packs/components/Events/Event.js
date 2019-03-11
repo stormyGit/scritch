@@ -86,6 +86,9 @@ const styles = theme => ({
     width: "100%",
     height: "calc(100vh - 56px)",
     objectFit: "cover"
+  },
+  link: {
+    textDecoration: "none"
   }
 });
 
@@ -182,37 +185,8 @@ class Event extends React.Component {
                             className={classes.eventTitle}
                             noWrap
                           >
-                            {event.name}
+                            {event.country}
                           </Typography>
-                        </Grid>
-
-                        <Grid item style={{ flexShrink: 0 }}>
-                          <React.Fragment>
-                            <SocialButton
-                              name="Twitter"
-                              url="https://twitter.com/intent/tweet/"
-                              params={{
-                                text: `${event.name} via @${
-                                  process.env.TWITTER_ACCOUNT
-                                }`,
-                                url: window.location.href
-                              }}
-                              className={classes.socialButton}
-                            >
-                              <TwitterIcon fontSize={"inherit"} />
-                            </SocialButton>
-                            <SocialButton
-                              name="Telegram"
-                              className={classes.socialButton}
-                              url="https://telegram.me/share/url"
-                              params={{
-                                text: event.name,
-                                url: window.location.href
-                              }}
-                            >
-                              <TelegramIcon fontSize={"inherit"} />
-                            </SocialButton>
-                          </React.Fragment>
                         </Grid>
                       </Grid>
                       <div style={{ padding: 10 }} />
@@ -245,19 +219,35 @@ class Event extends React.Component {
                             component="h2"
                             color="secondary"
                             className={classes.eventTitle}
-                            noWrap
                           >
                             Website
                           </Typography>
-                          <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="h2"
-                            className={classes.eventTitle}
-                            noWrap
-                          >
-                            {event.name ? event.name : "Unknown"}
-                          </Typography>
+                          {event.web && (
+                            <a
+                              className={classes.link}
+                              target="_blank"
+                              href={event.web}
+                            >
+                              <Button
+                                variant="outlined"
+                                component="h2"
+                                color="primary"
+                                className={classes.eventTitle}
+                              >
+                                Open in a new tab
+                              </Button>
+                            </a>
+                          )}
+                          {!event.web && (
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="h2"
+                              className={classes.eventTitle}
+                            >
+                              Unknown
+                            </Typography>
+                          )}
                           <div style={{ padding: 10 }} />
                         </Grid>
                       </Grid>

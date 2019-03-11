@@ -44,6 +44,7 @@ export const LOAD_MAKER = gql`
       fursuits {
         id
         name
+        avatar
         fursuitSpecy {
           id
           name

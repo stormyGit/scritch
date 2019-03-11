@@ -5,7 +5,9 @@ export const LOAD_EVENT = gql`
     event(id: $id) {
       id
       name
+      web
       slug
+      country
       editions {
         id
         year

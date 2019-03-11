@@ -360,9 +360,7 @@ class Medium extends React.Component {
                                 medium.fursuits.map(fursuit => (
                                   <Grid item lg={2} xs={2} key={fursuit.id}>
                                     <Link
-                                      to={`/fursuits/${fursuit.slug}-${
-                                        fursuit.id
-                                      }`}
+                                      to={`/fursuits/${fursuit.slug}`}
                                       className={classes.fursuitLink}
                                     >
                                       <FursuitMiniCard
