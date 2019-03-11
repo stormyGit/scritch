@@ -225,18 +225,6 @@ class EditFursuitDialog extends React.Component {
                     >
                       Upload picture
                     </MenuItem>
-                    <MenuItem
-                      className={classes.menuButton}
-                      onClick={() => {
-                        this.setState({
-                          avatar: null,
-                          removeAvatar: true,
-                          avatarMenu: false
-                        });
-                      }}
-                    >
-                      Remove
-                    </MenuItem>
                     <Divider />
                     <MenuItem
                       className={classes.menuButton}
