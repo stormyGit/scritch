@@ -2,7 +2,7 @@ class Fursuit < ApplicationRecord
   self.primary_key = :uuid
 
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :slug_candidates, use: :slugged
 
   # has_many :fursuit_custom_attributes, dependent: :destroy
   belongs_to :fursuit_finger, optional: true
@@ -32,7 +32,7 @@ class Fursuit < ApplicationRecord
   def slug_candidates
     [
       :name,
-      [:name, :creation_year]
+      [:name, "#{Fursuit.where(name: name).count + 1}"]
     ]
   end
 

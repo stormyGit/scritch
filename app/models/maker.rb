@@ -2,7 +2,7 @@ class Maker < ApplicationRecord
   self.primary_key = :uuid
 
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :slug_candidates, use: :slugged
 
   belongs_to :user, optional: true
   mount_base64_uploader :avatar, AvatarUploader
@@ -20,4 +20,10 @@ class Maker < ApplicationRecord
     distinct.order(:name).pluck(:name, :uuid)
   end
 
+  def slug_candidates
+    [
+      :name,
+      [:name, "#{Maker.where(name: name).count + 1}"]
+    ]
+  end
 end

@@ -5,7 +5,7 @@ class User < ApplicationRecord
   acts_as_follower
 
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :slug_candidates, use: :slugged
 
   mount_base64_uploader :avatar, AvatarUploader
   mount_base64_uploader :banner, BannerUploader
@@ -52,6 +52,13 @@ class User < ApplicationRecord
     if User.where(slug: self.slug).where.not(uuid: self.uuid).present?
       self.slug = "#{self.slug}-#{self.uuid.split("-")[0]}"
     end
+  end
+
+  def slug_candidates
+    [
+      :name,
+      [:name, "#{User.where(name: name).count + 1}"]
+    ]
   end
 
   def block(user)

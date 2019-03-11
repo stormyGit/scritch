@@ -327,7 +327,7 @@ class ActivitiesDialog extends React.Component {
         key={activity.id}
         onClick={() => {
           this.props.history.push({
-            pathname: `/fursuits/${activity.trackable.fursuit.id}`
+            pathname: `/fursuits/${activity.trackable.fursuit.slug}`
           });
           this.props.onClose();
         }}

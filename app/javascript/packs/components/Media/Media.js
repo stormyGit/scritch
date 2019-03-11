@@ -70,10 +70,10 @@ class Media extends React.Component {
     );
   }
 
-  renderResults({ media, users, horizontal, onLoadMore, hasMore }) {
+  renderResults({ media, horizontal, onLoadMore, hasMore }) {
     const { classes } = this.props;
 
-    if (media.length === 0 && users.length === 0) {
+    if (media.length === 0) {
       const { location } = this.props;
       const query = location.search ? queryString.parse(location.search) : null;
 
@@ -138,46 +138,57 @@ class Media extends React.Component {
             limit
           }}
         >
-          {({ data: { media, users }, loading, error, fetchMore }) => (
-            <React.Fragment>
-              <Grid
-                container
-                className={classes.root}
-                spacing={8}
-                style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
-              >
-                {!loading &&
-                  !error &&
-                  this.renderResults({
-                    users,
-                    media,
-                    hasMore:
-                      media.length % limit === 0 &&
-                      this.state.hasMore &&
-                      media.length > 0,
-                    onLoadMore: () => {
-                      fetchMore({
-                        variables: {
-                          offset: media.length,
-                          limit
-                        },
-                        updateQuery: (prev, { fetchMoreResult }) => {
-                          if (!fetchMoreResult) return prev;
+          {({ data, loading, error, fetchMore }) => {
+            if (!data) return null;
 
-                          if (fetchMoreResult.media.length === 0) {
-                            this.setState({ hasMore: false });
-                          } else {
-                            return Object.assign({}, prev, {
-                              media: [...prev.media, ...fetchMoreResult.media]
-                            });
-                          }
+            const { media } = data;
+            if (!media) return null;
+            else
+              return (
+                <React.Fragment>
+                  <Grid
+                    container
+                    className={classes.root}
+                    spacing={8}
+                    style={{
+                      marginTop: width === "lg" || width === "xl" ? 4 : -4
+                    }}
+                  >
+                    {!loading &&
+                      !error &&
+                      this.renderResults({
+                        media,
+                        hasMore:
+                          media.length % limit === 0 &&
+                          this.state.hasMore &&
+                          media.length > 0,
+                        onLoadMore: () => {
+                          fetchMore({
+                            variables: {
+                              offset: media.length,
+                              limit
+                            },
+                            updateQuery: (prev, { fetchMoreResult }) => {
+                              if (!fetchMoreResult) return prev;
+
+                              if (fetchMoreResult.media.length === 0) {
+                                this.setState({ hasMore: false });
+                              } else {
+                                return Object.assign({}, prev, {
+                                  media: [
+                                    ...prev.media,
+                                    ...fetchMoreResult.media
+                                  ]
+                                });
+                              }
+                            }
+                          });
                         }
-                      });
-                    }
-                  })}
-              </Grid>
-            </React.Fragment>
-          )}
+                      })}
+                  </Grid>
+                </React.Fragment>
+              );
+          }}
         </Query>
       </React.Fragment>
     );

@@ -116,7 +116,7 @@ class Maker extends React.Component {
         <Query
           query={LOAD_MAKER}
           variables={{
-            id: match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0]
+            id: match.params.id
           }}
         >
           {({ loading, error, data }) => {

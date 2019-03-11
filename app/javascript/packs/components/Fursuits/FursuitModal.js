@@ -200,7 +200,7 @@ class FursuitModal extends React.Component {
                   Close
                 </Button>
                 <Link
-                  to={`/fursuits/${localFursuit.slug}-${localFursuit.id}`}
+                  to={`/fursuits/${localFursuit.slug}`}
                   className={classes.link}
                 >
                   <Button onClick={onClose} autoFocus>

@@ -126,9 +126,7 @@ class EventCard extends React.Component {
     return (
       <Card className={classes.card} elevation={0}>
         <CardActionArea
-          component={props => (
-            <Link to={`/events/${event.slug}-${event.id}`} {...props} />
-          )}
+          component={props => <Link to={`/events/${event.slug}`} {...props} />}
         >
           {this.renderMedia()}
           {this.renderContent()}

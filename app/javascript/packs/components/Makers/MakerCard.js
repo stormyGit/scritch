@@ -126,9 +126,7 @@ class MakerCard extends React.Component {
     return (
       <Card className={classes.card} elevation={0}>
         <CardActionArea
-          component={props => (
-            <Link to={`/makers/${maker.slug}-${maker.id}`} {...props} />
-          )}
+          component={props => <Link to={`/makers/${maker.slug}`} {...props} />}
         >
           {this.renderMedia()}
           {this.renderContent()}

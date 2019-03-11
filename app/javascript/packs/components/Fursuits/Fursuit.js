@@ -175,13 +175,8 @@ class Fursuit extends React.Component {
 
   renderFursuitMedia() {
     const { classes, match, currentSession } = this.props;
-    console.log(match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0]);
-    return (
-      <Media
-        fursuit={true}
-        fursuitId={match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0]}
-      />
-    );
+
+    return <Media fursuit={true} fursuitId={match.params.id} />;
   }
 
   renderFursuitData() {
@@ -195,7 +190,7 @@ class Fursuit extends React.Component {
       <Query
         query={LOAD_FURSUIT}
         variables={{
-          id: match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0]
+          id: match.params.id
         }}
       >
         {({ loading, error, data }) => {

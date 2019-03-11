@@ -127,10 +127,6 @@ class Medium extends React.Component {
     reportDialog: false
   };
 
-  goToFursuit(fursuit) {
-    this.props.history.push(`/fursuits/${fursuit}`);
-  }
-
   renderCommentsCount(count) {
     if (count === 0) {
       return `No comments`;
@@ -152,7 +148,7 @@ class Medium extends React.Component {
       <Query
         query={GET_MEDIUM}
         variables={{
-          id: match.params.id.match(/[\w]{8}(-[\w]{4}){3}-[\w]{12}$/)[0]
+          id: match.params.id
         }}
       >
         {({ loading, error, data }) => {

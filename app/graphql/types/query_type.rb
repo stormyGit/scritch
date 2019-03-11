@@ -463,7 +463,7 @@ module Types
       end
 
       if arguments[:fursuit_id].present?
-        media = media.joins(:fursuits).where("fursuits.uuid = ?", arguments[:fursuit_id])
+        media = media.joins(:fursuits).where("fursuits.slug = ?", arguments[:fursuit_id])
       end
       if arguments[:fursuits].present?
         media = media.joins(:fursuits).where("fursuits.uuid IN (?)", arguments[:fursuits])
