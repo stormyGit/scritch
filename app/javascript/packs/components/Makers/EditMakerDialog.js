@@ -124,7 +124,8 @@ class EditMakerDialog extends React.Component {
     name: "",
     country: "",
     region: "",
-    web: ""
+    web: "",
+    avatarMenu: false
   };
 
   constructor(props) {
@@ -244,7 +245,6 @@ class EditMakerDialog extends React.Component {
 
   render() {
     const { classes, maker } = this.props;
-    console.log(maker);
 
     return (
       <React.Fragment>

@@ -8,6 +8,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from "@material-ui/icons/Close";
 import queryString from "query-string";
 import Hidden from "@material-ui/core/Hidden";
+import Typography from "@material-ui/core/Typography";
 
 import { Link, withRouter } from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
@@ -29,6 +30,7 @@ import TechButton from "../AppLayout/TechButton";
 import SponsorButton from "../AppLayout/SponsorButton";
 import AppDialogs from "../AppLayout/AppDialogs";
 import MenuIcon from "@material-ui/icons/Menu";
+import CookieConsent from "react-cookie-consent";
 import Logo from "../Global/Logo";
 import logo from "../../../../assets/images/logo.png";
 
@@ -98,6 +100,14 @@ const styles = theme => ({
   },
   pointer: {
     cursor: "pointer"
+  },
+  text: {
+    fontWeight: 200,
+    textAlign: "center",
+    color: "white"
+  },
+  cookieButton: {
+    backgroundColor: theme.palette.secondary.main
   }
 });
 
@@ -175,6 +185,21 @@ class AppLayoutRemake extends React.Component {
       <React.Fragment>
         <GlobalProgress />
         <div className={classes.root}>
+          <CookieConsent
+            buttonStyle={{ backgroundColor: "#DF0174" }}
+            style={{ textAlign: "center" }}
+          >
+            <Typography
+              variant="h5"
+              component="h3"
+              className={classes.text}
+              style={{
+                paddingLeft: width === "xl" || width === "lg" ? 200 : 0
+              }}
+            >
+              This website uses cookies to enhance the user experience.
+            </Typography>
+          </CookieConsent>
           {this.state.mainDrawer && (
             <Hidden smDown>
               <PermanentDrawer />

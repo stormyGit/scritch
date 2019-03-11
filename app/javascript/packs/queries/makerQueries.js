@@ -17,6 +17,7 @@ export const LOAD_MAKERS = gql`
     ) {
       id
       name
+      avatar
       country
       slug
     }
@@ -35,6 +36,7 @@ export const LOAD_MAKER = gql`
       avatar
       claimed
       possessed
+      fursuitsNumber
       user {
         id
         name

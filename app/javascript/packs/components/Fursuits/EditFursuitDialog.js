@@ -135,7 +135,8 @@ class EditFursuitDialog extends React.Component {
     fursuitFinger: null,
     fursuitColor: null,
     fursuitEyes: null,
-    maker: null
+    maker: null,
+    avatarMenu: false
   };
 
   constructor(props) {

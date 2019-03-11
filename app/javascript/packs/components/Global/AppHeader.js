@@ -7,6 +7,7 @@ import { GET_ADVERTS } from "../../queries/advertQueries";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
+import Paper from "@material-ui/core/Paper";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
 import uuidv4 from "uuid/v4";

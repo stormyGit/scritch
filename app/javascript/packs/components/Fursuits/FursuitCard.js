@@ -59,7 +59,6 @@ class FursuitCard extends React.Component {
         }
     } else image = fursuit.avatar;
 
-    console.log(fursuit);
     return (
       <div className={classes.cardMediaContainer}>
         <CardMedia

@@ -10,3 +10,13 @@ export const GET_ANNOUNCEMENTS = gql`
     }
   }
 `;
+
+export const GET_RIBBON_ANNOUNCEMENT = gql`
+  query RibbonAnnouncement {
+    ribbonAnnouncement {
+      id
+      body
+      createdAt
+    }
+  }
+`;

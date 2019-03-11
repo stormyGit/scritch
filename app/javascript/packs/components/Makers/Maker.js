@@ -293,8 +293,7 @@ class Maker extends React.Component {
                                 href={maker.web}
                               >
                                 <Button
-                                  gutterBottom
-                                  variant="h5"
+                                  variant="outlined"
                                   component="h2"
                                   color="primary"
                                   className={classes.makerTitle}
@@ -313,6 +312,25 @@ class Maker extends React.Component {
                                 Unknown
                               </Typography>
                             )}
+                            <div style={{ padding: 10 }} />
+                            {console.log(maker)}
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              component="h2"
+                              color="secondary"
+                              className={classes.makerTitle}
+                            >
+                              Fursuits
+                            </Typography>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="h2"
+                              className={classes.makerTitle}
+                            >
+                              {maker.fursuitsNumber}
+                            </Typography>
                             <div style={{ padding: 10 }} />
                           </Grid>
                         </Grid>

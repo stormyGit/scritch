@@ -3,6 +3,7 @@ class Mutations::UpdateMaker < Mutations::BaseMutation
   argument :name, String, required: true
   argument :country, String, required: false
   argument :region, String, required: false
+  argument :avatar, String, required: false
   argument :web, String, required: false
 
   field :maker, Types::MakerType, null: true

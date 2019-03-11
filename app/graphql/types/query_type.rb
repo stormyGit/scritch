@@ -242,11 +242,19 @@ module Types
       description "List events"
     end
 
+    field :ribbon_announcement, RibbonAnnouncementType, null: false do
+      description "Ribbon Announcement events"
+    end
+
     field :categories, [CategoryType], null: false do
       description "List makers"
       argument :limit, Integer, required: false
       argument :offset, Integer, required: false
       argument :name, String, required: false
+    end
+
+    def ribbon_announcement
+      RibbonAnnouncement.where(public: true).order(:created_at).last
     end
 
     def adverts(args)

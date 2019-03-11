@@ -7,6 +7,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Collapse from "@material-ui/core/Collapse";
+import Paper from "@material-ui/core/Paper";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
@@ -36,6 +37,7 @@ import SettingsDialog from "./AppDialogs/SettingsDialog";
 import SignUpDialog from "./AppDialogs/SignUpDialog";
 import AnnouncementsDialog from "./AppDialogs/AnnouncementsDialog";
 import MultipleMediaDialog from "./Media/MultipleMediaDialog";
+import { GET_RIBBON_ANNOUNCEMENT } from "../queries/announcementQueries";
 
 import ProfileAvatar from "./Users/ProfileAvatar";
 import ExpandLess from "@material-ui/icons/ExpandLess";
@@ -85,6 +87,10 @@ const styles = theme => {
     },
     link: {
       textDecoration: "none"
+    },
+    paper: {
+      padding: theme.spacing.unit * 2,
+      margin: theme.spacing.unit * 2
     }
   };
 };
@@ -296,6 +302,20 @@ class DrawerMenuRemake extends React.Component {
               </React.Fragment>
             </List>
           </div>
+          <Query query={GET_RIBBON_ANNOUNCEMENT}>
+            {({ loading, error, data }) => {
+              if (loading || error || !data) return null;
+              if (data) {
+                return (
+                  <div>
+                    <Paper className={classes.paper}>
+                      <Typography>{data.ribbonAnnouncement.body}</Typography>
+                    </Paper>
+                  </div>
+                );
+              }
+            }}
+          </Query>
           {user && user.sponsor && (
             <div>
               <ListItem
