@@ -51,7 +51,11 @@ import GlobalProgress from "../Global/GlobalProgress";
 
 import { CREATE_MEDIUM } from "../../queries/mediaMutations";
 import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
-import { LOAD_EVENTS, LOAD_EDITIONS } from "../../queries/eventQueries";
+import {
+  LOAD_EVENTS,
+  LOAD_EDITIONS,
+  LOAD_SUB_EVENTS
+} from "../../queries/eventQueries";
 
 const dropZoneStyles = theme => ({
   root: {
@@ -122,17 +126,20 @@ class DropZoneField extends React.Component {
   }
 
   render() {
-    const { classes, width } = this.props;
+    const { classes, width, dropzoneDisabled } = this.props;
 
     return (
       <Dropzone
         multiple={true}
         className={classes.root}
+        disabled={dropzoneDisabled}
         accept="image/png,image/x-png,image/jpeg"
         style={{
           height: width === "lg" || width === "xl" ? 220 : 130,
-          pointerEvents: this.state.disabled ? "none" : "auto",
-          cursor: this.state.disabled ? "not-allowed" : "pointer"
+          pointerEvents:
+            this.state.disabled || dropzoneDisabled ? "none" : "auto",
+          cursor:
+            this.state.disabled || dropzoneDisabled ? "not-allowed" : "pointer"
         }}
         onDrop={files => this.handleDrop(files)}
       >
@@ -208,8 +215,7 @@ class MultipleMediaDialog extends React.Component {
     mediaEvent: {},
     mediaEdition: {},
     mediaCategory: {},
-    eventList: [],
-    editionList: [],
+    mediaSubEvent: {},
     uploaded: false,
     complete: false,
     uploading: false
@@ -225,7 +231,11 @@ class MultipleMediaDialog extends React.Component {
     this.setState({
       uploaded: false,
       complete: false,
-      uploading: false
+      uploading: false,
+      mediaEvent: {},
+      mediaEdition: {},
+      mediaCategory: {},
+      mediaSubEvent: {}
     });
   }
 
@@ -344,58 +354,80 @@ class MultipleMediaDialog extends React.Component {
                   }}
                 </Query>
               )}
-            {false && (
-              <FormControlLabel
-                margin={"dense"}
-                control={
-                  <Switch
-                    checked={this.state.commentsEnabled}
-                    onChange={() => {
-                      this.setState({
-                        commentsEnabled: !this.state.commentsEnabled
-                      });
+            <div style={{ padding: 5 }} />
+            {Object.keys(this.state.mediaEdition).length != 0 &&
+              this.state.mediaEdition.value && (
+                <Query
+                  query={LOAD_SUB_EVENTS}
+                  variables={{
+                    offset: 0,
+                    limit: 150,
+                    editionId: this.state.mediaEdition.value
+                  }}
+                >
+                  {({ data, loading, error, fetchMore }) => {
+                    if (loading || error) {
+                      return null;
+                    }
+
+                    const subEventList = [
+                      { value: null, label: "Not applicable" }
+                    ];
+                    data.subEvents.map(e =>
+                      subEventList.push({ value: e.id, label: e.name })
+                    );
+                    return (
+                      <Select
+                        fullWidth
+                        clearable={true}
+                        placeholder="Edition"
+                        isSearchable
+                        onChange={mediaSubEvent => {
+                          this.setState({ mediaSubEvent: mediaSubEvent });
+                        }}
+                        options={subEventList}
+                        className={classes.selectInput}
+                      />
+                    );
+                  }}
+                </Query>
+              )}
+            <Mutation mutation={CREATE_MEDIUM}>
+              {(createMedium, { called }) => {
+                return (
+                  <DropZoneFieldWithStyle
+                    dropzoneDisabled={
+                      (Object.keys(this.state.mediaEdition).length == 0 &&
+                        Object.keys(this.state.mediaCategory).length == 0) ||
+                      (Object.keys(this.state.mediaEvent).length != 0 &&
+                        Object.keys(this.state.mediaEdition).length == 0)
+                    }
+                    onStart={() => {
+                      this.setState({ uploading: true });
                     }}
-                    color="primary"
-                  />
-                }
-                label={
-                  this.state.commentsEnabled
-                    ? "Comments enabled"
-                    : "Comments disabled"
-                }
-              />
-            )}
-            {
-              <Mutation mutation={CREATE_MEDIUM}>
-                {(createMedium, { called }) => {
-                  return (
-                    <DropZoneFieldWithStyle
-                      onStart={() => {
-                        this.setState({ uploading: true });
-                      }}
-                      onLoaded={(file, result) =>
-                        createMedium({
-                          variables: {
-                            input: {
-                              title: processFileName(file),
-                              description: this.state.description,
-                              commentsDisabled: false,
-                              shareOnTwitter: this.state.shareOnTwitter,
-                              picture: result,
-                              editionId: this.state.mediaEdition.value,
-                              categoryId: this.state.mediaCategory.value
-                            }
+                    onLoaded={(file, result) =>
+                      createMedium({
+                        variables: {
+                          input: {
+                            title: processFileName(file),
+                            description: this.state.description,
+                            commentsDisabled: false,
+                            shareOnTwitter: this.state.shareOnTwitter,
+                            picture: result,
+                            editionId: this.state.mediaEdition.value,
+                            categoryId: this.state.mediaCategory.value,
+                            subEventId: this.state.mediaSubEvent.value
                           }
-                        })
-                      }
-                      onComplete={() => {
-                        this.setState({ complete: true });
-                      }}
-                    />
-                  );
-                }}
-              </Mutation>
-            }
+                        }
+                      })
+                    }
+                    onComplete={() => {
+                      this.setState({ complete: true });
+                    }}
+                  />
+                );
+              }}
+            </Mutation>
           </DialogContent>
           <DialogActions>
             <Grid container spacing={0} justify="space-between">
@@ -403,13 +435,19 @@ class MultipleMediaDialog extends React.Component {
               <Grid item>
                 <Button
                   disabled={this.state.uploading}
-                  onClick={this.props.onClose}
+                  onClick={() => {
+                    this.props.onClose();
+                    this.setInitialValues();
+                  }}
                 >
                   Cancel
                 </Button>
                 <Button
                   disabled={!this.state.complete}
-                  onClick={this.props.onClose}
+                  onClick={() => {
+                    this.props.onClose();
+                    this.setInitialValues();
+                  }}
                 >
                   Close
                 </Button>

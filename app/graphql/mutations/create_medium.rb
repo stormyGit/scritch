@@ -5,6 +5,7 @@ class Mutations::CreateMedium < Mutations::BaseMutation
   argument :comments_disabled, Boolean, required: true
   argument :share_on_twitter, Boolean, required: false
   argument :edition_id, ID, required: false
+  argument :sub_event_id, ID, required: false
   argument :category_id, ID, required: false
   argument :panel_id, ID, required: false
 

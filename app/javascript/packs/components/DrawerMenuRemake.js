@@ -15,7 +15,7 @@ import withWidth from "@material-ui/core/withWidth";
 import dateFormat from "dateformat";
 import SubscriptionsIcon from "@material-ui/icons/ViewCarousel";
 import DashboardIcon from "@material-ui/icons/Web";
-import StatsIcon from "@material-ui/icons/Poll";
+import TipsIcon from "@material-ui/icons/AttachMoney";
 import FaveIcon from "@material-ui/icons/Star";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 import PictureIcon from "@material-ui/icons/PhotoLibrary";
@@ -280,10 +280,10 @@ class DrawerMenuRemake extends React.Component {
                 {user && (
                   <ListItem
                     button
-                    selected={location.pathname === "/stats"}
+                    selected={location.pathname === "/tips"}
                     onClick={() => {
                       this.props.history.push({
-                        pathname: "/stats"
+                        pathname: "/tips"
                       });
                       if (this.props.onClose) {
                         this.props.onClose();
@@ -291,10 +291,10 @@ class DrawerMenuRemake extends React.Component {
                     }}
                   >
                     <ListItemIcon className={classes.text} color="secondary">
-                      <StatsIcon />
+                      <TipsIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary="Statistics"
+                      primary="Tip Jar"
                       primaryTypographyProps={{ className: classes.text }}
                     />
                   </ListItem>

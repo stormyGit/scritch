@@ -7,7 +7,7 @@ module Types
     field :country, String, null: false
     field :avatar, String, null: true
     field :slug, String, null: false
-    field :editions, [EditionType], null: true
+    field :editions, [EditionType], null: false
 
     def country
       object.editions.order("editions.year DESC").first.country
