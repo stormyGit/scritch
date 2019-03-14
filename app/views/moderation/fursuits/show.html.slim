@@ -14,11 +14,9 @@ br
 
     .card-content
       .columns
-        .column.is-6
-          - if @fursuit.avatar_url.present?
-            = image_tag @fursuit.avatar
-          - else
-            = image_tag 'fursuitPlaceholder.png'
+        .column.is-4
+          - if @fursuit.avatar.present?
+            = image_tag @fursuit.avatar_url
           br
           br
           - if @fursuit.users.present?
@@ -31,7 +29,7 @@ br
             p.is-size-4
               | Asset not owned
 
-        .column.is-6
+        .column.is-4
           p.is-size-4
             | Created
           p.is-size-5
@@ -46,17 +44,43 @@ br
           p.is-size-4
             | Species
           p.is-size-5
-            = @fursuit.fursuit_specy ? @fursuit.fursuit_specy.name : "none"
+            = @fursuit.fursuit_specy ? @fursuit.fursuit_specy.name : "Unknown"
           br
           p.is-size-4
             | Style
           p.is-size-5
-            = @fursuit.fursuit_style ? @fursuit.fursuit_style.name : "none"
+            = @fursuit.fursuit_style ? @fursuit.fursuit_style.name : "Unknown"
           br
           p.is-size-4
             | Leg Type
           p.is-size-5
-            = @fursuit.fursuit_leg_type ? @fursuit.fursuit_leg_type.name : "none"
+            = @fursuit.fursuit_leg_type ? @fursuit.fursuit_leg_type.name : "Unknown"
+
+        .column.is-4
+          p.is-size-4
+            | Padding
+          p.is-size-5
+            = @fursuit.fursuit_padding ? @fursuit.fursuit_padding.name : "Unknown"
+          br
+          p.is-size-4
+            | Build
+          p.is-size-5
+            = @fursuit.fursuit_build ? @fursuit.fursuit_build.name : "Unknown"
+          br
+          p.is-size-4
+            | Fingers
+          p.is-size-5
+            = @fursuit.fursuit_finger ? @fursuit.fursuit_finger.name : "Unknown"
+          br
+          p.is-size-4
+            | Base Color
+          p.is-size-5
+            = @fursuit.base_color ? @fursuit.base_color : "Unknown"
+          br
+          p.is-size-4
+            | Eyes Color
+          p.is-size-5
+            = @fursuit.eyes_color ? @fursuit.eyes_color : "Unknown"
 
 
 

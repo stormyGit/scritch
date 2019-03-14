@@ -47,4 +47,34 @@ class Fursuit < ApplicationRecord
       nil
     end
   end
+
+  BASE_COLORS = [
+    "Brown",
+    "Black",
+    "Blue",
+    "Green",
+    "Grey",
+    "Orange",
+    "Pink",
+    "Purple",
+    "Rainbow",
+    "Red",
+    "White",
+    "Yellow"
+  ]
+
+  EYES_COLORS = [
+    "Brown",
+    "Black",
+    "Blue",
+    "Green",
+    "Grey",
+    "Orange",
+    "Pink",
+    "Purple",
+    "Multi",
+    "Red",
+    "White",
+    "Yellow"
+  ]
 end

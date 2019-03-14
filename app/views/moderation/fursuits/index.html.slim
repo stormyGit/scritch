@@ -27,10 +27,8 @@
             .card-header-title
               = fursuit.name
           .card-image
-            - if fursuit.avatar_url.present?
-              = image_tag fursuit.avatar
-            - else
-              = image_tag 'fursuitPlaceholder.png'
+            - if fursuit.avatar.present?
+              = image_tag fursuit.avatar_url
           .card-footer
             .card-footer-item
               = link_to "View", moderation_fursuit_path(id: fursuit.slug)

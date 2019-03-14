@@ -27,10 +27,26 @@ class Moderation::FursuitsController < ModerationController
       :name,
       :fursuit_specy_id,
       :fursuit_style_id,
+      :fursuit_padding_id,
+      :fursuit_finger_id,
+      :fursuit_build_id,
+      :base_color,
+      :eyes_color,
       :fursuit_leg_type_id,
       :creation_year,
-      :slug
+      :slug,
+      maker_ids: []
     ]))
+    fursuit.avatar =
+      if (fursuit.is_hybrid)
+        File.open("app/assets/images/species/Hybrid.png")
+      else
+        begin
+          File.open("app/assets/images/species/#{fursuit.fursuit_specy.name}.png")
+        rescue
+          File.open("app/assets/images/species/Missingno (No Avatar Graphic Found).png")
+        end
+      end
     #    authorize fursuit
     fursuit.save!
     flash[:notice] = "Fursuit added!"
@@ -49,11 +65,17 @@ class Moderation::FursuitsController < ModerationController
       :name,
       :fursuit_specy_id,
       :fursuit_style_id,
+      :fursuit_padding_id,
+      :fursuit_finger_id,
+      :fursuit_build_id,
+      :base_color,
+      :eyes_color,
       :fursuit_leg_type_id,
-      :makers,
       :creation_year,
-      :slug
+      :slug,
+      maker_ids: []
     ]))
+
     #    authorize fursuit
     fursuit.save!
     flash[:notice] = "Fursuit updated!"

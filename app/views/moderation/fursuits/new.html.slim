@@ -9,6 +9,54 @@ br
         .field
           = f.label :name, "Name"
           = f.text_field :name, class: "input"
+        .field
+          = f.label :creation_year, "Creation Year"
+          = f.text_field :creation_year, class: "input"
+        .field
+          = f.label :maker_ids, "Maker(s)"
+          br
+          .select.is-multiple
+            = f.select(:maker_ids, options_for_select(Maker.all.order(:name).pluck(:name, :uuid)), {:include_blank => true}, { :multiple => true, :size => 6})
+        .field
+          = f.label :fursuit_specy_id, "Species"
+          br
+          .select
+            = f.select :fursuit_specy_id, options_for_select(FursuitSpecy.all.order(:name).pluck(:name, :uuid)), {:include_blank => true}
+        .field
+          = f.label :fursuit_style_id, "Style"
+          br
+          .select
+            = f.select :fursuit_style_id, options_for_select(FursuitStyle.all.order(:name).pluck(:name, :uuid)), {:include_blank => true}
+        .field
+          = f.label :fursuit_leg_type_id, "Legs"
+          br
+          .select
+            = f.select :fursuit_leg_type_id, options_for_select(FursuitLegType.all.order(:name).pluck(:name, :uuid)), {:include_blank => true}
+        .field
+          = f.label :fursuit_padding_id, "Padding"
+          br
+          .select
+            = f.select :fursuit_padding_id, options_for_select(FursuitPadding.all.order(:name).pluck(:name, :uuid)), {:include_blank => true}
+        .field
+          = f.label :fursuit_build_id, "Build"
+          br
+          .select
+            = f.select :fursuit_build_id, options_for_select(FursuitBuild.all.order(:name).pluck(:name, :uuid)), {:include_blank => true}
+        .field
+          = f.label :fursuit_finger_id, "Fingers"
+          br
+          .select
+            = f.select :fursuit_finger_id, options_for_select(FursuitFinger.all.order(:name).pluck(:name, :uuid)), {:include_blank => true}
+        .field
+          = f.label :base_color, "Base Color"
+          br
+          .select
+            = f.select :base_color, options_for_select(Fursuit::BASE_COLORS), {:include_blank => true}
+        .field
+          = f.label :eyes_color, "Eyes Color"
+          br
+          .select
+            = f.select :eyes_color, options_for_select(Fursuit::EYES_COLORS), {:include_blank => true}
 
         .field
-          = f.submit "Add fursuit", class: "button"
+          = f.submit "Create", class: "button"

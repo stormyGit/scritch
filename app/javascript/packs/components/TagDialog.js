@@ -196,7 +196,7 @@ class TagDialog extends React.Component {
   render() {
     const { classes, open, onClose, loading, width, medium } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
-    if (open == false) return null;
+    if (!medium || open == false) return null;
 
     return (
       <Mutation mutation={UPDATE_MEDIUM}>

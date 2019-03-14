@@ -259,7 +259,7 @@ class TaggableMedia extends React.Component {
                 </DialogContent>
               </ResponsiveDialog>
             )}
-            {!loading && !error && (
+            {false && !loading && !error && media && (
               <TagDialog
                 open={this.state.tagDialog}
                 onClose={() => this.setState({ tagDialog: false })}
