@@ -26,6 +26,7 @@
           = text_field_tag :name, params[:name], placeholder: "Search..", class: "input"
       .column.is-1
         = submit_tag ("Search"), class: "button"
+  br
   .columns.is-multiline
     - @fursuits.each do |fursuit|
       .column.is-2

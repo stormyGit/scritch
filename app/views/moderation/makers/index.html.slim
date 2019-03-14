@@ -19,13 +19,24 @@
   p.is-size-1.has-text-centered.has-text-primary
     | Makers
   br
+  = form_tag moderation_makers_path, method: :get do
+    .columns
+      .column.is-3.is-offset-4
+        .field
+          = text_field_tag :name, params[:name], placeholder: "Search..", class: "input"
+      .column.is-1
+        = submit_tag ("Search"), class: "button"
+  br
   .columns.is-multiline
     - @makers.each do |maker|
-      .column.is-3
+      .column.is-2
         .card
           .card-header
             .card-header-title
               = maker.name
+          .card-image
+            - if maker.avatar.present?
+              = image_tag maker.avatar_url
           .card-content
               = maker.country
           .card-footer

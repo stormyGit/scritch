@@ -9,7 +9,11 @@ class Moderation::MakersController < ModerationController
 
     @makers = Maker.all.order(:name)
 
-    @makers = @makers.page(params[:page]).per(30)
+    if params[:name].present?
+      @makers = @makers.where("makers.name @@ ? or makers.name ilike ?", params[:name], "%#{params[:name]}%")
+    end
+
+    @makers = @makers.page(params[:page]).per(60)
   end
 
   def show

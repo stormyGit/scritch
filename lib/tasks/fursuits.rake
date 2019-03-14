@@ -4,7 +4,7 @@ namespace :fursuits do
   task :fetch, [:filepath] => :environment do |t, args|
     i = 0
     fursuits = []
-    csv_text = open("https://s3.eu-west-3.amazonaws.com/storage.pogs-eip/Scritch+Backbone+Workbook+(Launch)+-+Fursuit+Card+Backbone.csv")
+    csv_text = open("https://s3.eu-west-3.amazonaws.com/storage.pogs-eip/Scritch+Backbone+Workbook+(Launch)+-+Fursuit+Card+Backbone+(1).csv")
     csv = CSV.parse(csv_text, :headers => true)
     csv.each do |row|
       puts "#{row[2]} || #{row[5]} || #{row[8]} || #{row[20]} || #{row[23]} || #{row[24]} |-------| #{row[21]} || #{row[22]} || #{row[25]} || #{row[26]} || #{row[27]}\n\n"
