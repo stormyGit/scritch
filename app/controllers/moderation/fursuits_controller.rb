@@ -9,6 +9,10 @@ class Moderation::FursuitsController < ModerationController
 
     @fursuits = Fursuit.all.order(:name)
 
+    if params[:name].present?
+      @fursuits = @fursuits.where("fursuits.name @@ ? or fursuits.name ilike ?", params[:name], "%#{params[:name]}%")
+    end
+
     @fursuits = @fursuits.page(params[:page]).per(30)
   end
 

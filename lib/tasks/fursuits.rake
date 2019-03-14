@@ -26,6 +26,7 @@ namespace :fursuits do
 
     fursuits.each do |e|
       puts e.to_s
+      next if e[0] == "Stormy"
       fursuit = Fursuit.create!(
         name: e[0],
         fursuit_specy: FursuitSpecy.find_by(name: e[1]),
@@ -38,6 +39,17 @@ namespace :fursuits do
         base_color: e[9],
         eyes_color: e[10]
       )
+      fursuit.avatar =
+        if (fursuit.is_hybrid)
+          File.open("app/assets/images/species/Hybrid.png")
+        else
+          begin
+            File.open("app/assets/images/species/#{fursuit.fursuit_specy.name}.png")
+          rescue
+            File.open("app/assets/images/species/Missingno (No Avatar Graphic Found).png")
+          end
+        end
+      fursuit.save!
       if e[3].present? && e[3] != "UNKNOWN" && e[3] != "1"
         FursuitMaker.create!(fursuit: fursuit, maker: Maker.find_by(reference: e[3].to_i))
       end

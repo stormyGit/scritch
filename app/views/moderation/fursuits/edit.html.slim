@@ -4,7 +4,7 @@ br
     .column.is-4.is-offset-4
       .columns.has-text-centered
         .column.is-12
-          = link_to "Back", moderation_fursuit_path(@fursuit), class: "button", style: "width: 100%"
+          = link_to "Back", moderation_fursuit_path(id: @fursuit.slug), class: "button", style: "width: 100%"
 
   .card
     .card-header
@@ -70,4 +70,4 @@ br
 
     .card-footer
       .card-footer-item
-        = button_to "Delete fursuit", moderation_fursuit_path(@fursuit), method: :delete, class: "button has-text-danger"
+        = button_to "Delete fursuit", moderation_fursuit_path(id: @fursuit.slug), method: :delete, class: "button has-text-danger"

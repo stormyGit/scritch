@@ -87,6 +87,6 @@ br
 
     .card-footer
       .card-footer-item
-        = link_to "Edit", edit_moderation_fursuit_path(id: @fursuit.id)
+        = link_to "Edit", edit_moderation_fursuit_path(id: @fursuit.slug)
       .card-footer-item
-        = link_to "Delete", moderation_fursuit_path(id: @fursuit.id), method: :delete, class: "has-text-danger"
+        = link_to "Delete", moderation_fursuit_path(id: @fursuit.slug), method: :delete, class: "has-text-danger"
