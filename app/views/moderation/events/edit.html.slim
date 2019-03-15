@@ -9,13 +9,18 @@ br
         .field
           = f.label :name, "Event name"
           = f.text_field :name, class: "input", value: @event.name
+        .field
+          = f.label :web, "Website"
+          = f.text_field :web, class: "input", value: @event.web
 
         br
         .field
+          = f.label :avatar, "Image"
+          br
           = f.file_field :avatar, class: "upload-file"
 
         .field
           = f.submit "Update", class: "button"
     .card-footer
       .card-footer-item
-        = button_to "Delete Event", moderation_event_path(@event), method: :delete, class: "button has-text-danger"
+        = button_to "Delete Event", moderation_event_path(id: @event.slug), method: :delete, class: "button has-text-danger"

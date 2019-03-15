@@ -9,9 +9,14 @@ br
         .field
           = f.label :name, "Event name"
           = f.text_field :name, class: "input"
+        .field
+          = f.label :name, "Website"
+          = f.text_field :web, class: "input"
 
         br
         .field
+          = f.label :avatar, "Image"
+          br
           = f.file_field :avatar, class: "upload-file"
 
         .field

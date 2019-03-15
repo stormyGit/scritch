@@ -28,7 +28,8 @@ class Moderation::EventsController < ModerationController
   def update
     @event = Event.find(params[:id])
     @event.assign_attributes(params.require(:event).permit([
-     :name
+     :name,
+     :web
     ]))
     #    authorize event
     @event.avatar = params[:event][:avatar]
@@ -45,7 +46,8 @@ class Moderation::EventsController < ModerationController
   def create
     event = Event.new
     event.assign_attributes(params.require(:event).permit([
-     :name
+     :name,
+     :web
     ]))
     #    authorize event
     event.avatar = params[:event][:avatar]
