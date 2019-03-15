@@ -13,7 +13,7 @@ class Moderation::FursuitsController < ModerationController
       @fursuits = @fursuits.where("fursuits.name @@ ? or fursuits.name ilike ?", params[:name], "%#{params[:name]}%")
     end
 
-    @fursuits = @fursuits.page(params[:page]).per(30)
+    @fursuits = @fursuits.page(params[:page]).per(90)
   end
 
   def show

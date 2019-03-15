@@ -51,13 +51,18 @@ namespace :events do
       end_date = row[14]
       name = row[17]
 
+      if country == "USA"
+        country = "United States"
+      elsif country == "Czechia"
+        country = "Czech Republic"
+      end
       editionList << [convention, attendance, theme, country, location, venue, kind, start_date, end_date, name, year]
       i = i + 1
     end
 
     editionList.each do |e|
       puts e.to_s
-      Edition.create!(
+      edition = Edition.create!(
         event: Event.find_by(name: e[0]),
         attendance: e[1],
         #theme: e[2],
@@ -69,6 +74,15 @@ namespace :events do
         end_date: DateTime.parse(e[8]),
         name: e[9],
         year: e[10])
+      if edition.event.avatar.blank?
+        edition.event.avatar =
+          begin
+            File.open("app/assets/images/events/Scritch Event Thumbnail - #{edition.country}.png")
+          rescue
+            File.open("app/assets/images/eventPlaceholder.png")
+          end
+        edition.event.save!
+      end
     end
 
   end

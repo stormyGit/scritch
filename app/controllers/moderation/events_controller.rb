@@ -11,10 +11,10 @@ class Moderation::EventsController < ModerationController
     @events = Event.all.order(:name)
 
     if params[:name].present?
-        @events = @events.where(name: params[:name])
+      @events = @events.where("events.name @@ ? or events.name ilike ?", params[:name], "%#{params[:name]}%")
     end
 
-    @events = @events.page(params[:page]).per(30)
+    @events = @events.page(params[:page]).per(90)
   end
 
   def show
