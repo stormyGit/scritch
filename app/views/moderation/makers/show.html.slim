@@ -13,23 +13,30 @@ br
 
 
     .card-content
-      p.is-size-3
-        = "#{@maker.country}"
-      a href="#{@maker.web}"
-        p.is-size-4
-          = "#{@maker.web}"
-      br
-      br
-      - if @maker.user.present?
-        p.is-size-4
-          | Asset owned by:
+      .columns
+        .column.is-10
+          p.is-size-3
+            = "#{@maker.country}"
+            - if @maker.region
+              = ", #{@maker.region}"
+          p.is-size-4
+            = "Website: "
+            a href="#{@maker.web}" target="_blank"
+              = "Open in a new tab"
           br
-          = @maker.user.username
-      - else
-        p.is-size-4
-          | Asset not owned
-      br
-      br
+          br
+          - if @maker.user.present?
+            p.is-size-4
+              | Asset owned by:
+              br
+              = @maker.user.username
+          - else
+            p.is-size-4
+              | Asset not owned
+          br
+          br
+        .column.is-2
+          img src=@maker.avatar
 
 
       p.is-size-4
@@ -43,10 +50,8 @@ br
                 .card-header-title
                   = fursuit.name
               .card-image
-                - if fursuit.avatar_url.present?
-                  = image_tag fursuit.avatar
-                - else
-                  = image_tag 'fursuitPlaceholder.png'
+                - if fursuit.avatar.present?
+                  = image_tag fursuit.avatar_url
               .card-footer
                 .card-footer-item
                   = link_to "View", moderation_fursuit_path(id: fursuit.slug)
@@ -55,6 +60,6 @@ br
 
     .card-footer
       .card-footer-item
-        = link_to "Edit", edit_moderation_maker_path(id: @maker.id)
+        = link_to "Edit", edit_moderation_maker_path(id: @maker.slug)
       .card-footer-item
-        = link_to "Delete", moderation_maker_path(id: @maker.id), method: :delete, class: "has-text-danger"
+        = link_to "Delete", moderation_maker_path(id: @maker.slug), method: :delete, class: "has-text-danger"

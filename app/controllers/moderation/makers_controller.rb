@@ -28,9 +28,18 @@ class Moderation::MakersController < ModerationController
     maker = Maker.new
     maker.assign_attributes(params.require(:maker).permit([
       :user_id,
-      :name
+      :name,
+      :web,
+      :country,
+      :region
     ]))
     #    authorize maker
+    maker.avatar =
+      begin
+        File.open("app/assets/images/makers/Scritch Maker Thumbnail - #{maker.country}.png")
+      rescue
+        File.open("app/assets/images/makerPlaceholder.png")
+      end
     maker.save!
     flash[:notice] = "Maker added!"
     flash[:class] = ""
@@ -46,13 +55,16 @@ class Moderation::MakersController < ModerationController
     maker = Maker.find(params[:id])
     maker.assign_attributes(params.require(:maker).permit([
       :user_id,
-      :name
+      :name,
+      :country,
+      :web,
+      :region
     ]))
     #    authorize maker
     maker.save!
     flash[:notice] = "Maker updated!"
     flash[:class] = "has-text-warning"
-    redirect_to moderation_makers_path
+    redirect_to moderation_maker_path(id: maker.slug)
   end
 
   def destroy

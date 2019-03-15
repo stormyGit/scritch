@@ -21,4 +21,4 @@ br
 
     .card-footer
       .card-footer-item
-        = button_to "Delete maker", moderation_maker_path(@maker), method: :delete, class: "button has-text-danger"
+        = button_to "Delete maker", moderation_maker_path(id: @maker.slug), method: :delete, class: "button has-text-danger"
