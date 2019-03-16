@@ -33,7 +33,36 @@ class TelegramController < Telegram::Bot::UpdatesController
       user.remote_avatar_url = "https://api.telegram.org/file/bot#{self.bot.token}/#{profile_photo_file_path}"
     end
 
+
   rescue => error
     ExceptionNotifier.notify_exception(error)
+  end
+
+  def callback_query(query)
+    action, id     = query.split(" ")
+    message_id     = self.payload["message"]["message_id"]
+
+    case action
+    when 'APPROVE_CLAIM'
+      claim = Claim.find(id)
+      chat_id = ENV["TELEGRAM_CLAIM_GROUP_ID"]
+      FursuitUser.create!(user: claim.user, fursuit: claim.fursuit)
+      claim.destroy
+
+    when "REJECT_CLAIM"
+      claim = Claim.find(id)
+      chat_id = ENV["TELEGRAM_CLAIM_GROUP_ID"]
+      user = User.find(claim.user.uuid)
+      user.update!(score: user.score - 10)
+      claim.destroy
+    end
+
+  rescue => error
+    ExceptionNotifier.notify_exception(error)
+  ensure
+    Telegram.bots[:admin].delete_message({
+      chat_id: chat_id,
+      message_id: message_id
+    })
   end
 end

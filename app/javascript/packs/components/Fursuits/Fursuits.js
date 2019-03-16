@@ -159,17 +159,22 @@ class Fursuits extends React.Component {
             offset: 0
           }}
         >
-          {({ data, loading, error, fetchMore }) => (
-            <React.Fragment>
-              <Grid
-                container
-                className={classes.root}
-                spacing={8}
-                style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
-              >
-                {!loading &&
-                  !error &&
-                  this.renderResults({
+          {({ data, loading, error, fetchMore }) => {
+            console.log(this.state);
+            console.log(error);
+            if (loading || error || !data || !data.fursuits) return null;
+            return (
+              <React.Fragment>
+                {console.log(data.fursuits)}
+                <Grid
+                  container
+                  className={classes.root}
+                  spacing={8}
+                  style={{
+                    marginTop: width === "lg" || width === "xl" ? 4 : -4
+                  }}
+                >
+                  {this.renderResults({
                     data,
                     horizontal: false,
                     hasMore:
@@ -199,9 +204,10 @@ class Fursuits extends React.Component {
                       });
                     }
                   })}
-              </Grid>
-            </React.Fragment>
-          )}
+                </Grid>
+              </React.Fragment>
+            );
+          }}
         </Query>
       </React.Fragment>
     );

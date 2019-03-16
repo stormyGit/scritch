@@ -43,9 +43,11 @@ export const LOAD_FURSUITS = gql`
       }
       isHybrid
       hybridSpecies {
+        id
         name
       }
       fursuitSpecy {
+        id
         name
       }
     }

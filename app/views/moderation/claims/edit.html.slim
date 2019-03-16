@@ -1,0 +1,46 @@
+br
+.container
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        = "Update #{@event.name} #{@edition.name}"
+    .card-content
+      = form_for @edition, :url => moderation_event_edition_path, method: :put do |f|
+        = f.hidden_field :event_id, value: @event.id
+        .field
+          = f.label :start_date, "Start date"
+          br
+          = f.date_field :start_date
+        .field
+          = f.label :end_date, "End date"
+          br
+          = f.date_field :end_date
+        .field
+          = f.label :city, "City"
+          = f.text_field :city, class: "input"
+        .field
+          = f.label :country, "Country"
+          = f.text_field :country, class: "input"
+        .field
+          = f.label :name, "Name"
+          = f.text_field :name, class: "input"
+        .field
+          = f.label :attendance, "Attendance"
+          = f.text_field :attendance, class: "input"
+        .field
+          = f.label :venue, "Venue"
+          = f.text_field :venue, class: "input"
+        .field
+          = f.label :kind, "Event kind"
+          br
+          .select
+            = f.select :kind, ["Convention", "Furmeet", "FurDance"]
+
+        br
+        br
+        .field
+          = f.submit "Update", class: "button"
+
+    .card-footer
+      .card-footer-item
+        = button_to "Delete Edition", moderation_event_edition_path(@edition, event_id: @event.id), method: :delete, class: "button has-text-danger"

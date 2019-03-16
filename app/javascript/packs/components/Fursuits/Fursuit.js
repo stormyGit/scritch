@@ -239,16 +239,18 @@ class Fursuit extends React.Component {
                     justify="space-between"
                     wrap="nowrap"
                   >
-                    {!fursuit.claimed && !fursuit.possessed && !fursuit.users && (
-                      <Grid item>
-                        <Button
-                          color="primary"
-                          onClick={() => this.setState({ claimDialog: true })}
-                        >
-                          Claim fursuit
-                        </Button>
-                      </Grid>
-                    )}
+                    {!fursuit.claimed &&
+                      !fursuit.possessed &&
+                      fursuit.users.length == 0 && (
+                        <Grid item>
+                          <Button
+                            color="primary"
+                            onClick={() => this.setState({ claimDialog: true })}
+                          >
+                            Claim fursuit
+                          </Button>
+                        </Grid>
+                      )}
                     {fursuit.claimed && !fursuit.possessed && (
                       <Grid item>
                         <Button color="primary" disabled>
@@ -256,7 +258,6 @@ class Fursuit extends React.Component {
                         </Button>
                       </Grid>
                     )}
-                    {console.log(fursuit.user)}
                     {!fursuit.claimed &&
                       !fursuit.possessed &&
                       fursuit.users.length > 0 && (

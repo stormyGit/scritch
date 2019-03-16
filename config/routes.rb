@@ -65,6 +65,8 @@ Rails.application.routes.draw do
     end
     resources :comments do
     end
+    resources :claims do
+    end
     resources :moderators do
     end
     resources :banned_users do
