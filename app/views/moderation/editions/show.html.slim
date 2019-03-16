@@ -4,7 +4,7 @@ br
     .column.is-4.is-offset-4
       .columns.has-text-centered
         .column.is-12
-          = link_to "Back", moderation_event_editions_path(event_id: @event.id), class: "button", style: "width: 100%"
+          = link_to "Back", moderation_event_editions_path(event_id: @event.slug), class: "button", style: "width: 100%"
 
   .card
     .card-header
@@ -13,33 +13,30 @@ br
 
 
     .card-content
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
-      | DATA
-      br
+      .columns
+        .column.is-4
+          p.is-size-4
+            = "#{@edition.event.name} #{@edition.name}"
+          br
+          p.is-size-5
+            = @edition.venue
+          p.is-size-5
+            = "#{@edition.city}, #{@edition.country}"
+          p.is-size-5
+            = "#{@edition.start_date.strftime("%d %B %Y")} - #{@edition.end_date.strftime("%d %B %Y")}"
+          br
+          p.is-size-4
+            = "Attendance"
+          p.is-size-5
+            = "#{@edition.attendance}"
+
+        .column.is-4
+        .column.is-4
+          - if @edition.event.avatar.present?
+            = image_tag @edition.event.avatar_url
 
     .card-footer
       .card-footer-item
-        = link_to "Edit", edit_moderation_event_edition_path(id: @edition.id, event_id: @event.id)
+        = link_to "Edit", edit_moderation_event_edition_path(id: @edition.slug, event_id: @event.slug)
       .card-footer-item
-        = link_to "Delete", moderation_event_edition_path(id: @edition.id, event_id: @event.id), method: :delete, class: "has-text-danger"
+        = link_to "Delete", moderation_event_edition_path(id: @edition.slug, event_id: @event.slug), method: :delete, class: "has-text-danger"

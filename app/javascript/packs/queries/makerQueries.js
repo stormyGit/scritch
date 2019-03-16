@@ -19,6 +19,7 @@ export const LOAD_MAKERS = gql`
       name
       avatar
       country
+      region
       slug
     }
   }

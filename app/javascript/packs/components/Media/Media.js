@@ -126,7 +126,8 @@ class Media extends React.Component {
           query={GET_MEDIA}
           variables={{
             faves: faves ? faves : false,
-            sort: this.props.sort,
+            sort: this.props.sort ? this.props.sort : this.state.sort,
+            eventId: this.state.event ? this.state.event.value : null,
             editionId: this.state.edition ? this.state.edition.value : null,
             categoryId: this.state.category ? this.state.category.value : null,
             subEventId: this.state.subEvent ? this.state.subEvent.value : null,

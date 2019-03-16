@@ -44,6 +44,7 @@ module Types
       argument :tagging, Boolean, required: false
       argument :faves, Boolean, required: false
       argument :edition_id, [ID], required: false
+      argument :event_id, ID, required: false
     end
 
     field :adverts, [AdvertType], null: false do
@@ -432,8 +433,14 @@ module Types
         case arguments[:sort]
         when 'latest'
           media.order("media.created_at DESC, media.created_at DESC")
+        when 'earliest'
+          media.order("media.created_at, media.created_at")
         when 'scritches'
           media.order(["media.likes_count DESC, media.created_at DESC"])
+        when 'views'
+          media.order(["media.views_count DESC, media.created_at DESC"])
+        when 'faves'
+          media.order(["media.faves_count DESC, media.created_at DESC"])
         when 'random'
           media.order("RANDOM()")
         when 'subscriptions'
@@ -450,7 +457,9 @@ module Types
       if arguments[:user_id].present?
         media = media.where(user_id: arguments[:user_id])
       end
-
+      if arguments[:event_id].present?
+        media = media.joins(:edition).where("editions.event_id = ?", arguments[:event_id]).order("editions.year DESC")
+      end
       if arguments[:edition_id].present?
         media = media.where(edition_id: arguments[:edition_id]).joins(:edition).order("editions.year DESC")
       end

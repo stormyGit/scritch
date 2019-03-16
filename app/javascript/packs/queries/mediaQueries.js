@@ -14,6 +14,7 @@ export const GET_MEDIA = gql`
     $tagging: Boolean
     $faves: Boolean
     $editionId: [ID!]
+    $eventId: ID
   ) {
     media(
       q: $q
@@ -28,6 +29,7 @@ export const GET_MEDIA = gql`
       tagging: $tagging
       faves: $faves
       editionId: $editionId
+      eventId: $eventId
     ) {
       id
       slug

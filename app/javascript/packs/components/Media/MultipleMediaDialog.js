@@ -380,7 +380,7 @@ class MultipleMediaDialog extends React.Component {
                       <Select
                         fullWidth
                         clearable={true}
-                        placeholder="Edition"
+                        placeholder="Sub Event"
                         isSearchable
                         onChange={mediaSubEvent => {
                           this.setState({ mediaSubEvent: mediaSubEvent });

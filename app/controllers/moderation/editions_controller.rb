@@ -29,6 +29,8 @@ class Moderation::EditionsController < ModerationController
       :country,
       :name,
       :kind,
+      :attendance,
+      :venue,
       :year
     ]))
     #    authorize edition
@@ -36,7 +38,7 @@ class Moderation::EditionsController < ModerationController
     edition.save!
     flash[:notice] = "Edition updated!"
     flash[:class] = "has-text-warning"
-    redirect_to moderation_event_editions_path(event_id: params[:event_id])
+    redirect_to moderation_event_edition_path(event_id: params[:event_id], edition_id: edition.slug)
   end
 
   def edit
@@ -60,6 +62,8 @@ class Moderation::EditionsController < ModerationController
       :country,
       :name,
       :kind,
+      :attendance,
+      :venue,
       :year
     ]))
     #    authorize edition

@@ -430,7 +430,9 @@ class MediaFilters extends React.Component {
     const sortingList = [
       { label: "Latest First", value: "latest" },
       { label: "Most Scritched", value: "scritches" },
-      { label: "Most Viewed", value: "views" }
+      { label: "Most Viewed", value: "views" },
+      { label: "Most Faved", value: "faves" },
+      { label: "Earliest First", value: "earliest" }
     ];
     return (
       <React.Fragment>
@@ -442,7 +444,6 @@ class MediaFilters extends React.Component {
         <Grid item xs={4}>
           <Select
             fullWidth
-            isClearable
             isSearchable
             value={this.state.sort}
             onChange={sort => {

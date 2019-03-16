@@ -21,7 +21,9 @@ class Mutations::UpdateMedium < Mutations::BaseMutation
 
     if arguments[:fursuits].present?
       arguments[:fursuits].each do |fursuit|
-        FursuitMedium.create(medium_id: medium.id, fursuit_id: fursuit, user: context[:current_user])
+        if FursuitMedium.where(medium: medium.id, fursuit: fursuit).blank?
+          FursuitMedium.create(medium_id: medium.id, fursuit_id: fursuit, user: context[:current_user])
+        end
       end
     end
 

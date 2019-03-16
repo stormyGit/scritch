@@ -50,7 +50,7 @@ const styles = theme => ({
   },
   cardMediaContainer: {
     position: "relative",
-    paddingTop: "56%"
+    paddingTop: "100%"
   },
   userLink: {
     color: theme.palette.text.primary,
@@ -84,9 +84,7 @@ class EventCard extends React.Component {
           className={
             horizontal ? classes.horizontalMedia : classes.verticalMedia
           }
-          image={
-            event.avatar ? event.avatar : require("images/eventPlaceholder.png")
-          }
+          image={event.avatar}
           title={event.name}
         />
       </div>

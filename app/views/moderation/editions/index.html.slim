@@ -33,9 +33,9 @@
               = "#{edition.start_date.strftime("%d %B %Y")} - #{edition.end_date.strftime("%d %B %Y")}"
             .card-footer
               .card-footer-item
-                = link_to "View", moderation_event_edition_path(id: edition.id)
+                = link_to "View", moderation_event_edition_path(id: edition.slug)
               .card-footer-item
-                = link_to "Edit", edit_moderation_event_edition_path(id: edition.id)
+                = link_to "Edit", edit_moderation_event_edition_path(id: edition.slug)
 
   .columns
     .column.is-6.is-offset-3

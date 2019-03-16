@@ -7,6 +7,7 @@ export const LOAD_EVENT = gql`
       name
       web
       slug
+      avatar
       country
       editions {
         id
@@ -23,6 +24,7 @@ export const LOAD_EVENTS = gql`
       id
       name
       country
+      avatar
       slug
     }
   }

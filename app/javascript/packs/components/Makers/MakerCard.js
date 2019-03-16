@@ -50,7 +50,7 @@ const styles = theme => ({
   },
   cardMediaContainer: {
     position: "relative",
-    paddingTop: "56%"
+    paddingTop: "100%"
   },
   userLink: {
     color: theme.palette.text.primary,
@@ -84,9 +84,7 @@ class MakerCard extends React.Component {
           className={
             horizontal ? classes.horizontalMedia : classes.verticalMedia
           }
-          image={
-            maker.avatar ? maker.avatar : require("images/makerPlaceholder.png")
-          }
+          image={maker.avatar}
           title={maker.name}
         />
       </div>

@@ -103,6 +103,10 @@ export const LOAD_FURSUIT = gql`
         name
         slug
       }
+      users {
+        id
+        name
+      }
     }
   }
 `;

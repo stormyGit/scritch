@@ -224,6 +224,7 @@ class Maker extends React.Component {
                             </Typography>
                           </Grid>
                         </Grid>
+                        {console.log(maker)}
                         <div style={{ padding: 10 }} />
                         <Grid
                           container
@@ -231,20 +232,16 @@ class Maker extends React.Component {
                           alignItems="center"
                           justify="center"
                         >
-                          <Grid xs={4} item />
-                          <Grid xs={4} item>
+                          <Grid xs={1} item />
+                          <Grid xs={10} item>
                             <img
-                              src={
-                                maker.avatar
-                                  ? maker.avatar
-                                  : require("images/makerPlaceholder.png")
-                              }
+                              src={maker.avatar}
                               title={maker.name}
                               width="100%"
-                              style={{ borderRadius: "100%" }}
+                              style={{ borderRadius: "5%" }}
                             />
                           </Grid>
-                          <Grid xs={4} item />
+                          <Grid xs={1} item />
                         </Grid>
                         <Grid container spacing={8}>
                           <Grid item>

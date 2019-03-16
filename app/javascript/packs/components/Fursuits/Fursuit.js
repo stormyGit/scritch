@@ -249,16 +249,26 @@ class Fursuit extends React.Component {
                         </Button>
                       </Grid>
                     )}
-                    {!fursuit.claimed && !fursuit.possessed && fursuit.users && (
+                    {fursuit.claimed && !fursuit.possessed && (
                       <Grid item>
-                        <Button
-                          color="primary"
-                          onClick={() => this.setState({ claimDialog: true })}
-                        >
-                          Contest Claim
+                        <Button color="primary" disabled>
+                          Claim pending
                         </Button>
                       </Grid>
                     )}
+                    {console.log(fursuit.user)}
+                    {!fursuit.claimed &&
+                      !fursuit.possessed &&
+                      fursuit.users.length > 0 && (
+                        <Grid item>
+                          <Button
+                            color="primary"
+                            onClick={() => this.setState({ claimDialog: true })}
+                          >
+                            Contest Claim
+                          </Button>
+                        </Grid>
+                      )}
                     {fursuit.possessed && (
                       <Grid item>
                         <Button
@@ -312,18 +322,14 @@ class Fursuit extends React.Component {
                     alignItems="center"
                     justify="center"
                   >
-                    <Grid xs={4} item />
-                    <Grid xs={4} item>
-                      <FursuitAvatar
-                        specy={
-                          fursuit.isHybrid
-                            ? "Hybrid"
-                            : fursuit.fursuitSpecy.name
-                        }
-                        avatar={fursuit.avatar}
+                    <Grid xs={1} item />
+                    <Grid xs={10} item>
+                      <img
+                        style={{ width: "100%", borderRadius: "5%" }}
+                        src={fursuit.avatar}
                       />
                     </Grid>
-                    <Grid xs={4} item />
+                    <Grid xs={1} item />
                   </Grid>
                   <Grid container spacing={8}>
                     <Grid item>

@@ -27,7 +27,7 @@ const styles = theme => ({
   },
   cardMediaContainer: {
     position: "relative",
-    paddingTop: "56%"
+    paddingTop: "100%"
   },
   content: {
     textAlign: "center",

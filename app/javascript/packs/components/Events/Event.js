@@ -196,20 +196,16 @@ class Event extends React.Component {
                         alignItems="center"
                         justify="center"
                       >
-                        <Grid xs={4} item />
-                        <Grid xs={4} item>
+                        <Grid xs={1} item />
+                        <Grid xs={10} item>
                           <img
-                            src={
-                              event.avatar
-                                ? event.avatar
-                                : require("images/eventPlaceholder.png")
-                            }
+                            src={event.avatar}
                             title={event.name}
                             width="100%"
-                            style={{ borderRadius: "100%" }}
+                            style={{ borderRadius: "5%" }}
                           />
                         </Grid>
-                        <Grid xs={4} item />
+                        <Grid xs={1} item />
                       </Grid>
                       <Grid container spacing={8}>
                         <Grid item>
