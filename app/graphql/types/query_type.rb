@@ -214,6 +214,7 @@ module Types
       argument :fursuit_color, String, required: false
       argument :fursuit_eyes, String, required: false
       argument :maker, ID, required: false
+      argument :user_id, ID, required: false
     end
 
     field :maker, MakerType, null: false do
@@ -339,6 +340,11 @@ module Types
       puts "\n" * 30
 
       fursuits = Fursuit.all
+
+      if arguments[:user_id].present?
+        fursuits = fursuits.joins(:users).where("users.uuid = ?", arguments[:user_id])
+      end
+
       if arguments[:fursuit_specy].present?
         fursuits = fursuits.where(fursuit_specy_id: FursuitSpecy.find(arguments[:fursuit_specy]))
       end

@@ -14,6 +14,7 @@ export const LOAD_FURSUITS = gql`
     $fursuitEyes: String
     $exclude: [ID!]
     $maker: ID
+    $userId: ID
     $limit: Int!
     $offset: Int!
   ) {
@@ -30,6 +31,7 @@ export const LOAD_FURSUITS = gql`
       fursuitEyes: $fursuitEyes
       maker: $maker
       exclude: $exclude
+      userId: $userId
       limit: $limit
       offset: $offset
     ) {

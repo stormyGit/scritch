@@ -106,7 +106,9 @@ class FursuitCard extends React.Component {
       <Card className={classes.card} elevation={0}>
         <CardActionArea
           onClick={() => {
-            this.props.openFursuit(fursuit);
+            this.props.openFursuit
+              ? this.props.openFursuit(fursuit)
+              : this.props.onClick();
           }}
         >
           {this.renderMedia()}

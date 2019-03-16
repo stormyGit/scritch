@@ -43,6 +43,8 @@ export const GET_USER = gql`
       fursuits {
         id
         name
+        avatar
+        slug
         makers {
           id
           name

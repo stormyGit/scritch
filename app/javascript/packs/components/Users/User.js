@@ -40,6 +40,7 @@ import {
 } from "../../queries/userMutations";
 import { GET_SESSION } from "../../queries/globalQueries";
 import { GET_MEDIA } from "../../queries/mediaQueries";
+import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import {
   GET_USER,
   GET_LIKES_BY_USER,
@@ -48,6 +49,7 @@ import {
 } from "../../queries/userQueries";
 
 import MediumCard from "../Media/MediumCard";
+import FursuitCard from "../Fursuits/FursuitCard";
 import UserCard from "./UserCard";
 import EmptyList from "../Global/EmptyList";
 import UserAvatar from "./UserAvatar";
@@ -460,16 +462,11 @@ class User extends React.Component {
           return (
             <React.Fragment>
               <Grid container spacing={8}>
-                <Grid item xs={12}>
-                  <Gallery
-                    images={data.media.map(medium => ({
-                      src: medium.picture,
-                      thumbnail: medium.thumbnail,
-                      thumbnailWidth: medium.width / (medium.height / 256.0),
-                      thumbnailHeight: 256
-                    }))}
-                  />
-                </Grid>
+                {data.media.map(medium => (
+                  <Grid item xs={3}>
+                    <MediumCard medium={medium} key={medium.id} />
+                  </Grid>
+                ))}
                 {data.media.length < user.mediaCount && (
                   <LoadMoreButton
                     onClick={() => {
@@ -560,6 +557,29 @@ class User extends React.Component {
     let limit = parseInt(process.env.FOLLOWERS_PAGE_SIZE);
 
     return (
+      <React.Fragment>
+        <Grid container spacing={8}>
+          {user.fursuits.map(fursuit => (
+            <Grid item xs={3} key={fursuit.id}>
+              <FursuitCard
+                fursuit={fursuit}
+                onClick={() =>
+                  this.props.history.push(`/fursuits/${fursuit.slug}`)
+                }
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </React.Fragment>
+    );
+  }
+
+  renderFollowers(user) {
+    const { width } = this.props;
+    let offset = 0;
+    let limit = parseInt(process.env.FOLLOWERS_PAGE_SIZE);
+
+    return (
       <Query
         query={GET_FOLLOWERS_BY_USER}
         variables={{ userId: user.id, offset, limit }}
@@ -571,7 +591,7 @@ class User extends React.Component {
 
           if (data.followersByUser.length === 0) {
             return (
-              <EmptyList label={`${user.name} doesn't have any fursuits.`} />
+              <EmptyList label={`${user.name} doesn't have any followers.`} />
             );
           }
 
@@ -908,19 +928,18 @@ class User extends React.Component {
                               )}
                               {currentSession.user.id == data.user.id && (
                                 <Tab
-                                  value="likes"
+                                  value="followers"
                                   disabled={isPrivate}
                                   label={
                                     isPrivate ? (
                                       <Private />
                                     ) : (
-                                      data.user.likesCount
+                                      data.user.followersCount
                                     )
                                   }
-                                  icon="Scritches"
+                                  icon="Followers"
                                 />
                               )}
-                              }
                             </Tabs>
                           </Grid>
                           <Grid item xs lg />
@@ -933,16 +952,15 @@ class User extends React.Component {
                       spacing={8}
                       justify="center"
                     >
-                      <Grid item item xs={12} lg={8}>
+                      <Grid item item xs={12} lg={10}>
                         {this.state.tab === "pictures" &&
                           this.renderMedia(data.user)}
                         {this.state.tab === "fursuits" &&
                           this.renderFursuits(data.user)}
                         {this.state.tab === "following" &&
                           this.renderFollowing(data.user)}
-                        {currentSession.id === data.user.id &&
-                          this.state.tab === "likes" &&
-                          this.renderLikes(data.user)}
+                        {this.state.tab === "followers" &&
+                          this.renderFollowers(data.user)}
                       </Grid>
                     </Grid>
                     <EditProfileDialog
