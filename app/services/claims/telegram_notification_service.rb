@@ -41,7 +41,7 @@ module Claims
             [
               {
                 text: 'Investigate',
-                url: "https://www.google.com" #TODO
+                url: moderation_claims_url
               }
             ]
           ]
@@ -60,12 +60,16 @@ module Claims
               },
               {
                 text: 'Investigate',
-                url: "https://www.google.com" #TODO
+                url: moderation_claims_url
               }
             ]
           ]
         }
       end
+    end
+
+    def moderation_claims_url
+      Rails.application.routes.url_helpers.moderation_claims_url(host: "scritch.es", protocol: "https")
     end
   end
 end
