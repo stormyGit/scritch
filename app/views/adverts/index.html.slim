@@ -36,8 +36,7 @@
                       = link_to "Toggle On", advert_path(id: advert.id, status: "live"), method: :put
                     - if advert.status == "live"
                       = link_to "Toggle Off", advert_path(id: advert.id, status: "ready"), method: :put
-                  .card-footer-item
-                    = link_to "Delete", advert_path(id: advert.id), method: :delete
+
 
     .column.is-3
       .card

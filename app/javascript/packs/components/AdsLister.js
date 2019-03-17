@@ -13,6 +13,7 @@ import { GET_ADVERTS } from "../queries/advertQueries";
 
 import EmptyList from "./Global/EmptyList";
 import LoadMoreButton from "./Global/LoadMoreButton";
+import PageTitle from "./Global/PageTitle";
 import UserCard from "./Users/UserCard";
 
 import withCurrentSession from "./withCurrentSession";
@@ -85,10 +86,11 @@ class AdsLister extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.root}>
+          <PageTitle>Ads List</PageTitle>
           <Typography variant="h4" className={classes.text}>
             Saw an ad you liked? Here are all the live ads on Scritch!
           </Typography>
-          <Query query={GET_ADVERTS} variables={{ limit }}>
+          <Query query={GET_ADVERTS} variables={{ uuid: uuidv4(), limit }}>
             {({ data, loading, error, fetchMore }) => {
               if (error) console.log(error);
               if (loading || error || !data) return null;

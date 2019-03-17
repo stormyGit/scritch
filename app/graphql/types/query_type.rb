@@ -269,8 +269,8 @@ module Types
           end
           e.status = "Out of impressions"
         end
-        e.save
-        e.user.save
+        e.save!
+        e.user.save!
       end
       advert
     end
