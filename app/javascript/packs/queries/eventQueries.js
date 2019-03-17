@@ -41,13 +41,8 @@ export const LOAD_EDITIONS = gql`
 `;
 
 export const LOAD_SUB_EVENTS = gql`
-  query SubEvents($name: String, $limit: Int!, $offset: Int!, $editionId: ID!) {
-    subEvents(
-      name: $name
-      limit: $limit
-      offset: $offset
-      editionId: $editionId
-    ) {
+  query SubEvents($name: String, $limit: Int!, $offset: Int!) {
+    subEvents(name: $name, limit: $limit, offset: $offset) {
       id
       name
     }

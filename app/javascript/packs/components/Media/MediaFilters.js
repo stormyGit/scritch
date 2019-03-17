@@ -324,7 +324,6 @@ class MediaFilters extends React.Component {
       <Query
         query={LOAD_SUB_EVENTS}
         variables={{
-          editionId: this.state.edition.value,
           limit: 100,
           offset: 0
         }}

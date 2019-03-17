@@ -160,12 +160,9 @@ class Fursuits extends React.Component {
           }}
         >
           {({ data, loading, error, fetchMore }) => {
-            console.log(this.state);
-            console.log(error);
             if (loading || error || !data || !data.fursuits) return null;
             return (
               <React.Fragment>
-                {console.log(data.fursuits)}
                 <Grid
                   container
                   className={classes.root}

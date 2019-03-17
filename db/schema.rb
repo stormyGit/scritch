@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_16_174723) do
+ActiveRecord::Schema.define(version: 2019_03_17_014648) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -580,10 +580,8 @@ ActiveRecord::Schema.define(version: 2019_03_16_174723) do
   create_table "sub_events", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.string "name"
-    t.uuid "edition_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["edition_id"], name: "index_sub_events_on_edition_id"
   end
 
   create_table "tag_reports", force: :cascade do |t|

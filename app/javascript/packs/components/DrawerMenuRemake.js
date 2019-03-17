@@ -34,6 +34,7 @@ import AnnouncementIcon from "@material-ui/icons/Announcement";
 import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
 
 import SettingsDialog from "./AppDialogs/SettingsDialog";
+import TipsDialog from "./AppDialogs/TipsDialog";
 import SignUpDialog from "./AppDialogs/SignUpDialog";
 import AnnouncementsDialog from "./AppDialogs/AnnouncementsDialog";
 import MultipleMediaDialog from "./Media/MultipleMediaDialog";
@@ -98,6 +99,7 @@ const styles = theme => {
 class DrawerMenuRemake extends React.Component {
   state = {
     settingsDialog: false,
+    tipsDialog: false,
     databaseList: false,
     sponsorMenu: true
   };
@@ -280,14 +282,8 @@ class DrawerMenuRemake extends React.Component {
                 {user && (
                   <ListItem
                     button
-                    selected={location.pathname === "/tips"}
                     onClick={() => {
-                      this.props.history.push({
-                        pathname: "/tips"
-                      });
-                      if (this.props.onClose) {
-                        this.props.onClose();
-                      }
+                      this.setState({ tipsDialog: true });
                     }}
                   >
                     <ListItemIcon className={classes.text} color="secondary">
@@ -499,6 +495,15 @@ class DrawerMenuRemake extends React.Component {
           open={this.state.settingsDialog}
           onClose={() => {
             this.setState({ settingsDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
+          }}
+        />
+        <TipsDialog
+          open={this.state.tipsDialog}
+          onClose={() => {
+            this.setState({ tipsDialog: false });
             if (this.props.onClose) {
               this.props.onClose();
             }

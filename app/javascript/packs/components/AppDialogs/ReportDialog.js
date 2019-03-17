@@ -69,7 +69,14 @@ class ReportDialog extends React.Component {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.props.onClose}>Cancel</Button>
+          <Button
+            onClick={() => {
+              this.props.onClose();
+              this.setState({ description: "" });
+            }}
+          >
+            Cancel
+          </Button>
           {this.props.resource == "user" && (
             <Mutation mutation={CREATE_REPORT} update={cache => {}}>
               {(createReport, { data }) => (
@@ -85,6 +92,7 @@ class ReportDialog extends React.Component {
                       }
                     }).then(() => {
                       this.props.onClose();
+                      this.setState({ description: "" });
                     });
                   }}
                 >
@@ -108,6 +116,7 @@ class ReportDialog extends React.Component {
                       }
                     }).then(() => {
                       this.props.onClose();
+                      this.setState({ description: "" });
                     });
                   }}
                 >
@@ -131,6 +140,7 @@ class ReportDialog extends React.Component {
                       }
                     }).then(() => {
                       this.props.onClose();
+                      this.setState({ description: "" });
                     });
                   }}
                 >

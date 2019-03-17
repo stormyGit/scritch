@@ -188,7 +188,6 @@ module Types
     field :sub_events, [SubEventType], null: false do
       description "List sub events"
       argument :name, String, required: false
-      argument :edition_id, ID, required: true
       argument :offset, Integer, required: true
       argument :limit, Integer, required: true
     end
@@ -527,7 +526,7 @@ module Types
     end
 
     def sub_events(arguments)
-      sub_events = SubEvent.where("sub_events.edition_id = ?", arguments[:edition_id])
+      sub_events = SubEvent.all
 
       if arguments[:name].present?
         sub_events = sub_events.where("sub_events.name @@ ?", arguments[:name])

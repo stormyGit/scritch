@@ -19,6 +19,12 @@ import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import uuidv4 from "uuid/v4";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import CheckIcon from "@material-ui/icons/Check";
 
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -306,7 +312,12 @@ class MultipleMediaDialog extends React.Component {
                     placeholder="Event"
                     isSearchable
                     onChange={mediaEvent => {
-                      this.setState({ mediaEvent: mediaEvent });
+                      console.log("TOTOTOTOTOTOTOTOTOTOTO");
+                      this.setState({
+                        mediaEvent: mediaEvent,
+                        mediaEdition: {},
+                        mediaSubEvent: {}
+                      });
                     }}
                     options={eventList}
                     className={classes.selectInput}
@@ -316,7 +327,8 @@ class MultipleMediaDialog extends React.Component {
             </Query>
 
             <div style={{ padding: 5 }} />
-            {Object.keys(this.state.mediaEvent).length != 0 &&
+            {this.state.mediaEvent &&
+              Object.keys(this.state.mediaEvent).length != 0 &&
               this.state.mediaEvent.value && (
                 <Query
                   query={LOAD_EDITIONS}
@@ -332,12 +344,11 @@ class MultipleMediaDialog extends React.Component {
                       return null;
                     }
 
-                    const editionList = [
-                      { value: null, label: "Not applicable" }
-                    ];
+                    const editionList = [];
                     data.editions.map(e =>
                       editionList.push({ value: e.id, label: e.name })
                     );
+                    console.log("edition: ", this.state.mediaEdition);
                     return (
                       <Select
                         fullWidth
@@ -345,7 +356,10 @@ class MultipleMediaDialog extends React.Component {
                         placeholder="Edition"
                         isSearchable
                         onChange={mediaEdition => {
-                          this.setState({ mediaEdition: mediaEdition });
+                          this.setState({
+                            mediaEdition: mediaEdition,
+                            mediaSubEvent: {}
+                          });
                         }}
                         options={editionList}
                         className={classes.selectInput}
@@ -355,14 +369,14 @@ class MultipleMediaDialog extends React.Component {
                 </Query>
               )}
             <div style={{ padding: 5 }} />
-            {Object.keys(this.state.mediaEdition).length != 0 &&
+            {this.state.mediaEdition &&
+              Object.keys(this.state.mediaEdition).length != 0 &&
               this.state.mediaEdition.value && (
                 <Query
                   query={LOAD_SUB_EVENTS}
                   variables={{
                     offset: 0,
-                    limit: 150,
-                    editionId: this.state.mediaEdition.value
+                    limit: 150
                   }}
                 >
                   {({ data, loading, error, fetchMore }) => {
@@ -370,9 +384,7 @@ class MultipleMediaDialog extends React.Component {
                       return null;
                     }
 
-                    const subEventList = [
-                      { value: null, label: "Not applicable" }
-                    ];
+                    const subEventList = [];
                     data.subEvents.map(e =>
                       subEventList.push({ value: e.id, label: e.name })
                     );
@@ -392,14 +404,39 @@ class MultipleMediaDialog extends React.Component {
                   }}
                 </Query>
               )}
+            <List>
+              <ListItem>
+                <ListItemIcon>
+                  <CheckIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary="At least con or category, as much info as possible pwease"
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon>
+                  <CheckIcon />
+                </ListItemIcon>
+                <ListItemText inset primary="Avoid burst upload blurb" />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon>
+                  <CheckIcon />
+                </ListItemIcon>
+                <ListItemText inset primary="Allowed to post these" />
+              </ListItem>
+            </List>
             <Mutation mutation={CREATE_MEDIUM}>
               {(createMedium, { called }) => {
                 return (
                   <DropZoneFieldWithStyle
                     dropzoneDisabled={
-                      (Object.keys(this.state.mediaEdition).length == 0 &&
+                      (this.state.mediaEdition &&
+                        Object.keys(this.state.mediaEdition).length == 0 &&
                         Object.keys(this.state.mediaCategory).length == 0) ||
-                      (Object.keys(this.state.mediaEvent).length != 0 &&
+                      (this.state.mediaEvent &&
+                        Object.keys(this.state.mediaEvent).length != 0 &&
                         Object.keys(this.state.mediaEdition).length == 0)
                     }
                     onStart={() => {
