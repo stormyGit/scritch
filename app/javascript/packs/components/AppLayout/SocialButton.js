@@ -100,6 +100,9 @@ class SocialButton extends React.Component {
               </MenuItem>
             </a>
           )}
+          <Link to="/ads" className={classes.link}>
+            <MenuItem onClick={() => this.handleClose()}>Ads List</MenuItem>
+          </Link>
         </Menu>
       </React.Fragment>
     );

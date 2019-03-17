@@ -20,6 +20,7 @@ import FaveIcon from "@material-ui/icons/Star";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 import PictureIcon from "@material-ui/icons/PhotoLibrary";
 import SettingsIcon from "@material-ui/icons/Settings";
+import PetsIcon from "@material-ui/icons/Pets";
 import ToysIcon from "@material-ui/icons/Toys";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
@@ -34,6 +35,7 @@ import AnnouncementIcon from "@material-ui/icons/Announcement";
 import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
 
 import SettingsDialog from "./AppDialogs/SettingsDialog";
+import SponsorDialog from "./AppDialogs/SponsorDialog";
 import TipsDialog from "./AppDialogs/TipsDialog";
 import SignUpDialog from "./AppDialogs/SignUpDialog";
 import AnnouncementsDialog from "./AppDialogs/AnnouncementsDialog";
@@ -99,6 +101,7 @@ const styles = theme => {
 class DrawerMenuRemake extends React.Component {
   state = {
     settingsDialog: false,
+    sponsorDialog: false,
     tipsDialog: false,
     databaseList: false,
     sponsorMenu: true
@@ -312,6 +315,24 @@ class DrawerMenuRemake extends React.Component {
               }
             }}
           </Query>
+          {user && !user.sponsor && (
+            <div>
+              <ListItem
+                button
+                onClick={() => {
+                  this.setState({ sponsorDialog: !this.state.sponsorDialog });
+                }}
+              >
+                <ListItemIcon className={classes.text} color="secondary">
+                  <PetsIcon />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Become a sponsor!"
+                  primaryTypographyProps={{ className: classes.text }}
+                />
+              </ListItem>
+            </div>
+          )}
           {user && user.sponsor && (
             <div>
               <ListItem
@@ -321,7 +342,7 @@ class DrawerMenuRemake extends React.Component {
                 }}
               >
                 <ListItemIcon className={classes.text} color="secondary">
-                  <DatabaseIcon />
+                  <PetsIcon />
                 </ListItemIcon>
                 <ListItemText
                   primary="Sponsor Menu"
@@ -504,6 +525,15 @@ class DrawerMenuRemake extends React.Component {
           open={this.state.tipsDialog}
           onClose={() => {
             this.setState({ tipsDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
+          }}
+        />
+        <SponsorDialog
+          open={this.state.sponsorDialog}
+          onClose={() => {
+            this.setState({ sponsorDialog: false });
             if (this.props.onClose) {
               this.props.onClose();
             }

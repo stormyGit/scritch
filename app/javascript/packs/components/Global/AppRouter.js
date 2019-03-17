@@ -24,6 +24,7 @@ import PrivacyPolicy from "../PoliciesSupport/PrivacyPolicy";
 
 import TagPage from "../TagPage";
 import LatestPictures from "../LatestPictures";
+import AdsLister from "../AdsLister";
 import Favorites from "../Favorites";
 import Subscriptions from "../Subscriptions";
 import SearchPage from "../SearchPage";
@@ -106,6 +107,11 @@ class AppRouter extends React.Component {
                     exact
                     path="/pictures"
                     component={currentSession ? Media : MustLog}
+                  />
+                  <Route
+                    exact
+                    path="/ads"
+                    component={currentSession ? AdsLister : MustLog}
                   />
                   <Route
                     exact

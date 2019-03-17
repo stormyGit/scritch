@@ -49,7 +49,7 @@ module Types
 
     field :adverts, [AdvertType], null: false do
       description "List media"
-      argument :uuid, ID, required: true
+      argument :uuid, ID, required: false
       argument :limit, Integer, required: true
 
     end

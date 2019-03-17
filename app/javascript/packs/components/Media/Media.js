@@ -120,7 +120,9 @@ class Media extends React.Component {
 
     return (
       <React.Fragment>
-        {!fursuit && !searching && !faves && <PageTitle>Pictures</PageTitle>}
+        {!fursuit && !searching && !faves && !home && (
+          <PageTitle>Pictures</PageTitle>
+        )}
         {!fursuit && !searching && !home && this.renderMediaFilters()}
         <Query
           query={GET_MEDIA}

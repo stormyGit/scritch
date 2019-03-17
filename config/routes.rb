@@ -88,6 +88,7 @@ Rails.application.routes.draw do
   get "/fursuits", to: "fursuits#index"
   get "/makers", to: "makers#index"
   get "/events", to: "events#index"
+  get "/ads", to: "events#index"
   get "/favorites", to: "media#index"
   get "/tag", to: "media#index"
   get "/search", to: "media#index"

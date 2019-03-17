@@ -105,6 +105,7 @@ class AppHeader extends React.Component {
                           href={`${process.env.SITE_URL}/adverts/${
                             data.adverts[0].id
                           }/go_to`}
+                          target="_blank"
                         >
                           <img
                             src={data.adverts[0].file}
@@ -131,6 +132,7 @@ class AppHeader extends React.Component {
                             href={`${process.env.SITE_URL}/adverts/${
                               data.adverts[1].id
                             }/go_to`}
+                            target="_blank"
                           >
                             <img
                               src={data.adverts[1].file}
