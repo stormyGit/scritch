@@ -161,7 +161,6 @@ class EditProfileDialog extends React.Component {
       slug: user.slug || "",
       bio: user.bio || "",
       website: user.website || "",
-      banner: user.banner,
       avatar: user.avatar
     });
   }
@@ -353,7 +352,7 @@ class EditProfileDialog extends React.Component {
       <React.Fragment>
         <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
           <GlobalProgress absolute />
-          <div ref={this.bannerRef}>{this.renderBanner()}</div>
+          {false && <div ref={this.bannerRef}>{this.renderBanner()}</div>}
           <Grid container justify="center" className={classes.avatarContainer}>
             <Grid item>{this.renderAvatar()}</Grid>
           </Grid>

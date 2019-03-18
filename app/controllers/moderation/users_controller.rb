@@ -42,14 +42,6 @@ class Moderation::UsersController < ModerationController
     redirect_back fallback_location: moderation_user_path(@user)
   end
 
-  def ban_and_remove_account
-    ban_and_redirect!(delete_account: true)
-  end
-
-  def ban_permanently
-    ban_and_redirect!
-  end
-
   def serious_user_violation
     @user.update!(score: @user.score - 100) #__SCORE__ SERIOUS MEDIUM VIOLATION
     accept_all_user_reports(params[:profile_id])
