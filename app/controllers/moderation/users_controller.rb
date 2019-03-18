@@ -5,7 +5,9 @@ class Moderation::UsersController < ModerationController
     :ban_and_remove_account,
     :ban_permanently,
     :ban_for_a_month,
-    :ban_for_a_week
+    :minor_comment_violation,
+    :serious_comment_violation,
+    :not_worth_report
   ]
 
   def show
@@ -44,12 +46,53 @@ class Moderation::UsersController < ModerationController
     ban_and_redirect!
   end
 
-  def ban_for_a_month
-    ban_and_redirect!(banned_until: 1.month.from_now)
+  def serious_comment_violation
+    @user.update!(score: @user.score - 100) #__SCORE__ BAD REPORT
+    if params[:submit_and_close].present? && params[:comment_id].present?
+      accept_all_comment_reports(params[:comment_id])
+    else
+      CommentReport.find(params[:report_id]).update(status: 'accepted')
+    end
+    Comment.find(params[:comment_id]).destroy
+    ## TODO HIATUS ON ACCOUNT
+    redirect_back fallback_location: moderation_comment_reports_path
   end
 
-  def ban_for_a_week
-    ban_and_redirect!(banned_until: 1.week.from_now)
+  def minor_comment_violation
+    @user.update!(score: @user.score - 10) #__SCORE__ MINOR COMMENT VIOLATION
+    if params[:submit_and_close].present? && params[:comment_id].present?
+      accept_all_comment_reports(params[:comment_id])
+    else
+      CommentReport.find(params[:report_id]).update(status: 'accepted')
+    end
+    Comment.find(params[:comment_id]).destroy
+    redirect_back fallback_location: moderation_comment_reports_path
+  end
+
+  def not_worth_report
+    @user.update!(score: @user.score - 10) #__SCORE__ BAD REPORT
+    if params[:comment_id].present?
+      if params[:submit_and_close].present? && params[:comment_id].present?
+        accept_all_comment_reports(params[:comment_id])
+      else
+        CommentReport.find(params[:report_id]).update(status: 'accepted')
+      end
+      redirect_back fallback_location: moderation_comment_reports_path
+    elsif params[:medium_id].present?
+      if params[:submit_and_close].present? && params[:medium_id].present?
+        accept_all_medium_reports(params[:medium_id])
+      else
+        MediumReport.find(params[:report_id]).update(status: 'accepted')
+      end
+      redirect_back fallback_location: moderation_medium_reports_path
+    elsif params[:user_id].present?
+      if params[:submit_and_close].present? && params[:user_id].present?
+        accept_all_user_reports(params[:user_id])
+      else
+        UserReport.find(params[:report_id]).update(status: 'accepted')
+      end
+      redirect_back fallback_location: moderation_user_reports_path
+    end
   end
 
   protected
@@ -83,6 +126,10 @@ class Moderation::UsersController < ModerationController
 
   def accept_all_reports
     Report.where(status: 'new', user: @user).update(status: 'accepted')
+  end
+
+  def accept_all_comment_reports(comment_id)
+    CommentReport.where(status: 'new', comment_id: comment_id).update(status: 'accepted')
   end
 
 end

@@ -1,0 +1,16 @@
+.modal.user-modal id=id data={ activatable: true }
+  .modal-background.close-button
+  .modal-card
+    header.modal-card-head
+      p.modal-card-title
+        = title
+      button.delete.close-button type="button"
+
+    section.modal-card-body
+      .content
+        h6
+          | The reported comment is a minor violation Scritch's Terms of Service. The comment shall be deleted, without severe consequences on the user's account.
+
+    footer.modal-card-foot
+      input type="submit" name="submit_and_close" class="button" value="Submit and accept all reports" data-confirm="Are you sure?"
+      input type="submit" name="submit" class="button" value="Submit" data-confirm="Are you sure?"

@@ -58,6 +58,6 @@ class Moderation::CommentReportsController < ModerationController
   end
 
   def load_report
-    @report = CommentReport.find(params[:report_id] || params[:id])
+    @report = CommentReport.find(params[:comment_report_id])
   end
 end

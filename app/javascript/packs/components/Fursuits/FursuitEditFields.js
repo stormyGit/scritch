@@ -176,7 +176,10 @@ class FursuitEditFields extends React.Component {
         value: this.props.fursuit.eyesColor,
         label: this.props.fursuit.eyesColor
       },
-      maker: null
+      maker: this.props.fursuit.makers && {
+        value: this.props.fursuit.makers[0].id,
+        label: this.props.fursuit.makers[0].name
+      }
     });
   }
 
@@ -636,10 +639,7 @@ class FursuitEditFields extends React.Component {
               value: maker ? maker.value : null
             });
           }}
-          options={makersList.map(option => ({
-            label: option.name,
-            value: option.id
-          }))}
+          options={makersList}
           className={classes.selectInput}
         />
       </Grid>

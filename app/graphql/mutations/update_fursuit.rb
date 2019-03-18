@@ -1,7 +1,7 @@
 class Mutations::UpdateFursuit < Mutations::BaseMutation
   argument :id, ID, required: true
   argument :name, String, required: true
-  argument :maker_id, ID, required: false
+  argument :maker_ids, [ID], required: false
   argument :creation_year, Integer, required: false
   argument :fursuit_leg_type_id, ID, required: false
   argument :fursuit_style_id, ID, required: false

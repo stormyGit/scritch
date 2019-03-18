@@ -178,7 +178,8 @@ class EditFursuitDialog extends React.Component {
       fursuitPadding: fursuit.fursuitPadding && fursuit.fursuitPadding.id,
       fursuitFinger: fursuit.fursuitFinger && fursuit.fursuitFinger.id,
       baseColor: fursuit.baseColor,
-      eyesColor: fursuit.eyesColor
+      eyesColor: fursuit.eyesColor,
+      maker: fursuit.makers && [fursuit.makers[0].id]
     });
   }
 
@@ -316,6 +317,7 @@ class EditFursuitDialog extends React.Component {
                           baseColor: this.state.baseColor,
                           eyesColor: this.state.eyesColor,
                           isHybrid: this.state.isHybrid,
+                          makerIds: [this.state.maker],
                           creationYear: this.state.creationYear
                             ? parseInt(this.state.creationYear)
                             : 0,

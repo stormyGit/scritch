@@ -55,8 +55,9 @@ Rails.application.routes.draw do
       put :moderate_profile
       put :ban_and_remove_account
       put :ban_permanently
-      put :ban_for_a_month
-      put :ban_for_a_week
+      put :minor_comment_violation
+      put :serious_comment_violation
+      put :not_worth_report
     end
     resources :makers
     resources :fursuits
