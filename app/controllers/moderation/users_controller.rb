@@ -5,6 +5,10 @@ class Moderation::UsersController < ModerationController
     :ban_and_remove_account,
     :ban_permanently,
     :ban_for_a_month,
+    :minor_user_violation,
+    :serious_user_violation,
+    :minor_medium_violation,
+    :serious_medium_violation,
     :minor_comment_violation,
     :serious_comment_violation,
     :not_worth_report
@@ -46,13 +50,39 @@ class Moderation::UsersController < ModerationController
     ban_and_redirect!
   end
 
+  def serious_user_violation
+    @user.update!(score: @user.score - 100) #__SCORE__ SERIOUS MEDIUM VIOLATION
+    accept_all_user_reports(params[:profile_id])
+    #User.find(params[:profile_id]).destroy TODO MODERATE PROFILE
+    ## TODO HIATUS ON ACCOUNT
+    redirect_back fallback_location: moderation_reports_path
+  end
+
+  def minor_user_violation
+    @user.update!(score: @user.score - 10) #__SCORE__ MINOR MEDIUM VIOLATION
+    accept_all_user_reports(params[:profile_id])
+    #User.find(params[:profile_id]).destroy TODO MODERATE PROFILE
+    redirect_back fallback_location: moderation_reports_path
+  end
+
+  def serious_medium_violation
+    @user.update!(score: @user.score - 100) #__SCORE__ SERIOUS MEDIUM VIOLATION
+    accept_all_medium_reports(params[:medium_id])
+    Medium.find(params[:medium_id]).destroy
+    ## TODO HIATUS ON ACCOUNT
+    redirect_back fallback_location: moderation_medium_reports_path
+  end
+
+  def minor_medium_violation
+    @user.update!(score: @user.score - 10) #__SCORE__ MINOR MEDIUM VIOLATION
+    accept_all_medium_reports(params[:medium_id])
+    Medium.find(params[:medium_id]).destroy
+    redirect_back fallback_location: moderation_medium_reports_path
+  end
+
   def serious_comment_violation
-    @user.update!(score: @user.score - 100) #__SCORE__ BAD REPORT
-    if params[:submit_and_close].present? && params[:comment_id].present?
-      accept_all_comment_reports(params[:comment_id])
-    else
-      CommentReport.find(params[:report_id]).update(status: 'accepted')
-    end
+    @user.update!(score: @user.score - 100) #__SCORE__ SERIOUS COMMENT VIOLATION
+    accept_all_comment_reports(params[:comment_id])
     Comment.find(params[:comment_id]).destroy
     ## TODO HIATUS ON ACCOUNT
     redirect_back fallback_location: moderation_comment_reports_path
@@ -60,11 +90,7 @@ class Moderation::UsersController < ModerationController
 
   def minor_comment_violation
     @user.update!(score: @user.score - 10) #__SCORE__ MINOR COMMENT VIOLATION
-    if params[:submit_and_close].present? && params[:comment_id].present?
-      accept_all_comment_reports(params[:comment_id])
-    else
-      CommentReport.find(params[:report_id]).update(status: 'accepted')
-    end
+    accept_all_comment_reports(params[:comment_id])
     Comment.find(params[:comment_id]).destroy
     redirect_back fallback_location: moderation_comment_reports_path
   end
@@ -85,51 +111,36 @@ class Moderation::UsersController < ModerationController
         MediumReport.find(params[:report_id]).update(status: 'accepted')
       end
       redirect_back fallback_location: moderation_medium_reports_path
-    elsif params[:user_id].present?
-      if params[:submit_and_close].present? && params[:user_id].present?
-        accept_all_user_reports(params[:user_id])
+    elsif params[:profile_id].present?
+      if params[:submit_and_close].present? && params[:profile_id].present?
+        accept_all_profile_reports(params[:profile_id])
       else
-        UserReport.find(params[:report_id]).update(status: 'accepted')
+        Report.find(params[:report_id]).update(status: 'accepted')
       end
-      redirect_back fallback_location: moderation_user_reports_path
+      redirect_back fallback_location: moderation_reports_path
     end
   end
 
   protected
 
-  def ban_and_redirect!(options = {})
-    begin
-      ban_service = Users::BanService.new(@user,
-        ban_reason: params[:ban_reason],
-        send_notification: true,
-        notification_message: params[:ban_reason],
-        delete_account: options[:delete_account] || false,
-        banned_until: options[:banned_until]
-      )
-      ban_service.call
-    rescue => exception
-      ExceptionNotifier.notify_exception exception
-    end
-
-    accept_all_reports if params[:submit_and_close].present?
-
-    redirect_back fallback_location: moderation_reports_path
-  end
-
   def load_user
-    @user = User.find(params[:user_id] || params[:id])
+    @user = User.find(params[:user_id])
   end
 
   def delete_avatar_telegram_message!
     Telegram::DeleteModerationMessageService.new(@user).call
   end
 
-  def accept_all_reports
-    Report.where(status: 'new', user: @user).update(status: 'accepted')
+  def accept_all_user_reports(profile_id)
+    Report.where(status: 'new', user_id: profile_id).update(status: 'accepted')
   end
 
   def accept_all_comment_reports(comment_id)
     CommentReport.where(status: 'new', comment_id: comment_id).update(status: 'accepted')
+  end
+
+  def accept_all_medium_reports(medium_id)
+    MediumReport.where(status: 'new', medium_id: medium_id).update(status: 'accepted')
   end
 
 end

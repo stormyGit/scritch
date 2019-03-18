@@ -56,14 +56,12 @@
                 .dropdown-content
                   = link_to "#moderate-profile-#{report.user.id}", class: 'dropdown-item', data: { activator: true }
                     | Moderate profile
-                  = link_to "#ban-and-remove-account-#{report.user.id}", class: 'dropdown-item', data: { activator: true }
-                    | Ban and remove account
-                  = link_to "#ban-permanently-#{report.user.id}", class: 'dropdown-item', data: { activator: true }
-                    | Ban permanently but keep account
-                  = link_to "#ban-for-a-month-#{report.user.id}", class: 'dropdown-item', data: { activator: true }
-                    | Ban for a month
-                  = link_to "#ban-for-a-week-#{report.user.id}", class: 'dropdown-item', data: { activator: true }
-                    | Ban for a week
+                  = link_to "#serious-user-violation-#{report.user.id}", class: 'dropdown-item', data: { activator: true }
+                    | Serious ToS violation
+                  = link_to "#minor-user-violation-#{report.user.id}", class: 'dropdown-item', data: { activator: true }
+                    | Minor ToS violation
+                  = link_to "#worthless-user-report-#{report.user.id}", class: 'dropdown-item', data: { activator: true }
+                    | Not worth reporting
 
     - else
       .media.offender
@@ -106,19 +104,16 @@
         = link_to moderation_report_reopen_path(report_id: report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to reopen this report?" } do
           | Reopen report
 
-- if report.user.present?
-  = render partial: "moderation/shared/user_modal", locals: { user: report.user, open: false }
-  = form_for report.user, url: moderation_user_ban_and_remove_account_path(user_id: report.user.id), method: :put do |f|
-    = render partial: "moderation/shared/ban_form", locals: { user: report.user, title: "Ban #{report.user.name} and remove account", id: "ban-and-remove-account-#{report.user.id}" }
+  - if report.user.present?
+    = render partial: "moderation/shared/user_modal", locals: { user: report.user, open: false }
+    = form_for report.user, url: moderation_user_serious_user_violation_path(user_id: report.user.id, profile_id: report.user.id, report_id: report.id), method: :put do |f|
+      = render partial: "moderation/shared/minor_violation", locals: { user: report.user, title: "Remove user by #{report.user.name} with account hiatus", id: "serious-user-violation-#{report.user.id}" }
 
-  = form_for report.user, url: moderation_user_ban_permanently_path(user_id: report.user.id), method: :put do |f|
-    = render partial: "moderation/shared/ban_form", locals: { user: report.user, title: "Ban #{report.user.name} permanently but keep account", id: "ban-permanently-#{report.user.id}" }
+    = form_for report.user, url: moderation_user_minor_user_violation_path(user_id: report.user.id, profile_id: report.user.id, report_id: report.id), method: :put do |f|
+      = render partial: "moderation/shared/minor_violation", locals: { user: report.user, title: "Remove user by #{report.user.name} without account hiatus", id: "minor-user-violation-#{report.user.id}" }
 
-  = form_for report.user, url: moderation_user_ban_for_a_month_path(user_id: report.user.id), method: :put do |f|
-    = render partial: "moderation/shared/ban_form", locals: { user: report.user, title: "Ban #{report.user.name} for a month", id: "ban-for-a-month-#{report.user.id}" }
-
-  = form_for report.user, url: moderation_user_ban_for_a_week_path(user_id: report.user.id), method: :put do |f|
-    = render partial: "moderation/shared/ban_form", locals: { user: report.user, title: "Ban #{report.user.name} for a week", id: "ban-for-a-week-#{report.user.id}" }
+    = form_for report.user, url: moderation_user_not_worth_report_path(user_id: report.reporter.id, profile_id: report.user.id, report_id: report.id), method: :put do |f|
+      = render partial: "moderation/shared/not_worth_form", locals: { user: report.user, title: "Medium was not worth reporting", id: "worthless-user-report-#{report.user.id}" }
 
   = form_for report.user, url: moderation_user_moderate_profile_path(user_id: report.user.id), method: :put do |f|
     .modal.user-modal id="moderate-profile-#{report.user.id}" data={ activatable: true }

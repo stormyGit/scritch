@@ -53,8 +53,12 @@ Rails.application.routes.draw do
     end
     resources :users do
       put :moderate_profile
-      put :ban_and_remove_account
-      put :ban_permanently
+      put :minor_user_violation
+      put :serious_user_violation
+      put :minor_comment_violation
+      put :serious_comment_violation
+      put :minor_medium_violation
+      put :serious_medium_violation
       put :minor_comment_violation
       put :serious_comment_violation
       put :not_worth_report

@@ -5,12 +5,12 @@
         .title.is-4
           | Report ##{report.attributes["id"]}
           - unless in_report_page?
-            = link_to moderation_report_path(report), target: "_blank" do
+            = link_to moderation_medium_report_path(report), target: "_blank" do
               span.icon
                 i.material-icons.is-size-6 open_in_new
       .level-right
         - if report.assignee.blank?
-          = button_to moderation_report_assign_path(report_id: report.id), class: 'button', method: :put do
+          = button_to moderation_medium_report_assign_path(report.id), class: 'button', method: :put do
             | Assign myself
         - else
           .dropdown.is-hoverable
@@ -23,26 +23,32 @@
             .dropdown-menu role="menu"
               .dropdown-content
                 - if report.assignee != current_moderator
-                  = link_to moderation_report_assign_path(report_id: report.id), class: 'dropdown-item', method: :put
+                  = link_to moderation_medium_report_assign_path(report.id), class: 'dropdown-item', method: :put
                     | Assign to me
-                = link_to moderation_report_unassign_path(report_id: report.id), class: 'dropdown-item', method: :put
+                = link_to moderation_medium_report_unassign_path(report.id), class: 'dropdown-item', method: :put
                   | Unassign
 
     .content.citation
       = format_text(report.description)
       .is-size-7
         = "#{time_ago_in_words(report.created_at)} ago"
+    .content
+      | Reported picture:
+    .has-text-centered
+      img src=report.medium.picture style="width: 80%"
+    .is-size-7
+      = "#{time_ago_in_words(report.medium.created_at)} ago"
 
     - if report.medium.present?
       .media.offender
-        / .media-left
-        /   figure.image.is-48x48
-        /     = render partial: 'moderation/shared/avatar', locals: { user: report.medium }
-        / .media-content.ellipsis
-        /   .title.is-5.ellipsis
-        /     = render partial: 'moderation/shared/user_modal_link', locals: { user: report.medium, open_in_new: true }
-        /   .subtitle.is-6.ellipsis
-        /     = render partial: 'moderation/shared/telegram_link', locals: { user: report.medium }
+        .media-left
+          figure.image.is-48x48
+            = render partial: 'moderation/shared/avatar', locals: { user: report.medium.user }
+        .media-content.ellipsis
+          .title.is-5.ellipsis
+            = render partial: 'moderation/shared/user_modal_link', locals: { user: report.medium.user, open_in_new: true }
+          .subtitle.is-6.ellipsis
+            = render partial: 'moderation/shared/telegram_link', locals: { user: report.medium.user }
         .media-right
           - if report.assignee == current_moderator
             .dropdown.is-hoverable
@@ -54,20 +60,18 @@
                     i.material-icons expand_more
               .dropdown-menu role="menu"
                 .dropdown-content
-                  = link_to "#ban-and-remove-account-#{report.medium.id}", class: 'dropdown-item', data: { activator: true }
-                    | Ban and remove account
-                  = link_to "#ban-permanently-#{report.medium.id}", class: 'dropdown-item', data: { activator: true }
-                    | Ban permanently but keep account
-                  = link_to "#ban-for-a-month-#{report.medium.id}", class: 'dropdown-item', data: { activator: true }
-                    | Ban for a month
-                  = link_to "#ban-for-a-week-#{report.medium.id}", class: 'dropdown-item', data: { activator: true }
-                    | Ban for a week
+                  = link_to "#serious-medium-violation-#{report.medium.user.id}", class: 'dropdown-item', data: { activator: true }
+                    | Serious violation of ToS
+                  = link_to "#minor-medium-violation-#{report.medium.user.id}", class: 'dropdown-item', data: { activator: true }
+                    | Minor violation of ToS
+                  = link_to "#worthless-medium-report-#{report.medium.user.id}", class: 'dropdown-item', data: { activator: true }
+                    | Not worth reporting
 
     - else
       .media.offender
         .media-content
           .title.is-4
-            | Picture deleted
+            | User deleted
 
   .card-content
     .content
@@ -88,7 +92,7 @@
 
         .field
           .control
-            = f.text_area :body, class: "textarea", placeholder: "Write your comment..."
+            = f.text_area :body, class: "textarea", placeholder: "Write your medium..."
         .field
           .control
             button.button.is-link
@@ -96,24 +100,21 @@
   - if report.assignee == current_moderator
     footer class="card-footer"
       - if report.status == 'new'
-        = link_to moderation_report_dismiss_path(report_id: report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to dismiss this report?" } do
+        = link_to moderation_report_dismiss_path(report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to dismiss this report?" } do
           | Ignore
-        = link_to moderation_report_mark_as_accepted_path(report_id: report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to mark this report as accepted?" } do
+        = link_to moderation_report_mark_as_accepted_path(report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to mark this report as accepted?" } do
           | Mark as done
       - else
-        = link_to moderation_report_reopen_path(report_id: report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to reopen this report?" } do
+        = link_to moderation_report_reopen_path(report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to reopen this report?" } do
           | Reopen report
 
-- if report.medium.present?
-  / = render partial: "moderation/shared/user_modal", locals: { user: report.medium, open: false }
-  / = form_for report.medium, url: moderation_user_ban_and_remove_account_path(user_id: report.medium.id), method: :put do |f|
-  /   = render partial: "moderation/shared/ban_form", locals: { user: report.medium, title: "Ban #{report.medium.name} and remove account", id: "ban-and-remove-account-#{report.medium.id}" }
-  /
-  / = form_for report.medium, url: moderation_user_ban_permanently_path(user_id: report.medium.id), method: :put do |f|
-  /   = render partial: "moderation/shared/ban_form", locals: { user: report.medium, title: "Ban #{report.medium.name} permanently but keep account", id: "ban-permanently-#{report.medium.id}" }
-  /
-  / = form_for report.medium, url: moderation_user_ban_for_a_month_path(user_id: report.medium.id), method: :put do |f|
-  /   = render partial: "moderation/shared/ban_form", locals: { user: report.medium, title: "Ban #{report.medium.name} for a month", id: "ban-for-a-month-#{report.medium.id}" }
-  /
-  / = form_for report.medium, url: moderation_user_ban_for_a_week_path(user_id: report.medium.id), method: :put do |f|
-  /   = render partial: "moderation/shared/ban_form", locals: { user: report.medium, title: "Ban #{report.medium.name} for a week", id: "ban-for-a-week-#{report.medium.id}" }
+- if report.medium.user.present?
+  = render partial: "moderation/shared/user_modal", locals: { user: report.medium.user, open: false }
+  = form_for report.medium.user, url: moderation_user_serious_medium_violation_path(user_id: report.medium.user.id, medium_id: report.medium.id, report_id: report.id), method: :put do |f|
+    = render partial: "moderation/shared/minor_violation", locals: { user: report.medium.user, title: "Remove medium by #{report.medium.user.name} with account hiatus", id: "serious-medium-violation-#{report.medium.user.id}" }
+
+  = form_for report.medium.user, url: moderation_user_minor_medium_violation_path(user_id: report.medium.user.id, medium_id: report.medium.id, report_id: report.id), method: :put do |f|
+    = render partial: "moderation/shared/minor_violation", locals: { medium: report.medium, title: "Remove medium by #{report.medium.user.name} without account hiatus", id: "minor-medium-violation-#{report.medium.user.id}" }
+
+  = form_for report.medium.user, url: moderation_user_not_worth_report_path(user_id: report.reporter.id, medium_id: report.medium.id, report_id: report.id), method: :put do |f|
+    = render partial: "moderation/shared/not_worth_form", locals: { medium: report.medium, title: "Medium was not worth reporting", id: "worthless-medium-report-#{report.medium.user.id}" }

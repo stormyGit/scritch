@@ -58,6 +58,6 @@ class Moderation::MediumReportsController < ModerationController
   end
 
   def load_report
-    @report = MediumReport.find(params[:report_id] || params[:id])
+    @report = MediumReport.find(params[:medium_report_id])
   end
 end
