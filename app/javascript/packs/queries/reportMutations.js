@@ -39,3 +39,13 @@ export const CREATE_TECH_REPORT = gql`
     }
   }
 `;
+
+export const CREATE_TAG_REPORT = gql`
+  mutation createTagReport($input: CreateTagReportInput!) {
+    createTagReport(input: $input) {
+      report {
+        id
+      }
+    }
+  }
+`;

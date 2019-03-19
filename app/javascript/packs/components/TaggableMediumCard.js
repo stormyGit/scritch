@@ -238,7 +238,9 @@ class TaggableMediumCard extends React.Component {
         {this.state.tagDialog && medium && (
           <TagDialog
             open={this.state.tagDialog}
-            onClose={() => this.setState({ tagDialog: false })}
+            onClose={() => {
+              this.setState({ tagDialog: false });
+            }}
             medium={medium}
           />
         )}

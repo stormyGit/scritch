@@ -42,10 +42,10 @@ import LoadMoreButton from "./Global/LoadMoreButton";
 import Logo from "./Global/Logo";
 
 import ReportDialog from "./AppDialogs/ReportDialog";
+import TagReportDialog from "./AppDialogs/TagReportDialog";
 import FursuitMiniCard from "./Fursuits/FursuitMiniCard";
 import { UPDATE_MEDIUM } from "../queries/mediaMutations";
 import { LOAD_CATEGORIES } from "../queries/categoryQueries";
-import { GET_MEDIA } from "../queries/mediaQueries";
 
 import { LOAD_FURSUITS } from "../queries/fursuitQueries";
 
@@ -112,6 +112,9 @@ const styles = theme => ({
   mediaH: {},
   mediaV: {
     transform: "rotate(90deg)"
+  },
+  tagReportButton: {
+    paddingBottom: theme.spacing.unit
   }
 });
 
@@ -120,6 +123,7 @@ class TagDialog extends React.Component {
     super(props);
     this.state = {
       submiting: false,
+      tagReportDialog: false,
       reportDialog: false,
       mediaCategory: this.props.medium.category,
       fursuits: this.props.medium.fursuits ? this.props.medium.fursuits : [],
@@ -414,6 +418,16 @@ class TagDialog extends React.Component {
                         <Grid item lg={1} xs={1} />
                         <Grid item lg={2} xs={2}>
                           <div style={{ padding: 8 }} />
+                          <div className={classes.tagReportButton}>
+                            <Button
+                              variant="outlined"
+                              onClick={() =>
+                                this.setState({ tagReportDialog: true })
+                              }
+                            >
+                              Report Wrong Tags
+                            </Button>
+                          </div>
                           {this.state.fursuits.map(fursuit => (
                             <FursuitMiniCard
                               key={fursuit.id}
@@ -472,6 +486,11 @@ class TagDialog extends React.Component {
                 onClose={() => this.setState({ reportDialog: false })}
                 resource="medium"
                 resourceId={medium.id}
+              />
+              <TagReportDialog
+                open={this.state.tagReportDialog}
+                onClose={() => this.setState({ tagReportDialog: false })}
+                medium={medium}
               />
             </React.Fragment>
           );

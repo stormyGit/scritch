@@ -111,6 +111,8 @@ class FursuitMiniCard extends React.Component {
               onClick(fursuit);
             }}
             className={classes.avatar}
+            style={this.props.dark ? { opacity: 0.5 } : { opacity: 1 }}
+            title={fursuit.name}
           />
         </Grid>
         <Grid item lg={12} xs={12} className={classes.content}>

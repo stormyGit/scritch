@@ -32,6 +32,7 @@ import Comments from "./Comments";
 import EditMediumDialog from "./EditMediumDialog";
 import TagDialog from "../TagDialog";
 import ReportDialog from "../AppDialogs/ReportDialog";
+import TagReportDialog from "../AppDialogs/TagReportDialog";
 import withCurrentSession from "../withCurrentSession";
 import SocialButton from "../Global/SocialButton";
 import TwitterIcon from "../../icons/Twitter";
@@ -113,6 +114,10 @@ const styles = theme => ({
   },
   fursuitLink: {
     textDecoration: "none"
+  },
+  tagReportButton: {
+    padding: theme.spacing.unit,
+    paddingTop: 0
   }
 });
 
@@ -124,7 +129,8 @@ class Medium extends React.Component {
     editMedium: false,
     showMenuButton: false,
     tagMedium: false,
-    reportDialog: false
+    reportDialog: false,
+    tagReportDialog: false
   };
 
   renderCommentsCount(count) {
@@ -346,14 +352,35 @@ class Medium extends React.Component {
                                 {medium.edition.name}
                               </Typography>
                             )}
-                            {medium.fursuits.length != 0 && (
+                            {medium.subEvent && (
                               <Typography
                                 gutterBottom
                                 variant="subtitle1"
                                 noWrap
                               >
-                                {"Fursuits"}
+                                {medium.subEvent}
                               </Typography>
+                            )}
+                            {medium.fursuits.length != 0 && (
+                              <React.Fragment>
+                                <Typography
+                                  gutterBottom
+                                  variant="subtitle1"
+                                  noWrap
+                                >
+                                  {"Fursuits"}
+                                </Typography>
+                                <div className={classes.tagReportButton}>
+                                  <Button
+                                    variant="outlined"
+                                    onClick={() =>
+                                      this.setState({ tagReportDialog: true })
+                                    }
+                                  >
+                                    Report Wrong Tags
+                                  </Button>
+                                </div>
+                              </React.Fragment>
                             )}
                             <Grid container spacing={8}>
                               {medium.fursuits.length != 0 &&
@@ -436,6 +463,11 @@ class Medium extends React.Component {
                     onClose={() => this.setState({ reportDialog: false })}
                     resource="medium"
                     resourceId={medium.id}
+                  />
+                  <TagReportDialog
+                    open={this.state.tagReportDialog}
+                    onClose={() => this.setState({ tagReportDialog: false })}
+                    medium={medium}
                   />
                 </div>
               </React.Fragment>

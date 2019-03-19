@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_17_014648) do
+ActiveRecord::Schema.define(version: 2019_03_19_023458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -586,12 +586,17 @@ ActiveRecord::Schema.define(version: 2019_03_17_014648) do
 
   create_table "tag_reports", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
-    t.uuid "fursuit_medium_id", null: false
-    t.uuid "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["fursuit_medium_id"], name: "index_tag_reports_on_fursuit_medium_id"
-    t.index ["user_id"], name: "index_tag_reports_on_user_id"
+    t.text "description"
+    t.uuid "medium_id"
+    t.uuid "reporter_id"
+    t.string "status", default: "new"
+    t.bigint "assignee_id"
+    t.uuid "fursuit_medium_ids", default: [], array: true
+    t.index ["assignee_id"], name: "index_tag_reports_on_assignee_id"
+    t.index ["medium_id"], name: "index_tag_reports_on_medium_id"
+    t.index ["reporter_id"], name: "index_tag_reports_on_reporter_id"
   end
 
   create_table "taggings", id: :serial, force: :cascade do |t|

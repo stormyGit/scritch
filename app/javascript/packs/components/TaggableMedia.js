@@ -9,7 +9,7 @@ import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
 import Button from "@material-ui/core/Button";
 
-import { GET_MEDIA } from "../queries/mediaQueries";
+import { GET_MEDIA_WITH_FURSUITS } from "../queries/mediaQueries";
 
 import TaggableMediumCard from "./TaggableMediumCard";
 import EmptyList from "./Global/EmptyList";
@@ -43,6 +43,10 @@ const styles = theme => ({
     padding: theme.spacing.unit * 1,
     paddingRight: 0
   },
+  buttonRoot: {
+    display: "flex",
+    justifyContent: "center"
+  },
   tagButton: {
     padding: theme.spacing.unit * 2
   }
@@ -52,7 +56,8 @@ class TaggableMedia extends React.Component {
   state = {
     tutoDialog: !this.props.currentSession.user.tagTutorial,
     tagDialog: false,
-    hasMore: true
+    hasMore: true,
+    userId: null
   };
 
   renderResults({ media, users, horizontal, onLoadMore, hasMore }) {
@@ -161,21 +166,39 @@ class TaggableMedia extends React.Component {
 
     return (
       <Query
-        query={GET_MEDIA}
-        variables={{ q: query.q, offset: 0, limit, tagging: true }}
+        query={GET_MEDIA_WITH_FURSUITS}
+        variables={{
+          q: query.q,
+          offset: 0,
+          limit,
+          tagging: true,
+          userId: this.state.userId
+        }}
       >
         {({ data: { media, users }, loading, error, fetchMore }) => (
           <React.Fragment>
-            <div style={{ padding: 5 }} />
-            {false && (
-              <Button
-                size="large"
-                className={classes.tagButton}
-                onClick={() => this.setState({ tagDialog: true })}
-              >
-                GET RANDOM PICS TO TAG
-              </Button>
-            )}
+            <div className={classes.buttonRoot}>
+              {!this.state.userId && (
+                <Button
+                  size="large"
+                  className={classes.tagButton}
+                  onClick={() =>
+                    this.setState({ userId: currentSession.user.id })
+                  }
+                >
+                  Show only my pictures
+                </Button>
+              )}
+              {this.state.userId && (
+                <Button
+                  size="large"
+                  className={classes.tagButton}
+                  onClick={() => this.setState({ userId: null })}
+                >
+                  Show every picture
+                </Button>
+              )}
+            </div>
             <Grid
               container
               className={classes.root}

@@ -484,6 +484,7 @@ class MultipleMediaDialog extends React.Component {
                   onClick={() => {
                     this.props.onClose();
                     this.setInitialValues();
+                    location.reload();
                   }}
                 >
                   Close

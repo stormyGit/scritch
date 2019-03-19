@@ -60,6 +60,96 @@ export const GET_MEDIA = gql`
           name
         }
       }
+      subEvent {
+        id
+        name
+      }
+      user {
+        id
+        slug
+        name
+        avatar
+      }
+    }
+    users(q: $q, fillWithFollowing: false, offset: 0, limit: 2) {
+      id
+      slug
+      name
+      avatar
+      mediaCount
+    }
+  }
+`;
+
+export const GET_MEDIA_WITH_FURSUITS = gql`
+  query Media(
+    $q: String
+    $sort: String
+    $userId: ID
+    $offset: Int!
+    $limit: Int!
+    $fursuitId: ID
+    $categoryId: ID
+    $subEventId: ID
+    $fursuits: [ID]
+    $tagging: Boolean
+    $faves: Boolean
+    $editionId: [ID!]
+    $eventId: ID
+  ) {
+    media(
+      q: $q
+      sort: $sort
+      userId: $userId
+      offset: $offset
+      limit: $limit
+      fursuitId: $fursuitId
+      categoryId: $categoryId
+      subEventId: $subEventId
+      fursuits: $fursuits
+      tagging: $tagging
+      faves: $faves
+      editionId: $editionId
+      eventId: $eventId
+    ) {
+      id
+      slug
+      title
+      description
+      picture
+      thumbnail
+      width
+      exif
+      height
+      completion
+      fursuitsCount
+      createdAt
+      commentsCount
+      likesCount
+      favesCount
+      viewsCount
+      tagList
+      category {
+        id
+        name
+      }
+      fursuits {
+        id
+        name
+        avatar
+      }
+      edition {
+        id
+        name
+        event {
+          id
+          name
+        }
+      }
+      subEvent {
+        id
+        name
+      }
       user {
         id
         slug

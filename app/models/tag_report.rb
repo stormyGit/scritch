@@ -1,11 +1,9 @@
 class TagReport < ApplicationRecord
   self.primary_key = :uuid
 
-  STATUSES = [
-    "open",
-    "closed"
-  ]
+  belongs_to :medium
+  belongs_to :reporter, class_name: "User", optional: true
+  belongs_to :assignee, class_name: "Moderator", optional: true
 
-  belongs_to :fursuit_medium
-  belongs_to :user
+  has_many :moderation_comments, as: :subject, class_name: "Moderation::Comment"
 end
