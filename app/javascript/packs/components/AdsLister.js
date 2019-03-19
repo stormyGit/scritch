@@ -4,6 +4,7 @@ import { Query } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Gallery from "react-grid-gallery";
+import uuidv4 from "uuid/v4";
 
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
