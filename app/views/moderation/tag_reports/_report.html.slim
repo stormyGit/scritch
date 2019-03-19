@@ -1,0 +1,117 @@
+.card.report
+  .card-content
+    .level
+      .level-left
+        .title.is-4
+          | Report ##{report.attributes["id"]}
+          - unless in_report_page?
+            = link_to moderation_tag_report_path(report), target: "_blank" do
+              span.icon
+                i.material-icons.is-size-6 open_in_new
+      .level-right
+        - if report.assignee.blank?
+          = button_to moderation_tag_report_assign_path(report.id), class: 'button', method: :put do
+            | Assign myself
+        - else
+          .dropdown.is-hoverable
+            .dropdown-trigger
+              button.button
+                span
+                  | Assigned to #{report.assignee == current_moderator ? 'you' : report.assignee.name}
+                span.icon.is-small
+                  i.material-icons expand_more
+            .dropdown-menu role="menu"
+              .dropdown-content
+                - if report.assignee != current_moderator
+                  = link_to moderation_tag_report_assign_path(report.id), class: 'dropdown-item', method: :put
+                    | Assign to me
+                = link_to moderation_tag_report_unassign_path(report.id), class: 'dropdown-item', method: :put
+                  | Unassign
+
+    .content.citation
+      = format_text(report.description)
+      .is-size-7
+        = "#{time_ago_in_words(report.created_at)} ago"
+    .content
+      | Picture:
+    .has-text-centered
+      img src=report.medium.picture style="width: 80%"
+    .is-size-7
+      = "#{time_ago_in_words(report.medium.created_at)} ago"
+    - if report.tags.present?
+      .content
+        | Reported Tags:
+        .columns.is-multiline
+          - report.tags.each do |tag|
+            .column.is-3.has-text-centered
+              img src=tag.fursuit.avatar style="width: 80%"
+              br
+              = tag.fursuit.name
+
+
+
+    .media.offender
+      .media-right
+        - if report.assignee == current_moderator
+          .dropdown.is-hoverable
+            .dropdown-trigger
+              button.button
+                span
+                  | Take actions
+                span.icon.is-small
+                  i.material-icons expand_more
+            .dropdown-menu role="menu"
+              .dropdown-content
+                = link_to "#serious-tag-violation-#{report.medium.user.id}", class: 'dropdown-item', data: { activator: true }
+                  | Tags are way off
+                = link_to "#minor-tag-violation-#{report.medium.user.id}", class: 'dropdown-item', data: { activator: true }
+                  | Honest mistake
+                = link_to "#worthless-tag-report-#{report.medium.user.id}", class: 'dropdown-item', data: { activator: true }
+                  | Tags are actually valid
+
+
+
+  .card-content
+    .content
+      - report.moderation_comments.order(created_at: :desc).find_each do |comment|
+        .box
+          .level
+            .level-left
+              .title.is-6
+                = "By " + comment.moderator.name
+            .level-right.is-size-7
+              = "#{time_ago_in_words(report.created_at)} ago"
+          .content
+            = format_text comment.body
+
+      = form_for Moderation::Comment.new(subject: report), url: moderation_comments_url, method: :post do |f|
+        = f.hidden_field :subject_type
+        = f.hidden_field :subject_id
+
+        .field
+          .control
+            = f.text_area :body, class: "textarea", placeholder: "Write your comment..."
+        .field
+          .control
+            button.button.is-link
+              | Submit
+  - if report.assignee == current_moderator
+    footer class="card-footer"
+      - if report.status == 'new'
+        = link_to moderation_tag_report_dismiss_path(report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to dismiss this report?" } do
+          | Ignore
+        = link_to moderation_tag_report_mark_as_accepted_path(report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to mark this report as accepted?" } do
+          | Mark as done
+      - else
+        = link_to moderation_tag_report_reopen_path(report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to reopen this report?" } do
+          | Reopen report
+
+- if report.medium.present?
+  = form_for report.reporter, url: moderation_user_serious_tag_violation_path(user_id: report.medium.user.id, medium_id: report.medium.id, fursuit_media: report.fursuit_medium_ids, report_id: report.id), method: :put do |f|
+    = render partial: "moderation/shared/serious_violation", locals: { user: report.medium.user, title: "Remove medium by #{report.medium.user.name} with account hiatus", id: "serious-tag-violation-#{report.medium.user.id}" }
+
+  = form_for report.reporter, url: moderation_user_minor_tag_violation_path(user_id: report.medium.user.id, medium_id: report.medium.id, fursuit_media: report.fursuit_medium_ids, report_id: report.id), method: :put do |f|
+    = render partial: "moderation/shared/minor_violation", locals: { medium: report.medium, title: "Remove medium by #{report.medium.user.name} without account hiatus", id: "minor-tag-violation-#{report.medium.user.id}" }
+
+  = form_for report.reporter, url: moderation_user_not_worth_report_path(user_id: report.reporter.id, medium_id: report.medium.id, report_id: report.id, tag_report: true), method: :put do |f|
+    = render partial: "moderation/shared/not_worth_form", locals: { medium: report.medium, title: "Medium was not worth reporting", id: "worthless-tag-report-#{report.medium.user.id}" }

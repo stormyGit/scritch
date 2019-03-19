@@ -51,8 +51,17 @@ Rails.application.routes.draw do
       put :assign
       put :unassign
     end
+    resources :tag_reports do
+      put :dismiss
+      put :mark_as_accepted
+      put :reopen
+      put :assign
+      put :unassign
+    end
     resources :users do
       put :moderate_profile
+      put :minor_tag_violation
+      put :serious_tag_violation
       put :minor_user_violation
       put :serious_user_violation
       put :minor_comment_violation

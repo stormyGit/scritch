@@ -248,40 +248,7 @@ class TaggableMediumCard extends React.Component {
     );
   }
 
-  renderHorizontal() {
-    const { classes, medium } = this.props;
-
-    return (
-      <Card
-        className={[classes.card, classes.horizontalCard].join(" ")}
-        elevation={0}
-      >
-        <CardActionArea className={classes.horizontalMediaContainer}>
-          {this.renderMedia()}
-        </CardActionArea>
-        <div className={classes.horizontalContent}>
-          {this.renderHeader()}
-          <CardActionArea
-            component={props => (
-              <Link to={`/pictures/${medium.id}`} {...props} />
-            )}
-            className={classes.horizontalInfos}
-          >
-            {this.renderContent()}
-          </CardActionArea>
-          {this.renderTags()}
-          {this.renderActions()}
-        </div>
-      </Card>
-    );
-  }
-
   render() {
-    const { horizontal } = this.props;
-
-    if (horizontal) {
-      return this.renderHorizontal();
-    }
     return this.renderVertical();
   }
 }

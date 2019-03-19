@@ -52,10 +52,12 @@ html lang="en"
             - if moderator_can_see?("reports") || moderator_can_see?("pictures")
               = active_link_to moderation_reports_path, class: "navbar-item is-hidden-mobile", class_active: "is-active", active: /^\/moderation\/(reports|pictures).*/ do
                 | User Reports
-              = active_link_to moderation_medium_reports_path, class: "navbar-item is-hidden-mobile", class_active: "is-active", active: /^\/moderation\/(reports|pictures).*/ do
+              = active_link_to moderation_medium_reports_path, class: "navbar-item is-hidden-mobile", class_active: "is-active", active: /^\/moderation\/(medium_reports|pictures).*/ do
                 | Picture Reports
-              = active_link_to moderation_comment_reports_path, class: "navbar-item is-hidden-mobile", class_active: "is-active", active: /^\/moderation\/(reports|pictures).*/ do
+              = active_link_to moderation_comment_reports_path, class: "navbar-item is-hidden-mobile", class_active: "is-active", active: /^\/moderation\/(comment_reports|pictures).*/ do
                 | Comment Reports
+              = active_link_to moderation_tag_reports_path, class: "navbar-item is-hidden-mobile", class_active: "is-active", active: /^\/moderation\/(tag_reports|pictures).*/ do
+                | Tag Reports
             - if moderator_can_see?("banned_users")
               = active_link_to moderation_banned_users_path, class: "navbar-item", class_active: 'is-active', active: :exact do
                 | Banned users

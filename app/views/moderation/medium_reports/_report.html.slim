@@ -100,12 +100,12 @@
   - if report.assignee == current_moderator
     footer class="card-footer"
       - if report.status == 'new'
-        = link_to moderation_report_dismiss_path(report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to dismiss this report?" } do
+        = link_to moderation_medium_report_dismiss_path(report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to dismiss this report?" } do
           | Ignore
-        = link_to moderation_report_mark_as_accepted_path(report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to mark this report as accepted?" } do
+        = link_to moderation_medium_report_mark_as_accepted_path(report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to mark this report as accepted?" } do
           | Mark as done
       - else
-        = link_to moderation_report_reopen_path(report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to reopen this report?" } do
+        = link_to moderation_medium_report_reopen_path(report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to reopen this report?" } do
           | Reopen report
 
 - if report.medium.user.present?

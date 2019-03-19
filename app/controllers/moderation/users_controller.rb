@@ -5,6 +5,8 @@ class Moderation::UsersController < ModerationController
     :ban_and_remove_account,
     :ban_permanently,
     :ban_for_a_month,
+    :minor_tag_violation,
+    :serious_tag_violation,
     :minor_user_violation,
     :serious_user_violation,
     :minor_medium_violation,
@@ -40,6 +42,21 @@ class Moderation::UsersController < ModerationController
     accept_all_reports if params[:submit_and_close].present?
 
     redirect_back fallback_location: moderation_user_path(@user)
+  end
+
+  def serious_tag_violation
+    @user.update!(score: @user.score - 30) #__SCORE__ SERIOUS TAG VIOLATION
+    accept_all_tag_reports(params[:medium_id])
+    FursuitMedium.where(uuid: params[:fursuit_media]).destroy_all
+    redirect_back fallback_location: moderation_tag_reports_path
+  end
+
+  def minor_tag_violation
+    @user.update!(score: @user.score - 0) #__SCORE__ MINOR TAG VIOLATION
+    accept_all_tag_reports(params[:medium_id])
+    FursuitMedium.where(uuid: params[:fursuit_media]).destroy_all
+
+    redirect_back fallback_location: moderation_tag_reports_path
   end
 
   def serious_user_violation
@@ -96,7 +113,7 @@ class Moderation::UsersController < ModerationController
         CommentReport.find(params[:report_id]).update(status: 'accepted')
       end
       redirect_back fallback_location: moderation_comment_reports_path
-    elsif params[:medium_id].present?
+    elsif params[:medium_id].present? && !params[:tag_report]
       if params[:submit_and_close].present? && params[:medium_id].present?
         accept_all_medium_reports(params[:medium_id])
       else
@@ -110,6 +127,13 @@ class Moderation::UsersController < ModerationController
         Report.find(params[:report_id]).update(status: 'accepted')
       end
       redirect_back fallback_location: moderation_reports_path
+    elsif params[:tag_report].present?
+      if params[:submit_and_close].present? && params[:tag_report].present?
+        accept_all_tag_reports(params[:medium_id])
+      else
+        TagReport.find(params[:report_id]).update(status: 'accepted')
+      end
+      redirect_back fallback_location: moderation_tag_reports_path
     end
   end
 
@@ -133,6 +157,10 @@ class Moderation::UsersController < ModerationController
 
   def accept_all_medium_reports(medium_id)
     MediumReport.where(status: 'new', medium_id: medium_id).update(status: 'accepted')
+  end
+
+  def accept_all_tag_reports(medium_id)
+    TagReport.where(status: 'new', medium_id: medium_id).update(status: 'accepted')
   end
 
 end
