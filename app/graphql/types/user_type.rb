@@ -22,6 +22,8 @@ module Types
     field :show_ads, Boolean, null: false
     field :show_tooltips, Boolean, null: false
 
+    field :global_score, Integer, null: false
+
     field :media_count, Integer, null: false
     field :followers_count, Integer, null: false
     field :following_count, Integer, null: false

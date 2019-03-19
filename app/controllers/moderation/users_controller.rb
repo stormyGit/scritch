@@ -131,6 +131,7 @@ class Moderation::UsersController < ModerationController
       if params[:submit_and_close].present? && params[:tag_report].present?
         accept_all_tag_reports(params[:medium_id])
       else
+        Medium.find(params[:medium_id]).update!(completion: Medium.find(params[:medium_id]).get_completion())
         TagReport.find(params[:report_id]).update(status: 'accepted')
       end
       redirect_back fallback_location: moderation_tag_reports_path
@@ -160,6 +161,7 @@ class Moderation::UsersController < ModerationController
   end
 
   def accept_all_tag_reports(medium_id)
+    Medium.find(params[:medium_id]).update!(completion: Medium.find(params[:medium_id]).get_completion())
     TagReport.where(status: 'new', medium_id: medium_id).update(status: 'accepted')
   end
 

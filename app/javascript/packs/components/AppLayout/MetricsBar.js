@@ -37,9 +37,13 @@ class MetricsBar extends React.Component {
         {currentSession && (
           <div className={classes.metrics}>
             <Typography variant="subtitle1">
-              <Link to="/" className={classes.link}>
-                Zebra
-              </Link>
+              {false && (
+                <Link to="/" className={classes.link}>
+                  Zebra
+                </Link>
+              )}
+              {"Score: "}
+              {true && currentSession.user.score}
               <FontAwesomeIcon
                 title="Scritches"
                 icon={faPaw}

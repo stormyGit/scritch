@@ -151,51 +151,53 @@ class Maker extends React.Component {
                       </Grid>
                     </Grid>
                     <Grid item lg={3} xs={12}>
-                      <React.Fragment>
-                        <Grid
-                          container
-                          spacing={8}
-                          justify="space-between"
-                          wrap="nowrap"
-                        >
-                          {!maker.claimed && !maker.possessed && !maker.user && (
-                            <Grid item>
-                              <Button
-                                color="primary"
-                                onClick={() =>
-                                  this.setState({ claimDialog: true })
-                                }
-                              >
-                                Claim maker
-                              </Button>
-                            </Grid>
-                          )}
-                          {!maker.claimed && !maker.possessed && maker.user && (
-                            <Grid item>
-                              <Button
-                                color="primary"
-                                onClick={() =>
-                                  this.setState({ claimDialog: true })
-                                }
-                              >
-                                Contest Claim
-                              </Button>
-                            </Grid>
-                          )}
-                          {maker.possessed && (
-                            <Grid item>
-                              <Button
-                                color="primary"
-                                onClick={() =>
-                                  this.setState({ editMaker: true })
-                                }
-                              >
-                                Edit maker
-                              </Button>
-                            </Grid>
-                          )}
-                        </Grid>
-                      </React.Fragment>
+                      {maker.name != "~Owner Made" && (
+                        <React.Fragment>
+                          <Grid
+                            container
+                            spacing={8}
+                            justify="space-between"
+                            wrap="nowrap"
+                          >
+                            {!maker.claimed && !maker.possessed && !maker.user && (
+                              <Grid item>
+                                <Button
+                                  color="primary"
+                                  onClick={() =>
+                                    this.setState({ claimDialog: true })
+                                  }
+                                >
+                                  Claim maker
+                                </Button>
+                              </Grid>
+                            )}
+                            {!maker.claimed && !maker.possessed && maker.user && (
+                              <Grid item>
+                                <Button
+                                  color="primary"
+                                  onClick={() =>
+                                    this.setState({ claimDialog: true })
+                                  }
+                                >
+                                  Contest Claim
+                                </Button>
+                              </Grid>
+                            )}
+                            {maker.possessed && (
+                              <Grid item>
+                                <Button
+                                  color="primary"
+                                  onClick={() =>
+                                    this.setState({ editMaker: true })
+                                  }
+                                >
+                                  Edit maker
+                                </Button>
+                              </Grid>
+                            )}
+                          </Grid>
+                        </React.Fragment>
+                      )}
                       <div className={classes.pictureInfo}>
                         <Grid
                           container

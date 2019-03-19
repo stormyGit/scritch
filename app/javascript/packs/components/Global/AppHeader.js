@@ -23,7 +23,8 @@ const styles = theme => ({
   root: {
     display: "flex",
     flexGrow: 1,
-    maxHeight: 125
+    maxHeight: 125,
+    paddingBottom: 10
   },
   grid: {
     textAlign: "center",
