@@ -43,7 +43,7 @@ class MetricsBar extends React.Component {
                 </Link>
               )}
               {"Score: "}
-              {true && currentSession.user.score}
+              {true && currentSession.user.globalScore}
               <FontAwesomeIcon
                 title="Scritches"
                 icon={faPaw}
