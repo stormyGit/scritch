@@ -49,3 +49,13 @@ export const CREATE_TAG_REPORT = gql`
     }
   }
 `;
+
+export const CREATE_ASSET_REQUEST = gql`
+  mutation createAssetRequest($input: CreateAssetRequestInput!) {
+    createAssetRequest(input: $input) {
+      assetRequest {
+        id
+      }
+    }
+  }
+`;

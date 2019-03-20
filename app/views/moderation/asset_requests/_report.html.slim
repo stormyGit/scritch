@@ -1,0 +1,57 @@
+.card.asset_request
+  .card-content
+    .level
+      .level-left
+        .title.is-4
+          | Request ##{asset_request.attributes["id"]}
+          - unless in_report_page?
+            = link_to moderation_asset_request_path(asset_request), target: "_blank" do
+              span.icon
+                i.material-icons.is-size-6 open_in_new
+      .level-right
+        - if asset_request.assignee.blank?
+          = button_to moderation_asset_request_assign_path(asset_request.id), class: 'button', method: :put do
+            | Assign myself
+        - else
+          .dropdown.is-hoverable
+            .dropdown-trigger
+              button.button
+                span
+                  | Assigned to #{asset_request.assignee == current_moderator ? 'you' : asset_request.assignee.name}
+                span.icon.is-small
+                  i.material-icons expand_more
+            .dropdown-menu role="menu"
+              .dropdown-content
+                - if asset_request.assignee != current_moderator
+                  = link_to moderation_asset_request_assign_path(asset_request.id), class: 'dropdown-item', method: :put
+                    | Assign to me
+                = link_to moderation_asset_request_unassign_path(asset_request.id), class: 'dropdown-item', method: :put
+                  | Unassign
+
+    .content
+      = "Request to add: #{asset_request.asset_type}"
+      br
+      br
+      = "Name: #{asset_request.asset_name}"
+      br
+      a href=asset_request.url target="_blank"
+        | Asset URL
+
+    - if asset_request.body.present?
+      | Requester comment
+      .content.citation
+        = format_text(asset_request.body)
+
+    .is-size-7
+      = "#{time_ago_in_words(asset_request.created_at)} ago"
+
+  - if asset_request.assignee == current_moderator
+    footer class="card-footer"
+      - if asset_request.status == 'new'
+        = link_to moderation_asset_request_dismiss_path(asset_request.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to dismiss this asset_request?" } do
+          | Ignore
+        = link_to moderation_asset_request_mark_as_accepted_path(asset_request.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to mark this asset_request as accepted?" } do
+          | Mark as done
+      - else
+        = link_to moderation_asset_request_reopen_path(asset_request.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to reopen this asset_request?" } do
+          | Reopen asset_request

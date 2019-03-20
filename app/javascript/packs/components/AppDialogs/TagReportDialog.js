@@ -110,7 +110,7 @@ class TagReportDialog extends React.Component {
           <Button
             onClick={() => {
               this.props.onClose();
-              this.setState({ description: "" });
+              this.setState({ description: "", fursuitMediumIds: [] });
             }}
           >
             Cancel

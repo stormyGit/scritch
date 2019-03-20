@@ -16,7 +16,7 @@ const styles = theme => {
       position: "relative",
       width: drawerWidth,
       position: "fixed",
-      backgroundColor: theme.palette.background.default,
+      backgroundColor: theme.palette.background.paper,
       borderRightWidth: 0
     },
     text: {},

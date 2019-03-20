@@ -14,6 +14,7 @@ module Types
     field :bio, String, null: true
     field :website, String, null: true
     field :theme, String, null: false
+
     field :tag_tutorial, Boolean, null: false
 
     field :followed, Boolean, null: false

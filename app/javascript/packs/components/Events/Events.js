@@ -4,6 +4,7 @@ import { LOAD_EVENTS } from "../../queries/eventQueries";
 import { Query } from "react-apollo";
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
+import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -26,12 +27,18 @@ const styles = theme => ({
     paddingRight: 0
   },
   filters: {
-    padding: theme.spacing.unit * 1
+    padding: theme.spacing.unit * 1,
+    textAlign: "center"
+  },
+  requestButton: {
+    height: "100%",
+    textAlign: "center"
   }
 });
 
 class Events extends React.Component {
   state = {
+    assetRequestDialog: false,
     hasMore: true,
     criteria: {
       name: "",
@@ -97,14 +104,28 @@ class Events extends React.Component {
           {({ data, loading, error, fetchMore }) => (
             <React.Fragment>
               {!searching && (
-                <div className={classes.filters}>
-                  <EventFilters
-                    onChange={value => {
-                      this.setState({ [value.label]: value.value });
-                    }}
-                    clearFilters={() => this.clearFilters()}
-                  />
-                </div>
+                <Grid spacing={8} container className={classes.filters}>
+                  <Grid item xs={2} />
+                  <Grid item xs={8}>
+                    <EventFilters
+                      onChange={value => {
+                        this.setState({ [value.label]: value.value });
+                      }}
+                      clearFilters={() => this.clearFilters()}
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Button
+                      variant="outlined"
+                      className={classes.requestButton}
+                      onClick={() =>
+                        this.setState({ assetRequestDialog: true })
+                      }
+                    >
+                      Request a new Event
+                    </Button>
+                  </Grid>
+                </Grid>
               )}
               <Grid
                 container
@@ -147,6 +168,11 @@ class Events extends React.Component {
             </React.Fragment>
           )}
         </Query>
+        <AssetRequestDialog
+          open={this.state.assetRequestDialog}
+          onClose={() => this.setState({ assetRequestDialog: false })}
+          assetType="Event"
+        />
       </React.Fragment>
     );
   }

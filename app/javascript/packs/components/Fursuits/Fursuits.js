@@ -4,6 +4,7 @@ import { Query } from "react-apollo";
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
+import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -34,12 +35,18 @@ const styles = theme => ({
     paddingRight: 0
   },
   filters: {
-    padding: theme.spacing.unit * 1
+    padding: theme.spacing.unit * 1,
+    textAlign: "center"
+  },
+  requestButton: {
+    height: "100%",
+    textAlign: "center"
   }
 });
 
 class Fursuits extends React.Component {
   state = {
+    assetRequestDialog: false,
     hasMore: true,
     name: "",
     fursuitSpecy: "",
@@ -111,17 +118,29 @@ class Fursuits extends React.Component {
   renderFilters() {
     const { classes, location, width } = this.props;
     return (
-      <div className={classes.filters}>
-        <FursuitFilters
-          onChange={value => {
-            this.setState({
-              [value.label]: value.value,
-              request: this.state.request + 1
-            });
-          }}
-          clearFilters={() => this.clearFilters()}
-        />
-      </div>
+      <Grid spacing={8} container className={classes.filters}>
+        <Grid item xs={2} />
+        <Grid item xs={8}>
+          <FursuitFilters
+            onChange={value => {
+              this.setState({
+                [value.label]: value.value,
+                request: this.state.request + 1
+              });
+            }}
+            clearFilters={() => this.clearFilters()}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <Button
+            variant="outlined"
+            className={classes.requestButton}
+            onClick={() => this.setState({ assetRequestDialog: true })}
+          >
+            Request a new Fursuit
+          </Button>
+        </Grid>
+      </Grid>
     );
   }
 
@@ -166,7 +185,7 @@ class Fursuits extends React.Component {
                 <Grid
                   container
                   className={classes.root}
-                  spacing={8}
+                  spacing={16}
                   style={{
                     marginTop: width === "lg" || width === "xl" ? 4 : -4
                   }}
@@ -206,6 +225,11 @@ class Fursuits extends React.Component {
             );
           }}
         </Query>
+        <AssetRequestDialog
+          open={this.state.assetRequestDialog}
+          onClose={() => this.setState({ assetRequestDialog: false })}
+          assetType="Fursuit"
+        />
       </React.Fragment>
     );
   }

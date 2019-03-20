@@ -72,6 +72,9 @@ html lang="en"
             - if moderator_can_see?("events")
               = active_link_to moderation_events_path, class: "navbar-item", class_active: "is-active", active: :exact do
                 | Events
+            - if moderator_can_see?("assets")
+              = active_link_to moderation_asset_requests_path, class: "navbar-item", class_active: 'is-active', active: :exact do
+                | Asset Requests
             - if moderator_can_see?("claims")
               = active_link_to moderation_claims_path, class: "navbar-item", class_active: "is-active", active: :exact do
                 | Claims

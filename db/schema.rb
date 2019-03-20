@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_19_173028) do
+ActiveRecord::Schema.define(version: 2019_03_20_004050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -106,6 +106,21 @@ ActiveRecord::Schema.define(version: 2019_03_19_173028) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "title"
+  end
+
+  create_table "asset_requests", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.string "asset_type", null: false
+    t.string "asset_name", null: false
+    t.string "url", null: false
+    t.string "body"
+    t.uuid "user_id"
+    t.string "status", default: "new"
+    t.bigint "assignee_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignee_id"], name: "index_asset_requests_on_assignee_id"
+    t.index ["user_id"], name: "index_asset_requests_on_user_id"
   end
 
   create_table "banned_users", force: :cascade do |t|

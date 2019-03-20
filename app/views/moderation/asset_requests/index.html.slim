@@ -1,0 +1,12 @@
+= render partial: 'moderation/shared/side_menu'
+
+#reports.container.full-height-container
+  .has-text-centered.has-text-primary.is-size-2
+    | Asset Requests
+  .columns.is-centered
+    .column.is-2
+    .column.is-10
+      .columns.is-centered.is-multiline
+        - @asset_requests.each do |asset_request|
+          .column.is-6
+            = render partial: 'moderation/asset_requests/report', locals: { asset_request: asset_request }

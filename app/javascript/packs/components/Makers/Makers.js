@@ -8,11 +8,13 @@ import withWidth from "@material-ui/core/withWidth";
 import { withStyles } from "@material-ui/core/styles";
 
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import PageTitle from "../Global/PageTitle";
 
 import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
+import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
 import MakerCard from "./MakerCard";
 
 import { Link, withRouter } from "react-router-dom";
@@ -26,13 +28,19 @@ const styles = theme => ({
     paddingRight: 0
   },
   filters: {
-    padding: theme.spacing.unit * 1
+    padding: theme.spacing.unit * 1,
+    textAlign: "center"
+  },
+  requestButton: {
+    height: "100%",
+    textAlign: "center"
   }
 });
 
 class Makers extends React.Component {
   state = {
     hasMore: true,
+    assetRequestDialog: false,
     criteria: {
       name: "",
       country: "",
@@ -99,14 +107,28 @@ class Makers extends React.Component {
           {({ data, loading, error, fetchMore }) => (
             <React.Fragment>
               {!searching && (
-                <div className={classes.filters}>
-                  <MakerFilters
-                    onChange={value => {
-                      this.setState({ [value.label]: value.value });
-                    }}
-                    clearFilters={() => this.clearFilters()}
-                  />
-                </div>
+                <Grid spacing={8} container className={classes.filters}>
+                  <Grid item xs={2} />
+                  <Grid item xs={8}>
+                    <MakerFilters
+                      onChange={value => {
+                        this.setState({ [value.label]: value.value });
+                      }}
+                      clearFilters={() => this.clearFilters()}
+                    />
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Button
+                      variant="outlined"
+                      className={classes.requestButton}
+                      onClick={() =>
+                        this.setState({ assetRequestDialog: true })
+                      }
+                    >
+                      Request a new Maker
+                    </Button>
+                  </Grid>
+                </Grid>
               )}
               <Grid
                 container
@@ -149,6 +171,11 @@ class Makers extends React.Component {
             </React.Fragment>
           )}
         </Query>
+        <AssetRequestDialog
+          open={this.state.assetRequestDialog}
+          onClose={() => this.setState({ assetRequestDialog: false })}
+          assetType="Maker"
+        />
       </React.Fragment>
     );
   }
