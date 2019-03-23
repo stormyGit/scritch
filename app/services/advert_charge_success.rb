@@ -22,6 +22,6 @@ class AdvertChargeSuccess
   private
 
   def user
-    @user ||= User.where(customer_id: @cus_id[:id]).first!
+    @user ||= User.where(customer_id: @cus_id).first!
   end
 end

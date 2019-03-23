@@ -70,8 +70,11 @@ class AdvertsController < ApplicationController
     puts "\n" * 15
     puts "IN ADVERT CONTROLLER CHARGE"
     puts "\n" * 15
-    if params[:type] == "charge.succeeded" && (params[:data][:object][:amount] == "600" || params[:data][:object][:amount] == "5000"  || params[:data][:object][:amount] == "40000")
-      AdvertChargeSuccess.new(id: params[:data][:object][:customer], amount: params[:data][:object][:amount]).process
+    puts params[:type]
+    puts params[:data][:object][:customer]
+    puts params[:data][:object][:amount]
+    if params[:type] == "charge.succeeded" && (params[:data][:object][:amount] == 600 || params[:data][:object][:amount] == 5000  || params[:data][:object][:amount] == 40000)
+      AdvertChargeSuccess.new(params[:data][:object][:customer], params[:data][:object][:amount]).process
     end
     render body: nil, status: 201
   rescue Stripe::APIConnectionError, Stripe::StripeError

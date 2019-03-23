@@ -14,7 +14,7 @@ class SponsorsController < ApplicationController
     puts "IN SPONSOR CONTROLLER CHARGE"
     puts params[:type]
     puts "\n" * 15
-    if params[:type] == "charge.succeeded" && (params[:data][:object][:amount] == "500" || params[:data][:object][:amount] == "100")
+    if params[:type] == "charge.succeeded" && (params[:data][:object][:amount] == 500 || params[:data][:object][:amount] == 100)
       ChargeSuccess.new(id: params[:data][:object][:customer]).process
     elsif params[:type] == "customer.subscription.deleted"
       puts params[:data][:object][:customer]
