@@ -77,52 +77,6 @@ class TaggableMedia extends React.Component {
         return <EmptyList label={`No results`} />;
       }
     }
-    if (horizontal) {
-      return (
-        <React.Fragment>
-          {users.length > 0 && (
-            <Grid
-              item
-              item
-              xs={12}
-              lg={8}
-              style={{ marginLeft: "auto", marginRight: "auto" }}
-            >
-              <Grid container spacing={8}>
-                {users.map(user => (
-                  <Grid
-                    item
-                    item
-                    xs={12}
-                    lg={users.length === 1 ? 12 : 6}
-                    key={user.id}
-                  >
-                    <UserCard user={user} />
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-          )}
-          <Grid
-            item
-            item
-            xs={12}
-            lg={8}
-            style={{ marginLeft: "auto", marginRight: "auto" }}
-          >
-            <Gallery
-              images={media.map(medium => ({
-                src: medium.picture,
-                thumbnail: medium.thumbnail,
-                thumbnailWidth: medium.width / (medium.height / 256.0),
-                thumbnailHeight: 256
-              }))}
-            />
-          </Grid>
-          {hasMore && <LoadMoreButton onClick={() => onLoadMore()} />}
-        </React.Fragment>
-      );
-    }
 
     return (
       <React.Fragment>
@@ -281,13 +235,6 @@ class TaggableMedia extends React.Component {
                   </List>
                 </DialogContent>
               </ResponsiveDialog>
-            )}
-            {false && !loading && !error && media && (
-              <TagDialog
-                open={this.state.tagDialog}
-                onClose={() => this.setState({ tagDialog: false })}
-                medium={media[0]}
-              />
             )}
           </React.Fragment>
         )}

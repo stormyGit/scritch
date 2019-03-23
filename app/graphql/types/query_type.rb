@@ -483,7 +483,7 @@ module Types
         media = media.joins(:fursuits).where("fursuits.uuid IN (?)", arguments[:fursuits])
       end
       if arguments[:tagging].present?
-        media = media.where.not(completion: 100).order(:completion)
+        media = media.where.not("completion > ?", 99).order(:completion)
       end
 
       media.includes(:tags).offset(arguments[:offset]).limit(arguments[:limit])

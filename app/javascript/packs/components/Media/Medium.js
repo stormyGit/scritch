@@ -33,6 +33,7 @@ import EditMediumDialog from "./EditMediumDialog";
 import TagDialog from "../TagDialog";
 import ReportDialog from "../AppDialogs/ReportDialog";
 import TagReportDialog from "../AppDialogs/TagReportDialog";
+import ExifDialog from "../AppDialogs/ExifDialog";
 import withCurrentSession from "../withCurrentSession";
 import SocialButton from "../Global/SocialButton";
 import TwitterIcon from "../../icons/Twitter";
@@ -126,6 +127,7 @@ var scroll = Scroll.animateScroll;
 class Medium extends React.Component {
   state = {
     menuAnchor: null,
+    exifDialog: false,
     editMedium: false,
     showMenuButton: false,
     tagMedium: false,
@@ -307,6 +309,20 @@ class Medium extends React.Component {
                               />
                             </Grid>
                             <Grid item style={{ flexShrink: 0 }}>
+                              {medium.exif &&
+                                Object.keys(JSON.parse(medium.exif)).length !==
+                                  0 && (
+                                  <Button
+                                    onClick={() =>
+                                      this.setState({ exifDialog: true })
+                                    }
+                                    variant="outlined"
+                                  >
+                                    EXIF Data
+                                  </Button>
+                                )}
+                            </Grid>
+                            <Grid item style={{ flexShrink: 0 }}>
                               {currentSession &&
                                 (medium.user.id === currentSession.user.id ||
                                   currentSession.user.moderator) && (
@@ -456,7 +472,8 @@ class Medium extends React.Component {
                   <TagDialog
                     open={this.state.tagMedium}
                     onClose={() => this.setState({ tagMedium: false })}
-                    medium={medium}
+                    mediumId={medium.id}
+                    noReload={true}
                   />
                   <ReportDialog
                     open={this.state.reportDialog}
@@ -467,6 +484,11 @@ class Medium extends React.Component {
                   <TagReportDialog
                     open={this.state.tagReportDialog}
                     onClose={() => this.setState({ tagReportDialog: false })}
+                    medium={medium}
+                  />
+                  <ExifDialog
+                    open={this.state.exifDialog}
+                    onClose={() => this.setState({ exifDialog: false })}
                     medium={medium}
                   />
                 </div>

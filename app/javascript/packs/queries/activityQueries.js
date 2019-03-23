@@ -63,6 +63,18 @@ export const GET_ACTIVITIES = gql`
           id
           reportedUserName
         }
+        ... on MediumReport {
+          id
+          reportedPictureTitle
+        }
+        ... on CommentReport {
+          id
+          reportedCommentUserName
+        }
+        ... on TagReport {
+          id
+          reportedTagPictureTitle
+        }
       }
     }
   }

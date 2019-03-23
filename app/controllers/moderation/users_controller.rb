@@ -48,6 +48,8 @@ class Moderation::UsersController < ModerationController
     @user.update!(score: @user.score - 30) #__SCORE__ SERIOUS TAG VIOLATION
     accept_all_tag_reports(params[:medium_id])
     FursuitMedium.where(uuid: params[:fursuit_media]).destroy_all
+    medium = Medium.find(params[:medium_id])
+    medium.update!(completion: medium.get_completion)
     redirect_back fallback_location: moderation_tag_reports_path
   end
 
@@ -55,7 +57,8 @@ class Moderation::UsersController < ModerationController
     @user.update!(score: @user.score - 0) #__SCORE__ MINOR TAG VIOLATION
     accept_all_tag_reports(params[:medium_id])
     FursuitMedium.where(uuid: params[:fursuit_media]).destroy_all
-
+    medium = Medium.find(params[:medium_id])
+    medium.update!(completion: medium.get_completion)
     redirect_back fallback_location: moderation_tag_reports_path
   end
 

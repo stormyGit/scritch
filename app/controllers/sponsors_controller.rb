@@ -1,7 +1,7 @@
 class SponsorsController < ApplicationController
   before_action :get_session
-  before_action :check_eligible, only: [:new, :create]
-  before_action :check_sponsorship, only: [:cancel]
+  # before_action :check_eligible, only: [:new, :create]
+  # before_action :check_sponsorship, only: [:cancel]
   before_action :set_cache_headers
   skip_before_action :verify_authenticity_token, only: :charge
 
@@ -10,9 +10,14 @@ class SponsorsController < ApplicationController
   end
 
   def charge
-    if params[:type] == "charge.succeeded"
+    puts "\n" * 15
+    puts "IN SPONSOR CONTROLLER CHARGE"
+    puts params[:type]
+    puts "\n" * 15
+    if params[:type] == "charge.succeeded" && (params[:data][:object][:amount] == "500" || params[:data][:object][:amount] == "100")
       ChargeSuccess.new(id: params[:data][:object][:customer]).process
     elsif params[:type] == "customer.subscription.deleted"
+      puts params[:data][:object][:customer]
       SubscriptionCancel.new(id: params[:data][:object][:customer]).process
     end
     render body: nil, status: 201
@@ -76,8 +81,13 @@ class SponsorsController < ApplicationController
   end
 
   def cancel
+
+  end
+
+  def end_sponsorship
+    byebug
     sponsor = Stripe::Subscription.retrieve(
-      Sponsor.find_by(user: @current_session.user).charge_id
+      Sponsor.find(params[:sponsor_id]).charge_id
     )
     sponsor.delete
   end
@@ -89,15 +99,15 @@ class SponsorsController < ApplicationController
   end
 
   def check_eligible
-    if @current_session.blank? || @current_session.user.sponsor.present?
-      redirect_to root_path
-    end
+    # if @current_session.blank? || @current_session.user.sponsor.present? || @current_session.user.sponsor.status != "canceled"
+    #   redirect_to root_path
+    # end PUNDIT
   end
 
   def check_sponsorship
-    if @current_session.blank? || @current_session.user.sponsor.blank? || @current_session.user.sponsor.status != "live"
-      redirect_to root_path
-    end
+    # if @current_session.blank? || @current_session.user.sponsor.blank? || @current_session.user.sponsor.status != "live"
+    #   redirect_to root_path
+    # end #PUNDIT
   end
 
   def set_cache_headers

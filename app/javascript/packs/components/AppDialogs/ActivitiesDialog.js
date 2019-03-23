@@ -286,6 +286,90 @@ class ActivitiesDialog extends React.Component {
     );
   }
 
+  renderMediumReportCreate(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem key={activity.id}>
+        <UserAvatar user={activity.owner} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`We received your report on picture `}
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
+                  {activity.trackable.reportedPictureTitle}
+                </Typography>
+                {`.`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderCommentReportCreate(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem key={activity.id}>
+        <UserAvatar user={activity.owner} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`We received your report on comment by `}
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
+                  {activity.trackable.reportedCommentUserName}
+                </Typography>
+                {`.`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderTagReportCreate(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem key={activity.id}>
+        <UserAvatar user={activity.owner} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`We received your report on `}
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
+                  {activity.trackable.reportedTagPictureTitle}
+                </Typography>
+                {`.`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
   renderFursuitMediumCreate(activity) {
     const { classes } = this.props;
 
@@ -367,6 +451,12 @@ class ActivitiesDialog extends React.Component {
         return this.renderMediumRefused(activity);
       case "report.create":
         return this.renderReportCreate(activity);
+      case "medium_report.create":
+        return this.renderMediumReportCreate(activity);
+      case "comment_report.create":
+        return this.renderCommentReportCreate(activity);
+      case "tag_report.create":
+        return this.renderTagReportCreate(activity);
       case "fursuit_medium.create":
         return this.renderFursuitMediumCreate(activity);
       case "fursuit_user.create":

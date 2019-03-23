@@ -11,6 +11,6 @@ class SubscriptionCancel
   private
 
   def sponsor
-    @sponsor ||= Sponsor.where(customer_id: @cus_id).first!
+    @sponsor ||= Sponsor.where(customer_id: @cus_id[:id]).first!
   end
 end

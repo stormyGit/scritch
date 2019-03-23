@@ -99,3 +99,4 @@ gem "twitter"
 gem 'prerender_rails'
 gem 'jquery-rails'
 gem 'stripe'
+gem 'exif'

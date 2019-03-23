@@ -463,8 +463,8 @@ class User extends React.Component {
             <React.Fragment>
               <Grid container spacing={8}>
                 {data.media.map(medium => (
-                  <Grid item xs={3}>
-                    <MediumCard medium={medium} key={medium.id} />
+                  <Grid item xs={3} key={medium.id}>
+                    <MediumCard medium={medium} />
                   </Grid>
                 ))}
                 {data.media.length < user.mediaCount && (

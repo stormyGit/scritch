@@ -241,7 +241,7 @@ class TaggableMediumCard extends React.Component {
             onClose={() => {
               this.setState({ tagDialog: false });
             }}
-            medium={medium}
+            mediumId={medium.id}
           />
         )}
       </React.Fragment>

@@ -67,7 +67,10 @@ class AdvertsController < ApplicationController
   end
 
   def charge
-    if params[:type] == "charge.succeeded"
+    puts "\n" * 15
+    puts "IN ADVERT CONTROLLER CHARGE"
+    puts "\n" * 15
+    if params[:type] == "charge.succeeded" && (params[:data][:object][:amount] == "600" || params[:data][:object][:amount] == "5000"  || params[:data][:object][:amount] == "40000")
       AdvertChargeSuccess.new(id: params[:data][:object][:customer], amount: params[:data][:object][:amount]).process
     end
     render body: nil, status: 201
