@@ -162,9 +162,11 @@ class Medium extends React.Component {
         {({ loading, error, data }) => {
           const medium = data ? data.medium : null;
 
+          if (loading || error) {
+            console.log(error);
+            return null;
+          }
           return (
-            !loading &&
-            !error &&
             medium && (
               <React.Fragment>
                 <div style={{ paddingTop: 10 }} />

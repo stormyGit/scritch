@@ -71,15 +71,19 @@ class ExifDialog extends React.Component {
               </ListItemIcon>
               <ListItemText inset primary={`Aperture: `} />
             </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText
-                inset
-                primary={`Focal Length: ${exif.FocalLength.split("/")[0]}.0mm`}
-              />
-            </ListItem>
+            {exif.FocalLength && (
+              <ListItem>
+                <ListItemIcon>
+                  <CheckIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary={`Focal Length: ${
+                    exif.FocalLength.split("/")[0]
+                  }.0mm`}
+                />
+              </ListItem>
+            )}
             <ListItem>
               <ListItemIcon>
                 <CheckIcon />
