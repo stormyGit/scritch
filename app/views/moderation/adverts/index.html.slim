@@ -11,6 +11,15 @@
   p.is-size-1.has-text-centered.has-text-primary
     | Adverts
   br
+  .has-text-centered
+    = form_tag moderation_adverts_path, method: :get do
+      .field
+        = label_tag :where_status, "With status...", class: "has-text-primary label"
+        .select
+          = select_tag :where_status, options_for_select(["live", "ready", "pending", "rejected"], params[:where_status]), include_blank: true, class: "select"
+      .field
+        = submit_tag :Filter, class: "button"
+  br
   .columns.is-multiline
     - if @adverts.present?
       - @adverts.each do |advert|
