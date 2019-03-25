@@ -1,6 +1,8 @@
 class Maker < ApplicationRecord
   self.primary_key = :uuid
 
+  include PublicActivity::Model
+
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
 

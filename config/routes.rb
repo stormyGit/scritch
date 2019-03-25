@@ -89,6 +89,8 @@ Rails.application.routes.draw do
     end
     resources :claims do
     end
+    resources :maker_claims do
+    end
     resources :adverts do
       put :toggle_off
       put :approve

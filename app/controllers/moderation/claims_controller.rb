@@ -24,7 +24,7 @@ class Moderation::ClaimsController < ModerationController
 
     if claim.conflictual
       if params[:status] == "approve"
-        FursuitUser.where(fursuit: claim.fursuit).first.user.update!(score: -10)
+        FursuitUser.where(fursuit: claim.fursuit).first.user.update!(score: FursuitUser.where(fursuit: claim.fursuit).first.user.score - 10)
         FursuitUser.where(fursuit: claim.fursuit).first.destroy
         FursuitUser.create!(user: claim.user, fursuit: claim.fursuit)
         claim.destroy
