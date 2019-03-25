@@ -2,6 +2,15 @@ class Moderation::StatisticsController < ModerationController
   def index
     ensure_capability! "analytics"
 
+    @users_now = User.count
+    @fursuits_now = Fursuit.count
+    @makers_now = Maker.count
+    @events_now = Event.count
+    @pictures_now = Medium.count
+    @likes_now = Like.count
+    @faves_now = Fave.count
+    @tags_now = FursuitMedium.count
+
     tmp_today = (Statistic.last.created_at + 1.day).to_s
     tmp_today = tmp_today[0..tmp_today.index(':') - 4]
 
