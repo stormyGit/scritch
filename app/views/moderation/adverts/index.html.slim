@@ -1,0 +1,55 @@
+#navbar-padder
+.container
+  - if flash[:notice].present?
+    .columns
+      .column.is-6.is-offset-3
+        .card.green
+          .card-content.has-text-centered
+            strong class=flash[:class]
+              = flash[:notice]
+    br
+  p.is-size-1.has-text-centered.has-text-primary
+    | Adverts
+  br
+  .columns.is-multiline
+    - if @adverts.present?
+      - @adverts.each do |advert|
+        .column.is-6
+          .card
+            .card-header
+              .card-header-title
+                = "Ad ##{advert.id.split('-')[0]}"
+            .card-content
+              = image_tag advert.file_url, width: "100%"
+              br
+              .columns
+                .column.is-6
+                  p.is-size-4
+                    = "Width: #{advert.width}"
+                  p.is-size-4
+                    = "Height: #{advert.height}"
+                .column.is-6
+                  p.is-size-4
+                    = "Status: #{advert.status}"
+                  p.is-size-4
+                    = "Impressions: #{advert.impressions}"
+
+            - if advert.status == "pending"
+              .card-footer
+                .card-footer-item
+                  = link_to "Approve", moderation_advert_approve_path(advert), method: :put
+                .card-footer-item
+                  = link_to "Reject", moderation_advert_reject_path(advert), method: :put
+            - if advert.status == "live"
+              .card-footer
+                .card-footer-item
+                  = link_to "Turn Off", moderation_advert_toggle_off_path(advert), method: :put
+            - if advert.status == "ready"
+              .card-footer
+                .card-footer-item
+                  = link_to "Delete", moderation_advert_path(advert), class: "has-text-danger", method: :delete, data: {confirm: "Are you sure?"}
+
+
+  .columns
+    .column.is-6.is-offset-3
+      = paginate @adverts

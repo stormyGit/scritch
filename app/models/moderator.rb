@@ -8,6 +8,7 @@ class Moderator < ApplicationRecord
     moderators
     banned_users
     claims
+    adverts
   )
 
   devise :database_authenticatable, :rememberable, :trackable

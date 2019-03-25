@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   self.primary_key = :uuid
 
+  include PublicActivity::Model
   acts_as_followable
   acts_as_follower
 
