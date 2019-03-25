@@ -9,6 +9,7 @@ class Moderator < ApplicationRecord
     banned_users
     claims
     adverts
+    sponsors
   )
 
   devise :database_authenticatable, :rememberable, :trackable

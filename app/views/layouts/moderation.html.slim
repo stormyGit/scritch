@@ -47,7 +47,7 @@ html lang="en"
         .navbar-menu id='nav-menu'
           .navbar-start
             - if moderator_can_see?("analytics")
-              = active_link_to analytics_moderation_home_index_path, class: "navbar-item", class_active: "is-active", active: :exact do
+              = active_link_to moderation_statistics_path, class: "navbar-item", class_active: "is-active", active: :exact do
                 | Analytics
             - if moderator_can_see?("adverts")
               = active_link_to moderation_adverts_path, class: "navbar-item", class_active: "is-active", active: :exact do
@@ -58,6 +58,9 @@ html lang="en"
             - if moderator_can_see?("moderators")
               = active_link_to moderation_moderators_path, class: "navbar-item", class_active: 'is-active', active: :exact do
                 | Moderators
+            - if moderator_can_see?("sponsors")
+              = active_link_to moderation_sponsors_path, class: "navbar-item", class_active: 'is-active', active: :exact do
+                | Sponsors
             - if moderator_can_see?("reports")
               .dropdown.is-hoverable.navbar-item
                 .dropdown-trigger

@@ -1,0 +1,40 @@
+#navbar-padder
+.container
+  - if flash[:notice].present?
+    .columns
+      .column.is-6.is-offset-3
+        .card.green
+          .card-content.has-text-centered
+            strong class=flash[:class]
+              = flash[:notice]
+    br
+  p.is-size-1.has-text-centered.has-text-primary
+    | Sponsors
+  br
+  .columns.is-multiline
+    - if @sponsors.present?
+      - @sponsors.each do |sponsor|
+        .column.is-4
+          .card
+            .card-header
+              .card-header-title
+                = "Sponsor ##{sponsor.uuid.split('-')[0]}"
+            .card-content
+                  p.is-size-5
+                    = "#{sponsor.user.name}"
+                  p.is-size-5
+                    - if sponsor.user.telegram_username.present?
+                      a href="http://t.me/#{sponsor.user.telegram_username}" target="_blank"
+                        = "@#{sponsor.user.telegram_username}"
+                  br
+                  p.is-size-5
+                    = "Status: #{sponsor.status}"
+                  p.is-size-5
+                    = "Limit: #{sponsor.limit}"
+                  p.is-size-5
+                    = "ID: #{sponsor.customer_id}"
+
+
+  .columns
+    .column.is-6.is-offset-3
+      = paginate @sponsors

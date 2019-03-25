@@ -91,12 +91,16 @@ Rails.application.routes.draw do
     end
     resources :maker_claims do
     end
+    resources :sponsors do
+    end
     resources :adverts do
       put :toggle_off
       put :approve
       put :reject
     end
     resources :moderators do
+    end
+    resources :statistics do
     end
     resources :banned_users do
     end
