@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_20_004050) do
+ActiveRecord::Schema.define(version: 2019_03_25_214454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -599,6 +599,15 @@ ActiveRecord::Schema.define(version: 2019_03_20_004050) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "suspended_users", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.uuid "user_id", null: false
+    t.datetime "limit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_suspended_users_on_user_id"
+  end
+
   create_table "tag_reports", force: :cascade do |t|
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }
     t.datetime "created_at", null: false
@@ -678,6 +687,7 @@ ActiveRecord::Schema.define(version: 2019_03_20_004050) do
     t.integer "score", default: 0
     t.integer "global_score", default: 0
     t.string "metric_species"
+    t.integer "suspension_count", default: 0
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end

@@ -8,6 +8,7 @@ module Types
     field :name, String, null: false
     field :published_media, [MediumType], null: false
     field :fursuits, [FursuitType], null: false
+    field :suspended_user, SuspendedUserType, null: true
     field :sponsor, SponsorType, null: true
     field :avatar, String, null: true
     field :banner, String, null: true

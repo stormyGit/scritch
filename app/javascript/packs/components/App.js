@@ -29,6 +29,9 @@ const makeTheme = type => {
       secondary: {
         main: "#DF0174"
       },
+      danger: {
+        main: "#ff6666"
+      },
       type: type
     }
   });

@@ -9,6 +9,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import queryString from "query-string";
 import Hidden from "@material-ui/core/Hidden";
 import Typography from "@material-ui/core/Typography";
+import dateFormat from "dateformat";
 
 import { Link, withRouter } from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
@@ -78,6 +79,12 @@ const styles = theme => ({
     flexDirection: "row",
     justifyContent: "space-between",
     backgroundColor: theme.palette.background.paper
+  },
+  toolBarDanger: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: theme.palette.danger.main
   },
   rightButton: {
     marginLeft: theme.spacing.unit * 2,
@@ -181,10 +188,17 @@ class AppLayoutRemake extends React.Component {
       appBarPadding = 8;
     }
 
+    if (currentSession.user.suspendedUser) {
+      var suspendedUserLimit = new Date(
+        currentSession.user.suspendedUser.limit * 1000
+      );
+    }
     return (
       <React.Fragment>
         <GlobalProgress />
         <div className={classes.root}>
+          {console.log(currentSession.user.suspendedUser)}
+
           <CookieConsent
             buttonStyle={{ backgroundColor: "#DF0174" }}
             style={{ textAlign: "center" }}
@@ -214,116 +228,161 @@ class AppLayoutRemake extends React.Component {
           </Hidden>
           <main className={classes.content}>
             <div className={classes.toolbar} />
-            <AppBar
-              position="absolute"
-              className={classes.appBar}
-              elevation={1}
-            >
-              <Toolbar
-                className={classes.toolBar}
-                classes={{
-                  root: classes.toolBarRoot
-                }}
-                style={{
-                  paddingLeft: appBarPadding,
-                  paddingRight: appBarPadding
-                }}
+            {currentSession.user.suspendedUser && (
+              <AppBar
+                position="absolute"
+                className={classes.appBar}
+                elevation={1}
               >
-                {!this.state.searchEnabled && (
-                  <React.Fragment>
-                    <img
-                      onClick={() =>
-                        this.setState({ mainDrawer: !this.state.mainDrawer })
-                      }
-                      src={logo}
-                      className={classes.pointer}
-                    />
-                    {(this.state.searchEnabled ||
-                      width === "lg" ||
-                      width === "xl") && (
-                      <div
-                        className={classes.searchBar}
-                        style={{
-                          paddingLeft: appBarPadding,
-                          maxWidth:
-                            width === "lg" || width === "xl" ? 200 : "none",
-                          marginRight: width === "lg" || width === "xl" ? 16 : 0
-                        }}
-                      >
-                        <SearchBar
-                          autoFocus={
-                            width !== "lg" && width !== "xl" && !query.q
-                          }
-                          cancelOnEscape
-                          value={query.q}
-                          onRequestSearch={q => {
-                            if (typeof q === "string") {
-                              this.handleRequestSearch(q);
-                            }
+                <Toolbar
+                  className={classes.toolBarDanger}
+                  classes={{
+                    root: classes.toolBarRoot
+                  }}
+                  style={{
+                    paddingLeft: appBarPadding,
+                    paddingRight: appBarPadding
+                  }}
+                >
+                  <img
+                    onClick={() =>
+                      this.setState({ mainDrawer: !this.state.mainDrawer })
+                    }
+                    src={logo}
+                    className={classes.pointer}
+                  />
+                  <Typography variant="h4">Account Suspended</Typography>
+                  <Typography variant="h5">
+                    {`Until: ${dateFormat(
+                      suspendedUserLimit,
+                      "mmmm dS, yyyy"
+                    )}`}
+                  </Typography>
+                  <UserButton
+                    openSignUp={() => this.setState({ signUpDialog: true })}
+                    openSettings={() => this.setState({ settingsDialog: true })}
+                  />
+                </Toolbar>
+              </AppBar>
+            )}
+            {!currentSession.user.suspendedUser && (
+              <AppBar
+                position="absolute"
+                className={classes.appBar}
+                elevation={1}
+              >
+                <Toolbar
+                  className={classes.toolBar}
+                  classes={{
+                    root: classes.toolBarRoot
+                  }}
+                  style={{
+                    paddingLeft: appBarPadding,
+                    paddingRight: appBarPadding
+                  }}
+                >
+                  {!this.state.searchEnabled && (
+                    <React.Fragment>
+                      <img
+                        onClick={() =>
+                          this.setState({ mainDrawer: !this.state.mainDrawer })
+                        }
+                        src={logo}
+                        className={classes.pointer}
+                      />
+                      {(this.state.searchEnabled ||
+                        width === "lg" ||
+                        width === "xl") && (
+                        <div
+                          className={classes.searchBar}
+                          style={{
+                            paddingLeft: appBarPadding,
+                            maxWidth:
+                              width === "lg" || width === "xl" ? 200 : "none",
+                            marginRight:
+                              width === "lg" || width === "xl" ? 16 : 0
                           }}
-                        />
-                      </div>
+                        >
+                          <SearchBar
+                            autoFocus={
+                              width !== "lg" && width !== "xl" && !query.q
+                            }
+                            cancelOnEscape
+                            value={query.q}
+                            onRequestSearch={q => {
+                              if (typeof q === "string") {
+                                this.handleRequestSearch(q);
+                              }
+                            }}
+                          />
+                        </div>
+                      )}
+
+                      <UploadButton
+                        onClick={() => this.setState({ uploadDialog: true })}
+                      />
+                      <SocialButton
+                        openAdvertise={() =>
+                          this.setState({ advertiseDialog: true })
+                        }
+                      />
+                      <PoliciesSupportButton
+                        openTech={() => this.setState({ techDialog: true })}
+                      />
+                    </React.Fragment>
+                  )}
+
+                  {this.state.searchEnabled && !query.q && (
+                    <IconButton
+                      className={classes.closeIcon}
+                      onClick={() => {
+                        this.setState({ searchEnabled: false });
+                      }}
+                    >
+                      <CloseIcon />
+                    </IconButton>
+                  )}
+
+                  {!this.state.searchEnabled &&
+                    width !== "lg" &&
+                    width !== "xl" && (
+                      <IconButton
+                        className={[
+                          classes.searchIcon,
+                          classes.tinyButton
+                        ].join(" ")}
+                        onClick={() => this.setState({ searchEnabled: true })}
+                        color="primary"
+                      >
+                        <SearchIcon />
+                      </IconButton>
                     )}
 
-                    <UploadButton
-                      onClick={() => this.setState({ uploadDialog: true })}
-                    />
-                    <SocialButton
-                      openAdvertise={() =>
-                        this.setState({ advertiseDialog: true })
-                      }
-                    />
-                    <PoliciesSupportButton
-                      openTech={() => this.setState({ techDialog: true })}
-                    />
-                  </React.Fragment>
-                )}
+                  {width === "xl" && (
+                    <div className={classes.titleZone}>
+                      <DisplayPageTitle />
+                    </div>
+                  )}
 
-                {this.state.searchEnabled && !query.q && (
-                  <IconButton
-                    className={classes.closeIcon}
-                    onClick={() => {
-                      this.setState({ searchEnabled: false });
-                    }}
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                )}
-
-                {!this.state.searchEnabled && width !== "lg" && width !== "xl" && (
-                  <IconButton
-                    className={[classes.searchIcon, classes.tinyButton].join(
-                      " "
-                    )}
-                    onClick={() => this.setState({ searchEnabled: true })}
-                    color="primary"
-                  >
-                    <SearchIcon />
-                  </IconButton>
-                )}
-
-                {width === "xl" && (
-                  <div className={classes.titleZone}>
-                    <DisplayPageTitle />
-                  </div>
-                )}
-
-                {!this.state.searchEnabled && (
-                  <React.Fragment>
-                    {width === "xl" && <MetricsBar />}
-                    <NotificationsButton
-                      onClick={() => this.setState({ activitiesDialog: true })}
-                    />
-                    <UserButton
-                      openSignUp={() => this.setState({ signUpDialog: true })}
-                      openSettings={() =>
-                        this.setState({ settingsDialog: true })
-                      }
-                    />
-                  </React.Fragment>
-                )}
-              </Toolbar>
-            </AppBar>
+                  {!this.state.searchEnabled && (
+                    <React.Fragment>
+                      {width === "xl" && <MetricsBar />}
+                      <NotificationsButton
+                        onClick={() =>
+                          this.setState({ activitiesDialog: true })
+                        }
+                      />
+                      <UserButton
+                        openSignUp={() => this.setState({ signUpDialog: true })}
+                        openSettings={() =>
+                          this.setState({ settingsDialog: true })
+                        }
+                      />
+                    </React.Fragment>
+                  )}
+                </Toolbar>
+              </AppBar>
+            )}
             <div>{this.props.children}</div>
             <AppDialogs
               signUpDialog={this.state.signUpDialog}

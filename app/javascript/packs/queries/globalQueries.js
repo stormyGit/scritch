@@ -48,6 +48,10 @@ export const GET_SESSION = gql`
         showAds
         showTooltips
         hasAdverts
+        suspendedUser {
+          id
+          limit
+        }
         sponsor {
           id
           limit

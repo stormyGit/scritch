@@ -13,6 +13,8 @@ class User < ApplicationRecord
 
   has_many :media, dependent: :destroy
 
+  has_one :suspended_user, dependent: :destroy
+
   has_one :sponsor, dependent: :destroy
   has_many :advert, dependent: :destroy
 
