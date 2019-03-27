@@ -80,7 +80,7 @@ class PoliciesSupportButton extends React.Component {
               Announcements
             </MenuItem>
           </Link>
-          <Link to={"/"} className={classes.link}>
+          <Link to={"/user_guide"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>User Guides</MenuItem>
           </Link>
           <Link to={"/"} className={classes.link}>

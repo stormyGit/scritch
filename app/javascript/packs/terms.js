@@ -1,183 +1,308 @@
 const terms = `
-# SCRITCH TERMS & CONDITIONS
+# **Scritch Terms & Conditions of Use (“Terms of Use”)**
+Date of last revision: **24 March 2019**
+___
+## **CONTENTS**
+1 FORWARD
 
-[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
+2 GENERAL TERMS
 
-[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
+*> 2.1 Additional Policies*
 
-Dillinger is a cloud-enabled, mobile-ready, offline-storage, AngularJS powered HTML5 Markdown editor.
+*> 2.2 Scritch Community Guidelines*
 
-  - Type some Markdown on the left
-  - See HTML in the right
-  - Magic
+*> 2.3 Copyright Policy*
 
-# New Features!
+*> 2.4 Mobile Applications*
 
-  - Import a HTML file and watch it magically convert to Markdown
-  - Drag and drop images (requires your Dropbox account be linked)
+*> 2.5 License*
 
+*> 2.6 Marks*
 
-You can also:
-  - Import and save files from GitHub, Dropbox, Google Drive and One Drive
-  - Drag and drop markdown and HTML files into Dillinger
-  - Export documents as Markdown, HTML and PDF
+*> 2.7 Restrictions*
 
-Markdown is a lightweight markup language based on the formatting conventions that people naturally use in email.  As John Gruber writes on the [Markdown site](http://breakdance.io)
+*> 2.8 HyperLinks*
 
-> The overriding design goal for Markdown's
-> formatting syntax is to make it as readable
-> as possible. The idea is that a
-> Markdown-formatted document should be
-> publishable as-is, as plain text, without
-> looking like it's been marked up with tags
-> or formatting instructions.
+*> 2.9 User Content*
 
-This text you see here is *actually* written in Markdown! To get a feel for Markdown's syntax, type some text into the left window and watch the results in the right.
+*> 2.10 Acceptable Use; Disclaimer*
 
-### Tech
+*> 2.11 Your Account*
 
-Dillinger uses a number of open source projects to work properly:
+*> 2.12 Account Security*
 
-* [AngularJS](http://breakdance.io) - HTML enhanced for web apps!
-* [Ace Editor](http://breakdance.io) - awesome web-based text editor
-* [markdown-it](http://breakdance.io) - Markdown parser done right. Fast and easy to extend.
-* [Twitter Bootstrap](http://breakdance.io) - great UI boilerplate for modern web apps
-* [node.js](http://breakdance.io) - evented I/O for the backend
-* [Express](http://breakdance.io) - fast node.js network app framework [@tjholowaychuk](http://breakdance.io)
-* [Gulp](http://breakdance.io) - the streaming build system
-* [Breakdance](http://breakdance.io) - HTML to Markdown converter
-* [jQuery](http://breakdance.io) - duh
+*> 2.13 Third Party Services*
 
-And of course Dillinger itself is open source with a [public repository](http://breakdance.io)
- on GitHub.
+*> 2.14 Advertisements and Promotions*
 
-### Installation
+*> 2.15 DISCLAIMER OF WARRANTIES*
 
-Dillinger requires [Node.js](https://nodejs.org/) v4+ to run.
+*> 2.16 LIMITATION OF LIABILITY*
 
-Install the dependencies and devDependencies and start the server.
+*> 2.17 Indemnity*
 
-\`\`\`sh
-$ cd dillinger
-$ npm install -d
-$ node app
-\`\`\`
+*> 2.18 Dispute Resolution*
 
-For production environments...
+*- 2.18.1 Applicable Law*
 
-\`\`\`sh
-$ npm install --production
-$ NODE_ENV=production node app
-\`\`\`
+*- 2.18.2 Agreement to Arbitrate & Waiver of Representative Actions*
 
-### Plugins
+*> 2.19 Feedback*
 
-Dillinger is currently extended with the following plugins. Instructions on how to use them in your own application are linked below.
+*> 2.20 Assignment*
 
-| Plugin | README |
-| ------ | ------ |
-| Dropbox | [plugins/dropbox/README.md](http://breakdance.io) |
-| Github | [plugins/github/README.md](http://breakdance.io) |
-| Google Drive | [plugins/googledrive/README.md](http://breakdance.io) |
-| OneDrive | [plugins/onedrive/README.md](http://breakdance.io) |
-| Medium | [plugins/medium/README.md](http://breakdance.io) |
-| Google Analytics | [plugins/googleanalytics/README.md](http://breakdance.io) |
+*> 2.21 International Users*
 
+*> 2.22 Severability*
 
-### Development
+*> 2.23 Survival*
 
-Want to contribute? Great!
+*> 2.24 Questions or Comments*
 
-Dillinger uses Gulp + Webpack for fast developing.
-Make a change in your file and instantanously see your updates!
+3 ADDITIONAL TERMS APPLICABLE TO SCRITCH SPONSOR SERVICES (“SPONSOR TERMS”)
 
-Open your favorite Terminal and run these commands.
+*> 3.1 Sponsorships*
 
-First Tab:
-\`\`\`sh
-$ node app
-\`\`\`
+*> 3.2 Free Trials*
 
-Second Tab:
-\`\`\`sh
-$ gulp watch
-\`\`\`
+*> 3.3 Sponsorship Plans*
 
-(optional) Third:
-\`\`\`sh
-$ karma test
-\`\`\`
-#### Building for source
-For production release:
-\`\`\`sh
-$ gulp build --prod
-\`\`\`
-Generating pre-built zip archives for distribution:
-\`\`\`sh
-$ gulp build dist --prod
-\`\`\`
-### Docker
-Dillinger is very easy to install and deploy in a Docker container.
+*> 3.4 Term and Automatic Renewal*
 
-By default, the Docker will expose port 8080, so change this within the Dockerfile if necessary. When ready, simply use the Dockerfile to build the image.
+*> 3.5 Interruptions or Discontinuation of Scritch Sponsor Services; Changes to Scritch Sponsor* Services and Terms of Use
 
-\`\`\`sh
-cd dillinger
-docker build -t joemccann/dillinger:\${package.json.version} .
-\`\`\`
+*> 3.6 Service Access on Expiry of Sponsorship Term*
 
-This will create the dillinger image and pull in the necessary dependencies. Be sure to swap out \`\${package.json.version}\` with the actual version of Dillinger.
+*> 3.7 Termination of Services*
 
-Once done, run the Docker image and map the port to whatever you wish on your host. In this example, we simply map port 8000 of the host to port 8080 of the Docker (or whatever port was exposed in the Dockerfile):
+4 COPYRIGHT POLICY
 
+*> 4.1 EUCD Notice of Alleged Infringement (“Notice”)*
+___
+## **1 FORWARD**
+SCRITCH USERS: Scritch is owned and operated by Scritch Limited (collectively, “we”). Your continued use of the website services will be subject to these Terms of Use. These Terms of Use also apply to your use of current and planned Services, where applicable, to purchase photographic prints, or other related merchandise, products and services (“Products”) through Scritch’s approved third party vendors and retailers (“Scritch Vendors”). For information about how Scritch collects, uses and discloses your information, please see the Privacy Policy. Below are Scritch’s terms and conditions of use (“Terms of Use”) that apply to the Scritch services included currently in the Scritch website (the “Site”) and the future Scritch mobile application (collectively, the “Services”). The Services are owned and operated by Scritch Limited.
 
-Verify the deployment by navigating to your server address in your preferred browser.
+PLEASE READ THESE TERMS OF USE CAREFULLY. BY ACCESSING OR USING THE SERVICES, CLICKING THAT YOU AGREE ON INITIAL SIGN UP, YOU AGREE TO BE BOUND BY THESE TERMS OF USE.
 
-\`\`\`sh
-127.0.0.1:8000
-\`\`\`
+Welcome to Scritch! The Services provide our users with online tools designed to facilitate and share our love of fursuit media to foster closeness in the furry community. These Terms of Use protect the legal interests of Scritch Limited, our users, and any future third party vendors.
 
-#### Kubernetes + Google Cloud
+Your use of the Services and your purchase of Products is expressly conditioned upon your agreement to these Terms of Use. If you do not consent to these Terms of Use, you are not permitted to use any Services. If you access the Services on behalf of a company or other entity, you warrant that you are an authorised representative of such company or entity with the right to bind such company or entity to these Terms of Use.
 
-See [KUBERNETES.md](https://github.com/joemccann/dillinger/blob/master/KUBERNETES.md)
+The Services are not targeted towards, nor intended for use by, anyone under the age of 18. If you are 18, you may use the Services only under the supervision of a parent or legal guardian who agrees to be bound by these Terms of Use.
+
+These Terms of Use contain provisions that govern how claims that you and Scritch Limited have against each other are resolved (see Dispute Resolution Section). These Terms of Use also contain provisions requiring you to resolve certain disputes or claims relating to your use of the Services by binding arbitration, rather than in court. If you do not consent to such terms, you are not permitted to use the Services.
+
+Scritch Limited reserves the right to change, modify, revise or otherwise amend any provision of these Terms of Use, and any other terms, policies or guidelines governing your use of the Services, at any time at its sole discretion by providing notice that the Terms of Use have been modified. Such notice may be provided by sending an email, or by posting a notice on the Site, or by posting the revised Terms of Use on the Site and revising the date at the top of these Terms of Use or by such other form of notice as determined by Scritch Limited. Your continued use of the Services, or your purchase of any Products or the Services following the posting of the revised Terms of Use or other notice will constitute your acceptance of such changes or modifications. Otherwise, any changes or modifications will be effective within thirty (30) days of the posting of the revisions on the Site unless you notify Scritch Limited within such thirty (30) days that you do not agree to the changes and stop using the Services. Therefore, you should review these Terms of Use whenever you access the Services and at least every thirty (30) days to make sure that you understand the terms and conditions that will apply to your use of the Services.
+
+1.8 Our Privacy Policy provides information on how Scritch collects, uses and discloses information from all users of the Services and/or information obtained through your purchase of Products through the Services.
+___
+## **2 GENERAL TERMS**
+### **2.1 Additional Policies**
+These Terms of Use and the following additional Scritch terms and policies (as applicable) together constitute a binding agreement between you and Scritch Limited. All such additional policies are incorporated into these Terms of Use as applicable and collectively govern your use of the Services and/or purchase of Products.
+
+The section headings and subheadings contained in this agreement are included for convenience only, and shall not limit or otherwise affect the terms of the Terms of Use. Any construction or interpretation to be made of the Terms of Use shall not be construed against the drafter. The Terms of Use constitute the entire agreement between Scritch Limited and you with respect to the subject matter hereof.
+### **2.2 Scritch Community Guidelines**
+When you use Scritch, you are subject to the Scritch Community Guidelines:
+### **2.3 Copyright Policy**
+Scritch Limited respects the intellectual property rights of others and expects its users to do the same. To that end, all Scritch users are subject to the COPYRIGHT POLICY below.
+### **2.4 Mobile Applications**
+If you access and use the Services via the Scritch mobile application (when the application is available for download by users via authorised application stores and other platforms), or on a mobile phone, tablet or similar mobile device, you are bound by these Terms of Use.
+### **2.5 License**
+The Services and all images, software, platforms, tools, graphics, data, text, code, the Marks (as defined below) and other content and materials available on the Services (excluding User Content) and the selection and arrangement thereof (collectively, the “Scritch Materials”) are the property of Scritch Limited or its third party licensors and are protected by United Kingdom and international intellectual property laws.
+
+Scritch Limited hereby grants you a limited, non-transferable, non-sublicensable, revocable license to access and use the Scritch Materials solely in accordance with these Terms of Use. Except for the limited licenses granted hereunder, Scritch Limited reserves all rights not expressly granted and no such additional rights may be implied. You acknowledge that:
+
+all right, title and interest in and to the Scritch Materials, including all patents, copyrights, trade secrets, trademarks and other proprietary rights embodied therein or associated therewith, are and will remain with Scritch Limited or its third party licensors;
+no right or interest in the Scritch Materials is conveyed other than the limited licenses granted herein;
+the Scritch Materials are protected by copyright and other intellectual property laws; and;
+Scritch Limited asserts that the Scritch Materials embody valuable confidential and secret information of Scritch Limited or its licensors, the development of which required the expenditure of time and money.
+### **2.6 Marks**
+You acknowledge that “Scritch Limited”, the Scritch Limited logo, “Scritch”, the Scritch logo, the look and feel of the Services, and any other Product or Service names, logos or slogans of either Scritch Limited or Scritch contained in the Services are trademarks of Scritch Limited (collectively, the “Marks”) and may not be copied, imitated or used without the prior written permission of Scritch Limited. All other trademarks, registered trademarks, product names and company names or logos mentioned in the Services are the property of their respective owners.
+
+Scritch Limited may provide users with tools to download the Marks via the Services. If you download or otherwise obtain the Marks using such tools, Scritch Limited grants you a limited right to:
+
+use the Marks for the sole purpose of referencing the Services and;
+to use only those Marks that are made available to you by Scritch Limited through such tools.
+
+Your use of any Marks must be consistent with the size, dimensions, color and other characteristics of the Marks and consistent with any other policies concerning the Marks that we may post on the Site or otherwise make available through the Services from time to time. You may not:
+
+alter or change the appearance of the Marks;
+use the Marks in any manner that suggests Scritch Limited sponsors or endorses a product, service, promotion, contest, or;
+use the Marks for any other purpose deemed by Scritch Limited to be inappropriate. Scritch Limited has the right to revoke your right to use the Marks at any time at our sole discretion.
+### **2.7 Restrictions**
+You agree that you will not:
+
+modify or alter the Scritch Materials;
+create derivative works of the Scritch Materials;
+decompile, disassemble, decode or reverse engineer the Scritch Materials, translate the Scritch Materials or otherwise attempt to learn the source code, structure, algorithms or internal ideas underlying the Scritch Materials or reduce the Scritch Materials by any other means to a human-perceivable form; or;
+bypass, delete or disable any copy protection mechanisms or any security mechanisms in the Scritch Materials.
+
+Except as otherwise expressly permitted herein, you may not use the Services or the Scritch Materials to engage in any of the following prohibited activities:
 
 
-### Todos
+the collection, copying or distribution of any portion of the Scritch Materials;
+any resale, commercial use, commercial exploitation, distribution, public performance or public display of the Services or the Scritch Materials;
+modifying or otherwise making any derivative uses of the Services or the Scritch Materials;
+scraping or otherwise using any data mining, robots or similar data gathering or extraction methods on or in connection with the Services;
+with the exception of User Content made available by users for download, the downloading of any portion of the Scritch Materials or any information contained therein, or;
+any use of the Services or the Scritch Materials other than for their intended purposes.
 
- - Write MORE Tests
- - Add Night Mode
+Any use of the Services or of any Scritch Materials other than as specifically authorised herein, without the express prior written permission of Scritch Limited, the applicable Scritch user or the Content Owner, is strictly prohibited. Any such unauthorised use will result in the immediate termination of your rights under these Terms of Use and will constitute a breach of the license granted herein.
+### **2.8 HyperLinks**
+You may create a text hyperlink to the Site, provided such link does not portray Scritch or Scritch Limited or any of its Products or Services in a false, misleading, derogatory or otherwise defamatory manner. This limited right may be revoked by Scritch Limited at any time. You may not frame the Site or utilise framing techniques to enclose the Site, Scritch Materials, Scritch Marks or other proprietary information without Scritch Limited’s express prior written consent.
 
-License
-----
+As a part of the Services, Scritch may provide you with access to and use of certain personalised pages and corresponding web addresses (“URLs”) that you may customise. Scritch Limited does not guarantee the availability of any particular web page or URL and reserves the right, at any time and at our sole discretion, to reclaim, suspend, terminate and/or transfer any such web page or URL.
+### **2.9 User Content**
+The Services may enable you to upload photos to the Site or other portions of the Services (collectively, the “User Content”).
 
-MIT
+You retain all held intellectual property rights in and to any User Content you post, upload or otherwise make available through the Services, including the copyright in and to your photos. Scritch Limited does not claim any ownership, right, title or interest in and to your User Content.
 
+Notwithstanding the foregoing, by uploading and/or posting any User Content to the Services, you grant Scritch Limited a perpetual, non-exclusive and royalty-free right to use the User Content (and the user name that is submitted in connection with such User Content) as is reasonably necessary in order to enable Scritch Limited to provide the Services, including to display the User Content on the Services.
 
-**Free Software, Hell Yeah!**
+You represent and warrant that:
 
-[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
+you own or otherwise control all of the rights to the User Content that you post or transmit, or you otherwise have the right to post, use, display, distribute and reproduce such User Content and to grant the rights granted herein;
+the User Content you supply is accurate and not misleading; and;
+the use and posting of the User Content you supply does not violate these Terms of Use and will not violate any rights of or cause injury to any person or entity.
+### **2.10 Acceptable Use; Disclaimer**
+You are solely responsible for the User Content that you post or transmit using the Services and you agree not to post, transmit or otherwise publish through the Services any of the following:
 
+User Content that is unlawful, defamatory, hateful, harassing, threatening, invasive of privacy or publicity rights, abusive, inflammatory, fraudulent or otherwise objectionable or harmful;
+User Content that is obscene, pornographic, indecent, lewd, sexually suggestive, including without limitation photos, videos or other User Content containing nudity;
+User Content that would constitute, encourage or provide instructions for a criminal offense, violate the rights of any party, endanger national security, or that would otherwise create liability or violate any local, state, national or international law;
+User Content that may infringe or violate any patent, trademark, trade secret, copyright or other intellectual or other proprietary right of any party; User Content that impersonates any person or entity or otherwise misrepresents your affiliation with a person or entity;
+unsolicited messages containing promotions, political campaigning, advertising or solicitations;
+private information of any third party, including, without limitation: addresses, phone numbers, email addresses, social security numbers and credit card numbers;
+viruses, corrupted data or other harmful, disruptive or destructive files, and;
+User Content that, in the sole judgment of Scritch, is objectionable, harmful or which restricts or inhibits any other person from using or enjoying the Services, or which may expose Scritch or its users to any harm or liability of any nature.
 
-   [dill]: <https://github.com/joemccann/dillinger>
-   [git-repo-url]: <https://github.com/joemccann/dillinger.git>
-   [john gruber]: <http://daringfireball.net>
-   [df1]: <http://daringfireball.net/projects/markdown/>
-   [markdown-it]: <https://github.com/markdown-it/markdown-it>
-   [Ace Editor]: <http://ace.ajax.org>
-   [node.js]: <http://nodejs.org>
-   [Twitter Bootstrap]: <http://twitter.github.com/bootstrap/>
-   [jQuery]: <http://jquery.com>
-   [@tjholowaychuk]: <http://twitter.com/tjholowaychuk>
-   [express]: <http://expressjs.com>
-   [AngularJS]: <http://angularjs.org>
-   [Gulp]: <http://gulpjs.com>
+Although certain activities in these Terms of Use are prohibited, Scritch Limited does not make any representation or warranty that the User Content you may encounter through your use of the Services complies with these acceptable use provisions or the Terms of Use. YOUR USE OF THE SERVICES IS SOLELY AT YOUR OWN RISK. These Terms of Use do not create any private right of action on the part of any third party or any reasonable expectation that the Services will not contain any content that is prohibited by these acceptable use provisions. Scritch Limited reserves the right (but is not obligated) to:
 
-   [PlDb]: <https://github.com/joemccann/dillinger/tree/master/plugins/dropbox/README.md>
-   [PlGh]: <https://github.com/joemccann/dillinger/tree/master/plugins/github/README.md>
-   [PlGd]: <https://github.com/joemccann/dillinger/tree/master/plugins/googledrive/README.md>
-   [PlOd]: <https://github.com/joemccann/dillinger/tree/master/plugins/onedrive/README.md>
-   [PlMe]: <https://github.com/joemccann/dillinger/tree/master/plugins/medium/README.md>
-   [PlGa]: <https://github.com/RahulHP/dillinger/blob/master/plugins/googleanalytics/README.md>
+review or screen any User Content submitted to the Site or otherwise submitted through the Services;
+edit any User Content posted on the Services; and/or;
+remove any User Content from the Services for any reason, at any time, without prior notice, at our sole discretion.
+
+Scritch Limited will have no liability or responsibility to users of the Services or any other person or entity for performance or nonperformance of such activities. Scritch Limited’s enforcement of the acceptable use provisions set forth in these Terms of Use with respect to User Content in some instances does not constitute a waiver of our right to enforce such provisions in other instances involving similar User Content.
+### **2.11 Your Account**
+Certain activities on the Services require you to register and create an account. In order to create an account, you must be 18 years of age or older. By registering for an account, you represent and warrant that you are at least 18 years of age and that all information you provide in the registration form (“Registration Data”) is complete and accurate. Scritch Limited reserves the right to refuse access to the Services to anyone at any time, with or without cause at its sole discretion. You agree to keep your Registration Data current and complete, as Scritch Limited may send important notices about your account from time to time. By registering for an account, you consent to receive communications from Scritch Limited about the Services by system messages consistent with the terms of our Privacy Policy.
+### **2.12 Account Security**
+You are solely responsible for maintaining the confidentiality of the passwords associated with your account and for restricting access to your passwords and physical access to your computer while logged into the Services. You accept responsibility for all activities that occur under your user account.
+
+User Content that you post, upload or otherwise make available via the Services may be accessed, used and downloaded by other users of the Services. You understand and acknowledge that any User Content contained in public areas of the Services, including any user galleries or other portions of the Services, is accessible to the public and could be accessed, downloaded, indexed, archived, linked to and republished by others including, without limitation, appearing on other websites and in search engine results. Scritch provides security options and settings for your content available in the settings section of your applicable user account (the “Account Settings”).
+
+Scritch uses commercially reasonable security measures to protect user accounts and User Content consistent with their Account Settings. We cannot, however, guarantee absolute security of your account, your User Content or the Registration Data we collect, and we cannot promise that our security measures will prevent third party “hackers” from illegally accessing the Services or their contents. Scritch is not responsible or liable for any third party access to or use of the User Content you post or your Registration Data. You are encouraged to read, understand and use the security settings and mechanisms in your Account Settings to manage how your User Content is accessed and used by the public and other users of the Services. You agree to immediately notify Scritch of any unauthorised use of your account or passwords or any other breach of security, and you accept all risks of unauthorised access to the Registration Data, User Content and any other information you provide to Scritch.
+### **2.13 Third Party Services**
+Scritch Limited may make third party content and services available on or through the Services (“Third Party Services”) solely as a convenience to its users (for example, links to third party websites, software and other services). When you leave the Services, you should be aware that these Terms of Use and all other Scritch Limited policies no longer govern your use of such websites and services or any content contained thereon.
+
+Scritch Limited does not imply affiliation, approval, or control of any Third Party Services by making such Third Party Services available via the Services. Scritch Limited makes no claim or representation regarding, and accepts no responsibility for, the quality, accuracy, nature, ownership or reliability of Third Party Services. YOUR USE OF ANY SUCH THIRD PARTY SERVICES IS SOLELY AT YOUR OWN RISK AND SUBJECT TO THE APPLICABLE TERMS AND CONDITIONS AND PRIVACY POLICIES APPLICABLE TO SUCH THIRD PARTY SERVICES.
+### **2.14 Advertisements and Promotions**
+The Services may contain third party advertisements and promotions generated or posted by other users of the Services, Scritch Vendors or other third party service providers.
+
+Your business dealings or interactions with any third parties, including other users of the Services or Scritch Vendors, and any terms, conditions, warranties or representations associated with such dealings, are solely between you and such third party. Scritch does not endorse, approve, or control any such products, services, advertising or promotions (outside of ensuring that they fall within content restrictions and advertisement requirements imposed by Scritch Limited) posted to the Services by its users or the Scritch Vendors. Scritch Limited is not responsible or liable for any loss or damage of any kind incurred as the result of your direct dealings with its users or a Scritch Vendor or otherwise resulting from the presence of advertisements for third party products and services included on the Services.
+### **2.15 DISCLAIMER OF WARRANTIES**
+THE SITE, SERVICES, THE SCRITCH MATERIALS, AND THE PRODUCTS ARE PROVIDED ON AN “AS IS” AND “AS AVAILABLE” BASIS WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED. TO THE FULL EXTENT PERMISSIBLE BY APPLICABLE LAW, SCRITCH LIMITED DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING, WITHOUT LIMITATION, IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT AS TO THE SITE, THE SERVICES, THE SCRITCH MATERIALS, AND THE PRODUCTS.
+
+SCRITCH LIMITED DOES NOT REPRESENT OR WARRANT THAT THE SCRITCH MATERIALS OR THE SERVICES ARE ACCURATE, COMPLETE, RELIABLE, CURRENT OR ERROR-FREE OR THAT THE SERVICES, ITS SERVERS OR MESSAGES SENT FROM SCRITCH OR THE SERVICES ARE FREE OF VIRUSES OR OTHER HARMFUL COMPONENTS. SCRITCH LIMITED IS NOT RESPONSIBLE FOR TYPOGRAPHICAL ERRORS OR OMISSIONS RELATING TO PRICING, TEXT, PHOTOS. SCRITCH LIMITED ALSO MAKES NO REPRESENTATION OR WARRANTY REGARDING THE AVAILABILITY, RELIABILITY OR SECURITY OF THE SERVICES AND WILL NOT BE LIABLE FOR ANY UNAUTHORISED ACCESS TO OR ANY MODIFICATION, SUSPENSION, UNAVAILABILITY, OR DISCONTINUANCE OF THE SERVICES OR THE PRODUCTS PROVIDED THEREON.
+### **2.16 LIMITATION OF LIABILITY**
+IN NO EVENT WILL SCRITCH LIMITED OR ITS DIRECTORS, MEMBERS, EMPLOYEES OR AGENTS BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES, OR ANY OTHER DAMAGES OF ANY KIND, INCLUDING, BUT NOT LIMITED TO, LOSS OF USE, LOSS OF PROFITS OR LOSS OF DATA, WHETHER IN AN ACTION IN CONTRACT, TORT OR OTHERWISE, ARISING OUT OF OR IN ANY WAY CONNECTED WITH THE USE OF OR INABILITY TO USE OR VIEW THE SITE, THE SERVICES, THE PRODUCTS, THE USER CONTENT OR THE SCRITCH MATERIALS CONTAINED IN OR ACCESSED THROUGH THE SERVICES, INCLUDING ANY DAMAGES CAUSED BY OR RESULTING FROM YOUR RELIANCE ON ANY INFORMATION OBTAINED FROM SCRITCH, OR THAT RESULT FROM MISTAKES, OMISSIONS, INTERRUPTIONS, DELETION OF FILES OR EMAIL, ERRORS, DEFECTS, VIRUSES, DELAYS IN OPERATION OR TRANSMISSION OR ANY TERMINATION, SUSPENSION OR OTHER FAILURE OF PERFORMANCE, WHETHER OR NOT RESULTING FROM ACTS OF GOD, COMMUNICATIONS FAILURE, THEFT, DESTRUCTION OR UNAUTHORISED ACCESS TO SCRITCH’S RECORDS, PROGRAMS OR SERVICES.
+
+IN NO EVENT WILL THE AGGREGATE LIABILITY OF SCRITCH LIMITED, WHETHER IN CONTRACT, WARRANTY, TORT (INCLUDING NEGLIGENCE, WHETHER ACTIVE, PASSIVE OR IMPUTED), PRODUCT LIABILITY, STRICT LIABILITY OR OTHER THEORY, ARISING OUT OF OR RELATING TO THE USE OF OR INABILITY TO USE THE SITE, THE SERVICES, THE PRODUCTS, THE USER CONTENT OR THE SCRITCH MATERIALS, EXCEED COMPENSATION YOU PAY, IF ANY, TO SCRITCH LIMITED FOR ACCESS TO OR USE OF THE SITE OR THE SERVICES OR FOR THE PURCHASE OF PRODUCTS. CERTAIN LAWS DO NOT ALLOW LIMITATIONS ON IMPLIED WARRANTIES OR THE EXCLUSION OR LIMITATION OF CERTAIN DAMAGES. IF THESE LAWS APPLY TO YOU, SOME OR ALL OF THE ABOVE DISCLAIMERS, EXCLUSIONS, OR LIMITATIONS MAY NOT APPLY TO YOU, AND YOU MIGHT HAVE ADDITIONAL RIGHTS.
+### **2.17 Indemnity**
+You agree to defend, indemnify and hold harmless Scritch Limited and its affiliates and subsidiaries (collectively, the “Indemnified Parties”), and the Indemnified Parties’ independent contractors, service providers and consultants, and their respective directors, employees and agents, from and against any claims, damages, costs, liabilities and expenses (including reasonable attorneys’ fees) arising out of or related to any User Content you post or otherwise transmit on or through the Services, your use of or inability to use the Services, the User Content, or the Scritch Materials or the Products, including any actual or threatened suit, demand or claim made against any of the Indemnified Parties and/or their independent contractors, service providers, employees, directors or consultants, arising out of or relating to your User Content, your conduct, your violation of these Terms of Use or your violation of the rights of any third party.
+### **2.18 Dispute Resolution**
+##### **2.18.1 Applicable Law**
+Your use of the Services is subject to all applicable local, national and international laws and regulations. These Terms of Use and your use of the Services will be governed by and construed in accordance with the laws of the United Kingdom to agreements made and to be entirely performed within the United Kingdom, without regard to its conflict of law provisions.
+##### **2.18.2 Agreement to Arbitrate & Waiver of Representative Actions**
+PLEASE READ THE FOLLOWING PARAGRAPH CAREFULLY BECAUSE IT REQUIRES YOU TO ARBITRATE DISPUTES WITH SCRITCH LIMITED AND IT LIMITS THE MANNER IN WHICH YOU CAN SEEK RELIEF. IF YOU DO NOT CONSENT TO THE TERMS OF THIS SECTION 15, YOU ARE NOT PERMITTED TO USE THE SERVICES.
+
+You and Scritch Limited agree to arbitrate any dispute arising from these Terms of Use or relating to the Services, Site or Scritch Materials. ARBITRATION PREVENTS YOU FROM SUING IN COURT OR FROM HAVING A JURY TRIAL. You and Scritch Limited agree:
+
+to notify each other of any dispute within thirty (30) days of when it arises;
+to attempt informal resolution prior to any demand for arbitration;
+that any arbitration will occur in the United Kingdom; and;
+that arbitration will be conducted confidentially by a single arbitrator in accordance with the Rules of the Advisory, Conciliation and Arbitration Service (“ACAS”), including the ACAS’s Supplementary Procedures for Consumer-Related Disputes (as applicable).
+
+The ACAS’s rules are available at www.acas.org.uk. Other than class procedures and remedies described in these Terms of Use, the arbitrator has the authority to grant any remedy that would otherwise be available in court. Notwithstanding the foregoing, you and Scritch Limited are NOT required to arbitrate any dispute in which either party seeks equitable or other relief for the alleged unlawful use of copyrights, trademarks, trade names, logos, trade secrets or patents.
+
+The arbitrator will not be bound by rulings in prior arbitrations involving different Scritch Limited or Scritch users but is bound by rulings in prior arbitrations involving the same Scritch Limited or Scritch user to the extent required by applicable law. The arbitrator’s award will be final and binding and judgment on the award rendered by the arbitrator may be entered in any court having jurisdiction thereof. YOU AND SCRITCH LIMITED AGREE THAT EACH MAY BRING CLAIMS AGAINST THE OTHER ONLY ON AN INDIVIDUAL BASIS AND NOT AS PART OF ANY PURPORTED CLASS OR REPRESENTATIVE ACTION OR PROCEEDING. UNLESS BOTH YOU AND SCRITCH LIMITED AGREE OTHERWISE, THE ARBITRATOR MAY NOT CONSOLIDATE OR JOIN MORE THAN ONE PERSON’S OR PARTY’S CLAIMS AND MAY NOT OTHERWISE PRESIDE OVER ANY FORM OF A CONSOLIDATED, REPRESENTATIVE, OR CLASS PROCEEDING. ALSO, THE ARBITRATOR MAY AWARD RELIEF (INCLUDING MONETARY, INJUNCTIVE, AND DECLARATORY RELIEF) ONLY IN FAVOR OF THE INDIVIDUAL PARTY SEEKING RELIEF AND ONLY TO THE EXTENT NECESSARY TO PROVIDE RELIEF NECESSITATED BY THAT PARTY’S INDIVIDUAL CLAIM(S). ANY RELIEF AWARDED CANNOT AFFECT OTHER SCRITCH LIMITED OR SCRITCH USERS.
+
+Unless you and Scritch Limited agree otherwise, in the event that a court decides that any part of this Section 15 is invalid or unenforceable, you agree that any claim or dispute that has arisen or may arise between you and Scritch Limited must be resolved exclusively by a court located in the United Kingdom. The remainder of the Terms of Use will continue to apply. You and Scritch Limited agree to submit to the personal jurisdiction of the courts located within the United Kingdom for the purpose of litigating all such claims or disputes.
+### **2.19 Feedback**
+We welcome feedback from our users regarding ideas and suggestions for improvements to the Site, Services and Products. Scritch Limited will be entitled to use any such feedback without restriction, even if you designate such feedback as confidential. You hereby grant Scritch Limited a royalty-free, sublicensable, transferable, perpetual, irrevocable license in and to any feedback to use in any matter related to the operation of our business.
+### **2.20 Assignment**
+These Terms of Use are binding upon and inure to the benefit of the parties hereto and their permitted successors and assigns. Notwithstanding the foregoing, you may not assign your rights under these Terms of Use without Scritch Limited’s prior written consent. Scritch Limited will be permitted to assign its rights under these Terms of Use at its sole discretion.
+### **2.21 International Users**
+Scritch Limited is located in the United Kingdom. If you access the Services from a country other than the United Kingdom, you agree that your transactions with Scritch Limited occur in the United Kingdom. You are responsible for compliance with all applicable laws, rules and regulations applicable to your use of the Services.
+### **2.22 Severability**
+If any provision of these Terms of Use is held invalid or unenforceable by any court of competent jurisdiction, the other provisions of these Terms of Use will remain in full force and effect, and, if legally permitted, such offending provision will be replaced with an enforceable provision that as nearly as possible, effects the parties’ intent.
+### **2.23 Survival**
+The terms and conditions of these Terms of Use which by their nature are intended to survive termination or expiration of Services (including, but not limited to, Indemnification, Warranty Disclaimer, Dispute Resolution and the Limitation of Liability) will survive any expiration or termination of these Terms of Use.
+### **2.24 Questions or Comments**
+Scritch is committed to keeping its users happy and satisfied with their use of the Services. If you have any questions, concerns, complaints or comments in any way related to your use of the Services, please contact us at help@scritch.es. If you have any questions, concerns, complaints or comments in any way related to your use of the Services or the transfer of your Scritch account to Scritch Limited, please contact us at help@scritch.es.
+## **3 ADDITIONAL TERMS APPLICABLE TO SCRITCH SPONSOR SERVICES (“SPONSOR TERMS”)**
+You may use the Scritch Sponsor Services only in accordance with these Sponsor Terms (and the Terms of Use of which they are a part). In the event of any conflict between these Sponsor Terms and the other provisions of the Terms of Use, these Sponsor Terms will control.
+### **3.1 Sponsorships**
+The Scritch Sponsor Services are available to users:
+who register for a free trial (when available) or for a subscription to the Scritch Sponsor Services (“Sponsorship”) and;
+who pay in full the subscription fees (“Sponsorship Fees”) applicable to the level of Sponsorship selected by such user (the “Sponsorship Plan”).
+
+If you wish to sponsor the Site, you will be required to provide certain information in order to facilitate such purchase, including your credit card number, billing address and any related payment information as required by Scritch (collectively, “Payment Information”). Scritch may use a third party payment processor (e.g. Stripe) to facilitate your payment of any Sponsorship Fees. Any Payment Information that you provide will be governed by the terms of our Privacy Policy. By submitting Payment Information via the Services, you warrant that you have the legal right to use any such credit card or other payment mechanism that you provide to facilitate the transaction.
+### **3.2 Free Trials**
+When you first register for the Sponsorship, Scritch may offer you the ability to use the Scritch Sponsor Services without charge for a limited trial period (a “Free Trial”). The duration of a Free Trial will be the number of days specified by Scritch at the time of your registration for such Free Trial. You need to provide Scritch (or our applicable third party payment processor) with valid Payment Information and select a Sponsorship Plan in order to register for a Free Trial. At the conclusion of your Free Trial, you will be charged for the Sponsorship Fee applicable to your selected Sponsorship Plan unless you elect to cancel your Sponsorship prior to the expiration of your Free Trial. Scritch may offer you the ability to register for a Sponsorship directly without the need to participate in a Free Trial.
+### **3.3 Sponsorship Plans**
+Scritch offers a variety of Sponsorship Plans. A description of each Sponsorship Plan that is currently offered by Scritch is available at www.scritch.es/sponsor. By purchasing a Sponsorship:
+
+you agree to pay all applicable Sponsorship Fees and other charges in accordance with your selected Sponsorship Plan, pursuant to the renewal and termination provisions described below (including any applicable taxes, such as sales tax), and;
+you agree that you are only entitled to the features and services applicable to the Sponsorship Plan that you select at the time you purchase a Sponsorship.
+
+A Sponsorship is intended to be used by Scritch users for the ability to access Scritch Sponsor Services as permitted under the user’s applicable Sponsorship Plan. Scritch, at its sole discretion, reserves the right to limit, suspend or terminate your use of the Sponsorship if Scritch determines that you have violated these Sponsor Terms or the Terms of Use.
+
+Each Sponsorship is personal to the individual Scritch user. You may not transfer or assign your Sponsorship to another individual, entity or Scritch user unless such transfer or assignment is expressly permitted by the terms of your Sponsorship Plan.
+
+From time to time, Scritch may provide certain users with complimentary Sponsorships. Any user accessing the Services by using a free Sponsorship is bound by the Terms of Use and any applicable terms and conditions of these Scritch Sponsor Services Terms “Sponsor Terms” (including Scritch’s right to terminate or cancel such Sponsorships).
+### **3.4 Term and Automatic Renewal**
+Your Sponsorship is valid commencing on the date in which Scritch provides you with access to the Services pursuant to its receipt of your valid Payment Information (the “Commencement Date”) and will last for the duration of the Sponsorship term that you select at the time of your registration for the Sponsorship (the “Sponsorship Term”).
+
+YOUR SPONSORSHIP WILL AUTOMATICALLY RENEW AT THE END OF EACH SPONSORSHIP TERM FOR SUCCESSIVE SPONSORSHIP TERMS OF THE SAME DURATION AS THE SPONSORSHIP TERM ORIGINALLY SELECTED UNLESS THE SPONSORSHIP IS TERMINATED AND/OR CANCELED BY YOU OR SCRITCH PRIOR TO THE END OF SUCH SPONSORSHIP TERM. SUCH RENEWAL WILL OCCUR AUTOMATICALLY ON THE APPLICABLE ANNIVERSARY OF THE COMMENCEMENT DATE. YOU MAY CANCEL YOUR SPONSORSHIP AT ANY TIME PRIOR TO THE END OF THE SPONSORSHIP TERM THROUGH YOUR ACCOUNT SETTINGS IN THE SPONSORSHIP SECTION. You agree that upon such renewal, the credit card or other designated payment method in your Account Settings will be billed the applicable Sponsorship Fee for your Sponsorship Plan then in effect at the time of renewal. If you disagree with these automatic renewal provisions, your sole remedy is to cancel or terminate your Sponsorship.
+
+You acknowledge that the amount of the recurring charge at the time of Sponsorship renewal may differ from the Sponsorship Fees you originally paid for the Sponsorship if:
+
+the Sponsorship Fee for your Sponsorship Plan changes during your applicable Sponsorship Term, or;
+if you change your Sponsorship Plan or Sponsorship Term during the previous Sponsorship Term.
+
+Scritch will notify you of any changes to the Sponsorship Fee prior to the date on which your Sponsorship Term will renew. You hereby agree to any such revised Sponsorship Fees and your sole remedy if you disagree with such changes is to cancel your subscription and stop using the Sponsorship.
+### **3.5 Interruptions or Discontinuation of Scritch Sponsor Services; Changes to Scritch Sponsor Services and Terms of Use**
+Scritch reserves the right at any time, at its sole discretion and without notice, to suspend, modify, discontinue or permanently cancel the Scritch Sponsor Services or any portions thereof, including the Sponsorship Plans and any policies, features and terms applicable thereto. If the Scritch Sponsor Services, or any part thereof, to which you subscribe are permanently discontinued or canceled by Scritch, your Sponsorship will terminate, and Scritch will have no further liability to you. You acknowledge that the Scritch Sponsor Services may be interrupted from time to time, with or without notice, for maintenance, upgrades, system updates or in the event of equipment failure or for any other foreseeable or unforeseeable cause.
+
+SCRITCH LIMITED WILL HAVE NO LIABILITY TO YOU FOR ANY INTERRUPTION, SUSPENSION, DISCONTINUANCE OR UNAVAILABILITY OF THE SCRITCH SPONSOR SERVICES FOR ANY REASON, OR FOR ANY LOSS OR INABILITY TO ACCESS ANY MEDIA OR MATERIALS ON THE SERVICES.
+### **3.6 Service Access on Expiry of Sponsorship Term**
+On expiry of the Sponsorship Term, and following non-renewal or purchase of a new Sponsorship Plan, account access will revert back to free-to-access Scritch Services only. The Scritch Sponsor Services and features will be ‘greyed out” and unable to be accessed. On purchase of another Sponsorship Plan at a later date, all previously saved Scritch Sponsor Services and features will be restored to the user in last amended configuration.
+### **3.7 Termination of Services**
+You may request the termination of your Sponsorship at any time by canceling it in the Sponsorship section of your Account Settings, or by sending an email to help@scritch.es providing clear written notice of such request. When Scritch receives your termination request, Scritch will terminate your Sponsorship and notify you of such termination via email. Scritch may request additional information from you prior to terminating your Sponsorship. Your Sponsorship is not terminated until you receive confirmation of such termination from Scritch. If you terminate your Sponsorship, such termination will be effective at the end of any previously paid Sponsorship Term. By way of example and not in limitation of the foregoing, if you request the termination of your Sponsorship and you have two months remaining in your Sponsorship Term, such termination is effective at the end of the two months remaining in your Sponsorship Term and you will have access to the Scritch Sponsor Services for the remaining two months of such Sponsorship.
+
+Scritch may terminate a Sponsorship, or any user’s access to and use of the Scritch Sponsor Services, at any time for any reason at its sole discretion, which such termination will be effective immediately. If you violate the Terms of Use, Scritch at its sole discretion may:
+
+require you to remedy any violation thereof and/or;
+take any other actions that Scritch deems appropriate to enforce its rights and pursue available remedies.
+
+All Sponsorship Fees are non-refundable. Upon termination, cancellation or discontinuation of your Sponsorship for any reason, you will not be entitled to receive a refund for any Sponsorship Fees or other amounts previously charged to you, or for any unused portion of any Sponsorship Fees if such termination, cancellation or discontinuation occurs prior to the expiration of the applicable Sponsorship Term.
+
+You may change your email, credit card information or other Payment Information for your account by using the Account Settings available in your user profile. It is solely your responsibility to keep your account information and Payment Information accurate and up-to-date. If the Payment Information for your account is invalid and cannot be billed for the renewal Sponsorship Fee at the time such Sponsorship Fee is payable and due, then Scritch may terminate your Sponsorship for non-payment. If Scritch does not have a current, working email address for your user account, then you may not receive important notices from us regarding your account, including notices regarding termination. Scritch cannot guarantee that you will receive notice of the termination of your account.
+## **4 COPYRIGHT POLICY**
+In accordance with the EU copyright directive, the text of which may be found on the European Commission website at https://ec.europa.eu/digital-single-market/en/eu-copyright-legislation, and other applicable laws, Scritch has adopted a policy of terminating, in appropriate circumstances and at Scritch’s sole discretion, the accounts of users who are deemed to be repeat infringers. Scritch may also, at its sole discretion, limit access to Scritch’s website and services and/or terminate the accounts of any users who infringe any intellectual property rights of others, whether or not there is any repeat infringement. Scritch will respond to claims of copyright infringement committed using Scritch that are reported to eucd@scritch.es, identified in the sample notice below.
+
+If you knowingly misrepresent in your notification that the material or activity is infringing, you will be liable for any damages, including costs and attorneys’ fees, incurred by us or the alleged infringer as the result of our relying upon such misrepresentation in removing or disabling access to the material or activity claimed to be infringing. If you are a copyright owner, or are authorised to act on behalf of one, or authorised to act under any exclusive right under copyright, please report alleged copyright infringements taking place on or through the Services by completing the following Notice of Alleged Infringement and delivering it to eucd@scritch.es. Upon receipt of the Notice, Scritch will take whatever action, at its sole discretion, it deems appropriate, including removal of the challenged material from the Services.
+### **4.1 EUCD Notice of Alleged Infringement (“Notice”):**
+Identify the copyrighted work that you claim has been infringed, or if multiple copyrighted works are covered by this Notice you may provide a representative list of the copyrighted works that you claim have been infringed.
+
+Identify the material that you claim is infringing (or to be the subject of infringing activity) and that is to be removed or access to which is to be disabled, and information reasonably sufficient to permit us to locate the material, including at a minimum, if applicable, the URL of the link shown on the Services where such material may be found.
+
+Include both of the following statements in the body of the Notice:
+
+“I hereby state that I have a good faith belief that the disputed use of the copyrighted material is not authorized by the copyright owner, its agent, or the law (e.g., as a fair use)"; and;
+“I hereby state that the information in this Notice is accurate and, under penalty of perjury, that I am the owner, or authorized to act on behalf of the owner, of the copyright or of an exclusive right under the copyright that is allegedly infringed.”
+
+Provide your full legal name and your electronic or physical signature. Deliver this Notice, with all items completed.
 
 `;
 

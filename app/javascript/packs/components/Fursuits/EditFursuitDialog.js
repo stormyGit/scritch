@@ -304,6 +304,28 @@ class EditFursuitDialog extends React.Component {
                   disabled={!this.state.name || /^\s*$/.test(this.state.name)}
                   onClick={() => {
                     console.log(this.state);
+                    var input = {
+                      id: fursuit.id,
+                      name: this.state.name,
+                      fursuitFingerId: this.state.fursuitFinger,
+                      fursuitBuildId: this.state.fursuitBuild,
+                      fursuitStyleId: this.state.fursuitStyle,
+                      fursuitSpecyId: this.state.fursuitSpecy,
+                      fursuitLegTypeId: this.state.fursuitLegType,
+                      baseColor: this.state.baseColor,
+                      eyesColor: this.state.eyesColor,
+                      isHybrid: this.state.isHybrid
+                        ? this.state.isHybrid
+                        : false,
+                      makerIds: this.state.maker,
+                      creationYear: this.state.creationYear
+                        ? parseInt(this.state.creationYear)
+                        : 0,
+                      ...(this.state.avatar !== fursuit.avatar
+                        ? { avatar: this.state.avatar }
+                        : {})
+                    };
+                    console.log(input);
                     updateFursuit({
                       variables: {
                         input: {
@@ -316,8 +338,10 @@ class EditFursuitDialog extends React.Component {
                           fursuitLegTypeId: this.state.fursuitLegType,
                           baseColor: this.state.baseColor,
                           eyesColor: this.state.eyesColor,
-                          isHybrid: this.state.isHybrid,
-                          makerIds: [this.state.maker],
+                          isHybrid: this.state.isHybrid
+                            ? this.state.isHybrid
+                            : false,
+                          makerIds: this.state.maker,
                           creationYear: this.state.creationYear
                             ? parseInt(this.state.creationYear)
                             : 0,

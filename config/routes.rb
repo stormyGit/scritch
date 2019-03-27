@@ -128,6 +128,7 @@ Rails.application.routes.draw do
   get "/subscriptions", to: "media#index"
 
   get "/terms_and_conditions", to: "media#index"
+  get "/user_guide", to: "media#index"
   get "/faq", to: "media#index"
   get "/code_of_conduct", to: "media#index"
   get "/privacy_policy", to: "media#index"

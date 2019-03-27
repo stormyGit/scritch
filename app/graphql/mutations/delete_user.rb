@@ -13,6 +13,7 @@ class Mutations::DeleteUser < Mutations::BaseMutation
       user.sponsor.charge_id
     )
     sponsor.delete
+
     if user.destroy
       {
         user: user,
