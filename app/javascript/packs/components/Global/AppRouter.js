@@ -67,32 +67,56 @@ class AppRouter extends React.Component {
                   <Route
                     exact
                     path="/fursuits"
-                    component={currentSession ? Fursuits : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? Fursuits
+                        : MustLog
+                    }
                   />
                   <Route
                     exact
                     path="/makers"
-                    component={currentSession ? Makers : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? Makers
+                        : MustLog
+                    }
                   />
                   <Route
                     exact
                     path="/events"
-                    component={currentSession ? Events : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? Events
+                        : MustLog
+                    }
                   />
                   <Route
                     exact
                     path="/tag"
-                    component={currentSession ? TagPage : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? TagPage
+                        : MustLog
+                    }
                   />
                   <Route
                     exact
                     path="/search"
-                    component={currentSession ? SearchPage : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? SearchPage
+                        : MustLog
+                    }
                   />
                   <Route
                     exact
                     path="/subscriptions"
-                    component={currentSession ? Subscriptions : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? Subscriptions
+                        : MustLog
+                    }
                   />
                   <Route
                     exact
@@ -106,42 +130,74 @@ class AppRouter extends React.Component {
                   <Route
                     exact
                     path="/pictures"
-                    component={currentSession ? Media : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? Media
+                        : MustLog
+                    }
                   />
                   <Route
                     exact
                     path="/ads"
-                    component={currentSession ? AdsLister : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? AdsLister
+                        : MustLog
+                    }
                   />
                   <Route
                     exact
                     path="/pictures/:id"
-                    component={currentSession ? Medium : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? Medium
+                        : MustLog
+                    }
                   />
                   <Route
                     exact
                     path="/fursuits/:id"
-                    component={currentSession ? Fursuit : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? Fursuit
+                        : MustLog
+                    }
                   />
                   <Route
                     exact
                     path="/makers/:id"
-                    component={currentSession ? Maker : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? Maker
+                        : MustLog
+                    }
                   />
                   <Route
                     exact
                     path="/events/:id"
-                    component={currentSession ? Event : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? Event
+                        : MustLog
+                    }
                   />
                   <Route
                     exact
                     path="/:id"
-                    component={currentSession ? User : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? User
+                        : MustLog
+                    }
                   />
                   <Route
                     exact
                     path="/:id/:tab"
-                    component={currentSession ? User : MustLog}
+                    component={
+                      currentSession && !currentSession.user.suspendedUser
+                        ? User
+                        : MustLog
+                    }
                   />
                 </Switch>
                 <div style={{ paddingTop: 20 }} />

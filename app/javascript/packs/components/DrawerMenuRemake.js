@@ -123,9 +123,9 @@ class DrawerMenuRemake extends React.Component {
               width === "lg" || width === "xl" ? "space-between" : "flex-start"
           }}
         >
-          <div>
-            <List disablePadding={width !== "lg" && width !== "xl"}>
-              <React.Fragment>
+          {currentSession.user.suspendedUser && (
+            <div>
+              <List disablePadding={width !== "lg" && width !== "xl"}>
                 <ListItem
                   button
                   selected={
@@ -149,368 +149,485 @@ class DrawerMenuRemake extends React.Component {
                     primaryTypographyProps={{ className: classes.text }}
                   />
                 </ListItem>
-                <ListItem
-                  button
-                  onClick={() => {
-                    this.setState({ databaseList: !this.state.databaseList });
-                  }}
-                >
-                  <ListItemIcon className={classes.text} color="secondary">
-                    <DatabaseIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Browse"
-                    primaryTypographyProps={{ className: classes.text }}
-                  />
-                  {this.state.databaseList ? (
-                    <ExpandLess className={classes.text} />
-                  ) : (
-                    <ExpandMore className={classes.text} />
+              </List>
+              <div>
+                <List disablePadding={width !== "lg" && width !== "xl"}>
+                  {currentSession && !this.props.disableSettings && (
+                    <React.Fragment>
+                      <ListItem
+                        button
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/announcements"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
+                      >
+                        <ListItemIcon className={classes.text}>
+                          {currentSession &&
+                          user.unreadAnnouncementsCount > 0 ? (
+                            <Badge
+                              badgeContent={user.unreadAnnouncementsCount}
+                              color="primary"
+                            >
+                              <AnnouncementIcon />
+                            </Badge>
+                          ) : (
+                            <AnnouncementIcon />
+                          )}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Announcements"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                      <Divider />
+                      <ListItem
+                        button
+                        onClick={() => this.setState({ settingsDialog: true })}
+                      >
+                        <ListItemIcon>
+                          <SettingsIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Settings"
+                          primaryTypographyProps={{
+                            noWrap: true
+                          }}
+                        />
+                      </ListItem>
+                    </React.Fragment>
                   )}
-                </ListItem>
-                <Collapse
-                  in={this.state.databaseList}
-                  timeout="auto"
-                  unmountOnExit
-                >
-                  {user && (
-                    <List component="div" disablePadding>
-                      <ListItem
-                        button
-                        onClick={() => {
-                          this.props.history.push({
-                            pathname: "/pictures"
-                          });
-                          if (this.props.onClose) {
-                            this.props.onClose();
-                          }
-                        }}
-                        className={classes.nested}
-                        selected={location.pathname === "/pictures"}
-                      >
-                        <ListItemText
-                          primary="Media"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                      <ListItem
-                        button
-                        onClick={() => {
-                          this.props.history.push({
-                            pathname: "/fursuits"
-                          });
-                          if (this.props.onClose) {
-                            this.props.onClose();
-                          }
-                        }}
-                        className={classes.nested}
-                        selected={location.pathname === "/fursuits"}
-                      >
-                        <ListItemText
-                          primary="Fursuits"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                      <ListItem
-                        button
-                        selected={location.pathname === "/makers"}
-                        onClick={() => {
-                          this.props.history.push({
-                            pathname: "/makers"
-                          });
-                          if (this.props.onClose) {
-                            this.props.onClose();
-                          }
-                        }}
-                        className={classes.nested}
-                      >
-                        <ListItemText
-                          primary="Makers"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                      <ListItem
-                        button
-                        selected={location.pathname === "/events"}
-                        onClick={() => {
-                          this.props.history.push({
-                            pathname: "/events"
-                          });
-                          if (this.props.onClose) {
-                            this.props.onClose();
-                          }
-                        }}
-                        className={classes.nested}
-                      >
-                        <ListItemText
-                          primary="Events"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                    </List>
-                  )}
-                  {!user && (
-                    <List component="div" disablePadding>
-                      <ListItem button disabled className={classes.nested}>
-                        <ListItemText
-                          primary="You must be logged in"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                    </List>
-                  )}
-                </Collapse>
-                {currentSession && (
-                  <ListItem
-                    button
-                    selected={location.pathname === "/tag"}
-                    onClick={() => {
-                      this.props.history.push({
-                        pathname: "/tag"
-                      });
-                      if (this.props.onClose) {
-                        this.props.onClose();
-                      }
-                    }}
-                  >
-                    <ListItemIcon className={classes.text} color="secondary">
-                      <TagIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Tag Media"
-                      primaryTypographyProps={{ className: classes.text }}
-                    />
-                  </ListItem>
-                )}
-                {user && (
-                  <ListItem
-                    button
-                    onClick={() => {
-                      this.setState({ tipsDialog: true });
-                    }}
-                  >
-                    <ListItemIcon className={classes.text} color="secondary">
-                      <TipsIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Tip Jar"
-                      primaryTypographyProps={{ className: classes.text }}
-                    />
-                  </ListItem>
-                )}
-              </React.Fragment>
-            </List>
-          </div>
-          <Query query={GET_RIBBON_ANNOUNCEMENT}>
-            {({ loading, error, data }) => {
-              if (loading || error || !data) return null;
-              if (data) {
-                return (
-                  <div>
-                    <Paper className={classes.paper}>
-                      <Typography>{data.ribbonAnnouncement.body}</Typography>
-                    </Paper>
-                  </div>
-                );
-              }
-            }}
-          </Query>
-          {user && !user.sponsor && (
-            <div>
-              <ListItem
-                button
-                onClick={() => {
-                  this.setState({ sponsorDialog: !this.state.sponsorDialog });
-                }}
-              >
-                <ListItemIcon className={classes.text} color="secondary">
-                  <PetsIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Become a sponsor!"
-                  primaryTypographyProps={{ className: classes.text }}
-                />
-              </ListItem>
+                </List>
+              </div>
             </div>
           )}
-          {user && user.sponsor && (
-            <div>
-              <ListItem
-                button
-                onClick={() => {
-                  this.setState({ sponsorMenu: !this.state.sponsorMenu });
-                }}
-              >
-                <ListItemIcon className={classes.text} color="secondary">
-                  <PetsIcon />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Sponsor Menu"
-                  primaryTypographyProps={{ className: classes.text }}
-                />
-                {this.state.sponsorMenu ? (
-                  <ExpandLess className={classes.text} />
-                ) : (
-                  <ExpandMore className={classes.text} />
-                )}
-              </ListItem>
-              <Collapse
-                in={this.state.sponsorMenu}
-                timeout="auto"
-                unmountOnExit
-              >
-                <List component="div" disablePadding>
-                  <ListItem button disabled>
-                    <ListItemText
-                      primary={
-                        user.sponsor.status == "live"
-                          ? `Renews: ${dateFormat(
-                              sponsorLimit,
-                              "mmmm dS, yyyy"
-                            )}`
-                          : `Expires ${dateFormat(
-                              sponsorLimit,
-                              "mmmm dS, yyyy"
-                            )}`
-                      }
-                      primaryTypographyProps={{ className: classes.text }}
-                    />
-                  </ListItem>
-                  <ListItem
-                    button
-                    selected={location.pathname === "/subscriptions"}
-                    onClick={() => {
-                      this.props.history.push({
-                        pathname: "/subscriptions"
-                      });
-                      if (this.props.onClose) {
-                        this.props.onClose();
-                      }
-                    }}
-                  >
-                    <ListItemIcon className={classes.text} color="secondary">
-                      <SubscriptionsIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Subscriptions"
-                      primaryTypographyProps={{ className: classes.text }}
-                    />
-                  </ListItem>
-                  <ListItem
-                    button
-                    selected={location.pathname === "/favorites"}
-                    onClick={() => {
-                      this.props.history.push({
-                        pathname: "/favorites"
-                      });
-                      if (this.props.onClose) {
-                        this.props.onClose();
-                      }
-                    }}
-                  >
-                    <ListItemIcon className={classes.text} color="secondary">
-                      <FaveIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Favorites Gallery"
-                      primaryTypographyProps={{ className: classes.text }}
-                    />
-                  </ListItem>
-                  <a
-                    href={`${process.env.SITE_URL}/sponsors`}
-                    className={classes.link}
-                  >
+          {!currentSession.user.suspendedUser && (
+            <React.Fragment>
+              <div>
+                <List disablePadding={width !== "lg" && width !== "xl"}>
+                  <React.Fragment>
                     <ListItem
                       button
-                      selected={location.pathname === "/sponsors"}
+                      selected={
+                        location.pathname === "/" ||
+                        location.pathname === "/pictures"
+                      }
+                      onClick={() => {
+                        this.props.history.push({
+                          pathname: "/"
+                        });
+                        if (this.props.onClose) {
+                          this.props.onClose();
+                        }
+                      }}
                     >
                       <ListItemIcon className={classes.text} color="secondary">
-                        <DashboardIcon />
+                        <HomeIcon />
                       </ListItemIcon>
                       <ListItemText
-                        primary="Sponsor Dashboard"
+                        primary="Home"
                         primaryTypographyProps={{ className: classes.text }}
                       />
                     </ListItem>
-                  </a>
-                </List>
-              </Collapse>
-            </div>
-          )}
-          <div>
-            <List disablePadding={width !== "lg" && width !== "xl"}>
-              {currentSession && !this.props.disableSettings && (
-                <React.Fragment>
-                  <ListItem
-                    button
-                    onClick={() => {
-                      this.props.history.push({
-                        pathname: "/announcements"
-                      });
-                      if (this.props.onClose) {
-                        this.props.onClose();
-                      }
-                    }}
-                  >
-                    <ListItemIcon className={classes.text}>
-                      {currentSession && user.unreadAnnouncementsCount > 0 ? (
-                        <Badge
-                          badgeContent={user.unreadAnnouncementsCount}
-                          color="primary"
-                        >
-                          <AnnouncementIcon />
-                        </Badge>
-                      ) : (
-                        <AnnouncementIcon />
-                      )}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Announcements"
-                      primaryTypographyProps={{ className: classes.text }}
-                    />
-                  </ListItem>
-                  <Divider />
-                  <ListItem
-                    button
-                    onClick={() => this.setState({ settingsDialog: true })}
-                  >
-                    <ListItemIcon>
-                      <SettingsIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Settings"
-                      primaryTypographyProps={{
-                        noWrap: true
+                    <ListItem
+                      button
+                      onClick={() => {
+                        this.setState({
+                          databaseList: !this.state.databaseList
+                        });
                       }}
-                    />
-                  </ListItem>
-                </React.Fragment>
-              )}
-              {!currentSession && !this.props.disableSettings && (
-                <React.Fragment>
+                    >
+                      <ListItemIcon className={classes.text} color="secondary">
+                        <DatabaseIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Browse"
+                        primaryTypographyProps={{ className: classes.text }}
+                      />
+                      {this.state.databaseList ? (
+                        <ExpandLess className={classes.text} />
+                      ) : (
+                        <ExpandMore className={classes.text} />
+                      )}
+                    </ListItem>
+                    <Collapse
+                      in={this.state.databaseList}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      {user && (
+                        <List component="div" disablePadding>
+                          <ListItem
+                            button
+                            onClick={() => {
+                              this.props.history.push({
+                                pathname: "/pictures"
+                              });
+                              if (this.props.onClose) {
+                                this.props.onClose();
+                              }
+                            }}
+                            className={classes.nested}
+                            selected={location.pathname === "/pictures"}
+                          >
+                            <ListItemText
+                              primary="Media"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                          <ListItem
+                            button
+                            onClick={() => {
+                              this.props.history.push({
+                                pathname: "/fursuits"
+                              });
+                              if (this.props.onClose) {
+                                this.props.onClose();
+                              }
+                            }}
+                            className={classes.nested}
+                            selected={location.pathname === "/fursuits"}
+                          >
+                            <ListItemText
+                              primary="Fursuits"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                          <ListItem
+                            button
+                            selected={location.pathname === "/makers"}
+                            onClick={() => {
+                              this.props.history.push({
+                                pathname: "/makers"
+                              });
+                              if (this.props.onClose) {
+                                this.props.onClose();
+                              }
+                            }}
+                            className={classes.nested}
+                          >
+                            <ListItemText
+                              primary="Makers"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                          <ListItem
+                            button
+                            selected={location.pathname === "/events"}
+                            onClick={() => {
+                              this.props.history.push({
+                                pathname: "/events"
+                              });
+                              if (this.props.onClose) {
+                                this.props.onClose();
+                              }
+                            }}
+                            className={classes.nested}
+                          >
+                            <ListItemText
+                              primary="Events"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </List>
+                      )}
+                      {!user && (
+                        <List component="div" disablePadding>
+                          <ListItem button disabled className={classes.nested}>
+                            <ListItemText
+                              primary="You must be logged in"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </List>
+                      )}
+                    </Collapse>
+                    {currentSession && (
+                      <ListItem
+                        button
+                        selected={location.pathname === "/tag"}
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/tag"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
+                      >
+                        <ListItemIcon
+                          className={classes.text}
+                          color="secondary"
+                        >
+                          <TagIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Tag Media"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                    )}
+                    {user && (
+                      <ListItem
+                        button
+                        onClick={() => {
+                          this.setState({ tipsDialog: true });
+                        }}
+                      >
+                        <ListItemIcon
+                          className={classes.text}
+                          color="secondary"
+                        >
+                          <TipsIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Tip Jar"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                    )}
+                  </React.Fragment>
+                </List>
+              </div>
+              <Query query={GET_RIBBON_ANNOUNCEMENT}>
+                {({ loading, error, data }) => {
+                  if (loading || error || !data) return null;
+                  if (data) {
+                    return (
+                      <div>
+                        <Paper className={classes.paper}>
+                          <Typography>
+                            {data.ribbonAnnouncement.body}
+                          </Typography>
+                        </Paper>
+                      </div>
+                    );
+                  }
+                }}
+              </Query>
+              {user && !user.sponsor && (
+                <div>
                   <ListItem
                     button
                     onClick={() => {
-                      this.props.history.push({
-                        pathname: "/announcements"
+                      this.setState({
+                        sponsorDialog: !this.state.sponsorDialog
                       });
-                      if (this.props.onClose) {
-                        this.props.onClose();
-                      }
                     }}
                   >
-                    <ListItemIcon className={classes.text}>
-                      <AnnouncementIcon />
+                    <ListItemIcon className={classes.text} color="secondary">
+                      <PetsIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary="Announcements"
+                      primary="Become a sponsor!"
                       primaryTypographyProps={{ className: classes.text }}
                     />
                   </ListItem>
-                </React.Fragment>
+                </div>
               )}
-            </List>
-          </div>
+              {user && user.sponsor && (
+                <div>
+                  <ListItem
+                    button
+                    onClick={() => {
+                      this.setState({ sponsorMenu: !this.state.sponsorMenu });
+                    }}
+                  >
+                    <ListItemIcon className={classes.text} color="secondary">
+                      <PetsIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary="Sponsor Menu"
+                      primaryTypographyProps={{ className: classes.text }}
+                    />
+                    {this.state.sponsorMenu ? (
+                      <ExpandLess className={classes.text} />
+                    ) : (
+                      <ExpandMore className={classes.text} />
+                    )}
+                  </ListItem>
+                  <Collapse
+                    in={this.state.sponsorMenu}
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    <List component="div" disablePadding>
+                      <ListItem button disabled>
+                        <ListItemText
+                          primary={
+                            user.sponsor.status == "live"
+                              ? `Renews: ${dateFormat(
+                                  sponsorLimit,
+                                  "mmmm dS, yyyy"
+                                )}`
+                              : `Expires ${dateFormat(
+                                  sponsorLimit,
+                                  "mmmm dS, yyyy"
+                                )}`
+                          }
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        selected={location.pathname === "/subscriptions"}
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/subscriptions"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
+                      >
+                        <ListItemIcon
+                          className={classes.text}
+                          color="secondary"
+                        >
+                          <SubscriptionsIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Subscriptions"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                      <ListItem
+                        button
+                        selected={location.pathname === "/favorites"}
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/favorites"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
+                      >
+                        <ListItemIcon
+                          className={classes.text}
+                          color="secondary"
+                        >
+                          <FaveIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Favorites Gallery"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                      <a
+                        href={`${process.env.SITE_URL}/sponsors`}
+                        className={classes.link}
+                      >
+                        <ListItem
+                          button
+                          selected={location.pathname === "/sponsors"}
+                        >
+                          <ListItemIcon
+                            className={classes.text}
+                            color="secondary"
+                          >
+                            <DashboardIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary="Sponsor Dashboard"
+                            primaryTypographyProps={{ className: classes.text }}
+                          />
+                        </ListItem>
+                      </a>
+                    </List>
+                  </Collapse>
+                </div>
+              )}
+              <div>
+                <List disablePadding={width !== "lg" && width !== "xl"}>
+                  {currentSession && !this.props.disableSettings && (
+                    <React.Fragment>
+                      <ListItem
+                        button
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/announcements"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
+                      >
+                        <ListItemIcon className={classes.text}>
+                          {currentSession &&
+                          user.unreadAnnouncementsCount > 0 ? (
+                            <Badge
+                              badgeContent={user.unreadAnnouncementsCount}
+                              color="primary"
+                            >
+                              <AnnouncementIcon />
+                            </Badge>
+                          ) : (
+                            <AnnouncementIcon />
+                          )}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Announcements"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                      <Divider />
+                      <ListItem
+                        button
+                        onClick={() => this.setState({ settingsDialog: true })}
+                      >
+                        <ListItemIcon>
+                          <SettingsIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Settings"
+                          primaryTypographyProps={{
+                            noWrap: true
+                          }}
+                        />
+                      </ListItem>
+                    </React.Fragment>
+                  )}
+                  {!currentSession && !this.props.disableSettings && (
+                    <React.Fragment>
+                      <ListItem
+                        button
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/announcements"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
+                      >
+                        <ListItemIcon className={classes.text}>
+                          <AnnouncementIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Announcements"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                    </React.Fragment>
+                  )}
+                </List>
+              </div>
+            </React.Fragment>
+          )}
         </div>
         <SettingsDialog
           open={this.state.settingsDialog}

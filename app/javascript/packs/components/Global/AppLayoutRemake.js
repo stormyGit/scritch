@@ -258,6 +258,10 @@ class AppLayoutRemake extends React.Component {
                       "mmmm dS, yyyy"
                     )}`}
                   </Typography>
+                  <PoliciesSupportButton
+                    openTech={() => this.setState({ techDialog: true })}
+                    suspended={true}
+                  />
                   <UserButton
                     openSignUp={() => this.setState({ signUpDialog: true })}
                     openSettings={() => this.setState({ settingsDialog: true })}

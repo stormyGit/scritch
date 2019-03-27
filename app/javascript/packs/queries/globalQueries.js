@@ -51,6 +51,7 @@ export const GET_SESSION = gql`
         suspendedUser {
           id
           limit
+          reason
         }
         sponsor {
           id

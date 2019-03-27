@@ -9,6 +9,10 @@ class Mutations::DeleteUser < Mutations::BaseMutation
 
     raise Pundit::NotAuthorizedError unless UserPolicy.new(context[:current_user], user).destroy?
 
+    sponsor = Stripe::Subscription.retrieve(
+      user.sponsor.charge_id
+    )
+    sponsor.delete
     if user.destroy
       {
         user: user,
