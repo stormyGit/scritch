@@ -63,10 +63,11 @@ class Moderation::UsersController < ModerationController
   end
 
   def serious_user_violation
-    @user.update!(score: @user.score - 100) #__SCORE__ SERIOUS MEDIUM VIOLATION
     accept_all_user_reports(params[:profile_id])
-    #User.find(params[:profile_id]).destroy TODO MODERATE PROFILE
-    ## TODO HIATUS ON ACCOUNT
+    if !@user.suspended_user.present?
+      SuspendedUser.create!(user: @user, limit: Time.now + (2 ** @user.offenses_number).days, reason: "User profile was in serious violation of Scritch's terms of use")
+    end
+    @user.update!(score: @user.score - 100, offenses_number: @user.offenses_number + 1) #__SCORE__ SERIOUS MEDIUM VIOLATION
     redirect_back fallback_location: moderation_reports_path
   end
 
@@ -78,10 +79,12 @@ class Moderation::UsersController < ModerationController
   end
 
   def serious_medium_violation
-    @user.update!(score: @user.score - 100) #__SCORE__ SERIOUS MEDIUM VIOLATION
     accept_all_medium_reports(params[:medium_id])
     Medium.find(params[:medium_id]).destroy
-    ## TODO HIATUS ON ACCOUNT
+    if !@user.suspended_user.present?
+      SuspendedUser.create!(user: @user, limit: Time.now + (2 ** @user.offenses_number).days, reason: "Posted a picture in serious violation of Scritch's terms of use")
+    end
+    @user.update!(score: @user.score - 100, offenses_number: @user.offenses_number + 1) #__SCORE__ SERIOUS MEDIUM VIOLATION
     redirect_back fallback_location: moderation_medium_reports_path
   end
 
@@ -93,10 +96,12 @@ class Moderation::UsersController < ModerationController
   end
 
   def serious_comment_violation
-    @user.update!(score: @user.score - 100) #__SCORE__ SERIOUS COMMENT VIOLATION
     accept_all_comment_reports(params[:comment_id])
     Comment.find(params[:comment_id]).destroy
-    ## TODO HIATUS ON ACCOUNT
+    if !@user.suspended_user.present?
+      SuspendedUser.create!(user: @user, limit: Time.now + (2 ** @user.offenses_number).days, reason: "Posted a comment in serious violation of Scritch's terms of use")
+    end
+    @user.update!(score: @user.score - 100, offenses_number: @user.offenses_number + 1) #__SCORE__ SERIOUS COMMENT VIOLATION
     redirect_back fallback_location: moderation_comment_reports_path
   end
 

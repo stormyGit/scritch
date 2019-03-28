@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_27_025719) do
+ActiveRecord::Schema.define(version: 2019_03_28_041735) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -689,6 +689,7 @@ ActiveRecord::Schema.define(version: 2019_03_27_025719) do
     t.integer "global_score", default: 0
     t.string "metric_species"
     t.integer "suspension_count", default: 0
+    t.integer "offenses_number", default: 0
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end

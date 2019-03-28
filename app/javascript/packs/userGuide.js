@@ -1,5 +1,5 @@
 const terms = `
-# **[WEBSITE USER GUIDE]**(#section-2)
+# **WEBSITE USER GUIDE**[^1]
 Date of last revision: **24 March 2019**
 ___
 ## **CONTENTS**
@@ -58,47 +58,47 @@ ___
 ## **SCRITCH TERMINOLOGY**
 | Aspect | Term | Description |
 | ------ | ------ | ------ |
-| \`Asset\` | **Asset** | *An item of value generated through User Involvement, making up the Website architecture.* |
-| \`Asset\` | **Card** | *Display of Asset attributes in a listed visual layout of Data Fields able to be viewed by Users.* |
-| \`Asset\` | **Category** | *Category Tags allow the ability for Website Users to Browse any subject matter making up the Category Database, regardless of what Event the Content was captured at.* |
-| \`Asset\` | **Content** | *Any media uploaded by a User and hosted by the Website.* |
-| \`Asset\` | **Data** | *Information provided to the Website by Users through Fields.* |
-| \`Asset\` | **Documentation** | *Articles used for legal purposes which line out the terms of Scritch User Involvement.* |
-| \`Asset\` | **Edition** | *An instance of an Event taking place on a date that is unique to it.* |
-| \`Asset\` | **Event** | *Significant gathering of delegates, representatives, and members of the Furry Fandom.* |
-| \`Asset\` | **Field** | *Point for Data to be entered or viewed.* |
-| \`Asset\` | **Fursuit**[^2] | *A costume worn, based on an anthropomorphic projection of a creature that at a minimum masks the wearer’s identity through complete coverage of the wearer’s head.* |
-| \`Asset\` | **Page** | *Subdomain of the Website, supporting navigation of Services.* |
-| \`Asset\` | **Service** | *Website functionality available to User Accounts depending on Level and Account Access.* |
-| \`Asset\` | **Ticket** | *A work order that requires action to resolve.* |
-| \`Asset\` | **Website** (www.scritch.es/*) | *www.scritch.es and all subdomains that make up the User interface, accessible through the world wide web.* |
-| \`Account\` | **Access** | *Permission, liberty, or ability to enter, approach, or pass to and from a Page on the Website.* |
-| \`Account\` | **Account** | *Set of Data relating to a Registered User, controlling Access and recording Involvement with Website Pages and Services.* |
-| \`Account\` | **Admin** | *Account appointed to moderate Website Content.* |
-| \`Account\` | **Admin Pool** | *The active group of Admins able to handle Website Tickets.* |
-| \`Account\` | **Card Owner** | *Account that has been given editable access to a Card.* |
-| \`Account\` | **Community** | *All Accounts that make up the Website userbase.* |
-| \`Account\` | **Hiatus** | *User Account that has applied limitations illustrated in What can I do with Scritch? for a preset period of time.* |
-| \`Account\` | **Level** | *Account Access tiers which determine Services able to be used by Accounts.* |
-| \`Account\` | **Rank** | *Value of a User Account related to their Involvement with the Website.* |
-| \`Account\` | **Session** | *Period of Website Access by User.* |
-| \`Account\` | **Sponsor** | *User that is financially invested in the Website through take out of Sponsorship subscription.* |
-| \`Account\` | **Sponsorship** | *Financial investment in the Website bound by period to expiry or renewal.* |
-| \`Account\` | **User** | *Person using the Website at any level of Access through a Account.* |
-| \`Service\` | **Advertise** | *Registered Users can Advertise on Scritch and manage their Advertisement through the Dashboard provided.* |
-| \`Service\` | **Claim** | *Function that allows a Account to request Ownership of an Card.* |
-| \`Service\` | **Dashboard** | *A visual overview to allow navigation or management of Website Services.* |
-| \`Service\` | **Database** | *An electronic record of current Assets making up the Website, able to be queried by Users through look up of entered Data Fields in searches.* |
-| \`Service\` | **Filter** | *Visibility toggle of results from a Search query driven by Filter(s) selected from the available Data Fields.* |
-| \`Service\` | **Infraction** | *Violation or infringement of the Code of Conduct.* |
-| \`Service\` | **Involvement** | *All User activity through Website Services permitted by Account Access.* |
-| \`Service\` | **Login** | *Successful validation of existing User credentials to obtain Access to the Website and control of User Account, marking the start of a Session.* |
-| \`Service\` | **Logout** | *End of a Session through offload of User credentials, disconnecting the User with the Account through the Website on their current browser.* |
-| \`Service\` | **Notification** | *Alert posted to a User that informs of Website activity according to their Account Settings and Access Level.* |
-| \`Service\` | **Search** | *A query by a User to the Website Database in order to retrieve and view Cards able to be Filtered and Sorted with the available Data Fields.* |
-| \`Service\` | **Sort** | *Order of results from a Search query driven by the Sort option from the available Data Fields.* |
-| \`Service\` | **Tag** | *An item that makes up Asset Data Fields on the Website, selectively made visible to users in the completion of Filters to allow search of Content.* |
-| \`Service\` | **Upload** | *Process of media file transfer from an offline location through Scritch which results in Content creation on the Website.* |
+| Asset | **Asset** | *An item of value generated through User Involvement, making up the Website architecture.* |
+| Asset | **Card** | *Display of Asset attributes in a listed visual layout of Data Fields able to be viewed by Users.* |
+| Asset | **Category** | *Category Tags allow the ability for Website Users to Browse any subject matter making up the Category Database, regardless of what Event the Content was captured at.* |
+| Asset | **Content** | *Any media uploaded by a User and hosted by the Website.* |
+| Asset | **Data** | *Information provided to the Website by Users through Fields.* |
+| Asset | **Documentation** | *Articles used for legal purposes which line out the terms of Scritch User Involvement.* |
+| Asset | **Edition** | *An instance of an Event taking place on a date that is unique to it.* |
+| Asset | **Event** | *Significant gathering of delegates, representatives, and members of the Furry Fandom.* |
+| Asset | **Field** | *Point for Data to be entered or viewed.* |
+| Asset | **Fursuit**[^2] | *A costume worn, based on an anthropomorphic projection of a creature that at a minimum masks the wearer’s identity through complete coverage of the wearer’s head.* |
+| Asset | **Page** | *Subdomain of the Website, supporting navigation of Services.* |
+| Asset | **Service** | *Website functionality available to User Accounts depending on Level and Account Access.* |
+| Asset | **Ticket** | *A work order that requires action to resolve.* |
+| Asset | **Website** (www.scritch.es/*) | *www.scritch.es and all subdomains that make up the User interface, accessible through the world wide web.* |
+| Account | **Access** | *Permission, liberty, or ability to enter, approach, or pass to and from a Page on the Website.* |
+| Account | **Account** | *Set of Data relating to a Registered User, controlling Access and recording Involvement with Website Pages and Services.* |
+| Account | **Admin** | *Account appointed to moderate Website Content.* |
+| Account | **Admin Pool** | *The active group of Admins able to handle Website Tickets.* |
+| Account | **Card Owner** | *Account that has been given editable access to a Card.* |
+| Account | **Community** | *All Accounts that make up the Website userbase.* |
+| Account | **Hiatus** | *User Account that has applied limitations illustrated in What can I do with Scritch? for a preset period of time.* |
+| Account | **Level** | *Account Access tiers which determine Services able to be used by Accounts.* |
+| Account | **Rank** | *Value of a User Account related to their Involvement with the Website.* |
+| Account | **Session** | *Period of Website Access by User.* |
+| Account | **Sponsor** | *User that is financially invested in the Website through take out of Sponsorship subscription.* |
+| Account | **Sponsorship** | *Financial investment in the Website bound by period to expiry or renewal.* |
+| Account | **User** | *Person using the Website at any level of Access through a Account.* |
+| Service | **Advertise** | *Registered Users can Advertise on Scritch and manage their Advertisement through the Dashboard provided.* |
+| Service | **Claim** | *Function that allows a Account to request Ownership of an Card.* |
+| Service | **Dashboard** | *A visual overview to allow navigation or management of Website Services.* |
+| Service | **Database** | *An electronic record of current Assets making up the Website, able to be queried by Users through look up of entered Data Fields in searches.* |
+| Service | **Filter** | *Visibility toggle of results from a Search query driven by Filter(s) selected from the available Data Fields.* |
+| Service | **Infraction** | *Violation or infringement of the Code of Conduct.* |
+| Service | **Involvement** | *All User activity through Website Services permitted by Account Access.* |
+| Service | **Login** | *Successful validation of existing User credentials to obtain Access to the Website and control of User Account, marking the start of a Session.* |
+| Service | **Logout** | *End of a Session through offload of User credentials, disconnecting the User with the Account through the Website on their current browser.* |
+| Service | **Notification** | *Alert posted to a User that informs of Website activity according to their Account Settings and Access Level.* |
+| Service | **Search** | *A query by a User to the Website Database in order to retrieve and view Cards able to be Filtered and Sorted with the available Data Fields.* |
+| Service | **Sort** | *Order of results from a Search query driven by the Sort option from the available Data Fields.* |
+| Service | **Tag** | *An item that makes up Asset Data Fields on the Website, selectively made visible to users in the completion of Filters to allow search of Content.* |
+| Service | **Upload** | *Process of media file transfer from an offline location through Scritch which results in Content creation on the Website.* |
 ___
 ## **OUR PROMISE**
 > Scritch promises to maintain past, present, and future: Convention, Maker, and Fursuit Cards to allow a complete chronical of all Content, able to be tagged also by Category. The Admin Pool ensures User safety and security by keeping all Involvement on www.scritch.es/* within the Website Code of Conduct and media in line with Content Restrictions below.
@@ -131,14 +131,14 @@ ___
 Users transition between the above levels as shown in the table below:
 | Start Level | Action | End Level |
 | :------ | :------: | ------: |
-| Unregistered | **Register** | \`Registered\` |
-| Registered | **Log Out** | \`Unregistered\` |
-| Registered | **Claim Successful** | \`Card Owner\` |
-| Registered | **Sponsorship** | \`Sponsor\` |
-| Registered | **Positive Involvement** | \`Admin\` |
-| Admin | **Negative Involvement** | \`Registered\` |
-| Registered | **Negative Involvement** | \`Hiatus\` |
-| Hiatus | **Hiatus Time Elapses** | \`Registered\` |
+| Unregistered | **Register** | Registered |
+| Registered | **Log Out** | Unregistered |
+| Registered | **Claim Successful** | Card Owner |
+| Registered | **Sponsorship** | Sponsor |
+| Registered | **Positive Involvement** | Admin |
+| Admin | **Negative Involvement** | Registered |
+| Registered | **Negative Involvement** | Hiatus |
+| Hiatus | **Hiatus Time Elapses** | Registered |
 #### **Involvement Monitoring**
 Involvement of every user is tracked through discrete algorithms that allow periodic review of the Website Owners to amend User Levels accordingly.
 #### Involvement Action Weighting
@@ -148,7 +148,7 @@ User Involvement Actions are weighted in line with the points system below. If a
 | **Upload Media** | **Positive** | **1** |
 | **Comment** | **Positive** | **1** |
 | **Tag** | **Positive** | **1** |
-| **Invalidated Tag** | \`Negative\` | \`-10\` |
+| **Invalidated Tag** | Negative | -10 |
 | **Give a Scritch** | **Positive** | 1 |
 | **Give a Favourite** | **Positive** | 1 |
 | **Give a Follow** | **Positive** | 1 |
@@ -156,8 +156,8 @@ User Involvement Actions are weighted in line with the points system below. If a
 | **Receive a Favourite** | **Positive** | 2 |
 | **Receive a Follow** | **Positive** | 2 |
 | **Report Ticket Validated** | **Positive** | 10 |
-| **Report Ticket Invalidated** | \`Negative\` | \`-10\` |
-| **Report on User Involvement Reviewed = Infraction** | \`Negative\` | \`-10\` |
+| **Report Ticket Invalidated** | Negative | -10 |
+| **Report on User Involvement Reviewed = Infraction** | Negative | -10 |
 | **Report on User Involvement Reviewed = No Infraction** | Nil | 0 |
 #### Involvement Species
 As a User Account Involvement score increases, an Involvement Species is assigned in Rank up alphabetically through tiers set by the following formula:
@@ -355,8 +355,7 @@ To submit a Report, click...
 
 All reports are handled by the Admin Pool in a timely fashion relative to the number of Tickets received and the number of Admins in the Admin Pool.
 
-#section-2
-: **Website**: For the purposes of this Website User Guide, “Website” refers to www.scritch.es and all sub-domains.
+[^1]: **Website**: For the purposes of this Website User Guide, “Website” refers to www.scritch.es and all sub-domains.
 [^2]: **Fursuit**: A costume worn, based on an anthropomorphic projection of a creature that at a minimum masks the wearer’s identity through complete coverage of the wearer’s head.
 `;
 
