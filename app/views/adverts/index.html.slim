@@ -25,6 +25,19 @@
                   = image_tag advert.file_url
                   br
                   = "Status: #{advert.status}"
+                  - if advert.status == "rejected"
+                    br
+                    br
+                    p.is-size-6.has-text-danger
+                      = "Your file should be at 300x90 or equivalent ratio."
+                    br
+                    p.is-size-6.has-text-danger
+                      = "It should remain PG-13"
+                    br
+                    p.is-size-6.has-text-danger
+                      = "The redirection URL should be valid and targetting a related and PG-13 location"
+                    br
+
                   br
                   = "Impressions: #{advert.impressions}"
                   br

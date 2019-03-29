@@ -27,12 +27,14 @@ class Moderation::ClaimsController < ModerationController
         FursuitUser.where(fursuit: claim.fursuit).first.user.update!(score: FursuitUser.where(fursuit: claim.fursuit).first.user.score - 10)
         FursuitUser.where(fursuit: claim.fursuit).first.destroy
         FursuitUser.create!(user: claim.user, fursuit: claim.fursuit)
+        claim.fursuit.create_activity :claim_success, owner: Proc.new{ |_, model| User.last }, recipient: claim.user
         claim.destroy
         flash[:notice] = "Claim approved!"
         flash[:class] = "has-text-warning"
       elsif params[:status] == "reject"
         user = User.find(claim.user.uuid)
         user.update!(score: user.score - 10)
+        claim.fursuit.create_activity :claim_reject, owner: Proc.new{ |_, model| User.last }, recipient: claim.user
         claim.destroy
         flash[:notice] = "Claim rejected!"
         flash[:class] = "has-text-danger"
@@ -41,11 +43,13 @@ class Moderation::ClaimsController < ModerationController
       if params[:status] == "approve"
         FursuitUser.create!(user: claim.user, fursuit: claim.fursuit)
         claim.destroy
+        claim.fursuit.create_activity :claim_success, owner: Proc.new{ |_, model| User.last }, recipient: claim.user
         flash[:notice] = "Claim approved!"
         flash[:class] = "has-text-warning"
       elsif params[:status] == "reject"
         user = User.find(claim.user.uuid)
         user.update!(score: user.score - 10)
+        claim.fursuit.create_activity :claim_reject, owner: Proc.new{ |_, model| User.last }, recipient: claim.user
         claim.destroy
         flash[:notice] = "Claim rejected!"
         flash[:class] = "has-text-danger"

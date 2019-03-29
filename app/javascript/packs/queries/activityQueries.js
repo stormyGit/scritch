@@ -16,6 +16,7 @@ export const GET_ACTIVITIES = gql`
         ... on Like {
           id
           medium {
+            id
             title
           }
         }
@@ -30,29 +31,11 @@ export const GET_ACTIVITIES = gql`
             name
           }
         }
-        ... on FursuitUser {
-          id
-          user {
-            id
-            name
-          }
-          fursuit {
-            id
-            name
-            isHybrid
-            fursuitSpecy {
-              name
-            }
-          }
-        }
-        ... on Medium {
-          id
-          title
-        }
         ... on Comment {
           id
           body
           medium {
+            id
             title
           }
         }
@@ -74,6 +57,25 @@ export const GET_ACTIVITIES = gql`
         ... on TagReport {
           id
           reportedTagPictureTitle
+        }
+        ... on Maker {
+          id
+          name
+          slug
+          avatar
+        }
+        ... on Advert {
+          id
+          file
+        }
+        ... on Fursuit {
+          id
+          name
+          isHybrid
+          fursuitSpecy {
+            id
+            name
+          }
         }
       }
     }

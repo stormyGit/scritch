@@ -28,6 +28,7 @@ import TruncatedText from "../Global/TruncatedText";
 import UserAvatar from "../Users/UserAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import FursuitAvatar from "../Fursuits/FursuitAvatar";
+import MakerAvatar from "../Makers/MakerAvatar";
 
 import {
   GET_ACTIVITIES,
@@ -112,7 +113,7 @@ class ActivitiesDialog extends React.Component {
         button
         onClick={() => {
           this.props.history.push({
-            pathname: `/${activity.owner.slug}`
+            pathname: `/pictures/${activity.trackable.medium.id}`
           });
           this.props.onClose();
         }}
@@ -155,7 +156,7 @@ class ActivitiesDialog extends React.Component {
         button
         onClick={() => {
           this.props.history.push({
-            pathname: `/${activity.owner.slug}`
+            pathname: `/pictures/${activity.trackable.medium.id}`
           });
           this.props.onClose();
         }}
@@ -221,34 +222,6 @@ class ActivitiesDialog extends React.Component {
                   {activity.owner.name}
                 </Typography>
                 {` follows you`}
-              </Typography>
-            </React.Fragment>
-          }
-          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
-        />
-      </ListItem>
-    );
-  }
-
-  renderMediumRefused(activity) {
-    const { classes } = this.props;
-
-    return (
-      <ListItem key={activity.id}>
-        <UserAvatar user={activity.owner} />
-        <ListItemText
-          primary={
-            <React.Fragment>
-              <Typography variant="body1">
-                {`Your picture `}
-                <Typography
-                  variant="body2"
-                  component="span"
-                  className={classes.highlight}
-                >
-                  {activity.trackable.title}
-                </Typography>
-                {` was refused.`}
               </Typography>
             </React.Fragment>
           }
@@ -352,7 +325,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`We received your report on `}
+                {`We received your report on tags for picture `}
                 <Typography
                   variant="body2"
                   component="span"
@@ -376,6 +349,7 @@ class ActivitiesDialog extends React.Component {
     return (
       <ListItem
         key={activity.id}
+        button
         onClick={() => {
           this.props.history.push({
             pathname: `/pictures/${activity.trackable.medium.id}`
@@ -403,33 +377,185 @@ class ActivitiesDialog extends React.Component {
     );
   }
 
-  renderFursuitUserCreate(activity) {
+  renderFursuitClaimSuccess(activity) {
     const { classes } = this.props;
 
     return (
       <ListItem
         key={activity.id}
+        button
         onClick={() => {
           this.props.history.push({
-            pathname: `/fursuits/${activity.trackable.fursuit.slug}`
+            pathname: `/fursuits/${activity.trackable.slug}`
           });
           this.props.onClose();
         }}
       >
         <FursuitAvatar
+          avatar={activity.trackable.avatar}
           specy={
-            activity.trackable.fursuit.isHybrid
+            activity.trackable.isHybrid
               ? "Hybrid"
-              : activity.trackable.fursuit.fursuitSpecy.name
+              : activity.trackable.fursuitSpecy.name
           }
         />
         <ListItemText
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`You have succesfully claimed ${
-                  activity.trackable.fursuit.name
-                }!`}
+                {`You have succesfully claimed ${activity.trackable.name}!`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderFursuitClaimReject(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+        button
+        onClick={() => {
+          this.props.history.push({
+            pathname: `/fursuits/${activity.trackable.slug}`
+          });
+          this.props.onClose();
+        }}
+      >
+        <FursuitAvatar
+          avatar={activity.trackable.avatar}
+          specy={
+            activity.trackable.isHybrid
+              ? "Hybrid"
+              : activity.trackable.fursuitSpecy.name
+          }
+        />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your claim for ${
+                  activity.trackable.name
+                } has been rejected. Please contact support if you think this is a mistake.`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderMakerClaimSuccess(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+        button
+        onClick={() => {
+          this.props.history.push({
+            pathname: `/makers/${activity.trackable.slug}`
+          });
+          this.props.onClose();
+        }}
+      >
+        <MakerAvatar avatar={activity.trackable.avatar} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`You have succesfully claimed ${activity.trackable.name}!`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderAdvertSuccess(activity) {
+    const { classes } = this.props;
+
+    return (
+      <a
+        href={`${process.env.SITE_URL}/adverts`}
+        style={{ textDecoration: "none" }}
+      >
+        <ListItem key={activity.id} button>
+          <MakerAvatar avatar={activity.trackable.file} />
+          <ListItemText
+            primary={
+              <React.Fragment>
+                <Typography variant="body1">
+                  {`Your advert (#${
+                    activity.trackable.id.split("-")[0]
+                  }) was approved! Check your advertiser dashboard.`}
+                </Typography>
+              </React.Fragment>
+            }
+            secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+          />
+        </ListItem>
+      </a>
+    );
+  }
+
+  renderAdvertReject(activity) {
+    const { classes } = this.props;
+
+    return (
+      <a
+        href={`${process.env.SITE_URL}/adverts`}
+        style={{ textDecoration: "none" }}
+      >
+        <ListItem key={activity.id} button>
+          <MakerAvatar avatar={activity.trackable.file} />
+          <ListItemText
+            primary={
+              <React.Fragment>
+                <Typography variant="body1">
+                  {`Your advert (#${
+                    activity.trackable.id.split("-")[0]
+                  }) was rejected. Check your advertiser dashboard for more information.`}
+                </Typography>
+              </React.Fragment>
+            }
+            secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+          />
+        </ListItem>
+      </a>
+    );
+  }
+
+  renderMakerClaimReject(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+        button
+        onClick={() => {
+          this.props.history.push({
+            pathname: `/makers/${activity.trackable.slug}`
+          });
+          this.props.onClose();
+        }}
+      >
+        <MakerAvatar avatar={activity.trackable.avatar} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your claim for ${
+                  activity.trackable.name
+                } has been rejected. Please contact support if you think this is a mistake.`}
               </Typography>
             </React.Fragment>
           }
@@ -447,8 +573,6 @@ class ActivitiesDialog extends React.Component {
         return this.renderFollowCreate(activity);
       case "comment.create":
         return this.renderCommentCreate(activity);
-      case "medium.refused":
-        return this.renderMediumRefused(activity);
       case "report.create":
         return this.renderReportCreate(activity);
       case "medium_report.create":
@@ -459,8 +583,18 @@ class ActivitiesDialog extends React.Component {
         return this.renderTagReportCreate(activity);
       case "fursuit_medium.create":
         return this.renderFursuitMediumCreate(activity);
-      case "fursuit_user.create":
-        return this.renderFursuitUserCreate(activity);
+      case "fursuit.claim_success":
+        return this.renderFursuitClaimSuccess(activity);
+      case "fursuit.claim_reject":
+        return this.renderFursuitClaimReject(activity);
+      case "maker.claim_success":
+        return this.renderMakerClaimSuccess(activity);
+      case "maker.claim_reject":
+        return this.renderMakerClaimReject(activity);
+      case "advert.approved":
+        return this.renderAdvertSuccess(activity);
+      case "advert.rejected":
+        return this.renderAdvertReject(activity);
       default:
         return null;
     }

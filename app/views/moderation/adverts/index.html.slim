@@ -31,7 +31,7 @@
             .card-content
               = image_tag advert.file_url, width: "100%"
               br
-              .columns
+              .columns.is-multiline
                 .column.is-6
                   p.is-size-4
                     = "Width: #{advert.width}"
@@ -42,6 +42,12 @@
                     = "Status: #{advert.status}"
                   p.is-size-4
                     = "Impressions: #{advert.impressions}"
+                .column.is-12
+                  p.is-size-4
+                    = "Redirects to:"
+                  a href=advert.url target="_blank"
+                    p.is-size-4
+                      = advert.url
 
             - if advert.status == "pending"
               .card-footer
@@ -49,10 +55,6 @@
                   = link_to "Approve", moderation_advert_approve_path(advert), method: :put
                 .card-footer-item
                   = link_to "Reject", moderation_advert_reject_path(advert), method: :put
-            - if advert.status == "live"
-              .card-footer
-                .card-footer-item
-                  = link_to "Turn Off", moderation_advert_toggle_off_path(advert), method: :put
             - if advert.status == "ready"
               .card-footer
                 .card-footer-item
