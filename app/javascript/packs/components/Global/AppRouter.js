@@ -20,7 +20,7 @@ import Announcements from "../PoliciesSupport/Announcements";
 import Terms from "../PoliciesSupport/Terms";
 import UserGuide from "../PoliciesSupport/UserGuide";
 import Faq from "../PoliciesSupport/Faq";
-import CodeOfConduct from "../PoliciesSupport/CodeOfConduct";
+import ApiPolicy from "../PoliciesSupport/ApiPolicy";
 import PrivacyPolicy from "../PoliciesSupport/PrivacyPolicy";
 
 import TagPage from "../TagPage";
@@ -53,7 +53,7 @@ class AppRouter extends React.Component {
                     path="/announcements"
                     component={Announcements}
                   />
-                  <Route exact path="/terms_and_conditions" component={Terms} />
+                  <Route exact path="/terms_of_use" component={Terms} />
                   <Route exact path="/user_guide" component={UserGuide} />
                   <Route exact path="/faq" component={Faq} />
                   <Route
@@ -61,11 +61,7 @@ class AppRouter extends React.Component {
                     path="/privacy_policy"
                     component={PrivacyPolicy}
                   />
-                  <Route
-                    exact
-                    path="/code_of_conduct"
-                    component={CodeOfConduct}
-                  />
+                  <Route exact path="/api_policy" component={ApiPolicy} />
                   <Route
                     exact
                     path="/fursuits"

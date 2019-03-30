@@ -9,6 +9,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import Typography from "@material-ui/core/Typography";
 import { Link, withRouter } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -18,7 +19,15 @@ import withCurrentSession from "../withCurrentSession";
 
 import { CREATE_TECH_REPORT } from "../../queries/reportMutations";
 
-const styles = theme => ({});
+const styles = theme => ({
+  blurb: {
+    fontWeight: 200
+  },
+  link: {
+    color: theme.palette.primary.main,
+    textDecoration: "none"
+  }
+});
 
 class TechDialog extends React.Component {
   state = {
@@ -54,10 +63,18 @@ class TechDialog extends React.Component {
       >
         <GlobalProgress absolute />
 
-        <DialogTitle>Complain or suggest</DialogTitle>
+        <DialogTitle>Contact Support</DialogTitle>
         <DialogContent>
+          <Typography variant="h6" className={classes.blurb}>
+            Have an issue or found a website malfunction? Let us know here!
+          </Typography>
+          <div style={{ padding: 10 }} />
+          <Typography variant="h6" className={classes.blurb}>
+            Have a suggestion for a new feature/development? Tell us your idea
+            below!
+          </Typography>
           <TextField
-            label="Tell us what doesn't work or what could be better done"
+            label="Type here..."
             name="description"
             value={this.state.description}
             onChange={e => this.setState({ description: e.target.value })}
@@ -96,7 +113,7 @@ class TechDialog extends React.Component {
                   });
                 }}
               >
-                Send report
+                Send
               </Button>
             )}
           </Mutation>

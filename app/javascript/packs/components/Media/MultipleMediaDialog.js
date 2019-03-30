@@ -46,7 +46,7 @@ import Fade from "@material-ui/core/Fade";
 
 import ChipInput from "material-ui-chip-input";
 
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import Dropzone from "react-dropzone";
 
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
@@ -145,7 +145,7 @@ class DropZoneField extends React.Component {
           pointerEvents:
             this.state.disabled || dropzoneDisabled ? "none" : "auto",
           cursor:
-            this.state.disabled || dropzoneDisabled ? "not-allowed" : "pointer"
+            this.state.disabled || dropzoneDisabled ? "no-drop" : "pointer"
         }}
         onDrop={files => this.handleDrop(files)}
       >
@@ -169,7 +169,22 @@ class DropZoneField extends React.Component {
             </Typography>
           </div>
         )}
-        {!this.state.uploaded && !this.state.uploading && (
+        {dropzoneDisabled && !this.state.uploaded && !this.state.uploading && (
+          <div>
+            <CloudUploadIcon
+              className={classes.uploadIcon}
+              style={{
+                marginBottom: width === "lg" || width === "xl" ? 16 : 0
+              }}
+            />
+            <Typography variant="h6" color="inherit">
+              {width === "lg" || width === "xl"
+                ? "Select from the above dropdowns before dragging media into this area or clicking this area"
+                : "Click here to upload media after selecting dropdowns"}
+            </Typography>
+          </div>
+        )}
+        {!dropzoneDisabled && !this.state.uploaded && !this.state.uploading && (
           <div>
             <CloudUploadIcon
               className={classes.uploadIcon}
@@ -179,8 +194,8 @@ class DropZoneField extends React.Component {
             />
             <Typography variant="h6" color="inherit" noWrap>
               {width === "lg" || width === "xl"
-                ? "Select or drag picture files to upload"
-                : "Select picture files to upload"}
+                ? "Select or drag media files to upload"
+                : "Select media files to upload"}
             </Typography>
           </div>
         )}
@@ -202,13 +217,17 @@ const styles = theme => ({
   },
   dialogContent: {},
   link: {
-    color: theme.palette.text.primary
+    color: theme.palette.primary.main,
+    textDecoration: "none"
   },
   chipInput: {
     marginBottom: theme.spacing.unit * 2
   },
   selectInput: {
     fontFamily: theme.typography.fontFamily
+  },
+  blurb: {
+    fontWeight: 200
   }
 });
 
@@ -256,10 +275,13 @@ class MultipleMediaDialog extends React.Component {
           disableBackdropClick={this.state.uploading}
           disableEscapeKeyDown={this.state.uploading}
         >
-          <DialogTitle>Upload pictures</DialogTitle>
+          <DialogTitle>Upload Media</DialogTitle>
           <DialogContent className={classes.dialogContent}>
-            <Typography>
-              The following will apply to all the pictures you are uploading
+            <Typography variant="h6" className={classes.blurb}>
+              Convention Media? - Select Event, Edition, and Sub Event below
+            </Typography>
+            <Typography variant="h6" className={classes.blurb}>
+              Not Convention Media? - Select only a Category below
             </Typography>
             <div style={{ padding: 5 }} />
             <Query
@@ -312,7 +334,6 @@ class MultipleMediaDialog extends React.Component {
                     placeholder="Event"
                     isSearchable
                     onChange={mediaEvent => {
-                      console.log("TOTOTOTOTOTOTOTOTOTOTO");
                       this.setState({
                         mediaEvent: mediaEvent,
                         mediaEdition: {},
@@ -404,6 +425,14 @@ class MultipleMediaDialog extends React.Component {
                   }}
                 </Query>
               )}
+            <Typography variant="h6" className={classes.blurb}>
+              All media uploaded must abide by the Content Restrictions detailed
+              in the{" "}
+              <Link target="_blank" to="/user_guide" className={classes.link}>
+                Website User Guide
+              </Link>
+              .
+            </Typography>
             <List>
               <ListItem>
                 <ListItemIcon>
@@ -411,20 +440,17 @@ class MultipleMediaDialog extends React.Component {
                 </ListItemIcon>
                 <ListItemText
                   inset
-                  primary="At least con or category, as much info as possible pwease"
+                  primary="You must have captured the media or have permission from the media creator to Upload it to Scritch"
                 />
               </ListItem>
               <ListItem>
                 <ListItemIcon>
                   <CheckIcon />
                 </ListItemIcon>
-                <ListItemText inset primary="Avoid burst upload blurb" />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <CheckIcon />
-                </ListItemIcon>
-                <ListItemText inset primary="Allowed to post these" />
+                <ListItemText
+                  inset
+                  primary="Try and avoid uploading a lot of media from the same shoot where minimal differences are apparent"
+                />
               </ListItem>
             </List>
             <Mutation mutation={CREATE_MEDIUM}>
@@ -432,12 +458,10 @@ class MultipleMediaDialog extends React.Component {
                 return (
                   <DropZoneFieldWithStyle
                     dropzoneDisabled={
-                      (this.state.mediaEdition &&
-                        Object.keys(this.state.mediaEdition).length == 0 &&
+                      (Object.keys(this.state.mediaSubEvent).length == 0 &&
                         Object.keys(this.state.mediaCategory).length == 0) ||
-                      (this.state.mediaEvent &&
-                        Object.keys(this.state.mediaEvent).length != 0 &&
-                        Object.keys(this.state.mediaEdition).length == 0)
+                      (Object.keys(this.state.mediaEvent).length != 0 &&
+                        Object.keys(this.state.mediaSubEvent).length == 0)
                     }
                     onStart={() => {
                       this.setState({ uploading: true });

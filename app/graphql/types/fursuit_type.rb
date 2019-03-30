@@ -64,7 +64,7 @@ module Types
     end
 
     def hybrid_species
-      if !object.is_hybrid
+      if !object.is_hybrid || !object.hybrid
         return []
       end
       object.hybrid.fursuit_species.order(:name)

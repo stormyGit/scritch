@@ -179,7 +179,7 @@ class EditFursuitDialog extends React.Component {
       fursuitFinger: fursuit.fursuitFinger && fursuit.fursuitFinger.id,
       baseColor: fursuit.baseColor,
       eyesColor: fursuit.eyesColor,
-      maker: fursuit.makers && [fursuit.makers[0].id]
+      maker: fursuit.makers.length > 0 && [fursuit.makers[0].id]
     });
   }
 

@@ -84,7 +84,7 @@ class Terms extends React.Component {
 
     return (
       <React.Fragment>
-        <PageTitle>Terms and Conditions</PageTitle>
+        <PageTitle>Terms of Use</PageTitle>
         {this.renderVertical()}
       </React.Fragment>
     );

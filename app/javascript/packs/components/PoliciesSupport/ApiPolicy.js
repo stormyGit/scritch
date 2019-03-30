@@ -7,7 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import PageTitle from "../Global/PageTitle";
 
-import codeConduct from "../../codeConduct";
+import apiPolicy from "../../apiPolicy";
 
 const styles = theme => ({
   card: {
@@ -40,7 +40,7 @@ const styles = theme => ({
   }
 });
 
-class CodeOfConduct extends React.Component {
+class ApiPolicy extends React.Component {
   state = {};
 
   renderContent() {
@@ -52,7 +52,7 @@ class CodeOfConduct extends React.Component {
           renderers={{
             link: props => <a className={classes.link} {...props} />
           }}
-          source={codeConduct}
+          source={apiPolicy}
         />
       </CardContent>
     );
@@ -84,11 +84,11 @@ class CodeOfConduct extends React.Component {
 
     return (
       <React.Fragment>
-        <PageTitle>Code Of Conduct</PageTitle>
+        <PageTitle>API Policy</PageTitle>
         {this.renderVertical()}
       </React.Fragment>
     );
   }
 }
 
-export default withStyles(styles)(withWidth()(CodeOfConduct));
+export default withStyles(styles)(withWidth()(ApiPolicy));

@@ -24,18 +24,21 @@
                 .card-content
                   = image_tag advert.file_url
                   br
-                  = "Status: #{advert.status}"
+                  - if advert.status == "pending"
+                    = "Status: #{advert.status.upcase} APPROVAL"
+                  - else
+                    = "Status: #{advert.status.upcase}"
                   - if advert.status == "rejected"
                     br
                     br
                     p.is-size-6.has-text-danger
-                      = "Your file should be at 300x90 or equivalent ratio."
+                      = "Your file must be 300x90 image ratio (can be bigger or smaller as long as it is the same pixel ratio)."
                     br
                     p.is-size-6.has-text-danger
-                      = "It should remain PG-13"
-                    br
-                    p.is-size-6.has-text-danger
-                      = "The redirection URL should be valid and targetting a related and PG-13 location"
+                      = "All media uploaded and target URLs must abide by the Content Restrictions detailed in the "
+                      a href="#{ENV["SITE_URL"]}/user_guide" target="_blank"
+                        = "Website User Guide"
+                      | .
                     br
 
                   br
@@ -73,7 +76,7 @@
       .card
         .card-header
           .card-header-title
-            | Refill impressions:
+            | Refill Impressions:
 
         .card-content
           #showModal.button
@@ -83,7 +86,7 @@
     .modal-background
     .modal-card
       header.modal-card-head
-        p.modal-card-title Impression plans
+        p.modal-card-title Impression Plans
       section.modal-card-body.has-text-centered
         .columns
           .column.is-4
@@ -95,11 +98,11 @@
             br
             | -
             br
-            | $0.06 per 1000 impressions
+            | $0.06 per 1000 Impressions
             br
             br
             = form_tag adverts_refill_path(impressions: 1) do
-              script.stripe-button data-label="Choose" data-zip-code="true" data-amount="600" data-image="#{image_url("logo.png")}" data-allow-remember-me="false" data-description=("100K ad impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
+              script.stripe-button data-label="Choose" data-zip-code="true" data-amount="600" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("100K Ad Impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
 
           .column.is-4
             | 1 Million
@@ -110,11 +113,11 @@
             br
             | -
             br
-            | $0.05 per 1000 impressions
+            | $0.05 per 1000 Impressions
             br
             br
             = form_tag adverts_refill_path(impressions: 2) do
-              script.stripe-button data-label="Choose" data-zip-code="true" data-amount="5000" data-image="#{image_url("logo.png")}" data-allow-remember-me="false" data-description=("100K ad impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
+              script.stripe-button data-label="Choose" data-zip-code="true" data-amount="5000" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("100K Ad Impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
 
           .column.is-4
             | 10 Million
@@ -125,11 +128,11 @@
             br
             | -
             br
-            | $0.04 per 1000 impressions
+            | $0.04 per 1000 Impressions
             br
             br
             = form_tag adverts_refill_path(impressions: 3) do
-              script.stripe-button data-label="Choose" data-zip-code="true" data-amount="40000" data-image="#{image_url("logo.png")}" data-allow-remember-me="false" data-description=("100K ad impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
+              script.stripe-button data-label="Choose" data-zip-code="true" data-amount="40000" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("100K Ad Impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
 
       footer.modal-card-foot
         #modalClose.button Cancel

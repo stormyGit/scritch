@@ -27,7 +27,7 @@ const styles = theme => ({
     color: theme.palette.primary.main
   },
   toolTip: {
-    height: 90
+    height: 125
   },
   advert: {
     width: 300,

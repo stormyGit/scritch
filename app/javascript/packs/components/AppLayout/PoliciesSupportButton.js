@@ -81,25 +81,23 @@ class PoliciesSupportButton extends React.Component {
             </MenuItem>
           </Link>
           <Link to={"/user_guide"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>User Guides</MenuItem>
+            <MenuItem onClick={() => this.handleClose()}>
+              Website User Guide
+            </MenuItem>
           </Link>
-          <Link to={"/"} className={classes.link}>
+          <Link to={"/faq"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>FAQ</MenuItem>
           </Link>
-          <Link to={"/terms_and_conditions"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>
-              Terms & Conditions
-            </MenuItem>
+          <Link to={"/terms_of_use"} className={classes.link}>
+            <MenuItem onClick={() => this.handleClose()}>Terms of Use</MenuItem>
           </Link>
           <Link to={"/privacy_policy"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>
               Privacy Policy
             </MenuItem>
           </Link>
-          <Link to={"/code_of_conduct"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>
-              Code Of Conduct
-            </MenuItem>
+          <Link to={"/api_policy"} className={classes.link}>
+            <MenuItem onClick={() => this.handleClose()}>API Policy</MenuItem>
           </Link>
           {currentSession && (
             <MenuItem
@@ -108,7 +106,7 @@ class PoliciesSupportButton extends React.Component {
                 this.props.openTech();
               }}
             >
-              Report an Issue
+              Contact Support
             </MenuItem>
           )}
         </Menu>

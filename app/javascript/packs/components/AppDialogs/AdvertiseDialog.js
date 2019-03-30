@@ -14,6 +14,7 @@ import CheckIcon from "@material-ui/icons/Check";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
+import InputAdornment from "@material-ui/core/InputAdornment";
 import Typography from "@material-ui/core/Typography";
 import uuidv4 from "uuid/v4";
 
@@ -22,7 +23,7 @@ import withWidth from "@material-ui/core/withWidth";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import Dropzone from "react-dropzone";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -53,6 +54,13 @@ const dropZoneStyles = theme => ({
   },
   progress: {
     color: "white"
+  },
+  blurb: {
+    fontWeight: 200
+  },
+  link: {
+    color: theme.palette.primary.main,
+    textDecoration: "none"
   }
 });
 
@@ -106,17 +114,22 @@ class DropZoneField extends React.Component {
         }}
         onDrop={files => this.handleDrop(files)}
       >
-        {this.state.uploaded && (
+        {this.state.uploaded && (width === "lg" || width === "xl") && (
           <div>
             <Typography variant="h6" color="inherit" noWrap>
-              File succesfully uploaded!
-            </Typography>
-            <Typography variant="h6" color="inherit" noWrap>
-              It will soon be reviewed.
+              Great!
             </Typography>
             <Typography variant="h6" color="inherit">
-              You can now access your advertiser dashboard from the Social & Ads
-              tab!
+              Following approval you can manage this advert from your Advertiser
+              Dashboard in the Ads & Social tab!
+            </Typography>
+          </div>
+        )}
+        {this.state.uploaded && (width !== "lg" && width !== "xl") && (
+          <div>
+            <Typography variant="h6" color="inherit">
+              Great! Following approval can manage this advert from your
+              Advertiser Dashboard!
             </Typography>
           </div>
         )}
@@ -175,13 +188,26 @@ const styles = theme => ({
   },
   dialogContent: {},
   link: {
-    color: theme.palette.text.primary
+    color: theme.palette.primary.main,
+    textDecoration: "none"
   },
   chipInput: {
     marginBottom: theme.spacing.unit * 2
   },
   selectInput: {
     fontFamily: theme.typography.fontFamily
+  },
+  domain: {
+    marginRight: 1,
+    paddingBottom: 3,
+    fontSize: "1rem",
+    color:
+      theme.palette.type === "dark"
+        ? "rgba(255, 255, 255, 0.5)"
+        : "rgba(0, 0, 0, 0.5)"
+  },
+  blurb: {
+    fontWeight: 200
   }
 });
 
@@ -225,23 +251,25 @@ class AdvertiseDialog extends React.Component {
 
           <DialogTitle>Advertise with Scritch!</DialogTitle>
           <DialogContent>
-            <Typography
-              gutterBottom
-              variant="h6"
-              component="h4"
-              className={classes.content}
-            >
-              You want a bunch of furries to see what you have to offer? Put up
-              an ad on Scritch!
-              <br />
-              <br />
-              We offer 4 advertisement slots, visible on every page. 2 at the
-              top, 2 at the bottom.
-              <br />
-              <br />
-              Following are the requirements for the ad file. If you have a
-              300x90 ad on FA going on, you should already be set to go without
-              changing the file!
+            <Typography variant="h6" className={classes.blurb}>
+              All media uploaded must abide by the Content Restrictions detailed
+              in the{" "}
+              <Link target="_blank" to="/user_guide" className={classes.link}>
+                Website User Guide
+              </Link>
+              .
+            </Typography>
+            <div style={{ padding: 10 }} />
+            <Typography variant="h6" className={classes.blurb}>
+              Have an advert that relates to a product or service in the fandom?
+              Upload it here and then select an impressions bundle you have
+              complete control over!
+            </Typography>
+            <div style={{ padding: 10 }} />
+            <Typography variant="h6" className={classes.blurb}>
+              Scritch supports 4 randomised advertisement slots on every page of
+              the website (2 at the top and 2 at the bottom). Already have a
+              300x90 advertisement from a previous campaign? You're good to go!
             </Typography>
             <List>
               <ListItem>
@@ -250,7 +278,7 @@ class AdvertiseDialog extends React.Component {
                 </ListItemIcon>
                 <ListItemText
                   inset
-                  primary="300x90 image ratio (smaller may not look smooth, bigger is fine up to 900x270)"
+                  primary="300x90 image ratio (can be bigger or smaller as long as it is the same pixel ratio)"
                 />
               </ListItem>
               <ListItem>
@@ -269,11 +297,22 @@ class AdvertiseDialog extends React.Component {
               name="url"
               variant="outlined"
               style={{ zIndex: 0 }}
-              value={`http://${this.state.url}`}
+              value={this.state.url}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment
+                    position="start"
+                    className={classes.domain}
+                    disableTypography
+                  >
+                    {"http://"}
+                  </InputAdornment>
+                )
+              }}
               onChange={e => {
                 this.setState({
-                  url: e.target.value.substring(7),
-                  dropzoneDisabled: e.target.value.length > 7 ? false : true
+                  url: e.target.value,
+                  dropzoneDisabled: e.target.value.length > 0 ? false : true
                 });
               }}
               margin="dense"

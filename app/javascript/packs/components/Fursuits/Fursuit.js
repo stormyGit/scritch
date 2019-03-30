@@ -432,7 +432,9 @@ class Fursuit extends React.Component {
                         noWrap={false}
                       >
                         {fursuit.isHybrid
-                          ? fursuit.hybridSpecies.map(e => e.name).join(", ")
+                          ? `Hybrid (${fursuit.hybridSpecies
+                              .map(e => e.name)
+                              .join(", ")})`
                           : fursuit.fursuitSpecy.name}
                       </Typography>
                       <div style={{ padding: 10 }} />

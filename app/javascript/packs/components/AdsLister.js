@@ -88,8 +88,9 @@ class AdsLister extends React.Component {
       <React.Fragment>
         <div className={classes.root}>
           <PageTitle>Ads List</PageTitle>
-          <Typography variant="h4" className={classes.text}>
-            Saw an ad you liked? Here are all the live ads on Scritch!
+          <Typography variant="h5" className={classes.text}>
+            Saw an Advertisment you liked? Here are all Adverts that are Live
+            right now!
           </Typography>
           <Query query={GET_ADVERTS} variables={{ uuid: uuidv4(), limit }}>
             {({ data, loading, error, fetchMore }) => {

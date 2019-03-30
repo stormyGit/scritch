@@ -130,7 +130,7 @@ class ActivitiesDialog extends React.Component {
                 >
                   {activity.owner.name}
                 </Typography>
-                {` liked your picture `}
+                {` liked your media `}
                 <Typography
                   variant="body2"
                   component="span"
@@ -173,7 +173,7 @@ class ActivitiesDialog extends React.Component {
                 >
                   {activity.owner.name}
                 </Typography>
-                {` commented on your picture `}
+                {` commented on your media `}
                 <Typography
                   variant="body2"
                   component="span"
@@ -269,7 +269,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`We received your report on picture `}
+                {`We received your report on media `}
                 <Typography
                   variant="body2"
                   component="span"
@@ -325,7 +325,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`We received your report on tags for picture `}
+                {`We received your report on tags for media `}
                 <Typography
                   variant="body2"
                   component="span"
@@ -367,7 +367,7 @@ class ActivitiesDialog extends React.Component {
               <Typography variant="body1">
                 {`Your fursuit ${
                   activity.trackable.fursuit.name
-                } has been tagged in a new picture!`}
+                } has been tagged in a new media!`}
               </Typography>
             </React.Fragment>
           }

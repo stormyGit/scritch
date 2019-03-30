@@ -84,7 +84,7 @@ class UserGuide extends React.Component {
 
     return (
       <React.Fragment>
-        <PageTitle>User Guide</PageTitle>
+        <PageTitle>Website User Guide</PageTitle>
         {this.renderVertical()}
       </React.Fragment>
     );

@@ -127,10 +127,10 @@ Rails.application.routes.draw do
   get "/search", to: "media#index"
   get "/subscriptions", to: "media#index"
 
-  get "/terms_and_conditions", to: "media#index"
+  get "/terms_of_use", to: "media#index"
   get "/user_guide", to: "media#index"
   get "/faq", to: "media#index"
-  get "/code_of_conduct", to: "media#index"
+  get "/api_policy", to: "media#index"
   get "/privacy_policy", to: "media#index"
   get "/announcements", to: "media#index"
 
