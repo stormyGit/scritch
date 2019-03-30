@@ -28,10 +28,6 @@ namespace :fursuits do
     end
 
     fursuits.each do |e|
-      if e[3] == "1"
-        next
-      end
-
       puts e.to_s
       puts "\n"
       fursuit =
