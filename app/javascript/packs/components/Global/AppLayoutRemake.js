@@ -188,7 +188,7 @@ class AppLayoutRemake extends React.Component {
       appBarPadding = 8;
     }
 
-    if (currentSession.user.suspendedUser) {
+    if (currentSession && currentSession.user.suspendedUser) {
       var suspendedUserLimit = new Date(
         currentSession.user.suspendedUser.limit * 1000
       );
@@ -228,7 +228,7 @@ class AppLayoutRemake extends React.Component {
           </Hidden>
           <main className={classes.content}>
             <div className={classes.toolbar} />
-            {currentSession.user.suspendedUser && (
+            {currentSession && currentSession.user.suspendedUser && (
               <AppBar
                 position="absolute"
                 className={classes.appBar}
