@@ -123,7 +123,7 @@ class DrawerMenuRemake extends React.Component {
               width === "lg" || width === "xl" ? "space-between" : "flex-start"
           }}
         >
-          {currentSession.user.suspendedUser && (
+          {currentSession && currentSession.user.suspendedUser && (
             <div>
               <List disablePadding={width !== "lg" && width !== "xl"}>
                 <ListItem
@@ -204,7 +204,8 @@ class DrawerMenuRemake extends React.Component {
               </div>
             </div>
           )}
-          {!currentSession.user.suspendedUser && (
+          {(!currentSession ||
+            (currentSession && !currentSession.user.suspendedUser)) && (
             <React.Fragment>
               <div>
                 <List disablePadding={width !== "lg" && width !== "xl"}>

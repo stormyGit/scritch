@@ -197,8 +197,6 @@ class AppLayoutRemake extends React.Component {
       <React.Fragment>
         <GlobalProgress />
         <div className={classes.root}>
-          {console.log(currentSession.user.suspendedUser)}
-
           <CookieConsent
             buttonStyle={{ backgroundColor: "#DF0174" }}
             style={{ textAlign: "center" }}
@@ -269,7 +267,8 @@ class AppLayoutRemake extends React.Component {
                 </Toolbar>
               </AppBar>
             )}
-            {!currentSession.user.suspendedUser && (
+            {(!currentSession ||
+              (currentSession && !currentSession.user.suspendedUser)) && (
               <AppBar
                 position="absolute"
                 className={classes.appBar}
