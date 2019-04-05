@@ -59,140 +59,157 @@ class FursuitModal extends React.Component {
           return (
             <ResponsiveDialog open={open} onClose={onClose}>
               <GlobalProgress absolute />
-              <DialogTitle>{localFursuit.name}</DialogTitle>
-              <DialogContent>
+              <DialogTitle>
                 <Grid container spacing={8}>
-                  <Grid item xs={5} />
-                  <Grid item xs={2}>
-                    <img src={image} style={{ width: "100%" }} />
+                  <Grid item xs={false} lg={1} />
+                  <Grid item xs={12} lg={11}>
+                    {localFursuit.name}
                   </Grid>
-                  <Grid item xs={5} />
-                  <Grid item xs={6}>
-                    <DialogContentText>Species</DialogContentText>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="h4"
-                      className={classes.text}
-                      noWrap
-                    >
-                      {localFursuit.isHybrid
-                        ? `Hybrid (${localFursuit.hybridSpecies
-                            .map(e => e.name)
-                            .join(", ")})`
-                        : localFursuit.fursuitSpecy.name}
-                    </Typography>
-                    <DialogContentText>Made by</DialogContentText>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="h4"
-                      className={classes.text}
-                      noWrap
-                    >
-                      {localFursuit.makers[0]
-                        ? localFursuit.makers[0].name
-                        : "Unknown"}
-                    </Typography>
-                    <DialogContentText>Created in</DialogContentText>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="h4"
-                      className={classes.text}
-                      noWrap
-                    >
-                      {localFursuit.creationYear
-                        ? localFursuit.creationYear
-                        : "Unknown"}
-                    </Typography>
-                    <DialogContentText>Style</DialogContentText>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="h4"
-                      className={classes.text}
-                      noWrap
-                    >
-                      {localFursuit.fursuitStyle
-                        ? localFursuit.fursuitStyle.name
-                        : "Unknown"}
-                    </Typography>
-                    <DialogContentText>Leg Type</DialogContentText>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="h4"
-                      className={classes.text}
-                      noWrap
-                    >
-                      {localFursuit.fursuitLegType
-                        ? localFursuit.fursuitLegType.name
-                        : "Unknown"}
-                    </Typography>
+                </Grid>
+              </DialogTitle>
+              <DialogContent style={{ paddingBottom: 5 }}>
+                <Grid container spacing={8}>
+                  <Grid item xs={false} lg={1} />
+                  <Grid item xs={12} lg={10}>
+                    <Grid container spacing={8}>
+                      <Grid item xs={4}>
+                        <img src={image} style={{ width: "100%" }} />
+                      </Grid>
+                      <Grid item xs={2} />
+                      <Grid item xs={6}>
+                        <Grid container spacing={8}>
+                          <Grid item xs={12}>
+                            <DialogContentText>Species</DialogContentText>
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              component="h4"
+                              className={classes.text}
+                              noWrap
+                            >
+                              {localFursuit.isHybrid
+                                ? localFursuit.hybridSpecies.length > 0
+                                  ? `Hybrid (${localFursuit.hybridSpecies
+                                      .map(e => e.name)
+                                      .join(", ")})`
+                                  : "Hybrid (no species specified)"
+                                : localFursuit.fursuitSpecy.name}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <DialogContentText>Made by</DialogContentText>
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              component="h4"
+                              className={classes.text}
+                              noWrap
+                            >
+                              {localFursuit.makers[0]
+                                ? localFursuit.makers[0].name
+                                : "Unknown"}
+                            </Typography>
+                          </Grid>
+                          <Grid item xs={12}>
+                            <DialogContentText>Created in</DialogContentText>
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              component="h4"
+                              className={classes.text}
+                              noWrap
+                            >
+                              {localFursuit.creationYear
+                                ? localFursuit.creationYear
+                                : "Unknown"}
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <div style={{ padding: 5 }} />
+                        <hr />
+                        <div style={{ padding: 5 }} />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <DialogContentText>
+                          Style / Appearance
+                        </DialogContentText>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h4"
+                          className={classes.text}
+                          noWrap
+                        >
+                          {localFursuit.fursuitStyle
+                            ? localFursuit.fursuitStyle.name
+                            : "Unknown"}{" "}
+                          /{" "}
+                          {localFursuit.fursuitGender
+                            ? localFursuit.fursuitGender.name
+                            : "Unknown"}
+                        </Typography>
+                        <div style={{ padding: 5 }} />
+                        <DialogContentText>
+                          Base Color / Eye Color
+                        </DialogContentText>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h4"
+                          className={classes.text}
+                          noWrap
+                        >
+                          {localFursuit.baseColor
+                            ? localFursuit.baseColor
+                            : "Unknown"}{" "}
+                          /{" "}
+                          {localFursuit.eyesColor
+                            ? localFursuit.eyesColor
+                            : "Unknown"}
+                        </Typography>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <DialogContentText>Build / Padding</DialogContentText>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h4"
+                          className={classes.text}
+                          noWrap
+                        >
+                          {localFursuit.fursuitBuild
+                            ? localFursuit.fursuitBuild.name
+                            : "Unknown"}{" "}
+                          /{" "}
+                          {localFursuit.fursuitPadding
+                            ? localFursuit.fursuitPadding.name
+                            : "Unknown"}
+                        </Typography>
+                        <div style={{ padding: 5 }} />
+                        <DialogContentText>
+                          Leg Type / Finger Type
+                        </DialogContentText>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h4"
+                          className={classes.text}
+                          noWrap
+                        >
+                          {localFursuit.fursuitLegType
+                            ? localFursuit.fursuitLegType.name
+                            : "Unknown"}{" "}
+                          /{" "}
+                          {localFursuit.fursuitFinger
+                            ? localFursuit.fursuitFinger.name
+                            : "Unknown"}
+                        </Typography>
+                      </Grid>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={6}>
-                    <DialogContentText>Build</DialogContentText>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="h4"
-                      className={classes.text}
-                      noWrap
-                    >
-                      {localFursuit.fursuitBuild
-                        ? localFursuit.fursuitBuild.name
-                        : "Unknown"}
-                    </Typography>
-                    <DialogContentText>Padding</DialogContentText>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="h4"
-                      className={classes.text}
-                      noWrap
-                    >
-                      {localFursuit.fursuitPadding
-                        ? localFursuit.fursuitPadding.name
-                        : "Unknown"}
-                    </Typography>
-                    <DialogContentText>Fingers</DialogContentText>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="h4"
-                      className={classes.text}
-                      noWrap
-                    >
-                      {localFursuit.fursuitFinger
-                        ? localFursuit.fursuitFinger.name
-                        : "Unknown"}
-                    </Typography>
-                    <DialogContentText>Base Color</DialogContentText>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="h4"
-                      className={classes.text}
-                      noWrap
-                    >
-                      {localFursuit.baseColor
-                        ? localFursuit.baseColor
-                        : "Unknown"}
-                    </Typography>
-                    <DialogContentText>Eyes Color</DialogContentText>
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="h4"
-                      className={classes.text}
-                      noWrap
-                    >
-                      {localFursuit.eyesColor
-                        ? localFursuit.eyesColor
-                        : "Unknown"}
-                    </Typography>
-                  </Grid>
+                  <Grid item xs={false} lg={1} />
                 </Grid>
               </DialogContent>
               <DialogActions>

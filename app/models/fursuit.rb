@@ -13,6 +13,7 @@ class Fursuit < ApplicationRecord
   belongs_to :fursuit_style, optional: true
   belongs_to :fursuit_specy, optional: true
   belongs_to :fursuit_leg_type, optional: true
+  belongs_to :fursuit_gender, optional: true
 
   has_one :hybrid, dependent: :destroy
   has_many :fursuit_species, through: :hybrid

@@ -49,6 +49,11 @@ br
           .select
             = f.select :fursuit_build_id, options_for_select(FursuitBuild.all.order(:name).pluck(:name, :uuid), @fursuit.fursuit_build_id), {:include_blank => true}
         .field
+          = f.label :fursuit_gender_id, "Appearance"
+          br
+          .select
+            = f.select :fursuit_gender_id, options_for_select(FursuitGender.all.order(:name).pluck(:name, :uuid), @fursuit.fursuit_gender_id), {:include_blank => true}
+        .field
           = f.label :fursuit_finger_id, "Fingers"
           br
           .select

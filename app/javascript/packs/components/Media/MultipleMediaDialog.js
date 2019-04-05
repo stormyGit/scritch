@@ -17,6 +17,7 @@ import MenuList from "@material-ui/core/MenuList";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+import Checkbox from "@material-ui/core/Checkbox";
 import Typography from "@material-ui/core/Typography";
 import uuidv4 from "uuid/v4";
 import List from "@material-ui/core/List";
@@ -25,6 +26,7 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import CheckIcon from "@material-ui/icons/Check";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -217,8 +219,9 @@ const styles = theme => ({
   },
   dialogContent: {},
   link: {
-    color: theme.palette.primary.main,
-    textDecoration: "none"
+    color: theme.palette.secondary.main,
+    textDecoration: "none",
+    fontWeight: 400
   },
   chipInput: {
     marginBottom: theme.spacing.unit * 2
@@ -228,6 +231,19 @@ const styles = theme => ({
   },
   blurb: {
     fontWeight: 200
+  },
+  domain: {
+    marginRight: 1,
+    paddingBottom: 3,
+    fontSize: "1rem",
+    color:
+      theme.palette.type === "dark"
+        ? "rgba(255, 255, 255, 0.5)"
+        : "rgba(0, 0, 0, 0.5)"
+  },
+  listPadding: {
+    marginBottom: theme.spacing.unit,
+    marginTop: theme.spacing.unit
   }
 });
 
@@ -235,6 +251,8 @@ class MultipleMediaDialog extends React.Component {
   state = {
     title: "",
     description: "",
+    photographerSlug: "",
+    photographerString: "",
     commentsEnabled: true,
     shareOnTwitter: true,
     mediaEvent: {},
@@ -243,7 +261,8 @@ class MultipleMediaDialog extends React.Component {
     mediaSubEvent: {},
     uploaded: false,
     complete: false,
-    uploading: false
+    uploading: false,
+    isPhotographer: true
   };
 
   componentWillReceiveProps(nextProps) {
@@ -257,6 +276,9 @@ class MultipleMediaDialog extends React.Component {
       uploaded: false,
       complete: false,
       uploading: false,
+      photographerSlug: "",
+      photographerString: "",
+      isPhotographer: true,
       mediaEvent: {},
       mediaEdition: {},
       mediaCategory: {},
@@ -278,10 +300,14 @@ class MultipleMediaDialog extends React.Component {
           <DialogTitle>Upload Media</DialogTitle>
           <DialogContent className={classes.dialogContent}>
             <Typography variant="h6" className={classes.blurb}>
-              Convention Media? - Select Event, Edition, and Sub Event below
+              Event Media? - Select Event, Edition, and Sub Event below
             </Typography>
             <Typography variant="h6" className={classes.blurb}>
-              Not Convention Media? - Select only a Category below
+              Non-Event Media? - Select only a Category below
+            </Typography>
+            <div style={{ padding: 5 }} />
+            <Typography variant="h6" color="primary">
+              Categories
             </Typography>
             <div style={{ padding: 5 }} />
             <Query
@@ -425,6 +451,83 @@ class MultipleMediaDialog extends React.Component {
                   }}
                 </Query>
               )}
+            <div style={{ padding: 5 }} />
+            <Typography variant="h6" color="primary">
+              Ownership
+            </Typography>
+            <div style={{ paddingLeft: 15 }}>
+              <FormControlLabel
+                className={classes.listPadding}
+                control={
+                  <Checkbox
+                    checked={this.state.isPhotographer}
+                    onChange={e =>
+                      this.setState({ isPhotographer: e.target.checked })
+                    }
+                    value={this.state.isPhotographer}
+                    color="primary"
+                  />
+                }
+                label="I captured this media"
+              />
+            </div>
+            {!this.state.isPhotographer && (
+              <React.Fragment>
+                <Typography
+                  variant="body2"
+                  style={{ paddingLeft: 15, paddingBottom: 5 }}
+                >
+                  Provide at least one:
+                </Typography>
+                <div style={{ padding: 5 }} />
+                <TextField
+                  className={classes.listPadding}
+                  label="Photographer's Scritch URL"
+                  name="photographerSlug"
+                  variant="outlined"
+                  style={{ zIndex: 0 }}
+                  value={this.state.photographerSlug}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment
+                        position="start"
+                        className={classes.domain}
+                        disableTypography
+                      >
+                        {"http://scritch.es/"}
+                      </InputAdornment>
+                    )
+                  }}
+                  onChange={e => {
+                    this.setState({
+                      photographerSlug: e.target.value
+                    });
+                  }}
+                  margin="dense"
+                  fullWidth
+                />
+                <TextField
+                  className={classes.listPadding}
+                  label="Photographer's Name"
+                  name="photographerString"
+                  variant="outlined"
+                  style={{ zIndex: 0 }}
+                  value={this.state.photographerString}
+                  onChange={e => {
+                    this.setState({
+                      photographerString: e.target.value
+                    });
+                  }}
+                  margin="dense"
+                  fullWidth
+                />
+                <div style={{ padding: 5 }} />
+              </React.Fragment>
+            )}
+            <Typography variant="h6" color="primary">
+              Requirements
+            </Typography>
+            <div style={{ padding: 5 }} />
             <Typography variant="h6" className={classes.blurb}>
               All media uploaded must abide by the Content Restrictions detailed
               in the{" "}
@@ -453,6 +556,10 @@ class MultipleMediaDialog extends React.Component {
                 />
               </ListItem>
             </List>
+            <Typography variant="h6" color="primary">
+              Upload
+            </Typography>
+            <div style={{ padding: 5 }} />
             <Mutation mutation={CREATE_MEDIUM}>
               {(createMedium, { called }) => {
                 return (
@@ -461,7 +568,10 @@ class MultipleMediaDialog extends React.Component {
                       (Object.keys(this.state.mediaSubEvent).length == 0 &&
                         Object.keys(this.state.mediaCategory).length == 0) ||
                       (Object.keys(this.state.mediaEvent).length != 0 &&
-                        Object.keys(this.state.mediaSubEvent).length == 0)
+                        Object.keys(this.state.mediaSubEvent).length == 0) ||
+                      (!this.state.isPhotographer &&
+                        (this.state.photographerSlug === "" &&
+                          this.state.photographerString === ""))
                     }
                     onStart={() => {
                       this.setState({ uploading: true });
@@ -474,6 +584,9 @@ class MultipleMediaDialog extends React.Component {
                             description: this.state.description,
                             commentsDisabled: false,
                             shareOnTwitter: this.state.shareOnTwitter,
+                            isPhotographer: this.state.isPhotographer,
+                            photographerSlug: this.state.photographerSlug,
+                            photographerString: this.state.photographerString,
                             picture: result,
                             editionId: this.state.mediaEdition.value,
                             categoryId: this.state.mediaCategory.value,

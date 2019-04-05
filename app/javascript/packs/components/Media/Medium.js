@@ -119,6 +119,10 @@ const styles = theme => ({
   tagReportButton: {
     padding: theme.spacing.unit,
     paddingTop: 0
+  },
+  link: {
+    textDecoration: "none",
+    color: theme.palette.primary.main
   }
 });
 
@@ -360,6 +364,30 @@ class Medium extends React.Component {
                             </Grid>
                           </Grid>
                           <div className={classes.tags}>
+                            {medium.photographerSlug && (
+                              <Typography
+                                gutterBottom
+                                variant="subtitle1"
+                                noWrap
+                              >
+                                Captured by:{" "}
+                                <Link
+                                  to={`/${medium.photographerSlug}`}
+                                  className={classes.link}
+                                >
+                                  {medium.photographerSlug}
+                                </Link>
+                              </Typography>
+                            )}
+                            {medium.photographerString && (
+                              <Typography
+                                gutterBottom
+                                variant="subtitle1"
+                                noWrap
+                              >
+                                Captured by: {medium.photographerString}
+                              </Typography>
+                            )}
                             {medium.edition && (
                               <Typography
                                 gutterBottom

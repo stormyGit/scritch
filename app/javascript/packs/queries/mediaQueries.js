@@ -183,6 +183,8 @@ export const GET_MEDIUM = gql`
       completion
       fursuitsCount
       likesCount
+      photographerSlug
+      photographerString
       liked
       favesCount
       faved

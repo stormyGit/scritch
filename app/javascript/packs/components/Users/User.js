@@ -560,7 +560,7 @@ class User extends React.Component {
       <React.Fragment>
         <Grid container spacing={8}>
           {user.fursuits.map(fursuit => (
-            <Grid item xs={3} key={fursuit.id}>
+            <Grid item xs={2} key={fursuit.id}>
               <FursuitCard
                 fursuit={fursuit}
                 onClick={() =>
@@ -850,16 +850,6 @@ class User extends React.Component {
             } else {
               isPrivate = true;
             }
-            const Private = () => (
-              <Typography
-                variant="caption"
-                noWrap
-                color={"inherit"}
-                style={{ fontSize: "0.8em" }}
-              >
-                Private
-              </Typography>
-            );
 
             return (
               <React.Fragment>
@@ -895,22 +885,73 @@ class User extends React.Component {
                             >
                               <Tab
                                 value="pictures"
-                                label={data.user.mediaCount}
-                                icon="Pictures"
+                                label={
+                                  <Typography
+                                    variant="subtitle1"
+                                    color={
+                                      this.state.tab === "pictures"
+                                        ? "secondary"
+                                        : "primary"
+                                    }
+                                  >
+                                    {data.user.mediaCount}
+                                  </Typography>
+                                }
+                                icon={
+                                  <Typography
+                                    variant="subtitle1"
+                                    color={
+                                      this.state.tab === "pictures"
+                                        ? "secondary"
+                                        : "primary"
+                                    }
+                                  >
+                                    Pictures
+                                  </Typography>
+                                }
                               />
                               <Tab
                                 value="fursuits"
                                 disabled={isPrivate}
                                 label={
                                   isPrivate ? (
-                                    <Private />
-                                  ) : data.user.fursuits ? (
-                                    data.user.fursuits.length
+                                    <Typography
+                                      variant="subtitle2"
+                                      color={
+                                        this.state.tab === "fursuits"
+                                          ? "secondary"
+                                          : "primary"
+                                      }
+                                    >
+                                      Private
+                                    </Typography>
                                   ) : (
-                                    0
+                                    <Typography
+                                      variant="subtitle1"
+                                      color={
+                                        this.state.tab === "fursuits"
+                                          ? "secondary"
+                                          : "primary"
+                                      }
+                                    >
+                                      {data.user.fursuits
+                                        ? data.user.fursuits.length
+                                        : 0}
+                                    </Typography>
                                   )
                                 }
-                                icon="Fursuits"
+                                icon={
+                                  <Typography
+                                    variant="subtitle1"
+                                    color={
+                                      this.state.tab === "fursuits"
+                                        ? "secondary"
+                                        : "primary"
+                                    }
+                                  >
+                                    Fursuits
+                                  </Typography>
+                                }
                               />
                               {currentSession.user.id == data.user.id && (
                                 <Tab
@@ -918,12 +959,41 @@ class User extends React.Component {
                                   disabled={isPrivate}
                                   label={
                                     isPrivate ? (
-                                      <Private />
+                                      <Typography
+                                        variant="subtitle2"
+                                        color={
+                                          this.state.tab === "following"
+                                            ? "secondary"
+                                            : "primary"
+                                        }
+                                      >
+                                        Private
+                                      </Typography>
                                     ) : (
-                                      data.user.followingCount
+                                      <Typography
+                                        variant="subtitle1"
+                                        color={
+                                          this.state.tab === "following"
+                                            ? "secondary"
+                                            : "primary"
+                                        }
+                                      >
+                                        {data.user.followingCount}
+                                      </Typography>
                                     )
                                   }
-                                  icon="Following"
+                                  icon={
+                                    <Typography
+                                      variant="subtitle1"
+                                      color={
+                                        this.state.tab === "following"
+                                          ? "secondary"
+                                          : "primary"
+                                      }
+                                    >
+                                      Following
+                                    </Typography>
+                                  }
                                 />
                               )}
                               {currentSession.user.id == data.user.id && (
@@ -932,12 +1002,41 @@ class User extends React.Component {
                                   disabled={isPrivate}
                                   label={
                                     isPrivate ? (
-                                      <Private />
+                                      <Typography
+                                        variant="subtitle2"
+                                        color={
+                                          this.state.tab === "followers"
+                                            ? "secondary"
+                                            : "primary"
+                                        }
+                                      >
+                                        Private
+                                      </Typography>
                                     ) : (
-                                      data.user.followersCount
+                                      <Typography
+                                        variant="subtitle1"
+                                        color={
+                                          this.state.tab === "followers"
+                                            ? "secondary"
+                                            : "primary"
+                                        }
+                                      >
+                                        {data.user.followersCount}
+                                      </Typography>
                                     )
                                   }
-                                  icon="Followers"
+                                  icon={
+                                    <Typography
+                                      variant="subtitle1"
+                                      color={
+                                        this.state.tab === "followers"
+                                          ? "secondary"
+                                          : "primary"
+                                      }
+                                    >
+                                      Followers
+                                    </Typography>
+                                  }
                                 />
                               )}
                             </Tabs>

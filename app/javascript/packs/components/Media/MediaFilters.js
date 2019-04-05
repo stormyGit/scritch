@@ -255,7 +255,6 @@ class MediaFilters extends React.Component {
         {!this.state.event && (
           <React.Fragment>
             <Grid item xs={4} />
-            <Grid item xs={4} />
           </React.Fragment>
         )}
       </React.Fragment>
@@ -311,13 +310,10 @@ class MediaFilters extends React.Component {
             );
           }}
         </Query>
-        {this.state.edition && this.renderSubEventFilter()}
-        {!this.state.edition && <Grid item xs={4} />}
       </React.Fragment>
     );
   }
 
-  // TODO SUBEVENTS
   renderSubEventFilter() {
     const { classes } = this.props;
     return (
@@ -558,6 +554,7 @@ class MediaFilters extends React.Component {
               <Grid container spacing={8}>
                 {this.state.name && this.renderFursuitFilter()}
                 {this.renderEventFilter()}
+                {this.renderSubEventFilter()}
                 {this.renderCategoryFilter()}
                 {this.renderSortingFilter()}
               </Grid>

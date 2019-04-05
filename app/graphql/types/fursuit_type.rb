@@ -26,6 +26,7 @@ module Types
     field :eyes_color, String, null: true
     field :hybrid_species, [FursuitSpecyType], null: true
     field :fursuit_specy, FursuitSpecyType, null: true
+    field :fursuit_gender, FursuitGenderType, null: true
 
     def claimed
       Claim.where(user: context[:current_user], fursuit: object).count > 0

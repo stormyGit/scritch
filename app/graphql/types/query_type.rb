@@ -8,6 +8,9 @@ module Types
     field :fursuit_styles, [FursuitStyleType], null: false do
       description "Find a medium by ID"
     end
+    field :fursuit_genders, [FursuitGenderType], null: false do
+      description "Find a medium by ID"
+    end
     field :fursuit_species, [FursuitSpecyType], null: false do
       description "Find a medium by ID"
     end
@@ -210,6 +213,7 @@ module Types
       argument :fursuit_build, ID, required: false
       argument :fursuit_padding, ID, required: false
       argument :fursuit_fingers, ID, required: false
+      argument :fursuit_genders, ID, required: false
       argument :fursuit_color, String, required: false
       argument :fursuit_eyes, String, required: false
       argument :maker, ID, required: false
@@ -293,6 +297,10 @@ module Types
 
     def fursuit_styles
       FursuitStyle.all.order(:name)
+    end
+
+    def fursuit_genders
+      FursuitGender.all.order(:name)
     end
 
     def fursuit_species

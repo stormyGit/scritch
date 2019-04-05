@@ -32,7 +32,8 @@ import {
   LOAD_HYBRID_SPECIES,
   LOAD_BUILDS,
   LOAD_PADDINGS,
-  LOAD_FINGERS
+  LOAD_FINGERS,
+  LOAD_GENDERS
 } from "../../queries/fursuitQueries";
 
 import { LOAD_MAKERS } from "../../queries/makerQueries";
@@ -167,6 +168,10 @@ class FursuitEditFields extends React.Component {
       fursuitFinger: this.props.fursuit.fursuitFinger && {
         value: this.props.fursuit.fursuitFinger.id,
         label: this.props.fursuit.fursuitFinger.name
+      },
+      fursuitGender: this.props.fursuit.fursuitGender && {
+        value: this.props.fursuit.fursuitGender.id,
+        label: this.props.fursuit.fursuitGender.name
       },
       baseColor: this.props.fursuit.baseColor && {
         value: this.props.fursuit.baseColor,
@@ -369,18 +374,18 @@ class FursuitEditFields extends React.Component {
                   isClearable
                   isSearchable
                   isMulti
-                  value={this.state.hybridSpecy}
+                  value={this.state.hybridSpecies}
                   onChange={specy => {
+                    console.log(specy);
                     this.setState({ hybridSpecies: specy });
                     this.props.onChange({
-                      label: "hybridSpecy",
+                      label: "hybridSpecies",
                       value: specy
                     });
                   }}
                   options={data.hybridSpecies.map(option => ({
                     label: option.name,
-                    value: option.id,
-                    key: option.id
+                    value: option.id
                   }))}
                   className={classes.selectInput}
                 />
@@ -401,12 +406,16 @@ class FursuitEditFields extends React.Component {
           control={
             <Checkbox
               checked={this.state.hybridSearch}
-              onChange={() =>
-                this.setState({ hybridSearch: event.target.checked })
-              }
+              onChange={() => {
+                this.setState({ hybridSearch: event.target.checked });
+                this.props.onChange({
+                  label: "hybridSearch",
+                  value: event.target.checked
+                });
+              }}
             />
           }
-          label="Activate hybrid species selection"
+          label="Hybrid?"
         />
       </Grid>
     );
@@ -449,6 +458,56 @@ class FursuitEditFields extends React.Component {
                     });
                   }}
                   options={data.fursuitBuilds.map(option => ({
+                    label: option.name,
+                    value: option.id
+                  }))}
+                  className={classes.selectInput}
+                />
+              </Grid>
+            );
+          }}
+        </Query>
+      </React.Fragment>
+    );
+  }
+
+  renderFursuitGenderFilter() {
+    const { classes } = this.props;
+
+    return (
+      <React.Fragment>
+        <Typography variant="h6" className={classes.label}>
+          Gender
+        </Typography>
+        <Query query={LOAD_GENDERS}>
+          {({ data, loading, error }) => {
+            if (error || !data) {
+              return null;
+            }
+            if (loading) {
+              return (
+                <Grid item xs={12}>
+                  <CircularProgress />
+                </Grid>
+              );
+            }
+
+            return (
+              <Grid item xs={12}>
+                <Select
+                  fullWidth
+                  placeholder="Gender"
+                  isClearable
+                  isSearchable
+                  value={this.state.fursuitGender}
+                  onChange={gender => {
+                    this.setState({ fursuitGender: gender });
+                    this.props.onChange({
+                      label: "fursuitGender",
+                      value: gender ? gender.value : null
+                    });
+                  }}
+                  options={data.fursuitGenders.map(option => ({
                     label: option.name,
                     value: option.id
                   }))}
@@ -648,21 +707,21 @@ class FursuitEditFields extends React.Component {
 
   renderFilters() {
     const { classes } = this.props;
-    console.log(this.state);
     return (
       <Grid container spacing={8}>
         <Grid item xs={12}>
           {this.renderHybridCheck()}
           {!this.state.hybridSearch && this.renderFursuitSpeciesFilter()}
           {this.state.hybridSearch && this.renderHybridSpeciesFilter()}
-          {this.renderFursuitLegsFilter()}
+          {this.renderMakerFilter()}
           {this.renderFursuitStylesFilter()}
+          {this.renderFursuitGenderFilter()}
           {this.renderFursuitBuildFilter()}
           {this.renderFursuitPaddingFilter()}
-          {this.renderFursuitFingersFilter()}
           {this.renderFursuitColorFilter()}
           {this.renderFursuitEyesFilter()}
-          {this.renderMakerFilter()}
+          {this.renderFursuitLegsFilter()}
+          {this.renderFursuitFingersFilter()}
         </Grid>
       </Grid>
     );

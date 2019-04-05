@@ -45,6 +45,7 @@ namespace :fursuits do
             base_color: e[9],
             eyes_color: e[10]
           )
+          Hybrid.create!(fursuit: fursuit)
         else
           fursuit = Fursuit.create!(
             name: e[0],

@@ -127,6 +127,7 @@ class EditFursuitDialog extends React.Component {
     avatar: null,
     fursuitLegType: null,
     fursuitStyle: null,
+    fursuitGender: null,
     fursuitSpecy: null,
     hybridSpecies: null,
     hybridSearch: false,
@@ -177,6 +178,7 @@ class EditFursuitDialog extends React.Component {
       fursuitBuild: fursuit.fursuitBuild && fursuit.fursuitBuild.id,
       fursuitPadding: fursuit.fursuitPadding && fursuit.fursuitPadding.id,
       fursuitFinger: fursuit.fursuitFinger && fursuit.fursuitFinger.id,
+      fursuitGender: fursuit.fursuitGender && fursuit.fursuitGender.id,
       baseColor: fursuit.baseColor,
       eyesColor: fursuit.eyesColor,
       maker: fursuit.makers.length > 0 && [fursuit.makers[0].id]
@@ -260,7 +262,6 @@ class EditFursuitDialog extends React.Component {
 
   render() {
     const { classes, fursuit } = this.props;
-    console.log(fursuit);
 
     return (
       <React.Fragment>
@@ -303,6 +304,7 @@ class EditFursuitDialog extends React.Component {
                 <Button
                   disabled={!this.state.name || /^\s*$/.test(this.state.name)}
                   onClick={() => {
+                    console.log(this.state);
                     updateFursuit({
                       variables: {
                         input: {
@@ -310,14 +312,19 @@ class EditFursuitDialog extends React.Component {
                           name: this.state.name,
                           fursuitFingerId: this.state.fursuitFinger,
                           fursuitBuildId: this.state.fursuitBuild,
+                          fursuitGenderId: this.state.fursuitGender,
                           fursuitStyleId: this.state.fursuitStyle,
                           fursuitSpecyId: this.state.fursuitSpecy,
                           fursuitLegTypeId: this.state.fursuitLegType,
                           baseColor: this.state.baseColor,
                           eyesColor: this.state.eyesColor,
-                          isHybrid: this.state.isHybrid
-                            ? this.state.isHybrid
+                          isHybrid: this.state.hybridSearch
+                            ? this.state.hybridSearch
                             : false,
+                          hybridSpecies:
+                            this.state.hybridSpecies.length > 0
+                              ? this.state.hybridSpecies.map(e => e.value)
+                              : null,
                           makerIds: this.state.maker,
                           creationYear: this.state.creationYear
                             ? parseInt(this.state.creationYear)

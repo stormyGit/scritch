@@ -299,7 +299,7 @@ class Fursuit extends React.Component {
                         gutterBottom
                         variant="h6"
                         component="h2"
-                        color="secondary"
+                        color="primary"
                         className={classes.fursuitTitle}
                         noWrap
                       >
@@ -314,9 +314,35 @@ class Fursuit extends React.Component {
                       >
                         {fursuit.creationYear}
                       </Typography>
+                      <div style={{ padding: 5 }} />
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="primary"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        Species
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap={false}
+                      >
+                        {fursuit.isHybrid
+                          ? fursuit.hybridSpecies.length > 0
+                            ? `Hybrid (${fursuit.hybridSpecies
+                                .map(e => e.name)
+                                .join(", ")})`
+                            : "Hybrid (no species specified)"
+                          : fursuit.fursuitSpecy.name}
+                      </Typography>
                     </Grid>
                   </Grid>
-                  <div style={{ padding: 10 }} />
+                  <div style={{ padding: 5 }} />
                   <Grid
                     container
                     spacing={8}
@@ -334,7 +360,7 @@ class Fursuit extends React.Component {
                   </Grid>
                   <Grid container spacing={8}>
                     <Grid item>
-                      <div style={{ padding: 10 }} />
+                      <div style={{ padding: 5 }} />
                       <React.Fragment>
                         {currentSession && (
                           <div className={classes.metrics}>
@@ -374,12 +400,12 @@ class Fursuit extends React.Component {
                           </div>
                         )}
                       </React.Fragment>
-                      <div style={{ padding: 10 }} />
+                      <div style={{ padding: 5 }} />
                       <Typography
                         gutterBottom
                         variant="h6"
                         component="h2"
-                        color="secondary"
+                        color="primary"
                         className={classes.fursuitTitle}
                         noWrap
                       >
@@ -394,8 +420,7 @@ class Fursuit extends React.Component {
                             gutterBottom
                             variant="h5"
                             component="h2"
-                            color="primary"
-                            className={classes.fursuitTitle}
+                            color="secondary"
                             noWrap
                           >
                             {fursuit.makers[0].name}
@@ -413,36 +438,12 @@ class Fursuit extends React.Component {
                           Unknown
                         </Typography>
                       )}
-                      <div style={{ padding: 10 }} />
+                      <div style={{ padding: 5 }} />
                       <Typography
                         gutterBottom
                         variant="h6"
                         component="h2"
-                        color="secondary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Species
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap={false}
-                      >
-                        {fursuit.isHybrid
-                          ? `Hybrid (${fursuit.hybridSpecies
-                              .map(e => e.name)
-                              .join(", ")})`
-                          : fursuit.fursuitSpecy.name}
-                      </Typography>
-                      <div style={{ padding: 10 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="secondary"
+                        color="primary"
                         className={classes.fursuitTitle}
                         noWrap
                       >
@@ -459,16 +460,16 @@ class Fursuit extends React.Component {
                           ? fursuit.fursuitStyle.name
                           : "Unknown"}
                       </Typography>
-                      <div style={{ padding: 10 }} />
+                      <div style={{ padding: 5 }} />
                       <Typography
                         gutterBottom
                         variant="h6"
                         component="h2"
-                        color="secondary"
+                        color="primary"
                         className={classes.fursuitTitle}
                         noWrap
                       >
-                        Leg Type
+                        Appearance
                       </Typography>
                       <Typography
                         gutterBottom
@@ -477,16 +478,17 @@ class Fursuit extends React.Component {
                         className={classes.fursuitTitle}
                         noWrap
                       >
-                        {fursuit.fursuitLegType
-                          ? fursuit.fursuitLegType.name
+                        {fursuit.fursuitGender
+                          ? fursuit.fursuitGender.name
                           : "Unknown"}
                       </Typography>
-                      <div style={{ padding: 10 }} />
+
+                      <div style={{ padding: 5 }} />
                       <Typography
                         gutterBottom
                         variant="h6"
                         component="h2"
-                        color="secondary"
+                        color="primary"
                         className={classes.fursuitTitle}
                         noWrap
                       >
@@ -503,12 +505,13 @@ class Fursuit extends React.Component {
                           ? fursuit.fursuitBuild.name
                           : "Unknown"}
                       </Typography>
-                      <div style={{ padding: 10 }} />
+
+                      <div style={{ padding: 5 }} />
                       <Typography
                         gutterBottom
                         variant="h6"
                         component="h2"
-                        color="secondary"
+                        color="primary"
                         className={classes.fursuitTitle}
                         noWrap
                       >
@@ -525,12 +528,74 @@ class Fursuit extends React.Component {
                           ? fursuit.fursuitPadding.name
                           : "Unknown"}
                       </Typography>
-                      <div style={{ padding: 10 }} />
+                      <div style={{ padding: 5 }} />
                       <Typography
                         gutterBottom
                         variant="h6"
                         component="h2"
-                        color="secondary"
+                        color="primary"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        Base Color
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        {fursuit.baseColor ? fursuit.baseColor : "Unknown"}
+                      </Typography>
+                      <div style={{ padding: 5 }} />
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="primary"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        Eyes Color
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        {fursuit.eyesColor ? fursuit.eyesColor : "Unknown"}
+                      </Typography>
+                      <div style={{ padding: 5 }} />
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="primary"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        Leg Type
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="h2"
+                        className={classes.fursuitTitle}
+                        noWrap
+                      >
+                        {fursuit.fursuitLegType
+                          ? fursuit.fursuitLegType.name
+                          : "Unknown"}
+                      </Typography>
+                      <div style={{ padding: 5 }} />
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="primary"
                         className={classes.fursuitTitle}
                         noWrap
                       >
@@ -547,47 +612,8 @@ class Fursuit extends React.Component {
                           ? fursuit.fursuitFinger.name
                           : "Unknown"}
                       </Typography>
-                      <div style={{ padding: 10 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="secondary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Base Color
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.baseColor ? fursuit.baseColor : "Unknown"}
-                      </Typography>
-                      <div style={{ padding: 10 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="secondary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Eyes Color
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.eyesColor ? fursuit.eyesColor : "Unknown"}
-                      </Typography>
-                      <div style={{ padding: 10 }} />
+
+                      <div style={{ padding: 5 }} />
                     </Grid>
                   </Grid>
                   <Divider />

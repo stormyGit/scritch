@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_28_041735) do
+ActiveRecord::Schema.define(version: 2019_04_05_222239) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -286,6 +286,13 @@ ActiveRecord::Schema.define(version: 2019_03_28_041735) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "fursuit_genders", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "fursuit_leg_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -379,6 +386,8 @@ ActiveRecord::Schema.define(version: 2019_03_28_041735) do
     t.string "base_color"
     t.string "eyes_color"
     t.boolean "is_hybrid", default: false
+    t.uuid "fursuit_gender_id"
+    t.index ["fursuit_gender_id"], name: "index_fursuits_on_fursuit_gender_id"
   end
 
   create_table "hybrids", force: :cascade do |t|
@@ -470,6 +479,8 @@ ActiveRecord::Schema.define(version: 2019_03_28_041735) do
     t.integer "fursuits_count"
     t.uuid "sub_event_id"
     t.integer "faves_count", default: 0
+    t.string "photographer_slug"
+    t.string "photographer_string"
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
     t.index ["slug"], name: "index_media_on_slug", unique: true
   end

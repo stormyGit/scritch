@@ -17,6 +17,9 @@ module Types
     field :comments, [CommentType], null: false
     field :related_media, [MediumType], null: false
 
+    field :photographer_slug, String, null: true
+    field :photographer_string, String, null: true
+
     field :fursuits, [FursuitType], null: false
 
     field :edition, EditionType, null: true

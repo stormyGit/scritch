@@ -10,6 +10,7 @@ export const LOAD_FURSUITS = gql`
     $fursuitBuild: ID
     $fursuitPadding: ID
     $fursuitFingers: ID
+    $fursuitGenders: ID
     $fursuitColor: String
     $fursuitEyes: String
     $exclude: [ID!]
@@ -27,6 +28,7 @@ export const LOAD_FURSUITS = gql`
       fursuitBuild: $fursuitBuild
       fursuitPadding: $fursuitPadding
       fursuitFingers: $fursuitFingers
+      fursuitGenders: $fursuitGenders
       fursuitColor: $fursuitColor
       fursuitEyes: $fursuitEyes
       maker: $maker
@@ -85,6 +87,10 @@ export const LOAD_FURSUIT = gql`
         name
       }
       fursuitBuild {
+        id
+        name
+      }
+      fursuitGender {
         id
         name
       }
@@ -172,6 +178,15 @@ export const LOAD_FINGERS = gql`
 export const LOAD_BUILDS = gql`
   query fursuitBuilds {
     fursuitBuilds {
+      id
+      name
+    }
+  }
+`;
+
+export const LOAD_GENDERS = gql`
+  query fursuitGenders {
+    fursuitGenders {
       id
       name
     }
