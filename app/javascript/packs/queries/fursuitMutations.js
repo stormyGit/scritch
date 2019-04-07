@@ -30,3 +30,13 @@ export const DELETE_SUBSCRIPTION = gql`
     }
   }
 `;
+
+export const DELETE_FURSUIT_USER = gql`
+  mutation deleteFursuitUser($input: DeleteFursuitUserInput!) {
+    deleteFursuitUser(input: $input) {
+      fursuitUser {
+        id
+      }
+    }
+  }
+`;

@@ -12,7 +12,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    true
+    !record.blocked_users_ids.include?(user.uuid)
   end
 
   def update?

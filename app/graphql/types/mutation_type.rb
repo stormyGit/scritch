@@ -13,6 +13,7 @@ module Types
     field :create_fave, mutation: Mutations::CreateFave
     field :delete_fave, mutation: Mutations::DeleteFave
     field :delete_session, mutation: Mutations::DeleteSession
+    field :delete_fursuit_user, mutation: Mutations::DeleteFursuitUser
     field :delete_user, mutation: Mutations::DeleteUser
     field :update_user, mutation: Mutations::UpdateUser
     field :delete_medium, mutation: Mutations::DeleteMedium

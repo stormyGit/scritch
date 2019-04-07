@@ -19,10 +19,12 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import Select from "react-select";
 
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 
 import { withStyles } from "@material-ui/core/styles";
+import { countriesList } from "../../countriesList";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 import ImageCropper from "../Global/ImageCropper";
@@ -38,6 +40,9 @@ const styles = theme => ({
   },
   dialogContent: {
     marginTop: theme.spacing.unit * 2
+  },
+  selectInput: {
+    fontFamily: theme.typography.fontFamily
   },
   editBannerButton: {
     width: "100%",
@@ -150,7 +155,7 @@ class EditMakerDialog extends React.Component {
     this.setState({
       id: maker.id,
       name: maker.name || "",
-      country: maker.country,
+      country: maker.country && { value: maker.country, label: maker.country },
       region: maker.region,
       avatar: maker.avatar,
       web: maker.web
@@ -250,14 +255,20 @@ class EditMakerDialog extends React.Component {
               margin="dense"
               fullWidth
             />
-            <TextField
-              label="Country"
-              name="country"
-              value={this.state.country}
-              onChange={e => this.setState({ country: e.target.value })}
-              margin="dense"
+            <div style={{ padding: 5 }} />
+            <Select
               fullWidth
+              placeholder="Country"
+              isClearable
+              isSearchable
+              value={this.state.country}
+              onChange={country => {
+                this.setState({ country: country });
+              }}
+              options={countriesList}
+              className={classes.selectInput}
             />
+            <div style={{ padding: 5 }} />
             <TextField
               label="Region"
               name="region"
@@ -266,6 +277,7 @@ class EditMakerDialog extends React.Component {
               margin="dense"
               fullWidth
             />
+            <div style={{ padding: 5 }} />
             <TextField
               label="Website"
               name="web"
@@ -288,7 +300,7 @@ class EditMakerDialog extends React.Component {
                         input: {
                           id: maker.id,
                           name: this.state.name,
-                          country: this.state.country,
+                          country: this.state.country.value,
                           region: this.state.region,
                           web: this.state.web,
                           ...(this.state.avatar !== maker.avatar

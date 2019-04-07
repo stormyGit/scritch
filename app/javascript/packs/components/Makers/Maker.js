@@ -24,7 +24,8 @@ import { Link, withRouter } from "react-router-dom";
 const styles = theme => ({
   container: {
     display: "flex",
-    minHeight: "calc(100vh - 56px)"
+    minHeight: "calc(100vh - 56px)",
+    padding: theme.spacing.unit
   },
   UnderReview: {
     height: "40vw",
@@ -134,7 +135,7 @@ class Maker extends React.Component {
                       <Grid container spacing={8}>
                         {data.maker.fursuits.map(fursuit => {
                           return (
-                            <Grid item xs={6} md={4} lg={3} key={fursuit.id}>
+                            <Grid item xs={6} md={4} lg={2} key={fursuit.id}>
                               <FursuitCard
                                 openFursuit={fursuit => {
                                   this.setState({
@@ -168,6 +169,13 @@ class Maker extends React.Component {
                                   }
                                 >
                                   Claim maker
+                                </Button>
+                              </Grid>
+                            )}
+                            {maker.claimed && !maker.possessed && (
+                              <Grid item>
+                                <Button color="primary" disabled>
+                                  Claim pending
                                 </Button>
                               </Grid>
                             )}
@@ -208,10 +216,8 @@ class Maker extends React.Component {
                           <Grid item>
                             <Typography
                               gutterBottom
-                              variant="h6"
+                              variant="h5"
                               component="h2"
-                              color="secondary"
-                              className={classes.makerTitle}
                             >
                               {maker.name}
                             </Typography>
@@ -219,6 +225,7 @@ class Maker extends React.Component {
                               gutterBottom
                               variant="h5"
                               component="h2"
+                              color="primary"
                               className={classes.makerTitle}
                             >
                               {maker.country}
@@ -251,7 +258,7 @@ class Maker extends React.Component {
                               gutterBottom
                               variant="h6"
                               component="h2"
-                              color="secondary"
+                              color="primary"
                               className={classes.makerTitle}
                             >
                               Website
@@ -265,8 +272,7 @@ class Maker extends React.Component {
                                 <Button
                                   variant="outlined"
                                   component="h2"
-                                  color="primary"
-                                  className={classes.makerTitle}
+                                  color="secondary"
                                 >
                                   Open in a new tab
                                 </Button>
@@ -288,7 +294,7 @@ class Maker extends React.Component {
                               gutterBottom
                               variant="h6"
                               component="h2"
-                              color="secondary"
+                              color="primary"
                               className={classes.makerTitle}
                             >
                               Fursuits

@@ -64,7 +64,7 @@ class AssetRequestDialog extends React.Component {
       <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
         <GlobalProgress absolute />
 
-        <DialogTitle>{`Request addition of: ${assetType}`}</DialogTitle>
+        <DialogTitle>{`Request a new: ${assetType}`}</DialogTitle>
         <DialogContent>
           <TextField
             label="Name"
@@ -98,7 +98,7 @@ class AssetRequestDialog extends React.Component {
             }}
           />
           <TextField
-            label="Please tell us more…"
+            label="Please tell us more, such as existing fields common to similar assets…"
             name="body"
             value={this.state.body}
             onChange={e => this.setState({ body: e.target.value })}

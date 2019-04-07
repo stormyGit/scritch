@@ -104,6 +104,9 @@ const styles = theme => ({
   },
   link: {
     textDecoration: "none"
+  },
+  tooltip: {
+    fontSize: "2em"
   }
 });
 
@@ -297,10 +300,8 @@ class Fursuit extends React.Component {
                     <Grid item>
                       <Typography
                         gutterBottom
-                        variant="h6"
+                        variant="h5"
                         component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
                         noWrap
                       >
                         {fursuit.name}

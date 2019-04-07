@@ -50,6 +50,7 @@ import {
 
 import MediumCard from "../Media/MediumCard";
 import FursuitCard from "../Fursuits/FursuitCard";
+import FursuitUserCard from "../Fursuits/FursuitUserCard";
 import UserCard from "./UserCard";
 import EmptyList from "../Global/EmptyList";
 import UserAvatar from "./UserAvatar";
@@ -517,7 +518,7 @@ class User extends React.Component {
             <React.Fragment>
               <Grid container spacing={8}>
                 {data.followingsByUser.map(following => (
-                  <Grid item xs={12} key={following.id}>
+                  <Grid item xs={12} lg={4} key={following.id}>
                     <UserCard user={following} />
                   </Grid>
                 ))}
@@ -560,13 +561,8 @@ class User extends React.Component {
       <React.Fragment>
         <Grid container spacing={8}>
           {user.fursuits.map(fursuit => (
-            <Grid item xs={2} key={fursuit.id}>
-              <FursuitCard
-                fursuit={fursuit}
-                onClick={() =>
-                  this.props.history.push(`/fursuits/${fursuit.slug}`)
-                }
-              />
+            <Grid item xs={12} key={fursuit.id}>
+              <FursuitUserCard fursuit={fursuit} />
             </Grid>
           ))}
         </Grid>
@@ -599,7 +595,7 @@ class User extends React.Component {
             <React.Fragment>
               <Grid container spacing={8}>
                 {data.followersByUser.map(follower => (
-                  <Grid item xs={12} key={follower.id}>
+                  <Grid item xs={12} lg={4} key={follower.id}>
                     <UserCard user={follower} />
                   </Grid>
                 ))}
@@ -741,7 +737,7 @@ class User extends React.Component {
               <a href={user.website} target="_blank" {...props} />
             )}
           >
-            {user.website.replace(/^https?:\/\//, "")}
+            Website
           </Typography>
         )}
       </div>
@@ -1051,7 +1047,12 @@ class User extends React.Component {
                       spacing={8}
                       justify="center"
                     >
-                      <Grid item item xs={12} lg={10}>
+                      <Grid
+                        item
+                        item
+                        xs={12}
+                        lg={this.state.tab == "fursuits" ? 8 : 10}
+                      >
                         {this.state.tab === "pictures" &&
                           this.renderMedia(data.user)}
                         {this.state.tab === "fursuits" &&

@@ -63,6 +63,9 @@ const styles = theme => ({
     textDecoration: "underline",
     marginTop: theme.spacing.unit * 2,
     cursor: "pointer"
+  },
+  blurb: {
+    fontWeight: 200
   }
 });
 
@@ -118,16 +121,21 @@ class SignUpDialog extends React.Component {
           )}
           <DialogContent>
             <DialogContentText>
-              {`We use `}
-              <a
-                href="https://telegram.org/blog/login"
-                target="_blank"
-                rel="noopener"
-                className={classes.link}
-              >
-                Telegram Login for Websites
-              </a>
-              {` to allow users to easily sign-in without having to provide an email address and a password. Please note that:`}
+              <Typography variant="h6" className={classes.blurb}>
+                {`Scritch utilises `}
+                <a
+                  href="https://telegram.org/blog/login"
+                  target="_blank"
+                  rel="noopener"
+                  className={classes.link}
+                >
+                  Telegram Login for Websites
+                </a>
+                {` to allow users to easily sign-in without having to provide an email address and password.`}
+              </Typography>
+              <Typography variant="h6" className={classes.blurb}>
+                Please note that:
+              </Typography>
             </DialogContentText>
             <List>
               <ListItem>
@@ -136,9 +144,7 @@ class SignUpDialog extends React.Component {
                 </ListItemIcon>
                 <ListItemText
                   inset
-                  primary={`You must be ${
-                    process.env.MINIMUM_AGE
-                  } or older to use ${process.env.SITE_NAME}.`}
+                  primary="Telegram will share your username, handle, avatar, bio and ID."
                 />
               </ListItem>
               <ListItem>
@@ -147,7 +153,7 @@ class SignUpDialog extends React.Component {
                 </ListItemIcon>
                 <ListItemText
                   inset
-                  primary="Telegram will share your username, handle, avatar, bio and ID. Telegram will not share your phone number, contacts and messages."
+                  primary="Telegram will not share your phone number, contacts and messages."
                 />
               </ListItem>
               <ListItem>
@@ -203,7 +209,7 @@ class SignUpDialog extends React.Component {
                 className={classes.troubleLink}
                 onClick={() => this.setState({ alternativeLogin: true })}
               >
-                Having trouble signin in?
+                Having trouble signing in?
               </Typography>
             )}
           </DialogContent>

@@ -111,7 +111,7 @@ const styles = theme => ({
   },
   domain: {
     marginRight: 1,
-    paddingBottom: 4,
+    paddingBottom: 0,
     fontSize: "1rem",
     color:
       theme.palette.type === "dark"
@@ -362,15 +362,18 @@ class EditProfileDialog extends React.Component {
               name="name"
               value={this.state.name}
               onChange={e => this.setState({ name: e.target.value })}
+              variant="outlined"
               margin="dense"
               fullWidth
             />
+            <div style={{ padding: 5 }} />
             <TextField
               label="URL"
               name="slug"
               value={this.state.slug}
               onChange={e => this.setState({ slug: e.target.value })}
               margin="dense"
+              variant="outlined"
               fullWidth
               InputProps={{
                 startAdornment: (
@@ -384,17 +387,25 @@ class EditProfileDialog extends React.Component {
                 )
               }}
             />
+            <div style={{ padding: 5 }} />
             <TextField
-              label="Bio"
+              label={`Bio (characters: ${this.state.bio.length}/70)`}
               name="bio"
               value={this.state.bio}
-              onChange={e => this.setState({ bio: e.target.value })}
+              variant="outlined"
+              onChange={e => {
+                console.log(e.target.value);
+                e.target.value.length <= 70 &&
+                  this.setState({ bio: e.target.value });
+              }}
               margin="dense"
               fullWidth
             />
+            <div style={{ padding: 5 }} />
             <TextField
               label="Website"
               name="website"
+              variant="outlined"
               value={this.state.website}
               onChange={e => this.setState({ website: e.target.value })}
               margin="dense"

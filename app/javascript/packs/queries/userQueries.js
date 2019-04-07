@@ -44,6 +44,10 @@ export const GET_USER = gql`
         id
         name
         avatar
+        mediaCount
+        followersCount
+        likesCount
+        favesCount
         slug
         makers {
           id

@@ -54,7 +54,7 @@ class Settings extends React.Component {
     return (
       <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
         <GlobalProgress absolute />
-        <DialogTitle>{"Account and security"}</DialogTitle>
+        <DialogTitle>{"Settings and Security"}</DialogTitle>
         <DialogContent>
           <Mutation
             mutation={UPDATE_USER}
@@ -86,7 +86,7 @@ class Settings extends React.Component {
                           color="primary"
                         />
                       }
-                      label="Let others see the fursuit(s) I own"
+                      label="Allow Users to see the Fursuit(s) I own"
                     />
                   </Grid>
                 </Grid>
@@ -126,7 +126,7 @@ class Settings extends React.Component {
                           color="primary"
                         />
                       }
-                      label="Use light theme"
+                      label="Use Light Theme"
                     />
                   </Grid>
                 </Grid>
@@ -164,7 +164,7 @@ class Settings extends React.Component {
                             color="primary"
                           />
                         }
-                        label="Show ads"
+                        label="Show Advertisements"
                       />
                     </Grid>
                   </Grid>
@@ -203,7 +203,7 @@ class Settings extends React.Component {
                             color="primary"
                           />
                         }
-                        label="Show tooltips"
+                        label="Show Tooltips"
                       />
                     </Grid>
                   </Grid>

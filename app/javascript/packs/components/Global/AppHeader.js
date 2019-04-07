@@ -52,12 +52,16 @@ class AppHeader extends React.Component {
     var limit = width != "xs" ? 2 : 1;
 
     if (
-      !currentSession ||
+      currentSession &&
       (!currentSession.user.showAds && !currentSession.user.showTooltips)
     )
       return null;
 
-    if (!currentSession.user.showAds && currentSession.user.showTooltips)
+    if (
+      currentSession &&
+      !currentSession.user.showAds &&
+      currentSession.user.showTooltips
+    )
       return (
         <div className={classes.root}>
           <Grid
@@ -115,7 +119,9 @@ class AppHeader extends React.Component {
                         </a>
                       </Grid>
                       {(width === "xl" || width === "lg") &&
-                        currentSession.user.showTooltips && (
+                        (!currentSession ||
+                          (currentSession &&
+                            currentSession.user.showTooltips)) && (
                           <Grid item xs={false} lg={4}>
                             <img
                               src={require("../../pixelTooltip.png")}
@@ -124,6 +130,7 @@ class AppHeader extends React.Component {
                           </Grid>
                         )}
                       {(width === "xl" || width === "lg") &&
+                        currentSession &&
                         !currentSession.user.showTooltips && (
                           <Grid item xs={false} lg={4} />
                         )}

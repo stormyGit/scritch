@@ -134,15 +134,7 @@ class AppRouter extends React.Component {
                         : MustLog
                     }
                   />
-                  <Route
-                    exact
-                    path="/ads"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? AdsLister
-                        : MustLog
-                    }
-                  />
+                  <Route exact path="/ads" component={AdsLister} />
                   <Route
                     exact
                     path="/pictures/:id"

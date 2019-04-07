@@ -4,6 +4,7 @@ import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
 import { Query } from "react-apollo";
 import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
@@ -35,13 +36,15 @@ class NotificationsButton extends React.Component {
               )}
             >
               {({ loading, error, data }) => (
-                <IconButton color="primary" onClick={this.props.onClick}>
-                  {loading || !data || data.unreadActivityCount <= 0 ? (
-                    <NotificationsNoneIcon />
-                  ) : (
-                    <NotificationsIcon />
-                  )}
-                </IconButton>
+                <Tooltip title="Notifications">
+                  <IconButton color="primary" onClick={this.props.onClick}>
+                    {loading || !data || data.unreadActivityCount <= 0 ? (
+                      <NotificationsNoneIcon />
+                    ) : (
+                      <NotificationsIcon />
+                    )}
+                  </IconButton>
+                </Tooltip>
               )}
             </Query>
           </div>

@@ -34,6 +34,9 @@ const styles = theme => ({
     display: "flex",
     alignItems: "center",
     paddingRight: theme.spacing.unit * 3
+  },
+  padder: {
+    padding: theme.spacing.unit
   }
 });
 
@@ -43,8 +46,9 @@ class MediumCard extends React.Component {
 
     return (
       <CardHeader
-        avatar={<UserAvatar user={user} />}
-        title={user.name}
+        className={classes.padder}
+        avatar={<UserAvatar user={user} size={64} />}
+        title={<Typography variant="h6">{user.name}</Typography>}
         subheader={user.bio}
       />
     );

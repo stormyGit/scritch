@@ -43,7 +43,7 @@ class AppFooter extends React.Component {
     var adRibbon;
 
     if (
-      !currentSession ||
+      currentSession &&
       (!currentSession.user.showAds && !currentSession.user.showTooltips)
     )
       adRibbon = null;
@@ -78,7 +78,8 @@ class AppFooter extends React.Component {
     return (
       <div className={classes.root}>
         {adRibbon}
-        {currentSession && currentSession.user.showAds && (
+        {(!currentSession ||
+          (currentSession && currentSession.user.showAds)) && (
           <React.Fragment>
             <Grid
               container
@@ -114,7 +115,9 @@ class AppFooter extends React.Component {
                             </a>
                           </Grid>
                           {(width === "xl" || width === "lg") &&
-                            currentSession.user.showTooltips && (
+                            (!currentSession ||
+                              (currentSession &&
+                                currentSession.user.showTooltips)) && (
                               <Grid item xs={false} lg={4}>
                                 <img
                                   src={require("../../pixelTooltip.png")}
@@ -123,6 +126,7 @@ class AppFooter extends React.Component {
                               </Grid>
                             )}
                           {(width === "xl" || width === "lg") &&
+                            currentSession &&
                             !currentSession.user.showTooltips && (
                               <Grid item xs={false} lg={4} />
                             )}

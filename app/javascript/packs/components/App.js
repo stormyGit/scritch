@@ -33,6 +33,13 @@ const makeTheme = type => {
         main: "#ff6666"
       },
       type: type
+    },
+    overrides: {
+      MuiTooltip: {
+        tooltip: {
+          fontSize: "1em"
+        }
+      }
     }
   });
 };

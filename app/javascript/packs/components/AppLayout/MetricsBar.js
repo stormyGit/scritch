@@ -4,6 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPaw,
@@ -19,7 +20,8 @@ const styles = theme => ({
   },
   metrics: {
     paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 4
+    paddingRight: theme.spacing.unit * 4,
+    display: "flex"
   },
   dataSpacer: {
     marginLeft: theme.spacing.unit * 2
@@ -44,31 +46,34 @@ class MetricsBar extends React.Component {
               )}
               {"Score: "}
               {true && currentSession.user.globalScore}
-              <FontAwesomeIcon
-                title="Scritches"
-                icon={faPaw}
-                className={classes.dataSpacer}
-              />{" "}
-              {currentSession.user.likedCount}
-              <FontAwesomeIcon
-                title="Favorites"
-                icon={faStar}
-                className={classes.dataSpacer}
-              />{" "}
-              {currentSession.user.favedCount}
-              <FontAwesomeIcon
-                title="Followers"
-                icon={faUsers}
-                className={classes.dataSpacer}
-              />{" "}
-              {currentSession.user.followersCount}
-              <FontAwesomeIcon
-                title="Tagged in"
-                icon={faTags}
-                className={classes.dataSpacer}
-              />{" "}
-              {currentSession.user.taggedCount}
             </Typography>
+            <Tooltip title="Scritches">
+              <Typography variant="subtitle1">
+                <FontAwesomeIcon icon={faPaw} className={classes.dataSpacer} />{" "}
+                {currentSession.user.likedCount}
+              </Typography>
+            </Tooltip>
+            <Tooltip title="Favorites">
+              <Typography variant="subtitle1">
+                <FontAwesomeIcon icon={faStar} className={classes.dataSpacer} />{" "}
+                {currentSession.user.favedCount}
+              </Typography>
+            </Tooltip>
+            <Tooltip title="Followers">
+              <Typography variant="subtitle1">
+                <FontAwesomeIcon
+                  icon={faUsers}
+                  className={classes.dataSpacer}
+                />{" "}
+                {currentSession.user.followersCount}
+              </Typography>
+            </Tooltip>
+            <Tooltip title="Tagged in">
+              <Typography variant="subtitle1">
+                <FontAwesomeIcon icon={faTags} className={classes.dataSpacer} />{" "}
+                {currentSession.user.taggedCount}
+              </Typography>
+            </Tooltip>
           </div>
         )}
       </React.Fragment>

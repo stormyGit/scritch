@@ -44,8 +44,7 @@ class MakerClaimDialog extends React.Component {
         }}
       >
         <GlobalProgress absolute />
-
-        <DialogTitle>Claim this maker</DialogTitle>
+        <DialogTitle>Claim this Maker</DialogTitle>
         <DialogContent>
           <List>
             <ListItem>
@@ -54,7 +53,7 @@ class MakerClaimDialog extends React.Component {
               </ListItemIcon>
               <ListItemText
                 inset
-                primary="Claiming this maker will allow you to modify it and be notified when it is tagged in a picture"
+                primary="Claiming this Maker will allow you to edit its Data Fields."
               />
             </ListItem>
             <ListItem>
@@ -63,7 +62,7 @@ class MakerClaimDialog extends React.Component {
               </ListItemIcon>
               <ListItemText
                 inset
-                primary="Your claim will be reviewed by our moderators."
+                primary="On submission, your claim will be reviewed by our Moderator team."
               />
             </ListItem>
             <ListItem>
@@ -72,7 +71,7 @@ class MakerClaimDialog extends React.Component {
               </ListItemIcon>
               <ListItemText
                 inset
-                primary="Claiming a maker that is not yours will have consequences on your account."
+                primary="Claiming a Maker when you are not the owner of the studio will result in repercussions."
               />
             </ListItem>
           </List>

@@ -185,7 +185,7 @@ class Fursuits extends React.Component {
                 <Grid
                   container
                   className={classes.root}
-                  spacing={16}
+                  spacing={8}
                   style={{
                     marginTop: width === "lg" || width === "xl" ? 4 : -4
                   }}

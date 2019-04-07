@@ -53,7 +53,6 @@ const styles = theme => ({
 
 class AdsLister extends React.Component {
   state = {
-    tutoDialog: !this.props.currentSession.user.tagTutorial,
     tagDialog: false,
     hasMore: true
   };

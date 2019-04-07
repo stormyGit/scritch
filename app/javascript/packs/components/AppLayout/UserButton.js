@@ -75,7 +75,7 @@ class UserButton extends React.Component {
                   this.props.openSettings();
                 }}
               >
-                Settings and security
+                Settings and Security
               </MenuItem>
 
               <Mutation mutation={DELETE_SESSION}>

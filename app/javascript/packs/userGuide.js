@@ -3,7 +3,6 @@ const terms = `
 Date of last revision: **24 March 2019**
 ___
 ## **CONTENTS**
-LANDING PAGE
 CODE OF CONDUCT
 SCRITCH TERMINOLOGY
 OUR PROMISE
@@ -38,9 +37,6 @@ WHAT CAN I DO WITH SCRITCH?
 *> Advertise*
 *> Block*
 *> Report*
-___
-## **LANDING PAGE**
-Although Scritch has been designed to host strictly SFW Content, the Landing Page provides a means for the Website to confirm a User is over 18. By clicking “ENTER”  the User is agreeing to the Website Terms and Conditions.
 ___
 ## **CODE OF CONDUCT**
 Website Administrators police all aspects of Scritch User interaction, safeguarding them against:
@@ -84,9 +80,9 @@ ___
 | Account | **Session** | *Period of Website Access by User.* |
 | Account | **Sponsor** | *User that is financially invested in the Website through take out of Sponsorship subscription.* |
 | Account | **Sponsorship** | *Financial investment in the Website bound by period to expiry or renewal.* |
-| Account | **User** | *Person using the Website at any level of Access through a Account.* |
+| Account | **User** | *Person using the Website at any level of Access through an Account.* |
 | Service | **Advertise** | *Registered Users can Advertise on Scritch and manage their Advertisement through the Dashboard provided.* |
-| Service | **Claim** | *Function that allows a Account to request Ownership of an Card.* |
+| Service | **Claim** | *Function that allows an Account to request Ownership of an Card.* |
 | Service | **Dashboard** | *A visual overview to allow navigation or management of Website Services.* |
 | Service | **Database** | *An electronic record of current Assets making up the Website, able to be queried by Users through look up of entered Data Fields in searches.* |
 | Service | **Filter** | *Visibility toggle of results from a Search query driven by Filter(s) selected from the available Data Fields.* |
@@ -121,8 +117,8 @@ ___
 ### **Levels of Scritch User Accounts**
 | Level | Description
 | ------ | ------ |
-| **Unregistered** | *Users are Unregistered prior to creating a Account or whilst logged out of Scritch.* |
-| **Registered** | *Users are Registered after they have created a Account by logging into Scritch.* |
+| **Unregistered** | *Users are Unregistered prior to creating an Account or whilst logged out of Scritch.* |
+| **Registered** | *Users are Registered after they have created an Account by logging into Scritch.* |
 | **Card Owner** | *Users are Card Owners once they have successfully claimed a Fursuit Card or Maker Card.* |
 | **Sponsor** | *Users are Sponsors whilst they have an active Sponsorship subscription.* |
 | **Admin** | *Users are Admins that have been promoted by Scritch to gain Access to Website moderator Services.* |
@@ -142,7 +138,7 @@ Users transition between the above levels as shown in the table below:
 #### **Involvement Monitoring**
 Involvement of every user is tracked through discrete algorithms that allow periodic review of the Website Owners to amend User Levels accordingly.
 #### Involvement Action Weighting
-User Involvement Actions are weighted in line with the points system below. If a Account Owns multiple Fursuits, points weighted against actions related to each Fursuit will aggregate to a total points score for the Account itself.
+User Involvement Actions are weighted in line with the points system below. If an Account Owns multiple Fursuits, points weighted against actions related to each Fursuit will aggregate to a total points score for the Account itself.
 | Action | Effect | Points |
 | :------ | :------: | :------: |
 | **Upload Media** | **Positive** | **1** |
@@ -237,16 +233,16 @@ Each Database has been furnished with a custom set of Filters and Sort functions
 | **Most Favourites** | *Amount of Favourites content has received from User Involvement.* |
 ___
 ### **CLAIM A FURSUIT CARD**
-A Account can Claim one Fursuit Card a day (this restriction has been put in place to safeguard against misuse).
+An Account can Claim one Fursuit Card a day (this restriction has been put in place to safeguard against misuse).
 
-Only an unclaimed Fursuit Card can be claimed by a Account and must only be claimed by Accounts that **currently** own them in real life.
+Only an unclaimed Fursuit Card can be claimed by an Account and must only be claimed by Accounts that **currently** own them in real life.
 
 To claim a Fursuit Card, locate a Fursuit from the Fursuit Database through the Browse Service of the Website, then view the related Fursuit Card in full screen. You will see a “Claim” button; by clicking this, you will presented with…
 ___
 ### **CLAIM A MAKER CARD**
-A Account can claim only one Maker Card (this restriction has been put in place to safeguard against misuse).
+An Account can claim only one Maker Card (this restriction has been put in place to safeguard against misuse).
 
-Only an unclaimed Maker Card can be claimed by a Account and Maker Cards must only be claimed by Accounts that are/were owned by the Maker Studio in real life.
+Only an unclaimed Maker Card can be claimed by an Account and Maker Cards must only be claimed by Accounts that are/were owned by the Maker Studio in real life.
 
 To claim a Maker Card, SHOULD WE MAKE THIS A TICKET?
 ___
@@ -344,7 +340,7 @@ Any Registered User can choose to Block another User on Scritch to prevent Follo
 
 Blocked users can be unblocked through the…
 
-To Block a Account...
+To Block an Account...
 ___
 ### **REPORT**
 Scritch will draw upon its Admin Pool to handle any Report Tickets generated by Website Users.
