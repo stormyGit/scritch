@@ -86,7 +86,7 @@ const styles = theme => ({
     borderRadius: 18
   },
   tags: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing.unit * 1
   },
   noTags: {
     fontStyle: "italic"
@@ -120,9 +120,35 @@ const styles = theme => ({
     padding: theme.spacing.unit,
     paddingTop: 0
   },
+  dataFieldTitle: {
+    maxWidth: "40vw",
+    marginBottom: 0,
+    fontWeight: 200
+  },
   link: {
     textDecoration: "none",
     color: theme.palette.primary.main
+  },
+  gridSpacer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  padder: {
+    padding: theme.spacing.unit * 0.5
+  },
+  buttonPadder: {
+    marginRight: theme.spacing.unit
+  },
+  topContainer: {
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2
+  },
+  topSubContainer: {
+    paddingTop: theme.spacing.unit * 0.5,
+    paddingBottom: theme.spacing.unit * 0.5,
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2
   }
 });
 
@@ -174,6 +200,182 @@ class Medium extends React.Component {
             medium && (
               <React.Fragment>
                 <div style={{ paddingTop: 10 }} />
+                <Card className={classes.card} elevation={0}>
+                  <Grid
+                    container
+                    className={classes.topContainer}
+                    spacing={0}
+                    justify="space-between"
+                    alignItems="center"
+                  >
+                    <Grid item>
+                      <CardHeader
+                        className={classes.userInfo}
+                        avatar={
+                          <Link
+                            to={`/${medium.user.slug}`}
+                            className={classes.userLink}
+                          >
+                            <UserAvatar user={medium.user} size={64} />
+                          </Link>
+                        }
+                        title={
+                          <Typography variant="subtitle1">
+                            <Link
+                              to={`/${medium.user.slug}`}
+                              className={classes.userLink}
+                            >
+                              {medium.user.name}
+                            </Link>
+                          </Typography>
+                        }
+                        subheader={
+                          medium.createdAt
+                            ? timeAgo.format(dayjs(medium.createdAt).toDate())
+                            : "Under review"
+                        }
+                      />
+                    </Grid>
+                    {medium.photographerSlug && (
+                      <Grid item style={{ flexShrink: 0 }}>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h2"
+                          color="primary"
+                        >
+                          Captured by
+                        </Typography>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h2"
+                          className={classes.dataFieldTitle}
+                        >
+                          <Link
+                            to={`/${medium.photographerSlug}`}
+                            className={classes.link}
+                          >
+                            {" "}
+                            {medium.photographerSlug}
+                          </Link>
+                        </Typography>
+                      </Grid>
+                    )}
+                    {medium.photographerString && (
+                      <Grid item style={{ flexShrink: 0 }}>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h2"
+                          color="primary"
+                        >
+                          Captured by
+                        </Typography>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h2"
+                          className={classes.dataFieldTitle}
+                        >
+                          {medium.photographerString}
+                        </Typography>
+                      </Grid>
+                    )}
+                    {medium.edition && (
+                      <Grid item style={{ flexShrink: 0 }}>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h2"
+                          color="primary"
+                        >
+                          Event (Edition)
+                        </Typography>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h2"
+                          className={classes.dataFieldTitle}
+                        >
+                          {medium.edition.event.name} ({medium.edition.name})
+                        </Typography>
+                      </Grid>
+                    )}
+                    {medium.subEvent && (
+                      <Grid item style={{ flexShrink: 0 }}>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h2"
+                          color="primary"
+                        >
+                          Sub Event
+                        </Typography>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h2"
+                          className={classes.dataFieldTitle}
+                        >
+                          {medium.subEvent.name}
+                        </Typography>
+                      </Grid>
+                    )}
+                    {medium.category && (
+                      <Grid item style={{ flexShrink: 0 }}>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h2"
+                          color="primary"
+                        >
+                          Category
+                        </Typography>
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h2"
+                          className={classes.dataFieldTitle}
+                        >
+                          {medium.category.name}
+                        </Typography>
+                      </Grid>
+                    )}
+                    <Grid item style={{ flexShrink: 0 }}>
+                      <React.Fragment>
+                        {currentSession &&
+                          (medium.user.id === currentSession.user.id ||
+                            currentSession.user.moderator) && (
+                            <Button
+                              onClick={() =>
+                                this.setState({ editMedium: true })
+                              }
+                              variant="outlined"
+                            >
+                              Edit picture
+                            </Button>
+                          )}
+                        {currentSession &&
+                          medium.user.id !== currentSession.user.id &&
+                          medium.completion != 100 && (
+                            <Button
+                              onClick={() => this.setState({ tagMedium: true })}
+                              variant="outlined"
+                            >
+                              Tag Picture
+                            </Button>
+                          )}
+                      </React.Fragment>
+                      <IconButton
+                        onClick={() => this.setState({ reportDialog: true })}
+                        color="secondary"
+                      >
+                        <OutlinedFlag />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
+                </Card>
                 <div className={classes.container} key={medium.id}>
                   <PageTitle>
                     {!loading && medium
@@ -182,6 +384,7 @@ class Medium extends React.Component {
                         }`
                       : null}
                   </PageTitle>
+
                   <Card className={classes.card} elevation={0}>
                     <Grid container className={classes.gridContainer}>
                       <Grid item lg={1} xs={12} />
@@ -204,7 +407,7 @@ class Medium extends React.Component {
                       <Grid item lg={1} xs={12} />
                     </Grid>
                     <Grid container spacing={8}>
-                      <Grid item lg={8} xs={12}>
+                      <Grid item lg={9} xs={12}>
                         <CardContent>
                           <div className={classes.pictureInfo}>
                             <Grid
@@ -213,57 +416,6 @@ class Medium extends React.Component {
                               justify="space-between"
                               wrap="nowrap"
                             >
-                              <Grid item>
-                                <Typography
-                                  gutterBottom
-                                  variant="h5"
-                                  component="h2"
-                                  className={classes.mediumTitle}
-                                  noWrap
-                                >
-                                  {`Picture #${
-                                    medium.id.split("-")[
-                                      medium.id.split("-").length - 5
-                                    ]
-                                  }`}
-                                </Typography>
-                              </Grid>
-                              <Grid item style={{ flexShrink: 0 }}>
-                                {medium.visibility === "public" && (
-                                  <React.Fragment>
-                                    <SocialButton
-                                      name="Twitter"
-                                      url="https://twitter.com/intent/tweet/"
-                                      params={{
-                                        text: `${medium.title} via @${
-                                          process.env.TWITTER_ACCOUNT
-                                        }`,
-                                        url: window.location.href
-                                      }}
-                                      className={classes.socialButton}
-                                    >
-                                      <TwitterIcon fontSize={"inherit"} />
-                                    </SocialButton>
-                                    <SocialButton
-                                      name="Telegram"
-                                      className={classes.socialButton}
-                                      url="https://telegram.me/share/url"
-                                      params={{
-                                        text: medium.title,
-                                        url: window.location.href
-                                      }}
-                                    >
-                                      <TelegramIcon fontSize={"inherit"} />
-                                    </SocialButton>
-                                  </React.Fragment>
-                                )}
-                                <LikeButton medium={medium} />
-                                {currentSession.user.sponsor && (
-                                  <FaveButton medium={medium} />
-                                )}
-                              </Grid>
-                            </Grid>
-                            <Grid container spacing={8} justify="space-between">
                               <Grid item>
                                 <Typography
                                   gutterBottom
@@ -277,157 +429,64 @@ class Medium extends React.Component {
                                   )}
                                 </Typography>
                               </Grid>
+                              <Grid item style={{ flexShrink: 0 }}>
+                                {medium.exif &&
+                                  Object.keys(JSON.parse(medium.exif))
+                                    .length !== 0 && (
+                                    <Button
+                                      onClick={() =>
+                                        this.setState({ exifDialog: true })
+                                      }
+                                      variant="outlined"
+                                      className={classes.buttonPadder}
+                                    >
+                                      EXIF Data
+                                    </Button>
+                                  )}
+                                <LikeButton medium={medium} />
+                                {currentSession.user.sponsor && (
+                                  <FaveButton medium={medium} />
+                                )}
+                              </Grid>
                             </Grid>
                           </div>
-                          <Divider />
-                          <Grid
-                            container
-                            spacing={0}
-                            justify="space-between"
-                            alignItems="center"
-                          >
-                            <Grid item>
-                              <CardHeader
-                                className={classes.userInfo}
-                                avatar={
-                                  <Link
-                                    to={`/${medium.user.slug}`}
-                                    className={classes.userLink}
-                                  >
-                                    <UserAvatar user={medium.user} />
-                                  </Link>
-                                }
-                                title={
-                                  <Link
-                                    to={`/${medium.user.slug}`}
-                                    className={classes.userLink}
-                                  >
-                                    {medium.user.name}
-                                  </Link>
-                                }
-                                subheader={
-                                  medium.createdAt
-                                    ? timeAgo.format(
-                                        dayjs(medium.createdAt).toDate()
-                                      )
-                                    : "Under review"
-                                }
-                              />
-                            </Grid>
-                            <Grid item style={{ flexShrink: 0 }}>
-                              {medium.exif &&
-                                Object.keys(JSON.parse(medium.exif)).length !==
-                                  0 && (
-                                  <Button
-                                    onClick={() =>
-                                      this.setState({ exifDialog: true })
-                                    }
-                                    variant="outlined"
-                                  >
-                                    EXIF Data
-                                  </Button>
-                                )}
-                            </Grid>
-                            <Grid item style={{ flexShrink: 0 }}>
-                              {currentSession &&
-                                (medium.user.id === currentSession.user.id ||
-                                  currentSession.user.moderator) && (
-                                  <Button
-                                    onClick={() =>
-                                      this.setState({ editMedium: true })
-                                    }
-                                    variant="outlined"
-                                  >
-                                    Edit picture
-                                  </Button>
-                                )}
-                              {currentSession &&
-                                medium.user.id !== currentSession.user.id &&
-                                medium.completion != 100 && (
-                                  <Button
-                                    onClick={() =>
-                                      this.setState({ tagMedium: true })
-                                    }
-                                    variant="outlined"
-                                  >
-                                    Tag Picture
-                                  </Button>
-                                )}
-                              <IconButton
-                                onClick={() =>
-                                  this.setState({ reportDialog: true })
-                                }
-                                color="secondary"
+                          {medium.fursuits.length != 0 && (
+                            <div>
+                              <div className={classes.padder} />
+                              <Divider />
+                              <div className={classes.padder} />
+                              <div className={classes.padder} />
+                              <Grid
+                                container
+                                spacing={8}
+                                className={classes.gridSpacer}
                               >
-                                <OutlinedFlag />
-                              </IconButton>
-                            </Grid>
-                          </Grid>
+                                <Grid item>
+                                  <Typography
+                                    gutterBottom
+                                    variant="h6"
+                                    component="h2"
+                                    color="primary"
+                                  >
+                                    {"Fursuits Tagged"}
+                                  </Typography>
+                                </Grid>
+                                <Grid item>
+                                  <div className={classes.tagReportButton}>
+                                    <Button
+                                      variant="outlined"
+                                      onClick={() =>
+                                        this.setState({ tagReportDialog: true })
+                                      }
+                                    >
+                                      Report Wrong Tags
+                                    </Button>
+                                  </div>
+                                </Grid>
+                              </Grid>
+                            </div>
+                          )}
                           <div className={classes.tags}>
-                            {medium.photographerSlug && (
-                              <Typography
-                                gutterBottom
-                                variant="subtitle1"
-                                noWrap
-                              >
-                                Captured by:{" "}
-                                <Link
-                                  to={`/${medium.photographerSlug}`}
-                                  className={classes.link}
-                                >
-                                  {medium.photographerSlug}
-                                </Link>
-                              </Typography>
-                            )}
-                            {medium.photographerString && (
-                              <Typography
-                                gutterBottom
-                                variant="subtitle1"
-                                noWrap
-                              >
-                                Captured by: {medium.photographerString}
-                              </Typography>
-                            )}
-                            {medium.edition && (
-                              <Typography
-                                gutterBottom
-                                variant="subtitle1"
-                                noWrap
-                              >
-                                {medium.edition.event.name}{" "}
-                                {medium.edition.name}
-                              </Typography>
-                            )}
-                            {medium.subEvent && (
-                              <Typography
-                                gutterBottom
-                                variant="subtitle1"
-                                noWrap
-                              >
-                                {medium.subEvent}
-                              </Typography>
-                            )}
-                            {medium.fursuits.length != 0 && (
-                              <React.Fragment>
-                                <Typography
-                                  gutterBottom
-                                  variant="subtitle1"
-                                  noWrap
-                                >
-                                  {"Fursuits"}
-                                </Typography>
-                                <div className={classes.tagReportButton}>
-                                  <Button
-                                    variant="outlined"
-                                    onClick={() =>
-                                      this.setState({ tagReportDialog: true })
-                                    }
-                                  >
-                                    Report Wrong Tags
-                                  </Button>
-                                </div>
-                              </React.Fragment>
-                            )}
                             <Grid container spacing={8}>
                               {medium.fursuits.length != 0 &&
                                 medium.fursuits.map(fursuit => (
@@ -445,6 +504,7 @@ class Medium extends React.Component {
                                 ))}
                             </Grid>
                           </div>
+                          <Divider />
                         </CardContent>
                         <CardContent>
                           {medium.commentsDisabled ? (
@@ -480,7 +540,7 @@ class Medium extends React.Component {
                           )}
                         </CardContent>
                       </Grid>
-                      <Grid item lg={4} xs={12}>
+                      <Grid item lg={3} xs={12}>
                         <CardContent>
                           {medium.relatedMedia.map(medium => (
                             <div

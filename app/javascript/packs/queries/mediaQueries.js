@@ -203,6 +203,10 @@ export const GET_MEDIUM = gql`
         }
         slug
       }
+      subEvent {
+        id
+        name
+      }
       category {
         id
         name

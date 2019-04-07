@@ -1,6 +1,6 @@
 import React from "react";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import NoFavoriteIcon from "@material-ui/icons/FavoriteBorder";
+import FavoriteIcon from "@material-ui/icons/Pets";
+import NoFavoriteIcon from "@material-ui/icons/PetsOutlined";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import { Query, Mutation } from "react-apollo";

@@ -8,6 +8,7 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
+import Select from "react-select";
 import timeAgo from "../../timeAgo";
 import PageTitle from "../Global//PageTitle";
 import queryString from "query-string";
@@ -25,6 +26,9 @@ const styles = theme => ({
   container: {
     display: "flex",
     minHeight: "calc(100vh - 56px)"
+  },
+  selectInput: {
+    fontFamily: theme.typography.fontFamily
   },
   UnderReview: {
     height: "40vw",
@@ -143,6 +147,15 @@ class Event extends React.Component {
             });
           }
 
+          var editionsOptions = [];
+          editionsOptions.push({ label: "All", value: null });
+          if (!loading && !error && event)
+            event.editions
+              .sort((a, b) => (a.name < b.name ? 1 : -1))
+              .map(e => {
+                editionsOptions.push({ label: e.name, value: e.id });
+              });
+
           return (
             !loading &&
             !error &&
@@ -170,10 +183,8 @@ class Event extends React.Component {
                         <Grid item>
                           <Typography
                             gutterBottom
-                            variant="h6"
+                            variant="h5"
                             component="h2"
-                            color="secondary"
-                            className={classes.eventTitle}
                             noWrap
                           >
                             {event.name}
@@ -182,6 +193,7 @@ class Event extends React.Component {
                             gutterBottom
                             variant="h5"
                             component="h2"
+                            color="primary"
                             className={classes.eventTitle}
                             noWrap
                           >
@@ -213,7 +225,7 @@ class Event extends React.Component {
                             gutterBottom
                             variant="h6"
                             component="h2"
-                            color="secondary"
+                            color="primary"
                             className={classes.eventTitle}
                           >
                             Website
@@ -227,8 +239,7 @@ class Event extends React.Component {
                               <Button
                                 variant="outlined"
                                 component="h2"
-                                color="primary"
-                                className={classes.eventTitle}
+                                color="secondary"
                               >
                                 Open in a new tab
                               </Button>
@@ -244,67 +255,82 @@ class Event extends React.Component {
                               Unknown
                             </Typography>
                           )}
-                          <div style={{ padding: 10 }} />
                         </Grid>
                       </Grid>
-                      <Divider />
                       <div style={{ padding: 10 }} />
-                      <Card className={classes.card}>
-                        <CardActionArea
-                          onClick={e => {
-                            this.setState({
-                              editionId: []
-                            });
-                          }}
-                        >
-                          <CardContent>
-                            <Typography>Unselect all</Typography>
-                          </CardContent>
-                        </CardActionArea>
-                      </Card>
-                      <div style={{ padding: 10 }} />
-
-                      {event.editions
-                        .sort((a, b) => (a.name < b.name ? 1 : -1))
-                        .map(edition => (
-                          <Card
-                            id={edition.id}
-                            key={edition.id}
-                            className={
-                              this.state.editionId.includes(edition.id)
-                                ? classes.cardIn
-                                : classes.cardOut
-                            }
+                      <Typography
+                        gutterBottom
+                        variant="h6"
+                        component="h2"
+                        color="primary"
+                        className={classes.eventTitle}
+                      >
+                        Edition
+                      </Typography>
+                      <Select
+                        className={classes.selectInput}
+                        options={editionsOptions}
+                        placeholder="Select Edition..."
+                      />
+                      {false && (
+                        <Card className={classes.card}>
+                          <CardActionArea
+                            onClick={e => {
+                              this.setState({
+                                editionId: []
+                              });
+                            }}
                           >
-                            <CardActionArea
+                            <CardContent>
+                              <Typography>Unselect all</Typography>
+                            </CardContent>
+                          </CardActionArea>
+                        </Card>
+                      )}
+                      {false && <div style={{ padding: 10 }} />}
+
+                      {false &&
+                        event.editions
+                          .sort((a, b) => (a.name < b.name ? 1 : -1))
+                          .map(edition => (
+                            <Card
                               id={edition.id}
-                              onClick={e => {
-                                var payload = e.target.id;
-                                var index = this.state.editionId.indexOf(
-                                  payload
-                                );
-                                index != -1
-                                  ? this.setState({
-                                      editionId: this.state.editionId.filter(
-                                        (_, i) => i !== index
-                                      )
-                                    })
-                                  : this.setState(prevState => ({
-                                      editionId: [
-                                        ...prevState.editionId,
-                                        payload
-                                      ]
-                                    }));
-                              }}
+                              key={edition.id}
+                              className={
+                                this.state.editionId.includes(edition.id)
+                                  ? classes.cardIn
+                                  : classes.cardOut
+                              }
                             >
-                              <CardContent id={edition.id}>
-                                <Typography id={edition.id}>
-                                  {edition.name}
-                                </Typography>
-                              </CardContent>
-                            </CardActionArea>
-                          </Card>
-                        ))}
+                              <CardActionArea
+                                id={edition.id}
+                                onClick={e => {
+                                  var payload = e.target.id;
+                                  var index = this.state.editionId.indexOf(
+                                    payload
+                                  );
+                                  index != -1
+                                    ? this.setState({
+                                        editionId: this.state.editionId.filter(
+                                          (_, i) => i !== index
+                                        )
+                                      })
+                                    : this.setState(prevState => ({
+                                        editionId: [
+                                          ...prevState.editionId,
+                                          payload
+                                        ]
+                                      }));
+                                }}
+                              >
+                                <CardContent id={edition.id}>
+                                  <Typography id={edition.id}>
+                                    {edition.name}
+                                  </Typography>
+                                </CardContent>
+                              </CardActionArea>
+                            </Card>
+                          ))}
                     </div>
                   </Grid>
                 </Grid>

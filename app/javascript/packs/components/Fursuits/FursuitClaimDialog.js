@@ -53,7 +53,7 @@ class FursuitClaimDialog extends React.Component {
               </ListItemIcon>
               <ListItemText
                 inset
-                primary="Claiming this fursuit will allow you to modify it and be notified when it is tagged in a picture"
+                primary="Claiming this Fursuit will allow you to edit its Data Fields."
               />
             </ListItem>
             <ListItem>
@@ -62,7 +62,7 @@ class FursuitClaimDialog extends React.Component {
               </ListItemIcon>
               <ListItemText
                 inset
-                primary="Your claim will be reviewed by our moderators."
+                primary="Once claimed, you will receive tag notifications and Fursuit involvement metrics will carry across."
               />
             </ListItem>
             <ListItem>
@@ -71,7 +71,16 @@ class FursuitClaimDialog extends React.Component {
               </ListItemIcon>
               <ListItemText
                 inset
-                primary="Claiming a fursuit that is not yours will have consequences on your account."
+                primary="On submission, your claim will be reviewed by our Moderator team."
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <CheckIcon />
+              </ListItemIcon>
+              <ListItemText
+                inset
+                primary="Claiming a Fursuit when you are not the owner of the costume will result in repercussions."
               />
             </ListItem>
           </List>

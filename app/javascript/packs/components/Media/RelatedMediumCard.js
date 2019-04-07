@@ -31,8 +31,8 @@ const styles = theme => ({
     flexGrow: 1
   },
   horizontalMediaContainer: {
-    maxWidth: "46%",
-    minWidth: "46%",
+    maxWidth: "60%",
+    minWidth: "60%",
     height: 160
   },
   horizontalMedia: {
