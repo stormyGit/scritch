@@ -30,12 +30,12 @@ namespace :makers do
         next
       end
       maker = Maker.create!(name: e[0], country: e[1], region: e[4], web: e[2], reference: e[3])
-      maker.avatar =
-        begin
-          File.open("app/assets/images/makers/Scritch Maker Thumbnail - #{maker.country}.png")
-        rescue
-          File.open("app/assets/images/makers/FAILED.png")
-        end
+      begin
+        maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - #{maker.country}.png")
+      rescue
+        File.open("failedMakers", 'a') { |file| file.write("#{maker.name}\n")}
+        maker.avatar = File.open("app/assets/images/makerPlaceholder.png")
+      end
       maker.save!
     end
 

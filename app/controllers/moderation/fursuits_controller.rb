@@ -42,16 +42,13 @@ class Moderation::FursuitsController < ModerationController
       :slug,
       maker_ids: []
     ]))
-    fursuit.avatar =
-      if (fursuit.is_hybrid)
-        File.open("app/assets/images/species/Hybrid.png")
-      else
-        begin
-          File.open("app/assets/images/species/#{fursuit.fursuit_specy.name}.png")
-        rescue
-          File.open("app/assets/images/species/Missingno (No Avatar Graphic Found).png")
-        end
-      end
+
+    begin
+      fursuit.avatar = File.open("app/assets/images/species/#{e[11]}.png")
+    rescue
+      File.open("failedFursuits", 'a') { |file| file.write("#{fursuit.name} by: #{fursuit.makers[0].name}\n")}
+      fursuit.avatar = File.open("app/assets/images/species/FAILED.png")
+    end
     #    authorize fursuit
     fursuit.save!
     flash[:notice] = "Fursuit added!"

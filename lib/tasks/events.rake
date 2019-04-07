@@ -79,12 +79,12 @@ namespace :events do
         name: e[9],
         year: e[10])
       if edition.event.avatar.blank?
-        edition.event.avatar =
-          begin
-            File.open("app/assets/images/events/Scritch Event Thumbnail - #{edition.country}.png")
-          rescue
-            File.open("app/assets/images/events/FAILED.png")
-          end
+        begin
+          edition.event.avatar = File.open("app/assets/images/events/Scritch Event Thumbnail - #{edition.country}.png")
+        rescue
+          File.open("failedEvents", 'a') { |file| file.write("#{edition.event.name}\n")}
+          edition.event.avatar = File.open("app/assets/images/events/FAILED.png")
+        end
         edition.event.save!
       end
     end

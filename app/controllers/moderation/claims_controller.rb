@@ -42,8 +42,8 @@ class Moderation::ClaimsController < ModerationController
     else
       if params[:status] == "approve"
         FursuitUser.create!(user: claim.user, fursuit: claim.fursuit)
-        claim.destroy
         claim.fursuit.create_activity :claim_success, owner: Proc.new{ |_, model| User.last }, recipient: claim.user
+        claim.destroy
         flash[:notice] = "Claim approved!"
         flash[:class] = "has-text-warning"
       elsif params[:status] == "reject"

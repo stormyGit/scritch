@@ -34,12 +34,12 @@ class Moderation::MakersController < ModerationController
       :region
     ]))
     #    authorize maker
-    maker.avatar =
-      begin
-        File.open("app/assets/images/makers/Scritch Maker Thumbnail - #{maker.country}.png")
-      rescue
-        File.open("app/assets/images/makerPlaceholder.png")
-      end
+    begin
+      maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - #{maker.country}.png")
+    rescue
+      File.open("failedMakers", 'a') { |file| file.write("#{maker.name}\n")}
+      maker.avatar = File.open("app/assets/images/makerPlaceholder.png")
+    end
     maker.save!
     flash[:notice] = "Maker added!"
     flash[:class] = ""

@@ -61,12 +61,11 @@ namespace :fursuits do
           )
         end
 
-      fursuit.avatar =
         begin
-          File.open("app/assets/images/species/#{e[11]}.png")
+          fursuit.avatar = File.open("app/assets/images/species/#{e[11]}.png")
         rescue
-          File.open("app/assets/images/species/FAILED.png")
-            File.open("failed", 'a') { |file| file.write("#{fursuit.name} by: #{Maker.find_by(reference: e[3].to_i)}\n")}
+          File.open("failedFursuits", 'a') { |file| file.write("#{fursuit.name} by: #{Maker.find_by(reference: e[3].to_i).name}\n")}
+          fursuit.avatar = File.open("app/assets/images/species/FAILED.png")
         end
       fursuit.save!
       if e[3].present? && e[3] != "UNKNOWN"
