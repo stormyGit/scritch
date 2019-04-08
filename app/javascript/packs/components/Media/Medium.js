@@ -8,6 +8,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 import Grid from "@material-ui/core/Grid";
 import CardHeader from "@material-ui/core/CardHeader";
 import Divider from "@material-ui/core/Divider";
@@ -367,12 +368,13 @@ class Medium extends React.Component {
                             </Button>
                           )}
                       </React.Fragment>
-                      <IconButton
-                        onClick={() => this.setState({ reportDialog: true })}
-                        color="secondary"
-                      >
-                        <OutlinedFlag />
-                      </IconButton>
+                      <Tooltip title="Report Media">
+                        <IconButton
+                          onClick={() => this.setState({ reportDialog: true })}
+                        >
+                          <OutlinedFlag />
+                        </IconButton>
+                      </Tooltip>
                     </Grid>
                   </Grid>
                 </Card>
@@ -557,7 +559,7 @@ class Medium extends React.Component {
                   <EditMediumDialog
                     open={this.state.editMedium}
                     onClose={() => this.setState({ editMedium: false })}
-                    medium={medium}
+                    mediumId={medium.id}
                   />
                   <TagDialog
                     open={this.state.tagMedium}

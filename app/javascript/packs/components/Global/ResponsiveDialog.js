@@ -12,7 +12,11 @@ const ResponsiveDialog = ({ width, ...props }) => (
     TransitionComponent={Transition}
     fullScreen={width === "md" || width === "sm" || width === "xs"}
     PaperProps={{
-      style: width === "lg" || width === "xl" ? { minWidth: 700 } : {}
+      style: props.size
+        ? { minWidth: props.size }
+        : width === "lg" || width === "xl"
+        ? { minWidth: 700 }
+        : {}
     }}
     {...props}
   />

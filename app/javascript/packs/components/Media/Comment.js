@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import withWidth from "@material-ui/core/withWidth";
 import dayjs from "dayjs";
+import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from "react-router-dom";
@@ -219,7 +220,8 @@ class Comment extends React.Component {
                       });
                     }}
                   >
-                    Report
+                    Report&nbsp;&nbsp;
+                    <OutlinedFlag />
                   </MenuItem>
                 )}
               </Menu>

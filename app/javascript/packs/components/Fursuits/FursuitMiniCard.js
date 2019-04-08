@@ -7,6 +7,7 @@ import withWidth from "@material-ui/core/withWidth";
 import queryString from "query-string";
 
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 import Grid from "@material-ui/core/Grid";
 import { Link, withRouter } from "react-router-dom";
 
@@ -73,6 +74,10 @@ const styles = theme => ({
   chip: {
     marginRight: theme.spacing.unit
   },
+  fursuitTextext: {
+    fontWeight: 400,
+    textAlign: "center"
+  },
   text: {
     fontWeight: 200,
     textAlign: "center"
@@ -102,29 +107,55 @@ class FursuitMiniCard extends React.Component {
         }
     }
 
+    var species;
+    if (fursuit.isHybrid) {
+      species = "Hybrid";
+      if (fursuit.hybridSpecies) {
+        species =
+          species + ` (${fursuit.hybridSpecies.map(e => e.name).join(", ")})`;
+      }
+    } else species = fursuit.fursuitSpecy.name;
+
     return (
       <Grid container spacing={8} justify="center" alignItems="center">
         <Grid item lg={12} xs={12}>
-          <img
-            src={image}
-            onClick={() => {
-              onClick(fursuit);
-            }}
-            className={classes.avatar}
-            style={this.props.dark ? { opacity: 0.5 } : { opacity: 1 }}
-            title={fursuit.name}
-          />
+          <Tooltip
+            title={
+              !fursuit.creationYear || fursuit.creationYear == 0
+                ? `${species}`
+                : `${fursuit.creationYear} - ${species}`
+            }
+            placement="top"
+          >
+            <img
+              src={image}
+              onClick={() => {
+                onClick(fursuit);
+              }}
+              className={classes.avatar}
+              style={this.props.dark ? { opacity: 0.5 } : { opacity: 1 }}
+            />
+          </Tooltip>
         </Grid>
         <Grid item lg={12} xs={12} className={classes.content}>
           <Typography
             gutterBottom
-            variant="h6"
-            component="h5"
-            className={classes.text}
+            variant="subtitle1"
+            className={classes.fursuitText}
             noWrap
           >
             {fursuit.name}
           </Typography>
+          {fursuit.makers && (
+            <Typography
+              gutterBottom
+              variant="subtitle2"
+              className={classes.text}
+              noWrap
+            >
+              {fursuit.makers[0].name}
+            </Typography>
+          )}
         </Grid>
       </Grid>
     );

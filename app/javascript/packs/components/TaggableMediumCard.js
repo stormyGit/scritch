@@ -52,10 +52,9 @@ const styles = theme => ({
     top: 0,
     left: 0
   },
-  horizontalMediaContainer: {
-    maxWidth: "46%",
-    minWidth: "46%",
-    minHeight: "100%"
+  verticalMediaContainer: {
+    position: "relative",
+    paddingTop: "56%"
   },
   horizontalMedia: {
     width: "100%",
@@ -67,7 +66,7 @@ const styles = theme => ({
   horizontalInfos: {
     flex: 1
   },
-  cardMediaContainer: {
+  horizontalMediaContainer: {
     position: "relative",
     paddingTop: "56%"
   },
@@ -133,10 +132,18 @@ class TaggableMediumCard extends React.Component {
     return (
       <Query query={GET_ACTIVE_PREVIEW}>
         {({ data }) => (
-          <div className={horizontal ? undefined : classes.cardMediaContainer}>
+          <div
+            className={
+              medium.exif && JSON.parse(medium.exif).Orientation === "6"
+                ? classes.verticalMediaContainer
+                : classes.horizontalMediaContainer
+            }
+          >
             <CardMedia
               className={
-                horizontal ? classes.horizontalMedia : classes.verticalMedia
+                medium.exif && JSON.parse(medium.exif).Orientation === "6"
+                  ? classes.verticalMedia
+                  : classes.horizontalMedia
               }
               image={medium.thumbnail}
               title={medium.title}

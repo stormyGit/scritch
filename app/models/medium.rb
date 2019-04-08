@@ -37,21 +37,12 @@ class Medium < ApplicationRecord
   mount_base64_uploader :picture, PictureUploader
 
   def get_completion
-    completion = 20
-
-    if self.edition.present?
-      completion += 10
-    end
-
-    if self.category.present?
-      completion += 10
-    end
+    completion = 0
 
     if self.fursuits_count.present?
       completion += 10
-      completion += (50 * (self.fursuits.count / self.fursuits_count)) # self.fursuits.count / self.fursuits_count
+      completion += (90 * (self.fursuits.count.to_f / self.fursuits_count.to_f)) # self.fursuits.count / self.fursuits_count
     end
-
 
     completion
   end

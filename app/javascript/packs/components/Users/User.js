@@ -19,6 +19,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Gallery from "react-grid-gallery";
+import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
 import withWidth from "@material-ui/core/withWidth";
 
@@ -431,9 +432,10 @@ class User extends React.Component {
               )}
             </Mutation>
           )}
-          <MenuItem
-            onClick={() => this.setState({ reportDialog: true })}
-          >{`Report ${user.name}`}</MenuItem>
+          <MenuItem onClick={() => this.setState({ reportDialog: true })}>
+            {`Report ${user.name}`}&nbsp;&nbsp;
+            <OutlinedFlag />
+          </MenuItem>
         </Menu>
       </React.Fragment>
     );

@@ -30,25 +30,29 @@ import ScrollArea from "react-scrollbar";
 import "react-virtualized-select/styles.css";
 import "react-virtualized/styles.css";
 import createFilterOptions from "react-select-fast-filter-options";
-
+import { Mutation, Query } from "react-apollo";
 import TelegramLoginButton from "react-telegram-login";
 import { withRouter } from "react-router-dom";
+import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
-import ResponsiveDialog from "../Global/ResponsiveDialog";
-import SignUpAlternativeDialog from "../AppDialogs/SignUpAlternativeDialog";
 import themeSelector from "../../themeSelector";
 
+import ResponsiveDialog from "../Global/ResponsiveDialog";
 import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
-import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
-
-import { Mutation, Query } from "react-apollo";
-
 import Logo from "../Global/Logo";
-import { GET_MEDIA } from "../../queries/mediaQueries";
+
+import ReportDialog from "../AppDialogs/ReportDialog";
+import TagReportDialog from "../AppDialogs/TagReportDialog";
+import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
+import { GET_MEDIUM } from "../../queries/mediaQueries";
 import { UPDATE_MEDIUM } from "../../queries/mediaMutations";
 import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
-import { LOAD_EVENTS, LOAD_EDITIONS } from "../../queries/eventQueries";
+import {
+  LOAD_EVENTS,
+  LOAD_EDITIONS,
+  LOAD_SUB_EVENTS
+} from "../../queries/eventQueries";
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 
 const Option = props => {
@@ -108,8 +112,23 @@ const styles = theme => ({
   selectInput: {
     fontFamily: theme.typography.fontFamily
   },
+  fursuitsCountField: {
+    width: "30%"
+  },
   searchBar: {
-    width: "100%"
+    width: "65%"
+  },
+  inputFields: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between"
+  },
+  mediaH: {},
+  mediaV: {
+    transform: "rotate(90deg)"
+  },
+  tagReportButton: {
+    paddingBottom: theme.spacing.unit
   }
 });
 
@@ -118,16 +137,35 @@ class EditMediumDialog extends React.Component {
     super(props);
     this.state = {
       submiting: false,
-      alternativeLogin: false,
-      mediaEvent: this.props.medium.edition
-        ? this.props.medium.edition.event
-        : null,
-      mediaEdition: this.props.medium.edition,
-      mediaCategory: this.props.medium.category,
-      fursuits: this.props.medium.fursuits,
-      fursuitsCount: this.props.medium.fursuitsCount,
+      tagReportDialog: false,
+      reportDialog: false,
+      mediaEvent: null,
+      mediaEdition: null,
+      mediaCategory: null,
+      mediaSubEvent: null,
+      fursuits: null,
+      fursuitsCount: 0,
       query: ""
     };
+  }
+
+  setInitialValues(medium) {
+    this.setState({
+      mediaEvent: medium.edition
+        ? { value: medium.edition.event.id, label: medium.edition.event.name }
+        : null,
+      mediaEdition: medium.edition
+        ? { value: medium.edition.id, label: medium.edition.name }
+        : null,
+      mediaCategory: medium.category
+        ? { value: medium.category.id, label: medium.category.name }
+        : null,
+      mediaSubEvent: medium.subEvent
+        ? { value: medium.subEvent.id, label: medium.subEvent.name }
+        : null,
+      fursuits: medium.fursuits ? medium.fursuits : [],
+      fursuitsCount: medium.fursuitsCount
+    });
   }
 
   isFormOk() {
@@ -195,378 +233,521 @@ class EditMediumDialog extends React.Component {
   }
 
   render() {
-    const { classes, open, onClose, loading, width, medium } = this.props;
+    const { classes, open, onClose, loading, width, mediumId } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
-
-    if (open == false) return null;
+    if (!mediumId || open == false) return null;
 
     return (
-      <Mutation mutation={UPDATE_MEDIUM}>
-        {(updateMedium, { called }) => {
+      <Query
+        query={GET_MEDIUM}
+        variables={{
+          id: mediumId
+        }}
+      >
+        {({ data, error, loading }) => {
+          if (error || loading || !data) return null;
+          console.log(data.medium);
+
+          const medium = data.medium;
+          if (this.state.fursuits == null) {
+            this.setInitialValues(medium);
+            return null;
+          }
           return (
-            <React.Fragment>
-              <ResponsiveDialog open={open} onClose={onClose}>
-                {((width !== "lg" && width !== "xl") || true) && (
-                  <DialogTitle className={classes.titleBarContainer}>
-                    <Grid
-                      container
-                      spacing={0}
-                      alignItems="center"
-                      justify="space-between"
-                    >
-                      <Grid item>
-                        <Typography variant="h6" noWrap color={"inherit"}>
-                          Tag dat pic
-                        </Typography>
-                      </Grid>
-                      <Grid item>
-                        <IconButton
-                          color="inherit"
-                          onClick={onClose}
-                          aria-label="Close"
-                        >
-                          <CloseIcon />
-                        </IconButton>
-                      </Grid>
-                    </Grid>
-                  </DialogTitle>
-                )}
-                <DialogContent>
-                  <Grid container spacing={8}>
-                    <Grid item xs={this.state.fursuits.length > 0 ? 9 : 12}>
-                      <DialogContent>
-                        <img src={`${medium.thumbnail}`} title={medium.title} />
-                      </DialogContent>
-                      {false && (
-                        <List>
-                          <ListItem>
-                            <ListItemIcon>
-                              <CheckIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                              inset
-                              primary={`Tagging picture #${medium.id}`}
-                            />
-                          </ListItem>
-                        </List>
-                      )}
-                      <Query
-                        query={LOAD_CATEGORIES}
-                        variables={{ sort: "latest", offset: 0, limit: 150 }}
-                      >
-                        {({ data, loading, error, fetchMore }) => {
-                          if (loading || error) {
-                            return null;
-                          }
-                          const categoryList = [
-                            { value: null, label: "Not applicable" }
-                          ];
-                          data.categories.map(e =>
-                            categoryList.push({ value: e.id, label: e.name })
-                          );
-                          return (
-                            <Select
-                              fullWidth
-                              clearable={true}
-                              placeholder="Category"
-                              defaultValue={
-                                medium.category
-                                  ? {
-                                      value: medium.category.id,
-                                      label: medium.category.name
-                                    }
-                                  : null
-                              }
-                              isSearchable
-                              onChange={mediaCategory => {
-                                this.setState({ mediaCategory: mediaCategory });
-                              }}
-                              options={categoryList}
-                              className={classes.selectInput}
-                            />
-                          );
-                        }}
-                      </Query>
-                      <div style={{ padding: 5 }} />
-                      <hr />
-                      <div style={{ padding: 5 }} />
-                      <Query
-                        query={LOAD_EVENTS}
-                        variables={{ sort: "latest", offset: 0, limit: 150 }}
-                      >
-                        {({ data, loading, error, fetchMore }) => {
-                          if (loading || error) {
-                            return null;
-                          }
-
-                          const eventList = [
-                            { value: null, label: "Not applicable" }
-                          ];
-                          data.events.map(e =>
-                            eventList.push({ value: e.id, label: e.name })
-                          );
-                          return (
-                            <Select
-                              fullWidth
-                              clearable={true}
-                              placeholder="Event"
-                              isSearchable
-                              defaultValue={
-                                medium.edition
-                                  ? {
-                                      value: medium.edition.event.id,
-                                      label: medium.edition.event.name
-                                    }
-                                  : null
-                              }
-                              onChange={mediaEvent => {
-                                this.setState({ mediaEvent: mediaEvent });
-                                if (mediaEvent.value == null)
-                                  this.setState({ mediaEdition: null });
-                              }}
-                              options={eventList}
-                              className={classes.selectInput}
-                            />
-                          );
-                        }}
-                      </Query>
-
-                      <div style={{ padding: 5 }} />
-                      {this.state.mediaEvent &&
-                        Object.keys(this.state.mediaEvent).length != 0 &&
-                        this.state.mediaEvent.id && (
-                          <Query
-                            query={LOAD_EDITIONS}
-                            variables={{
-                              sort: "latest",
-                              offset: 0,
-                              limit: 150,
-                              eventId: this.state.mediaEvent.id
-                            }}
+            <Mutation
+              mutation={UPDATE_MEDIUM}
+              update={(cache, { data: { medium } }) => {
+                cache.writeQuery({
+                  query: GET_MEDIUM,
+                  variables: { id: mediumId },
+                  data: {
+                    medium: {
+                      ...medium
+                    }
+                  }
+                });
+              }}
+            >
+              {(updateMedium, { called }) => {
+                return (
+                  <React.Fragment>
+                    <ResponsiveDialog open={open} onClose={onClose} size={900}>
+                      {((width !== "lg" && width !== "xl") || true) && (
+                        <DialogTitle className={classes.titleBarContainer}>
+                          <Grid
+                            container
+                            spacing={0}
+                            alignItems="center"
+                            justify="space-between"
                           >
-                            {({ data, loading, error, fetchMore }) => {
-                              if (loading || error) {
-                                return null;
-                              }
+                            <Grid item>
+                              <Typography variant="h6" noWrap color={"inherit"}>
+                                {`Picture #${medium.id.split("-")[0]}`}
+                              </Typography>
+                            </Grid>
+                            <Grid item>
+                              <IconButton
+                                color="inherit"
+                                onClick={onClose}
+                                aria-label="Close"
+                              >
+                                <CloseIcon />
+                              </IconButton>
+                            </Grid>
+                          </Grid>
+                        </DialogTitle>
+                      )}
+                      <DialogContent>
+                        <Grid container spacing={8}>
+                          <Grid
+                            item
+                            xs={this.state.fursuits.length > 0 ? 9 : 12}
+                          >
+                            <DialogContent style={{ textAlign: "center" }}>
+                              <img
+                                src={`${medium.thumbnail}`}
+                                title={medium.title}
+                                className={
+                                  medium.exif &&
+                                  JSON.parse(medium.exif).Orientation === "6"
+                                    ? classes.mediaV
+                                    : classes.mediaH
+                                }
+                                style={{ maxWidth: "100%" }}
+                              />
+                            </DialogContent>
+                            {
+                              <Typography variant="subtitle1">
+                                Entering No. of Fursuits in this media
+                                constitutes 10% Completion, with the remaining
+                                90% equally split by the number of Fursuits
+                                declared when tagged.
+                              </Typography>
+                            }
+                            <div style={{ padding: 8 }} />
+                            <Query
+                              query={LOAD_CATEGORIES}
+                              variables={{
+                                sort: "latest",
+                                offset: 0,
+                                limit: 150
+                              }}
+                            >
+                              {({ data, loading, error, fetchMore }) => {
+                                if (loading || error) {
+                                  return null;
+                                }
+                                const categoryList = [
+                                  { value: null, label: "Not applicable" }
+                                ];
+                                data.categories.map(e =>
+                                  categoryList.push({
+                                    value: e.id,
+                                    label: e.name
+                                  })
+                                );
+                                return (
+                                  <Select
+                                    fullWidth
+                                    clearable={true}
+                                    placeholder="Category"
+                                    defaultValue={
+                                      medium.category
+                                        ? {
+                                            value: medium.category.id,
+                                            label: medium.category.name
+                                          }
+                                        : null
+                                    }
+                                    isSearchable
+                                    onChange={mediaCategory => {
+                                      this.setState({
+                                        mediaCategory: mediaCategory
+                                      });
+                                    }}
+                                    options={categoryList}
+                                    className={classes.selectInput}
+                                  />
+                                );
+                              }}
+                            </Query>
+                            <div style={{ padding: 5 }} />
+                            <hr />
+                            <div style={{ padding: 5 }} />
+                            <Query
+                              query={LOAD_EVENTS}
+                              variables={{
+                                sort: "latest",
+                                offset: 0,
+                                limit: 150
+                              }}
+                            >
+                              {({ data, loading, error, fetchMore }) => {
+                                if (loading || error) {
+                                  return null;
+                                }
 
-                              const editionList = [
-                                { value: null, label: "Not applicable" }
-                              ];
-                              data.editions.map(e =>
-                                editionList.push({ value: e.id, label: e.name })
-                              );
-                              return (
-                                <Select
-                                  fullWidth
-                                  clearable={true}
-                                  placeholder="Edition"
-                                  isSearchable
-                                  defaultValue={
-                                    medium.edition
-                                      ? {
-                                          value: medium.edition.id,
-                                          label: medium.edition.name
-                                        }
-                                      : null
-                                  }
-                                  onChange={mediaEdition => {
-                                    this.setState({
-                                      mediaEdition: mediaEdition
-                                    });
+                                const eventList = [
+                                  { value: null, label: "Not applicable" }
+                                ];
+                                data.events.map(e =>
+                                  eventList.push({ value: e.id, label: e.name })
+                                );
+                                return (
+                                  <Select
+                                    fullWidth
+                                    clearable={true}
+                                    placeholder="Event"
+                                    isSearchable
+                                    defaultValue={
+                                      medium.edition
+                                        ? {
+                                            value: medium.edition.event.id,
+                                            label: medium.edition.event.name
+                                          }
+                                        : null
+                                    }
+                                    onChange={mediaEvent => {
+                                      this.setState({ mediaEvent: mediaEvent });
+                                      if (mediaEvent.value == null)
+                                        this.setState({ mediaEdition: null });
+                                    }}
+                                    options={eventList}
+                                    className={classes.selectInput}
+                                  />
+                                );
+                              }}
+                            </Query>
+                            {console.log(this.state)}
+                            <div style={{ padding: 5 }} />
+                            {this.state.mediaEvent &&
+                              Object.keys(this.state.mediaEvent).length != 0 &&
+                              this.state.mediaEvent.value != null && (
+                                <Query
+                                  query={LOAD_EDITIONS}
+                                  variables={{
+                                    sort: "latest",
+                                    offset: 0,
+                                    limit: 150,
+                                    eventId: this.state.mediaEvent.value
                                   }}
-                                  options={editionList}
-                                  className={classes.selectInput}
-                                />
-                              );
-                            }}
-                          </Query>
-                        )}
+                                >
+                                  {({ data, loading, error, fetchMore }) => {
+                                    if (loading || error) {
+                                      return null;
+                                    }
 
-                      <div style={{ padding: 8 }} />
+                                    const editionList = [];
+                                    data.editions.map(e =>
+                                      editionList.push({
+                                        value: e.id,
+                                        label: e.name
+                                      })
+                                    );
+                                    return (
+                                      <Select
+                                        fullWidth
+                                        clearable={true}
+                                        placeholder="Edition"
+                                        isSearchable
+                                        defaultValue={
+                                          medium.edition
+                                            ? {
+                                                value: medium.edition.id,
+                                                label: medium.edition.name
+                                              }
+                                            : null
+                                        }
+                                        onChange={mediaEdition => {
+                                          console.log(mediaEdition);
+                                          this.setState({
+                                            mediaEdition: mediaEdition
+                                          });
+                                        }}
+                                        options={editionList}
+                                        className={classes.selectInput}
+                                      />
+                                    );
+                                  }}
+                                </Query>
+                              )}
+                            <div style={{ padding: 5 }} />
+                            <Query
+                              query={LOAD_SUB_EVENTS}
+                              variables={{
+                                sort: "latest",
+                                offset: 0,
+                                limit: 150
+                              }}
+                            >
+                              {({ data, loading, error, fetchMore }) => {
+                                if (loading || error) {
+                                  return null;
+                                }
+                                const subEventList = [];
+                                data.subEvents.map(e =>
+                                  subEventList.push({
+                                    value: e.id,
+                                    label: e.name
+                                  })
+                                );
+                                return (
+                                  <Select
+                                    fullWidth
+                                    clearable={true}
+                                    placeholder="SubEvent"
+                                    defaultValue={
+                                      medium.subEvent
+                                        ? {
+                                            value: medium.subEvent.id,
+                                            label: medium.subEvent.name
+                                          }
+                                        : null
+                                    }
+                                    isSearchable
+                                    onChange={mediaSubEvent => {
+                                      this.setState({
+                                        mediaSubEvent: mediaSubEvent
+                                      });
+                                    }}
+                                    options={subEventList}
+                                    className={classes.selectInput}
+                                  />
+                                );
+                              }}
+                            </Query>
+                            <div style={{ padding: 5 }} />
+                            <hr />
+                            <div style={{ padding: 5 }} />
 
-                      <TextField
-                        label="Number of fursuits"
-                        name="fursuitsCount"
-                        variant="outlined"
-                        style={{ zIndex: 0 }}
-                        value={this.state.fursuitsCount || ""}
-                        onChange={e => {
-                          this.setState({ fursuitsCount: e.target.value });
-                        }}
-                        margin="dense"
-                        fullWidth
-                      />
+                            <div className={classes.inputFields}>
+                              <TextField
+                                label="No. of Fursuits"
+                                name="fursuitsCount"
+                                variant="outlined"
+                                className={classes.fursuitsCountField}
+                                style={{ zIndex: 0 }}
+                                value={this.state.fursuitsCount || ""}
+                                onChange={e => {
+                                  this.setState({
+                                    fursuitsCount: e.target.value
+                                  });
+                                }}
+                                margin="dense"
+                              />
 
-                      <div style={{ padding: 8 }} />
-
-                      <InputLabel error={false}>Fursuits</InputLabel>
-                      <SearchBar
-                        className={classes.searchBar}
-                        disabled={
-                          this.state.fursuitsCount
-                            ? this.state.fursuits.length >=
-                              this.state.fursuitsCount
-                            : true
-                        }
-                        onChange={value => this.handleSearch(value)}
-                        value={this.state.query}
-                        onCancelSearch={() => this.handleSearch("")}
-                      />
-
-                      <div style={{ padding: 8 }} />
-                      {this.state.query.length >= 1 && (
-                        <Query
-                          query={LOAD_FURSUITS}
-                          variables={{
-                            name: this.state.query,
-                            limit,
-                            offset: 0,
-                            exclude: this.state.fursuits.map(a => a.id)
-                          }}
-                        >
-                          {({ data, loading, error, fetchMore }) => (
-                            <React.Fragment>
-                              <Grid
-                                container
-                                className={classes.root}
-                                spacing={8}
-                                style={{
-                                  marginTop:
-                                    width === "lg" || width === "xl" ? 4 : -4
+                              <SearchBar
+                                className={classes.searchBar}
+                                placeholder="Fursuit Search..."
+                                disabled={
+                                  this.state.fursuitsCount
+                                    ? this.state.fursuits.length >=
+                                      this.state.fursuitsCount
+                                    : true
+                                }
+                                onChange={value => this.handleSearch(value)}
+                                value={this.state.query}
+                                onCancelSearch={() => this.handleSearch("")}
+                              />
+                            </div>
+                            <div style={{ padding: 8 }} />
+                            {this.state.query.length >= 1 && (
+                              <Query
+                                query={LOAD_FURSUITS}
+                                variables={{
+                                  name: this.state.query,
+                                  limit,
+                                  offset: 0,
+                                  exclude: this.state.fursuits.map(a => a.id)
                                 }}
                               >
-                                {!loading &&
-                                  !error &&
-                                  this.renderResults({
-                                    data,
-                                    hasMore:
-                                      data.fursuits.length % limit === 0 &&
-                                      this.state.hasMore &&
-                                      data.fursuits.length > 0,
-                                    onLoadMore: () => {
-                                      fetchMore({
-                                        variables: {
-                                          offset: data.fursuits.length,
-                                          limit
-                                        },
-                                        updateQuery: (
-                                          prev,
-                                          { fetchMoreResult }
-                                        ) => {
-                                          if (!fetchMoreResult) return prev;
+                                {({ data, loading, error, fetchMore }) => (
+                                  <React.Fragment>
+                                    <Grid
+                                      container
+                                      className={classes.root}
+                                      spacing={8}
+                                      style={{
+                                        marginTop:
+                                          width === "lg" || width === "xl"
+                                            ? 4
+                                            : -4
+                                      }}
+                                    >
+                                      {!loading &&
+                                        !error &&
+                                        this.renderResults({
+                                          data,
+                                          hasMore:
+                                            data.fursuits.length % limit ===
+                                              0 &&
+                                            this.state.hasMore &&
+                                            data.fursuits.length > 0,
+                                          onLoadMore: () => {
+                                            fetchMore({
+                                              variables: {
+                                                offset: data.fursuits.length,
+                                                limit
+                                              },
+                                              updateQuery: (
+                                                prev,
+                                                { fetchMoreResult }
+                                              ) => {
+                                                if (!fetchMoreResult)
+                                                  return prev;
 
-                                          if (
-                                            fetchMoreResult.fursuits.length ===
-                                            0
-                                          ) {
-                                            this.setState({ hasMore: false });
-                                          } else {
-                                            return Object.assign({}, prev, {
-                                              fursuits: [
-                                                ...prev.fursuits,
-                                                ...fetchMoreResult.fursuits
-                                              ]
+                                                if (
+                                                  fetchMoreResult.fursuits
+                                                    .length === 0
+                                                ) {
+                                                  this.setState({
+                                                    hasMore: false
+                                                  });
+                                                } else {
+                                                  return Object.assign(
+                                                    {},
+                                                    prev,
+                                                    {
+                                                      fursuits: [
+                                                        ...prev.fursuits,
+                                                        ...fetchMoreResult.fursuits
+                                                      ]
+                                                    }
+                                                  );
+                                                }
+                                              }
                                             });
                                           }
-                                        }
-                                      });
-                                    }
-                                  })}
+                                        })}
+                                    </Grid>
+                                  </React.Fragment>
+                                )}
+                              </Query>
+                            )}
+                          </Grid>
+                          {this.state.fursuits.length > 0 && (
+                            <React.Fragment>
+                              <Grid item lg={3} xs={3}>
+                                <div style={{ padding: 8 }} />
+                                {medium.fursuits.length > 0 && (
+                                  <div className={classes.tagReportButton}>
+                                    <Button
+                                      variant="outlined"
+                                      fullWidth
+                                      size="small"
+                                      onClick={() =>
+                                        this.setState({ tagReportDialog: true })
+                                      }
+                                    >
+                                      Report Wrong Tags&nbsp;&nbsp;
+                                      <OutlinedFlag />
+                                    </Button>
+                                    <div style={{ padding: 5 }} />
+                                  </div>
+                                )}
+                                <Grid container spacing={8}>
+                                  {this.state.fursuits.map(fursuit => (
+                                    <Grid item xs={12} lg={6} key={fursuit.id}>
+                                      <FursuitMiniCard
+                                        fursuit={fursuit}
+                                        onClick={payload => {
+                                          if (
+                                            medium.fursuits
+                                              .map(e => e.id)
+                                              .includes(payload.id)
+                                          )
+                                            return null;
+                                          let index = this.state.fursuits.indexOf(
+                                            payload
+                                          );
+                                          this.setState({
+                                            fursuits: this.state.fursuits.filter(
+                                              (_, i) => i !== index
+                                            )
+                                          });
+                                        }}
+                                      />
+                                    </Grid>
+                                  ))}
+                                </Grid>
                               </Grid>
                             </React.Fragment>
                           )}
-                        </Query>
-                      )}
-                    </Grid>
-                    {this.state.fursuits.length > 0 && (
-                      <React.Fragment>
-                        <Grid item lg={1} xs={1} />
-                        <Grid item lg={2} xs={2}>
-                          <div style={{ padding: 8 }} />
-                          {this.state.fursuits.map(fursuit => (
-                            <FursuitMiniCard
-                              key={fursuit.id}
-                              fursuit={fursuit}
-                              onClick={payload => {
-                                if (
-                                  medium.fursuits
-                                    .map(e => e.id)
-                                    .includes(payload.id)
-                                )
-                                  return null;
-                                let index = this.state.fursuits.indexOf(
-                                  payload
-                                );
-                                this.setState({
-                                  fursuits: this.state.fursuits.filter(
-                                    (_, i) => i !== index
-                                  )
-                                });
-                              }}
-                            />
-                          ))}
                         </Grid>
-                      </React.Fragment>
-                    )}
-                  </Grid>
-                  {
-                    <div className={classes.loginButtonContainer}>
-                      <div className={classes.loginButton}>
                         {
-                          <Button
-                            disabled={!this.isFormOk()}
-                            onClick={() => {
-                              updateMedium({
-                                variables: {
-                                  input: {
-                                    id: medium.id,
-                                    title: medium.title,
-                                    fursuitsCount: parseInt(
-                                      this.state.fursuitsCount
-                                    ),
-                                    editionId: this.state.mediaEdition
-                                      ? this.state.mediaEdition.value
-                                      : null,
-                                    categoryId: this.state.mediaCategory
-                                      ? this.state.mediaCategory.value
-                                      : null,
-                                    fursuits: this.state.fursuits.map(a => a.id)
-                                  }
-                                }
-                              }).then(() => {
-                                onClose();
-                              });
-                            }}
-                          >
-                            Submit dat shit
-                          </Button>
+                          <div className={classes.loginButtonContainer}>
+                            <div className={classes.loginButton}>
+                              {
+                                <Button
+                                  size="large"
+                                  disabled={!this.isFormOk()}
+                                  onClick={() => {
+                                    updateMedium({
+                                      variables: {
+                                        input: {
+                                          id: medium.id,
+                                          title: medium.title,
+                                          fursuitsCount: parseInt(
+                                            this.state.fursuitsCount
+                                          ),
+                                          editionId: this.state.mediaEdition
+                                            ? this.state.mediaEdition.value
+                                            : null,
+                                          categoryId: this.state.mediaCategory
+                                            ? this.state.mediaCategory.value
+                                            : null,
+                                          subEventId: this.state.mediaSubEvent
+                                            ? this.state.mediaSubEvent.value
+                                            : null,
+                                          fursuits: this.state.fursuits.map(
+                                            a => a.id
+                                          )
+                                        }
+                                      }
+                                    }).then(() => {
+                                      onClose();
+                                      location.reload();
+                                    });
+                                  }}
+                                >
+                                  Submit
+                                </Button>
+                              }
+                            </div>
+                          </div>
                         }
-                      </div>
-                    </div>
-                  }
-                  {true && (
-                    <Typography
-                      variant="caption"
-                      className={classes.troubleLink}
-                      onClick={() => this.setState({ alternativeLogin: true })}
-                    >
-                      This is porn? Report dat shit
-                    </Typography>
-                  )}
-                </DialogContent>
-              </ResponsiveDialog>
-              <SignUpAlternativeDialog
-                open={this.state.alternativeLogin}
-                onClose={() => {
-                  this.setState({ alternativeLogin: false });
-                }}
-              />
-            </React.Fragment>
+                        {true && (
+                          <Typography
+                            variant="caption"
+                            className={classes.troubleLink}
+                            onClick={() =>
+                              this.setState({ reportDialog: true })
+                            }
+                          >
+                            Report Picture
+                          </Typography>
+                        )}
+                      </DialogContent>
+                    </ResponsiveDialog>
+                    <ReportDialog
+                      open={this.state.reportDialog}
+                      onClose={() => this.setState({ reportDialog: false })}
+                      resource="medium"
+                      resourceId={medium.id}
+                    />
+                    <TagReportDialog
+                      open={this.state.tagReportDialog}
+                      onClose={() => this.setState({ tagReportDialog: false })}
+                      medium={medium}
+                    />
+                  </React.Fragment>
+                );
+              }}
+            </Mutation>
           );
         }}
-      </Mutation>
+      </Query>
     );
   }
 }
-
 export default withStyles(styles)(withRouter(withWidth()(EditMediumDialog)));

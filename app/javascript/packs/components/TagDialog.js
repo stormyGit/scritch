@@ -107,8 +107,16 @@ const styles = theme => ({
   selectInput: {
     fontFamily: theme.typography.fontFamily
   },
+  fursuitsCountField: {
+    width: "30%"
+  },
   searchBar: {
-    width: "100%"
+    width: "65%"
+  },
+  inputFields: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between"
   },
   mediaH: {},
   mediaV: {
@@ -244,7 +252,7 @@ class TagDialog extends React.Component {
               {(updateMedium, { called }) => {
                 return (
                   <React.Fragment>
-                    <ResponsiveDialog open={open} onClose={onClose}>
+                    <ResponsiveDialog open={open} onClose={onClose} size={900}>
                       {((width !== "lg" && width !== "xl") || true) && (
                         <DialogTitle className={classes.titleBarContainer}>
                           <Grid
@@ -289,116 +297,47 @@ class TagDialog extends React.Component {
                                 style={{ maxWidth: "100%" }}
                               />
                             </DialogContent>
-                            {false && (
-                              <List>
-                                <ListItem>
-                                  <ListItemIcon>
-                                    <CheckIcon />
-                                  </ListItemIcon>
-                                  <ListItemText
-                                    inset
-                                    primary={`Tagging dat pic #${
-                                      medium.id
-                                    }, put dem fields here`}
-                                  />
-                                </ListItem>
-                              </List>
-                            )}
-                            {medium.edition && (
-                              <React.Fragment>
-                                <Input
-                                  fullWidth
-                                  defaultValue={medium.edition.event.name}
-                                  placeholder="Event"
-                                  disabled
-                                />
-                                <Input
-                                  fullWidth
-                                  defaultValue={medium.edition.name}
-                                  placeholder="Event"
-                                  disabled
-                                />
-                              </React.Fragment>
-                            )}
-                            <div style={{ padding: 5 }} />
-                            <Query
-                              query={LOAD_CATEGORIES}
-                              variables={{
-                                sort: "latest",
-                                offset: 0,
-                                limit: 150
-                              }}
-                            >
-                              {({ data, loading, error, fetchMore }) => {
-                                if (loading || error) {
-                                  return null;
+                            {
+                              <Typography variant="subtitle1">
+                                Entering No. of Fursuits in this media
+                                constitutes 10% Completion, with the remaining
+                                90% equally split by the number of Fursuits
+                                declared when tagged.
+                              </Typography>
+                            }
+
+                            <div style={{ padding: 8 }} />
+
+                            <div className={classes.inputFields}>
+                              <TextField
+                                label="No. of Fursuits"
+                                name="fursuitsCount"
+                                variant="outlined"
+                                className={classes.fursuitsCountField}
+                                style={{ zIndex: 0 }}
+                                value={this.state.fursuitsCount || ""}
+                                onChange={e => {
+                                  this.setState({
+                                    fursuitsCount: e.target.value
+                                  });
+                                }}
+                                margin="dense"
+                              />
+
+                              <SearchBar
+                                className={classes.searchBar}
+                                placeholder="Fursuit Search..."
+                                disabled={
+                                  this.state.fursuitsCount
+                                    ? this.state.fursuits.length >=
+                                      this.state.fursuitsCount
+                                    : true
                                 }
-                                const categoryList = [];
-                                data.categories.map(e =>
-                                  categoryList.push({
-                                    value: e.id,
-                                    label: e.name
-                                  })
-                                );
-
-                                return (
-                                  <Select
-                                    fullWidth
-                                    placeholder="Category"
-                                    isSearchable
-                                    defaultValue={
-                                      medium.category
-                                        ? {
-                                            value: medium.category.id,
-                                            label: medium.category.name
-                                          }
-                                        : null
-                                    }
-                                    onChange={mediaCategory => {
-                                      this.setState({
-                                        mediaCategory: mediaCategory
-                                      });
-                                    }}
-                                    options={categoryList}
-                                    className={classes.selectInput}
-                                  />
-                                );
-                              }}
-                            </Query>
-
-                            <div style={{ padding: 8 }} />
-
-                            <TextField
-                              label="Number of fursuits"
-                              name="fursuitsCount"
-                              variant="outlined"
-                              style={{ zIndex: 0 }}
-                              value={this.state.fursuitsCount || ""}
-                              onChange={e => {
-                                this.setState({
-                                  fursuitsCount: e.target.value
-                                });
-                              }}
-                              margin="dense"
-                              fullWidth
-                            />
-
-                            <div style={{ padding: 8 }} />
-
-                            <InputLabel error={false}>Fursuits</InputLabel>
-                            <SearchBar
-                              className={classes.searchBar}
-                              disabled={
-                                this.state.fursuitsCount
-                                  ? this.state.fursuits.length >=
-                                    this.state.fursuitsCount
-                                  : true
-                              }
-                              onChange={value => this.handleSearch(value)}
-                              value={this.state.query}
-                              onCancelSearch={() => this.handleSearch("")}
-                            />
-
+                                onChange={value => this.handleSearch(value)}
+                                value={this.state.query}
+                                onCancelSearch={() => this.handleSearch("")}
+                              />
+                            </div>
                             <div style={{ padding: 8 }} />
                             {this.state.query.length >= 1 && (
                               <Query
@@ -476,41 +415,46 @@ class TagDialog extends React.Component {
                           </Grid>
                           {this.state.fursuits.length > 0 && (
                             <React.Fragment>
-                              <Grid item lg={1} xs={1} />
-                              <Grid item lg={2} xs={2}>
+                              <Grid item lg={3} xs={3}>
                                 <div style={{ padding: 8 }} />
-                                <div className={classes.tagReportButton}>
-                                  <Button
-                                    variant="outlined"
-                                    onClick={() =>
-                                      this.setState({ tagReportDialog: true })
-                                    }
-                                  >
-                                    Report Wrong Tags
-                                  </Button>
-                                </div>
-                                {this.state.fursuits.map(fursuit => (
-                                  <FursuitMiniCard
-                                    key={fursuit.id}
-                                    fursuit={fursuit}
-                                    onClick={payload => {
-                                      if (
-                                        medium.fursuits
-                                          .map(e => e.id)
-                                          .includes(payload.id)
-                                      )
-                                        return null;
-                                      let index = this.state.fursuits.indexOf(
-                                        payload
-                                      );
-                                      this.setState({
-                                        fursuits: this.state.fursuits.filter(
-                                          (_, i) => i !== index
-                                        )
-                                      });
-                                    }}
-                                  />
-                                ))}
+                                {medium.fursuits.length > 0 && (
+                                  <div className={classes.tagReportButton}>
+                                    <Button
+                                      variant="outlined"
+                                      fullWidth
+                                      onClick={() =>
+                                        this.setState({ tagReportDialog: true })
+                                      }
+                                    >
+                                      Report Wrong Tags
+                                    </Button>
+                                  </div>
+                                )}
+                                <Grid container spacing={8}>
+                                  {this.state.fursuits.map(fursuit => (
+                                    <Grid item xs={12} lg={6} key={fursuit.id}>
+                                      <FursuitMiniCard
+                                        fursuit={fursuit}
+                                        onClick={payload => {
+                                          if (
+                                            medium.fursuits
+                                              .map(e => e.id)
+                                              .includes(payload.id)
+                                          )
+                                            return null;
+                                          let index = this.state.fursuits.indexOf(
+                                            payload
+                                          );
+                                          this.setState({
+                                            fursuits: this.state.fursuits.filter(
+                                              (_, i) => i !== index
+                                            )
+                                          });
+                                        }}
+                                      />
+                                    </Grid>
+                                  ))}
+                                </Grid>
                               </Grid>
                             </React.Fragment>
                           )}
@@ -530,9 +474,6 @@ class TagDialog extends React.Component {
                                           fursuitsCount: parseInt(
                                             this.state.fursuitsCount
                                           ),
-                                          categoryId: this.state.mediaCategory
-                                            ? this.state.mediaCategory.value
-                                            : null,
                                           fursuits: this.state.fursuits.map(
                                             a => a.id
                                           )
@@ -558,7 +499,7 @@ class TagDialog extends React.Component {
                               this.setState({ reportDialog: true })
                             }
                           >
-                            Report picture
+                            Report Picture
                           </Typography>
                         )}
                       </DialogContent>

@@ -4,11 +4,12 @@ class Mutations::UpdateMedium < Mutations::BaseMutation
   argument :description, String, required: false
   argument :share_on_twitter, Boolean, required: false
   argument :comments_disabled, Boolean, required: false
-  argument :is_photographer, Boolean, required: true
-  argument :photographer_slug, String, required: true
-  argument :photographer_string, String, required: true
+  argument :is_photographer, Boolean, required: false
+  argument :photographer_slug, String, required: false
+  argument :photographer_string, String, required: false
   argument :edition_id, ID, required: false
   argument :category_id, ID, required: false
+  argument :sub_event_id, ID, required: false
   argument :fursuits_count, Integer, required: false
   argument :fursuits, [ID], required: false
   argument :tag_list, [String], required: false
@@ -35,7 +36,7 @@ class Mutations::UpdateMedium < Mutations::BaseMutation
         medium.photographer_string = arguments[:photographer_string]
       end
     end
-    
+
     if arguments[:fursuits].present?
       arguments[:fursuits].each do |fursuit|
         if FursuitMedium.where(medium: medium.id, fursuit: fursuit).blank?
