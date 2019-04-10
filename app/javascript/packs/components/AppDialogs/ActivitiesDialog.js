@@ -118,7 +118,7 @@ class ActivitiesDialog extends React.Component {
           this.props.onClose();
         }}
       >
-        <UserAvatar user={activity.owner} />
+        <UserAvatar user={activity.owner} size={64} />
         <ListItemText
           primary={
             <React.Fragment>
@@ -161,7 +161,7 @@ class ActivitiesDialog extends React.Component {
           this.props.onClose();
         }}
       >
-        <UserAvatar user={activity.owner} />
+        <UserAvatar user={activity.owner} size={64} />
         <ListItemText
           primary={
             <React.Fragment>
@@ -209,7 +209,7 @@ class ActivitiesDialog extends React.Component {
           this.props.onClose();
         }}
       >
-        <UserAvatar user={activity.owner} />
+        <UserAvatar user={activity.owner} size={64} />
         <ListItemText
           primary={
             <React.Fragment>
@@ -236,7 +236,7 @@ class ActivitiesDialog extends React.Component {
 
     return (
       <ListItem key={activity.id}>
-        <UserAvatar user={activity.owner} />
+        <UserAvatar user={activity.owner} size={64} />
         <ListItemText
           primary={
             <React.Fragment>
@@ -264,7 +264,7 @@ class ActivitiesDialog extends React.Component {
 
     return (
       <ListItem key={activity.id}>
-        <UserAvatar user={activity.owner} />
+        <UserAvatar user={activity.owner} size={64} />
         <ListItemText
           primary={
             <React.Fragment>
@@ -292,7 +292,7 @@ class ActivitiesDialog extends React.Component {
 
     return (
       <ListItem key={activity.id}>
-        <UserAvatar user={activity.owner} />
+        <UserAvatar user={activity.owner} size={64} />
         <ListItemText
           primary={
             <React.Fragment>
@@ -320,7 +320,7 @@ class ActivitiesDialog extends React.Component {
 
     return (
       <ListItem key={activity.id}>
-        <UserAvatar user={activity.owner} />
+        <UserAvatar user={activity.owner} size={64} />
         <ListItemText
           primary={
             <React.Fragment>
@@ -357,10 +357,7 @@ class ActivitiesDialog extends React.Component {
           this.props.onClose();
         }}
       >
-        <Avatar
-          src={activity.trackable.medium.thumbnail}
-          className={classes.avatar}
-        />
+        <FursuitAvatar avatar={activity.trackable.medium.thumbnail} />
         <ListItemText
           primary={
             <React.Fragment>

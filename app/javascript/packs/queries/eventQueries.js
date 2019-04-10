@@ -40,6 +40,24 @@ export const LOAD_EDITIONS = gql`
   }
 `;
 
+export const LOAD_EDITION = gql`
+  query Edition($id: ID!) {
+    edition(id: $id) {
+      id
+      name
+      slug
+      venue
+      theme
+      attendance
+      charity
+      city
+      country
+      startDate
+      endDate
+    }
+  }
+`;
+
 export const LOAD_SUB_EVENTS = gql`
   query SubEvents($name: String, $limit: Int!, $offset: Int!) {
     subEvents(name: $name, limit: $limit, offset: $offset) {

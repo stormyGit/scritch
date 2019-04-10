@@ -14,7 +14,6 @@ import { GET_MEDIA_WITH_FURSUITS } from "../queries/mediaQueries";
 import TaggableMediumCard from "./TaggableMediumCard";
 import EmptyList from "./Global/EmptyList";
 import LoadMoreButton from "./Global/LoadMoreButton";
-import UserCard from "./Users/UserCard";
 
 import withCurrentSession from "./withCurrentSession";
 
@@ -60,10 +59,10 @@ class TaggableMedia extends React.Component {
     userId: null
   };
 
-  renderResults({ media, users, horizontal, onLoadMore, hasMore }) {
+  renderResults({ media, horizontal, onLoadMore, hasMore }) {
     const { classes } = this.props;
 
-    if (media.length === 0 && users.length === 0) {
+    if (media.length === 0) {
       const { location } = this.props;
       const query = queryString.parse(location.search);
 
@@ -80,29 +79,6 @@ class TaggableMedia extends React.Component {
 
     return (
       <React.Fragment>
-        {users.length > 0 && (
-          <Grid
-            item
-            item
-            xs={12}
-            lg={8}
-            style={{ marginLeft: "auto", marginRight: "auto" }}
-          >
-            <Grid container spacing={8}>
-              {users.map(user => (
-                <Grid
-                  item
-                  item
-                  xs={12}
-                  lg={users.length === 1 ? 12 : 6}
-                  key={user.id}
-                >
-                  <UserCard user={user} />
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-        )}
         {media.map(medium => (
           <Grid item xs={6} md={4} lg={3} key={medium.id}>
             <TaggableMediumCard medium={medium} />
@@ -129,7 +105,7 @@ class TaggableMedia extends React.Component {
           userId: this.state.userId
         }}
       >
-        {({ data: { media, users }, loading, error, fetchMore }) => (
+        {({ data: { media }, loading, error, fetchMore }) => (
           <React.Fragment>
             <div className={classes.buttonRoot}>
               {!this.state.userId && (
@@ -162,7 +138,6 @@ class TaggableMedia extends React.Component {
               {!loading &&
                 !error &&
                 this.renderResults({
-                  users,
                   media,
                   horizontal:
                     query.q &&

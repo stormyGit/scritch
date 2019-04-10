@@ -12,9 +12,11 @@ module Types
     field :attendance, Integer, null: true
     field :venue, String, null: true
     field :theme, String, null: true
+    field :charity, String, null: true
     field :year, Integer, null: false
     field :start_date, String, null: false
     field :end_date, String, null: false
     field :event, EventType, null: true
   end
+
 end

@@ -13,7 +13,7 @@ import timeAgo from "../../timeAgo";
 import PageTitle from "../Global//PageTitle";
 import queryString from "query-string";
 
-import { LOAD_EVENT } from "../../queries/eventQueries";
+import { LOAD_EVENT, LOAD_EDITION } from "../../queries/eventQueries";
 
 import EventMedia from "./EventMedia";
 import withCurrentSession from "../withCurrentSession";
@@ -99,7 +99,7 @@ const styles = theme => ({
 class Event extends React.Component {
   state = {
     editEvent: false,
-    editionId: []
+    editionId: null
   };
   constructor(props) {
     super(props);
@@ -140,13 +140,6 @@ class Event extends React.Component {
         {({ loading, error, data }) => {
           const event = data ? data.event : null;
 
-          const allEditions = [];
-          if (!loading && !error && event) {
-            event.editions.map(edition => {
-              allEditions.push(edition.id);
-            });
-          }
-
           var editionsOptions = [];
           editionsOptions.push({ label: "All", value: null });
           if (!loading && !error && event)
@@ -165,10 +158,9 @@ class Event extends React.Component {
                 <Grid container spacing={8}>
                   <Grid item lg={9} xs={12}>
                     <EventMedia
+                      event={event.id}
                       edition={
-                        this.state.editionId.length > 0
-                          ? this.state.editionId
-                          : allEditions
+                        this.state.edition ? this.state.edition.value : null
                       }
                     />
                   </Grid>
@@ -187,7 +179,10 @@ class Event extends React.Component {
                             component="h2"
                             noWrap
                           >
-                            {event.name}
+                            {event.name}{" "}
+                            {!this.state.edition
+                              ? "(All Editions)"
+                              : `(${this.state.edition.label})`}
                           </Typography>
                           <Typography
                             gutterBottom
@@ -270,67 +265,127 @@ class Event extends React.Component {
                       <Select
                         className={classes.selectInput}
                         options={editionsOptions}
+                        defaultValue={{ label: "All", value: null }}
+                        onChange={edition => {
+                          this.setState({ edition: edition });
+                        }}
                         placeholder="Select Edition..."
                       />
-                      {false && (
-                        <Card className={classes.card}>
-                          <CardActionArea
-                            onClick={e => {
-                              this.setState({
-                                editionId: []
-                              });
-                            }}
-                          >
-                            <CardContent>
-                              <Typography>Unselect all</Typography>
-                            </CardContent>
-                          </CardActionArea>
-                        </Card>
-                      )}
-                      {false && <div style={{ padding: 10 }} />}
+                      {this.state.edition && (
+                        <Query
+                          query={LOAD_EDITION}
+                          variables={{
+                            id: this.state.edition.value
+                          }}
+                        >
+                          {({ loading, error, data }) => {
+                            const edition = data ? data.edition : null;
 
-                      {false &&
-                        event.editions
-                          .sort((a, b) => (a.name < b.name ? 1 : -1))
-                          .map(edition => (
-                            <Card
-                              id={edition.id}
-                              key={edition.id}
-                              className={
-                                this.state.editionId.includes(edition.id)
-                                  ? classes.cardIn
-                                  : classes.cardOut
-                              }
-                            >
-                              <CardActionArea
-                                id={edition.id}
-                                onClick={e => {
-                                  var payload = e.target.id;
-                                  var index = this.state.editionId.indexOf(
-                                    payload
-                                  );
-                                  index != -1
-                                    ? this.setState({
-                                        editionId: this.state.editionId.filter(
-                                          (_, i) => i !== index
-                                        )
-                                      })
-                                    : this.setState(prevState => ({
-                                        editionId: [
-                                          ...prevState.editionId,
-                                          payload
-                                        ]
-                                      }));
-                                }}
-                              >
-                                <CardContent id={edition.id}>
-                                  <Typography id={edition.id}>
-                                    {edition.name}
-                                  </Typography>
-                                </CardContent>
-                              </CardActionArea>
-                            </Card>
-                          ))}
+                            if (error || loading || !edition) return null;
+                            return (
+                              <React.Fragment>
+                                <div style={{ padding: 5 }} />
+                                <Typography
+                                  gutterBottom
+                                  variant="h6"
+                                  component="h2"
+                                  color="primary"
+                                  className={classes.eventTitle}
+                                >
+                                  Location
+                                </Typography>
+                                <Typography
+                                  gutterBottom
+                                  variant="h5"
+                                  component="h2"
+                                  className={classes.eventTitle}
+                                >
+                                  {edition.city}
+                                  {", "}
+                                  {edition.country}
+                                </Typography>
+                                <div style={{ padding: 5 }} />
+                                <Typography
+                                  gutterBottom
+                                  variant="h6"
+                                  component="h2"
+                                  color="primary"
+                                  className={classes.eventTitle}
+                                >
+                                  Venue
+                                </Typography>
+                                <Typography
+                                  gutterBottom
+                                  variant="h5"
+                                  component="h2"
+                                  className={classes.eventTitle}
+                                >
+                                  {edition.venue ? edition.venue : "Unknown"}
+                                </Typography>
+                                <div style={{ padding: 5 }} />
+                                <Typography
+                                  gutterBottom
+                                  variant="h6"
+                                  component="h2"
+                                  color="primary"
+                                  className={classes.eventTitle}
+                                >
+                                  Theme
+                                </Typography>
+                                <Typography
+                                  gutterBottom
+                                  variant="h5"
+                                  component="h2"
+                                  className={classes.eventTitle}
+                                >
+                                  {edition.theme ? edition.theme : "Unknown"}
+                                </Typography>
+                                <div style={{ padding: 5 }} />
+                                <Typography
+                                  gutterBottom
+                                  variant="h6"
+                                  component="h2"
+                                  color="primary"
+                                  className={classes.eventTitle}
+                                >
+                                  Attendance
+                                </Typography>
+                                <Typography
+                                  gutterBottom
+                                  variant="h5"
+                                  component="h2"
+                                  className={classes.eventTitle}
+                                >
+                                  {edition.attendance
+                                    ? edition.attendance
+                                    : "Unknown"}
+                                </Typography>
+                                <div style={{ padding: 5 }} />
+                                <Typography
+                                  gutterBottom
+                                  variant="h6"
+                                  component="h2"
+                                  color="primary"
+                                  className={classes.eventTitle}
+                                >
+                                  Charity
+                                </Typography>
+                                <Typography
+                                  gutterBottom
+                                  variant="h5"
+                                  component="h2"
+                                  className={classes.eventTitle}
+                                >
+                                  {edition.charity
+                                    ? edition.charity
+                                    : "Unknown"}
+                                </Typography>
+                                <div style={{ padding: 5 }} />
+                              </React.Fragment>
+                            );
+                          }}
+                        </Query>
+                      )}
                     </div>
                   </Grid>
                 </Grid>

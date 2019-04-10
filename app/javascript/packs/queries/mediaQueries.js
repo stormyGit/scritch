@@ -13,7 +13,7 @@ export const GET_MEDIA = gql`
     $fursuits: [ID]
     $tagging: Boolean
     $faves: Boolean
-    $editionId: [ID!]
+    $editionId: ID
     $eventId: ID
   ) {
     media(
@@ -94,7 +94,7 @@ export const GET_MEDIA_WITH_FURSUITS = gql`
     $fursuits: [ID]
     $tagging: Boolean
     $faves: Boolean
-    $editionId: [ID!]
+    $editionId: ID
     $eventId: ID
   ) {
     media(

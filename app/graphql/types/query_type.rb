@@ -46,7 +46,7 @@ module Types
       argument :limit, Integer, required: true
       argument :tagging, Boolean, required: false
       argument :faves, Boolean, required: false
-      argument :edition_id, [ID], required: false
+      argument :edition_id, ID, required: false
       argument :event_id, ID, required: false
     end
 

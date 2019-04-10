@@ -49,7 +49,7 @@ class EventMedia extends React.Component {
   }
 
   render() {
-    const { classes, location, width, edition } = this.props;
+    const { classes, location, width, edition, event } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
@@ -58,50 +58,54 @@ class EventMedia extends React.Component {
         variables={{
           sort: this.props.sort,
           editionId: edition,
+          eventId: event,
           offset: 0,
           limit
         }}
       >
-        {({ data: { media }, loading, error, fetchMore }) => (
-          <React.Fragment>
-            <Grid
-              container
-              className={classes.root}
-              spacing={8}
-              style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
-            >
-              {!loading &&
-                !error &&
-                this.renderResults({
-                  media,
-                  horizontal: false,
-                  hasMore:
-                    media.length % limit === 0 &&
-                    this.state.hasMore &&
-                    media.length > 0,
-                  onLoadMore: () => {
-                    fetchMore({
-                      variables: {
-                        offset: media.length,
-                        limit
-                      },
-                      updateQuery: (prev, { fetchMoreResult }) => {
-                        if (!fetchMoreResult) return prev;
+        {({ data: { media }, loading, error, fetchMore }) => {
+          if (error || loading || !media) return null;
+          return (
+            <React.Fragment>
+              <Grid
+                container
+                className={classes.root}
+                spacing={8}
+                style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
+              >
+                {!loading &&
+                  !error &&
+                  this.renderResults({
+                    media,
+                    horizontal: false,
+                    hasMore:
+                      media.length % limit === 0 &&
+                      this.state.hasMore &&
+                      media.length > 0,
+                    onLoadMore: () => {
+                      fetchMore({
+                        variables: {
+                          offset: media.length,
+                          limit
+                        },
+                        updateQuery: (prev, { fetchMoreResult }) => {
+                          if (!fetchMoreResult) return prev;
 
-                        if (fetchMoreResult.media.length === 0) {
-                          this.setState({ hasMore: false });
-                        } else {
-                          return Object.assign({}, prev, {
-                            media: [...prev.media, ...fetchMoreResult.media]
-                          });
+                          if (fetchMoreResult.media.length === 0) {
+                            this.setState({ hasMore: false });
+                          } else {
+                            return Object.assign({}, prev, {
+                              media: [...prev.media, ...fetchMoreResult.media]
+                            });
+                          }
                         }
-                      }
-                    });
-                  }
-                })}
-            </Grid>
-          </React.Fragment>
-        )}
+                      });
+                    }
+                  })}
+              </Grid>
+            </React.Fragment>
+          );
+        }}
       </Query>
     );
   }

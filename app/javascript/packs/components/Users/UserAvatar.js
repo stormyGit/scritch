@@ -13,7 +13,6 @@ const styles = theme => ({
 
 const UserAvatar = ({ user, classes, size }) => (
   <div>
-    {console.log(size)}
     {user.avatar ? (
       <Avatar
         src={user.avatar}
