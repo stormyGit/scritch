@@ -131,7 +131,7 @@ class MediaFilters extends React.Component {
       edition: null,
       category: null,
       subEvent: null,
-      sort: "latest",
+      sort: { value: "latest", label: "Latest" },
       name: ""
     };
     this.setState(criteria);
@@ -422,13 +422,27 @@ class MediaFilters extends React.Component {
   renderSortingFilter() {
     const { classes } = this.props;
 
-    const sortingList = [
-      { label: "Latest First", value: "latest" },
-      { label: "Most Scritched", value: "scritches" },
-      { label: "Most Viewed", value: "views" },
-      { label: "Most Faved", value: "faves" },
-      { label: "Earliest First", value: "earliest" }
-    ];
+    const sortingList = [];
+    if (this.props.isTagPage) {
+      sortingList.push({ label: "Latest First", value: "latest" });
+      sortingList.push({
+        label: "Most Completed First",
+        value: "mostComplete"
+      });
+      sortingList.push({
+        label: "Least Completed First",
+        value: "leastComplete"
+      });
+      sortingList.push({ label: "Most Faved", value: "faves" });
+      sortingList.push({ label: "Earliest First", value: "earliest" });
+    } else {
+      sortingList.push({ label: "Latest First", value: "latest" });
+      sortingList.push({ label: "Most Scritched", value: "scritches" });
+      sortingList.push({ label: "Most Viewed", value: "views" });
+      sortingList.push({ label: "Most Faved", value: "faves" });
+      sortingList.push({ label: "Earliest First", value: "earliest" });
+    }
+
     return (
       <React.Fragment>
         <Grid item xs={4}>
@@ -529,30 +543,47 @@ class MediaFilters extends React.Component {
               this.setState({ expansion: !this.state.expansion })
             }
           >
-            <ExpansionPanelSummary
-              expandIcon={
-                <ExpandMoreIcon
-                  onClick={() =>
-                    this.setState({ expansion: !this.state.expansion })
-                  }
-                />
-              }
-            >
-              <Grid container spacing={8}>
-                <Grid item xs={12}>
-                  <SearchBar
-                    className={classes.searchBar}
-                    onChange={value => this.handleSearch(value)}
-                    value={this.state.name}
-                    onCancelSearch={() => this.handleSearch("")}
-                    placeholder="Search fursuits..."
+            {!this.props.isTagPage && (
+              <ExpansionPanelSummary
+                expandIcon={
+                  <ExpandMoreIcon
+                    onClick={() =>
+                      this.setState({ expansion: !this.state.expansion })
+                    }
                   />
+                }
+              >
+                <Grid container spacing={8}>
+                  <Grid item xs={12}>
+                    <SearchBar
+                      className={classes.searchBar}
+                      onChange={value => this.handleSearch(value)}
+                      value={this.state.name}
+                      onCancelSearch={() => this.handleSearch("")}
+                      placeholder="Search fursuits..."
+                    />
+                  </Grid>
                 </Grid>
-              </Grid>
-            </ExpansionPanelSummary>
+              </ExpansionPanelSummary>
+            )}
+            {this.props.isTagPage && (
+              <ExpansionPanelSummary
+                expandIcon={
+                  <ExpandMoreIcon
+                    onClick={() =>
+                      this.setState({ expansion: !this.state.expansion })
+                    }
+                  />
+                }
+              >
+                <Typography>Filters</Typography>
+              </ExpansionPanelSummary>
+            )}
             <ExpansionPanelDetails>
               <Grid container spacing={8}>
-                {this.state.name && this.renderFursuitFilter()}
+                {this.state.name &&
+                  !this.props.isTagPage &&
+                  this.renderFursuitFilter()}
                 {this.renderEventFilter()}
                 {this.renderSubEventFilter()}
                 {this.renderCategoryFilter()}

@@ -454,6 +454,10 @@ module Types
           media.order(["media.views_count DESC, media.created_at DESC"])
         when 'faves'
           media.order(["media.faves_count DESC, media.created_at DESC"])
+        when 'leastComplete'
+          media.order(["media.completion, media.created_at DESC"])
+        when 'mostComplete'
+          media.order(["media.completion DESC, media.created_at DESC"])
         when 'random'
           media.order("RANDOM()")
         when 'subscriptions'

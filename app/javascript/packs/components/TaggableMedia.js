@@ -14,6 +14,7 @@ import { GET_MEDIA_WITH_FURSUITS } from "../queries/mediaQueries";
 import TaggableMediumCard from "./TaggableMediumCard";
 import EmptyList from "./Global/EmptyList";
 import LoadMoreButton from "./Global/LoadMoreButton";
+import MediaFilters from "./Media/MediaFilters";
 
 import withCurrentSession from "./withCurrentSession";
 
@@ -56,8 +57,24 @@ class TaggableMedia extends React.Component {
     tutoDialog: !this.props.currentSession.user.tagTutorial,
     tagDialog: false,
     hasMore: true,
-    userId: null
+    userId: null,
+    event: null,
+    edition: null,
+    category: null,
+    subEvent: null,
+    sort: "latest",
+    hasMore: true
   };
+
+  clearFilters() {
+    this.setState({
+      event: null,
+      edition: null,
+      category: null,
+      subEvent: null,
+      sort: { value: "latest", label: "Latest" }
+    });
+  }
 
   renderResults({ media, horizontal, onLoadMore, hasMore }) {
     const { classes } = this.props;
@@ -102,11 +119,26 @@ class TaggableMedia extends React.Component {
           offset: 0,
           limit,
           tagging: true,
-          userId: this.state.userId
+          userId: this.state.userId,
+          sort: this.state.sort,
+          eventId: this.state.event ? this.state.event.value : null,
+          editionId: this.state.edition ? this.state.edition.value : null,
+          categoryId: this.state.category ? this.state.category.value : null,
+          subEventId: this.state.subEvent ? this.state.subEvent.value : null
         }}
       >
         {({ data: { media }, loading, error, fetchMore }) => (
           <React.Fragment>
+            <div className={classes.filters}>
+              <MediaFilters
+                onChange={value => {
+                  console.log(value);
+                  this.setState({ [value.label]: value.value });
+                }}
+                clearFilters={() => this.clearFilters()}
+                isTagPage={true}
+              />
+            </div>
             <div className={classes.buttonRoot}>
               {!this.state.userId && (
                 <Button
