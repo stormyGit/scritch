@@ -35,6 +35,7 @@ import TagDialog from "../TagDialog";
 import ReportDialog from "../AppDialogs/ReportDialog";
 import TagReportDialog from "../AppDialogs/TagReportDialog";
 import ExifDialog from "../AppDialogs/ExifDialog";
+import DownloadDialog from "../AppDialogs/DownloadDialog";
 import withCurrentSession from "../withCurrentSession";
 import SocialButton from "../Global/SocialButton";
 import TwitterIcon from "../../icons/Twitter";
@@ -159,6 +160,7 @@ class Medium extends React.Component {
   state = {
     menuAnchor: null,
     exifDialog: false,
+    downloadDialog: false,
     editMedium: false,
     showMenuButton: false,
     tagMedium: false,
@@ -432,6 +434,15 @@ class Medium extends React.Component {
                                 </Typography>
                               </Grid>
                               <Grid item style={{ flexShrink: 0 }}>
+                                <Button
+                                  onClick={() =>
+                                    this.setState({ downloadDialog: true })
+                                  }
+                                  variant="outlined"
+                                  className={classes.buttonPadder}
+                                >
+                                  Download Media
+                                </Button>
                                 {medium.exif &&
                                   Object.keys(JSON.parse(medium.exif))
                                     .length !== 0 && (
@@ -581,6 +592,11 @@ class Medium extends React.Component {
                   <ExifDialog
                     open={this.state.exifDialog}
                     onClose={() => this.setState({ exifDialog: false })}
+                    medium={medium}
+                  />
+                  <DownloadDialog
+                    open={this.state.downloadDialog}
+                    onClose={() => this.setState({ downloadDialog: false })}
                     medium={medium}
                   />
                 </div>

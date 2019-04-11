@@ -350,6 +350,7 @@ class Fursuit extends React.Component {
                     alignItems="center"
                     justify="center"
                   >
+                    {console.log(fursuit)}
                     <Grid xs={1} item />
                     <Grid xs={10} item>
                       <img

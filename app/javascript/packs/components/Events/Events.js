@@ -31,7 +31,7 @@ const styles = theme => ({
     textAlign: "center"
   },
   requestButton: {
-    height: "100%",
+    top: 0,
     textAlign: "center"
   }
 });
@@ -118,6 +118,7 @@ class Events extends React.Component {
                     <Button
                       variant="outlined"
                       className={classes.requestButton}
+                      size="large"
                       onClick={() =>
                         this.setState({ assetRequestDialog: true })
                       }

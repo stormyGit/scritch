@@ -32,7 +32,7 @@ const styles = theme => ({
     textAlign: "center"
   },
   requestButton: {
-    height: "100%",
+    top: 0,
     textAlign: "center"
   }
 });
@@ -120,6 +120,7 @@ class Makers extends React.Component {
                   <Grid item xs={2}>
                     <Button
                       variant="outlined"
+                      size="large"
                       className={classes.requestButton}
                       onClick={() =>
                         this.setState({ assetRequestDialog: true })

@@ -39,8 +39,8 @@ const styles = theme => ({
     textAlign: "center"
   },
   requestButton: {
-    height: "100%",
-    textAlign: "center"
+    textAlign: "center",
+    top: 0
   }
 });
 
@@ -133,6 +133,7 @@ class Fursuits extends React.Component {
         </Grid>
         <Grid item xs={2}>
           <Button
+            size="large"
             variant="outlined"
             className={classes.requestButton}
             onClick={() => this.setState({ assetRequestDialog: true })}
