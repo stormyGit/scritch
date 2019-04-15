@@ -3,8 +3,7 @@ import gql from "graphql-tag";
 export const LOAD_FURSUITS = gql`
   query Fursuits(
     $name: String
-    $fursuitSpecy: ID
-    $hybridSpecy: [String]
+    $speciesIds: [ID]
     $fursuitLegType: ID
     $fursuitStyle: ID
     $fursuitBuild: ID
@@ -21,8 +20,7 @@ export const LOAD_FURSUITS = gql`
   ) {
     fursuits(
       name: $name
-      fursuitSpecy: $fursuitSpecy
-      hybridSpecy: $hybridSpecy
+      speciesIds: $speciesIds
       fursuitLegType: $fursuitLegType
       fursuitStyle: $fursuitStyle
       fursuitBuild: $fursuitBuild
@@ -46,11 +44,7 @@ export const LOAD_FURSUITS = gql`
         name
       }
       isHybrid
-      hybridSpecies {
-        id
-        name
-      }
-      fursuitSpecy {
+      species {
         id
         name
       }
@@ -77,15 +71,11 @@ export const LOAD_FURSUIT = gql`
         id
         name
       }
-      fursuitSpecy {
+      species {
         id
         name
       }
       isHybrid
-      hybridSpecies {
-        id
-        name
-      }
       fursuitBuild {
         id
         name
@@ -140,17 +130,8 @@ export const LOAD_STYLES = gql`
 `;
 
 export const LOAD_SPECIES = gql`
-  query fursuitSpecies {
-    fursuitSpecies {
-      id
-      name
-    }
-  }
-`;
-
-export const LOAD_HYBRID_SPECIES = gql`
-  query hybridSpecies($fursuitSpecies: [String]!) {
-    hybridSpecies(fursuitSpecies: $fursuitSpecies) {
+  query species {
+    species {
       id
       name
     }

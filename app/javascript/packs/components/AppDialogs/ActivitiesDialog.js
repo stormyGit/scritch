@@ -388,14 +388,7 @@ class ActivitiesDialog extends React.Component {
           this.props.onClose();
         }}
       >
-        <FursuitAvatar
-          avatar={activity.trackable.avatar}
-          specy={
-            activity.trackable.isHybrid
-              ? "Hybrid"
-              : activity.trackable.fursuitSpecy.name
-          }
-        />
+        <FursuitAvatar avatar={activity.trackable.avatar} />
         <ListItemText
           primary={
             <React.Fragment>
@@ -424,14 +417,7 @@ class ActivitiesDialog extends React.Component {
           this.props.onClose();
         }}
       >
-        <FursuitAvatar
-          avatar={activity.trackable.avatar}
-          specy={
-            activity.trackable.isHybrid
-              ? "Hybrid"
-              : activity.trackable.fursuitSpecy.name
-          }
-        />
+        <FursuitAvatar avatar={activity.trackable.avatar} />
         <ListItemText
           primary={
             <React.Fragment>

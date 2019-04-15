@@ -24,8 +24,7 @@ module Types
     field :fursuit_finger, FursuitFingerType, null: true
     field :base_color, String, null: true
     field :eyes_color, String, null: true
-    field :hybrid_species, [FursuitSpecyType], null: true
-    field :fursuit_specy, FursuitSpecyType, null: true
+    field :species, [SpecyType], null: false
     field :fursuit_gender, FursuitGenderType, null: true
 
     def claimed
@@ -64,11 +63,5 @@ module Types
       object.media.order(created_at: :desc)
     end
 
-    def hybrid_species
-      if !object.is_hybrid || !object.hybrid
-        return []
-      end
-      object.hybrid.fursuit_species.order(:name)
-    end
   end
 end

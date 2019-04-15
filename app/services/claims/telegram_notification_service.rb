@@ -29,7 +29,7 @@ module Claims
 
           * #{claim.fursuit.name}
 
-          * Species: #{claim.fursuit.is_hybrid ? "Hybrid" : claim.fursuit.fursuit_specy.name}
+          * Species: #{claim.fursuit.is_hybrid ? "Hybrid" : claim.fursuit.species.first.name}
           * Maker: #{claim.fursuit.makers[0] ? claim.fursuit.makers[0].name : "Unknown"}
       )
     end

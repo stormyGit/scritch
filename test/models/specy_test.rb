@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class HybridTest < ActiveSupport::TestCase
+class SpecyTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

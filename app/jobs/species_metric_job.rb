@@ -2,7 +2,7 @@ class SpeciesMetric < ApplicationJob
   queue_as :default
 
   def perform()
-    species = FursuitSpecy.all.pluck(:name).order(:name)
+    species = Specy.all.pluck(:name).order(:name)
     count = User.count / species.count
     sp = 0
     j = 0

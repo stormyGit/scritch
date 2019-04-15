@@ -117,8 +117,7 @@ class FursuitFilters extends React.Component {
       expansion: false,
       fursuitLegType: null,
       fursuitStyle: null,
-      fursuitSpecy: null,
-      hybridSpecies: null,
+      speciesIds: null,
       hybridSearch: false,
       fursuitBuild: null,
       fursuitPadding: null,
@@ -135,8 +134,7 @@ class FursuitFilters extends React.Component {
       name: "",
       fursuitLegType: null,
       fursuitStyle: null,
-      fursuitSpecy: null,
-      hybridSpecies: null,
+      speciesIds: null,
       hybridSearch: false,
       fursuitBuild: null,
       fursuitPadding: null,
@@ -283,7 +281,7 @@ class FursuitFilters extends React.Component {
           }
 
           const speciesList = [];
-          data.fursuitSpecies.map(e =>
+          data.species.map(e =>
             speciesList.push({ value: e.id, label: e.name })
           );
 
@@ -294,12 +292,12 @@ class FursuitFilters extends React.Component {
                 placeholder="Species"
                 isClearable
                 isSearchable
-                value={this.state.fursuitSpecy}
+                value={this.state.speciesIds}
                 onChange={specy => {
-                  this.setState({ fursuitSpecy: specy });
+                  this.setState({ speciesIds: specy });
                   this.props.onChange({
-                    label: "fursuitSpecy",
-                    value: specy ? specy.value : null
+                    label: "speciesIds",
+                    value: specy ? [specy.value] : null
                   });
                 }}
                 options={speciesList}
@@ -316,14 +314,7 @@ class FursuitFilters extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Query
-        query={LOAD_HYBRID_SPECIES}
-        variables={{
-          fursuitSpecies: this.state.hybridSpecies
-            ? this.state.hybridSpecies.map(e => e.label)
-            : []
-        }}
-      >
+      <Query query={LOAD_SPECIES}>
         {({ data, loading, error }) => {
           if (error || !data) {
             return null;
@@ -336,7 +327,7 @@ class FursuitFilters extends React.Component {
             );
           }
           const speciesList = [];
-          data.hybridSpecies.map(e =>
+          data.species.map(e =>
             speciesList.push({ value: e.id, label: e.name })
           );
 
@@ -348,11 +339,12 @@ class FursuitFilters extends React.Component {
                 isClearable
                 isSearchable
                 isMulti
-                value={this.state.hybridSpecies}
+                value={this.state.speciesIds}
                 onChange={specy => {
-                  this.setState({ hybridSpecies: specy });
+                  console.log(specy);
+                  this.setState({ speciesIds: specy });
                   this.props.onChange({
-                    label: "hybridSpecy",
+                    label: "speciesIds",
                     value: specy
                   });
                 }}

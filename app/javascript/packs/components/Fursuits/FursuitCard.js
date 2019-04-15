@@ -50,21 +50,11 @@ class FursuitCard extends React.Component {
     const { classes, fursuit, horizontal, width, client } = this.props;
     var image;
 
-    if (!fursuit.avatar) {
-      if (fursuit.isHybrid) image = require("images/species/Hybrid.png");
-      else
-        try {
-          image = require(`images/species/${fursuit.fursuitSpecy.name}.png`);
-        } catch (ex) {
-          image = require("images/species/Missingno (No Avatar Graphic Found).png");
-        }
-    } else image = fursuit.avatar;
-
     return (
       <div className={classes.cardMediaContainer}>
         <CardMedia
           className={classes.verticalMedia}
-          image={image}
+          image={fursuit.avatar}
           title={fursuit.name}
         />
       </div>

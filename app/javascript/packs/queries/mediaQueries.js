@@ -197,7 +197,7 @@ export const GET_MEDIUM = gql`
         name
         avatar
         isHybrid
-        fursuitSpecy {
+        species {
           id
           name
         }

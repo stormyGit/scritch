@@ -49,8 +49,7 @@ class Fursuits extends React.Component {
     assetRequestDialog: false,
     hasMore: true,
     name: "",
-    fursuitSpecy: "",
-    hybridSpecy: [],
+    speciesIds: [],
     fursuitLegType: "",
     fursuitStyle: "",
     fursuitBuild: "",
@@ -67,8 +66,7 @@ class Fursuits extends React.Component {
   clearFilters() {
     this.setState({
       name: "",
-      fursuitSpecy: "",
-      hybridSpecy: [],
+      speciesIds: [],
       fursuitLegType: "",
       fursuitStyle: "",
       fursuitBuild: "",
@@ -123,6 +121,7 @@ class Fursuits extends React.Component {
         <Grid item xs={8}>
           <FursuitFilters
             onChange={value => {
+              console.log(value);
               this.setState({
                 [value.label]: value.value,
                 request: this.state.request + 1
@@ -167,8 +166,7 @@ class Fursuits extends React.Component {
             name: searching ? query.q : this.state.name,
             fursuitLegType: this.state.fursuitLegType,
             fursuitStyle: this.state.fursuitStyle,
-            hybridSpecy: this.state.hybridSpecy.map(e => e.value),
-            fursuitSpecy: this.state.fursuitSpecy,
+            speciesIds: this.state.speciesIds,
             fursuitBuild: this.state.fursuitBuild,
             fursuitPadding: this.state.fursuitPadding,
             fursuitFingers: this.state.fursuitFingers,

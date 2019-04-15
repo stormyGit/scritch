@@ -34,7 +34,6 @@ namespace :fursuits do
         if e[1] == "Hybrid"
           fursuit = Fursuit.create!(
             name: e[0],
-            fursuit_specy: nil,
             is_hybrid: true,
             creation_year: e[2],
             fursuit_style: FursuitStyle.find_by(name: e[4]),
@@ -45,11 +44,10 @@ namespace :fursuits do
             base_color: e[9],
             eyes_color: e[10]
           )
-          Hybrid.create!(fursuit: fursuit)
         else
           fursuit = Fursuit.create!(
             name: e[0],
-            fursuit_specy: FursuitSpecy.find_by(name: e[1]),
+            is_hybrid: false,
             creation_year: e[2],
             fursuit_style: FursuitStyle.find_by(name: e[4]),
             fursuit_leg_type: FursuitLegType.find_by(name: e[5]),
@@ -57,7 +55,8 @@ namespace :fursuits do
             fursuit_padding: FursuitPadding.find_by(name: e[7]),
             fursuit_finger: FursuitFinger.find_by(name: e[8]),
             base_color: e[9],
-            eyes_color: e[10]
+            eyes_color: e[10],
+            species_ids: [Specy.find_by(name: e[1]).uuid]
           )
         end
 

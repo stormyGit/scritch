@@ -112,7 +112,6 @@ const styles = theme => ({
 
 class Fursuit extends React.Component {
   state = {
-    currentImage: 0,
     claimDialog: false,
     editFursuitDialog: false
   };
@@ -204,8 +203,6 @@ class Fursuit extends React.Component {
     let limit = parseInt(process.env.USER_MEDIA_PAGE_SIZE);
     const query = queryString.parse(location.search);
 
-    var image;
-
     return (
       <Query
         query={LOAD_FURSUIT}
@@ -216,17 +213,6 @@ class Fursuit extends React.Component {
         {({ loading, error, data }) => {
           const fursuit = data ? data.fursuit : null;
 
-          if (fursuit) {
-            if (fursuit.isHybrid) image = require("images/species/Hybrid.png");
-            else
-              try {
-                image = require(`images/species/${
-                  fursuit.fursuitSpecy.name
-                }.png`);
-              } catch (ex) {
-                image = require("images/species/Missingno (No Avatar Graphic Found).png");
-              }
-          }
           return (
             !loading &&
             !error &&
@@ -333,13 +319,16 @@ class Fursuit extends React.Component {
                         className={classes.fursuitTitle}
                         noWrap={false}
                       >
-                        {fursuit.isHybrid
-                          ? fursuit.hybridSpecies.length > 0
-                            ? `Hybrid (${fursuit.hybridSpecies
+                        {fursuit.isHybrid &&
+                          (fursuit.species.length > 0
+                            ? `Hybrid (${fursuit.species
                                 .map(e => e.name)
                                 .join(", ")})`
-                            : "Hybrid (no species specified)"
-                          : fursuit.fursuitSpecy.name}
+                            : "Hybrid (no species specified)")}
+                        {!fursuit.isHybrid &&
+                          (fursuit.species[0]
+                            ? fursuit.species[0].name
+                            : "Unknown")}
                       </Typography>
                     </Grid>
                   </Grid>

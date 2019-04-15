@@ -128,8 +128,7 @@ class EditFursuitDialog extends React.Component {
     fursuitLegType: null,
     fursuitStyle: null,
     fursuitGender: null,
-    fursuitSpecy: null,
-    hybridSpecies: null,
+    speciesIds: null,
     hybridSearch: false,
     fursuitBuild: null,
     fursuitPadding: null,
@@ -161,6 +160,7 @@ class EditFursuitDialog extends React.Component {
   }
 
   setInitialValues(fursuit) {
+    console.log(fursuit);
     this.setState({
       id: fursuit.id,
       name: fursuit.name || "",
@@ -168,12 +168,7 @@ class EditFursuitDialog extends React.Component {
       avatar: fursuit.avatar,
       fursuitLegType: fursuit.fursuitLegType && fursuit.fursuitLegType.id,
       fursuitStyle: fursuit.fursuitStyle && fursuit.fursuitStyle.id,
-      fursuitSpecy: fursuit.fursuitSpecy && fursuit.fursuitSpecy.id,
-      hybridSpecies:
-        fursuit.isHybrid &&
-        fursuit.hybridSpecies.map(option => ({
-          value: option.id
-        })),
+      speciesIds: fursuit.species && fursuit.species.map(e => e.id),
       hybridSearch: fursuit.isHybrid,
       fursuitBuild: fursuit.fursuitBuild && fursuit.fursuitBuild.id,
       fursuitPadding: fursuit.fursuitPadding && fursuit.fursuitPadding.id,
@@ -181,7 +176,7 @@ class EditFursuitDialog extends React.Component {
       fursuitGender: fursuit.fursuitGender && fursuit.fursuitGender.id,
       baseColor: fursuit.baseColor,
       eyesColor: fursuit.eyesColor,
-      maker: fursuit.makers.length > 0 && [fursuit.makers[0].id]
+      maker: fursuit.makers.length > 0 ? [fursuit.makers[0].id] : null
     });
   }
 
@@ -252,7 +247,6 @@ class EditFursuitDialog extends React.Component {
         />
         <FursuitAvatar
           avatar={this.state.avatar}
-          specy={fursuit.isHybrid ? "Hybrid" : fursuit.fursuitSpecy.name}
           className={classes.fursuitAvatar}
           size={AVATAR_SIZE}
         />
@@ -314,21 +308,19 @@ class EditFursuitDialog extends React.Component {
                           fursuitBuildId: this.state.fursuitBuild,
                           fursuitGenderId: this.state.fursuitGender,
                           fursuitStyleId: this.state.fursuitStyle,
-                          fursuitSpecyId: this.state.fursuitSpecy,
+                          speciesIds: this.state.speciesIds
+                            ? this.state.speciesIds.map(e => e.value)
+                            : null,
                           fursuitLegTypeId: this.state.fursuitLegType,
                           baseColor: this.state.baseColor,
                           eyesColor: this.state.eyesColor,
                           isHybrid: this.state.hybridSearch
                             ? this.state.hybridSearch
                             : false,
-                          hybridSpecies:
-                            this.state.hybridSpecies.length > 0
-                              ? this.state.hybridSpecies.map(e => e.value)
-                              : null,
                           makerIds: this.state.maker,
                           creationYear: this.state.creationYear
                             ? parseInt(this.state.creationYear)
-                            : 0,
+                            : null,
                           ...(this.state.avatar !== fursuit.avatar
                             ? { avatar: this.state.avatar }
                             : {})

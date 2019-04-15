@@ -71,11 +71,6 @@ export const GET_ACTIVITIES = gql`
         ... on Fursuit {
           id
           name
-          isHybrid
-          fursuitSpecy {
-            id
-            name
-          }
         }
       }
     }

@@ -36,8 +36,9 @@
                     | &nbsp;&nbsp;Fursuit
                   p.is-size-5
                     = link_to "#{claim.fursuit.name}", moderation_fursuit_path(id: claim.fursuit.slug), target: "_blank"
-                  p.is-size-5
-                    = "by #{claim.fursuit.makers[0].name}"
+                  - if claim.fursuit.makers[0].present?
+                    p.is-size-5
+                      = "by #{claim.fursuit.makers[0].name}"
                   p.is-size-5
                     = claim.fursuit.creation_year
                 br

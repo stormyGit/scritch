@@ -11,12 +11,8 @@ class Fursuit < ApplicationRecord
   belongs_to :fursuit_build, optional: true
   belongs_to :fursuit_padding, optional: true
   belongs_to :fursuit_style, optional: true
-  belongs_to :fursuit_specy, optional: true
   belongs_to :fursuit_leg_type, optional: true
   belongs_to :fursuit_gender, optional: true
-
-  has_one :hybrid, dependent: :destroy
-  has_many :fursuit_species, through: :hybrid
 
   has_many :claims, dependent: :destroy
 
@@ -25,6 +21,9 @@ class Fursuit < ApplicationRecord
   mount_base64_uploader :avatar, AvatarUploader
   has_many :fursuit_users, dependent: :destroy
   has_many :users, through: :fursuit_users
+  #
+  has_many :fursuit_species, dependent: :destroy
+  has_many :species, through: :fursuit_species, source: :specy
   #
   has_many :fursuit_makers, dependent: :destroy
   has_many :makers, through: :fursuit_makers

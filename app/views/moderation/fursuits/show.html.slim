@@ -45,7 +45,11 @@ br
           p.is-size-4
             | Species
           p.is-size-5
-            = @fursuit.fursuit_specy ? @fursuit.fursuit_specy.name : "Unknown"
+            - if @fursuit.is_hybrid
+              = "Hybrid"
+              = @fursuit.species.present? ? " (#{@fursuit.species.pluck(:name).join(", ")})" : " (No Species specified)"
+            - else
+              = @fursuit.species.present? ? @fursuit.species.first.name : "Unknown"
           br
           p.is-size-4
             | Style

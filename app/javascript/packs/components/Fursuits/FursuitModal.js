@@ -29,6 +29,7 @@ class FursuitModal extends React.Component {
     const { classes, width, open, onClose, fursuit } = this.props;
     if (!fursuit) return null;
 
+    console.log(fursuit);
     return (
       <Query
         query={LOAD_FURSUIT}
@@ -39,22 +40,6 @@ class FursuitModal extends React.Component {
         {({ loading, error, data }) => {
           if (!data.fursuit) return null;
           let localFursuit = data.fursuit;
-
-          var image;
-
-          if (localFursuit.avatar) image = localFursuit.avatar;
-          else {
-            if (localFursuit.isHybrid)
-              image = require("images/species/Hybrid.png");
-            else
-              try {
-                image = require(`images/species/${
-                  localFursuit.fursuitSpecy.name
-                }.png`);
-              } catch (ex) {
-                image = require("images/species/Missingno (No Avatar Graphic Found).png");
-              }
-          }
 
           return (
             <ResponsiveDialog open={open} onClose={onClose}>
@@ -73,7 +58,10 @@ class FursuitModal extends React.Component {
                   <Grid item xs={12} lg={10}>
                     <Grid container spacing={8}>
                       <Grid item xs={4}>
-                        <img src={image} style={{ width: "100%" }} />
+                        <img
+                          src={localFursuit.avatar}
+                          style={{ width: "100%" }}
+                        />
                       </Grid>
                       <Grid item xs={2} />
                       <Grid item xs={6}>
@@ -87,13 +75,16 @@ class FursuitModal extends React.Component {
                               className={classes.text}
                               noWrap
                             >
-                              {localFursuit.isHybrid
-                                ? localFursuit.hybridSpecies.length > 0
-                                  ? `Hybrid (${localFursuit.hybridSpecies
+                              {localFursuit.isHybrid &&
+                                (localFursuit.species.length > 0
+                                  ? `Hybrid (${localFursuit.species
                                       .map(e => e.name)
                                       .join(", ")})`
-                                  : "Hybrid (no species specified)"
-                                : localFursuit.fursuitSpecy.name}
+                                  : "Hybrid (no species specified)")}
+                              {!localFursuit.isHybrid &&
+                                (localFursuit.species[0]
+                                  ? localFursuit.species[0].name
+                                  : "Unknown")}
                             </Typography>
                           </Grid>
                           <Grid item xs={12}>

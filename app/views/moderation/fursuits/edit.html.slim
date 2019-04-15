@@ -24,10 +24,14 @@ br
           .select.is-multiple
             = f.select(:maker_ids, options_for_select(Maker.all.order(:name).pluck(:name, :uuid), @fursuit.makers.pluck(:uuid)), {:include_blank => true}, { :multiple => true, :size => 6})
         .field
-          = f.label :fursuit_specy_id, "Species"
+          = f.check_box :is_hybrid, {:checked => @fursuit.is_hybrid}
+          | &nbsp;&nbsp;
+          = f.label :is_hybrid, "Hybrid ?", class: "checkbox"
+        .field
+          = f.label :species_ids, "Species"
           br
           .select
-            = f.select :fursuit_specy_id, options_for_select(FursuitSpecy.all.order(:name).pluck(:name, :uuid), @fursuit.fursuit_specy_id), {:include_blank => true}
+            = f.select :species_ids, options_for_select(Specy.all.order(:name).pluck(:name, :uuid), @fursuit.species_ids), {:include_blank => true}
         .field
           = f.label :fursuit_style_id, "Style"
           br

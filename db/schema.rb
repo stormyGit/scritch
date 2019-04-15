@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_10_063012) do
+ActiveRecord::Schema.define(version: 2019_04_11_203907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -330,20 +330,13 @@ ActiveRecord::Schema.define(version: 2019_04_10_063012) do
   end
 
   create_table "fursuit_species", force: :cascade do |t|
-    t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
-  end
-
-  create_table "fursuit_specy_hybrids", force: :cascade do |t|
-    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
-    t.uuid "fursuit_specy_id", null: false
-    t.uuid "hybrid_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["fursuit_specy_id"], name: "index_fursuit_specy_hybrids_on_fursuit_specy_id"
-    t.index ["hybrid_id"], name: "index_fursuit_specy_hybrids_on_hybrid_id"
+    t.uuid "fursuit_id"
+    t.uuid "specy_id"
+    t.index ["fursuit_id"], name: "index_fursuit_species_on_fursuit_id"
+    t.index ["specy_id"], name: "index_fursuit_species_on_specy_id"
   end
 
   create_table "fursuit_styles", force: :cascade do |t|
@@ -380,7 +373,6 @@ ActiveRecord::Schema.define(version: 2019_04_10_063012) do
     t.integer "creation_year"
     t.uuid "fursuit_leg_type_id"
     t.uuid "fursuit_style_id"
-    t.uuid "fursuit_specy_id"
     t.string "avatar"
     t.uuid "fursuit_padding_id"
     t.uuid "fursuit_build_id"
@@ -390,14 +382,6 @@ ActiveRecord::Schema.define(version: 2019_04_10_063012) do
     t.boolean "is_hybrid", default: false
     t.uuid "fursuit_gender_id"
     t.index ["fursuit_gender_id"], name: "index_fursuits_on_fursuit_gender_id"
-  end
-
-  create_table "hybrids", force: :cascade do |t|
-    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
-    t.uuid "fursuit_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["fursuit_id"], name: "index_hybrids_on_fursuit_id"
   end
 
   create_table "likes", force: :cascade do |t|
@@ -581,6 +565,13 @@ ActiveRecord::Schema.define(version: 2019_04_10_063012) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_sessions_on_user_id"
+  end
+
+  create_table "species", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "sponsors", force: :cascade do |t|

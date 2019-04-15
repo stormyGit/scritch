@@ -94,27 +94,17 @@ class FursuitMiniCard extends React.Component {
   render() {
     const { classes, fursuit, onClick } = this.props;
 
-    var image;
-
-    if (fursuit.avatar) image = fursuit.avatar;
-    else {
-      if (fursuit.isHybrid) image = require("images/species/Hybrid.png");
-      else
-        try {
-          image = require(`images/species/${fursuit.fursuitSpecy.name}.png`);
-        } catch (ex) {
-          image = require("images/species/Missingno (No Avatar Graphic Found).png");
-        }
-    }
-
+    console.log(fursuit);
     var species;
     if (fursuit.isHybrid) {
       species = "Hybrid";
-      if (fursuit.hybridSpecies) {
-        species =
-          species + ` (${fursuit.hybridSpecies.map(e => e.name).join(", ")})`;
+      if (fursuit.species.length > 0) {
+        species = species + ` (${fursuit.species.map(e => e.name).join(", ")})`;
       }
-    } else species = fursuit.fursuitSpecy.name;
+    } else {
+      if (fursuit.species[0]) species = fursuit.species[0].name;
+      else species = "Unknown Species";
+    }
 
     return (
       <Grid container spacing={8} justify="center" alignItems="center">
@@ -128,7 +118,7 @@ class FursuitMiniCard extends React.Component {
             placement="top"
           >
             <img
-              src={image}
+              src={fursuit.avatar}
               onClick={() => {
                 onClick(fursuit);
               }}
@@ -153,7 +143,7 @@ class FursuitMiniCard extends React.Component {
               className={classes.text}
               noWrap
             >
-              {fursuit.makers[0].name}
+              {fursuit.makers[0] ? fursuit.makers[0].name : "Unknown Maker"}
             </Typography>
           )}
         </Grid>

@@ -29,7 +29,7 @@ class Moderation::FursuitsController < ModerationController
     fursuit.assign_attributes(params.require(:fursuit).permit([
       :user_id,
       :name,
-      :fursuit_specy_id,
+      :is_hybrid,
       :fursuit_style_id,
       :fursuit_padding_id,
       :fursuit_finger_id,
@@ -40,13 +40,18 @@ class Moderation::FursuitsController < ModerationController
       :fursuit_leg_type_id,
       :creation_year,
       :slug,
+      species_ids: [],
       maker_ids: []
     ]))
 
     begin
       fursuit.avatar = File.open("app/assets/images/species/#{e[11]}.png")
     rescue
-      File.open("failedFursuits", 'a') { |file| file.write("#{fursuit.name} by: #{fursuit.makers[0].name}\n")}
+      if (fursuit.makers.present?)
+        File.open("failedFursuits", 'a') { |file| file.write("#{fursuit.name} by: #{fursuit.makers[0].name}\n")}
+      else
+        File.open("failedFursuits", 'a') { |file| file.write("#{fursuit.name} by: Unknown Maker\n")}
+      end
       fursuit.avatar = File.open("app/assets/images/species/FAILED.png")
     end
     #    authorize fursuit
@@ -65,7 +70,7 @@ class Moderation::FursuitsController < ModerationController
     fursuit.assign_attributes(params.require(:fursuit).permit([
       :user_id,
       :name,
-      :fursuit_specy_id,
+      :is_hybrid,
       :fursuit_style_id,
       :fursuit_padding_id,
       :fursuit_finger_id,
@@ -76,6 +81,7 @@ class Moderation::FursuitsController < ModerationController
       :fursuit_leg_type_id,
       :creation_year,
       :slug,
+      species_ids: [],
       maker_ids: []
     ]))
 

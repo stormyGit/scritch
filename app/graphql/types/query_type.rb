@@ -11,12 +11,12 @@ module Types
     field :fursuit_genders, [FursuitGenderType], null: false do
       description "Find a medium by ID"
     end
-    field :fursuit_species, [FursuitSpecyType], null: false do
+    field :species, [SpecyType], null: false do
       description "Find a medium by ID"
     end
-    field :hybrid_species, [FursuitSpecyType], null: false do
+    field :hybrid_species, [SpecyType], null: false do
       description "Find a medium by ID"
-      argument :fursuit_species, [String, null: true], required: true
+      argument :species, [String, null: true], required: true
     end
     field :fursuit_fingers, [FursuitFingerType], null: false do
       description "Find a medium by ID"
@@ -206,8 +206,8 @@ module Types
       argument :limit, Integer, required: true
       argument :offset, Integer, required: true
       argument :exclude, [ID], required: false
-      argument :fursuit_specy, ID, required: false
-      argument :hybrid_specy, [String, null: true], required: false
+      argument :hybrid_search, Boolean, required: false
+      argument :species_ids, [ID, null: true], required: false
       argument :fursuit_style, ID, required: false
       argument :fursuit_leg_type, ID, required: false
       argument :fursuit_build, ID, required: false
@@ -303,16 +303,12 @@ module Types
       FursuitGender.all.order(:name)
     end
 
-    def fursuit_species
-      FursuitSpecy.all.order(:name)
+    def species
+      Specy.all.order(:name)
     end
 
     def hybrid_species(args)
-      puts "\n\n\n\n\n\n\n>>>>>>>>>>>>>>>>>>>>>\n\n\n#{args}\n\n\n"
-      # if (args[:fursuit_species] == [])
-        return FursuitSpecy.all.order(:name)
-      # end
-      # Hybrid.joins(:fursuit_species).where("fursuit_species.name IN (?)", args[:fursuit_species]).map{|e| e.fursuit_species}.flatten.uniq.sort_by{|e| e.name}
+      Specy.all.order(:name)
     end
 
     def fursuit_paddings
@@ -352,13 +348,13 @@ module Types
         fursuits = fursuits.joins(:users).where("users.uuid = ?", arguments[:user_id])
       end
 
-      if arguments[:fursuit_specy].present?
-        fursuits = fursuits.where(fursuit_specy_id: FursuitSpecy.find(arguments[:fursuit_specy]))
+      #### TODO
+      ####
+      if arguments[:species_ids].present?
+        fursuits = fursuits.where("fursuits.species_ids")
       end
-
-      if arguments[:hybrid_specy].present?
-        fursuits = fursuits.where(is_hybrid: true).joins(:fursuit_species).distinct.where("fursuit_species.uuid IN (?)", arguments[:hybrid_specy])
-      end
+      ####
+      ####
 
       if arguments[:fursuit_style].present?
         fursuits = fursuits.where(fursuit_style_id: FursuitStyle.find(arguments[:fursuit_style]))
@@ -657,3 +653,11 @@ module Types
     end
   end
 end
+
+  # Fursuit.select('* from (
+  #     select fursuits.*, array_agg(species.id) species_ids
+  #     from fursuits
+  #     inner join fursuit_species on fursuit_species.fursuit_id = fursuits.id
+  #     inner join species on species.id = fursuit_species.species_id
+  #   ) tmp_fursuits'
+  # ).where('tmp_fursuits.species_ids = (:species_ids)', SPECIES)

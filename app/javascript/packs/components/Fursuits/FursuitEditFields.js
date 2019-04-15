@@ -120,8 +120,7 @@ class FursuitEditFields extends React.Component {
     this.state = {
       fursuitLegType: null,
       fursuitStyle: null,
-      fursuitSpecy: null,
-      hybridSpecies: null,
+      species: [],
       hybridSearch: false,
       fursuitBuild: null,
       fursuitPadding: null,
@@ -146,15 +145,11 @@ class FursuitEditFields extends React.Component {
         value: this.props.fursuit.fursuitStyle.id,
         label: this.props.fursuit.fursuitStyle.name
       },
-      fursuitSpecy: this.props.fursuit.fursuitSpecy && {
-        value: this.props.fursuit.fursuitSpecy.id,
-        label: this.props.fursuit.fursuitSpecy.name
-      },
-      hybridSpecies:
-        fursuit.isHybrid &&
-        fursuit.hybridSpecies.map(option => ({
-          value: option.id,
-          label: option.name
+      speciesIds:
+        this.props.fursuit.species &&
+        this.props.fursuit.species.map(e => ({
+          value: e.id,
+          label: e.name
         })),
       hybridSearch: fursuit.isHybrid,
       fursuitBuild: this.props.fursuit.fursuitBuild && {
@@ -181,7 +176,7 @@ class FursuitEditFields extends React.Component {
         value: this.props.fursuit.eyesColor,
         label: this.props.fursuit.eyesColor
       },
-      maker: this.props.fursuit.makers && {
+      maker: this.props.fursuit.makers.length > 0 && {
         value: this.props.fursuit.makers[0].id,
         label: this.props.fursuit.makers[0].name
       }
@@ -316,15 +311,15 @@ class FursuitEditFields extends React.Component {
                   placeholder="Species"
                   isClearable
                   isSearchable
-                  value={this.state.fursuitSpecy}
+                  value={this.state.speciesIds && this.state.speciesIds[0]}
                   onChange={specy => {
-                    this.setState({ fursuitSpecy: specy });
+                    this.setState({ speciesIds: specy });
                     this.props.onChange({
-                      label: "fursuitSpecy",
-                      value: specy ? specy.value : null
+                      label: "speciesIds",
+                      value: specy ? [specy] : null
                     });
                   }}
-                  options={data.fursuitSpecies.map(option => ({
+                  options={data.species.map(option => ({
                     label: option.name,
                     value: option.id
                   }))}
@@ -346,14 +341,7 @@ class FursuitEditFields extends React.Component {
         <Typography variant="h6" className={classes.label}>
           Species
         </Typography>
-        <Query
-          query={LOAD_HYBRID_SPECIES}
-          variables={{
-            fursuitSpecies: this.state.hybridSpecies
-              ? this.state.hybridSpecies.map(e => e.label)
-              : []
-          }}
-        >
+        <Query query={LOAD_SPECIES}>
           {({ data, loading, error }) => {
             if (error || !data) {
               return null;
@@ -374,16 +362,16 @@ class FursuitEditFields extends React.Component {
                   isClearable
                   isSearchable
                   isMulti
-                  value={this.state.hybridSpecies}
+                  value={this.state.speciesIds}
                   onChange={specy => {
                     console.log(specy);
-                    this.setState({ hybridSpecies: specy });
+                    this.setState({ speciesIds: specy });
                     this.props.onChange({
-                      label: "hybridSpecies",
+                      label: "speciesIds",
                       value: specy
                     });
                   }}
-                  options={data.hybridSpecies.map(option => ({
+                  options={data.species.map(option => ({
                     label: option.name,
                     value: option.id
                   }))}
@@ -412,6 +400,13 @@ class FursuitEditFields extends React.Component {
                   label: "hybridSearch",
                   value: event.target.checked
                 });
+                if (this.state.speciesIds.length > 0) {
+                  this.setState({ speciesIds: [this.state.speciesIds[0]] });
+                  this.props.onChange({
+                    label: "speciesIds",
+                    value: [this.state.speciesIds[0]]
+                  });
+                }
               }}
             />
           }
