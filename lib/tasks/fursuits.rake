@@ -31,39 +31,34 @@ namespace :fursuits do
       puts e.to_s
       puts "\n"
       begin
-        fursuit =
-          if e[1] == "Hybrid Custom"
-            fursuit = Fursuit.create!(
-              name: e[0],
-              is_hybrid: true,
-              creation_year: e[2],
-              fursuit_style: FursuitStyle.find_by(name: e[4]),
-              fursuit_leg_type: FursuitLegType.find_by(name: e[5]),
-              fursuit_build: FursuitBuild.find_by(name: e[6]),
-              fursuit_padding: FursuitPadding.find_by(name: e[7]),
-              fursuit_finger: FursuitFinger.find_by(name: e[8]),
-              base_color: e[9],
-              eyes_color: e[10]
-            )
-          else
-            fursuit = Fursuit.create!(
-              name: e[0],
-              is_hybrid: false,
-              creation_year: e[2],
-              fursuit_style: FursuitStyle.find_by(name: e[4]),
-              fursuit_leg_type: FursuitLegType.find_by(name: e[5]),
-              fursuit_build: FursuitBuild.find_by(name: e[6]),
-              fursuit_padding: FursuitPadding.find_by(name: e[7]),
-              fursuit_finger: FursuitFinger.find_by(name: e[8]),
-              base_color: e[9],
-              eyes_color: e[10],
-              species_ids: [Specy.find_by(name: e[1]).uuid]
-            )
-          end
-      rescue => error
-        TechReport.create!(user: User.first, description: "FURSUIT CREATION:: #{e[0]} -- #{e[1]} -- #{e[9]} =======>>> #{error}")
-      end
-
+        if e[1] == "Hybrid Custom"
+          fursuit = Fursuit.create!(
+            name: e[0],
+            is_hybrid: true,
+            creation_year: e[2],
+            fursuit_style: FursuitStyle.find_by(name: e[4]),
+            fursuit_leg_type: FursuitLegType.find_by(name: e[5]),
+            fursuit_build: FursuitBuild.find_by(name: e[6]),
+            fursuit_padding: FursuitPadding.find_by(name: e[7]),
+            fursuit_finger: FursuitFinger.find_by(name: e[8]),
+            base_color: e[9],
+            eyes_color: e[10]
+          )
+        else
+          fursuit = Fursuit.create!(
+            name: e[0],
+            is_hybrid: false,
+            creation_year: e[2],
+            fursuit_style: FursuitStyle.find_by(name: e[4]),
+            fursuit_leg_type: FursuitLegType.find_by(name: e[5]),
+            fursuit_build: FursuitBuild.find_by(name: e[6]),
+            fursuit_padding: FursuitPadding.find_by(name: e[7]),
+            fursuit_finger: FursuitFinger.find_by(name: e[8]),
+            base_color: e[9],
+            eyes_color: e[10],
+            species_ids: [Specy.find_by(name: e[1]).uuid]
+          )
+        end
         begin
           fursuit.avatar = File.open("app/assets/images/species/#{e[11]}.png")
         rescue
@@ -74,10 +69,15 @@ namespace :fursuits do
           end
           fursuit.avatar = File.open("app/assets/images/species/FAILED.png")
         end
-      fursuit.save!
-      if e[3].present? && e[3] != "UNKNOWN"
-        FursuitMaker.create!(fursuit: fursuit, maker: Maker.find_by(reference: e[3].to_i))
+        fursuit.save!
+        if e[3].present? && e[3] != "UNKNOWN"
+          FursuitMaker.create!(fursuit: fursuit, maker: Maker.find_by(reference: e[3].to_i))
+        end
+      rescue => error
+        TechReport.create!(user: User.first, description: "FURSUIT CREATION:: #{e[0]} -- #{e[1]} -- #{e[9]} =======>>> #{error}")
       end
+
+
     end
 
   end
