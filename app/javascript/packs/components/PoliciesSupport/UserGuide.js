@@ -7,7 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import PageTitle from "../Global/PageTitle";
 
-import userGuide from "../../userGuide";
+import WebsiteUserGuide from "../../WebsiteUserGuide";
 
 const styles = theme => ({
   card: {
@@ -43,49 +43,28 @@ const styles = theme => ({
 class UserGuide extends React.Component {
   state = {};
 
-  renderContent() {
-    const { classes, announcement, horizontal } = this.props;
-
-    return (
-      <CardContent className={classes.content} className={classes.text}>
-        <ReactMarkdown
-          renderers={{
-            link: props => <a className={classes.link} {...props} />
-          }}
-          source={userGuide}
-        />
-      </CardContent>
-    );
-  }
-
-  renderVertical() {
-    const { classes, announcement, width } = this.props;
-
-    return (
-      <Grid
-        container
-        className={
-          width !== "lg" && width !== "xl" ? classes.root : classes.gridPadder
-        }
-        spacing={8}
-        style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
-      >
-        <Grid item xs={12}>
-          <Card className={classes.card} elevation={0}>
-            {this.renderContent()}
-          </Card>
-        </Grid>
-      </Grid>
-    );
-  }
-
   render() {
-    const { horizontal } = this.props;
+    const { classes, announcement, width } = this.props;
 
     return (
       <React.Fragment>
         <PageTitle>Website User Guide</PageTitle>
-        {this.renderVertical()}
+        <Grid
+          container
+          className={
+            width !== "lg" && width !== "xl" ? classes.root : classes.gridPadder
+          }
+          spacing={8}
+          style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
+        >
+          <Grid item xs={12}>
+            <Card className={classes.card} elevation={0}>
+              <CardContent className={classes.content} className={classes.text}>
+                <WebsiteUserGuide />
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
       </React.Fragment>
     );
   }

@@ -166,7 +166,8 @@ class Fursuits extends React.Component {
             name: searching ? query.q : this.state.name,
             fursuitLegType: this.state.fursuitLegType,
             fursuitStyle: this.state.fursuitStyle,
-            speciesIds: this.state.speciesIds,
+            speciesIds:
+              this.state.speciesIds && this.state.speciesIds.map(e => e.value),
             fursuitBuild: this.state.fursuitBuild,
             fursuitPadding: this.state.fursuitPadding,
             fursuitFingers: this.state.fursuitFingers,

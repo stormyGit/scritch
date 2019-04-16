@@ -297,7 +297,7 @@ class FursuitFilters extends React.Component {
                   this.setState({ speciesIds: specy });
                   this.props.onChange({
                     label: "speciesIds",
-                    value: specy ? [specy.value] : null
+                    value: specy ? [specy] : null
                   });
                 }}
                 options={speciesList}

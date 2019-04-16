@@ -348,13 +348,12 @@ module Types
         fursuits = fursuits.joins(:users).where("users.uuid = ?", arguments[:user_id])
       end
 
-      #### TODO
-      ####
       if arguments[:species_ids].present?
-        fursuits = fursuits.where("fursuits.species_ids")
+        fursuits = fursuits.joins(:species)
+          .where(species: {uuid: arguments[:species_ids]})
+          .group("fursuits.id")
+          .having('count(fursuits.id) >= ?', arguments[:species_ids].size)
       end
-      ####
-      ####
 
       if arguments[:fursuit_style].present?
         fursuits = fursuits.where(fursuit_style_id: FursuitStyle.find(arguments[:fursuit_style]))

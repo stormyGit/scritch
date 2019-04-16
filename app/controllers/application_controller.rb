@@ -24,7 +24,10 @@ class ApplicationController < ActionController::Base
   protected
 
   def initialize_meta
-    @meta = {}
+    @meta = {
+      "description": "The place to go for everything Fursuit!"
+      # "image": ActionController::Base.helpers.asset_url("logo.png"),
+    }
   end
 
   def set_csrf_token

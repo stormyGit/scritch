@@ -30,6 +30,7 @@
     "react-apollo": "^2.1.11",
     "react-avatar-editor": "^11.0.4",
     "react-cookie-consent": "^2.2.2",
+    "react-document-meta": "^3.0.0-beta.2",
     "react-dom": "^16.4.2",
     "react-dropzone": "^5.1.0",
     "react-facebook-login": "^4.1.1",

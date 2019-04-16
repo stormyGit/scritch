@@ -43,6 +43,7 @@ import LoadMoreButton from "../Global/LoadMoreButton";
 import Logo from "../Global/Logo";
 
 import ReportDialog from "../AppDialogs/ReportDialog";
+import DeleteMediumDialog from "../AppDialogs/DeleteMediumDialog";
 import TagReportDialog from "../AppDialogs/TagReportDialog";
 import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
 import { GET_MEDIUM } from "../../queries/mediaQueries";
@@ -129,6 +130,9 @@ const styles = theme => ({
   },
   tagReportButton: {
     paddingBottom: theme.spacing.unit
+  },
+  deleteButton: {
+    color: theme.palette.danger.main
   }
 });
 
@@ -138,6 +142,7 @@ class EditMediumDialog extends React.Component {
     this.state = {
       submiting: false,
       tagReportDialog: false,
+      deleteMediumDialog: false,
       reportDialog: false,
       mediaEvent: null,
       mediaEdition: null,
@@ -716,17 +721,18 @@ class EditMediumDialog extends React.Component {
                             </div>
                           </div>
                         }
-                        {true && (
-                          <Typography
-                            variant="caption"
-                            className={classes.troubleLink}
-                            onClick={() =>
-                              this.setState({ reportDialog: true })
-                            }
-                          >
-                            Report Picture
-                          </Typography>
-                        )}
+                        <div className={classes.loginButtonContainer}>
+                          <div className={classes.loginButton}>
+                            <Button
+                              className={classes.deleteButton}
+                              onClick={() =>
+                                this.setState({ deleteMediumDialog: true })
+                              }
+                            >
+                              Delete Media
+                            </Button>
+                          </div>
+                        </div>
                       </DialogContent>
                     </ResponsiveDialog>
                     <ReportDialog
@@ -734,6 +740,13 @@ class EditMediumDialog extends React.Component {
                       onClose={() => this.setState({ reportDialog: false })}
                       resource="medium"
                       resourceId={medium.id}
+                    />
+                    <DeleteMediumDialog
+                      open={this.state.deleteMediumDialog}
+                      onClose={() =>
+                        this.setState({ deleteMediumDialog: false })
+                      }
+                      mediumId={medium.id}
                     />
                     <TagReportDialog
                       open={this.state.tagReportDialog}

@@ -14,7 +14,7 @@ class PageTitle extends React.Component {
 
   setPageTitle(props) {
     props.client.writeData({ data: { pageTitle: props.children } });
-    document.title = `${props.children} | ${process.env.SITE_NAME}`;
+    document.title = `${props.children} - ${process.env.SITE_NAME}`;
   }
 
   render() {
