@@ -469,9 +469,6 @@ class WebsiteUserGuide extends React.Component {
       <React.Fragment>
         <Typography variant="h2" id="website-user-guide1">
           WEBSITE USER GUIDE
-          <a href="#fn1" className={classes.link} id="fnref1">
-            <sup>1</sup>
-          </a>
         </Typography>
         <Typography variant="subtitle1">
           Date of last revision: <strong>24 March 2019</strong>
