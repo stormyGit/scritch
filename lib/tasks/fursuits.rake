@@ -28,14 +28,6 @@ namespace :fursuits do
     end
 
     fursuits.each_with_index do |e, i|
-      if i < 20
-        next
-      end
-      if i > 30
-        return
-      end
-
-
       puts e.to_s
       puts "\n"
       begin
