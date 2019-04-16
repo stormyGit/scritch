@@ -84,7 +84,7 @@ class DeleteMediumDialog extends React.Component {
           >
             Cancel
           </Button>
-          <Mutation mutation={DELETE_MEDIUM} update={cache => {}}>
+          <Mutation mutation={DELETE_MEDIUM}>
             {(deleteMedium, { data }) => (
               <Button
                 className={classes.deleteButton}
@@ -97,7 +97,7 @@ class DeleteMediumDialog extends React.Component {
                     }
                   }).then(() => {
                     this.props.onClose();
-                    this.props.history.push("/");
+                    this.props.history.push("/").then(() => location.reload);
                   });
                 }}
               >

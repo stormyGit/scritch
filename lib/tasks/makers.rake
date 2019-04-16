@@ -33,7 +33,7 @@ namespace :makers do
       begin
         maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - #{maker.country}.png")
       rescue
-        File.open("failedMakers", 'a') { |file| file.write("#{maker.name}\n")}
+        TechReport.create!(user: User.first, description: "MAKER:: #{maker.name}")
         maker.avatar = File.open("app/assets/images/makerPlaceholder.png")
       end
       maker.save!

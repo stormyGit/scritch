@@ -39,6 +39,7 @@ namespace :events do
     csv_text = open("app/assets/csv/events.csv")
     csv = CSV.parse(csv_text, :headers => true)
     csv.each do |row|
+      puts row
       if i == 0
         i = i + 1
         next
@@ -54,13 +55,14 @@ namespace :events do
       start_date = row[18]
       end_date = row[19]
       name = row[22]
+      charity = row[23]
 
       if country == "USA"
         country = "United States"
       elsif country == "Czechia"
         country = "Czech Republic"
       end
-      editionList << [convention, attendance, theme, country, location, venue, kind, start_date, end_date, name, year]
+      editionList << [convention, attendance, theme, country, location, venue, kind, start_date, end_date, name, year, charity]
       i = i + 1
     end
 
@@ -69,7 +71,8 @@ namespace :events do
       edition = Edition.create!(
         event: Event.find_by(name: e[0]),
         attendance: e[1],
-        #theme: e[2],
+        theme: e[2],
+        charity: e[11],
         country: e[3],
         city: e[4],
         venue: e[5],
@@ -82,7 +85,7 @@ namespace :events do
         begin
           edition.event.avatar = File.open("app/assets/images/events/Scritch Event Thumbnail - #{edition.country}.png")
         rescue
-          File.open("failedEvents", 'a') { |file| file.write("#{edition.event.name}\n")}
+          TechReport.create!(user: User.first, description: "EVENT:: #{edition.event.name}")
           edition.event.avatar = File.open("app/assets/images/events/FAILED.png")
         end
         edition.event.save!
