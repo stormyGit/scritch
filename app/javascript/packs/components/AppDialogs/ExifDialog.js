@@ -16,6 +16,11 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import CheckIcon from "@material-ui/icons/Check";
+import CameraIcon from "@material-ui/icons/CameraAlt";
+import FlashIcon from "@material-ui/icons/FlashOn";
+import ExposureIcon from "@material-ui/icons/Exposure";
+import TimerIcon from "@material-ui/icons/Timer";
+import IsoIcon from "@material-ui/icons/Iso";
 
 import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
@@ -45,6 +50,7 @@ class ExifDialog extends React.Component {
       return null;
     var exif = JSON.parse(medium.exif);
 
+    console.log(exif);
     return (
       <ResponsiveDialog
         open={this.props.open}
@@ -61,16 +67,35 @@ class ExifDialog extends React.Component {
           <List>
             <ListItem>
               <ListItemIcon>
-                <CheckIcon />
+                <CameraIcon />
               </ListItemIcon>
               <ListItemText inset primary={`Camera: ${exif.Model}`} />
             </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText inset primary={`Aperture: `} />
-            </ListItem>
+            {exif.FNumber && (
+              <ListItem>
+                <ListItemIcon>
+                  <CheckIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary={`F-Stop: f/${String(
+                    parseFloat(exif.FNumber.split("/")[0]) /
+                      parseFloat(exif.FNumber.split("/")[1])
+                  )}`}
+                />
+              </ListItem>
+            )}
+            {exif.ExposureTime && (
+              <ListItem>
+                <ListItemIcon>
+                  <TimerIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary={`Exposure Time: ${exif.ExposureTime}`}
+                />
+              </ListItem>
+            )}
             {exif.FocalLength && (
               <ListItem>
                 <ListItemIcon>
@@ -84,18 +109,27 @@ class ExifDialog extends React.Component {
                 />
               </ListItem>
             )}
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText inset primary={`ISO: ${exif.ISOSpeedRatings}`} />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText inset primary={`Flash: `} />
-            </ListItem>
+            {exif.ISOSpeedRatings && (
+              <ListItem>
+                <ListItemIcon>
+                  <IsoIcon />
+                </ListItemIcon>
+                <ListItemText inset primary={`ISO: ${exif.ISOSpeedRatings}`} />
+              </ListItem>
+            )}
+            {exif.Flash && (
+              <ListItem>
+                <ListItemIcon>
+                  <FlashIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary={`Flash: ${
+                    parseInt(exif.Flash) % 2 == 0 ? "Did not fire" : "Fired"
+                  }`}
+                />
+              </ListItem>
+            )}
           </List>
         </DialogContent>
         <DialogActions>

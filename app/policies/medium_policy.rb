@@ -25,8 +25,7 @@ class MediumPolicy < ApplicationPolicy
   end
 
   def create?
-    #user.present? && user == record.user
-    true
+    user.present? && user == record.user
   end
 
   def update?

@@ -473,7 +473,7 @@ class WebsiteUserGuide extends React.Component {
         <Typography variant="subtitle1">
           Date of last revision: <strong>24 March 2019</strong>
         </Typography>
-        {Spacer}
+        {SpacerWithHR}
         <Typography variant="h4" id="contents">
           CONTENTS
         </Typography>

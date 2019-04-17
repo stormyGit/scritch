@@ -7,8 +7,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import PageTitle from "../Global/PageTitle";
 
-import faq from "../../terms";
-
 const styles = theme => ({
   card: {
     width: "100%",
@@ -46,16 +44,7 @@ class Faq extends React.Component {
   renderContent() {
     const { classes, announcement, horizontal } = this.props;
 
-    return (
-      <CardContent className={classes.content} className={classes.text}>
-        <ReactMarkdown
-          renderers={{
-            link: props => <a className={classes.link} {...props} />
-          }}
-          source={faq}
-        />
-      </CardContent>
-    );
+    return <CardContent className={classes.content} className={classes.text} />;
   }
 
   renderVertical() {
