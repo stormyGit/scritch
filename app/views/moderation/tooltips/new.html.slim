@@ -1,0 +1,24 @@
+br
+.container
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        | New Tooltip
+    .card-content
+      = form_for Tooltip.new, :url => moderation_tooltips_path do |f|
+        .field
+          = f.label :category, "Category"
+          br
+          .select
+            = f.select :category, options_for_select(Tooltip::CATEGORIES)
+        .field
+          = f.check_box :public, {:checked => true}
+          | &nbsp;&nbsp;
+          = f.label :public, "Public", class: "checkbox"
+        .field
+          = f.label :file, "File"
+          br
+          = f.file_field :file
+
+        .field
+          = f.submit "Create", class: "button"

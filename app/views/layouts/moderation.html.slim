@@ -52,6 +52,9 @@ html lang="en"
             - if moderator_can_see?("adverts")
               = active_link_to moderation_adverts_path, class: "navbar-item", class_active: "is-active", active: :exact do
                 | Adverts
+            - if moderator_can_see?("tooltips")
+              = active_link_to moderation_tooltips_path, class: "navbar-item", class_active: "is-active", active: :exact do
+                | Tooltips
             - if moderator_can_see?("banned_users")
               = active_link_to moderation_banned_users_path, class: "navbar-item", class_active: 'is-active', active: :exact do
                 | Banned users

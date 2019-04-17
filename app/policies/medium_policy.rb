@@ -28,8 +28,25 @@ class MediumPolicy < ApplicationPolicy
     user.present? && user == record.user
   end
 
+  def lock?
+
+    user.present? && record.tagger == nil && record.tag_locked == false
+  end
+
+  def unlock?
+    puts "\n" *10
+    puts record.tag_locked
+    puts "\n" *10
+    puts record.tagger
+    puts "\n" *10
+    puts user.uuid
+    puts "\n" *10
+    user.present? && record.tagger == user.uuid && record.tag_locked == true
+  end
+
+
   def update?
-    create?
+    create? && record.tagger == user.uuid
   end
 
   def destroy?

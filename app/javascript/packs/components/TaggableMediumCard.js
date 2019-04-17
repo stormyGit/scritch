@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import gql from "graphql-tag";
-import { Query, withApollo } from "react-apollo";
+import { Mutation, Query, withApollo } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Card from "@material-ui/core/Card";
@@ -21,6 +21,7 @@ import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
 import NoFavoriteIcon from "@material-ui/icons/FavoriteBorder";
 import dayjs from "dayjs";
 import queryString from "query-string";
+import { TAG_LOCK_MEDIUM, TAG_UNLOCK_MEDIUM } from "../queries/mediaMutations";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -87,7 +88,15 @@ const styles = theme => ({
     position: "relative",
     paddingTop: "56%"
   },
-
+  infoBar: {
+    display: "flex",
+    alignItems: "center"
+  },
+  infoBarInner: {
+    display: "flex",
+    alignItems: "center",
+    margin: theme.spacing.unit
+  },
   leftIcon: {
     marginRight: theme.spacing.unit
   }
@@ -132,12 +141,17 @@ class TaggableMediumCard extends React.Component {
 
     return (
       <div className={classes.overlay}>
-        <Grid container spacing={8} justify="space-between" wrap="nowrap">
-          <Grid item>
-            <Button disabled style={{ color: "#ffffffcc", fontSize: 15 }}>
-              <TagIcon className={classes.leftIcon} />
-              {medium.completion}% complete
-            </Button>
+        <Grid container spacing={8} wrap="nowrap" className={classes.infoBar}>
+          <Grid item className={classes.infoBarInner}>
+            <TagIcon
+              className={classes.leftIcon}
+              style={{ color: "#ffffffcc", fontSize: 30 }}
+            />
+            <Typography
+              style={{ color: "#ffffffcc", fontSize: 15, fontWeight: 400 }}
+            >
+              {medium.completion}% COMPLETE
+            </Typography>
           </Grid>
         </Grid>
       </div>
@@ -150,18 +164,68 @@ class TaggableMediumCard extends React.Component {
     return (
       <React.Fragment>
         <Card className={classes.card} elevation={0}>
-          <CardActionArea onClick={() => this.setState({ tagDialog: true })}>
-            {this.renderMedia()}
-          </CardActionArea>
+          <Mutation
+            mutation={TAG_LOCK_MEDIUM}
+            update={cache => {}}
+            onCompleted={() => {
+              this.setState({
+                tagDialog: true
+              });
+            }}
+            onError={() => {
+              this.setState({
+                tagDialog: true
+              });
+            }}
+          >
+            {(tagLockMedium, { data }) => (
+              <CardActionArea
+                onClick={() => {
+                  tagLockMedium({
+                    variables: {
+                      input: {
+                        id: medium.id
+                      }
+                    }
+                  });
+                }}
+              >
+                {this.renderMedia()}
+              </CardActionArea>
+            )}
+          </Mutation>
         </Card>
         {this.state.tagDialog && medium && (
-          <TagDialog
-            open={this.state.tagDialog}
-            onClose={() => {
-              this.setState({ tagDialog: false });
+          <Mutation
+            mutation={TAG_UNLOCK_MEDIUM}
+            update={cache => {}}
+            onCompleted={() => {
+              this.setState({
+                tagDialog: false
+              });
             }}
-            mediumId={medium.id}
-          />
+            onError={() => {
+              this.setState({
+                tagDialog: false
+              });
+            }}
+          >
+            {(tagUnlockMedium, { data, error }) => (
+              <TagDialog
+                open={this.state.tagDialog}
+                onClose={() => {
+                  tagUnlockMedium({
+                    variables: {
+                      input: {
+                        id: medium.id
+                      }
+                    }
+                  });
+                }}
+                mediumId={medium.id}
+              />
+            )}
+          </Mutation>
         )}
       </React.Fragment>
     );

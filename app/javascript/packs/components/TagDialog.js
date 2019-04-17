@@ -33,6 +33,7 @@ import createFilterOptions from "react-select-fast-filter-options";
 import { Mutation, Query } from "react-apollo";
 import TelegramLoginButton from "react-telegram-login";
 import { withRouter } from "react-router-dom";
+import withCurrentSession from "./withCurrentSession";
 
 import themeSelector from "../themeSelector";
 
@@ -214,7 +215,15 @@ class TagDialog extends React.Component {
   }
 
   render() {
-    const { classes, open, onClose, loading, width, mediumId } = this.props;
+    const {
+      classes,
+      open,
+      onClose,
+      loading,
+      width,
+      mediumId,
+      currentSession
+    } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
     if (!mediumId || open == false) return null;
 
@@ -222,18 +231,55 @@ class TagDialog extends React.Component {
       <Query
         query={GET_MEDIUM}
         variables={{
-          id: mediumId
+          id: mediumId,
+          tagging: true
         }}
       >
         {({ data, error, loading }) => {
-          if (error || loading || !data) return null;
-          console.log(data.medium);
+          if (error) {
+            return (
+              <ResponsiveDialog open={open} onClose={onClose}>
+                {((width !== "lg" && width !== "xl") || true) && (
+                  <DialogTitle className={classes.titleBarContainer}>
+                    <Grid
+                      container
+                      spacing={0}
+                      alignItems="center"
+                      justify="space-between"
+                    >
+                      <Grid item>
+                        <Typography variant="h6" noWrap color={"inherit"}>
+                          {`Picture #${mediumId.split("-")[0]}`}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <IconButton
+                          color="inherit"
+                          onClick={onClose}
+                          aria-label="Close"
+                        >
+                          <CloseIcon />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                  </DialogTitle>
+                )}
+                <DialogContent>
+                  <Typography variant="h6" noWrap>
+                    This Media is currently being tagged by another user.
+                  </Typography>
+                </DialogContent>
+              </ResponsiveDialog>
+            );
+          }
+          if (loading || !data) return null;
 
           const medium = data.medium;
           if (this.state.fursuits == null) {
             this.setInitialValues(medium);
             return null;
           }
+
           return (
             <Mutation
               mutation={UPDATE_MEDIUM}
@@ -423,7 +469,9 @@ class TagDialog extends React.Component {
                                       variant="outlined"
                                       fullWidth
                                       onClick={() =>
-                                        this.setState({ tagReportDialog: true })
+                                        this.setState({
+                                          tagReportDialog: true
+                                        })
                                       }
                                     >
                                       Report Wrong Tags
@@ -526,4 +574,6 @@ class TagDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withWidth()(TagDialog)));
+export default withStyles(styles)(
+  withRouter(withWidth()(withCurrentSession(TagDialog)))
+);

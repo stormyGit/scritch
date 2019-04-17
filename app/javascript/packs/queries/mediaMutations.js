@@ -1,5 +1,25 @@
 import gql from "graphql-tag";
 
+export const TAG_LOCK_MEDIUM = gql`
+  mutation tagLockMedium($input: TagLockMediumInput!) {
+    tagLockMedium(input: $input) {
+      medium {
+        id
+      }
+    }
+  }
+`;
+
+export const TAG_UNLOCK_MEDIUM = gql`
+  mutation tagUnlockMedium($input: TagUnlockMediumInput!) {
+    tagUnlockMedium(input: $input) {
+      medium {
+        id
+      }
+    }
+  }
+`;
+
 export const DELETE_MEDIUM = gql`
   mutation deleteMedium($input: DeleteMediumInput!) {
     deleteMedium(input: $input) {

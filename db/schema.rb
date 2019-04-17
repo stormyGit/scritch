@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_11_203907) do
+ActiveRecord::Schema.define(version: 2019_04_17_065654) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -467,6 +467,9 @@ ActiveRecord::Schema.define(version: 2019_04_11_203907) do
     t.integer "faves_count", default: 0
     t.string "photographer_slug"
     t.string "photographer_string"
+    t.boolean "tag_locked", default: false
+    t.uuid "tagger"
+    t.datetime "tag_lock_data"
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
     t.index ["slug"], name: "index_media_on_slug", unique: true
   end
@@ -659,6 +662,15 @@ ActiveRecord::Schema.define(version: 2019_04_11_203907) do
     t.string "page"
     t.text "description"
     t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tooltips", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.boolean "public", default: false
+    t.string "file"
+    t.string "category"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

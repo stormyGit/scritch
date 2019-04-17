@@ -16,6 +16,8 @@ module Types
     field :user, UserType, null: true
     field :comments, [CommentType], null: false
     field :related_media, [MediumType], null: false
+    field :tagger, ID, null: true
+    field :tag_locked, Boolean, null: false
 
     field :photographer_slug, String, null: true
     field :photographer_string, String, null: true

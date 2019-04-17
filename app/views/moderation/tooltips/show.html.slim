@@ -1,0 +1,38 @@
+br
+.container
+  .columns
+    .column.is-4.is-offset-4
+      .columns.has-text-centered
+        .column.is-12
+          = link_to "Back", moderation_tooltips_path, class: "button", style: "width: 100%"
+
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        = "##{@tooltip.id.split("-")[0]}"
+
+
+    .card-content
+      .columns
+        .column.is-8
+          - if @tooltip.file.present?
+            = image_tag @tooltip.file_url
+        .column.is-4
+          br
+          p.is-size-4
+            | Category
+            br
+            p.is-size-5
+              = @tooltip.category
+          br
+          p.is-size-4
+            | Public
+            br
+            p.is-size-5
+              = @tooltip.public
+
+    .card-footer
+      .card-footer-item
+        = link_to "Edit", edit_moderation_tooltip_path(id: @tooltip.id)
+      .card-footer-item
+        = link_to "Delete", moderation_tooltip_path(id: @tooltip.id), method: :delete, class: "has-text-danger"

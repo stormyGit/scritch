@@ -8,3 +8,12 @@ export const GET_ADVERTS = gql`
     }
   }
 `;
+
+export const GET_TOOLTIP = gql`
+  query Tooltip($uuid: ID) {
+    tooltip(uuid: $uuid) {
+      id
+      file
+    }
+  }
+`;

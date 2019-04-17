@@ -1,0 +1,35 @@
+br
+.container
+  .columns
+    .column.is-4.is-offset-4
+      .columns.has-text-centered
+        .column.is-12
+          = link_to "Back", moderation_tooltip_path(id: @tooltip.id), class: "button", style: "width: 100%"
+
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        | Update Tooltip
+    .card-content
+
+      = form_for @tooltip, :url => moderation_tooltip_path, method: :put do |f|
+        .field
+          = f.label :category, "Category"
+          br
+          .select
+            = f.select :category, options_for_select(Tooltip::CATEGORIES, @tooltip.category)
+        .field
+          = f.check_box :public, {:checked => @tooltip.public}
+          | &nbsp;&nbsp;
+          = f.label :public, "Public", class: "checkbox"
+        .field
+          = f.label :file, "File"
+          br
+          = f.file_field :file
+
+        .field
+          = f.submit "Update", class: "button"
+
+    .card-footer
+      .card-footer-item
+        = button_to "Delete tooltip", moderation_tooltip_path(id: @tooltip.id), method: :delete, class: "button has-text-danger"

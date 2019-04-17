@@ -406,7 +406,7 @@ class DrawerMenuRemake extends React.Component {
               <Query query={GET_RIBBON_ANNOUNCEMENT}>
                 {({ loading, error, data }) => {
                   if (loading || error || !data) return null;
-                  if (data) {
+                  if (data && data.ribbonAnnouncement) {
                     return (
                       <div>
                         <Paper className={classes.paper}>
@@ -417,6 +417,7 @@ class DrawerMenuRemake extends React.Component {
                       </div>
                     );
                   }
+                  return null;
                 }}
               </Query>
               {user && !user.sponsor && (

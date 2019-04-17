@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter, Link } from "react-router-dom";
 import { Query } from "react-apollo";
-import { GET_ADVERTS } from "../../queries/advertQueries";
+import { GET_ADVERTS, GET_TOOLTIP } from "../../queries/advertQueries";
 import uuidv4 from "uuid/v4";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
@@ -55,22 +55,38 @@ class AppFooter extends React.Component {
     )
       adRibbon = (
         <React.Fragment>
-          <Grid
-            container
-            spacing={8}
-            className={classes.grid}
-            justify="center"
-            alignItems="center"
+          <Query
+            query={GET_TOOLTIP}
+            variables={{ uuid: uuidv4() }}
+            fetchPolicy="network-only"
           >
-            <Grid item xs={false} lg={4} />
-            <Grid item xs={false} lg={4}>
-              <img
-                src={require("../../pixelTooltip.png")}
-                className={classes.toolTip}
-              />
-            </Grid>
-            <Grid item xs={false} lg={4} />
-          </Grid>
+            {({ loading, error, data }) => {
+              if (loading || error) {
+                return <div style={{ height: 125, width: 100 }} />;
+              }
+              if (data && data.tooltip)
+                return (
+                  <div className={classes.root}>
+                    <Grid
+                      container
+                      spacing={8}
+                      className={classes.grid}
+                      justify="center"
+                      alignItems="center"
+                    >
+                      <Grid item xs={false} lg={4} />
+                      <Grid item xs={false} lg={4}>
+                        <img
+                          src={data.tooltip.file}
+                          className={classes.toolTip}
+                        />
+                      </Grid>
+                      <Grid item xs={false} lg={4} />
+                    </Grid>
+                  </div>
+                );
+            }}
+          </Query>
           <div style={{ paddingTop: 10 }} />
         </React.Fragment>
       );
@@ -119,10 +135,28 @@ class AppFooter extends React.Component {
                               (currentSession &&
                                 currentSession.user.showTooltips)) && (
                               <Grid item xs={false} lg={4}>
-                                <img
-                                  src={require("../../pixelTooltip.png")}
-                                  className={classes.toolTip}
-                                />
+                                <Query
+                                  query={GET_TOOLTIP}
+                                  variables={{ uuid: uuidv4() }}
+                                  fetchPolicy="network-only"
+                                >
+                                  {({ loading, error, data }) => {
+                                    if (loading || error) {
+                                      return (
+                                        <div
+                                          style={{ height: 125, width: 100 }}
+                                        />
+                                      );
+                                    }
+                                    if (data && data.tooltip)
+                                      return (
+                                        <img
+                                          src={data.tooltip.file}
+                                          className={classes.toolTip}
+                                        />
+                                      );
+                                  }}
+                                </Query>
                               </Grid>
                             )}
                           {(width === "xl" || width === "lg") &&

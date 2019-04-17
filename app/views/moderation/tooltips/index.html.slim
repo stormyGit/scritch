@@ -1,0 +1,49 @@
+#navbar-padder
+.container
+  - if flash[:notice].present?
+    .columns
+      .column.is-6.is-offset-3
+        .card.green
+          .card-content.has-text-centered
+            strong class=flash[:class]
+              = flash[:notice]
+    br
+  .columns
+    .column.is-6.is-offset-3
+      .columns.has-text-centered
+        .column.is-6
+          = link_to "Back", moderation_path, class: "button", style: "width: 100%"
+        .column.is-6
+          = link_to "New tooltip", new_moderation_tooltip_path, class: "button", style: "width: 100%"
+  br
+  p.is-size-1.has-text-centered.has-text-primary
+    | Fursuits
+  br
+  .has-text-centered
+    = form_tag moderation_tooltips_path, method: :get do
+      .field
+        = label_tag :category, "With status...", class: "has-text-primary label"
+        .select
+          = select_tag :category, options_for_select(Tooltip::CATEGORIES, params[:category]), include_blank: true, class: "select"
+      .field
+        = submit_tag :Filter, class: "button"
+  br
+  .columns.is-multiline
+    - @tooltips.each do |tooltip|
+      .column.is-4
+        .card
+          .card-header
+            .card-header-title
+              = "Tooltip ##{tooltip.id.split("-")[0]} - #{tooltip.category}"
+          .card-image
+            - if tooltip.file.present?
+              = image_tag tooltip.file_url
+          .card-footer
+            .card-footer-item
+              = link_to "View", moderation_tooltip_path(id: tooltip.id)
+            .card-footer-item
+              = link_to "Edit", edit_moderation_tooltip_path(id: tooltip.id)
+
+  .columns
+    .column.is-6.is-offset-3.has-text-primary
+      = paginate @tooltips

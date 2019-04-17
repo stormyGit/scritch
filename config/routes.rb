@@ -89,6 +89,8 @@ Rails.application.routes.draw do
     end
     resources :claims do
     end
+    resources :tooltips do
+    end
     resources :maker_claims do
     end
     resources :sponsors do

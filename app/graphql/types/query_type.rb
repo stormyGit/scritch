@@ -31,6 +31,7 @@ module Types
     field :medium, MediumType, null: false do
       description "Find a medium by ID"
       argument :id, ID, required: true
+      argument :tagging, Boolean, required: false
     end
 
     field :media, [MediumType], null: false do
@@ -54,9 +55,12 @@ module Types
       description "List media"
       argument :uuid, ID, required: false
       argument :limit, Integer, required: true
-
     end
 
+    field :tooltip, TooltipType, null: false do
+      description "List media"
+      argument :uuid, ID, required: false
+    end
 
     field :activities, [ActivityType], null: false do
       description "Activities"
@@ -247,7 +251,7 @@ module Types
       description "List events"
     end
 
-    field :ribbon_announcement, RibbonAnnouncementType, null: false do
+    field :ribbon_announcement, RibbonAnnouncementType, null: true do
       description "Ribbon Announcement events"
     end
 
@@ -277,6 +281,12 @@ module Types
         e.user.save!
       end
       advert
+    end
+
+    def tooltip(args)
+      tooltip = Tooltip.order("RANDOM()").where(public: true).first
+
+      tooltip
     end
 
     def makers_country
@@ -425,6 +435,9 @@ module Types
       medium = Medium.includes(comments: [:user]).find(arguments[:id])
       raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).show?
 
+      if (arguments[:tagging].present? && arguments[:tagging] == true)
+        raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).unlock?
+      end
       View.add(arguments[:id], context[:current_user_references])
 
       medium
@@ -490,7 +503,7 @@ module Types
         media = media.joins(:fursuits).where("fursuits.uuid IN (?)", arguments[:fursuits])
       end
       if arguments[:tagging].present?
-        media = media.where.not("completion > ?", 99).order(:completion)
+        media = media.where.not("completion > ?", 99).where(tag_locked: false).order(:completion)
       end
 
       media.includes(:tags).offset(arguments[:offset]).limit(arguments[:limit])

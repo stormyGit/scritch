@@ -1,15 +1,16 @@
 class Moderator < ApplicationRecord
   CAPABILITIES = %w(
+    adverts
     analytics
-    reports
     assets
-    events
-    tech
-    moderators
     banned_users
     claims
-    adverts
+    events
+    moderators
+    reports
     sponsors
+    tech
+    tooltips
   )
 
   devise :database_authenticatable, :rememberable, :trackable

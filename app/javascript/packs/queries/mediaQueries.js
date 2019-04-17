@@ -168,8 +168,8 @@ export const GET_MEDIA_WITH_FURSUITS = gql`
 `;
 
 export const GET_MEDIUM = gql`
-  query Medium($id: ID!) {
-    medium(id: $id) {
+  query Medium($id: ID!, $tagging: Boolean) {
+    medium(id: $id, tagging: $tagging) {
       id
       slug
       title
@@ -186,6 +186,8 @@ export const GET_MEDIUM = gql`
       photographerSlug
       photographerString
       liked
+      tagger
+      tagLocked
       favesCount
       faved
       viewsCount
