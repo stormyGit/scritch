@@ -97,7 +97,7 @@ class TaggableMedia extends React.Component {
     return (
       <React.Fragment>
         {media.map(medium => (
-          <Grid item xs={6} md={4} lg={3} key={medium.id}>
+          <Grid item xs={12} sm={6} md={3} xl={2} key={medium.id}>
             <TaggableMediumCard medium={medium} />
           </Grid>
         ))}

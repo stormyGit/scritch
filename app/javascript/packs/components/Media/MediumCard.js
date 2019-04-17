@@ -47,7 +47,8 @@ const styles = theme => ({
         : "linear-gradient(#000000ff, #00000000)"
   },
   typo: {
-    color: "#ffffffaa"
+    color: "#ffffffdd",
+    fontSize: 15
   },
   horizontalCard: {
     display: "flex"
@@ -58,8 +59,9 @@ const styles = theme => ({
     flexGrow: 1
   },
   verticalMedia: {
+    transform: "rotate(90deg)",
     width: "100%",
-    height: "100%",
+    height: "178%",
     position: "absolute",
     top: 0,
     left: 0
@@ -83,25 +85,9 @@ const styles = theme => ({
     position: "relative",
     paddingTop: "56%"
   },
-  userLink: {
-    color: theme.palette.text.primary,
-    textDecoration: "none"
-  },
   leftIcon: {
     marginRight: theme.spacing.unit,
     fontSize: 15
-  },
-  content: {},
-  tags: {
-    overflow: "hidden",
-    maxHeight: theme.spacing.unit * 6,
-    marginBottom: theme.spacing.unit * 2
-  },
-  noTags: {
-    fontStyle: "italic"
-  },
-  chip: {
-    marginRight: theme.spacing.unit
   }
 });
 
@@ -116,30 +102,6 @@ class MediumCard extends React.Component {
     displayMetrics: false
   };
 
-  renderHeader() {
-    const { classes, medium } = this.props;
-
-    return (
-      <CardHeader
-        avatar={
-          <Link to={`/${medium.user.slug}`} className={classes.userLink}>
-            <UserAvatar user={medium.user} />
-          </Link>
-        }
-        title={
-          <Link to={`/${medium.user.slug}`} className={classes.userLink}>
-            {medium.user.name}
-          </Link>
-        }
-        subheader={
-          medium.createdAt
-            ? timeAgo.format(dayjs(medium.createdAt).toDate())
-            : "Under review"
-        }
-      />
-    );
-  }
-
   renderMedia() {
     const { classes, medium, horizontal, width, client } = this.props;
 
@@ -149,7 +111,9 @@ class MediumCard extends React.Component {
           <div className={horizontal ? undefined : classes.cardMediaContainer}>
             <CardMedia
               className={
-                horizontal ? classes.horizontalMedia : classes.verticalMedia
+                medium.exif && JSON.parse(medium.exif).Orientation === "6"
+                  ? classes.verticalMedia
+                  : classes.horizontalMedia
               }
               image={medium.thumbnail}
               title={medium.title}
@@ -158,24 +122,6 @@ class MediumCard extends React.Component {
           </div>
         )}
       </Query>
-    );
-  }
-
-  renderContent() {
-    const { classes, medium, horizontal } = this.props;
-
-    return (
-      <CardContent className={classes.content}>
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="h2"
-          className={classes.text}
-          noWrap={!horizontal}
-        >
-          {medium.title}
-        </Typography>
-      </CardContent>
     );
   }
 
@@ -188,19 +134,19 @@ class MediumCard extends React.Component {
           <Grid item>
             <Grid container spacing={0} wrap="nowrap">
               <Grid item>
-                <Button disabled style={{ color: "#ffffffaa", fontSize: 15 }}>
+                <Button disabled style={{ color: "#ffffffcc", fontSize: 15 }}>
                   <CommentIcon size="small" className={classes.leftIcon} />
                   {countContractor(medium.commentsCount)}
                 </Button>
               </Grid>
               <Grid item>
-                <Button disabled style={{ color: "#ffffffaa", fontSize: 15 }}>
+                <Button disabled style={{ color: "#ffffffcc", fontSize: 15 }}>
                   <FontAwesomeIcon icon={faPaw} className={classes.leftIcon} />
                   {countContractor(medium.likesCount)}
                 </Button>
               </Grid>
               <Grid item>
-                <Button disabled style={{ color: "#ffffffaa", fontSize: 15 }}>
+                <Button disabled style={{ color: "#ffffffcc", fontSize: 15 }}>
                   <FontAwesomeIcon icon={faStar} className={classes.leftIcon} />
                   {countContractor(medium.favesCount)}
                 </Button>
@@ -208,7 +154,7 @@ class MediumCard extends React.Component {
             </Grid>
           </Grid>
           <Grid item>
-            <Button disabled style={{ color: "#ffffffaa", fontSize: 15 }}>
+            <Button disabled style={{ color: "#ffffffcc", fontSize: 15 }}>
               <FontAwesomeIcon icon={faEye} className={classes.leftIcon} />
               {countContractor(medium.viewsCount)}
             </Button>
@@ -223,45 +169,11 @@ class MediumCard extends React.Component {
 
     return (
       <Card className={classes.card} elevation={0}>
-        {false && this.renderHeader()}
         <CardActionArea
           component={props => <Link to={`/pictures/${medium.id}`} {...props} />}
         >
           {this.renderMedia()}
         </CardActionArea>
-        {false && this.renderTags()}
-        {false && this.renderActions()}
-      </Card>
-    );
-  }
-
-  renderHorizontal() {
-    const { classes, medium } = this.props;
-
-    return (
-      <Card
-        className={[classes.card, classes.horizontalCard].join(" ")}
-        elevation={0}
-      >
-        <CardActionArea
-          component={props => <Link to={`/pictures/${medium.id}`} {...props} />}
-          className={classes.horizontalMediaContainer}
-        >
-          {this.renderMedia()}
-        </CardActionArea>
-        <div className={classes.horizontalContent}>
-          {this.renderHeader()}
-          <CardActionArea
-            component={props => (
-              <Link to={`/pictures/${medium.id}`} {...props} />
-            )}
-            className={classes.horizontalInfos}
-          >
-            {this.renderContent()}
-          </CardActionArea>
-          {this.renderTags()}
-          {this.renderActions()}
-        </div>
       </Card>
     );
   }
@@ -269,9 +181,6 @@ class MediumCard extends React.Component {
   render() {
     const { horizontal } = this.props;
 
-    if (horizontal) {
-      return this.renderHorizontal();
-    }
     return this.renderVertical();
   }
 }

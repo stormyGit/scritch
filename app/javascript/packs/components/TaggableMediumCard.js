@@ -35,7 +35,22 @@ import TagDialog from "./TagDialog";
 const styles = theme => ({
   card: {
     width: "100%",
-    borderRadius: 0
+    borderRadius: 0,
+    position: "relative"
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    backgroundImage:
+      theme.type == "dark"
+        ? "linear-gradient(#000000ff, #00000000)"
+        : "linear-gradient(#000000ff, #00000000)"
+  },
+  typo: {
+    color: "#ffffffdd",
+    fontSize: 15
   },
   horizontalCard: {
     display: "flex"
@@ -46,15 +61,17 @@ const styles = theme => ({
     flexGrow: 1
   },
   verticalMedia: {
+    transform: "rotate(90deg)",
     width: "100%",
-    height: "100%",
+    height: "178%",
     position: "absolute",
     top: 0,
     left: 0
   },
-  verticalMediaContainer: {
-    position: "relative",
-    paddingTop: "56%"
+  horizontalMediaContainer: {
+    maxWidth: "46%",
+    minWidth: "46%",
+    minHeight: "100%"
   },
   horizontalMedia: {
     width: "100%",
@@ -66,27 +83,12 @@ const styles = theme => ({
   horizontalInfos: {
     flex: 1
   },
-  horizontalMediaContainer: {
+  cardMediaContainer: {
     position: "relative",
     paddingTop: "56%"
   },
-  userLink: {
-    color: theme.palette.text.primary,
-    textDecoration: "none"
-  },
+
   leftIcon: {
-    marginRight: theme.spacing.unit
-  },
-  content: {},
-  tags: {
-    overflow: "hidden",
-    maxHeight: theme.spacing.unit * 6,
-    marginBottom: theme.spacing.unit * 2
-  },
-  noTags: {
-    fontStyle: "italic"
-  },
-  chip: {
     marginRight: theme.spacing.unit
   }
 });
@@ -102,43 +104,13 @@ class TaggableMediumCard extends React.Component {
     tagDialog: false
   };
 
-  renderHeader() {
-    const { classes, medium } = this.props;
-
-    return (
-      <CardHeader
-        avatar={
-          <Link to={`/${medium.user.slug}`} className={classes.userLink}>
-            <UserAvatar user={medium.user} />
-          </Link>
-        }
-        title={
-          <Link to={`/${medium.user.slug}`} className={classes.userLink}>
-            {medium.user.name}
-          </Link>
-        }
-        subheader={
-          medium.createdAt
-            ? timeAgo.format(dayjs(medium.createdAt).toDate())
-            : "Under review"
-        }
-      />
-    );
-  }
-
   renderMedia() {
     const { classes, medium, horizontal, width, client } = this.props;
 
     return (
       <Query query={GET_ACTIVE_PREVIEW}>
         {({ data }) => (
-          <div
-            className={
-              medium.exif && JSON.parse(medium.exif).Orientation === "6"
-                ? classes.verticalMediaContainer
-                : classes.horizontalMediaContainer
-            }
-          >
+          <div className={horizontal ? undefined : classes.cardMediaContainer}>
             <CardMedia
               className={
                 medium.exif && JSON.parse(medium.exif).Orientation === "6"
@@ -148,65 +120,10 @@ class TaggableMediumCard extends React.Component {
               image={medium.thumbnail}
               title={medium.title}
             />
+            {this.renderActions()}
           </div>
         )}
       </Query>
-    );
-  }
-
-  renderContent() {
-    const { classes, medium, horizontal } = this.props;
-
-    return (
-      <CardContent className={classes.content}>
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="h2"
-          className={classes.text}
-          noWrap={!horizontal}
-        >
-          {medium.title}
-        </Typography>
-        <Typography component="p" className={classes.text} noWrap={!horizontal}>
-          <TruncatedText limit={100}>
-            {medium.description || `No description`}
-          </TruncatedText>
-        </Typography>
-      </CardContent>
-    );
-  }
-
-  renderTags() {
-    const { classes, medium } = this.props;
-
-    return (
-      <CardContent className={classes.tags}>
-        {medium.tagList.length === 0 ? (
-          <Chip
-            label={"No tags"}
-            variant={"outlined"}
-            className={[classes.chip, classes.noTags].join(" ")}
-          />
-        ) : (
-          medium.tagList.map(tag => (
-            <Chip
-              clickable
-              key={tag}
-              label={tag}
-              variant={"outlined"}
-              className={classes.chip}
-              component={props => (
-                <Link
-                  rel="nofollow"
-                  to={`/pictures?${queryString.stringify({ q: tag })}`}
-                  {...props}
-                />
-              )}
-            />
-          ))
-        )}
-      </CardContent>
     );
   }
 
@@ -214,20 +131,16 @@ class TaggableMediumCard extends React.Component {
     const { classes, medium } = this.props;
 
     return (
-      <CardActions>
+      <div className={classes.overlay}>
         <Grid container spacing={8} justify="space-between" wrap="nowrap">
           <Grid item>
-            <Grid container spacing={0} wrap="nowrap">
-              <Grid item>
-                <Button disabled>
-                  <TagIcon className={classes.leftIcon} />
-                  {medium.completion}% complete
-                </Button>
-              </Grid>
-            </Grid>
+            <Button disabled style={{ color: "#ffffffcc", fontSize: 15 }}>
+              <TagIcon className={classes.leftIcon} />
+              {medium.completion}% complete
+            </Button>
           </Grid>
         </Grid>
-      </CardActions>
+      </div>
     );
   }
 
@@ -240,7 +153,6 @@ class TaggableMediumCard extends React.Component {
           <CardActionArea onClick={() => this.setState({ tagDialog: true })}>
             {this.renderMedia()}
           </CardActionArea>
-          {this.renderActions()}
         </Card>
         {this.state.tagDialog && medium && (
           <TagDialog
