@@ -14,16 +14,13 @@
         .card-header
           .card-header-title.has-text-centered
             p
-              | Are you sure you want to cancel your Sponsorship?
+              | Subscription canceled!
         .card-content.has-text-centered
           article
             .field
               label
-                | Your Sponsor data will be kept if you decide to become a Sponsor again
+                | :(
               br
-              br
-              = button_to sponsors_end_sponsorship_path(sponsor_id: @current_session.user.sponsor.uuid), class: "button", class_active: "is-active", method: :put do
-                | Yes, Cancel it
               br
               = button_to root_path, class: "button", class_active: "is-active", method: :get do
-                | No, Keep it
+                | Go Back to Scritch

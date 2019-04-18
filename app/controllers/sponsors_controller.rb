@@ -6,7 +6,7 @@ class SponsorsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :charge
 
   def new
-
+    raise Pundit::NotAuthorizedError unless SponsorPolicy.new(@current_session.user, nil).new?
   end
 
   def charge
@@ -27,6 +27,7 @@ class SponsorsController < ApplicationController
 
   def create
     # Amount in cents
+    raise Pundit::NotAuthorizedError unless SponsorPolicy.new(@current_session.user, nil).create?
     subType = params[:sub]
 
     if @current_session.present? && @current_session.user.sponsor.blank?
@@ -81,10 +82,11 @@ class SponsorsController < ApplicationController
   end
 
   def cancel
-
+    raise Pundit::NotAuthorizedError unless SponsorPolicy.new(@current_session.user, nil).cancel?
   end
 
   def free_trial
+    raise Pundit::NotAuthorizedError unless SponsorPolicy.new(@current_session.user, nil).free_trial?
     if @current_session.user.used_free_trial == false
       sponsor = Sponsor.create(
         user: @current_session.user,
@@ -98,11 +100,12 @@ class SponsorsController < ApplicationController
   end
 
   def end_sponsorship
-    byebug
-    sponsor = Stripe::Subscription.retrieve(
+    raise Pundit::NotAuthorizedError unless SponsorPolicy.new(@current_session.user, nil).destroy?
+    sponsor = Sponsor.find(params[:sponsor_id])
+    stripeSponsor = Stripe::Subscription.retrieve(
       Sponsor.find(params[:sponsor_id]).charge_id
     )
-    sponsor.delete
+    stripeSponsor.delete
   end
 
   private

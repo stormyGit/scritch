@@ -26,6 +26,9 @@ import { CREATE_CLAIM } from "../../queries/claimMutations";
 const styles = theme => ({
   link: {
     textDecoration: "none"
+  },
+  cancelButton: {
+    color: theme.palette.danger.main
   }
 });
 
@@ -112,6 +115,22 @@ class SponsorDashboardDialog extends React.Component {
           </List>
         </DialogContent>
         <DialogActions>
+          {currentSession.user.sponsor.status == "live" &&
+            currentSession.user.sponsor.plan != "Free Trial" && (
+              <a
+                href={`${process.env.SITE_URL}/sponsors/cancel`}
+                className={classes.link}
+              >
+                <Button
+                  className={classes.cancelButton}
+                  onClick={() => {
+                    this.props.onClose();
+                  }}
+                >
+                  Cancel Sponsorship
+                </Button>
+              </a>
+            )}
           <Button
             onClick={() => {
               this.props.onClose();

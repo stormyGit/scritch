@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => '/sidekiq'
 
   get 'sponsors/cancel', :to => "sponsors#cancel"
+  put 'sponsors/end_sponsorship', :to => "sponsors#end_sponsorship"
   get 'sponsors/free_trial', :to => "sponsors#free_trial"
   get 'sponsors/:sponsor_id/end_sponsorship', :to => "sponsors#end_sponsorship"
   post 'sponsors/charge', :to => "sponsors#charge"
