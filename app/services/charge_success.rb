@@ -8,7 +8,7 @@ class ChargeSuccess
     puts "IN CHARGE SUCESS"
     puts "\n" * 15
     sponsor.update_column(:status, "live")
-    limit = (sponsor.plan == "yearly" ? (1.year + 2.days) : (1.days))
+    limit = (sponsor.plan == "yearly" ? (1.year + 2.days) : (1.month + 2.days))
     sponsor.update_column(:limit, Time.now + limit)
     #ChargeMailer.confirmation(charge).deliver_later
   end
