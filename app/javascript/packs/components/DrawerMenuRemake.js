@@ -472,7 +472,8 @@ class DrawerMenuRemake extends React.Component {
                       <ListItem button disabled>
                         <ListItemText
                           primary={
-                            user.sponsor.status == "live"
+                            user.sponsor.status == "live" &&
+                            user.sponsor.plan != "Free Trial"
                               ? `Renews: ${dateFormat(
                                   sponsorLimit,
                                   "mmmm dS, yyyy"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_17_065654) do
+ActiveRecord::Schema.define(version: 2019_04_18_022546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -706,6 +706,7 @@ ActiveRecord::Schema.define(version: 2019_04_17_065654) do
     t.string "metric_species"
     t.integer "suspension_count", default: 0
     t.integer "offenses_number", default: 0
+    t.boolean "used_free_trial", default: false
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end

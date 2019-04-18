@@ -84,6 +84,19 @@ class SponsorsController < ApplicationController
 
   end
 
+  def free_trial
+    if @current_session.user.used_free_trial == false
+      sponsor = Sponsor.create(
+        user: @current_session.user,
+        status: "live",
+        plan: "Free Trial",
+        limit: Time.now + 14.days
+      )
+      @current_session.user.update!(used_free_trial: true)
+    end
+    redirect_to root_path
+  end
+
   def end_sponsorship
     byebug
     sponsor = Stripe::Subscription.retrieve(

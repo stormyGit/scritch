@@ -96,7 +96,8 @@ class SponsorDashboardDialog extends React.Component {
               <ListItemText
                 inset
                 primary={
-                  currentSession.user.sponsor.status == "live"
+                  currentSession.user.sponsor.status == "live" &&
+                  currentSession.user.sponsor.plan != "Free Trial"
                     ? `Renews: ${dateFormat(
                         new Date(currentSession.user.sponsor.limit * 1000),
                         "mmmm dS, yyyy"

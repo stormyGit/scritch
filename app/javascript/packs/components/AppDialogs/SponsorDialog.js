@@ -82,6 +82,16 @@ class SponsorDialog extends React.Component {
                 Become a sponsor
               </Button>
             </a>
+            <br />
+            <br />
+            <a
+              href={`${process.env.SITE_URL}/sponsors/free_trial`}
+              className={classes.link}
+            >
+              <Button variant="outlined" color="primary" size="large">
+                Start your 14 days Free Trial!
+              </Button>
+            </a>
           </div>
         </DialogContent>
         <DialogActions>
