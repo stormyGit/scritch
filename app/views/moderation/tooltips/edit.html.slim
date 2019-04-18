@@ -14,10 +14,22 @@ br
 
       = form_for @tooltip, :url => moderation_tooltip_path, method: :put do |f|
         .field
+          = f.label :name, "Name"
+          = f.text_field :name, class: "input"
+        .field
           = f.label :category, "Category"
           br
           .select
             = f.select :category, options_for_select(Tooltip::CATEGORIES, @tooltip.category)
+        .field
+          = f.label :aspect, "Aspect"
+          = f.text_field :aspect, class: "input"
+        .field
+          = f.label :topic, "Topic"
+          = f.text_field :topic, class: "input"
+        .field
+          = f.label :body, "Body"
+          = f.text_field :body, class: "input"
         .field
           = f.check_box :public, {:checked => @tooltip.public}
           | &nbsp;&nbsp;

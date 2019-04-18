@@ -7,10 +7,22 @@ br
     .card-content
       = form_for Tooltip.new, :url => moderation_tooltips_path do |f|
         .field
+          = f.label :name, "Name"
+          = f.text_field :name, class: "input"
+        .field
           = f.label :category, "Category"
           br
           .select
             = f.select :category, options_for_select(Tooltip::CATEGORIES)
+        .field
+          = f.label :aspect, "Aspect"
+          = f.text_field :aspect, class: "input"
+        .field
+          = f.label :topic, "Topic"
+          = f.text_field :topic, class: "input"
+        .field
+          = f.label :body, "Body"
+          = f.text_field :body, class: "input"
         .field
           = f.check_box :public, {:checked => true}
           | &nbsp;&nbsp;

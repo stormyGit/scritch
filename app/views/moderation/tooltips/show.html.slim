@@ -9,16 +9,15 @@ br
   .card
     .card-header
       .card-header-title.has-text-centered
-        = "##{@tooltip.id.split("-")[0]}"
+        = "Tooltip ##{@tooltip.name}"
 
 
     .card-content
       .columns
-        .column.is-8
+        .column.is-4
           - if @tooltip.file.present?
             = image_tag @tooltip.file_url
         .column.is-4
-          br
           p.is-size-4
             | Category
             br
@@ -26,10 +25,28 @@ br
               = @tooltip.category
           br
           p.is-size-4
+            | Aspect
+            br
+            p.is-size-5
+              = @tooltip.aspect
+          br
+          p.is-size-4
+            | Topic
+            br
+            p.is-size-5
+              = @tooltip.topic
+        .column.is-4
+          p.is-size-4
             | Public
             br
             p.is-size-5
               = @tooltip.public
+          br
+          p.is-size-4
+            | Body
+            br
+            p.is-size-5
+              = @tooltip.body
 
     .card-footer
       .card-footer-item

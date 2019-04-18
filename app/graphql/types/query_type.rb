@@ -62,6 +62,10 @@ module Types
       argument :uuid, ID, required: false
     end
 
+    field :tooltips, [TooltipType], null: false do
+      description "List media"
+    end
+
     field :activities, [ActivityType], null: false do
       description "Activities"
       argument :offset, Integer, required: true
@@ -287,6 +291,12 @@ module Types
       tooltip = Tooltip.order("RANDOM()").where(public: true).first
 
       tooltip
+    end
+
+    def tooltips
+      tooltips = Tooltip.order("RANDOM()").where(public: true)
+
+      tooltips
     end
 
     def makers_country

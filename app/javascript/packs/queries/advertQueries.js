@@ -17,3 +17,16 @@ export const GET_TOOLTIP = gql`
     }
   }
 `;
+
+export const GET_TOOLTIPS = gql`
+  query Tooltips {
+    tooltips {
+      id
+      category
+      aspect
+      topic
+      body
+      name
+    }
+  }
+`;

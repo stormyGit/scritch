@@ -29,7 +29,11 @@ class Moderation::TooltipsController < ModerationController
     tooltip.assign_attributes(params.require(:tooltip).permit([
       :file,
       :category,
-      :public
+      :public,
+      :aspect,
+      :topic,
+      :body,
+      :name
     ]))
 
     #    authorize tooltip
@@ -48,7 +52,11 @@ class Moderation::TooltipsController < ModerationController
     tooltip.assign_attributes(params.require(:tooltip).permit([
       :file,
       :category,
-      :public
+      :public,
+      :aspect,
+      :topic,
+      :body,
+      :name
     ]))
 
     #    authorize tooltip

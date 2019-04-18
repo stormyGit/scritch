@@ -17,12 +17,12 @@
           = link_to "New tooltip", new_moderation_tooltip_path, class: "button", style: "width: 100%"
   br
   p.is-size-1.has-text-centered.has-text-primary
-    | Fursuits
+    | Tooltips
   br
   .has-text-centered
     = form_tag moderation_tooltips_path, method: :get do
       .field
-        = label_tag :category, "With status...", class: "has-text-primary label"
+        = label_tag :category, "With category...", class: "has-text-primary label"
         .select
           = select_tag :category, options_for_select(Tooltip::CATEGORIES, params[:category]), include_blank: true, class: "select"
       .field
@@ -34,10 +34,20 @@
         .card
           .card-header
             .card-header-title
-              = "Tooltip ##{tooltip.id.split("-")[0]} - #{tooltip.category}"
-          .card-image
+              = "Tooltip ##{tooltip.name}"
+          .card-image.has-text-centered
             - if tooltip.file.present?
               = image_tag tooltip.file_url
+          .card-content
+            p.is-size-5.has-text-success
+              = "Category / Aspect / Topic"
+              p.is-size-5
+                = "#{tooltip.category} / #{tooltip.aspect} / #{tooltip.topic}"
+            p.is-size-5.has-text-success
+              = "Body"
+              p.is-size-5
+                = tooltip.body
+
           .card-footer
             .card-footer-item
               = link_to "View", moderation_tooltip_path(id: tooltip.id)
