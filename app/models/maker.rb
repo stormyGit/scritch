@@ -2,6 +2,7 @@ class Maker < ApplicationRecord
   self.primary_key = :uuid
 
   include PublicActivity::Model
+  has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity', dependent: :destroy
 
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged

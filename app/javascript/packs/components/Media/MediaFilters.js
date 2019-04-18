@@ -425,6 +425,7 @@ class MediaFilters extends React.Component {
     const sortingList = [];
     if (this.props.isTagPage) {
       sortingList.push({ label: "Latest First", value: "latest" });
+      sortingList.push({ label: "Earliest First", value: "earliest" });
       sortingList.push({
         label: "Most Completed First",
         value: "mostComplete"
@@ -433,14 +434,12 @@ class MediaFilters extends React.Component {
         label: "Least Completed First",
         value: "leastComplete"
       });
-      sortingList.push({ label: "Most Faved", value: "faves" });
-      sortingList.push({ label: "Earliest First", value: "earliest" });
     } else {
       sortingList.push({ label: "Latest First", value: "latest" });
-      sortingList.push({ label: "Most Scritched", value: "scritches" });
-      sortingList.push({ label: "Most Viewed", value: "views" });
-      sortingList.push({ label: "Most Faved", value: "faves" });
       sortingList.push({ label: "Earliest First", value: "earliest" });
+      sortingList.push({ label: "Most Viewed", value: "views" });
+      sortingList.push({ label: "Most Scritched", value: "scritches" });
+      sortingList.push({ label: "Most Faved", value: "faves" });
     }
 
     return (

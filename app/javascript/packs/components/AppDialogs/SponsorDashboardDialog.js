@@ -15,7 +15,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import CheckIcon from "@material-ui/icons/Check";
-
+import dateFormat from "dateformat";
 import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
@@ -29,13 +29,13 @@ const styles = theme => ({
   }
 });
 
-class DownloadDialog extends React.Component {
+class SponsorDashboardDialog extends React.Component {
   state = {};
 
   render() {
     const { classes, currentSession, medium } = this.props;
 
-    if (!currentSession) {
+    if (!currentSession || !currentSession.user.sponsor) {
       return null;
     }
 
@@ -48,11 +48,11 @@ class DownloadDialog extends React.Component {
       >
         <GlobalProgress absolute />
 
-        <DialogTitle>Download Media</DialogTitle>
+        <DialogTitle>Sponsor Dashboard</DialogTitle>
         <DialogContent>
           <List>
             <ListItem>
-              <ListItemText primary="By downloading this Media you agree:" />
+              <ListItemText primary="Welcome to the Sponsor's Dashboard" />
             </ListItem>
             <ListItem>
               <ListItemIcon>
@@ -60,7 +60,10 @@ class DownloadDialog extends React.Component {
               </ListItemIcon>
               <ListItemText
                 inset
-                primary="Not to reproduce or use the Media for commercial purposes without contacting the creator."
+                primary={`Sponsor since: ${dateFormat(
+                  new Date(currentSession.user.sponsor.createdAt),
+                  "mmmm dS, yyyy"
+                )}`}
               />
             </ListItem>
             <ListItem>
@@ -69,23 +72,52 @@ class DownloadDialog extends React.Component {
               </ListItemIcon>
               <ListItemText
                 inset
-                primary="Not to claim ownership or repost the Media as your own on any platform."
+                primary={`Plan: ${currentSession.user.sponsor.plan
+                  .charAt(0)
+                  .toUpperCase() + currentSession.user.sponsor.plan.slice(1)}`}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <CheckIcon />
+              </ListItemIcon>
+              <ListItemText
+                inset
+                primary={`Status: ${currentSession.user.sponsor.status
+                  .charAt(0)
+                  .toUpperCase() +
+                  currentSession.user.sponsor.status.slice(1)}`}
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <CheckIcon />
+              </ListItemIcon>
+              <ListItemText
+                inset
+                primary={
+                  currentSession.user.sponsor.status == "live"
+                    ? `Renews: ${dateFormat(
+                        new Date(currentSession.user.sponsor.limit * 1000),
+                        "mmmm dS, yyyy"
+                      )}`
+                    : `Expires ${dateFormat(
+                        new Date(currentSession.user.sponsor.limit * 1000),
+                        "mmmm dS, yyyy"
+                      )}`
+                }
               />
             </ListItem>
           </List>
         </DialogContent>
         <DialogActions>
-          {console.log(medium)}
           <Button
             onClick={() => {
               this.props.onClose();
             }}
           >
-            Cancel
+            Close
           </Button>
-          <a href={medium.picture} className={classes.link} target="_blank">
-            <Button onClick={() => {}}>Download</Button>
-          </a>
         </DialogActions>
       </ResponsiveDialog>
     );
@@ -93,5 +125,5 @@ class DownloadDialog extends React.Component {
 }
 
 export default withStyles(styles)(
-  withApollo(withRouter(withCurrentSession(DownloadDialog)))
+  withApollo(withRouter(withCurrentSession(SponsorDashboardDialog)))
 );

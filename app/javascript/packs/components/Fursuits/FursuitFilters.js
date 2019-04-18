@@ -367,9 +367,13 @@ class FursuitFilters extends React.Component {
           control={
             <Checkbox
               checked={this.state.hybridSearch}
-              onChange={() =>
-                this.setState({ hybridSearch: event.target.checked })
-              }
+              onChange={() => {
+                this.setState({ hybridSearch: event.target.checked });
+                this.props.onChange({
+                  label: "hybridSearch",
+                  value: event.target.checked
+                });
+              }}
               value={this.state.hybridSearch}
             />
           }

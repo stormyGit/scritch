@@ -1,6 +1,7 @@
 class Claim < ApplicationRecord
   self.primary_key = :uuid
 
+  has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity', dependent: :destroy
   STATUSES = [
     "open",
     "closed"

@@ -145,12 +145,16 @@ class TaggableMediumCard extends React.Component {
           <Grid item className={classes.infoBarInner}>
             <TagIcon
               className={classes.leftIcon}
-              style={{ color: "#ffffffcc", fontSize: 30 }}
+              style={{ color: "#ffffffee", fontSize: 30 }}
             />
             <Typography
-              style={{ color: "#ffffffcc", fontSize: 15, fontWeight: 400 }}
+              style={{ color: "#ffffffee", fontSize: 15, fontWeight: 400 }}
             >
-              {medium.completion}% COMPLETE
+              {medium.completion}%{" "}
+              {medium.completion == 0
+                ? "(How many Suits?)"
+                : `(${medium.fursuitsCount -
+                    medium.fursuits.length} Suits to Tag)`}
             </Typography>
           </Grid>
         </Grid>
@@ -208,6 +212,7 @@ class TaggableMediumCard extends React.Component {
               this.setState({
                 tagDialog: false
               });
+              location.reload();
             }}
           >
             {(tagUnlockMedium, { data, error }) => (

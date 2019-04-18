@@ -146,11 +146,12 @@ class FursuitEditFields extends React.Component {
         label: this.props.fursuit.fursuitStyle.name
       },
       speciesIds:
-        this.props.fursuit.species &&
-        this.props.fursuit.species.map(e => ({
-          value: e.id,
-          label: e.name
-        })),
+        fursuit.species && fursuit.species.length > 0
+          ? this.props.fursuit.species.map(e => ({
+              value: e.id,
+              label: e.name
+            }))
+          : [],
       hybridSearch: fursuit.isHybrid,
       fursuitBuild: this.props.fursuit.fursuitBuild && {
         value: this.props.fursuit.fursuitBuild.id,
@@ -313,6 +314,7 @@ class FursuitEditFields extends React.Component {
                   isSearchable
                   value={this.state.speciesIds && this.state.speciesIds[0]}
                   onChange={specy => {
+                    console.log(specy);
                     this.setState({ speciesIds: specy });
                     this.props.onChange({
                       label: "speciesIds",
@@ -410,7 +412,7 @@ class FursuitEditFields extends React.Component {
               }}
             />
           }
-          label="Hybrid?"
+          label="Custom Hybrid?"
         />
       </Grid>
     );
@@ -472,7 +474,7 @@ class FursuitEditFields extends React.Component {
     return (
       <React.Fragment>
         <Typography variant="h6" className={classes.label}>
-          Gender
+          Appearance
         </Typography>
         <Query query={LOAD_GENDERS}>
           {({ data, loading, error }) => {
@@ -491,7 +493,7 @@ class FursuitEditFields extends React.Component {
               <Grid item xs={12}>
                 <Select
                   fullWidth
-                  placeholder="Gender"
+                  placeholder="Appearance"
                   isClearable
                   isSearchable
                   value={this.state.fursuitGender}
@@ -702,6 +704,7 @@ class FursuitEditFields extends React.Component {
 
   renderFilters() {
     const { classes } = this.props;
+    console.log(this.state);
     return (
       <Grid container spacing={8}>
         <Grid item xs={12}>

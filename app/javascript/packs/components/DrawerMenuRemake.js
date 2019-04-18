@@ -35,6 +35,7 @@ import AnnouncementIcon from "@material-ui/icons/Announcement";
 import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
 
 import SettingsDialog from "./AppDialogs/SettingsDialog";
+import SponsorDashboardDialog from "./AppDialogs/SponsorDashboardDialog";
 import SponsorDialog from "./AppDialogs/SponsorDialog";
 import TipsDialog from "./AppDialogs/TipsDialog";
 import SignUpDialog from "./AppDialogs/SignUpDialog";
@@ -102,6 +103,7 @@ class DrawerMenuRemake extends React.Component {
   state = {
     settingsDialog: false,
     sponsorDialog: false,
+    sponsorDashboardDialog: false,
     tipsDialog: false,
     databaseList: false,
     sponsorMenu: true
@@ -529,26 +531,24 @@ class DrawerMenuRemake extends React.Component {
                           primaryTypographyProps={{ className: classes.text }}
                         />
                       </ListItem>
-                      <a
-                        href={`${process.env.SITE_URL}/sponsors`}
-                        className={classes.link}
+
+                      <ListItem
+                        button
+                        onClick={() =>
+                          this.setState({ sponsorDashboardDialog: true })
+                        }
                       >
-                        <ListItem
-                          button
-                          selected={location.pathname === "/sponsors"}
+                        <ListItemIcon
+                          className={classes.text}
+                          color="secondary"
                         >
-                          <ListItemIcon
-                            className={classes.text}
-                            color="secondary"
-                          >
-                            <DashboardIcon />
-                          </ListItemIcon>
-                          <ListItemText
-                            primary="Sponsor Dashboard"
-                            primaryTypographyProps={{ className: classes.text }}
-                          />
-                        </ListItem>
-                      </a>
+                          <DashboardIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Sponsor Dashboard"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
                     </List>
                   </Collapse>
                 </div>
@@ -653,6 +653,15 @@ class DrawerMenuRemake extends React.Component {
           open={this.state.sponsorDialog}
           onClose={() => {
             this.setState({ sponsorDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
+          }}
+        />
+        <SponsorDashboardDialog
+          open={this.state.sponsorDashboardDialog}
+          onClose={() => {
+            this.setState({ sponsorDashboardDialog: false });
             if (this.props.onClose) {
               this.props.onClose();
             }

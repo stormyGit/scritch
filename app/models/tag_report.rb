@@ -3,6 +3,7 @@ class TagReport < ApplicationRecord
 
   include PublicActivity::Model
   tracked owner: Proc.new{ |_, model| User.last }, recipient: Proc.new{ |_, model| model.reporter }, only: [:create]
+  has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity', dependent: :destroy
   # TODO
   #tracked owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV["ADMIN_ACCOUNT_TELEGRAM_ID"]) }, recipient: Proc.new{ |_, model| model.reporter }, only: [:create]
 

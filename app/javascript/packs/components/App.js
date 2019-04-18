@@ -24,10 +24,10 @@ const makeTheme = type => {
     palette: {
       background,
       primary: {
-        main: "#3492ca"
+        main: "#0c8cff"
       },
       secondary: {
-        main: "#DF0174"
+        main: "#fe94d0"
       },
       danger: {
         main: "#ff6666"

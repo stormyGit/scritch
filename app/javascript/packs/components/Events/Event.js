@@ -271,7 +271,8 @@ class Event extends React.Component {
                         }}
                         placeholder="Select Edition..."
                       />
-                      {this.state.edition && (
+                      {console.log(this.state)}
+                      {this.state.edition && this.state.edition.value && (
                         <Query
                           query={LOAD_EDITION}
                           variables={{
@@ -304,82 +305,94 @@ class Event extends React.Component {
                                   {", "}
                                   {edition.country}
                                 </Typography>
-                                <div style={{ padding: 5 }} />
-                                <Typography
-                                  gutterBottom
-                                  variant="h6"
-                                  component="h2"
-                                  color="primary"
-                                  className={classes.eventTitle}
-                                >
-                                  Venue
-                                </Typography>
-                                <Typography
-                                  gutterBottom
-                                  variant="h5"
-                                  component="h2"
-                                  className={classes.eventTitle}
-                                >
-                                  {edition.venue ? edition.venue : "Unknown"}
-                                </Typography>
-                                <div style={{ padding: 5 }} />
-                                <Typography
-                                  gutterBottom
-                                  variant="h6"
-                                  component="h2"
-                                  color="primary"
-                                  className={classes.eventTitle}
-                                >
-                                  Theme
-                                </Typography>
-                                <Typography
-                                  gutterBottom
-                                  variant="h5"
-                                  component="h2"
-                                  className={classes.eventTitle}
-                                >
-                                  {edition.theme ? edition.theme : "Unknown"}
-                                </Typography>
-                                <div style={{ padding: 5 }} />
-                                <Typography
-                                  gutterBottom
-                                  variant="h6"
-                                  component="h2"
-                                  color="primary"
-                                  className={classes.eventTitle}
-                                >
-                                  Attendance
-                                </Typography>
-                                <Typography
-                                  gutterBottom
-                                  variant="h5"
-                                  component="h2"
-                                  className={classes.eventTitle}
-                                >
-                                  {edition.attendance
-                                    ? edition.attendance
-                                    : "Unknown"}
-                                </Typography>
-                                <div style={{ padding: 5 }} />
-                                <Typography
-                                  gutterBottom
-                                  variant="h6"
-                                  component="h2"
-                                  color="primary"
-                                  className={classes.eventTitle}
-                                >
-                                  Charity
-                                </Typography>
-                                <Typography
-                                  gutterBottom
-                                  variant="h5"
-                                  component="h2"
-                                  className={classes.eventTitle}
-                                >
-                                  {edition.charity
-                                    ? edition.charity
-                                    : "Unknown"}
-                                </Typography>
+                                {edition.venue && (
+                                  <React.Fragment>
+                                    <div style={{ padding: 5 }} />
+                                    <Typography
+                                      gutterBottom
+                                      variant="h6"
+                                      component="h2"
+                                      color="primary"
+                                      className={classes.eventTitle}
+                                    >
+                                      Venue
+                                    </Typography>
+                                    <Typography
+                                      gutterBottom
+                                      variant="h5"
+                                      component="h2"
+                                      className={classes.eventTitle}
+                                    >
+                                      {edition.venue}
+                                    </Typography>
+                                  </React.Fragment>
+                                )}
+                                {edition.theme && (
+                                  <React.Fragment>
+                                    <div style={{ padding: 5 }} />
+                                    <Typography
+                                      gutterBottom
+                                      variant="h6"
+                                      component="h2"
+                                      color="primary"
+                                      className={classes.eventTitle}
+                                    >
+                                      Theme
+                                    </Typography>
+                                    <Typography
+                                      gutterBottom
+                                      variant="h5"
+                                      component="h2"
+                                      className={classes.eventTitle}
+                                    >
+                                      {edition.theme}
+                                    </Typography>
+                                  </React.Fragment>
+                                )}
+                                {edition.attendance && (
+                                  <React.Fragment>
+                                    <div style={{ padding: 5 }} />
+                                    <Typography
+                                      gutterBottom
+                                      variant="h6"
+                                      component="h2"
+                                      color="primary"
+                                      className={classes.eventTitle}
+                                    >
+                                      Attendance
+                                    </Typography>
+                                    <Typography
+                                      gutterBottom
+                                      variant="h5"
+                                      component="h2"
+                                      className={classes.eventTitle}
+                                    >
+                                      {edition.attendance}
+                                    </Typography>
+                                  </React.Fragment>
+                                )}
+                                {edition.charity && (
+                                  <React.Fragment>
+                                    <div style={{ padding: 5 }} />
+                                    <Typography
+                                      gutterBottom
+                                      variant="h6"
+                                      component="h2"
+                                      color="primary"
+                                      className={classes.eventTitle}
+                                    >
+                                      Charity
+                                    </Typography>
+                                    <Typography
+                                      gutterBottom
+                                      variant="h5"
+                                      component="h2"
+                                      className={classes.eventTitle}
+                                    >
+                                      {edition.charity}
+                                    </Typography>
+                                  </React.Fragment>
+                                )}
                                 <div style={{ padding: 5 }} />
                               </React.Fragment>
                             );

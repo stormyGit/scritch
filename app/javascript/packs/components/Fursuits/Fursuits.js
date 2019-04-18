@@ -58,6 +58,7 @@ class Fursuits extends React.Component {
     fursuitColor: "",
     fursuitEyes: "",
     maker: "",
+    hybridSearch: false,
     request: 0,
     fursuit: null,
     openFursuit: false
@@ -72,6 +73,7 @@ class Fursuits extends React.Component {
       fursuitBuild: "",
       fursuitPadding: "",
       fursuitFingers: "",
+      hybridSearch: false,
       fursuitColor: "",
       fursuitEyes: "",
       maker: ""
@@ -173,6 +175,7 @@ class Fursuits extends React.Component {
             fursuitFingers: this.state.fursuitFingers,
             fursuitColor: this.state.fursuitColor,
             fursuitEyes: this.state.fursuitEyes,
+            hybridSearch: this.state.hybridSearch,
             maker: this.state.maker,
             limit,
             offset: 0

@@ -80,7 +80,7 @@ class FursuitModal extends React.Component {
                                   ? `Hybrid (${localFursuit.species
                                       .map(e => e.name)
                                       .join(", ")})`
-                                  : "Hybrid (no species specified)")}
+                                  : "Hybrid (Undefined)")}
                               {!localFursuit.isHybrid &&
                                 (localFursuit.species[0]
                                   ? localFursuit.species[0].name

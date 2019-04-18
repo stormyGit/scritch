@@ -358,11 +358,12 @@ module Types
         fursuits = fursuits.joins(:users).where("users.uuid = ?", arguments[:user_id])
       end
 
-      if arguments[:species_ids].present?
-        fursuits = fursuits.joins(:species)
-          .where(species: {uuid: arguments[:species_ids]})
-          .group("fursuits.id")
-          .having('count(fursuits.id) >= ?', arguments[:species_ids].size)
+      if arguments[:species_ids].present? && arguments[:hybrid_search].present? && arguments[:hybrid_search] == true
+        fursuits = fursuits.where(is_hybrid: true).joins(:species).where(species: {uuid: arguments[:species_ids]}).group("fursuits.id").having('count(fursuits.id) >= ?', arguments[:species_ids].size)
+      end
+
+      if arguments[:species_ids].present? && (arguments[:hybrid_search].blank? || arguments[:hybrid_search] == false)
+        fursuits = fursuits.where(is_hybrid: false).joins(:species).where(species: {uuid: arguments[:species_ids]}).group("fursuits.id").having('count(fursuits.id) >= ?', arguments[:species_ids].size)
       end
 
       if arguments[:fursuit_style].present?

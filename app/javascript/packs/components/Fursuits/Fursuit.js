@@ -324,7 +324,7 @@ class Fursuit extends React.Component {
                             ? `Hybrid (${fursuit.species
                                 .map(e => e.name)
                                 .join(", ")})`
-                            : "Hybrid (no species specified)")}
+                            : "Hybrid (Undefined)")}
                         {!fursuit.isHybrid &&
                           (fursuit.species[0]
                             ? fursuit.species[0].name

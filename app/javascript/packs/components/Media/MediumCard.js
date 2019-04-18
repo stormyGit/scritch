@@ -134,19 +134,19 @@ class MediumCard extends React.Component {
           <Grid item>
             <Grid container spacing={0} wrap="nowrap">
               <Grid item>
-                <Button disabled style={{ color: "#ffffffcc", fontSize: 15 }}>
+                <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
                   <CommentIcon size="small" className={classes.leftIcon} />
                   {countContractor(medium.commentsCount)}
                 </Button>
               </Grid>
               <Grid item>
-                <Button disabled style={{ color: "#ffffffcc", fontSize: 15 }}>
+                <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
                   <FontAwesomeIcon icon={faPaw} className={classes.leftIcon} />
                   {countContractor(medium.likesCount)}
                 </Button>
               </Grid>
               <Grid item>
-                <Button disabled style={{ color: "#ffffffcc", fontSize: 15 }}>
+                <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
                   <FontAwesomeIcon icon={faStar} className={classes.leftIcon} />
                   {countContractor(medium.favesCount)}
                 </Button>
@@ -154,7 +154,7 @@ class MediumCard extends React.Component {
             </Grid>
           </Grid>
           <Grid item>
-            <Button disabled style={{ color: "#ffffffcc", fontSize: 15 }}>
+            <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
               <FontAwesomeIcon icon={faEye} className={classes.leftIcon} />
               {countContractor(medium.viewsCount)}
             </Button>

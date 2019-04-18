@@ -168,7 +168,10 @@ class EditFursuitDialog extends React.Component {
       avatar: fursuit.avatar,
       fursuitLegType: fursuit.fursuitLegType && fursuit.fursuitLegType.id,
       fursuitStyle: fursuit.fursuitStyle && fursuit.fursuitStyle.id,
-      speciesIds: fursuit.species && fursuit.species.map(e => e.id),
+      speciesIds:
+        fursuit.species && fursuit.species.length > 0
+          ? fursuit.species.map(e => e.id)
+          : [],
       hybridSearch: fursuit.isHybrid,
       fursuitBuild: fursuit.fursuitBuild && fursuit.fursuitBuild.id,
       fursuitPadding: fursuit.fursuitPadding && fursuit.fursuitPadding.id,
@@ -257,6 +260,7 @@ class EditFursuitDialog extends React.Component {
   render() {
     const { classes, fursuit } = this.props;
 
+    console.log(this.state);
     return (
       <React.Fragment>
         <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
@@ -309,7 +313,9 @@ class EditFursuitDialog extends React.Component {
                           fursuitGenderId: this.state.fursuitGender,
                           fursuitStyleId: this.state.fursuitStyle,
                           speciesIds: this.state.speciesIds
-                            ? this.state.speciesIds.map(e => e.value)
+                            ? this.state.speciesIds.map(e =>
+                                e.value ? e.value : e
+                              )
                             : null,
                           fursuitLegTypeId: this.state.fursuitLegType,
                           baseColor: this.state.baseColor,

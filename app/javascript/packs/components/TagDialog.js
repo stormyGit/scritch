@@ -266,7 +266,7 @@ class TagDialog extends React.Component {
                 )}
                 <DialogContent>
                   <Typography variant="h6" noWrap>
-                    This Media is currently being tagged by another user.
+                    This Media is currently being tagged by another User.
                   </Typography>
                 </DialogContent>
               </ResponsiveDialog>

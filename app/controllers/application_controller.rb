@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
 
   def initialize_meta
     @meta = {
-      "description": "The place to go for everything Fursuit!"
+      "description": "The new place to go for everything Fursuit!"
       # "image": ActionController::Base.helpers.asset_url("logo.png"),
     }
   end

@@ -5,6 +5,7 @@ class Fursuit < ApplicationRecord
 
   extend FriendlyId
   friendly_id :slug_candidates, use: :slugged
+  has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity', dependent: :destroy
 
   # has_many :fursuit_custom_attributes, dependent: :destroy
   belongs_to :fursuit_finger, optional: true
