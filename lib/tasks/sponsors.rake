@@ -5,7 +5,7 @@ namespace :sponsors do
         e.charge_id
       )
       stripeSponsor.destroy
-      e.destroy
+      e.update!(status: "canceled")
     end
   end
 end

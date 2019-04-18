@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_18_042634) do
+ActiveRecord::Schema.define(version: 2019_04_18_121715) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -597,6 +597,13 @@ ActiveRecord::Schema.define(version: 2019_04_18_042634) do
     t.integer "media"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "tags", default: 0
+    t.integer "claimed_suits", default: 0
+    t.integer "claimed_makers", default: 0
+    t.integer "sponsors", default: 0
+    t.integer "faves", default: 0
+    t.integer "comments", default: 0
+    t.float "average_completion", default: 0.0
   end
 
   create_table "sub_events", force: :cascade do |t|
