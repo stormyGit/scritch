@@ -37,7 +37,11 @@ import {
   DELETE_SESSION
 } from "../../queries/globalQueries";
 
-const styles = theme => ({});
+const styles = theme => ({
+  dangerButton: {
+    color: theme.palette.danger.main
+  }
+});
 
 class Settings extends React.Component {
   state = {
@@ -237,7 +241,7 @@ class Settings extends React.Component {
                 <Mutation mutation={DELETE_USER}>
                   {(deleteUser, { data }) => (
                     <Button
-                      color="secondary"
+                      className={classes.dangerButton}
                       onClick={() => {
                         deleteUser({
                           variables: { input: { id: currentSession.user.id } }
@@ -310,7 +314,7 @@ class Settings extends React.Component {
                 )}
               </Mutation>
               <Button
-                color={"secondary"}
+                className={classes.dangerButton}
                 onClick={() => {
                   this.setState({ accountSuppressionAlertOpen: true });
                 }}

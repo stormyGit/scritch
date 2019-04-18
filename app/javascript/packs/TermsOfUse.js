@@ -28,6 +28,11 @@ const styles = theme => ({
   },
   table: {
     minWidth: 700
+  },
+  sectionPadder: {
+    marginTop: "-56px",
+    paddingTop: "56px",
+    display: "block"
   }
 });
 
@@ -101,9 +106,11 @@ class TermsOfUse extends React.Component {
           <br />
           {"> 2.18 Dispute Resolution"}
           <br />
-          {"- 2.18.1 Applicable Law"}
+          {"- > 2.18.1 Applicable Law"}
           <br />
-          {"- 2.18.2 Agreement to Arbitrate & Waiver of Representative Actions"}
+          {
+            "- > 2.18.2 Agreement to Arbitrate & Waiver of Representative Actions"
+          }
           <br />
           {"> 2.19 Feedback"}
           <br />
@@ -145,9 +152,8 @@ class TermsOfUse extends React.Component {
           {"> 4.1 EUCD Notice of Alleged Infringement (“Notice”)"}
         </Typography>
         {SpacerWithHR}
-        <Typography variant="h4" id="forward">
-          1. FORWARD
-        </Typography>
+        <span id="forward" className={classes.sectionPadder} />
+        <Typography variant="h4">1. FORWARD</Typography>
         <Typography variant="subtitle1">
           SCRITCH USERS: Scritch is owned and operated by Scritch Limited
           (collectively, “we”). Your continued use of the website services will
@@ -227,9 +233,8 @@ class TermsOfUse extends React.Component {
           Services.
         </Typography>
         {SpacerWithHR}
-        <Typography variant="h4" id="general_terms">
-          2. GENERAL TERMS
-        </Typography>
+        <span id="general_terms" className={classes.sectionPadder} />
+        <Typography variant="h4">2. GENERAL TERMS</Typography>
         {Spacer}
         <Typography variant="h5">2.1 Additional Policies</Typography>
         <Typography variant="subtitle1">
@@ -842,7 +847,8 @@ class TermsOfUse extends React.Component {
           .
         </Typography>
         {SpacerWithHR}
-        <Typography variant="h4" id="additional_terms">
+        <span id="additional_terms" className={classes.sectionPadder} />
+        <Typography variant="h4">
           3. ADDITIONAL TERMS APPLICABLE TO SCRITCH SPONSOR SERVICES (“SPONSOR
           TERMS”)
         </Typography>
@@ -1070,9 +1076,8 @@ class TermsOfUse extends React.Component {
           the termination of your account.
         </Typography>
         {SpacerWithHR}
-        <Typography variant="h4" id="copyright">
-          4 COPYRIGHT POLICY
-        </Typography>
+        <span id="copyright" className={classes.sectionPadder} />
+        <Typography variant="h4">4 COPYRIGHT POLICY</Typography>
         <Typography variant="subtitle1">
           In accordance with the EU copyright directive, the text of which may
           be found on the European Commission website at
