@@ -11,7 +11,7 @@ namespace :user_score do
     count = Math.ceil(User.count.to_f / species.count.to_f)
     sp = 0
     j = 0
-    User.order("users.global_score + users.score").find_each.with_index do |user, i|
+    User.where.not(uuid: SuspendedUser.all.pluck(:user_id)).order("users.global_score + users.score").find_each.with_index do |user, i|
       begin
         user.update!(metric_species: species[sp].name)
         j += 1
