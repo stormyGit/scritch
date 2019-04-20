@@ -52,7 +52,7 @@ br
           .select
             = f.select :fursuit_gender_id, options_for_select(FursuitGender.all.order(:name).pluck(:name, :uuid)), {:include_blank => true}
         .field
-          = f.label :fursuit_finger_id, "Fingers"
+          = f.label :fursuit_finger_id, "Role"
           br
           .select
             = f.select :fursuit_finger_id, options_for_select(FursuitFinger.all.order(:name).pluck(:name, :uuid)), {:include_blank => true}

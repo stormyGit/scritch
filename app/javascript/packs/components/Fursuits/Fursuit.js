@@ -590,7 +590,7 @@ class Fursuit extends React.Component {
                         className={classes.fursuitTitle}
                         noWrap
                       >
-                        Fingers
+                        Role
                       </Typography>
                       <Typography
                         gutterBottom

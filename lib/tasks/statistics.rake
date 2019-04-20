@@ -7,13 +7,13 @@ namespace :statistics do
       media: Medium.count,
       faves: Fave.count,
       comments: Comment.count,
-      tags: FursuitsMedium.count,
-      claimed_suits: FursuitsUser.count,
+      tags: FursuitMedium.count,
+      claimed_suits: FursuitUser.count,
       claimed_makers: Maker.where.not(user: nil).count
     )
     total = 0
     Medium.find_each do |m|
-      total = m.completion
+      total = total + m.completion
     end
     statistic.average_completion = total.to_f / Medium.count
     statistic.save!

@@ -574,7 +574,7 @@ class FursuitEditFields extends React.Component {
     return (
       <React.Fragment>
         <Typography variant="h6" className={classes.label}>
-          Fingers
+          Role
         </Typography>
         <Query query={LOAD_FINGERS}>
           {({ data, loading, error }) => {
@@ -593,7 +593,7 @@ class FursuitEditFields extends React.Component {
               <Grid item xs={12}>
                 <Select
                   fullWidth
-                  placeholder="Fingers"
+                  placeholder="Role"
                   isClearable
                   isSearchable
                   value={this.state.fursuitFinger}

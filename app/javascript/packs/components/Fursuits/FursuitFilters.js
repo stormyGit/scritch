@@ -503,7 +503,7 @@ class FursuitFilters extends React.Component {
             <Grid item xs={4}>
               <Select
                 fullWidth
-                placeholder="Fingers"
+                placeholder="Role"
                 isClearable
                 isSearchable
                 value={this.state.fursuitFingers}
