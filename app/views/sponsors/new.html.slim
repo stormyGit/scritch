@@ -14,39 +14,39 @@
         .card-header
           .card-header-title.has-text-centered
             p
-              | Become a sponsor!
+              | Become a Scritch Sponsor Today!
         .card-content.has-text-centered
           article
             .field
               label
-                | Choose subscription
+                | Sponsorship Options with Auomatic Renewal Unless Cancelled
               br
               br
               .columns
                 .column.is-6
                   p
-                    | One month
+                    | One Month ($1)
                   br
                   article
                     label.amount
                       span
                         = "Price: $1.00"
                       p
-                        | Let's give this a try
+                        | Give it a try!
                   br
                   = form_tag sponsors_path(sub: ENV["MONTH_SUB_ID"]) do
-                    script.stripe-button data-label="Monthly subscription" data-zip-code="true" data-amount="100" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("Monthly sponsor plan on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
+                    script.stripe-button data-label="Monthly Subscription" data-zip-code="true" data-amount="100" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("Monthly sponsor plan on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
 
                 .column.is-6
                   p
-                    | One year
+                    | One Year ($10)
                   br
                   article
                     label.amount
                       span
                         = "Price: $5.00"
                       p
-                        | Only 5 months value!
+                        | Get 2 Months Free!
                   br
                   = form_tag sponsors_path(sub: ENV["YEAR_SUB_ID"]) do
-                    script.stripe-button data-label="Yearly subscription" data-zip-code="true" data-amount="500" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("Yearly sponsor plan on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
+                    script.stripe-button data-label="Yearly Subscription" data-zip-code="true" data-amount="500" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("Yearly sponsor plan on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"

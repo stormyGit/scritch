@@ -41,6 +41,7 @@ export const GET_SESSION = gql`
         slug
         avatar
         banner
+        usedFreeTrial
         globalScore
         bio
         website

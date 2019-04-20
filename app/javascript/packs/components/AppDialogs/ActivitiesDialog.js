@@ -548,6 +548,66 @@ class ActivitiesDialog extends React.Component {
     );
   }
 
+  renderSponsorshipEnded(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem key={activity.id}>
+        <UserAvatar user={activity.owner} size={64} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your sponsorship ended.`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderSponsorshipCanceled(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem key={activity.id}>
+        <UserAvatar user={activity.owner} size={64} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your sponsorship was canceled. You will remain a sponsor until the end of your plan period.`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderSponsorshipStarted(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem key={activity.id}>
+        <UserAvatar user={activity.owner} size={64} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`You are now a Scritch Sponsor!`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
   renderActivity(activity) {
     switch (activity.key) {
       case "like.create":
@@ -578,6 +638,12 @@ class ActivitiesDialog extends React.Component {
         return this.renderAdvertSuccess(activity);
       case "advert.rejected":
         return this.renderAdvertReject(activity);
+      case "user.sponsorship_ended":
+        return this.renderSponsorshipEnded(activity);
+      case "user.sponsorship_canceled":
+        return this.renderSponsorshipCanceled(activity);
+      case "user.sponsorship_started":
+        return this.renderSponsorshipStarted(activity);
       default:
         return null;
     }

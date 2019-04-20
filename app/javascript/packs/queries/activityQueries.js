@@ -68,6 +68,9 @@ export const GET_ACTIVITIES = gql`
           id
           file
         }
+        ... on User {
+          id
+        }
         ... on Fursuit {
           id
           name

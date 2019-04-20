@@ -17,6 +17,7 @@ module Types
     field :theme, String, null: false
 
     field :tag_tutorial, Boolean, null: false
+    field :used_free_trial, Boolean, null: false
 
     field :followed, Boolean, null: false
     field :following, Boolean, null: false

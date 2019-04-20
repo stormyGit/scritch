@@ -10,6 +10,12 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Link, withRouter } from "react-router-dom";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import CheckIcon from "@material-ui/icons/Check";
 
 import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
@@ -19,7 +25,10 @@ import withCurrentSession from "../withCurrentSession";
 const styles = theme => ({
   text: {
     fontWeight: 200,
-    padding: theme.spacing.unit * 4
+    paddingLeft: theme.spacing.unit * 4,
+    paddingRight: theme.spacing.unit * 4,
+    paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit * 2
   },
   link: {
     textDecoration: "none"
@@ -52,6 +61,7 @@ class SponsorDialog extends React.Component {
     if (!currentSession) {
       return null;
     }
+    console.log(currentSession.user);
 
     return (
       <ResponsiveDialog
@@ -63,15 +73,66 @@ class SponsorDialog extends React.Component {
       >
         <GlobalProgress absolute />
 
-        <DialogTitle>Become a sponsor</DialogTitle>
+        <DialogTitle>Become a Sponsor</DialogTitle>
         <DialogContent>
           <div className={classes.root}>
-            <img
-              src={require("images/donation.png")}
-              style={{ width: "50%", borderRadius: "100%" }}
-            />
-            <Typography variant="h4" className={classes.text}>
-              You will get a bunch of bonus features!
+            {false && (
+              <img
+                src={require("images/donation.png")}
+                style={{ width: "50%", borderRadius: "100%" }}
+              />
+            )}
+            <Typography variant="h5" className={classes.text}>
+              Become a Sponsor to make use of the following website features for
+              just $1 a month or $10 a year!
+            </Typography>
+            <List>
+              <ListItem>
+                <ListItemIcon>
+                  <CheckIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary="Follow Fursuiters to see content that they are tagged in."
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon>
+                  <CheckIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary="Favourite media that is then maintained in your personal Favourites Gallery."
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon>
+                  <CheckIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary="Follow Fursuit Makers to be notified of newly added Fursuits that have them assigned as the Maker."
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon>
+                  <CheckIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary="Get notified of commission status changes on Makers you follow."
+                />
+              </ListItem>
+            </List>
+            <Typography variant="h5" className={classes.text}>
+              We appreciate all Sponsorships taken up by our users, as with your
+              support we can grow the website through innovative new services
+              and features ❤️
+            </Typography>
+            <Typography variant="h5" className={classes.text}>
+              Please note all features above can be worked around as a standard
+              member, it just makes more sense to enjoy notifications and
+              automations and we really do appreciate your support!
             </Typography>
             <a
               href={`${process.env.SITE_URL}/sponsors/new`}
@@ -82,16 +143,20 @@ class SponsorDialog extends React.Component {
                 Become a sponsor
               </Button>
             </a>
-            <br />
-            <br />
-            <a
-              href={`${process.env.SITE_URL}/sponsors/free_trial`}
-              className={classes.link}
-            >
-              <Button variant="outlined" color="primary" size="large">
-                Start your 14 days Free Trial!
-              </Button>
-            </a>
+            {currentSession.user.usedFreeTrial === false && (
+              <React.Fragment>
+                <br />
+                <br />
+                <a
+                  href={`${process.env.SITE_URL}/sponsors/free_trial`}
+                  className={classes.link}
+                >
+                  <Button variant="outlined" color="primary" size="large">
+                    Start your 14 day Free Trial!
+                  </Button>
+                </a>
+              </React.Fragment>
+            )}
           </div>
         </DialogContent>
         <DialogActions>
