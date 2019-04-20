@@ -4,6 +4,7 @@ class Mutations::CreateMedium < Mutations::BaseMutation
   argument :picture, String, required: true
   argument :comments_disabled, Boolean, required: true
   argument :is_photographer, Boolean, required: true
+  argument :is_gif, Boolean, required: true
   argument :photographer_slug, String, required: true
   argument :photographer_string, String, required: true
   argument :share_on_twitter, Boolean, required: false

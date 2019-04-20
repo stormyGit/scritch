@@ -12,18 +12,26 @@
     .column.is-6.is-offset-3
       .card
         .card-header
-          .card-header-title.has-text-centered
+          .card-header-title
             p
-              | Are you sure you want to cancel your Sponsorship?
-        .card-content.has-text-centered
+              | Cancel Sponsorship?
+        .card-content
           article
             .field
               label
-                | Your Sponsor data will be kept if you decide to become a Sponsor again
+                | All Favourites and Follows will remain on Scritch Servers, but these will be unaccessible until another sponsorhip is taken up.
+                br
+                br
+                | Are you sure you want to Cancel?
+                br
               br
-              br
-              = button_to sponsors_end_sponsorship_path(sponsor_id: @current_session.user.sponsor.uuid), class: "button", class_active: "is-active", method: :put do
-                | Yes, Cancel it
-              br
-              = button_to root_path, class: "button", class_active: "is-active", method: :get do
-                | No, Keep it
+              .columns
+                .column.is-4.is-offset-4
+                  .has-text-centered
+                  = button_to sponsors_end_sponsorship_path(sponsor_id: @current_session.user.sponsor.uuid), class: "button  is-fullwidth", class_active: "is-active", method: :put do
+                    | Yes, Cancel it
+                  br
+                  = button_to root_path, class: "button  is-fullwidth", class_active: "is-active", method: :get do
+                    | No, Keep it
+
+          div style="height: 24px;"

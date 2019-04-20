@@ -69,11 +69,7 @@ class DeleteMediumDialog extends React.Component {
         <DialogTitle>Delete Media</DialogTitle>
         <DialogContent>
           <Typography variant="h6" className={classes.blurb}>
-            Are you sure you want to delete this Media?
-          </Typography>
-          <div style={{ padding: 10 }} />
-          <Typography variant="h6" className={classes.blurb}>
-            This action is irreversible.
+            Are you sure you want to permanently delete this Media from Scritch?
           </Typography>
         </DialogContent>
         <DialogActions>

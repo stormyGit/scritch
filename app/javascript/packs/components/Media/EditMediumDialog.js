@@ -340,7 +340,7 @@ class EditMediumDialog extends React.Component {
                             >
                               {({ data, loading, error, fetchMore }) => {
                                 if (loading || error) {
-                                  return null;
+                                  return <CircularProgress />;
                                 }
                                 const categoryList = [
                                   { value: null, label: "Not applicable" }
@@ -389,7 +389,7 @@ class EditMediumDialog extends React.Component {
                             >
                               {({ data, loading, error, fetchMore }) => {
                                 if (loading || error) {
-                                  return null;
+                                  return <CircularProgress />;
                                 }
 
                                 const eventList = [
@@ -439,7 +439,7 @@ class EditMediumDialog extends React.Component {
                                 >
                                   {({ data, loading, error, fetchMore }) => {
                                     if (loading || error) {
-                                      return null;
+                                      return <CircularProgress />;
                                     }
 
                                     const editionList = [];
@@ -487,7 +487,7 @@ class EditMediumDialog extends React.Component {
                             >
                               {({ data, loading, error, fetchMore }) => {
                                 if (loading || error) {
-                                  return null;
+                                  return <CircularProgress />;
                                 }
                                 const subEventList = [];
                                 data.subEvents.map(e =>

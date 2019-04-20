@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_18_121715) do
+ActiveRecord::Schema.define(version: 2019_04_20_172901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -420,6 +420,16 @@ ActiveRecord::Schema.define(version: 2019_04_18_121715) do
     t.index ["user_id"], name: "index_maker_claims_on_user_id"
   end
 
+  create_table "maker_subscriptions", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.uuid "maker_id"
+    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["maker_id"], name: "index_maker_subscriptions_on_maker_id"
+    t.index ["user_id"], name: "index_maker_subscriptions_on_user_id"
+  end
+
   create_table "makers", force: :cascade do |t|
     t.string "name"
     t.string "web"
@@ -470,6 +480,7 @@ ActiveRecord::Schema.define(version: 2019_04_18_121715) do
     t.boolean "tag_locked", default: false
     t.uuid "tagger"
     t.datetime "tag_lock_data"
+    t.boolean "is_gif", default: false
     t.index "to_tsvector('english'::regconfig, (title)::text)", name: "index_media_on_title", using: :gin
     t.index ["slug"], name: "index_media_on_slug", unique: true
   end

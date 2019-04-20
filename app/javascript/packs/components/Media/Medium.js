@@ -1,5 +1,5 @@
 import React from "react";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -24,6 +24,10 @@ import queryString from "query-string";
 import * as Scroll from "react-scroll";
 
 import { GET_MEDIUM } from "../../queries/mediaQueries";
+import {
+  TAG_LOCK_MEDIUM,
+  TAG_UNLOCK_MEDIUM
+} from "../../queries/mediaMutations";
 
 import RelatedMediumCard from "./RelatedMediumCard";
 import CommentForm from "./CommentForm";
@@ -350,24 +354,64 @@ class Medium extends React.Component {
                         {currentSession &&
                           (medium.user.id === currentSession.user.id ||
                             currentSession.user.moderator) && (
-                            <Button
-                              onClick={() =>
-                                this.setState({ editMedium: true })
-                              }
-                              variant="outlined"
+                            <Mutation
+                              mutation={TAG_LOCK_MEDIUM}
+                              update={cache => {}}
+                              onCompleted={() => {
+                                this.setState({ editMedium: true });
+                              }}
+                              onError={() => {
+                                this.setState({ editMedium: true });
+                              }}
                             >
-                              Edit picture
-                            </Button>
+                              {(tagLockMedium, { data }) => (
+                                <Button
+                                  variant="outlined"
+                                  onClick={() => {
+                                    tagLockMedium({
+                                      variables: {
+                                        input: {
+                                          id: medium.id
+                                        }
+                                      }
+                                    });
+                                  }}
+                                >
+                                  Edit picture
+                                </Button>
+                              )}
+                            </Mutation>
                           )}
                         {currentSession &&
                           medium.user.id !== currentSession.user.id &&
                           medium.completion != 100 && (
-                            <Button
-                              onClick={() => this.setState({ tagMedium: true })}
-                              variant="outlined"
+                            <Mutation
+                              mutation={TAG_LOCK_MEDIUM}
+                              update={cache => {}}
+                              onCompleted={() => {
+                                this.setState({ tagMedium: true });
+                              }}
+                              onError={() => {
+                                this.setState({ tagMedium: true });
+                              }}
                             >
-                              Tag Picture
-                            </Button>
+                              {(tagLockMedium, { data }) => (
+                                <Button
+                                  variant="outlined"
+                                  onClick={() => {
+                                    tagLockMedium({
+                                      variables: {
+                                        input: {
+                                          id: medium.id
+                                        }
+                                      }
+                                    });
+                                  }}
+                                >
+                                  Tag Picture
+                                </Button>
+                              )}
+                            </Mutation>
                           )}
                       </React.Fragment>
                       <Tooltip title="Report Media">
@@ -567,17 +611,65 @@ class Medium extends React.Component {
                       </Grid>
                     </Grid>
                   </Card>
-                  <EditMediumDialog
-                    open={this.state.editMedium}
-                    onClose={() => this.setState({ editMedium: false })}
-                    mediumId={medium.id}
-                  />
-                  <TagDialog
-                    open={this.state.tagMedium}
-                    onClose={() => this.setState({ tagMedium: false })}
-                    mediumId={medium.id}
-                    noReload={true}
-                  />
+                  <Mutation
+                    mutation={TAG_UNLOCK_MEDIUM}
+                    update={cache => {}}
+                    onCompleted={() => {
+                      this.setState({ editMedium: false });
+                    }}
+                    onError={() => {
+                      this.setState({ editMedium: false });
+                      location.reload();
+                    }}
+                  >
+                    {(tagUnlockMedium, { data, error }) => (
+                      <EditMediumDialog
+                        open={this.state.editMedium}
+                        onClose={() => {
+                          tagUnlockMedium({
+                            variables: {
+                              input: {
+                                id: medium.id
+                              }
+                            }
+                          });
+                        }}
+                        mediumId={medium.id}
+                      />
+                    )}
+                  </Mutation>
+                  <Mutation
+                    mutation={TAG_UNLOCK_MEDIUM}
+                    update={cache => {}}
+                    onCompleted={() => {
+                      this.setState({
+                        tagMedium: false
+                      });
+                    }}
+                    onError={() => {
+                      this.setState({
+                        tagMedium: false
+                      });
+                      location.reload();
+                    }}
+                  >
+                    {(tagUnlockMedium, { data, error }) => (
+                      <TagDialog
+                        open={this.state.tagMedium}
+                        onClose={() => {
+                          tagUnlockMedium({
+                            variables: {
+                              input: {
+                                id: medium.id
+                              }
+                            }
+                          });
+                        }}
+                        mediumId={medium.id}
+                        noReload={true}
+                      />
+                    )}
+                  </Mutation>
                   <ReportDialog
                     open={this.state.reportDialog}
                     onClose={() => this.setState({ reportDialog: false })}

@@ -99,6 +99,8 @@ const processFileName = file =>
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
 
+const isGif = file => file.type === "image/gif";
+
 class DropZoneField extends React.Component {
   state = {
     progress: null,
@@ -141,7 +143,7 @@ class DropZoneField extends React.Component {
         multiple={true}
         className={classes.root}
         disabled={dropzoneDisabled}
-        accept="image/png,image/x-png,image/jpeg"
+        accept="image/png,image/x-png,image/jpeg,image/gif"
         style={{
           height: width === "lg" || width === "xl" ? 220 : 130,
           pointerEvents:
@@ -581,6 +583,7 @@ class MultipleMediaDialog extends React.Component {
                         variables: {
                           input: {
                             title: processFileName(file),
+                            isGif: isGif(file),
                             description: this.state.description,
                             commentsDisabled: false,
                             shareOnTwitter: this.state.shareOnTwitter,

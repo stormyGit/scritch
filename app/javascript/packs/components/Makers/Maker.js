@@ -1,5 +1,5 @@
 import React from "react";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
@@ -14,6 +14,10 @@ import MakerClaimDialog from "./MakerClaimDialog";
 
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import { LOAD_MAKER } from "../../queries/makerQueries";
+import {
+  CREATE_MAKER_SUBSCRIPTION,
+  DELETE_MAKER_SUBSCRIPTION
+} from "../../queries/makerMutations";
 
 import withCurrentSession from "../withCurrentSession";
 import SocialButton from "../Global/SocialButton";
@@ -94,6 +98,82 @@ class Maker extends React.Component {
   };
   constructor(props) {
     super(props);
+  }
+
+  renderFollowButton(maker) {
+    const { width } = this.props;
+
+    if (maker.followed) {
+      return (
+        <Mutation
+          mutation={DELETE_MAKER_SUBSCRIPTION}
+          update={(cache, { data: { createFollow } }) => {
+            cache.writeQuery({
+              query: LOAD_MAKER,
+              variables: { id: maker.id },
+              data: {
+                maker: {
+                  ...maker,
+                  followed: false
+                }
+              }
+            });
+          }}
+        >
+          {(deleteFollow, { data }) => (
+            <Button
+              size={width !== "lg" && width !== "xl" ? "small" : "medium"}
+              className={
+                width === "lg" || width === "xl"
+                  ? this.props.classes.followButtonSpacer
+                  : null
+              }
+              color={this.state.showUnfollow ? "secondary" : "primary"}
+              onMouseEnter={() => this.setState({ showUnfollow: true })}
+              onMouseLeave={() => this.setState({ showUnfollow: false })}
+              onClick={() => {
+                deleteFollow({
+                  variables: { input: { makerId: maker.id } }
+                });
+              }}
+            >
+              {this.state.showUnfollow ? "Unfollow" : "Following"}
+            </Button>
+          )}
+        </Mutation>
+      );
+    } else {
+      return (
+        <Mutation
+          mutation={CREATE_MAKER_SUBSCRIPTION}
+          update={(cache, { data: { createFollow } }) => {
+            cache.writeQuery({
+              query: LOAD_MAKER,
+              variables: { id: maker.id },
+              data: {
+                maker: {
+                  ...maker,
+                  followed: true
+                }
+              }
+            });
+          }}
+        >
+          {(createFollow, { data }) => (
+            <Button
+              size={width !== "lg" && width !== "xl" ? "small" : "medium"}
+              onClick={() => {
+                createFollow({
+                  variables: { input: { makerId: maker.id } }
+                });
+              }}
+            >
+              Follow
+            </Button>
+          )}
+        </Mutation>
+      );
+    }
   }
 
   render() {
@@ -203,6 +283,9 @@ class Maker extends React.Component {
                                 </Button>
                               </Grid>
                             )}
+                            {!maker.claimed &&
+                              !maker.possessed &&
+                              this.renderFollowButton(maker)}
                           </Grid>
                         </React.Fragment>
                       )}

@@ -469,7 +469,12 @@ class DrawerMenuRemake extends React.Component {
                     unmountOnExit
                   >
                     <List component="div" disablePadding>
-                      <ListItem button disabled>
+                      <ListItem
+                        button
+                        onClick={() =>
+                          this.setState({ sponsorDashboardDialog: true })
+                        }
+                      >
                         <ListItemText
                           primary={
                             user.sponsor.status == "live" &&
@@ -529,24 +534,6 @@ class DrawerMenuRemake extends React.Component {
                         </ListItemIcon>
                         <ListItemText
                           primary="Favorites Gallery"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-
-                      <ListItem
-                        button
-                        onClick={() =>
-                          this.setState({ sponsorDashboardDialog: true })
-                        }
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
-                        >
-                          <DashboardIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Sponsor Dashboard"
                           primaryTypographyProps={{ className: classes.text }}
                         />
                       </ListItem>

@@ -8,6 +8,8 @@ module Types
     field :delete_follow, mutation: Mutations::DeleteFollow
     field :create_subscription, mutation: Mutations::CreateSubscription
     field :delete_subscription, mutation: Mutations::DeleteSubscription
+    field :create_maker_subscription, mutation: Mutations::CreateMakerSubscription
+    field :delete_maker_subscription, mutation: Mutations::DeleteMakerSubscription
     field :create_like, mutation: Mutations::CreateLike
     field :delete_like, mutation: Mutations::DeleteLike
     field :create_fave, mutation: Mutations::CreateFave

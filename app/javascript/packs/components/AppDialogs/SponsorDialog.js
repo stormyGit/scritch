@@ -23,8 +23,21 @@ import GlobalProgress from "../Global/GlobalProgress";
 import withCurrentSession from "../withCurrentSession";
 
 const styles = theme => ({
+  textTitle: {
+    fontWeight: 400,
+    paddingLeft: theme.spacing.unit * 4,
+    paddingRight: theme.spacing.unit * 4,
+    paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit * 2
+  },
   text: {
     fontWeight: 200,
+    paddingLeft: theme.spacing.unit * 4,
+    paddingRight: theme.spacing.unit * 4,
+    paddingTop: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit * 2
+  },
+  listPadder: {
     paddingLeft: theme.spacing.unit * 4,
     paddingRight: theme.spacing.unit * 4,
     paddingTop: theme.spacing.unit,
@@ -33,7 +46,7 @@ const styles = theme => ({
   link: {
     textDecoration: "none"
   },
-  root: {
+  buttonsRoot: {
     textAlign: "center"
   }
 });
@@ -75,65 +88,69 @@ class SponsorDialog extends React.Component {
 
         <DialogTitle>Become a Sponsor</DialogTitle>
         <DialogContent>
-          <div className={classes.root}>
-            {false && (
-              <img
-                src={require("images/donation.png")}
-                style={{ width: "50%", borderRadius: "100%" }}
+          {false && (
+            <img
+              src={require("images/donation.png")}
+              style={{ width: "50%", borderRadius: "100%" }}
+            />
+          )}
+          <Typography variant="h6" className={classes.textTitle}>
+            Make use of the following website features for just $1 a month or
+            $10 a year!
+          </Typography>
+          <List className={classes.listPadder}>
+            <ListItem>
+              <ListItemIcon>
+                <CheckIcon />
+              </ListItemIcon>
+              <ListItemText
+                inset
+                primary="Follow Fursuiters to see content that they are tagged in."
               />
-            )}
-            <Typography variant="h5" className={classes.text}>
-              Become a Sponsor to make use of the following website features for
-              just $1 a month or $10 a year!
-            </Typography>
-            <List>
-              <ListItem>
-                <ListItemIcon>
-                  <CheckIcon />
-                </ListItemIcon>
-                <ListItemText
-                  inset
-                  primary="Follow Fursuiters to see content that they are tagged in."
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <CheckIcon />
-                </ListItemIcon>
-                <ListItemText
-                  inset
-                  primary="Favourite media that is then maintained in your personal Favourites Gallery."
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <CheckIcon />
-                </ListItemIcon>
-                <ListItemText
-                  inset
-                  primary="Follow Fursuit Makers to be notified of newly added Fursuits that have them assigned as the Maker."
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <CheckIcon />
-                </ListItemIcon>
-                <ListItemText
-                  inset
-                  primary="Get notified of commission status changes on Makers you follow."
-                />
-              </ListItem>
-            </List>
-            <Typography variant="h5" className={classes.text}>
-              We appreciate all Sponsorships taken up by our users, as with your
-              support we can grow the website through innovative new services
-              and features ❤️
-            </Typography>
-            <Typography variant="h5" className={classes.text}>
-              Please note all features above can be worked around as a standard
-              member, it just makes more sense to enjoy notifications and
-              automations and we really do appreciate your support!
-            </Typography>
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <CheckIcon />
+              </ListItemIcon>
+              <ListItemText
+                inset
+                primary="Favourite media that is then held in your personal Favourites Gallery."
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <CheckIcon />
+              </ListItemIcon>
+              <ListItemText
+                inset
+                primary="Follow Fursuit Makers to be notified of newly added Fursuits that have them assigned as the Maker."
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <CheckIcon />
+              </ListItemIcon>
+              <ListItemText
+                inset
+                primary="Get notified of commission status changes on Makers you follow."
+              />
+            </ListItem>
+          </List>
+          <Typography variant="h6" className={classes.text}>
+            {`We appreciate all Sponsorships taken up by our users, as with your
+            support we can grow the website through innovative new services and
+            features <3`}
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            className={classes.textTitle}
+            style={{ fontStyle: "italic" }}
+          >
+            Please Note: all features above can be worked around as a standard
+            member, it just makes more sense to enjoy notifications and
+            automations and we really do appreciate your support!
+          </Typography>
+          <div className={classes.buttonsRoot}>
             <a
               href={`${process.env.SITE_URL}/sponsors/new`}
               target="_blank"

@@ -39,6 +39,8 @@ class Fursuit < ApplicationRecord
     ]
   end
 
+  has_many :fursuit_subscriptions, dependent: :destroy
+
   def subscribers
     User.where(uuid: self.fursuit_subscriptions.pluck(:user_id))
   end

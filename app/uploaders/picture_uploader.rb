@@ -1,12 +1,23 @@
 class PictureUploader < SecureUploader
   process :store_meta
 
+  def only_first_frame
+    manipulate! do |img|
+      if img.mime_type.match /gif/
+        img.layers[0]
+      end
+      img
+    end
+  end
+
   version :square do
+    process :only_first_frame
     process resize_to_fill: [512, 512]
   end
 
   version :thumbnail do
-    process resize_to_fit: [nil, 256]
+     process :only_first_frame
+     process resize_to_fit: [nil, 256]
   end
 
   def store_meta

@@ -8,6 +8,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
+import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { Link, withRouter } from "react-router-dom";
 import List from "@material-ui/core/List";
@@ -29,6 +30,9 @@ const styles = theme => ({
   },
   cancelButton: {
     color: theme.palette.danger.main
+  },
+  text: {
+    fontWeight: 200
   }
 });
 
@@ -48,71 +52,41 @@ class SponsorDashboardDialog extends React.Component {
         onClose={() => {
           this.props.onClose();
         }}
+        size={500}
       >
         <GlobalProgress absolute />
 
-        <DialogTitle>Sponsor Dashboard</DialogTitle>
+        <DialogTitle>Sponsorship Details</DialogTitle>
         <DialogContent>
-          <List>
-            <ListItem>
-              <ListItemText primary="Welcome to the Sponsor's Dashboard" />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText
-                inset
-                primary={`Sponsor since: ${dateFormat(
-                  new Date(currentSession.user.sponsor.createdAt),
-                  "mmmm dS, yyyy"
-                )}`}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText
-                inset
-                primary={`Plan: ${currentSession.user.sponsor.plan
-                  .charAt(0)
-                  .toUpperCase() + currentSession.user.sponsor.plan.slice(1)}`}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText
-                inset
-                primary={`Status: ${currentSession.user.sponsor.status
-                  .charAt(0)
-                  .toUpperCase() +
-                  currentSession.user.sponsor.status.slice(1)}`}
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText
-                inset
-                primary={
-                  currentSession.user.sponsor.status == "live" &&
-                  currentSession.user.sponsor.plan != "Free Trial"
-                    ? `Renews: ${dateFormat(
-                        new Date(currentSession.user.sponsor.limit * 1000),
-                        "mmmm dS, yyyy"
-                      )}`
-                    : `Expires ${dateFormat(
-                        new Date(currentSession.user.sponsor.limit * 1000),
-                        "mmmm dS, yyyy"
-                      )}`
-                }
-              />
-            </ListItem>
-          </List>
+          <Typography variant="h6" className={classes.text}>
+            <strong>{`Sponsor Since: `}</strong>
+            {`${dateFormat(
+              new Date(currentSession.user.sponsor.createdAt),
+              "mmmm dS, yyyy"
+            )}`}
+          </Typography>
+          <Typography variant="h6" className={classes.text}>
+            <strong>{`Plan: `}</strong>
+            {`${currentSession.user.sponsor.plan.charAt(0).toUpperCase() +
+              currentSession.user.sponsor.plan.slice(1)}`}
+          </Typography>
+          <Typography variant="h6" className={classes.text}>
+            <strong>{`Status: `}</strong>
+            {`${currentSession.user.sponsor.status.charAt(0).toUpperCase() +
+              currentSession.user.sponsor.status.slice(1)}`}
+          </Typography>
+          <Typography variant="h6" className={classes.text}>
+            {currentSession.user.sponsor.status == "live" &&
+            currentSession.user.sponsor.plan != "Free Trial" ? (
+              <strong>{`Renews: `}</strong>
+            ) : (
+              <strong>{`Expires: `}</strong>
+            )}
+            {`${dateFormat(
+              new Date(currentSession.user.sponsor.limit * 1000),
+              "mmmm dS, yyyy"
+            )}`}
+          </Typography>
         </DialogContent>
         <DialogActions>
           {currentSession.user.sponsor.status == "live" &&

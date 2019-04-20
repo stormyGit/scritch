@@ -14,14 +14,12 @@
         .card-header
           .card-header-title.has-text-centered
             p
-              | Thank you!
+              | Thank you for your Sponsorship!
         .card-content.has-text-centered
           article
             .field
               label
-                | You are now a Scritch Sponsor!
-                br
-                = "Subcription amount: #{@amount}"
+                = "Sponsorship: #{@amount}#{@period}"
               br
               br
               = button_to root_path, class: "button", class_active: "is-active", method: :get do

@@ -13,9 +13,15 @@ module Types
     field :claimed, Boolean, null: false
     field :possessed, Boolean, null: false
     field :fursuits_number, Integer, null: false
+    field :followers_count, Integer, null: false
+    field :followed, Boolean, null: false
 
     def claimed
       MakerClaim.where(user: context[:current_user], maker: object).count > 0
+    end
+
+    def followed
+      MakerSubscription.where(user: context[:current_user], maker: object).count > 0
     end
 
     def possessed
@@ -24,6 +30,10 @@ module Types
 
     def avatar
       object.avatar_url(:thumbnail)
+    end
+
+    def followers_count
+      object.maker_subscriptions.count
     end
 
     def fursuits

@@ -15,18 +15,17 @@ class Maker < ApplicationRecord
 
   has_many :maker_claims, dependent: :destroy
 
-  def self.as_options_for_react_select
-    distinct.order(:name).pluck(:name)
-  end
-
-  def self.as_options_for_select
-    distinct.order(:name).pluck(:name, :uuid)
-  end
-
   def slug_candidates
     [
       :name,
       [:name, "#{Maker.where(name: name).count + 1}"]
     ]
   end
+
+  has_many :maker_subscriptions, dependent: :destroy
+
+  def subscribers
+    User.where(uuid: self.maker_subscriptions.pluck(:user_id))
+  end
+
 end
