@@ -130,7 +130,7 @@ class ActivitiesDialog extends React.Component {
                 >
                   {activity.owner.name}
                 </Typography>
-                {` liked your media `}
+                {` Scritched your Media `}
                 <Typography
                   variant="body2"
                   component="span"
@@ -173,7 +173,7 @@ class ActivitiesDialog extends React.Component {
                 >
                   {activity.owner.name}
                 </Typography>
-                {` commented on your media `}
+                {` Commented on your Media `}
                 <Typography
                   variant="body2"
                   component="span"
@@ -221,7 +221,7 @@ class ActivitiesDialog extends React.Component {
                 >
                   {activity.owner.name}
                 </Typography>
-                {` follows you`}
+                {` Followed you`}
               </Typography>
             </React.Fragment>
           }
@@ -241,7 +241,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`We received your report on `}
+                {`We received your Report on `}
                 <Typography
                   variant="body2"
                   component="span"
@@ -269,7 +269,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`We received your report on media `}
+                {`We received your Report on Media `}
                 <Typography
                   variant="body2"
                   component="span"
@@ -297,7 +297,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`We received your report on comment by `}
+                {`We received your Report on Comment by `}
                 <Typography
                   variant="body2"
                   component="span"
@@ -325,7 +325,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`We received your report on tags for media `}
+                {`We received your Report on Tags for Media `}
                 <Typography
                   variant="body2"
                   component="span"
@@ -362,9 +362,9 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`Your fursuit ${
+                {`Your Fursuit ${
                   activity.trackable.fursuit.name
-                } has been tagged in a new media!`}
+                } has been Tagged in Media!`}
               </Typography>
             </React.Fragment>
           }
@@ -393,7 +393,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`You have succesfully claimed ${activity.trackable.name}!`}
+                {`You have succesfully Claimed ${activity.trackable.name}!`}
               </Typography>
             </React.Fragment>
           }
@@ -422,9 +422,9 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`Your claim for ${
+                {`Your Claim for ${
                   activity.trackable.name
-                } has been rejected. Please contact support if you think this is a mistake.`}
+                } has been rejected. Please contact Support if you think this is a mistake.`}
               </Typography>
             </React.Fragment>
           }
@@ -453,7 +453,38 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`You have succesfully claimed ${activity.trackable.name}!`}
+                {`You have succesfully Claimed ${activity.trackable.name}!`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderMakerClaimReject(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+        button
+        onClick={() => {
+          this.props.history.push({
+            pathname: `/makers/${activity.trackable.slug}`
+          });
+          this.props.onClose();
+        }}
+      >
+        <MakerAvatar avatar={activity.trackable.avatar} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your Claim for ${
+                  activity.trackable.name
+                } has been rejected. Please contact Support if you think this is a mistake.`}
               </Typography>
             </React.Fragment>
           }
@@ -477,9 +508,9 @@ class ActivitiesDialog extends React.Component {
             primary={
               <React.Fragment>
                 <Typography variant="body1">
-                  {`Your advert (#${
+                  {`Your Advert (#${
                     activity.trackable.id.split("-")[0]
-                  }) was approved! Check your advertiser dashboard.`}
+                  }) was approved! Toggle visibility through your advertiser dashboard.`}
                 </Typography>
               </React.Fragment>
             }
@@ -504,9 +535,9 @@ class ActivitiesDialog extends React.Component {
             primary={
               <React.Fragment>
                 <Typography variant="body1">
-                  {`Your advert (#${
+                  {`Your Advert (#${
                     activity.trackable.id.split("-")[0]
-                  }) was rejected. Check your advertiser dashboard for more information.`}
+                  }) was rejected. Check your Advertiser Dashboard for more information.`}
                 </Typography>
               </React.Fragment>
             }
@@ -514,37 +545,6 @@ class ActivitiesDialog extends React.Component {
           />
         </ListItem>
       </a>
-    );
-  }
-
-  renderMakerClaimReject(activity) {
-    const { classes } = this.props;
-
-    return (
-      <ListItem
-        key={activity.id}
-        button
-        onClick={() => {
-          this.props.history.push({
-            pathname: `/makers/${activity.trackable.slug}`
-          });
-          this.props.onClose();
-        }}
-      >
-        <MakerAvatar avatar={activity.trackable.avatar} />
-        <ListItemText
-          primary={
-            <React.Fragment>
-              <Typography variant="body1">
-                {`Your claim for ${
-                  activity.trackable.name
-                } has been rejected. Please contact support if you think this is a mistake.`}
-              </Typography>
-            </React.Fragment>
-          }
-          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
-        />
-      </ListItem>
     );
   }
 
@@ -558,7 +558,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`Your sponsorship ended.`}
+                {`Your Sponsorship expired.`}
               </Typography>
             </React.Fragment>
           }
@@ -578,7 +578,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`Your sponsorship was canceled. You will remain a sponsor until the end of your plan period.`}
+                {`Your Sponsorship was canceled. You will remain a Sponsor until the end of your plan period.`}
               </Typography>
             </React.Fragment>
           }
@@ -598,7 +598,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`You are now a Scritch Sponsor!`}
+                {`You are now a Scritch Sponsor! Thank you so much!`}
               </Typography>
             </React.Fragment>
           }

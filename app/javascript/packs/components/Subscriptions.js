@@ -54,7 +54,7 @@ class Subscriptions extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
 
     return (
       <React.Fragment>
@@ -70,9 +70,30 @@ class Subscriptions extends React.Component {
                 textColor="secondary"
                 fullWidth
               >
-                <Tab value="media" label={"By Followed Photographers"} />
-                <Tab value="fursuits" label={"Featuring Followed Fursuits"} />
-                <Tab value="makers" label={"New Fursuits by Followed Makers"} />
+                <Tab
+                  value="media"
+                  label={
+                    width === "xl" || width === "lg"
+                      ? "Photographer Uploads"
+                      : "Photographers"
+                  }
+                />
+                <Tab
+                  value="fursuits"
+                  label={
+                    width === "xl" || width === "lg"
+                      ? "Featuring Followed Fursuits"
+                      : "Fursuits"
+                  }
+                />
+                <Tab
+                  value="makers"
+                  label={
+                    width === "xl" || width === "lg"
+                      ? "New Fursuits by Followed Makers"
+                      : "Maker Suits"
+                  }
+                />
               </Tabs>
             </Grid>
             <Grid item xs lg />

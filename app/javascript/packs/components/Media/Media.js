@@ -9,6 +9,7 @@ import uuidv4 from "uuid/v4";
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
 import Button from "@material-ui/core/Button";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import {
   READ_MEDIA_NOTIFICATIONS,
@@ -86,23 +87,25 @@ class Media extends React.Component {
           />
         </Grid>
         <Grid item xs={2}>
-          <Mutation
-            mutation={mutation}
-            onCompleted={() => this.setState({ uuid: uuidv4() })}
-          >
-            {(readSubs, { data }) => (
-              <Button
-                size="large"
-                variant="outlined"
-                className={classes.clearSubsButton}
-                onClick={() => {
-                  readSubs({ variables: { input: {} } });
-                }}
-              >
-                Clear Subs
-              </Button>
-            )}
-          </Mutation>
+          <Tooltip title="Clears Subs">
+            <Mutation
+              mutation={mutation}
+              onCompleted={() => this.setState({ uuid: uuidv4() })}
+            >
+              {(readSubs, { data }) => (
+                <Button
+                  size="large"
+                  variant="outlined"
+                  className={classes.clearSubsButton}
+                  onClick={() => {
+                    readSubs({ variables: { input: {} } });
+                  }}
+                >
+                  Clear
+                </Button>
+              )}
+            </Mutation>
+          </Tooltip>
         </Grid>
       </Grid>
     );
@@ -175,7 +178,7 @@ class Media extends React.Component {
 
     return (
       <React.Fragment>
-        {!fursuit && !searching && !faves && !home && (
+        {!fursuit && !withSubsClear && !searching && !faves && !home && (
           <PageTitle>Pictures</PageTitle>
         )}
         {!fursuit &&

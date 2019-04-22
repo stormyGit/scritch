@@ -5,6 +5,7 @@ import { Query, Mutation } from "react-apollo";
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
+import Tooltip from "@material-ui/core/Tooltip";
 import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -42,6 +43,7 @@ const styles = theme => ({
   },
   requestButton: {
     textAlign: "center",
+    alignItems: "center",
     top: 0
   }
 });
@@ -141,16 +143,18 @@ class Fursuits extends React.Component {
             onCompleted={() => this.setState({ uuid: uuidv4() })}
           >
             {(readSubs, { data }) => (
-              <Button
-                size="large"
-                variant="outlined"
-                className={classes.clearSubsButton}
-                onClick={() => {
-                  readSubs({ variables: { input: {} } });
-                }}
-              >
-                Clear Subs
-              </Button>
+              <Tooltip title="Clears Subs">
+                <Button
+                  size="large"
+                  variant="outlined"
+                  className={classes.clearSubsButton}
+                  onClick={() => {
+                    readSubs({ variables: { input: {} } });
+                  }}
+                >
+                  Clear
+                </Button>
+              </Tooltip>
             )}
           </Mutation>
         </Grid>
@@ -196,7 +200,7 @@ class Fursuits extends React.Component {
 
     return (
       <React.Fragment>
-        {!searching && <PageTitle>Fursuits</PageTitle>}
+        {!searching && !withSubsClear && <PageTitle>Fursuits</PageTitle>}
         {!searching && !withSubsClear && this.renderFilters()}
         {!searching && withSubsClear && this.renderFiltersWithSubsClear()}
         {this.state.openFursuit && this.state.fursuit && (
