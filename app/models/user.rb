@@ -67,6 +67,22 @@ class User < ApplicationRecord
 
   def block(user)
     self.blocked_users_ids = (self.blocked_users_ids + [user.uuid]).uniq
+    begin
+      Follow.find_by({
+        follower: self.uuid,
+        followable_id: user.uuid,
+        followable_type: "User"
+      }).destroy
+    rescue
+    end
+    begin
+      Follow.find_by({
+        follower: user.uuid,
+        followable_id: self.uuid,
+        followable_type: "User"
+      }).destroy
+    rescue
+    end
     self.save
   end
 
@@ -80,5 +96,9 @@ class User < ApplicationRecord
 
   def subscriptions
     Fursuit.where(uuid: self.fursuit_subscriptions.pluck(:fursuit_id))
+  end
+
+  def followed_makers
+    Maker.where(uuid: self.maker_subscriptions.pluck(:maker_id))
   end
 end

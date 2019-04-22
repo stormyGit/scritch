@@ -2,6 +2,9 @@ import React from "react";
 import gql from "graphql-tag";
 import { Query, Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router-dom";
+import withWidth from "@material-ui/core/withWidth";
+import withCurrentSession from "../withCurrentSession";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import GridList from "@material-ui/core/GridList";
@@ -21,14 +24,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Gallery from "react-grid-gallery";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
-import withWidth from "@material-ui/core/withWidth";
-
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import EditIcon from "@material-ui/icons/Edit";
 import CheckIcon from "@material-ui/icons/Check";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-
-import { withRouter } from "react-router-dom";
 
 import queryString from "query-string";
 
@@ -62,7 +61,6 @@ import BannerPlaceholder from "./BannerPlaceholder";
 import EditProfileDialog from "./EditProfileDialog";
 import ChatDialog from "../AppDialogs/ChatDialog";
 import ReportDialog from "../AppDialogs/ReportDialog";
-import withCurrentSession from "../withCurrentSession";
 
 const styles = theme => ({
   root: {
@@ -782,7 +780,9 @@ class User extends React.Component {
                   )}
                   {currentSession && currentSession.user.id !== user.id && (
                     <div className={classes.titleBarContainerUserActions}>
-                      {this.renderFollowButton(user)}
+                      {currentSession &&
+                        currentSession.user.sponsor &&
+                        this.renderFollowButton(user)}
                       {this.renderMoreUserOptions(user)}
                     </div>
                   )}

@@ -1,7 +1,7 @@
 namespace :user_score do
   task :strike => :environment do
     User.where("score < ?", -100).each do |u|
-      SuspendedUser.create!(user: u, limit: (2 ** u.offenses_number).days, reason: "Score too low")
+      SuspendedUser.create!(user: u, limit: Time.now + (2 ** u.offenses_number).days, reason: "Score too low")
       u.update!(score: 0, offenses_number: u.offenses_number + 1)
     end
   end

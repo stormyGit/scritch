@@ -1,6 +1,7 @@
 import React from "react";
+import uuidv4 from "uuid/v4";
 
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
@@ -21,6 +22,7 @@ import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
 import FursuitCard from "./FursuitCard";
 
+import { READ_MAKER_NOTIFICATIONS } from "../../queries/subscriptionMutations";
 import Background from "../../photo.jpg";
 
 import { Link, withRouter } from "react-router-dom";
@@ -47,6 +49,7 @@ const styles = theme => ({
 class Fursuits extends React.Component {
   state = {
     assetRequestDialog: false,
+    uuid: null,
     hasMore: true,
     name: "",
     speciesIds: [],
@@ -115,6 +118,46 @@ class Fursuits extends React.Component {
     );
   }
 
+  renderFiltersWithSubsClear() {
+    const { classes, location, width } = this.props;
+    return (
+      <Grid spacing={8} container className={classes.filters}>
+        <Grid item xs={2} />
+        <Grid item xs={8}>
+          <FursuitFilters
+            onChange={value => {
+              console.log(value);
+              this.setState({
+                [value.label]: value.value,
+                request: this.state.request + 1
+              });
+            }}
+            clearFilters={() => this.clearFilters()}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <Mutation
+            mutation={READ_MAKER_NOTIFICATIONS}
+            onCompleted={() => this.setState({ uuid: uuidv4() })}
+          >
+            {(readSubs, { data }) => (
+              <Button
+                size="large"
+                variant="outlined"
+                className={classes.clearSubsButton}
+                onClick={() => {
+                  readSubs({ variables: { input: {} } });
+                }}
+              >
+                Clear Subs
+              </Button>
+            )}
+          </Mutation>
+        </Grid>
+      </Grid>
+    );
+  }
+
   renderFilters() {
     const { classes, location, width } = this.props;
     return (
@@ -147,14 +190,15 @@ class Fursuits extends React.Component {
   }
 
   render() {
-    const { classes, location, width, searching } = this.props;
+    const { classes, location, width, searching, withSubsClear } = this.props;
     const query = searching ? queryString.parse(location.search) : null;
     let limit = query ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
       <React.Fragment>
         {!searching && <PageTitle>Fursuits</PageTitle>}
-        {!searching && this.renderFilters()}
+        {!searching && !withSubsClear && this.renderFilters()}
+        {!searching && withSubsClear && this.renderFiltersWithSubsClear()}
         {this.state.openFursuit && this.state.fursuit && (
           <FursuitModal
             open={this.state.openFursuit}
@@ -168,6 +212,8 @@ class Fursuits extends React.Component {
             name: searching ? query.q : this.state.name,
             fursuitLegType: this.state.fursuitLegType,
             fursuitStyle: this.state.fursuitStyle,
+            filter: this.props.filter,
+            uuid: this.state.uuid,
             speciesIds:
               this.state.speciesIds && this.state.speciesIds.map(e => e.value),
             fursuitBuild: this.state.fursuitBuild,

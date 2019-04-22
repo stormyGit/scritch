@@ -1,14 +1,19 @@
 import React from "react";
 import gql from "graphql-tag";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { Link, withRouter } from "react-router-dom";
+import uuidv4 from "uuid/v4";
 
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
 import Button from "@material-ui/core/Button";
 
+import {
+  READ_MEDIA_NOTIFICATIONS,
+  READ_FURSUIT_NOTIFICATIONS
+} from "../../queries/subscriptionMutations";
 import { GET_MEDIA } from "../../queries/mediaQueries";
 import { GET_USERS } from "../../queries/userQueries";
 
@@ -26,12 +31,18 @@ const styles = theme => ({
     paddingRight: 0
   },
   filters: {
-    padding: theme.spacing.unit * 1
+    padding: theme.spacing.unit * 1,
+    alignItems: "center"
+  },
+  clearSubsButton: {
+    textAlign: "center",
+    top: 0
   }
 });
 
 class Media extends React.Component {
   state = {
+    uuid: null,
     fursuits: [],
     user: null,
     event: null,
@@ -52,6 +63,49 @@ class Media extends React.Component {
       subEvent: null,
       sort: "latest"
     });
+  }
+
+  renderMediaFiltersWithSubsClear() {
+    const { classes } = this.props;
+    let mutation;
+    if (this.props.filter == "subscriptions_users")
+      mutation = READ_MEDIA_NOTIFICATIONS;
+    else if (this.props.filter == "subscriptions_fursuits")
+      mutation = READ_FURSUIT_NOTIFICATIONS;
+
+    return (
+      <Grid spacing={8} container className={classes.filters}>
+        <Grid item xs={2} />
+        <Grid item xs={8}>
+          <MediaFilters
+            onChange={value => {
+              console.log(value);
+              this.setState({ [value.label]: value.value });
+            }}
+            clearFilters={() => this.clearFilters()}
+          />
+        </Grid>
+        <Grid item xs={2}>
+          <Mutation
+            mutation={mutation}
+            onCompleted={() => this.setState({ uuid: uuidv4() })}
+          >
+            {(readSubs, { data }) => (
+              <Button
+                size="large"
+                variant="outlined"
+                className={classes.clearSubsButton}
+                onClick={() => {
+                  readSubs({ variables: { input: {} } });
+                }}
+              >
+                Clear Subs
+              </Button>
+            )}
+          </Mutation>
+        </Grid>
+      </Grid>
+    );
   }
 
   renderMediaFilters() {
@@ -109,7 +163,8 @@ class Media extends React.Component {
       searching,
       fursuit,
       faves,
-      fursuitId
+      fursuitId,
+      withSubsClear
     } = this.props;
     const query = searching ? queryString.parse(location.search) : null;
     let limit = query
@@ -123,12 +178,23 @@ class Media extends React.Component {
         {!fursuit && !searching && !faves && !home && (
           <PageTitle>Pictures</PageTitle>
         )}
-        {!fursuit && !searching && !home && this.renderMediaFilters()}
+        {!fursuit &&
+          !searching &&
+          !home &&
+          withSubsClear &&
+          this.renderMediaFiltersWithSubsClear()}
+        {!fursuit &&
+          !searching &&
+          !home &&
+          !withSubsClear &&
+          this.renderMediaFilters()}
         <Query
           query={GET_MEDIA}
+          fetchPolicy="network-only"
           variables={{
             faves: faves ? faves : false,
-            sort: this.props.sort ? this.props.sort : this.state.sort,
+            filter: this.props.filter,
+            sort: this.state.sort,
             eventId: this.state.event ? this.state.event.value : null,
             editionId: this.state.edition ? this.state.edition.value : null,
             categoryId: this.state.category ? this.state.category.value : null,
@@ -138,10 +204,11 @@ class Media extends React.Component {
               ? this.state.fursuits.map(e => e.id)
               : null,
             offset: 0,
+            uuid: this.state.uuid,
             limit
           }}
         >
-          {({ data, loading, error, fetchMore }) => {
+          {({ data, loading, error, fetchMore, refetch }) => {
             if (!data) return null;
 
             const { media } = data;

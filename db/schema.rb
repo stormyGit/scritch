@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_20_172901) do
+ActiveRecord::Schema.define(version: 2019_04_22_001234) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -442,6 +442,7 @@ ActiveRecord::Schema.define(version: 2019_04_20_172901) do
     t.integer "reference"
     t.string "region"
     t.uuid "user_id"
+    t.string "commission_status", default: "N/A"
     t.index ["user_id"], name: "index_makers_on_user_id"
   end
 
@@ -729,6 +730,9 @@ ActiveRecord::Schema.define(version: 2019_04_20_172901) do
     t.integer "suspension_count", default: 0
     t.integer "offenses_number", default: 0
     t.boolean "used_free_trial", default: false
+    t.datetime "last_seen_media", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "last_seen_fursuits", default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "last_seen_makers", default: -> { "CURRENT_TIMESTAMP" }
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end

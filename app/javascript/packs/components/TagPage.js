@@ -10,7 +10,7 @@ export default props => {
   return (
     <React.Fragment>
       <PageTitle>Tag</PageTitle>
-      <TaggableMedia sort="latest" {...props} />
+      <TaggableMedia {...props} />
     </React.Fragment>
   );
 };

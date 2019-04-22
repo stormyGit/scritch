@@ -5,6 +5,8 @@ export const LOAD_FURSUITS = gql`
     $name: String
     $speciesIds: [ID]
     $hybridSearch: Boolean
+    $uuid: ID
+    $filter: String
     $fursuitLegType: ID
     $fursuitStyle: ID
     $fursuitBuild: ID
@@ -23,6 +25,8 @@ export const LOAD_FURSUITS = gql`
       name: $name
       speciesIds: $speciesIds
       hybridSearch: $hybridSearch
+      uuid: $uuid
+      filter: $filter
       fursuitLegType: $fursuitLegType
       fursuitStyle: $fursuitStyle
       fursuitBuild: $fursuitBuild

@@ -30,6 +30,15 @@ export const LOAD_EVENTS = gql`
   }
 `;
 
+export const LOAD_EVENTS_SELECT = gql`
+  query Events($limit: Int!, $offset: Int!) {
+    events(limit: $limit, offset: $offset) {
+      id
+      name
+    }
+  }
+`;
+
 export const LOAD_EDITIONS = gql`
   query Editions($name: String, $limit: Int!, $offset: Int!, $eventId: ID!) {
     editions(name: $name, limit: $limit, offset: $offset, eventId: $eventId) {

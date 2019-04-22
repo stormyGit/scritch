@@ -19,7 +19,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import {
-  LOAD_EVENTS,
+  LOAD_EVENTS_SELECT,
   LOAD_EDITIONS,
   LOAD_SUB_EVENTS
 } from "../../queries/eventQueries";
@@ -205,7 +205,10 @@ class MediaFilters extends React.Component {
 
     return (
       <React.Fragment>
-        <Query query={LOAD_EVENTS} variables={{ limit: 1000, offset: 0 }}>
+        <Query
+          query={LOAD_EVENTS_SELECT}
+          variables={{ limit: 1000, offset: 0 }}
+        >
           {({ data, loading, error }) => {
             if (error || !data) {
               return null;

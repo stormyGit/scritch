@@ -38,12 +38,14 @@ module Types
       description "List media"
       argument :q, String, required: false
       argument :sort, String, required: false
+      argument :filter, String, required: false
       argument :user_id, ID, required: false
       argument :fursuit_id, ID, required: false
       argument :category_id, ID, required: false
       argument :sub_event_id, ID, required: false
       argument :fursuits, [ID, null: true], required: false
       argument :offset, Integer, required: true
+      argument :uuid, ID, required: false
       argument :limit, Integer, required: true
       argument :tagging, Boolean, required: false
       argument :faves, Boolean, required: false
@@ -216,6 +218,8 @@ module Types
       argument :exclude, [ID], required: false
       argument :hybrid_search, Boolean, required: false
       argument :species_ids, [ID, null: true], required: false
+      argument :uuid, ID, required: false
+      argument :filter, String, required: false
       argument :fursuit_style, ID, required: false
       argument :fursuit_leg_type, ID, required: false
       argument :fursuit_build, ID, required: false
@@ -358,11 +362,17 @@ module Types
     end
 
     def fursuits(arguments)
+      fursuits = Fursuit.all
+
       puts "\n" * 30
       puts arguments
       puts "\n" * 30
 
-      fursuits = Fursuit.all
+      if arguments[:filter].present? && arguments[:filter] == "subscriptions_fursuits"
+        fursuits = fursuits.joins(:makers).where("makers.uuid IN (?)", context[:current_user].followed_makers.pluck(:uuid))
+          .where("fursuits.created_at > ?", context[:current_user].last_seen_makers)
+          .order("fursuits.created_at DESC")
+      end
 
       if arguments[:user_id].present?
         fursuits = fursuits.joins(:users).where("users.uuid = ?", arguments[:user_id])
@@ -455,6 +465,9 @@ module Types
     end
 
     def media(arguments = {})
+      puts "\n" * 30
+      puts arguments
+      puts "\n" * 30
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
 
       if arguments[:faves].present?
@@ -479,13 +492,21 @@ module Types
           media.order(["media.completion DESC, media.created_at DESC"])
         when 'random'
           media.order("RANDOM()")
-        when 'subscriptions'
+        else
           media
-            .where("media.uuid IN (? UNION ?)",
-              Medium.where(user: context[:current_user].all_following)
-                .select(:uuid),
-              Medium.joins(:fursuits).where("fursuits.uuid IN (?)", context[:current_user].subscriptions.pluck(:uuid))
-                .select(:uuid)).order(["media.created_at DESC, media.created_at DESC"])
+        end
+
+      media =
+        case arguments[:filter]
+        when 'subscriptions_users'
+          media.where(user: context[:current_user].all_following)
+            .where("media.created_at > ?", context[:current_user].last_seen_media)
+            .order("media.created_at DESC, media.created_at DESC")
+        when 'subscriptions_fursuits'
+          Medium.joins(:fursuits)
+            .where("fursuits.uuid IN (?)", context[:current_user].subscriptions.pluck(:uuid))
+            .where("media.created_at > ?", context[:current_user].last_seen_fursuits)
+            .order(["media.created_at DESC, media.created_at DESC"])
         else
           media
         end
@@ -517,7 +538,7 @@ module Types
         media = media.where.not("completion > ?", 99).where(tag_locked: false).order(:completion)
       end
 
-      media.includes(:tags).offset(arguments[:offset]).limit(arguments[:limit])
+      media.offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def event(arguments)

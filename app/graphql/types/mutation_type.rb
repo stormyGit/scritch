@@ -22,6 +22,9 @@ module Types
     field :update_medium, mutation: Mutations::UpdateMedium
     field :read_activities, mutation: Mutations::ReadActivities
     field :read_announcements, mutation: Mutations::ReadAnnouncements
+    field :read_fursuit_notifications, mutation: Mutations::ReadFursuitNotifications
+    field :read_maker_notifications, mutation: Mutations::ReadMakerNotifications
+    field :read_media_notifications, mutation: Mutations::ReadMediaNotifications
     field :clear_activities, mutation: Mutations::ClearActivities
     field :create_message, mutation: Mutations::CreateMessage
     field :read_chat, mutation: Mutations::ReadChat

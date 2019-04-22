@@ -4,7 +4,9 @@ export const GET_MEDIA = gql`
   query Media(
     $q: String
     $sort: String
+    $filter: String
     $userId: ID
+    $uuid: ID
     $offset: Int!
     $limit: Int!
     $fursuitId: ID
@@ -19,7 +21,9 @@ export const GET_MEDIA = gql`
     media(
       q: $q
       sort: $sort
+      filter: $filter
       userId: $userId
+      uuid: $uuid
       offset: $offset
       limit: $limit
       fursuitId: $fursuitId
