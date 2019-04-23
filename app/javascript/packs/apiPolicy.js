@@ -1,5 +1,5 @@
 const codeConduct = `
-# SCRITCH CODE OF CONDUCT
+# SCRITCH API POLICY
 
 [![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
 

@@ -21,7 +21,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 import { Link, withRouter } from "react-router-dom";
 
-import { makersList } from "../../makersList";
 import { fursuitColors } from "../../fursuitColors";
 import { fursuitEyes } from "../../fursuitEyes";
 
@@ -35,7 +34,7 @@ import {
   LOAD_FINGERS
 } from "../../queries/fursuitQueries";
 
-import { LOAD_MAKERS } from "../../queries/makerQueries";
+import { LOAD_MAKERS_SELECT } from "../../queries/makerQueries";
 
 import SearchBar from "material-ui-search-bar";
 
@@ -577,24 +576,46 @@ class FursuitFilters extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Grid item xs={8}>
-        <Select
-          fullWidth
-          placeholder="Maker"
-          isClearable
-          isSearchable
-          value={this.state.maker}
-          onChange={maker => {
-            this.setState({ maker: maker });
-            this.props.onChange({
-              label: "maker",
-              value: maker ? maker.value : null
-            });
-          }}
-          options={makersList}
-          className={classes.selectInput}
-        />
-      </Grid>
+      <Query query={LOAD_MAKERS_SELECT}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={8}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          const makersList = [];
+          data.makersSelect.map(e =>
+            makersList.push({ value: e.id, label: e.name })
+          );
+
+          return (
+            <Grid item xs={8}>
+              <Select
+                fullWidth
+                placeholder="Maker"
+                isClearable
+                isSearchable
+                value={this.state.maker}
+                onChange={maker => {
+                  this.setState({ maker: maker });
+                  this.props.onChange({
+                    label: "maker",
+                    value: maker ? maker.value : null
+                  });
+                }}
+                options={makersList}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
     );
   }
 

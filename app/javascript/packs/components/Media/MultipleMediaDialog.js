@@ -320,7 +320,7 @@ class MultipleMediaDialog extends React.Component {
                 if (loading || error) {
                   return null;
                 }
-                const categoryList = [{ value: null, label: "Not applicable" }];
+                const categoryList = [];
                 data.categories.map(e =>
                   categoryList.push({ value: e.id, label: e.name })
                 );
@@ -351,7 +351,7 @@ class MultipleMediaDialog extends React.Component {
                   return null;
                 }
 
-                const eventList = [{ value: null, label: "Not applicable" }];
+                const eventList = [];
                 data.events.map(e =>
                   eventList.push({ value: e.id, label: e.name })
                 );

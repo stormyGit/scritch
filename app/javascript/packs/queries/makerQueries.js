@@ -1,5 +1,14 @@
 import gql from "graphql-tag";
 
+export const LOAD_MAKERS_SELECT = gql`
+  query makersSelect {
+    makersSelect {
+      id
+      name
+    }
+  }
+`;
+
 export const LOAD_MAKERS = gql`
   query Makers(
     $name: String

@@ -237,6 +237,10 @@ module Types
       argument :id, ID, required: true
     end
 
+    field :makers_select, [MakerType], null: false do
+      description "makers select"
+    end
+
     field :makers, [MakerType], null: false do
       description "List makers"
       argument :limit, Integer, required: false
@@ -422,6 +426,10 @@ module Types
         fursuits = fursuits.where.not("uuid IN (?)", arguments[:exclude])
       end
       fursuits.offset(arguments[:offset]).limit(arguments[:limit]).order(:name, :uuid)
+    end
+
+    def makers_select()
+      Maker.all.order(:name)
     end
 
     def maker(arguments)
