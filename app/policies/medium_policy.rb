@@ -34,13 +34,6 @@ class MediumPolicy < ApplicationPolicy
   end
 
   def unlock?
-    puts "\n" *10
-    puts record.tag_locked
-    puts "\n" *10
-    puts record.tagger
-    puts "\n" *10
-    puts user.uuid
-    puts "\n" *10
     user.present? && record.tagger == user.uuid && record.tag_locked == true
   end
 

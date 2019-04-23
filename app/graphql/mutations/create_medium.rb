@@ -43,7 +43,6 @@ class Mutations::CreateMedium < Mutations::BaseMutation
         errors: [],
       }
     else
-      puts medium.errors.full_messages
       {
         medium: nil,
         errors: medium.errors.full_messages

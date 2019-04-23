@@ -19,10 +19,6 @@ class Mutations::UpdateFursuit < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve(arguments)
-    puts "\n" * 30
-    puts "UPDATE FURSUIT\n\n"
-    puts arguments
-    puts "\n" * 30
     fursuit = Fursuit.find(arguments[:id])
     fursuit.assign_attributes(arguments)
 

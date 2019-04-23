@@ -128,7 +128,6 @@ class Fursuits extends React.Component {
         <Grid item xs={8}>
           <FursuitFilters
             onChange={value => {
-              console.log(value);
               this.setState({
                 [value.label]: value.value,
                 request: this.state.request + 1
@@ -170,7 +169,6 @@ class Fursuits extends React.Component {
         <Grid item xs={8}>
           <FursuitFilters
             onChange={value => {
-              console.log(value);
               this.setState({
                 [value.label]: value.value,
                 request: this.state.request + 1

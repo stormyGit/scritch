@@ -341,7 +341,6 @@ class FursuitFilters extends React.Component {
                 isMulti
                 value={this.state.speciesIds}
                 onChange={specy => {
-                  console.log(specy);
                   this.setState({ speciesIds: specy });
                   this.props.onChange({
                     label: "speciesIds",

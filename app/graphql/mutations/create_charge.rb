@@ -2,7 +2,6 @@ class Mutations::CreateCharge < Mutations::BaseMutation
   argument :id, ID, required: true
 
   def resolve(arguments)
-    puts "\n\n\n\n\n\n#{arguments}\n\n\n\n\n\n\n"
     customer = Stripe::Customer.create(
       :email => params[:stripeEmail],
       :source  => params[:stripeToken]

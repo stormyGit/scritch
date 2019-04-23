@@ -93,10 +93,8 @@ class AdsLister extends React.Component {
           </Typography>
           <Query query={GET_ADVERTS} variables={{ uuid: uuidv4(), limit }}>
             {({ data, loading, error, fetchMore }) => {
-              if (error) console.log(error);
               if (loading || error || !data) return null;
 
-              console.log(data);
               return (
                 <React.Fragment>
                   <Grid

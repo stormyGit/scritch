@@ -397,7 +397,6 @@ class MultipleMediaDialog extends React.Component {
                     data.editions.map(e =>
                       editionList.push({ value: e.id, label: e.name })
                     );
-                    console.log("edition: ", this.state.mediaEdition);
                     return (
                       <Select
                         fullWidth

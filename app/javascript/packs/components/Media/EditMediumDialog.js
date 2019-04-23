@@ -251,7 +251,6 @@ class EditMediumDialog extends React.Component {
       >
         {({ data, error, loading }) => {
           if (error || loading || !data) return null;
-          console.log(data.medium);
 
           const medium = data.medium;
           if (this.state.fursuits == null) {
@@ -423,7 +422,6 @@ class EditMediumDialog extends React.Component {
                                 );
                               }}
                             </Query>
-                            {console.log(this.state)}
                             <div style={{ padding: 5 }} />
                             {this.state.mediaEvent &&
                               Object.keys(this.state.mediaEvent).length != 0 &&
@@ -464,7 +462,6 @@ class EditMediumDialog extends React.Component {
                                             : null
                                         }
                                         onChange={mediaEdition => {
-                                          console.log(mediaEdition);
                                           this.setState({
                                             mediaEdition: mediaEdition
                                           });

@@ -200,7 +200,6 @@ class Medium extends React.Component {
           const medium = data ? data.medium : null;
 
           if (loading || error) {
-            console.log(error);
             return null;
           }
           return (

@@ -75,7 +75,6 @@ class DownloadDialog extends React.Component {
           </List>
         </DialogContent>
         <DialogActions>
-          {console.log(medium)}
           <Button
             onClick={() => {
               this.props.onClose();

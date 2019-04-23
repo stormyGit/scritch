@@ -394,7 +394,6 @@ class EditProfileDialog extends React.Component {
               value={this.state.bio}
               variant="outlined"
               onChange={e => {
-                console.log(e.target.value);
                 e.target.value.length <= 70 &&
                   this.setState({ bio: e.target.value });
               }}

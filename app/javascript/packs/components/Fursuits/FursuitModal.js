@@ -29,7 +29,6 @@ class FursuitModal extends React.Component {
     const { classes, width, open, onClose, fursuit } = this.props;
     if (!fursuit) return null;
 
-    console.log(fursuit);
     return (
       <Query
         query={LOAD_FURSUIT}

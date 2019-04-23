@@ -160,7 +160,6 @@ class EditFursuitDialog extends React.Component {
   }
 
   setInitialValues(fursuit) {
-    console.log(fursuit);
     this.setState({
       id: fursuit.id,
       name: fursuit.name || "",
@@ -260,7 +259,6 @@ class EditFursuitDialog extends React.Component {
   render() {
     const { classes, fursuit } = this.props;
 
-    console.log(this.state);
     return (
       <React.Fragment>
         <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
@@ -288,7 +286,6 @@ class EditFursuitDialog extends React.Component {
             <FursuitEditFields
               fursuit={fursuit}
               onChange={value => {
-                console.log(value);
                 this.setState({
                   [value.label]: value.value
                 });
@@ -302,7 +299,6 @@ class EditFursuitDialog extends React.Component {
                 <Button
                   disabled={!this.state.name || /^\s*$/.test(this.state.name)}
                   onClick={() => {
-                    console.log(this.state);
                     updateFursuit({
                       variables: {
                         input: {

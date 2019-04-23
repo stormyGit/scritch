@@ -73,7 +73,6 @@ class ExifDialog extends React.Component {
       return null;
     var exif = JSON.parse(medium.exif);
 
-    console.log(exif);
     return (
       <ResponsiveDialog
         open={this.props.open}

@@ -316,7 +316,6 @@ class Maker extends React.Component {
                             </Typography>
                           </Grid>
                         </Grid>
-                        {console.log(maker)}
                         <div style={{ padding: 10 }} />
                         <Grid
                           container
@@ -372,7 +371,6 @@ class Maker extends React.Component {
                               </Typography>
                             )}
                             <div style={{ padding: 10 }} />
-                            {console.log(maker)}
                             <Typography
                               gutterBottom
                               variant="h6"

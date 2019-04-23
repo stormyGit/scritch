@@ -74,7 +74,6 @@ class SponsorDialog extends React.Component {
     if (!currentSession) {
       return null;
     }
-    console.log(currentSession.user);
 
     return (
       <ResponsiveDialog

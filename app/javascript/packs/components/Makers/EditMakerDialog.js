@@ -294,7 +294,6 @@ class EditMakerDialog extends React.Component {
                 <Button
                   disabled={!this.state.name || /^\s*$/.test(this.state.name)}
                   onClick={() => {
-                    console.log(this.state);
                     updateMaker({
                       variables: {
                         input: {

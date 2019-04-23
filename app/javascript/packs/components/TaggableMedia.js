@@ -132,7 +132,6 @@ class TaggableMedia extends React.Component {
             <div className={classes.filters}>
               <MediaFilters
                 onChange={value => {
-                  console.log(value);
                   this.setState({ [value.label]: value.value });
                 }}
                 clearFilters={() => this.clearFilters()}

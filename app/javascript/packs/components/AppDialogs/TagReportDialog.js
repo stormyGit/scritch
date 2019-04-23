@@ -78,7 +78,6 @@ class TagReportDialog extends React.Component {
                       onClick={
                         !this.state.fursuitMediumIds.includes(fursuit.id)
                           ? payload => {
-                              console.log(payload);
                               this.setState(prevState => ({
                                 fursuitMediumIds: [
                                   ...prevState.fursuitMediumIds,
@@ -87,7 +86,6 @@ class TagReportDialog extends React.Component {
                               }));
                             }
                           : payload => {
-                              console.log(payload);
                               let index = this.state.fursuitMediumIds.indexOf(
                                 payload.id
                               );

@@ -364,10 +364,6 @@ module Types
     def fursuits(arguments)
       fursuits = Fursuit.all
 
-      puts "\n" * 30
-      puts arguments
-      puts "\n" * 30
-
       if arguments[:filter].present? && arguments[:filter] == "subscriptions_fursuits"
         fursuits = fursuits.joins(:makers).where("makers.uuid IN (?)", context[:current_user].followed_makers.pluck(:uuid))
           .where("fursuits.created_at > ?", context[:current_user].last_seen_makers)
@@ -433,7 +429,6 @@ module Types
     end
 
     def makers(arguments)
-      puts "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n#{arguments}"
       makers = Maker.all
 
       if arguments[:country].present?
@@ -465,9 +460,6 @@ module Types
     end
 
     def media(arguments = {})
-      puts "\n" * 30
-      puts arguments
-      puts "\n" * 30
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
 
       if arguments[:faves].present?

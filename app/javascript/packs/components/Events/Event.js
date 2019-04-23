@@ -271,7 +271,6 @@ class Event extends React.Component {
                         }}
                         placeholder="Select Edition..."
                       />
-                      {console.log(this.state)}
                       {this.state.edition && this.state.edition.value && (
                         <Query
                           query={LOAD_EDITION}

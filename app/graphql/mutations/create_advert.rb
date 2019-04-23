@@ -16,7 +16,6 @@ class Mutations::CreateAdvert < Mutations::BaseMutation
         errors: [],
       }
     else
-      puts advert.errors.full_messages
       {
         advert: nil,
         errors: advert.errors.full_messages

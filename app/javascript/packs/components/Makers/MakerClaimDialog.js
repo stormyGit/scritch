@@ -31,7 +31,6 @@ class MakerClaimDialog extends React.Component {
   render() {
     const { classes, currentSession, maker } = this.props;
 
-    console.log(maker);
     if (!currentSession) {
       return null;
     }

@@ -314,7 +314,6 @@ class FursuitEditFields extends React.Component {
                   isSearchable
                   value={this.state.speciesIds && this.state.speciesIds[0]}
                   onChange={specy => {
-                    console.log(specy);
                     this.setState({ speciesIds: specy });
                     this.props.onChange({
                       label: "speciesIds",
@@ -366,7 +365,6 @@ class FursuitEditFields extends React.Component {
                   isMulti
                   value={this.state.speciesIds}
                   onChange={specy => {
-                    console.log(specy);
                     this.setState({ speciesIds: specy });
                     this.props.onChange({
                       label: "speciesIds",
@@ -704,7 +702,6 @@ class FursuitEditFields extends React.Component {
 
   renderFilters() {
     const { classes } = this.props;
-    console.log(this.state);
     return (
       <Grid container spacing={8}>
         <Grid item xs={12}>

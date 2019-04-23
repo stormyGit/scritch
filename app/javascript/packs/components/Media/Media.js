@@ -80,7 +80,6 @@ class Media extends React.Component {
         <Grid item xs={8}>
           <MediaFilters
             onChange={value => {
-              console.log(value);
               this.setState({ [value.label]: value.value });
             }}
             clearFilters={() => this.clearFilters()}
@@ -118,7 +117,6 @@ class Media extends React.Component {
       <div className={classes.filters}>
         <MediaFilters
           onChange={value => {
-            console.log(value);
             this.setState({ [value.label]: value.value });
           }}
           clearFilters={() => this.clearFilters()}

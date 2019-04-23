@@ -94,7 +94,6 @@ class FursuitMiniCard extends React.Component {
   render() {
     const { classes, fursuit, onClick } = this.props;
 
-    console.log(fursuit);
     var species;
     if (fursuit.isHybrid) {
       species = "Hybrid";
