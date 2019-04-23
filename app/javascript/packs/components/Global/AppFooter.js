@@ -194,7 +194,7 @@ class AppFooter extends React.Component {
           </Grid>
           <Grid item xs={8}>
             <Typography>
-              <Link to={"/terms_and_conditions"} className={classes.link}>
+              <Link to={"/terms_of_use"} className={classes.link}>
                 Terms & Conditions
               </Link>{" "}
               -{" "}
@@ -203,25 +203,17 @@ class AppFooter extends React.Component {
               </Link>
             </Typography>
             <Typography>
-              <Link to={"/code_of_conduct"} className={classes.link}>
-                Code of Conduct
+              <Link to={"/api_policy"} className={classes.link}>
+                API Policy
               </Link>{" "}
               -{" "}
-              <a
-                target="_blank"
-                href={"http://www.google.com"}
-                className={classes.link}
-              >
+              <Link to={"/user_guide"} className={classes.link}>
                 User Guide
-              </a>{" "}
+              </Link>{" "}
               -{" "}
-              <a
-                target="_blank"
-                href={"http://www.google.com"}
-                className={classes.link}
-              >
+              <Link to={"/faq"} className={classes.link}>
                 FAQ
-              </a>
+              </Link>
             </Typography>
             <div style={{ paddingTop: 10 }} />
             <Typography>Copyright Scritch 2018-2019</Typography>

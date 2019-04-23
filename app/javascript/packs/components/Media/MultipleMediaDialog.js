@@ -60,7 +60,7 @@ import GlobalProgress from "../Global/GlobalProgress";
 import { CREATE_MEDIUM } from "../../queries/mediaMutations";
 import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
 import {
-  LOAD_EVENTS,
+  LOAD_EVENTS_SELECT,
   LOAD_EDITIONS,
   LOAD_SUB_EVENTS
 } from "../../queries/eventQueries";
@@ -343,8 +343,8 @@ class MultipleMediaDialog extends React.Component {
             <hr />
             <div style={{ padding: 5 }} />
             <Query
-              query={LOAD_EVENTS}
-              variables={{ sort: "latest", offset: 0, limit: 150 }}
+              query={LOAD_EVENTS_SELECT}
+              variables={{ sort: "latest", offset: 0, limit: 1000 }}
             >
               {({ data, loading, error, fetchMore }) => {
                 if (loading || error) {

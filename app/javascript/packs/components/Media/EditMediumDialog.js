@@ -50,7 +50,7 @@ import { GET_MEDIUM } from "../../queries/mediaQueries";
 import { UPDATE_MEDIUM } from "../../queries/mediaMutations";
 import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
 import {
-  LOAD_EVENTS,
+  LOAD_EVENTS_SELECT,
   LOAD_EDITIONS,
   LOAD_SUB_EVENTS
 } from "../../queries/eventQueries";
@@ -379,11 +379,11 @@ class EditMediumDialog extends React.Component {
                             <hr />
                             <div style={{ padding: 5 }} />
                             <Query
-                              query={LOAD_EVENTS}
+                              query={LOAD_EVENTS_SELECT}
                               variables={{
                                 sort: "latest",
                                 offset: 0,
-                                limit: 150
+                                limit: 1000
                               }}
                             >
                               {({ data, loading, error, fetchMore }) => {

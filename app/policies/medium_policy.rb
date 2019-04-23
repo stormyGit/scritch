@@ -39,7 +39,7 @@ class MediumPolicy < ApplicationPolicy
 
 
   def update?
-    create? && record.tagger == user.uuid
+    create? || record.tagger == user.uuid
   end
 
   def destroy?
