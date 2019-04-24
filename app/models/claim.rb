@@ -2,10 +2,6 @@ class Claim < ApplicationRecord
   self.primary_key = :uuid
 
   has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity', dependent: :destroy
-  STATUSES = [
-    "open",
-    "closed"
-  ]
 
   belongs_to :fursuit
   belongs_to :user
@@ -14,4 +10,11 @@ class Claim < ApplicationRecord
   def send_moderation_notification
     Moderation::SendClaimNotificationJob.perform_later(self)
   end
+
+  STATUSES = [
+    :open,
+    :rejected,
+    :accepted,
+    :closed
+  ]
 end

@@ -11,15 +11,19 @@ module Types
     field :fursuits, [FursuitType], null: false
     field :user, UserType, null: true
     field :claimed, Boolean, null: false
+    field :claim_rejected, Boolean, null: false
     field :possessed, Boolean, null: false
     field :fursuits_number, Integer, null: false
     field :followers_count, Integer, null: false
     field :followed, Boolean, null: false
 
     def claimed
-      MakerClaim.where(user: context[:current_user], maker: object).count > 0
+      MakerClaim.where(user: context[:current_user], maker: object, status: "open").count > 0
     end
 
+    def claim_rejected
+      MakerClaim.where(user: context[:current_user], maker: object, status: "rejected").count > 0
+    end
     def followed
       MakerSubscription.where(user: context[:current_user], maker: object).count > 0
     end

@@ -45,6 +45,7 @@ export const LOAD_MAKER = gql`
       region
       avatar
       claimed
+      claimRejected
       followed
       possessed
       fursuitsNumber

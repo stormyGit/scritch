@@ -240,18 +240,21 @@ class Maker extends React.Component {
                             justify="space-between"
                             wrap="nowrap"
                           >
-                            {!maker.claimed && !maker.possessed && !maker.user && (
-                              <Grid item>
-                                <Button
-                                  color="primary"
-                                  onClick={() =>
-                                    this.setState({ claimDialog: true })
-                                  }
-                                >
-                                  Claim maker
-                                </Button>
-                              </Grid>
-                            )}
+                            {!maker.claimed &&
+                              !maker.claimRejected &&
+                              !maker.possessed &&
+                              !maker.user && (
+                                <Grid item>
+                                  <Button
+                                    color="primary"
+                                    onClick={() =>
+                                      this.setState({ claimDialog: true })
+                                    }
+                                  >
+                                    Claim maker
+                                  </Button>
+                                </Grid>
+                              )}
                             {maker.claimed && !maker.possessed && (
                               <Grid item>
                                 <Button color="primary" disabled>
@@ -259,18 +262,21 @@ class Maker extends React.Component {
                                 </Button>
                               </Grid>
                             )}
-                            {!maker.claimed && !maker.possessed && maker.user && (
-                              <Grid item>
-                                <Button
-                                  color="primary"
-                                  onClick={() =>
-                                    this.setState({ claimDialog: true })
-                                  }
-                                >
-                                  Contest Claim
-                                </Button>
-                              </Grid>
-                            )}
+                            {!maker.claimed &&
+                              !maker.claimRejected &&
+                              !maker.possessed &&
+                              maker.user && (
+                                <Grid item>
+                                  <Button
+                                    color="primary"
+                                    onClick={() =>
+                                      this.setState({ claimDialog: true })
+                                    }
+                                  >
+                                    Contest Claim
+                                  </Button>
+                                </Grid>
+                              )}
                             {maker.possessed && (
                               <Grid item>
                                 <Button

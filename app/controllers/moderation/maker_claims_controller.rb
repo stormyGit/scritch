@@ -8,7 +8,7 @@ class Moderation::MakerClaimsController < ModerationController
       flash[:notice] = ""
     end
 
-    @maker_claims = MakerClaim.all.order(:created_at)
+    @maker_claims = MakerClaim.where(status: :open).order(:created_at)
 
     @maker_claims = @maker_claims.page(params[:page]).per(90)
   end
@@ -28,13 +28,13 @@ class Moderation::MakerClaimsController < ModerationController
         maker.user.update!(score: maker.user.score - 10)
         maker.update!(user: maker_claim.user)
         maker.create_activity :claim_success, owner: Proc.new{ |_, model| User.last }, recipient: maker_claim.user
-        maker_claim.destroy
+        maker_claim.update!(status: "accepted")
         flash[:notice] = "Maker Claim approved!"
         flash[:class] = "has-text-warning"
       elsif params[:status] == "reject"
         user = User.find(maker_claim.user.uuid)
         user.update!(score: user.score - 10)
-        maker_claim.destroy
+        maker_claim.update!(status: "rejected")
         maker.create_activity :claim_reject, owner: Proc.new{ |_, model| User.last }, recipient: maker_claim.user
         flash[:notice] = "Maker Claim rejected!"
         flash[:class] = "has-text-danger"
@@ -42,14 +42,14 @@ class Moderation::MakerClaimsController < ModerationController
     else
       if params[:status] == "approve"
         maker.update!(user: maker_claim.user)
-        maker_claim.destroy
+        maker_claim.update!(status: "accepted")
         maker.create_activity :claim_success, owner: Proc.new{ |_, model| User.last }, recipient: maker_claim.user
         flash[:notice] = "Maker Claim approved!"
         flash[:class] = "has-text-warning"
       elsif params[:status] == "reject"
         user = User.find(maker_claim.user.uuid)
         user.update!(score: user.score - 10)
-        maker_claim.destroy
+        maker_claim.update!(status: "rejected")
         maker.create_activity :claim_reject, owner: Proc.new{ |_, model| User.last }, recipient: maker_claim.user
         flash[:notice] = "Maker Claim rejected!"
         flash[:class] = "has-text-danger"

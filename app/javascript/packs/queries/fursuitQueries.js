@@ -69,6 +69,7 @@ export const LOAD_FURSUIT = gql`
       likesCount
       favesCount
       claimed
+      claimRejected
       possessed
       followed
       avatar

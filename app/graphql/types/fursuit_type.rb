@@ -10,6 +10,7 @@ module Types
     field :likes_count, Integer, null: true
     field :faves_count, Integer, null: true
     field :claimed, Boolean, null: false
+    field :claim_rejected, Boolean, null: false
     field :possessed, Boolean, null: false
     field :avatar, String, null: true
     field :followed, Boolean, null: false
@@ -28,7 +29,11 @@ module Types
     field :fursuit_gender, FursuitGenderType, null: true
 
     def claimed
-      Claim.where(user: context[:current_user], fursuit: object).count > 0
+      Claim.where(user: context[:current_user], fursuit: object, status: "open").count > 0
+    end
+
+    def claim_rejected
+      Claim.where(user: context[:current_user], fursuit: object, status: "rejected").count > 0
     end
 
     def possessed

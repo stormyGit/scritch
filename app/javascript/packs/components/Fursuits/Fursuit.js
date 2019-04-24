@@ -229,6 +229,7 @@ class Fursuit extends React.Component {
                     wrap="nowrap"
                   >
                     {!fursuit.claimed &&
+                      !fursuit.claimRejected &&
                       !fursuit.possessed &&
                       fursuit.users.length == 0 && (
                         <Grid item>
@@ -248,6 +249,7 @@ class Fursuit extends React.Component {
                       </Grid>
                     )}
                     {!fursuit.claimed &&
+                      !fursuit.claimRejected &&
                       !fursuit.possessed &&
                       fursuit.users.length > 0 && (
                         <Grid item>
