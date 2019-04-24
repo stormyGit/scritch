@@ -248,7 +248,10 @@ class AppFooter extends React.Component {
                 </Link>
               </Typography>
               <div style={{ paddingTop: 10 }} />
-              <Typography>Copyright Scritch 2018-2019</Typography>
+              <Typography>
+                Copyright Scritch 2018-2019 | Scritch(v
+                {process.env.SITE_VERSION})
+              </Typography>
             </Grid>
             <Grid item xs={2} />
           </Grid>
