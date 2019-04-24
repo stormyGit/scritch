@@ -147,6 +147,49 @@ class ActivitiesDialog extends React.Component {
     );
   }
 
+  renderFaveCreate(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+        button
+        onClick={() => {
+          this.props.history.push({
+            pathname: `/pictures/${activity.trackable.medium.id}`
+          });
+          this.props.onClose();
+        }}
+      >
+        <UserAvatar user={activity.owner} size={64} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
+                  {activity.owner.name}
+                </Typography>
+                {` Faved your Media `}
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
+                  {activity.trackable.medium.title}
+                </Typography>
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
   renderCommentCreate(activity) {
     const { classes } = this.props;
 
@@ -612,6 +655,8 @@ class ActivitiesDialog extends React.Component {
     switch (activity.key) {
       case "like.create":
         return this.renderLikeCreate(activity);
+      case "fave.create":
+        return this.renderFaveCreate(activity);
       case "follow.create":
         return this.renderFollowCreate(activity);
       case "comment.create":
