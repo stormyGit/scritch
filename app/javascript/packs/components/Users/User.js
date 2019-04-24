@@ -562,7 +562,7 @@ class User extends React.Component {
         <Grid container spacing={8}>
           {user.fursuits.map(fursuit => (
             <Grid item xs={12} key={fursuit.id}>
-              <FursuitUserCard fursuit={fursuit} />
+              <FursuitUserCard fursuit={fursuit} user={user} />
             </Grid>
           ))}
         </Grid>

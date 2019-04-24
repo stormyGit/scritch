@@ -25,6 +25,7 @@ import FursuitAvatar from "./FursuitAvatar";
 import TruncatedText from "../Global/TruncatedText";
 import UnclaimDialog from "../AppDialogs/UnclaimDialog";
 import countFormat from "../../countFormat";
+import withCurrentSession from "../withCurrentSession";
 
 const styles = theme => ({
   card: {
@@ -78,7 +79,7 @@ class FursuitUserCard extends React.Component {
   }
 
   render() {
-    const { classes, fursuit, width } = this.props;
+    const { classes, fursuit, width, user } = this.props;
 
     return (
       <React.Fragment>
@@ -125,17 +126,19 @@ class FursuitUserCard extends React.Component {
                     </Tooltip>
                   </div>
                 )}
-                <Button
-                  variant="outlined"
-                  className={classes.dataSpacerPlus}
-                  onClick={event => {
-                    event.stopPropagation();
-                    event.preventDefault();
-                    this.setState({ unclaimDialog: true });
-                  }}
-                >
-                  <Typography variant="button">Unclaim</Typography>
-                </Button>
+                {user.id == currentSession.user.id && (
+                  <Button
+                    variant="outlined"
+                    className={classes.dataSpacerPlus}
+                    onClick={event => {
+                      event.stopPropagation();
+                      event.preventDefault();
+                      this.setState({ unclaimDialog: true });
+                    }}
+                  >
+                    <Typography variant="button">Unclaim</Typography>
+                  </Button>
+                )}
               </Grid>
             </Grid>
           </CardActionArea>
@@ -156,4 +159,6 @@ FursuitUserCard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(withWidth()(FursuitUserCard));
+export default withStyles(styles)(
+  withWidth()(withCurrentSession(FursuitUserCard))
+);

@@ -9,6 +9,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -17,7 +18,6 @@ import Typography from "@material-ui/core/Typography";
 import CardMedia from "@material-ui/core/CardMedia";
 import Input from "@material-ui/core/Input";
 import Select from "react-select";
-import VirtualizedSelect from "react-virtualized-select";
 import CheckIcon from "@material-ui/icons/Check";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CloseIcon from "@material-ui/icons/Close";
@@ -26,16 +26,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import SearchBar from "material-ui-search-bar";
 import TextField from "@material-ui/core/TextField";
-import ScrollArea from "react-scrollbar";
-import "react-virtualized-select/styles.css";
-import "react-virtualized/styles.css";
-import createFilterOptions from "react-select-fast-filter-options";
 import { Mutation, Query } from "react-apollo";
 import TelegramLoginButton from "react-telegram-login";
 import { withRouter } from "react-router-dom";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
-
-import themeSelector from "../../themeSelector";
+import Checkbox from "@material-ui/core/Checkbox";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import EmptyList from "../Global/EmptyList";
@@ -133,6 +129,19 @@ const styles = theme => ({
   },
   deleteButton: {
     color: theme.palette.danger.main
+  },
+  domain: {
+    marginRight: 1,
+    paddingBottom: 3,
+    fontSize: "1rem",
+    color:
+      theme.palette.type === "dark"
+        ? "rgba(255, 255, 255, 0.5)"
+        : "rgba(0, 0, 0, 0.5)"
+  },
+  listPadding: {
+    marginBottom: theme.spacing.unit,
+    marginTop: theme.spacing.unit
   }
 });
 
@@ -150,7 +159,10 @@ class EditMediumDialog extends React.Component {
       mediaSubEvent: null,
       fursuits: null,
       fursuitsCount: 0,
-      query: ""
+      query: "",
+      photographerSlug: "",
+      photographerString: "",
+      isPhotographer: true
     };
   }
 
@@ -169,7 +181,10 @@ class EditMediumDialog extends React.Component {
         ? { value: medium.subEvent.id, label: medium.subEvent.name }
         : null,
       fursuits: medium.fursuits ? medium.fursuits : [],
-      fursuitsCount: medium.fursuitsCount
+      fursuitsCount: medium.fursuitsCount,
+      photographerSlug: medium.photographerSlug,
+      photographerString: medium.photographerStringg,
+      isPhotographer: medium.isPhotographer
     });
   }
 
@@ -329,6 +344,76 @@ class EditMediumDialog extends React.Component {
                               </Typography>
                             }
                             <div style={{ padding: 8 }} />
+                            <div style={{ paddingLeft: 15 }}>
+                              <FormControlLabel
+                                className={classes.listPadding}
+                                control={
+                                  <Checkbox
+                                    checked={this.state.isPhotographer}
+                                    onChange={e =>
+                                      this.setState({
+                                        isPhotographer: e.target.checked
+                                      })
+                                    }
+                                    color="primary"
+                                  />
+                                }
+                                label="I captured this media"
+                              />
+                            </div>
+                            {!this.state.isPhotographer && (
+                              <React.Fragment>
+                                <Typography
+                                  variant="body2"
+                                  style={{ paddingLeft: 15, paddingBottom: 5 }}
+                                >
+                                  Provide at least one:
+                                </Typography>
+                                <div style={{ padding: 5 }} />
+                                <TextField
+                                  className={classes.listPadding}
+                                  label="Photographer's Scritch URL"
+                                  name="photographerSlug"
+                                  variant="outlined"
+                                  style={{ zIndex: 0 }}
+                                  value={this.state.photographerSlug}
+                                  InputProps={{
+                                    startAdornment: (
+                                      <InputAdornment
+                                        position="start"
+                                        className={classes.domain}
+                                        disableTypography
+                                      >
+                                        {"http://scritch.es/"}
+                                      </InputAdornment>
+                                    )
+                                  }}
+                                  onChange={e => {
+                                    this.setState({
+                                      photographerSlug: e.target.value
+                                    });
+                                  }}
+                                  margin="dense"
+                                  fullWidth
+                                />
+                                <TextField
+                                  className={classes.listPadding}
+                                  label="Photographer's Name"
+                                  name="photographerString"
+                                  variant="outlined"
+                                  style={{ zIndex: 0 }}
+                                  value={this.state.photographerString}
+                                  onChange={e => {
+                                    this.setState({
+                                      photographerString: e.target.value
+                                    });
+                                  }}
+                                  margin="dense"
+                                  fullWidth
+                                />
+                                <div style={{ padding: 8 }} />
+                              </React.Fragment>
+                            )}
                             <Query
                               query={LOAD_CATEGORIES}
                               variables={{
@@ -526,6 +611,7 @@ class EditMediumDialog extends React.Component {
                               <TextField
                                 label="No. of Fursuits"
                                 name="fursuitsCount"
+                                type="number"
                                 variant="outlined"
                                 className={classes.fursuitsCountField}
                                 style={{ zIndex: 0 }}
@@ -689,6 +775,12 @@ class EditMediumDialog extends React.Component {
                                         input: {
                                           id: medium.id,
                                           title: medium.title,
+                                          isPhotographer: this.state
+                                            .isPhotographer,
+                                          photographerSlug: this.state
+                                            .photographerSlug,
+                                          photographerString: this.state
+                                            .photographerString,
                                           fursuitsCount: parseInt(
                                             this.state.fursuitsCount
                                           ),

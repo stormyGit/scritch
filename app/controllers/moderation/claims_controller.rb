@@ -27,6 +27,8 @@ class Moderation::ClaimsController < ModerationController
         FursuitUser.where(fursuit: claim.fursuit).first.user.update!(score: FursuitUser.where(fursuit: claim.fursuit).first.user.score - 10)
         FursuitUser.where(fursuit: claim.fursuit).first.destroy
         FursuitUser.create!(user: claim.user, fursuit: claim.fursuit)
+        sub = FursuitSubscription.where(user: claim.user, fursuit: claim.fursuit).first
+        sub.destroy unless sub.blank?
         claim.fursuit.create_activity :claim_success, owner: Proc.new{ |_, model| User.last }, recipient: claim.user
         claim.update!(status: "accepted")
         flash[:notice] = "Claim approved!"
@@ -44,6 +46,8 @@ class Moderation::ClaimsController < ModerationController
         FursuitUser.create!(user: claim.user, fursuit: claim.fursuit)
         claim.fursuit.create_activity :claim_success, owner: Proc.new{ |_, model| User.last }, recipient: claim.user
         claim.update!(status: "accepted")
+        sub = FursuitSubscription.where(user: claim.user, fursuit: claim.fursuit).first
+        sub.destroy unless sub.blank?
         flash[:notice] = "Claim approved!"
         flash[:class] = "has-text-warning"
       elsif params[:status] == "reject"

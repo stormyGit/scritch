@@ -189,55 +189,12 @@ class EditFursuitDialog extends React.Component {
       <React.Fragment>
         <Button
           className={classes.editAvatarButton}
-          onClick={() => this.setState({ avatarMenu: true })}
+          onClick={() => this.avatarUploadInput.current.click()}
         >
           <div id="uploadAvatarButton">
             <InsertPhotoIcon />
           </div>
         </Button>
-        <Popper
-          open={this.state.avatarMenu}
-          anchorEl={document.getElementById("uploadAvatarButton")}
-          transition
-          disablePortal
-          className={classes.bannerMenu}
-        >
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              id="menu-list-grow"
-              style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
-              }}
-            >
-              <Paper>
-                <ClickAwayListener
-                  onClickAway={() => this.setState({ avatarMenu: false })}
-                >
-                  <MenuList disablePadding>
-                    <MenuItem
-                      className={classes.menuButton}
-                      onClick={() => {
-                        this.avatarUploadInput.current.click();
-                        this.setState({ avatarMenu: false });
-                      }}
-                    >
-                      Upload picture
-                    </MenuItem>
-                    <Divider />
-                    <MenuItem
-                      className={classes.menuButton}
-                      onClick={() => this.setState({ avatarMenu: false })}
-                    >
-                      Cancel
-                    </MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
         <input
           accept="image/png,image/x-png,image/jpeg"
           className={classes.uploadInput}

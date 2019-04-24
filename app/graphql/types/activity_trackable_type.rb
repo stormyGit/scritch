@@ -1,7 +1,7 @@
 module Types
   class ActivityTrackableType < BaseUnion
     description "Objects which may be subject of activities"
-    possible_types UserType, LikeType, FollowType, CommentType, FursuitMediumType, FursuitType, ReportType, CommentReportType, MediumReportType, TagReportType, MakerType, AdvertType, FaveType
+    possible_types UserType, LikeType, FollowType, CommentType, FursuitMediumType, FursuitSubscriptionType, FursuitType, ReportType, CommentReportType, MediumReportType, TagReportType, MakerType, AdvertType, FaveType
 
     def self.resolve_type(object, context)
       if object.model_name.name === "Like"
@@ -14,6 +14,8 @@ module Types
         CommentType
       elsif object.model_name.name === "FursuitMedium"
         FursuitMediumType
+      elsif object.model_name.name === "FursuitSubscription"
+        FursuitSubscriptionType
       elsif object.model_name.name === "Fursuit"
         FursuitType
       elsif object.model_name.name === "Report"

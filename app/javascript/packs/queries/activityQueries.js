@@ -38,6 +38,18 @@ export const GET_ACTIVITIES = gql`
             name
           }
         }
+        ... on FursuitSubscription {
+          id
+          user {
+            id
+            name
+            slug
+          }
+          fursuit {
+            id
+            name
+          }
+        }
         ... on Comment {
           id
           body

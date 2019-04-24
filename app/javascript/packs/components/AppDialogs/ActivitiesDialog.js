@@ -274,6 +274,49 @@ class ActivitiesDialog extends React.Component {
     );
   }
 
+  renderFursuitFollowed(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+        button
+        onClick={() => {
+          this.props.history.push({
+            pathname: `/${activity.owner.slug}`
+          });
+          this.props.onClose();
+        }}
+      >
+        <UserAvatar user={activity.owner} size={64} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
+                  {activity.owner.name}
+                </Typography>
+                {` Followed your fursuit `}
+                <Typography
+                  variant="body2"
+                  component="span"
+                  className={classes.highlight}
+                >
+                  {activity.trackable.fursuit.name}
+                </Typography>
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
   renderReportCreate(activity) {
     const { classes } = this.props;
 
@@ -689,6 +732,8 @@ class ActivitiesDialog extends React.Component {
         return this.renderSponsorshipCanceled(activity);
       case "user.sponsorship_started":
         return this.renderSponsorshipStarted(activity);
+      case "fursuit_subscription.create":
+        return this.renderFursuitFollowed(activity);
       default:
         return null;
     }
