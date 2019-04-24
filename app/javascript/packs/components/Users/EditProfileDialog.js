@@ -389,12 +389,12 @@ class EditProfileDialog extends React.Component {
             />
             <div style={{ padding: 5 }} />
             <TextField
-              label={`Bio (characters: ${this.state.bio.length}/70)`}
+              label={`Bio (characters: ${this.state.bio.length}/140)`}
               name="bio"
               value={this.state.bio}
               variant="outlined"
               onChange={e => {
-                e.target.value.length <= 70 &&
+                e.target.value.length <= 140 &&
                   this.setState({ bio: e.target.value });
               }}
               margin="dense"

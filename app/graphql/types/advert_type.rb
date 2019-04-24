@@ -10,6 +10,7 @@ module Types
     field :created_at, String, null: true
     field :user, UserType, null: false
     field :impressions, Integer, null: false
+    field :is_placeholder, Boolean, null: false
     field :clicks, Integer, null: false
     field :url, String, null: false
 

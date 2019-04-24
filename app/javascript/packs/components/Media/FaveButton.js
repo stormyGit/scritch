@@ -120,6 +120,8 @@ class FaveButton extends React.Component {
               )}
             </Mutation>
           )}
+        </div>
+        <div className={classes.root}>
           <Button
             size="small"
             classes={{

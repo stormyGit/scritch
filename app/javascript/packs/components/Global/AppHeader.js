@@ -11,6 +11,7 @@ import Paper from "@material-ui/core/Paper";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
 import uuidv4 from "uuid/v4";
+import AdvertiseDialog from "../AppDialogs/AdvertiseDialog";
 
 import SubscriptionsIcon from "@material-ui/icons/ViewCarousel";
 import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
@@ -43,10 +44,19 @@ const styles = theme => ({
   link: {
     textDecoration: "none",
     color: theme.palette.primary.main
+  },
+  placeholderAdvert: {
+    cursor: "pointer",
+    width: 300,
+    height: 90
   }
 });
 
 class AppHeader extends React.Component {
+  state = {
+    advertsDialog: false
+  };
+
   render() {
     const { classes, width, currentSession } = this.props;
     var limit = width != "xs" ? 2 : 1;
@@ -120,17 +130,28 @@ class AppHeader extends React.Component {
                   return (
                     <React.Fragment>
                       <Grid item xs={12} sm={6} lg={4}>
-                        <a
-                          href={`${process.env.SITE_URL}/adverts/${
-                            data.adverts[0].id
-                          }/go_to`}
-                          target="_blank"
-                        >
+                        {data.adverts[0].isPlaceholder && (
                           <img
                             src={data.adverts[0].file}
-                            className={classes.advert}
+                            className={classes.placeholderAdvert}
+                            onClick={() =>
+                              this.setState({ advertsDialog: true })
+                            }
                           />
-                        </a>
+                        )}
+                        {!data.adverts[0].isPlaceholder && (
+                          <a
+                            href={`${process.env.SITE_URL}/adverts/${
+                              data.adverts[0].id
+                            }/go_to`}
+                            target="_blank"
+                          >
+                            <img
+                              src={data.adverts[0].file}
+                              className={classes.advert}
+                            />
+                          </a>
+                        )}
                       </Grid>
                       {(width === "xl" || width === "lg") &&
                         (!currentSession ||
@@ -166,18 +187,37 @@ class AppHeader extends React.Component {
                         )}
                       {width !== "xs" && (
                         <Grid item sm={6} lg={4}>
-                          <a
-                            href={`${process.env.SITE_URL}/adverts/${
-                              data.adverts[1].id
-                            }/go_to`}
-                            target="_blank"
-                          >
+                          {data.adverts[1].isPlaceholder && (
                             <img
                               src={data.adverts[1].file}
-                              className={classes.advert}
+                              className={classes.placeholderAdvert}
+                              onClick={() =>
+                                this.setState({ advertsDialog: true })
+                              }
                             />
-                          </a>
+                          )}
+                          {!data.adverts[1].isPlaceholder && (
+                            <a
+                              href={`${process.env.SITE_URL}/adverts/${
+                                data.adverts[1].id
+                              }/go_to`}
+                              target="_blank"
+                            >
+                              <img
+                                src={data.adverts[1].file}
+                                className={classes.advert}
+                              />
+                            </a>
+                          )}
                         </Grid>
+                      )}
+                      {currentSession && (
+                        <AdvertiseDialog
+                          open={this.state.advertsDialog}
+                          onClose={() =>
+                            this.setState({ advertsDialog: false })
+                          }
+                        />
                       )}
                     </React.Fragment>
                   );

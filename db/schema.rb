@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_22_001234) do
+ActiveRecord::Schema.define(version: 2019_04_24_003800) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 2019_04_22_001234) do
     t.uuid "user_id"
     t.string "url"
     t.integer "clicks", default: 0
+    t.boolean "is_placeholder", default: false
   end
 
   create_table "announcements", force: :cascade do |t|

@@ -69,7 +69,8 @@ const styles = theme => ({
         ? "rgba(255, 255, 255, 0.2)"
         : "rgba(0, 0, 0, 0.2)",
     borderBottomWidth: 2,
-    borderBottomStyle: "solid"
+    borderBottomStyle: "solid",
+    alignItems: "center"
   },
   iconButton: {
     padding: theme.spacing.unit - 2
@@ -164,6 +165,8 @@ class LikeButton extends React.Component {
               )}
             </Mutation>
           )}
+        </div>
+        <div className={classes.root}>
           <Button
             size="small"
             classes={{
