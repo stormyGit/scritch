@@ -142,7 +142,7 @@ class DropZoneField extends React.Component {
               }}
             />
             <Typography variant="caption" color="inherit" noWrap>
-              {this.state.file.name}
+              {this.state.file && this.state.file.name}
             </Typography>
           </div>
         )}
