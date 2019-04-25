@@ -191,6 +191,18 @@ class EditMediumDialog extends React.Component {
   isFormOk() {
     if (this.state.fursuits.length > this.state.fursuitsCount) return false;
     else if (this.state.fursuitsCount > 30) return false;
+    else if (
+      this.state.mediaEvent &&
+      (!this.state.mediaEdition || !this.state.mediaSubEvent)
+    )
+      return false;
+    else if (!this.state.mediaEvent && !this.state.mediaCategory) return false;
+    else if (
+      !this.state.isPhotographer &&
+      !this.state.photographerSlug &&
+      !this.state.photographerString
+    )
+      return false;
     return true;
   }
 
@@ -426,9 +438,7 @@ class EditMediumDialog extends React.Component {
                                 if (loading || error) {
                                   return <CircularProgress />;
                                 }
-                                const categoryList = [
-                                  { value: null, label: "Not applicable" }
-                                ];
+                                const categoryList = [];
                                 data.categories.map(e =>
                                   categoryList.push({
                                     value: e.id,
@@ -476,9 +486,7 @@ class EditMediumDialog extends React.Component {
                                   return <CircularProgress />;
                                 }
 
-                                const eventList = [
-                                  { value: null, label: "Not applicable" }
-                                ];
+                                const eventList = [];
                                 data.events.map(e =>
                                   eventList.push({ value: e.id, label: e.name })
                                 );
@@ -488,17 +496,18 @@ class EditMediumDialog extends React.Component {
                                     clearable={true}
                                     placeholder="Event"
                                     isSearchable
-                                    defaultValue={
-                                      medium.edition
-                                        ? {
-                                            value: medium.edition.event.id,
-                                            label: medium.edition.event.name
-                                          }
-                                        : null
-                                    }
+                                    value={this.state.mediaEvent}
                                     onChange={mediaEvent => {
+                                      let editionSwitch =
+                                        this.state.mediaEvent.value !=
+                                        mediaEvent;
+                                      console.log(
+                                        editionSwitch,
+                                        this.state.mediaEvent,
+                                        mediaEvent
+                                      );
                                       this.setState({ mediaEvent: mediaEvent });
-                                      if (mediaEvent.value == null)
+                                      if (editionSwitch)
                                         this.setState({ mediaEdition: null });
                                     }}
                                     options={eventList}
@@ -538,14 +547,7 @@ class EditMediumDialog extends React.Component {
                                         clearable={true}
                                         placeholder="Edition"
                                         isSearchable
-                                        defaultValue={
-                                          medium.edition
-                                            ? {
-                                                value: medium.edition.id,
-                                                label: medium.edition.name
-                                              }
-                                            : null
-                                        }
+                                        value={this.state.mediaEdition}
                                         onChange={mediaEdition => {
                                           this.setState({
                                             mediaEdition: mediaEdition

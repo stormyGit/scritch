@@ -172,6 +172,7 @@ class Events extends React.Component {
         <AssetRequestDialog
           open={this.state.assetRequestDialog}
           onClose={() => this.setState({ assetRequestDialog: false })}
+          assetRequestBlurb="Provide as much info such as country"
           assetType="Event"
         />
       </React.Fragment>

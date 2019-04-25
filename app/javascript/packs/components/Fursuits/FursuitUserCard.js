@@ -79,7 +79,7 @@ class FursuitUserCard extends React.Component {
   }
 
   render() {
-    const { classes, fursuit, width, user } = this.props;
+    const { classes, fursuit, width, user, currentSession } = this.props;
 
     return (
       <React.Fragment>

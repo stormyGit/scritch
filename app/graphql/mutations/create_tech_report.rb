@@ -1,6 +1,7 @@
 class Mutations::CreateTechReport < Mutations::BaseMutation
   argument :page, String, required: true
   argument :description, String, required: true
+  argument :kind, String, required: true
 
   field :report, Types::ReportType, null: true
   field :errors, [String], null: false

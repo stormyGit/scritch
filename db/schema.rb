@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_24_003800) do
+ActiveRecord::Schema.define(version: 2019_04_25_080320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -684,6 +684,7 @@ ActiveRecord::Schema.define(version: 2019_04_24_003800) do
     t.uuid "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "kind"
   end
 
   create_table "tooltips", force: :cascade do |t|

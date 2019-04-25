@@ -6,16 +6,29 @@ namespace :user_score do
     end
   end
 
+  task :compute_global => :environment do
+    User.find_each do |e|
+      tags = FursuitMedium.where(user: e).distinct.count
+      pictures = Medium.where(user: e).distinct.count
+
+      e.update!(global_score: pictures + tags)
+    end
+  end
+
+
   task :species => :environment do
+    Rails.logger = Logger.new(STDOUT)
     species = Specy.all.order(:name).pluck(:name)
-    count = (User.count.to_f / species.count.to_f).ceil
+    count = (User.count.to_f / species.count.to_f).floor
     sp = 0
     j = 0
-    User.where.not(uuid: SuspendedUser.all.pluck(:user_id)).order("users.global_score + users.score").find_each.with_index do |user, i|
+    puts User.where.not(uuid: SuspendedUser.all.pluck(:user_id)).order("users.global_score + users.score").pluck("users.global_score + users.score")
+    User.where.not(uuid: SuspendedUser.all.pluck(:user_id)).order("users.global_score + users.score").each_with_index do |user, i|
+      puts [i, j, count, sp, species.count].to_s
       begin
         user.update!(metric_species: species[sp])
         j += 1
-        if j == count && sp != species.count
+        if j == count && sp < (species.count - 1)
           j = 0
           sp += 1
         end

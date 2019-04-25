@@ -16,6 +16,7 @@ import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 import withCurrentSession from "../withCurrentSession";
+import Select from "react-select";
 
 import { CREATE_TECH_REPORT } from "../../queries/reportMutations";
 
@@ -26,12 +27,16 @@ const styles = theme => ({
   link: {
     color: theme.palette.primary.main,
     textDecoration: "none"
+  },
+  selectInput: {
+    fontFamily: theme.typography.fontFamily
   }
 });
 
 class TechDialog extends React.Component {
   state = {
-    description: ""
+    description: "",
+    kind: null
   };
 
   componentDidMount() {
@@ -73,6 +78,24 @@ class TechDialog extends React.Component {
             Have a suggestion for a new feature/development? Tell us your idea
             below!
           </Typography>
+          <div style={{ padding: 10 }} />
+          <Select
+            placeholder="Category"
+            isClearable
+            isSearchable
+            value={this.state.kind}
+            onChange={kind => {
+              this.setState({ kind: kind });
+            }}
+            options={[
+              { value: "general", label: "General" },
+              { value: "suggestion", label: "Suggestion" },
+              { value: "technical", label: "Technical" },
+              { value: "other", label: "Other" }
+            ]}
+            className={classes.selectInput}
+          />
+          <div style={{ padding: 10 }} />
           <TextField
             label="Type here..."
             name="description"
@@ -103,6 +126,7 @@ class TechDialog extends React.Component {
                     variables: {
                       input: {
                         description: this.state.description,
+                        kind: this.state.kind.value,
                         page: this.props.location.pathname
                       }
                     }

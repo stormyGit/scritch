@@ -176,6 +176,7 @@ class Makers extends React.Component {
           open={this.state.assetRequestDialog}
           onClose={() => this.setState({ assetRequestDialog: false })}
           assetType="Maker"
+          assetRequestBlurb="Provide as much info such as country"
         />
       </React.Fragment>
     );

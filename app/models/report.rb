@@ -21,4 +21,5 @@ class Report < ApplicationRecord
     :accepted,
     :closed
   ]
+
 end

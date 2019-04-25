@@ -11,6 +11,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import Typography from "@material-ui/core/Typography";
 
 import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
@@ -55,7 +56,13 @@ class AssetRequestDialog extends React.Component {
   }
 
   render() {
-    const { classes, currentSession, user, assetType } = this.props;
+    const {
+      classes,
+      currentSession,
+      user,
+      assetType,
+      assetRequestBlurb
+    } = this.props;
     if (!currentSession) {
       return null;
     }
@@ -66,6 +73,7 @@ class AssetRequestDialog extends React.Component {
 
         <DialogTitle>{`Request a new: ${assetType}`}</DialogTitle>
         <DialogContent>
+          <Typography variant="subtitle1">{assetRequestBlurb}</Typography>
           <TextField
             label="Name"
             name="name"
@@ -98,7 +106,7 @@ class AssetRequestDialog extends React.Component {
             }}
           />
           <TextField
-            label="Please tell us more, such as existing fields common to similar assets…"
+            label="Please tell us more…"
             name="body"
             value={this.state.body}
             onChange={e => this.setState({ body: e.target.value })}

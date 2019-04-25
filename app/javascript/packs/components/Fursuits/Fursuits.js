@@ -278,6 +278,7 @@ class Fursuits extends React.Component {
         </Query>
         <AssetRequestDialog
           open={this.state.assetRequestDialog}
+          assetRequestBlurb="Provide as much info such as possible like base color, maker, etc"
           onClose={() => this.setState({ assetRequestDialog: false })}
           assetType="Fursuit"
         />

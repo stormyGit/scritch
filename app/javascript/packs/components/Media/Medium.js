@@ -488,7 +488,9 @@ class Medium extends React.Component {
                                 </Button>
                                 {medium.exif &&
                                   Object.keys(JSON.parse(medium.exif))
-                                    .length !== 0 && (
+                                    .length !== 0 &&
+                                  JSON.parse(medium.exif).DateTimeOriginal &&
+                                  JSON.parse(medium.exif).Model && (
                                     <Button
                                       onClick={() =>
                                         this.setState({ exifDialog: true })

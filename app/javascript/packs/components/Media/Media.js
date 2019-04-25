@@ -50,7 +50,7 @@ class Media extends React.Component {
     edition: null,
     category: null,
     subEvent: null,
-    sort: "latest",
+    sort: this.props.sort ? this.props.sort : "latest",
     hasMore: true
   };
 
