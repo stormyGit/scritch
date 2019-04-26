@@ -386,7 +386,13 @@ class AppLayoutRemake extends React.Component {
                 </Toolbar>
               </AppBar>
             )}
-            <div style={{ overflowY: "scroll", height: "100vh" }}>
+            <div
+              style={{
+                overflowX: "hidden",
+                overflowY: "scroll",
+                height: "calc(100vh - 56px)"
+              }}
+            >
               {this.props.children}
             </div>
             <AppDialogs
