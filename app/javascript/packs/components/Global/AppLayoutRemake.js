@@ -386,7 +386,9 @@ class AppLayoutRemake extends React.Component {
                 </Toolbar>
               </AppBar>
             )}
-            <div>{this.props.children}</div>
+            <div style={{ overflowY: "scroll", height: "100vh" }}>
+              {this.props.children}
+            </div>
             <AppDialogs
               signUpDialog={this.state.signUpDialog}
               closeSignUpDialog={() => this.setState({ signUpDialog: false })}
