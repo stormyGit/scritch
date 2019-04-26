@@ -47,14 +47,14 @@ class TelegramController < Telegram::Bot::UpdatesController
       claim = Claim.find(id)
       chat_id = ENV["TELEGRAM_CLAIM_GROUP_ID"]
       FursuitUser.create!(user: claim.user, fursuit: claim.fursuit)
-      claim.fursuit.create_activity :claim_success, owner: Proc.new{ |_, model| User.last }, recipient: claim.user
+      claim.fursuit.create_activity :claim_success, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: claim.user
       claim.update!(status: "accepted")
     when "REJECT_CLAIM"
       claim = Claim.find(id)
       chat_id = ENV["TELEGRAM_CLAIM_GROUP_ID"]
       user = User.find(claim.user.uuid)
       user.update!(score: user.score - 10)
-      claim.fursuit.create_activity :claim_reject, owner: Proc.new{ |_, model| User.last }, recipient: claim.user
+      claim.fursuit.create_activity :claim_reject, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: claim.user
       claim.update!(status: "rejected")
     end
 

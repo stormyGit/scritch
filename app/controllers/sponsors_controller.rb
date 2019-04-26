@@ -94,7 +94,7 @@ class SponsorsController < ApplicationController
         limit: Time.now + 14.days
       )
       @current_session.user.update!(used_free_trial: true)
-      sponsor.user.create_activity :sponsorship_started, owner: Proc.new{ |_, model| User.last }, recipient: @current_session.user #TODO USER.MOD
+      sponsor.user.create_activity :sponsorship_started, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: @current_session.user
     end
     redirect_to root_path
   end

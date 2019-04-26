@@ -26,7 +26,7 @@ class Moderation::AdvertsController < ModerationController
   def reject
     advert = Advert.find(params[:advert_id])
 
-    advert.create_activity :rejected, owner: Proc.new{ |_, model| User.last }, recipient: advert.user
+    advert.create_activity :rejected, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: advert.user
     advert.status = "rejected"
     flash[:notice] = "Advert rejected!"
     flash[:class] = "has-text-danger"
@@ -37,7 +37,7 @@ class Moderation::AdvertsController < ModerationController
   def approve
     advert = Advert.find(params[:advert_id])
 
-    advert.create_activity :approved, owner: Proc.new{ |_, model| User.last }, recipient: advert.user
+    advert.create_activity :approved, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: advert.user
     advert.status = "ready"
     flash[:notice] = "Advert approved!"
     flash[:class] = "has-text-warning"

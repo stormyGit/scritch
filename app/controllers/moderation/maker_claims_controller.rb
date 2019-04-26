@@ -27,7 +27,7 @@ class Moderation::MakerClaimsController < ModerationController
       if params[:status] == "approve"
         maker.user.update!(score: maker.user.score - 10)
         maker.update!(user: maker_claim.user)
-        maker.create_activity :claim_success, owner: Proc.new{ |_, model| User.last }, recipient: maker_claim.user
+        maker.create_activity :claim_success, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: maker_claim.user
         maker_claim.update!(status: "accepted")
         flash[:notice] = "Maker Claim approved!"
         flash[:class] = "has-text-warning"
@@ -35,7 +35,7 @@ class Moderation::MakerClaimsController < ModerationController
         user = User.find(maker_claim.user.uuid)
         user.update!(score: user.score - 10)
         maker_claim.update!(status: "rejected")
-        maker.create_activity :claim_reject, owner: Proc.new{ |_, model| User.last }, recipient: maker_claim.user
+        maker.create_activity :claim_reject, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: maker_claim.user
         flash[:notice] = "Maker Claim rejected!"
         flash[:class] = "has-text-danger"
       end
@@ -43,14 +43,14 @@ class Moderation::MakerClaimsController < ModerationController
       if params[:status] == "approve"
         maker.update!(user: maker_claim.user)
         maker_claim.update!(status: "accepted")
-        maker.create_activity :claim_success, owner: Proc.new{ |_, model| User.last }, recipient: maker_claim.user
+        maker.create_activity :claim_success, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: maker_claim.user
         flash[:notice] = "Maker Claim approved!"
         flash[:class] = "has-text-warning"
       elsif params[:status] == "reject"
         user = User.find(maker_claim.user.uuid)
         user.update!(score: user.score - 10)
         maker_claim.update!(status: "rejected")
-        maker.create_activity :claim_reject, owner: Proc.new{ |_, model| User.last }, recipient: maker_claim.user
+        maker.create_activity :claim_reject, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: maker_claim.user
         flash[:notice] = "Maker Claim rejected!"
         flash[:class] = "has-text-danger"
       end

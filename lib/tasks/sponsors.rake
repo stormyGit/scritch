@@ -11,7 +11,7 @@ namespace :sponsors do
       rescue => error
         TechReport.create!(description: "SPONSOR CANCEL RAKE :: #{e.charge_id} || USER: #{e.user.name} -- #{e.user.uuid}", user: User.first) #TODO USER.MOD
       end
-      e.user.create_activity :sponsorship_ended, owner: Proc.new{ |_, model| User.last }, recipient: e.user #TODO USER.MOD
+      e.user.create_activity :sponsorship_ended, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: e.user #TODO USER.MOD
       e.user.update!(show_ads: true)
       e.destroy
     end

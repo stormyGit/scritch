@@ -29,14 +29,14 @@ class Moderation::ClaimsController < ModerationController
         FursuitUser.create!(user: claim.user, fursuit: claim.fursuit)
         sub = FursuitSubscription.where(user: claim.user, fursuit: claim.fursuit).first
         sub.destroy unless sub.blank?
-        claim.fursuit.create_activity :claim_success, owner: Proc.new{ |_, model| User.last }, recipient: claim.user
+        claim.fursuit.create_activity :claim_success, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: claim.user
         claim.update!(status: "accepted")
         flash[:notice] = "Claim approved!"
         flash[:class] = "has-text-warning"
       elsif params[:status] == "reject"
         user = User.find(claim.user.uuid)
         user.update!(score: user.score - 10)
-        claim.fursuit.create_activity :claim_reject, owner: Proc.new{ |_, model| User.last }, recipient: claim.user
+        claim.fursuit.create_activity :claim_reject, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: claim.user
         claim.update!(status: "rejected")
         flash[:notice] = "Claim rejected!"
         flash[:class] = "has-text-danger"
@@ -44,7 +44,7 @@ class Moderation::ClaimsController < ModerationController
     else
       if params[:status] == "approve"
         FursuitUser.create!(user: claim.user, fursuit: claim.fursuit)
-        claim.fursuit.create_activity :claim_success, owner: Proc.new{ |_, model| User.last }, recipient: claim.user
+        claim.fursuit.create_activity :claim_success, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: claim.user
         claim.update!(status: "accepted")
         sub = FursuitSubscription.where(user: claim.user, fursuit: claim.fursuit).first
         sub.destroy unless sub.blank?
@@ -53,7 +53,7 @@ class Moderation::ClaimsController < ModerationController
       elsif params[:status] == "reject"
         user = User.find(claim.user.uuid)
         user.update!(score: user.score - 10)
-        claim.fursuit.create_activity :claim_reject, owner: Proc.new{ |_, model| User.last }, recipient: claim.user
+        claim.fursuit.create_activity :claim_reject, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: claim.user
         claim.update!(status: "rejected")
         flash[:notice] = "Claim rejected!"
         flash[:class] = "has-text-danger"
