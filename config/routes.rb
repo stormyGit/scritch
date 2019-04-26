@@ -106,7 +106,7 @@ Rails.application.routes.draw do
     end
     resources :statistics do
     end
-    resources :banned_users do
+    resources :suspended_users do
     end
   end
 

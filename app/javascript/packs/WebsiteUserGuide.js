@@ -773,7 +773,9 @@ class WebsiteUserGuide extends React.Component {
           </Table>
         </Paper>
         {Spacer}
-        <Typography variant="h6">Involvement Species</Typography>
+        <Typography variant="h6" id="metrics">
+          Involvement Species
+        </Typography>
         <Typography variant="subtitle1">
           As a User Account Involvement score increases, an Involvement Species
           is assigned in Rank up alphabetically through tiers set by the

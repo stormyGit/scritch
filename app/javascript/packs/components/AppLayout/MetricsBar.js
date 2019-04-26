@@ -34,19 +34,24 @@ class MetricsBar extends React.Component {
   render() {
     const { classes, currentSession } = this.props;
 
+    console.log(currentSession);
     return (
       <React.Fragment>
         {currentSession && (
           <div className={classes.metrics}>
-            <Typography variant="subtitle1">
-              {false && (
-                <Link to="/" className={classes.link}>
-                  Zebra
+            <Tooltip title="Involvement Species">
+              <Typography variant="subtitle1">
+                <Link to="/user_guide#metrics" className={classes.link}>
+                  {currentSession.user.metricSpecies}
                 </Link>
-              )}
-              {"Score: "}
-              {true && currentSession.user.globalScore}
-            </Typography>
+              </Typography>
+            </Tooltip>
+            <Tooltip title="Scritch involvement Score">
+              <Typography variant="subtitle1" className={classes.dataSpacer}>
+                {"Score: "}
+                {currentSession.user.score + currentSession.user.globalScore}
+              </Typography>
+            </Tooltip>
             <Tooltip title="Scritches">
               <Typography variant="subtitle1">
                 <FontAwesomeIcon icon={faPaw} className={classes.dataSpacer} />{" "}

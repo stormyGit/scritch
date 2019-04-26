@@ -13,6 +13,7 @@ module Types
     field :avatar, String, null: true
     field :banner, String, null: true
     field :bio, String, null: true
+    field :metric_species, String, null: true
     field :website, String, null: true
     field :theme, String, null: false
 
@@ -26,6 +27,7 @@ module Types
     field :show_tooltips, Boolean, null: false
 
     field :global_score, Integer, null: false
+    field :score, Integer, null: false
 
     field :media_count, Integer, null: false
     field :followers_count, Integer, null: false

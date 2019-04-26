@@ -1,0 +1,14 @@
+#suspended_users.container.full-height-container
+  .box
+    table.table
+      thead
+        tr
+          th Hiatus ID
+          th Name
+          th Telegram ID
+          th Hiatus reason
+          th Duration
+          th Actions
+      tbody
+        - @suspended_users.each do |suspended_user|
+          = render partial: 'moderation/suspended_users/suspended_user', locals: { suspended_user: suspended_user }

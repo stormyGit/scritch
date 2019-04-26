@@ -1,38 +1,12 @@
 #charts.container
   .chart
     .columns.is-multiline
-      .column.is-3.has-text-centered
-        p.is-size-4 Users
-        p.is-size-4
-          = @users_now
-      .column.is-3.has-text-centered
-        p.is-size-4 Fursuits
-        p.is-size-4
-          = @fursuits_now
-      .column.is-3.has-text-centered
-        p.is-size-4 Makers
-        p.is-size-4
-          = @makers_now
-      .column.is-3.has-text-centered
-        p.is-size-4 Events
-        p.is-size-4
-          = @events_now
-      .column.is-3.has-text-centered
-        p.is-size-4 Pictures
-        p.is-size-4
-          = @pictures_now
-      .column.is-3.has-text-centered
-        p.is-size-4 Scritches
-        p.is-size-4
-          = @likes_now
-      .column.is-3.has-text-centered
-        p.is-size-4 Faves
-        p.is-size-4
-          = @faves_now
-      .column.is-3.has-text-centered
-        p.is-size-4 Tags
-        p.is-size-4
-          = @tags_now
+      - @now_data.each do |data|
+        .column.is-3.has-text-centered
+          p.is-size-4
+            = data[:title]
+          p.is-size-4
+            = data[:value]
 #charts.container.full-height-container
   .chart
     .columns
@@ -46,14 +20,20 @@
   .chart
     .columns
       .column.is-12.has-text-centered
-        h3.is-size-2 Likes
-    = line_chart @likes_count
+        h3.is-size-2 Sponsors
+    = line_chart @sponsors_count
 
   .chart
     .columns
       .column.is-12.has-text-centered
         h3.is-size-2 Pictures
-    = line_chart @media
+    = line_chart @media_count
+
+  .chart
+    .columns
+      .column.is-12.has-text-centered
+        h3.is-size-2 Average Tag Completion
+    = line_chart @average_completion
 
   .chart
     .columns

@@ -2,17 +2,26 @@ class Moderation::StatisticsController < ModerationController
   def index
     ensure_capability! "analytics"
 
-    @users_now = User.count
-    @fursuits_now = Fursuit.count
-    @makers_now = Maker.count
-    @events_now = Event.count
-    @pictures_now = Medium.count
-    @likes_now = Like.count
-    @faves_now = Fave.count
-    @tags_now = FursuitMedium.count
+    total = 0
+    Medium.find_each do |m|
+      total = total + m.completion
+    end
+    average_completion = total.to_f / Medium.count
 
-    tmp_today = (Statistic.last.created_at + 1.day).to_s
-    tmp_today = tmp_today[0..tmp_today.index(':') - 4]
+    @now_data = [
+      {title: "Users", value: User.count},
+      {title: "Sponsors", value: Sponsor.count},
+      {title: "Fursuits", value: Fursuit.count},
+      {title: "Makers", value: Maker.count},
+      {title: "Events", value: Event.count},
+      {title: "Media", value: Medium.count},
+      {title: "Average Tag Completion", value: "#{average_completion}%"},
+      {title: "Scritches", value: Like.count},
+      {title: "Faves", value: Fave.count},
+      {title: "Tags", value: FursuitMedium.count},
+      {title: "Claimed Suits", value: FursuitUser.count},
+      {title: "Claimed Makers", value: Maker.where.not(user: nil).count}
+    ]
 
     @users_count = Statistic.pluck("date_trunc('day', created_at)", :users)
     @users_count.each do |u|
@@ -22,30 +31,29 @@ class Moderation::StatisticsController < ModerationController
       end
     end
     @users_now = User.count
-    if params[:today].present?
-      @users_count = @users_count + [[tmp_today, @users_now]]
-    end
 
-    @likes_count = Statistic.pluck("date_trunc('day', created_at)", :likes)
-    @likes_count.each do |u|
+    @sponsors_count = Statistic.pluck("date_trunc('day', created_at)", :sponsors)
+    @sponsors_count.each do |u|
       if u.present?
         tmp = u[0].to_s
         u[0] = tmp[0..tmp.index(':') - 4]
       end
     end
-    if params[:today].present?
-      @likes_count = @likes_count + [[tmp_today, Like.count]]
-    end
 
-    @media = Statistic.pluck("date_trunc('day', created_at)", :media)
-    @media.each do |u|
+    @media_count = Statistic.pluck("date_trunc('day', created_at)", :media)
+    @media_count.each do |u|
       if u.present?
         tmp = u[0].to_s
         u[0] = tmp[0..tmp.index(':') - 4]
       end
     end
-    if params[:today].present?
-      @media = @media + [[tmp_today, Media.count]]
+
+    @average_completion = Statistic.pluck("date_trunc('day', created_at)", :average_completion)
+    @average_completion.each do |u|
+      if u.present?
+        tmp = u[0].to_s
+        u[0] = tmp[0..tmp.index(':') - 4]
+      end
     end
 
     @users_per_day = []

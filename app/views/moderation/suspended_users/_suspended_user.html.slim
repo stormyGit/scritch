@@ -1,0 +1,9 @@
+tr
+  td= "##{suspended_user.id}"
+  td.suspended-user-name= suspended_user.user.name
+  td.suspended-user-telegram-id= suspended_user.user.telegram_id
+  td.suspended-user-ban-reason= suspended_user.reason || "Not specified"
+  td.suspended-user-ban-until= "until #{suspended_user.limit.strftime("%B %d, %Y at %H:%M UTC")}".capitalize
+  td.suspended-user-actions
+    = link_to moderation_suspended_user_path(id: suspended_user.id), class: "button is-danger", method: :delete, data: { confirm: "Are you sure you want to lift this hiatus?" } do
+      | Lift hiatus

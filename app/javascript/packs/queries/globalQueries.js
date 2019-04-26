@@ -43,7 +43,9 @@ export const GET_SESSION = gql`
         banner
         usedFreeTrial
         globalScore
+        score
         bio
+        metricSpecies
         website
         theme
         showAds

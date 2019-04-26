@@ -3,7 +3,7 @@ class Moderator < ApplicationRecord
     adverts
     analytics
     assets
-    banned_users
+    suspended_users
     claims
     events
     moderators
