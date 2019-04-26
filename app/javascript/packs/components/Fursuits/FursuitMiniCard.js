@@ -84,7 +84,8 @@ const styles = theme => ({
   },
   avatar: {
     width: "100%",
-    objectFit: "cover"
+    objectFit: "cover",
+    borderRadius: "20%"
   }
 });
 

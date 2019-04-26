@@ -19,6 +19,7 @@ import EventCard from "./EventCard";
 import { Link, withRouter } from "react-router-dom";
 
 import EventFilters from "./EventFilters";
+import EventFiltersMobile from "./EventFiltersMobile";
 
 const styles = theme => ({
   root: {
@@ -74,7 +75,7 @@ class Events extends React.Component {
     return (
       <React.Fragment>
         {data.events.map(event => (
-          <Grid item xs={4} md={3} lg={2} key={event.id}>
+          <Grid item xs={6} sm={4} md={3} lg={2} key={event.id}>
             <EventCard event={event} EventId={event.id} />
           </Grid>
         ))}
@@ -105,16 +106,25 @@ class Events extends React.Component {
             <React.Fragment>
               {!searching && (
                 <Grid spacing={8} container className={classes.filters}>
-                  <Grid item xs={2} />
-                  <Grid item xs={8}>
-                    <EventFilters
-                      onChange={value => {
-                        this.setState({ [value.label]: value.value });
-                      }}
-                      clearFilters={() => this.clearFilters()}
-                    />
+                  <Grid item xs={false} md={2} />
+                  <Grid item xs={12} md={8}>
+                    {width === "xs" || width === "sm" ? (
+                      <EventFiltersMobile
+                        onChange={value => {
+                          this.setState({ [value.label]: value.value });
+                        }}
+                        clearFilters={() => this.clearFilters()}
+                      />
+                    ) : (
+                      <EventFilters
+                        onChange={value => {
+                          this.setState({ [value.label]: value.value });
+                        }}
+                        clearFilters={() => this.clearFilters()}
+                      />
+                    )}
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={12} md={2}>
                     <Button
                       variant="outlined"
                       className={classes.requestButton}

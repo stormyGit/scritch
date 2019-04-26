@@ -126,40 +126,70 @@ class MediumCard extends React.Component {
   }
 
   renderActions() {
-    const { classes, medium } = this.props;
+    const { classes, medium, width } = this.props;
 
     return (
       <div className={classes.overlay}>
-        <Grid container spacing={8} justify="space-between" wrap="nowrap">
-          <Grid item>
-            <Grid container spacing={0} wrap="nowrap">
-              <Grid item>
-                <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
-                  <CommentIcon size="small" className={classes.leftIcon} />
-                  {countContractor(medium.commentsCount)}
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
-                  <FontAwesomeIcon icon={faPaw} className={classes.leftIcon} />
-                  {countContractor(medium.likesCount)}
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
-                  <FontAwesomeIcon icon={faStar} className={classes.leftIcon} />
-                  {countContractor(medium.favesCount)}
-                </Button>
-              </Grid>
+        {(width === "sm" || width === "xs") && (
+          <Grid container spacing={8} justify="space-between" wrap="nowrap">
+            <Grid item xs={4}>
+              <Button disabled size="small" style={{ color: "#ffffffee" }}>
+                <CommentIcon className={classes.leftIcon} />
+                {countContractor(medium.commentsCount)}
+              </Button>
+            </Grid>
+            <Grid item xs={4}>
+              <Button disabled size="small" style={{ color: "#ffffffee" }}>
+                <FontAwesomeIcon icon={faPaw} className={classes.leftIcon} />
+                {countContractor(medium.likesCount)}
+              </Button>
+            </Grid>
+            <Grid item xs={4}>
+              <Button disabled size="small" style={{ color: "#ffffffee" }}>
+                <FontAwesomeIcon icon={faStar} className={classes.leftIcon} />
+                {countContractor(medium.favesCount)}
+              </Button>
             </Grid>
           </Grid>
-          <Grid item>
-            <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
-              <FontAwesomeIcon icon={faEye} className={classes.leftIcon} />
-              {countContractor(medium.viewsCount)}
-            </Button>
+        )}
+        {width !== "sm" && width !== "xs" && (
+          <Grid container spacing={8} justify="space-between" wrap="nowrap">
+            <Grid item>
+              <Grid container spacing={0} wrap="nowrap">
+                <Grid item>
+                  <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
+                    <CommentIcon size="small" className={classes.leftIcon} />
+                    {countContractor(medium.commentsCount)}
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
+                    <FontAwesomeIcon
+                      icon={faPaw}
+                      className={classes.leftIcon}
+                    />
+                    {countContractor(medium.likesCount)}
+                  </Button>
+                </Grid>
+                <Grid item>
+                  <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
+                    <FontAwesomeIcon
+                      icon={faStar}
+                      className={classes.leftIcon}
+                    />
+                    {countContractor(medium.favesCount)}
+                  </Button>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item>
+              <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
+                <FontAwesomeIcon icon={faEye} className={classes.leftIcon} />
+                {countContractor(medium.viewsCount)}
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
+        )}
       </div>
     );
   }

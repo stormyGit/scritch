@@ -105,7 +105,7 @@ class DropZoneField extends React.Component {
       <Dropzone
         multiple={false}
         className={classes.root}
-        accept="image/png,image/x-png,image/jpeg"
+        accept="image/png,image/x-png,image/jpeg,image/gif"
         disabled={this.props.dropzoneDisabled}
         style={{
           height: width === "lg" || width === "xl" ? 220 : 130,

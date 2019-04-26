@@ -27,6 +27,14 @@ const styles = theme => ({
     borderBottomWidth: 2,
     borderBottomStyle: "solid"
   },
+  rootIcon: {
+    marginLeft: theme.spacing.unit,
+    paddingBottom: 2,
+    paddingLeft: 2,
+    paddingRight: 2,
+    display: "inline-block",
+    alignItems: "center"
+  },
   iconButton: {
     padding: theme.spacing.unit - 2
   },
@@ -47,7 +55,7 @@ class FaveButton extends React.Component {
 
     return (
       <React.Fragment>
-        <div className={classes.root}>
+        <div className={classes.rootIcon}>
           {medium.faved ? (
             <Mutation
               mutation={DELETE_FAVE}
@@ -69,9 +77,7 @@ class FaveButton extends React.Component {
                 <IconButton
                   size="small"
                   color="secondary"
-                  classes={{
-                    root: classes.iconButton
-                  }}
+                  classes={{ root: classes.iconButton }}
                   onClick={() => {
                     deleteFave({
                       variables: { input: { mediumId: medium.id } }
@@ -104,9 +110,7 @@ class FaveButton extends React.Component {
                 <IconButton
                   size="small"
                   color="secondary"
-                  classes={{
-                    root: classes.iconButton
-                  }}
+                  classes={{ root: classes.iconButton }}
                   disabled={!currentSession}
                   onClick={() => {
                     createFave({

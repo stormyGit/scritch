@@ -390,7 +390,9 @@ class AppLayoutRemake extends React.Component {
               style={{
                 overflowX: "hidden",
                 overflowY: "scroll",
-                height: "calc(100vh - 56px)"
+                height: "calc(100vh - 56px)",
+                paddingRight: -10,
+                position: "relative"
               }}
             >
               {this.props.children}

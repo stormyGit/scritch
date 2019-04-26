@@ -20,6 +20,7 @@ import MakerCard from "./MakerCard";
 import { Link, withRouter } from "react-router-dom";
 
 import MakerFilters from "./MakerFilters";
+import MakerFiltersMobile from "./MakerFiltersMobile";
 
 const styles = theme => ({
   root: {
@@ -77,7 +78,7 @@ class Makers extends React.Component {
     return (
       <React.Fragment>
         {data.makers.map(maker => (
-          <Grid item xs={4} md={3} lg={2} key={maker.id}>
+          <Grid item xs={6} sm={4} md={3} lg={2} key={maker.id}>
             <MakerCard maker={maker} />
           </Grid>
         ))}
@@ -108,16 +109,25 @@ class Makers extends React.Component {
             <React.Fragment>
               {!searching && (
                 <Grid spacing={8} container className={classes.filters}>
-                  <Grid item xs={2} />
-                  <Grid item xs={8}>
-                    <MakerFilters
-                      onChange={value => {
-                        this.setState({ [value.label]: value.value });
-                      }}
-                      clearFilters={() => this.clearFilters()}
-                    />
+                  <Grid item xs={false} md={2} />
+                  <Grid item xs={12} md={8}>
+                    {width === "xs" || width === "sm" ? (
+                      <MakerFiltersMobile
+                        onChange={value => {
+                          this.setState({ [value.label]: value.value });
+                        }}
+                        clearFilters={() => this.clearFilters()}
+                      />
+                    ) : (
+                      <MakerFilters
+                        onChange={value => {
+                          this.setState({ [value.label]: value.value });
+                        }}
+                        clearFilters={() => this.clearFilters()}
+                      />
+                    )}
                   </Grid>
-                  <Grid item xs={2}>
+                  <Grid item xs={12} md={2}>
                     <Button
                       variant="outlined"
                       size="large"

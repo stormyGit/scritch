@@ -20,6 +20,7 @@ import { GET_USERS } from "../../queries/userQueries";
 
 import MediumCard from "./MediumCard";
 import MediaFilters from "./MediaFilters";
+import MediaFiltersMobile from "./MediaFiltersMobile";
 import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
 import UserCard from "../Users/UserCard";
@@ -37,6 +38,7 @@ const styles = theme => ({
   },
   clearSubsButton: {
     textAlign: "center",
+    alignItems: "center",
     top: 0
   }
 });
@@ -67,7 +69,7 @@ class Media extends React.Component {
   }
 
   renderMediaFiltersWithSubsClear() {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
     let mutation;
     if (this.props.filter == "subscriptions_users")
       mutation = READ_MEDIA_NOTIFICATIONS;
@@ -76,22 +78,31 @@ class Media extends React.Component {
 
     return (
       <Grid spacing={8} container className={classes.filters}>
-        <Grid item xs={2} />
-        <Grid item xs={8}>
-          <MediaFilters
-            onChange={value => {
-              this.setState({ [value.label]: value.value });
-            }}
-            clearFilters={() => this.clearFilters()}
-          />
+        <Grid item xs={false} md={2} />
+        <Grid item xs={12} md={8}>
+          {width === "xs" || width == "sm" ? (
+            <MediaFiltersMobile
+              onChange={value => {
+                this.setState({ [value.label]: value.value });
+              }}
+              clearFilters={() => this.clearFilters()}
+            />
+          ) : (
+            <MediaFilters
+              onChange={value => {
+                this.setState({ [value.label]: value.value });
+              }}
+              clearFilters={() => this.clearFilters()}
+            />
+          )}
         </Grid>
-        <Grid item xs={2}>
-          <Tooltip title="Clears Subs">
-            <Mutation
-              mutation={mutation}
-              onCompleted={() => this.setState({ uuid: uuidv4() })}
-            >
-              {(readSubs, { data }) => (
+        <Grid item xs={12} md={2}>
+          <Mutation
+            mutation={mutation}
+            onCompleted={() => this.setState({ uuid: uuidv4() })}
+          >
+            {(readSubs, { data }) => (
+              <Tooltip title="Clears Subs">
                 <Button
                   size="large"
                   variant="outlined"
@@ -102,31 +113,40 @@ class Media extends React.Component {
                 >
                   Clear
                 </Button>
-              )}
-            </Mutation>
-          </Tooltip>
+              </Tooltip>
+            )}
+          </Mutation>
         </Grid>
       </Grid>
     );
   }
 
   renderMediaFilters() {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
 
     return (
       <div className={classes.filters}>
-        <MediaFilters
-          onChange={value => {
-            this.setState({ [value.label]: value.value });
-          }}
-          clearFilters={() => this.clearFilters()}
-        />
+        {width === "xs" || width == "sm" ? (
+          <MediaFiltersMobile
+            onChange={value => {
+              this.setState({ [value.label]: value.value });
+            }}
+            clearFilters={() => this.clearFilters()}
+          />
+        ) : (
+          <MediaFilters
+            onChange={value => {
+              this.setState({ [value.label]: value.value });
+            }}
+            clearFilters={() => this.clearFilters()}
+          />
+        )}
       </div>
     );
   }
 
   renderResults({ media, horizontal, onLoadMore, hasMore }) {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
 
     if (media.length === 0) {
       const { location } = this.props;
@@ -146,7 +166,7 @@ class Media extends React.Component {
     return (
       <React.Fragment>
         {media.map(medium => (
-          <Grid item xs={12} sm={6} md={3} xl={2} key={medium.id}>
+          <Grid item xs={6} sm={4} md={3} xl={2} key={medium.id}>
             <MediumCard medium={medium} />
           </Grid>
         ))}

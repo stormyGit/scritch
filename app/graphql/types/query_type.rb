@@ -398,6 +398,10 @@ module Types
         fursuits = fursuits.where(fursuit_build_id: FursuitBuild.find(arguments[:fursuit_build]))
       end
 
+      if arguments[:fursuit_genders].present?
+        fursuits = fursuits.where(fursuit_gender_id: FursuitGender.find(arguments[:fursuit_genders]))
+      end
+
       if arguments[:fursuit_fingers].present?
         fursuits = fursuits.where(fursuit_finger_id: FursuitFinger.find(arguments[:fursuit_fingers]))
       end
@@ -533,6 +537,7 @@ module Types
       end
       if arguments[:fursuits].present?
         media = media.joins(:fursuits).where("fursuits.uuid IN (?)", arguments[:fursuits])
+        #media = media.joins(:fursuits).where(fursuits: {uuid: arguments[:fursuits]}).group("media.id").having('count(media.id) >= ?', arguments[:fursuits].size)
       end
       if arguments[:tagging].present?
         media = media.where.not("completion > ?", 99).where(tag_locked: false).order(:completion)

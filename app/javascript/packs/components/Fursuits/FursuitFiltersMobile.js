@@ -31,7 +31,8 @@ import {
   LOAD_HYBRID_SPECIES,
   LOAD_BUILDS,
   LOAD_PADDINGS,
-  LOAD_FINGERS
+  LOAD_FINGERS,
+  LOAD_GENDERS
 } from "../../queries/fursuitQueries";
 
 import { LOAD_MAKERS_SELECT } from "../../queries/makerQueries";
@@ -109,7 +110,7 @@ const styles = theme => {
   };
 };
 
-class FursuitFilters extends React.Component {
+class FursuitFiltersMobile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -138,7 +139,7 @@ class FursuitFilters extends React.Component {
       hybridSearch: false,
       fursuitBuild: null,
       fursuitPadding: null,
-      fursuitGender: null,
+      fursuitGener: null,
       fursuitFingers: null,
       fursuitColor: null,
       fursuitEyes: null,
@@ -181,7 +182,7 @@ class FursuitFilters extends React.Component {
           }
           if (loading) {
             return (
-              <Grid item xs={4}>
+              <Grid item xs={12}>
                 <CircularProgress />
               </Grid>
             );
@@ -193,7 +194,7 @@ class FursuitFilters extends React.Component {
           );
 
           return (
-            <Grid item xs={4}>
+            <Grid item xs={12}>
               <Select
                 fullWidth
                 placeholder="Leg Type"
@@ -228,7 +229,7 @@ class FursuitFilters extends React.Component {
           }
           if (loading) {
             return (
-              <Grid item xs={4}>
+              <Grid item xs={12}>
                 <CircularProgress />
               </Grid>
             );
@@ -240,7 +241,7 @@ class FursuitFilters extends React.Component {
           );
 
           return (
-            <Grid item xs={4}>
+            <Grid item xs={12}>
               <Select
                 fullWidth
                 placeholder="Style"
@@ -275,7 +276,7 @@ class FursuitFilters extends React.Component {
           }
           if (loading) {
             return (
-              <Grid item xs={7}>
+              <Grid item xs={12}>
                 <CircularProgress />
               </Grid>
             );
@@ -287,7 +288,7 @@ class FursuitFilters extends React.Component {
           );
 
           return (
-            <Grid item xs={7}>
+            <Grid item xs={12}>
               <Select
                 fullWidth
                 placeholder="Species"
@@ -322,7 +323,7 @@ class FursuitFilters extends React.Component {
           }
           if (loading) {
             return (
-              <Grid item xs={7}>
+              <Grid item xs={12}>
                 <CircularProgress />
               </Grid>
             );
@@ -333,7 +334,7 @@ class FursuitFilters extends React.Component {
           );
 
           return (
-            <Grid item xs={7}>
+            <Grid item xs={12}>
               <Select
                 fullWidth
                 placeholder="Species"
@@ -362,7 +363,7 @@ class FursuitFilters extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Grid item xs={5}>
+      <Grid item xs={12}>
         <FormControlLabel
           control={
             <Checkbox
@@ -394,7 +395,7 @@ class FursuitFilters extends React.Component {
           }
           if (loading) {
             return (
-              <Grid item xs={4}>
+              <Grid item xs={12}>
                 <CircularProgress />
               </Grid>
             );
@@ -406,7 +407,7 @@ class FursuitFilters extends React.Component {
           );
 
           return (
-            <Grid item xs={4}>
+            <Grid item xs={12}>
               <Select
                 fullWidth
                 placeholder="Build"
@@ -421,6 +422,53 @@ class FursuitFilters extends React.Component {
                   });
                 }}
                 options={buildList}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    );
+  }
+
+  renderFursuitPaddingFilter() {
+    const { classes } = this.props;
+
+    return (
+      <Query query={LOAD_PADDINGS}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={12}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          const paddingList = [];
+          data.fursuitPaddings.map(e =>
+            paddingList.push({ value: e.id, label: e.name })
+          );
+
+          return (
+            <Grid item xs={12}>
+              <Select
+                fullWidth
+                placeholder="Padding"
+                isClearable
+                isSearchable
+                value={this.state.fursuitPadding}
+                onChange={padding => {
+                  this.setState({ fursuitPadding: padding });
+                  this.props.onChange({
+                    label: "fursuitPadding",
+                    value: padding ? padding.value : null
+                  });
+                }}
+                options={paddingList}
                 className={classes.selectInput}
               />
             </Grid>
@@ -477,53 +525,6 @@ class FursuitFilters extends React.Component {
     );
   }
 
-  renderFursuitPaddingFilter() {
-    const { classes } = this.props;
-
-    return (
-      <Query query={LOAD_PADDINGS}>
-        {({ data, loading, error }) => {
-          if (error || !data) {
-            return null;
-          }
-          if (loading) {
-            return (
-              <Grid item xs={4}>
-                <CircularProgress />
-              </Grid>
-            );
-          }
-
-          const paddingList = [];
-          data.fursuitPaddings.map(e =>
-            paddingList.push({ value: e.id, label: e.name })
-          );
-
-          return (
-            <Grid item xs={4}>
-              <Select
-                fullWidth
-                placeholder="Padding"
-                isClearable
-                isSearchable
-                value={this.state.fursuitPadding}
-                onChange={padding => {
-                  this.setState({ fursuitPadding: padding });
-                  this.props.onChange({
-                    label: "fursuitPadding",
-                    value: padding ? padding.value : null
-                  });
-                }}
-                options={paddingList}
-                className={classes.selectInput}
-              />
-            </Grid>
-          );
-        }}
-      </Query>
-    );
-  }
-
   renderFursuitFingersFilter() {
     const { classes } = this.props;
 
@@ -535,7 +536,7 @@ class FursuitFilters extends React.Component {
           }
           if (loading) {
             return (
-              <Grid item xs={4}>
+              <Grid item xs={12}>
                 <CircularProgress />
               </Grid>
             );
@@ -547,7 +548,7 @@ class FursuitFilters extends React.Component {
           );
 
           return (
-            <Grid item xs={4}>
+            <Grid item xs={12}>
               <Select
                 fullWidth
                 placeholder="Role"
@@ -575,7 +576,7 @@ class FursuitFilters extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Grid item xs={4}>
+      <Grid item xs={12}>
         <Select
           fullWidth
           placeholder="Base Color"
@@ -600,7 +601,7 @@ class FursuitFilters extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Grid item xs={4}>
+      <Grid item xs={12}>
         <Select
           fullWidth
           placeholder="Eyes Color"
@@ -632,7 +633,7 @@ class FursuitFilters extends React.Component {
           }
           if (loading) {
             return (
-              <Grid item xs={8}>
+              <Grid item xs={12}>
                 <CircularProgress />
               </Grid>
             );
@@ -644,7 +645,7 @@ class FursuitFilters extends React.Component {
           );
 
           return (
-            <Grid item xs={8}>
+            <Grid item xs={12}>
               <Select
                 fullWidth
                 placeholder="Maker"
@@ -735,4 +736,4 @@ class FursuitFilters extends React.Component {
   }
 }
 
-export default withStyles(styles)(FursuitFilters);
+export default withStyles(styles)(FursuitFiltersMobile);

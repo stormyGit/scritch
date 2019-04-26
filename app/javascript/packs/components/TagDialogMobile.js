@@ -9,7 +9,6 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -26,31 +25,28 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputLabel from "@material-ui/core/InputLabel";
 import SearchBar from "material-ui-search-bar";
 import TextField from "@material-ui/core/TextField";
+import ScrollArea from "react-scrollbar";
+import createFilterOptions from "react-select-fast-filter-options";
 import { Mutation, Query } from "react-apollo";
 import TelegramLoginButton from "react-telegram-login";
 import { withRouter } from "react-router-dom";
-import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
-import Checkbox from "@material-ui/core/Checkbox";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import withCurrentSession from "./withCurrentSession";
 
-import ResponsiveDialog from "../Global/ResponsiveDialog";
-import EmptyList from "../Global/EmptyList";
-import LoadMoreButton from "../Global/LoadMoreButton";
-import Logo from "../Global/Logo";
+import themeSelector from "../themeSelector";
 
-import ReportDialog from "../AppDialogs/ReportDialog";
-import DeleteMediumDialog from "../AppDialogs/DeleteMediumDialog";
-import TagReportDialog from "../AppDialogs/TagReportDialog";
-import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
-import { GET_MEDIUM } from "../../queries/mediaQueries";
-import { UPDATE_MEDIUM } from "../../queries/mediaMutations";
-import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
-import {
-  LOAD_EVENTS_SELECT,
-  LOAD_EDITIONS,
-  LOAD_SUB_EVENTS
-} from "../../queries/eventQueries";
-import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
+import ResponsiveDialog from "./Global/ResponsiveDialog";
+import EmptyList from "./Global/EmptyList";
+import LoadMoreButton from "./Global/LoadMoreButton";
+import Logo from "./Global/Logo";
+
+import ReportDialog from "./AppDialogs/ReportDialog";
+import TagReportDialog from "./AppDialogs/TagReportDialog";
+import FursuitMiniCard from "./Fursuits/FursuitMiniCard";
+import { UPDATE_MEDIUM } from "../queries/mediaMutations";
+import { GET_MEDIUM } from "../queries/mediaQueries";
+import { LOAD_CATEGORIES } from "../queries/categoryQueries";
+
+import { LOAD_FURSUITS } from "../queries/fursuitQueries";
 
 const Option = props => {
   const handleClick = event => {
@@ -110,10 +106,10 @@ const styles = theme => ({
     fontFamily: theme.typography.fontFamily
   },
   fursuitsCountField: {
-    width: "30%"
+    width: "100%"
   },
   searchBar: {
-    width: "65%"
+    width: "100%"
   },
   inputFields: {
     display: "flex",
@@ -126,83 +122,34 @@ const styles = theme => ({
   },
   tagReportButton: {
     paddingBottom: theme.spacing.unit
-  },
-  deleteButton: {
-    color: theme.palette.danger.main
-  },
-  domain: {
-    marginRight: 1,
-    paddingBottom: 3,
-    fontSize: "1rem",
-    color:
-      theme.palette.type === "dark"
-        ? "rgba(255, 255, 255, 0.5)"
-        : "rgba(0, 0, 0, 0.5)"
-  },
-  listPadding: {
-    marginBottom: theme.spacing.unit,
-    marginTop: theme.spacing.unit
   }
 });
 
-class EditMediumDialog extends React.Component {
+class TagDialogMobile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       submiting: false,
       tagReportDialog: false,
-      deleteMediumDialog: false,
       reportDialog: false,
-      mediaEvent: null,
-      mediaEdition: null,
       mediaCategory: null,
-      mediaSubEvent: null,
       fursuits: null,
       fursuitsCount: 0,
-      query: "",
-      photographerSlug: "",
-      photographerString: "",
-      isPhotographer: true
+      query: ""
     };
   }
 
   setInitialValues(medium) {
     this.setState({
-      mediaEvent: medium.edition
-        ? { value: medium.edition.event.id, label: medium.edition.event.name }
-        : null,
-      mediaEdition: medium.edition
-        ? { value: medium.edition.id, label: medium.edition.name }
-        : null,
-      mediaCategory: medium.category
-        ? { value: medium.category.id, label: medium.category.name }
-        : null,
-      mediaSubEvent: medium.subEvent
-        ? { value: medium.subEvent.id, label: medium.subEvent.name }
-        : null,
+      mediaCategory: medium.category,
       fursuits: medium.fursuits ? medium.fursuits : [],
-      fursuitsCount: medium.fursuitsCount,
-      photographerSlug: medium.photographerSlug,
-      photographerString: medium.photographerStringg,
-      isPhotographer: medium.isPhotographer
+      fursuitsCount: medium.fursuitsCount
     });
   }
 
   isFormOk() {
     if (this.state.fursuits.length > this.state.fursuitsCount) return false;
     else if (this.state.fursuitsCount > 30) return false;
-    else if (
-      this.state.mediaEvent &&
-      (!this.state.mediaEdition || !this.state.mediaSubEvent)
-    )
-      return false;
-    else if (!this.state.mediaEvent && !this.state.mediaCategory) return false;
-    else if (
-      !this.state.isPhotographer &&
-      !this.state.photographerSlug &&
-      !this.state.photographerString
-    )
-      return false;
     return true;
   }
 
@@ -226,7 +173,7 @@ class EditMediumDialog extends React.Component {
     }
   }
 
-  renderResults({ data, onLoadMore, hasMore }) {
+  renderResults({ data, medium, onLoadMore, hasMore }) {
     const { classes } = this.props;
 
     if (data.length === 0) {
@@ -247,7 +194,15 @@ class EditMediumDialog extends React.Component {
     return (
       <React.Fragment>
         {data.fursuits.map(fursuit => (
-          <Grid item xs={3} key={fursuit.id}>
+          <Grid
+            item
+            xs={
+              this.state.fursuits.length > 0 || medium.fursuits.length > 0
+                ? 4
+                : 3
+            }
+            key={fursuit.id}
+          >
             <FursuitMiniCard
               fursuit={fursuit}
               onClick={payload => {
@@ -265,7 +220,15 @@ class EditMediumDialog extends React.Component {
   }
 
   render() {
-    const { classes, open, onClose, loading, width, mediumId } = this.props;
+    const {
+      classes,
+      open,
+      onClose,
+      loading,
+      width,
+      mediumId,
+      currentSession
+    } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
     if (!mediumId || open == false) return null;
 
@@ -273,17 +236,55 @@ class EditMediumDialog extends React.Component {
       <Query
         query={GET_MEDIUM}
         variables={{
-          id: mediumId
+          id: mediumId,
+          tagging: true
         }}
       >
         {({ data, error, loading }) => {
-          if (error || loading || !data) return null;
+          if (error) {
+            return (
+              <ResponsiveDialog open={open} onClose={onClose}>
+                {((width !== "lg" && width !== "xl") || true) && (
+                  <DialogTitle className={classes.titleBarContainer}>
+                    <Grid
+                      container
+                      spacing={0}
+                      alignItems="center"
+                      justify="space-between"
+                    >
+                      <Grid item>
+                        <Typography variant="h6" noWrap color={"inherit"}>
+                          {`Picture #${mediumId.split("-")[0]}`}
+                        </Typography>
+                      </Grid>
+                      <Grid item>
+                        <IconButton
+                          color="inherit"
+                          onClick={onClose}
+                          aria-label="Close"
+                        >
+                          <CloseIcon />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                  </DialogTitle>
+                )}
+                <DialogContent>
+                  <Typography variant="h6" noWrap>
+                    This Media is currently being tagged by another User.
+                  </Typography>
+                </DialogContent>
+              </ResponsiveDialog>
+            );
+          }
+          if (loading || !data) return null;
 
           const medium = data.medium;
           if (this.state.fursuits == null) {
             this.setInitialValues(medium);
             return null;
           }
+
           return (
             <Mutation
               mutation={UPDATE_MEDIUM}
@@ -302,7 +303,7 @@ class EditMediumDialog extends React.Component {
               {(updateMedium, { called }) => {
                 return (
                   <React.Fragment>
-                    <ResponsiveDialog open={open} onClose={onClose} size={900}>
+                    <ResponsiveDialog open={open} onClose={onClose}>
                       {((width !== "lg" && width !== "xl") || true) && (
                         <DialogTitle className={classes.titleBarContainer}>
                           <Grid
@@ -348,7 +349,13 @@ class EditMediumDialog extends React.Component {
                               />
                             </DialogContent>
                             {
-                              <Typography variant="subtitle1">
+                              <Typography
+                                variant={
+                                  width === "xs" || width === "sm"
+                                    ? "subtitle2"
+                                    : "subtitle1"
+                                }
+                              >
                                 Entering No. of Fursuits in this media
                                 constitutes 10% Completion, with the remaining
                                 90% equally split by the number of Fursuits
@@ -356,266 +363,12 @@ class EditMediumDialog extends React.Component {
                               </Typography>
                             }
                             <div style={{ padding: 8 }} />
-                            <div style={{ paddingLeft: 15 }}>
-                              <FormControlLabel
-                                className={classes.listPadding}
-                                control={
-                                  <Checkbox
-                                    checked={this.state.isPhotographer}
-                                    onChange={e =>
-                                      this.setState({
-                                        isPhotographer: e.target.checked
-                                      })
-                                    }
-                                    color="primary"
-                                  />
-                                }
-                                label="I captured this media"
-                              />
-                            </div>
-                            {!this.state.isPhotographer && (
-                              <React.Fragment>
-                                <Typography
-                                  variant="body2"
-                                  style={{ paddingLeft: 15, paddingBottom: 5 }}
-                                >
-                                  Provide at least one:
-                                </Typography>
-                                <div style={{ padding: 5 }} />
-                                <TextField
-                                  className={classes.listPadding}
-                                  label="Photographer's Scritch URL"
-                                  name="photographerSlug"
-                                  variant="outlined"
-                                  style={{ zIndex: 0 }}
-                                  value={this.state.photographerSlug}
-                                  InputProps={{
-                                    startAdornment: (
-                                      <InputAdornment
-                                        position="start"
-                                        className={classes.domain}
-                                        disableTypography
-                                      >
-                                        {"http://scritch.es/"}
-                                      </InputAdornment>
-                                    )
-                                  }}
-                                  onChange={e => {
-                                    this.setState({
-                                      photographerSlug: e.target.value
-                                    });
-                                  }}
-                                  margin="dense"
-                                  fullWidth
-                                />
-                                <TextField
-                                  className={classes.listPadding}
-                                  label="Photographer's Name"
-                                  name="photographerString"
-                                  variant="outlined"
-                                  style={{ zIndex: 0 }}
-                                  value={this.state.photographerString}
-                                  onChange={e => {
-                                    this.setState({
-                                      photographerString: e.target.value
-                                    });
-                                  }}
-                                  margin="dense"
-                                  fullWidth
-                                />
-                                <div style={{ padding: 8 }} />
-                              </React.Fragment>
-                            )}
-                            <Query
-                              query={LOAD_CATEGORIES}
-                              variables={{
-                                sort: "latest",
-                                offset: 0,
-                                limit: 150
-                              }}
-                            >
-                              {({ data, loading, error, fetchMore }) => {
-                                if (loading || error) {
-                                  return <CircularProgress />;
-                                }
-                                const categoryList = [];
-                                data.categories.map(e =>
-                                  categoryList.push({
-                                    value: e.id,
-                                    label: e.name
-                                  })
-                                );
-                                return (
-                                  <Select
-                                    fullWidth
-                                    clearable={true}
-                                    placeholder="Category"
-                                    defaultValue={
-                                      medium.category
-                                        ? {
-                                            value: medium.category.id,
-                                            label: medium.category.name
-                                          }
-                                        : null
-                                    }
-                                    isSearchable
-                                    onChange={mediaCategory => {
-                                      this.setState({
-                                        mediaCategory: mediaCategory
-                                      });
-                                    }}
-                                    options={categoryList}
-                                    className={classes.selectInput}
-                                  />
-                                );
-                              }}
-                            </Query>
-                            <div style={{ padding: 5 }} />
-                            <hr />
-                            <div style={{ padding: 5 }} />
-                            <Query
-                              query={LOAD_EVENTS_SELECT}
-                              variables={{
-                                sort: "latest",
-                                offset: 0,
-                                limit: 1000
-                              }}
-                            >
-                              {({ data, loading, error, fetchMore }) => {
-                                if (loading || error) {
-                                  return <CircularProgress />;
-                                }
-
-                                const eventList = [];
-                                data.events.map(e =>
-                                  eventList.push({ value: e.id, label: e.name })
-                                );
-                                return (
-                                  <Select
-                                    fullWidth
-                                    clearable={true}
-                                    placeholder="Event"
-                                    isSearchable
-                                    value={this.state.mediaEvent}
-                                    onChange={mediaEvent => {
-                                      let editionSwitch =
-                                        this.state.mediaEvent &&
-                                        this.state.mediaEvent.value !=
-                                          mediaEvent;
-                                      console.log(
-                                        editionSwitch,
-                                        this.state.mediaEvent,
-                                        mediaEvent
-                                      );
-                                      this.setState({ mediaEvent: mediaEvent });
-                                      if (editionSwitch)
-                                        this.setState({ mediaEdition: null });
-                                    }}
-                                    options={eventList}
-                                    className={classes.selectInput}
-                                  />
-                                );
-                              }}
-                            </Query>
-                            <div style={{ padding: 5 }} />
-                            {this.state.mediaEvent &&
-                              Object.keys(this.state.mediaEvent).length != 0 &&
-                              this.state.mediaEvent.value != null && (
-                                <Query
-                                  query={LOAD_EDITIONS}
-                                  variables={{
-                                    sort: "latest",
-                                    offset: 0,
-                                    limit: 150,
-                                    eventId: this.state.mediaEvent.value
-                                  }}
-                                >
-                                  {({ data, loading, error, fetchMore }) => {
-                                    if (loading || error) {
-                                      return <CircularProgress />;
-                                    }
-
-                                    const editionList = [];
-                                    data.editions.map(e =>
-                                      editionList.push({
-                                        value: e.id,
-                                        label: e.name
-                                      })
-                                    );
-                                    return (
-                                      <Select
-                                        fullWidth
-                                        clearable={true}
-                                        placeholder="Edition"
-                                        isSearchable
-                                        value={this.state.mediaEdition}
-                                        onChange={mediaEdition => {
-                                          this.setState({
-                                            mediaEdition: mediaEdition
-                                          });
-                                        }}
-                                        options={editionList}
-                                        className={classes.selectInput}
-                                      />
-                                    );
-                                  }}
-                                </Query>
-                              )}
-                            <div style={{ padding: 5 }} />
-                            <Query
-                              query={LOAD_SUB_EVENTS}
-                              variables={{
-                                sort: "latest",
-                                offset: 0,
-                                limit: 150
-                              }}
-                            >
-                              {({ data, loading, error, fetchMore }) => {
-                                if (loading || error) {
-                                  return <CircularProgress />;
-                                }
-                                const subEventList = [];
-                                data.subEvents.map(e =>
-                                  subEventList.push({
-                                    value: e.id,
-                                    label: e.name
-                                  })
-                                );
-                                return (
-                                  <Select
-                                    fullWidth
-                                    clearable={true}
-                                    placeholder="SubEvent"
-                                    defaultValue={
-                                      medium.subEvent
-                                        ? {
-                                            value: medium.subEvent.id,
-                                            label: medium.subEvent.name
-                                          }
-                                        : null
-                                    }
-                                    isSearchable
-                                    onChange={mediaSubEvent => {
-                                      this.setState({
-                                        mediaSubEvent: mediaSubEvent
-                                      });
-                                    }}
-                                    options={subEventList}
-                                    className={classes.selectInput}
-                                  />
-                                );
-                              }}
-                            </Query>
-                            <div style={{ padding: 5 }} />
-                            <hr />
-                            <div style={{ padding: 5 }} />
-
                             <div className={classes.inputFields}>
                               <TextField
                                 label="No. of Fursuits"
                                 name="fursuitsCount"
-                                type="number"
                                 variant="outlined"
+                                type="number"
                                 className={classes.fursuitsCountField}
                                 style={{ zIndex: 0 }}
                                 value={this.state.fursuitsCount || ""}
@@ -626,7 +379,8 @@ class EditMediumDialog extends React.Component {
                                 }}
                                 margin="dense"
                               />
-
+                            </div>
+                            <div className={classes.inputFields}>
                               <SearchBar
                                 className={classes.searchBar}
                                 placeholder="Fursuit Search..."
@@ -669,6 +423,7 @@ class EditMediumDialog extends React.Component {
                                         !error &&
                                         this.renderResults({
                                           data,
+                                          medium,
                                           hasMore:
                                             data.fursuits.length % limit ===
                                               0 &&
@@ -725,15 +480,14 @@ class EditMediumDialog extends React.Component {
                                     <Button
                                       variant="outlined"
                                       fullWidth
-                                      size="small"
                                       onClick={() =>
-                                        this.setState({ tagReportDialog: true })
+                                        this.setState({
+                                          tagReportDialog: true
+                                        })
                                       }
                                     >
-                                      Report Wrong Tags&nbsp;&nbsp;
-                                      <OutlinedFlag />
+                                      Report Wrong Tags
                                     </Button>
-                                    <div style={{ padding: 5 }} />
                                   </div>
                                 )}
                                 <Grid container spacing={8}>
@@ -770,7 +524,6 @@ class EditMediumDialog extends React.Component {
                             <div className={classes.loginButton}>
                               {
                                 <Button
-                                  size="large"
                                   disabled={!this.isFormOk()}
                                   onClick={() => {
                                     updateMedium({
@@ -778,24 +531,9 @@ class EditMediumDialog extends React.Component {
                                         input: {
                                           id: medium.id,
                                           title: medium.title,
-                                          isPhotographer: this.state
-                                            .isPhotographer,
-                                          photographerSlug: this.state
-                                            .photographerSlug,
-                                          photographerString: this.state
-                                            .photographerString,
                                           fursuitsCount: parseInt(
                                             this.state.fursuitsCount
                                           ),
-                                          editionId: this.state.mediaEdition
-                                            ? this.state.mediaEdition.value
-                                            : null,
-                                          categoryId: this.state.mediaCategory
-                                            ? this.state.mediaCategory.value
-                                            : null,
-                                          subEventId: this.state.mediaSubEvent
-                                            ? this.state.mediaSubEvent.value
-                                            : null,
                                           fursuits: this.state.fursuits.map(
                                             a => a.id
                                           )
@@ -803,7 +541,7 @@ class EditMediumDialog extends React.Component {
                                       }
                                     }).then(() => {
                                       onClose();
-                                      location.reload();
+                                      !this.props.noReload && location.reload();
                                     });
                                   }}
                                 >
@@ -813,18 +551,17 @@ class EditMediumDialog extends React.Component {
                             </div>
                           </div>
                         }
-                        <div className={classes.loginButtonContainer}>
-                          <div className={classes.loginButton}>
-                            <Button
-                              className={classes.deleteButton}
-                              onClick={() =>
-                                this.setState({ deleteMediumDialog: true })
-                              }
-                            >
-                              Delete Media
-                            </Button>
-                          </div>
-                        </div>
+                        {true && (
+                          <Typography
+                            variant="caption"
+                            className={classes.troubleLink}
+                            onClick={() =>
+                              this.setState({ reportDialog: true })
+                            }
+                          >
+                            Report Picture
+                          </Typography>
+                        )}
                       </DialogContent>
                     </ResponsiveDialog>
                     <ReportDialog
@@ -832,13 +569,6 @@ class EditMediumDialog extends React.Component {
                       onClose={() => this.setState({ reportDialog: false })}
                       resource="medium"
                       resourceId={medium.id}
-                    />
-                    <DeleteMediumDialog
-                      open={this.state.deleteMediumDialog}
-                      onClose={() =>
-                        this.setState({ deleteMediumDialog: false })
-                      }
-                      mediumId={medium.id}
                     />
                     <TagReportDialog
                       open={this.state.tagReportDialog}
@@ -855,4 +585,7 @@ class EditMediumDialog extends React.Component {
     );
   }
 }
-export default withStyles(styles)(withRouter(withWidth()(EditMediumDialog)));
+
+export default withStyles(styles)(
+  withRouter(withWidth()(withCurrentSession(TagDialogMobile)))
+);

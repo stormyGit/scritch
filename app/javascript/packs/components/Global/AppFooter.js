@@ -50,6 +50,8 @@ class AppFooter extends React.Component {
     var limit = width !== "xs" ? 2 : 1;
     var adRibbon;
 
+    console.log(width);
+
     if (
       currentSession &&
       (!currentSession.user.showAds && !currentSession.user.showTooltips)

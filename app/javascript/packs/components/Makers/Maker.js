@@ -291,6 +291,7 @@ class Maker extends React.Component {
                             )}
                             {!maker.claimed &&
                               !maker.possessed &&
+                              currentSession.user.sponsor &&
                               this.renderFollowButton(maker)}
                           </Grid>
                         </React.Fragment>

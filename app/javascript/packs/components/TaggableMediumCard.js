@@ -32,6 +32,7 @@ import UserAvatar from "./Users/UserAvatar";
 import TruncatedText from "./Global/TruncatedText";
 
 import TagDialog from "./TagDialog";
+import TagDialogMobile from "./TagDialogMobile";
 
 const styles = theme => ({
   card: {
@@ -163,7 +164,7 @@ class TaggableMediumCard extends React.Component {
   }
 
   renderVertical() {
-    const { classes, medium } = this.props;
+    const { classes, medium, width } = this.props;
 
     return (
       <React.Fragment>
@@ -215,21 +216,37 @@ class TaggableMediumCard extends React.Component {
               location.reload();
             }}
           >
-            {(tagUnlockMedium, { data, error }) => (
-              <TagDialog
-                open={this.state.tagDialog}
-                onClose={() => {
-                  tagUnlockMedium({
-                    variables: {
-                      input: {
-                        id: medium.id
+            {(tagUnlockMedium, { data, error }) =>
+              width === "sm" || width === "xs" ? (
+                <TagDialogMobile
+                  open={this.state.tagDialog}
+                  onClose={() => {
+                    tagUnlockMedium({
+                      variables: {
+                        input: {
+                          id: medium.id
+                        }
                       }
-                    }
-                  });
-                }}
-                mediumId={medium.id}
-              />
-            )}
+                    });
+                  }}
+                  mediumId={medium.id}
+                />
+              ) : (
+                <TagDialog
+                  open={this.state.tagDialog}
+                  onClose={() => {
+                    tagUnlockMedium({
+                      variables: {
+                        input: {
+                          id: medium.id
+                        }
+                      }
+                    });
+                  }}
+                  mediumId={medium.id}
+                />
+              )
+            }
           </Mutation>
         )}
       </React.Fragment>

@@ -110,10 +110,10 @@ const styles = theme => ({
     fontFamily: theme.typography.fontFamily
   },
   fursuitsCountField: {
-    width: "30%"
+    width: "100%"
   },
   searchBar: {
-    width: "65%"
+    width: "100%"
   },
   inputFields: {
     display: "flex",
@@ -226,7 +226,7 @@ class EditMediumDialog extends React.Component {
     }
   }
 
-  renderResults({ data, onLoadMore, hasMore }) {
+  renderResults({ data, medium, onLoadMore, hasMore }) {
     const { classes } = this.props;
 
     if (data.length === 0) {
@@ -247,7 +247,15 @@ class EditMediumDialog extends React.Component {
     return (
       <React.Fragment>
         {data.fursuits.map(fursuit => (
-          <Grid item xs={3} key={fursuit.id}>
+          <Grid
+            item
+            xs={
+              this.state.fursuits.length > 0 || medium.fursuits.length > 0
+                ? 4
+                : 3
+            }
+            key={fursuit.id}
+          >
             <FursuitMiniCard
               fursuit={fursuit}
               onClick={payload => {
@@ -302,7 +310,7 @@ class EditMediumDialog extends React.Component {
               {(updateMedium, { called }) => {
                 return (
                   <React.Fragment>
-                    <ResponsiveDialog open={open} onClose={onClose} size={900}>
+                    <ResponsiveDialog open={open} onClose={onClose}>
                       {((width !== "lg" && width !== "xl") || true) && (
                         <DialogTitle className={classes.titleBarContainer}>
                           <Grid
@@ -626,7 +634,8 @@ class EditMediumDialog extends React.Component {
                                 }}
                                 margin="dense"
                               />
-
+                            </div>
+                            <div className={classes.inputFields}>
                               <SearchBar
                                 className={classes.searchBar}
                                 placeholder="Fursuit Search..."
@@ -669,6 +678,7 @@ class EditMediumDialog extends React.Component {
                                         !error &&
                                         this.renderResults({
                                           data,
+                                          medium,
                                           hasMore:
                                             data.fursuits.length % limit ===
                                               0 &&

@@ -3,25 +3,41 @@ import Media from "./Media/Media";
 import PageTitle from "./Global/PageTitle";
 import queryString from "query-string";
 import Typography from "@material-ui/core/Typography";
+import withWidth from "@material-ui/core/withWidth";
+import { withStyles } from "@material-ui/core/styles";
 
-export default props => {
-  const query = queryString.parse(props.location.search);
+const styles = theme => ({
+  padder: {
+    paddingTop: 5,
+    paddingLeft: 30
+  }
+});
 
-  return (
-    <React.Fragment>
-      <PageTitle>Home</PageTitle>
-      <div style={{ paddingTop: 30, paddingLeft: 30 }}>
-        <Typography variant="h4">Latest Pictures</Typography>
-      </div>
-      <Media home={true} sort="latest" limit={12} {...props} />
-      <div style={{ paddingTop: 5, paddingLeft: 30 }}>
-        <Typography variant="h4">Most Scritched</Typography>
-      </div>
-      <Media home={true} sort="scritches" limit={12} {...props} />
-      <div style={{ paddingTop: 5, paddingLeft: 30 }}>
-        <Typography variant="h4">Random Pictures</Typography>
-      </div>
-      <Media home={true} sort="random" limit={12} {...props} />
-    </React.Fragment>
-  );
-};
+class LatestPictures extends React.Component {
+  render() {
+    const query = queryString.parse(this.props.location.search);
+    const { width, classes } = this.props;
+
+    let typoSize = width === "xs" || width === "sm" ? "h5" : "h4";
+
+    return (
+      <React.Fragment>
+        <PageTitle>Home</PageTitle>
+        <div className={classes.padder}>
+          <Typography variant={typoSize}>Latest Pictures</Typography>
+        </div>
+        <Media home={true} sort="latest" limit={12} {...this.props} />
+        <div className={classes.padder}>
+          <Typography variant={typoSize}>Most Scritched</Typography>
+        </div>
+        <Media home={true} sort="scritches" limit={12} {...this.props} />
+        <div className={classes.padder}>
+          <Typography variant={typoSize}>Random Pictures</Typography>
+        </div>
+        <Media home={true} sort="random" limit={12} {...this.props} />
+      </React.Fragment>
+    );
+  }
+}
+
+export default withStyles(styles)(withWidth()(LatestPictures));

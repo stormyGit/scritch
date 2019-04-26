@@ -275,6 +275,7 @@ class Fursuit extends React.Component {
                     )}
                     {!fursuit.claimed &&
                       !fursuit.possessed &&
+                      currentSession.user.sponsor &&
                       this.renderFollowButton(fursuit)}
                   </Grid>
                 </React.Fragment>

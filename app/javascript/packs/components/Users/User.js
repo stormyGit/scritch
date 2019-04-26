@@ -464,7 +464,7 @@ class User extends React.Component {
             <React.Fragment>
               <Grid container spacing={8}>
                 {data.media.map(medium => (
-                  <Grid item xs={3} key={medium.id}>
+                  <Grid item xs={6} md={4} lg={3} xl={2} key={medium.id}>
                     <MediumCard medium={medium} />
                   </Grid>
                 ))}
@@ -713,7 +713,7 @@ class User extends React.Component {
   }
 
   renderUserInfos(user) {
-    const { classes, currentSession } = this.props;
+    const { classes, currentSession, width } = this.props;
 
     return (
       <div>
@@ -722,7 +722,7 @@ class User extends React.Component {
         </Typography>
         <Typography
           variant="body2"
-          noWrap
+          noWrap={width !== "xs" && width !== "sm"}
           className={classes.infoText}
           color={"inherit"}
         >
@@ -827,8 +827,10 @@ class User extends React.Component {
   }
 
   render() {
-    const { classes, match, currentSession } = this.props;
+    const { classes, match, currentSession, width } = this.props;
 
+    let tabTypoSize =
+      width === "xs" || width === "sm" ? "subtitle2" : "subtitle1";
     return (
       <div ref={this.pageRef}>
         <Query query={GET_USER} variables={{ id: match.params.id }}>
@@ -885,7 +887,7 @@ class User extends React.Component {
                                 value="pictures"
                                 label={
                                   <Typography
-                                    variant="subtitle1"
+                                    variant={tabTypoSize}
                                     color={
                                       this.state.tab === "pictures"
                                         ? "secondary"
@@ -897,7 +899,7 @@ class User extends React.Component {
                                 }
                                 icon={
                                   <Typography
-                                    variant="subtitle1"
+                                    variant={tabTypoSize}
                                     color={
                                       this.state.tab === "pictures"
                                         ? "secondary"
@@ -925,7 +927,7 @@ class User extends React.Component {
                                     </Typography>
                                   ) : (
                                     <Typography
-                                      variant="subtitle1"
+                                      variant={tabTypoSize}
                                       color={
                                         this.state.tab === "fursuits"
                                           ? "secondary"
@@ -940,7 +942,7 @@ class User extends React.Component {
                                 }
                                 icon={
                                   <Typography
-                                    variant="subtitle1"
+                                    variant={tabTypoSize}
                                     color={
                                       this.state.tab === "fursuits"
                                         ? "secondary"
@@ -969,7 +971,7 @@ class User extends React.Component {
                                       </Typography>
                                     ) : (
                                       <Typography
-                                        variant="subtitle1"
+                                        variant={tabTypoSize}
                                         color={
                                           this.state.tab === "following"
                                             ? "secondary"
@@ -982,7 +984,7 @@ class User extends React.Component {
                                   }
                                   icon={
                                     <Typography
-                                      variant="subtitle1"
+                                      variant={tabTypoSize}
                                       color={
                                         this.state.tab === "following"
                                           ? "secondary"
@@ -1012,7 +1014,7 @@ class User extends React.Component {
                                       </Typography>
                                     ) : (
                                       <Typography
-                                        variant="subtitle1"
+                                        variant={tabTypoSize}
                                         color={
                                           this.state.tab === "followers"
                                             ? "secondary"
@@ -1025,7 +1027,7 @@ class User extends React.Component {
                                   }
                                   icon={
                                     <Typography
-                                      variant="subtitle1"
+                                      variant={tabTypoSize}
                                       color={
                                         this.state.tab === "followers"
                                           ? "secondary"

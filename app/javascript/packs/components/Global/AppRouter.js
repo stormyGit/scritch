@@ -1,12 +1,14 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
+import withWidth from "@material-ui/core/withWidth";
 
 import Fursuit from "../Fursuits/Fursuit";
 import Fursuits from "../Fursuits/Fursuits";
 
 import Media from "../Media/Media";
 import Medium from "../Media/Medium";
+import MediumMobile from "../Media/MediumMobile";
 
 import User from "../Users/User";
 
@@ -37,7 +39,7 @@ import MustLog from "./MustLog";
 
 class AppRouter extends React.Component {
   render() {
-    const { currentSession } = this.props;
+    const { currentSession, width } = this.props;
     return (
       <BrowserRouter>
         <Route
@@ -140,7 +142,9 @@ class AppRouter extends React.Component {
                     path="/pictures/:id"
                     component={
                       currentSession && !currentSession.user.suspendedUser
-                        ? Medium
+                        ? width === "xs" || width === "sm"
+                          ? MediumMobile
+                          : Medium
                         : MustLog
                     }
                   />
@@ -201,4 +205,4 @@ class AppRouter extends React.Component {
   }
 }
 
-export default withCurrentSession(AppRouter);
+export default withCurrentSession(withWidth()(AppRouter));

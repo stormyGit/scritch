@@ -29,7 +29,9 @@ import Background from "../../photo.jpg";
 import { Link, withRouter } from "react-router-dom";
 
 import FursuitFilters from "./FursuitFilters";
+import FursuitFiltersMobile from "./FursuitFiltersMobile";
 import FursuitModal from "./FursuitModal";
+import FursuitModalMobile from "./FursuitModalMobile";
 
 const styles = theme => ({
   root: {
@@ -59,6 +61,7 @@ class Fursuits extends React.Component {
     fursuitStyle: "",
     fursuitBuild: "",
     fursuitPadding: "",
+    fursuitGender: "",
     fursuitFingers: "",
     fursuitColor: "",
     fursuitEyes: "",
@@ -77,6 +80,7 @@ class Fursuits extends React.Component {
       fursuitStyle: "",
       fursuitBuild: "",
       fursuitPadding: "",
+      fursuitGender: "",
       fursuitFingers: "",
       hybridSearch: false,
       fursuitColor: "",
@@ -105,7 +109,7 @@ class Fursuits extends React.Component {
     return (
       <React.Fragment>
         {data.fursuits.map(fursuit => (
-          <Grid item xs={4} md={3} lg={2} key={fursuit.id}>
+          <Grid item xs={6} sm={4} md={3} lg={2} key={fursuit.id}>
             <FursuitCard
               withMaker={true}
               fursuit={fursuit}
@@ -124,19 +128,31 @@ class Fursuits extends React.Component {
     const { classes, location, width } = this.props;
     return (
       <Grid spacing={8} container className={classes.filters}>
-        <Grid item xs={2} />
-        <Grid item xs={8}>
-          <FursuitFilters
-            onChange={value => {
-              this.setState({
-                [value.label]: value.value,
-                request: this.state.request + 1
-              });
-            }}
-            clearFilters={() => this.clearFilters()}
-          />
+        <Grid item xs={false} md={2} />
+        <Grid item xs={12} md={8}>
+          {width === "xs" || width === "sm" ? (
+            <FursuitFiltersMobile
+              onChange={value => {
+                this.setState({
+                  [value.label]: value.value,
+                  request: this.state.request + 1
+                });
+              }}
+              clearFilters={() => this.clearFilters()}
+            />
+          ) : (
+            <FursuitFilters
+              onChange={value => {
+                this.setState({
+                  [value.label]: value.value,
+                  request: this.state.request + 1
+                });
+              }}
+              clearFilters={() => this.clearFilters()}
+            />
+          )}
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={12} md={2}>
           <Mutation
             mutation={READ_MAKER_NOTIFICATIONS}
             onCompleted={() => this.setState({ uuid: uuidv4() })}
@@ -165,19 +181,31 @@ class Fursuits extends React.Component {
     const { classes, location, width } = this.props;
     return (
       <Grid spacing={8} container className={classes.filters}>
-        <Grid item xs={2} />
-        <Grid item xs={8}>
-          <FursuitFilters
-            onChange={value => {
-              this.setState({
-                [value.label]: value.value,
-                request: this.state.request + 1
-              });
-            }}
-            clearFilters={() => this.clearFilters()}
-          />
+        <Grid item xs={false} md={2} />
+        <Grid item xs={12} md={8}>
+          {width === "xs" || width === "sm" ? (
+            <FursuitFiltersMobile
+              onChange={value => {
+                this.setState({
+                  [value.label]: value.value,
+                  request: this.state.request + 1
+                });
+              }}
+              clearFilters={() => this.clearFilters()}
+            />
+          ) : (
+            <FursuitFilters
+              onChange={value => {
+                this.setState({
+                  [value.label]: value.value,
+                  request: this.state.request + 1
+                });
+              }}
+              clearFilters={() => this.clearFilters()}
+            />
+          )}
         </Grid>
-        <Grid item xs={2}>
+        <Grid item xs={12} md={2}>
           <Button
             size="large"
             variant="outlined"
@@ -201,13 +229,29 @@ class Fursuits extends React.Component {
         {!searching && !withSubsClear && <PageTitle>Fursuits</PageTitle>}
         {!searching && !withSubsClear && this.renderFilters()}
         {!searching && withSubsClear && this.renderFiltersWithSubsClear()}
-        {this.state.openFursuit && this.state.fursuit && (
-          <FursuitModal
-            open={this.state.openFursuit}
-            onClose={() => this.setState({ openFursuit: false, fursuit: null })}
-            fursuit={this.state.fursuit}
-          />
-        )}
+        {this.state.openFursuit &&
+          this.state.fursuit &&
+          (width === "xs" || width === "sm") && (
+            <FursuitModalMobile
+              open={this.state.openFursuit}
+              onClose={() =>
+                this.setState({ openFursuit: false, fursuit: null })
+              }
+              fursuit={this.state.fursuit}
+            />
+          )}
+        {this.state.openFursuit &&
+          this.state.fursuit &&
+          width !== "xs" &&
+          width !== "sm" && (
+            <FursuitModal
+              open={this.state.openFursuit}
+              onClose={() =>
+                this.setState({ openFursuit: false, fursuit: null })
+              }
+              fursuit={this.state.fursuit}
+            />
+          )}
         <Query
           query={LOAD_FURSUITS}
           variables={{
@@ -220,6 +264,7 @@ class Fursuits extends React.Component {
               this.state.speciesIds && this.state.speciesIds.map(e => e.value),
             fursuitBuild: this.state.fursuitBuild,
             fursuitPadding: this.state.fursuitPadding,
+            fursuitGender: this.state.fursuitGender,
             fursuitFingers: this.state.fursuitFingers,
             fursuitColor: this.state.fursuitColor,
             fursuitEyes: this.state.fursuitEyes,

@@ -6,6 +6,7 @@ import { Query, Mutation } from "react-apollo";
 import SvgIcon from "@material-ui/core/SvgIcon";
 
 import { withStyles } from "@material-ui/core/styles";
+import withWidth from "@material-ui/core/withWidth";
 
 import { GET_MEDIUM } from "../../queries/mediaQueries";
 import { CREATE_LIKE, DELETE_LIKE } from "../../queries/mediaMutations";
@@ -72,6 +73,14 @@ const styles = theme => ({
     borderBottomStyle: "solid",
     alignItems: "center"
   },
+  rootIcon: {
+    marginLeft: theme.spacing.unit,
+    paddingBottom: 2,
+    paddingLeft: 2,
+    paddingRight: 2,
+    display: "inline-block",
+    alignItems: "center"
+  },
   iconButton: {
     padding: theme.spacing.unit - 2
   },
@@ -92,7 +101,7 @@ class LikeButton extends React.Component {
 
     return (
       <React.Fragment>
-        <div className={classes.root}>
+        <div className={classes.rootIcon}>
           {medium.liked ? (
             <Mutation
               mutation={DELETE_LIKE}
@@ -114,9 +123,7 @@ class LikeButton extends React.Component {
                 <IconButton
                   size="small"
                   color="secondary"
-                  classes={{
-                    root: classes.iconButton
-                  }}
+                  classes={{ root: classes.iconButton }}
                   onClick={() => {
                     deleteLike({
                       variables: { input: { mediumId: medium.id } }
@@ -149,9 +156,7 @@ class LikeButton extends React.Component {
                 <IconButton
                   size="small"
                   color="secondary"
-                  classes={{
-                    root: classes.iconButton
-                  }}
+                  classes={{ root: classes.iconButton }}
                   disabled={!currentSession}
                   onClick={() => {
                     createLike({
@@ -191,4 +196,4 @@ class LikeButton extends React.Component {
   }
 }
 
-export default withStyles(styles)(withCurrentSession(LikeButton));
+export default withStyles(styles)(withCurrentSession(withWidth()(LikeButton)));
