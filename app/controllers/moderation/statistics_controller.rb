@@ -10,7 +10,7 @@ class Moderation::StatisticsController < ModerationController
 
     @now_data = [
       {title: "Users", value: User.count},
-      {title: "Sponsors", value: Sponsor.count},
+      {title: "Sponsors", value: Sponsor.where(status: "live").where.not(plan: "Free trial").count},
       {title: "Fursuits", value: Fursuit.count},
       {title: "Makers", value: Maker.count},
       {title: "Events", value: Event.count},
