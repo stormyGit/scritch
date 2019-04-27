@@ -31,6 +31,7 @@ import {
   LOAD_HYBRID_SPECIES,
   LOAD_BUILDS,
   LOAD_PADDINGS,
+  LOAD_GENDERS,
   LOAD_FINGERS
 } from "../../queries/fursuitQueries";
 
@@ -441,7 +442,7 @@ class FursuitFilters extends React.Component {
           }
           if (loading) {
             return (
-              <Grid item xs={12}>
+              <Grid item xs={4}>
                 <CircularProgress />
               </Grid>
             );
@@ -453,7 +454,7 @@ class FursuitFilters extends React.Component {
           );
 
           return (
-            <Grid item xs={12}>
+            <Grid item xs={4}>
               <Select
                 fullWidth
                 placeholder="Appearance"
@@ -632,7 +633,7 @@ class FursuitFilters extends React.Component {
           }
           if (loading) {
             return (
-              <Grid item xs={8}>
+              <Grid item xs={4}>
                 <CircularProgress />
               </Grid>
             );
@@ -644,7 +645,7 @@ class FursuitFilters extends React.Component {
           );
 
           return (
-            <Grid item xs={8}>
+            <Grid item xs={4}>
               <Select
                 fullWidth
                 placeholder="Maker"
