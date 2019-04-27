@@ -49,7 +49,6 @@ const styles = theme => ({
   },
   text: {},
   makerTitle: {
-    maxWidth: "40vw",
     marginBottom: 0,
     fontWeight: 200
   },
@@ -88,11 +87,12 @@ const styles = theme => ({
     textDecoration: "none"
   },
   sideSpace: {
+    marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
   }
 });
 
-class Maker extends React.Component {
+class MakerMobile extends React.Component {
   state = {
     editMaker: false,
     fursuit: null,
@@ -125,14 +125,14 @@ class Maker extends React.Component {
         >
           {(deleteFollow, { data }) => (
             <Button
-              size={width !== "lg" && width !== "xl" ? "small" : "large"}
+              size={width !== "lg" && width !== "xl" ? "large" : "medium"}
+              fullWidth
+              variant="outlined"
               className={
                 width === "lg" || width === "xl"
                   ? this.props.classes.followButtonSpacer
                   : null
               }
-              fullWidth
-              variant="outlined"
               color={this.state.showUnfollow ? "secondary" : "primary"}
               onMouseEnter={() => this.setState({ showUnfollow: true })}
               onMouseLeave={() => this.setState({ showUnfollow: false })}
@@ -166,7 +166,7 @@ class Maker extends React.Component {
         >
           {(createFollow, { data }) => (
             <Button
-              size={width !== "lg" && width !== "xl" ? "small" : "large"}
+              size={width !== "lg" && width !== "xl" ? "large" : "medium"}
               fullWidth
               variant="outlined"
               onClick={() => {
@@ -217,40 +217,20 @@ class Maker extends React.Component {
                 <div className={classes.container} key={maker.id}>
                   <PageTitle>{!loading && maker ? maker.name : null}</PageTitle>
                   <Grid container spacing={8}>
-                    <Grid item lg={9} xs={12}>
-                      <div style={{ padding: 5 }} />
-                      <Grid container spacing={8}>
-                        {data.maker.fursuits.map(fursuit => {
-                          return (
-                            <Grid item xs={6} md={4} lg={2} key={fursuit.id}>
-                              <FursuitCard
-                                openFursuit={fursuit => {
-                                  this.setState({
-                                    openFursuit: true,
-                                    fursuit: fursuit
-                                  });
-                                }}
-                                key={fursuit.id}
-                                fursuit={fursuit}
-                              />
-                            </Grid>
-                          );
-                        })}
-                      </Grid>
-                    </Grid>
-                    <Grid item lg={3} xs={12}>
+                    <Grid item xs={12}>
                       {maker.name != "~Owner Made" && (
                         <React.Fragment>
-                          <Grid container spacing={8}>
+                          <Grid
+                            container
+                            spacing={8}
+                            justify="space-between"
+                            wrap="nowrap"
+                          >
                             {!maker.claimed &&
                               !maker.claimRejected &&
                               !maker.possessed &&
                               !maker.user && (
-                                <Grid
-                                  item
-                                  xs={12}
-                                  className={classes.sideSpace}
-                                >
+                                <Grid item xs={6} className={classes.sideSpace}>
                                   <Button
                                     color="primary"
                                     fullWidth
@@ -265,7 +245,7 @@ class Maker extends React.Component {
                                 </Grid>
                               )}
                             {maker.claimed && !maker.possessed && (
-                              <Grid item xs={12} className={classes.sideSpace}>
+                              <Grid item xs={6} className={classes.sideSpace}>
                                 <Button
                                   color="primary"
                                   fullWidth
@@ -281,11 +261,7 @@ class Maker extends React.Component {
                               !maker.claimRejected &&
                               !maker.possessed &&
                               maker.user && (
-                                <Grid
-                                  item
-                                  xs={12}
-                                  className={classes.sideSpace}
-                                >
+                                <Grid item xs={6} className={classes.sideSpace}>
                                   <Button
                                     color="primary"
                                     fullWidth
@@ -300,7 +276,7 @@ class Maker extends React.Component {
                                 </Grid>
                               )}
                             {maker.possessed && (
-                              <Grid item xs={12} className={classes.sideSpace}>
+                              <Grid item xs={6} className={classes.sideSpace}>
                                 <Button
                                   color="primary"
                                   fullWidth
@@ -317,11 +293,7 @@ class Maker extends React.Component {
                             {!maker.claimed &&
                               !maker.possessed &&
                               currentSession.user.sponsor && (
-                                <Grid
-                                  item
-                                  xs={12}
-                                  className={classes.sideSpace}
-                                >
+                                <Grid item xs={6} className={classes.sideSpace}>
                                   {this.renderFollowButton(maker)}
                                 </Grid>
                               )}
@@ -362,8 +334,8 @@ class Maker extends React.Component {
                           alignItems="center"
                           justify="center"
                         >
-                          <Grid xs={1} item />
-                          <Grid xs={10} item>
+                          <Grid xs={3} item />
+                          <Grid xs={6} item>
                             <img
                               src={maker.avatar}
                               title={maker.name}
@@ -371,7 +343,7 @@ class Maker extends React.Component {
                               style={{ borderRadius: "5%" }}
                             />
                           </Grid>
-                          <Grid xs={1} item />
+                          <Grid xs={3} item />
                         </Grid>
                         <Grid container spacing={8}>
                           <Grid item>
@@ -433,6 +405,27 @@ class Maker extends React.Component {
                         <Divider />
                       </div>
                     </Grid>
+                    <Grid item xs={12}>
+                      <div style={{ padding: 5 }} />
+                      <Grid container spacing={8}>
+                        {data.maker.fursuits.map(fursuit => {
+                          return (
+                            <Grid item xs={6} md={4} lg={2} key={fursuit.id}>
+                              <FursuitCard
+                                openFursuit={fursuit => {
+                                  this.setState({
+                                    openFursuit: true,
+                                    fursuit: fursuit
+                                  });
+                                }}
+                                key={fursuit.id}
+                                fursuit={fursuit}
+                              />
+                            </Grid>
+                          );
+                        })}
+                      </Grid>
+                    </Grid>
                   </Grid>
                   <MakerClaimDialog
                     maker={maker.id}
@@ -454,4 +447,4 @@ class Maker extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withCurrentSession(Maker)));
+export default withStyles(styles)(withRouter(withCurrentSession(MakerMobile)));

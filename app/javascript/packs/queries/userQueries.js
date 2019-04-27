@@ -40,6 +40,11 @@ export const GET_USER = gql`
       followed
       following
       mediaCount
+      makers {
+        id
+        slug
+        name
+      }
       fursuits {
         id
         name

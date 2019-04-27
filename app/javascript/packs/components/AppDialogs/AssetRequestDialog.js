@@ -7,11 +7,16 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import Typography from "@material-ui/core/Typography";
+import CheckIcon from "@material-ui/icons/Check";
 
 import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
@@ -56,13 +61,7 @@ class AssetRequestDialog extends React.Component {
   }
 
   render() {
-    const {
-      classes,
-      currentSession,
-      user,
-      assetType,
-      assetRequestBlurb
-    } = this.props;
+    const { classes, currentSession, user, assetType } = this.props;
     if (!currentSession) {
       return null;
     }
@@ -73,7 +72,153 @@ class AssetRequestDialog extends React.Component {
 
         <DialogTitle>{`Request a new: ${assetType}`}</DialogTitle>
         <DialogContent>
-          <Typography variant="subtitle1">{assetRequestBlurb}</Typography>
+          {assetType == "Fursuit" && (
+            <React.Fragment>
+              <Typography variant="subtitle1">
+                Please provide the following information:
+                <List>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Species" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Maker" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Creation Year" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Build (Fullsuit, Partial)" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Style (Toony, Realistic, Realistic Toony)" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Padding (Muscle, Plush, None)" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Leg Type (Plantigrade, Digitigrade, Quad or N/A if Partial)" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Role (Artist, Cosplayer, Dancer, Fursuiter, Furtuber, Gamer, Gearhead, Musician, Photographer)" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Base Colour" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Eye Colour" />
+                  </ListItem>
+                </List>
+              </Typography>
+            </React.Fragment>
+          )}
+          {assetType == "Maker" && (
+            <React.Fragment>
+              <Typography variant="subtitle1">
+                Please provide the following information:
+              </Typography>
+              <List>
+                <ListItem>
+                  <ListItemIcon>
+                    <CheckIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Country" />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <CheckIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Region" />
+                </ListItem>
+              </List>
+            </React.Fragment>
+          )}
+          {assetType == "Event" && (
+            <React.Fragment>
+              <Typography variant="subtitle1">
+                Please provide the following information:
+                <List>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Start and End Dates" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Country" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Region" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="City" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Venue" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Attendance" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Theme" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Charity" />
+                  </ListItem>
+                </List>
+              </Typography>
+            </React.Fragment>
+          )}
           <TextField
             label="Name"
             name="name"

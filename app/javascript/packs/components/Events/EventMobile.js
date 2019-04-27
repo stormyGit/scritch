@@ -155,15 +155,7 @@ class Event extends React.Component {
               <div className={classes.container} key={event.id}>
                 <PageTitle>{!loading && event ? event.name : null}</PageTitle>
                 <Grid container spacing={8}>
-                  <Grid item lg={9} xs={12}>
-                    <EventMedia
-                      event={event.id}
-                      edition={
-                        this.state.edition ? this.state.edition.value : null
-                      }
-                    />
-                  </Grid>
-                  <Grid item lg={3} xs={12}>
+                  <Grid item xs={12}>
                     <div className={classes.pictureInfo}>
                       <Grid
                         container
@@ -202,8 +194,8 @@ class Event extends React.Component {
                         alignItems="center"
                         justify="center"
                       >
-                        <Grid xs={1} item />
-                        <Grid xs={10} item>
+                        <Grid xs={3} item />
+                        <Grid xs={6} item>
                           <img
                             src={event.avatar}
                             title={event.name}
@@ -211,7 +203,7 @@ class Event extends React.Component {
                             style={{ borderRadius: "5%" }}
                           />
                         </Grid>
-                        <Grid xs={1} item />
+                        <Grid xs={3} item />
                       </Grid>
                       <Grid container spacing={8}>
                         <Grid item>
@@ -398,6 +390,14 @@ class Event extends React.Component {
                         </Query>
                       )}
                     </div>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <EventMedia
+                      event={event.id}
+                      edition={
+                        this.state.edition ? this.state.edition.value : null
+                      }
+                    />
                   </Grid>
                 </Grid>
               </div>

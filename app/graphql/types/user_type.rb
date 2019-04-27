@@ -16,6 +16,7 @@ module Types
     field :metric_species, String, null: true
     field :website, String, null: true
     field :theme, String, null: false
+    field :makers, [MakerType], null: false
 
     field :tag_tutorial, Boolean, null: false
     field :used_free_trial, Boolean, null: false
@@ -50,6 +51,10 @@ module Types
 
     def fursuits
       object.fursuits
+    end
+
+    def makers
+      Maker.where(user: object).order(:name)
     end
 
     def sponsor

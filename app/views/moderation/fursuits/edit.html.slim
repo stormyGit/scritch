@@ -63,12 +63,12 @@ br
           .select
             = f.select :fursuit_finger_id, options_for_select(FursuitFinger.all.order(:name).pluck(:name, :uuid), @fursuit.fursuit_finger_id), {:include_blank => true}
         .field
-          = f.label :base_color, "Base Color"
+          = f.label :base_color, "Base Colour"
           br
           .select
             = f.select :base_color, options_for_select(Fursuit::BASE_COLORS, @fursuit.base_color), {:include_blank => true}
         .field
-          = f.label :eyes_color, "Eyes Color"
+          = f.label :eyes_color, "Eye Colour"
           br
           .select
             = f.select :eyes_color, options_for_select(Fursuit::EYES_COLORS, @fursuit.eyes_color), {:include_blank => true}

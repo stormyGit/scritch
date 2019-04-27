@@ -142,7 +142,7 @@ class FursuitModal extends React.Component {
                         </Typography>
                         <div style={{ padding: 5 }} />
                         <DialogContentText>
-                          Base Color / Eye Color
+                          Base Colour / Eye Color
                         </DialogContentText>
                         <Typography
                           gutterBottom
@@ -178,9 +178,7 @@ class FursuitModal extends React.Component {
                             : "Unknown"}
                         </Typography>
                         <div style={{ padding: 5 }} />
-                        <DialogContentText>
-                          Leg Type / Finger Type
-                        </DialogContentText>
+                        <DialogContentText>Leg Type / Role</DialogContentText>
                         <Typography
                           gutterBottom
                           variant="h6"

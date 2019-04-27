@@ -620,11 +620,11 @@ class FursuitEditFields extends React.Component {
     return (
       <Grid item xs={12}>
         <Typography variant="h6" className={classes.label}>
-          Base Color
+          Base Colour
         </Typography>
         <Select
           fullWidth
-          placeholder="Base Color"
+          placeholder="Base Colour"
           isClearable
           isSearchable
           value={this.state.baseColor}
@@ -648,11 +648,11 @@ class FursuitEditFields extends React.Component {
     return (
       <Grid item xs={12}>
         <Typography variant="h6" className={classes.label}>
-          Eyes Color
+          Eye Colour
         </Typography>
         <Select
           fullWidth
-          placeholder="Eyes Color"
+          placeholder="Eye Colour"
           isClearable
           isSearchable
           value={this.state.eyesColor}

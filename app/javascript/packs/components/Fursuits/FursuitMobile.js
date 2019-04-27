@@ -58,7 +58,6 @@ const styles = theme => ({
   },
   text: {},
   fursuitTitle: {
-    maxWidth: "40vw",
     marginBottom: 0,
     fontWeight: 200
   },
@@ -97,7 +96,8 @@ const styles = theme => ({
     width: 132
   },
   metrics: {
-    display: "flex"
+    display: "flex",
+    alignItems: "center"
   },
   dataSpacer: {
     marginLeft: theme.spacing.unit * 2
@@ -109,11 +109,12 @@ const styles = theme => ({
     fontSize: "2em"
   },
   sideSpace: {
+    marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
   }
 });
 
-class Fursuit extends React.Component {
+class FursuitMobile extends React.Component {
   state = {
     claimDialog: false,
     editFursuitDialog: false
@@ -141,9 +142,9 @@ class Fursuit extends React.Component {
         >
           {(deleteFollow, { data }) => (
             <Button
-              size={width !== "lg" && width !== "xl" ? "small" : "large"}
-              fullWidth
+              size={width !== "lg" && width !== "xl" ? "large" : "medium"}
               variant="outlined"
+              fullWidth
               className={
                 width === "lg" || width === "xl"
                   ? this.props.classes.followButtonSpacer
@@ -182,7 +183,7 @@ class Fursuit extends React.Component {
         >
           {(createFollow, { data }) => (
             <Button
-              size={width !== "lg" && width !== "xl" ? "small" : "large"}
+              size={width !== "lg" && width !== "xl" ? "large" : "medium"}
               variant="outlined"
               fullWidth
               onClick={() => {
@@ -229,12 +230,17 @@ class Fursuit extends React.Component {
                   {!loading && fursuit ? fursuit.name : null}
                 </PageTitle>
                 <React.Fragment>
-                  <Grid container spacing={8}>
+                  <Grid
+                    container
+                    spacing={8}
+                    justify="space-between"
+                    wrap="nowrap"
+                  >
                     {!fursuit.claimed &&
                       !fursuit.claimRejected &&
                       !fursuit.possessed &&
                       fursuit.users.length == 0 && (
-                        <Grid item xs={12} className={classes.sideSpace}>
+                        <Grid item xs={6} className={classes.sideSpace}>
                           <Button
                             color="primary"
                             fullWidth
@@ -247,11 +253,11 @@ class Fursuit extends React.Component {
                         </Grid>
                       )}
                     {fursuit.claimed && !fursuit.possessed && (
-                      <Grid item xs={12} className={classes.sideSpace}>
+                      <Grid item xs={6} className={classes.sideSpace}>
                         <Button
                           color="primary"
-                          size="large"
                           fullWidth
+                          size="large"
                           variant="outlined"
                           disabled
                         >
@@ -263,7 +269,7 @@ class Fursuit extends React.Component {
                       !fursuit.claimRejected &&
                       !fursuit.possessed &&
                       fursuit.users.length > 0 && (
-                        <Grid item xs={12} className={classes.sideSpace}>
+                        <Grid item xs={6} className={classes.sideSpace}>
                           <Button
                             color="primary"
                             fullWidth
@@ -276,11 +282,11 @@ class Fursuit extends React.Component {
                         </Grid>
                       )}
                     {fursuit.possessed && (
-                      <Grid item xs={12} className={classes.sideSpace}>
+                      <Grid item xs={6} className={classes.sideSpace}>
                         <Button
                           color="primary"
-                          size="large"
                           fullWidth
+                          size="large"
                           variant="outlined"
                           onClick={() =>
                             this.setState({ editFursuitDialog: true })
@@ -293,7 +299,7 @@ class Fursuit extends React.Component {
                     {!fursuit.claimed &&
                       !fursuit.possessed &&
                       currentSession.user.sponsor && (
-                        <Grid item xs={12} className={classes.sideSpace}>
+                        <Grid item xs={6} className={classes.sideSpace}>
                           {this.renderFollowButton(fursuit)}
                         </Grid>
                       )}
@@ -362,17 +368,17 @@ class Fursuit extends React.Component {
                     alignItems="center"
                     justify="center"
                   >
-                    <Grid xs={1} item />
-                    <Grid xs={10} item>
+                    <Grid xs={3} item />
+                    <Grid xs={6} item>
                       <img
                         style={{ width: "100%", borderRadius: "5%" }}
                         src={fursuit.avatar}
                       />
                     </Grid>
-                    <Grid xs={1} item />
+                    <Grid xs={3} item />
                   </Grid>
                   <Grid container spacing={8}>
-                    <Grid item>
+                    <Grid item xs={12} style={{ textAlign: "center" }}>
                       <div style={{ padding: 5 }} />
                       <React.Fragment>
                         {currentSession && (
@@ -413,6 +419,8 @@ class Fursuit extends React.Component {
                           </div>
                         )}
                       </React.Fragment>
+                    </Grid>
+                    <Grid item>
                       <div style={{ padding: 5 }} />
                       <Typography
                         gutterBottom
@@ -460,7 +468,7 @@ class Fursuit extends React.Component {
                         className={classes.fursuitTitle}
                         noWrap
                       >
-                        Style
+                        Style / Appearance
                       </Typography>
                       <Typography
                         gutterBottom
@@ -471,6 +479,10 @@ class Fursuit extends React.Component {
                       >
                         {fursuit.fursuitStyle
                           ? fursuit.fursuitStyle.name
+                          : "Unknown"}{" "}
+                        /{" "}
+                        {fursuit.fursuitGender
+                          ? fursuit.fursuitGender.name
                           : "Unknown"}
                       </Typography>
                       <div style={{ padding: 5 }} />
@@ -482,7 +494,7 @@ class Fursuit extends React.Component {
                         className={classes.fursuitTitle}
                         noWrap
                       >
-                        Appearance
+                        Base Colour / Eye Color
                       </Typography>
                       <Typography
                         gutterBottom
@@ -491,9 +503,8 @@ class Fursuit extends React.Component {
                         className={classes.fursuitTitle}
                         noWrap
                       >
-                        {fursuit.fursuitGender
-                          ? fursuit.fursuitGender.name
-                          : "Unknown"}
+                        {fursuit.baseColor ? fursuit.baseColor : "Unknown"} /{" "}
+                        {fursuit.eyesColor ? fursuit.eyesColor : "Unknown"}
                       </Typography>
 
                       <div style={{ padding: 5 }} />
@@ -505,7 +516,7 @@ class Fursuit extends React.Component {
                         className={classes.fursuitTitle}
                         noWrap
                       >
-                        Build
+                        Build / Padding
                       </Typography>
                       <Typography
                         gutterBottom
@@ -516,6 +527,10 @@ class Fursuit extends React.Component {
                       >
                         {fursuit.fursuitBuild
                           ? fursuit.fursuitBuild.name
+                          : "Unknown"}{" "}
+                        /{" "}
+                        {fursuit.fursuitPadding
+                          ? fursuit.fursuitPadding.name
                           : "Unknown"}
                       </Typography>
 
@@ -528,69 +543,7 @@ class Fursuit extends React.Component {
                         className={classes.fursuitTitle}
                         noWrap
                       >
-                        Padding
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.fursuitPadding
-                          ? fursuit.fursuitPadding.name
-                          : "Unknown"}
-                      </Typography>
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Base Colour
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.baseColor ? fursuit.baseColor : "Unknown"}
-                      </Typography>
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Eye Colour
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.eyesColor ? fursuit.eyesColor : "Unknown"}
-                      </Typography>
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Leg Type
+                        Leg Type / Role
                       </Typography>
                       <Typography
                         gutterBottom
@@ -601,32 +554,13 @@ class Fursuit extends React.Component {
                       >
                         {fursuit.fursuitLegType
                           ? fursuit.fursuitLegType.name
-                          : "Unknown"}
-                      </Typography>
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Role
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
+                          : "Unknown"}{" "}
+                        /{" "}
                         {fursuit.fursuitFinger
                           ? fursuit.fursuitFinger.name
                           : "Unknown"}
                       </Typography>
-
-                      <div style={{ padding: 5 }} />
+                      <div style={{ padding: 8 }} />
                     </Grid>
                   </Grid>
                   <Divider />
@@ -655,11 +589,11 @@ class Fursuit extends React.Component {
       <React.Fragment>
         <div className={classes.container}>
           <Grid container spacing={8}>
-            <Grid item lg={10} xs={12}>
-              {this.renderFursuitMedia()}
-            </Grid>
-            <Grid item lg={2} xs={12}>
+            <Grid item xs={12}>
               {this.renderFursuitData()}
+            </Grid>
+            <Grid item xs={12}>
+              {this.renderFursuitMedia()}
             </Grid>
           </Grid>
         </div>
@@ -668,4 +602,6 @@ class Fursuit extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withCurrentSession(Fursuit)));
+export default withStyles(styles)(
+  withRouter(withCurrentSession(FursuitMobile))
+);

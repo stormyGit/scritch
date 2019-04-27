@@ -8,9 +8,12 @@ import uuidv4 from "uuid/v4";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
 import AdvertiseDialog from "../AppDialogs/AdvertiseDialog";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTwitter, faTelegram } from "@fortawesome/free-brands-svg-icons";
 
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 import Icon from "@material-ui/core/Icon";
 
 const styles = theme => ({
@@ -18,7 +21,8 @@ const styles = theme => ({
     flexGrow: 1
   },
   grid: {
-    textAlign: "center"
+    textAlign: "center",
+    alignItems: "center"
   },
   icon: {
     color: theme.palette.text.primary
@@ -38,6 +42,14 @@ const styles = theme => ({
     cursor: "pointer",
     width: 300,
     height: 90
+  },
+  socialLeft: {
+    alignItems: "center",
+    textAlign: "right"
+  },
+  socialRight: {
+    alignItems: "center",
+    textAlign: "left"
   }
 });
 
@@ -223,10 +235,20 @@ class AppFooter extends React.Component {
             </React.Fragment>
           )}
           <Grid container spacing={8} className={classes.grid}>
-            <Grid item xs={2}>
-              {false && <ShareIcon className={classes.icon} />}
+            <Grid item xs={4} className={classes.socialLeft}>
+              <a
+                href="https://twitter.com/PixelScritch"
+                target="_blank"
+                className={classes.link}
+              >
+                <Typography variant="h4" color="primary">
+                  <Tooltip title="Follow us on Twitter!">
+                    <FontAwesomeIcon icon={faTwitter} />
+                  </Tooltip>
+                </Typography>
+              </a>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={4}>
               <Typography>
                 <Link to={"/terms_of_use"} className={classes.link}>
                   Terms & Conditions
@@ -255,7 +277,19 @@ class AppFooter extends React.Component {
                 {process.env.SITE_VERSION})
               </Typography>
             </Grid>
-            <Grid item xs={2} />
+            <Grid item xs={4} className={classes.socialRight}>
+              <a
+                href="https://t.me/ScritchNews"
+                target="_blank"
+                className={classes.link}
+              >
+                <Typography variant="h4" color="primary">
+                  <Tooltip title="Get the latest News on Telegram!">
+                    <FontAwesomeIcon icon={faTelegram} />
+                  </Tooltip>
+                </Typography>
+              </a>
+            </Grid>
           </Grid>
         </div>
         {currentSession && (

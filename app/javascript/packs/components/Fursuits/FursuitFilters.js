@@ -579,7 +579,7 @@ class FursuitFilters extends React.Component {
       <Grid item xs={4}>
         <Select
           fullWidth
-          placeholder="Base Color"
+          placeholder="Base Colour"
           isClearable
           isSearchable
           value={this.state.fursuitColor}
@@ -604,7 +604,7 @@ class FursuitFilters extends React.Component {
       <Grid item xs={4}>
         <Select
           fullWidth
-          placeholder="Eyes Color"
+          placeholder="Eye Colour"
           isClearable
           isSearchable
           value={this.state.fursuitEyes}

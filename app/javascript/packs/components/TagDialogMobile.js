@@ -28,7 +28,6 @@ import TextField from "@material-ui/core/TextField";
 import ScrollArea from "react-scrollbar";
 import createFilterOptions from "react-select-fast-filter-options";
 import { Mutation, Query } from "react-apollo";
-import TelegramLoginButton from "react-telegram-login";
 import { withRouter } from "react-router-dom";
 import withCurrentSession from "./withCurrentSession";
 

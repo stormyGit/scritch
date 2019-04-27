@@ -4,6 +4,7 @@ import withCurrentSession from "../withCurrentSession";
 import withWidth from "@material-ui/core/withWidth";
 
 import Fursuit from "../Fursuits/Fursuit";
+import FursuitMobile from "../Fursuits/FursuitMobile";
 import Fursuits from "../Fursuits/Fursuits";
 
 import Media from "../Media/Media";
@@ -13,9 +14,11 @@ import MediumMobile from "../Media/MediumMobile";
 import User from "../Users/User";
 
 import Maker from "../Makers/Maker";
+import MakerMobile from "../Makers/MakerMobile";
 import Makers from "../Makers/Makers";
 
 import Event from "../Events/Event";
+import EventMobile from "../Events/EventMobile";
 import Events from "../Events/Events";
 
 import Announcements from "../PoliciesSupport/Announcements";
@@ -153,7 +156,9 @@ class AppRouter extends React.Component {
                     path="/fursuits/:id"
                     component={
                       currentSession && !currentSession.user.suspendedUser
-                        ? Fursuit
+                        ? width === "xs" || width === "sm"
+                          ? FursuitMobile
+                          : Fursuit
                         : MustLog
                     }
                   />
@@ -162,7 +167,9 @@ class AppRouter extends React.Component {
                     path="/makers/:id"
                     component={
                       currentSession && !currentSession.user.suspendedUser
-                        ? Maker
+                        ? width === "xs" || width === "sm"
+                          ? MakerMobile
+                          : Maker
                         : MustLog
                     }
                   />
@@ -171,7 +178,9 @@ class AppRouter extends React.Component {
                     path="/events/:id"
                     component={
                       currentSession && !currentSession.user.suspendedUser
-                        ? Event
+                        ? width === "xs" || width === "sm"
+                          ? EventMobile
+                          : Event
                         : MustLog
                     }
                   />

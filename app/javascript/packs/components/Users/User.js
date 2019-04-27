@@ -2,7 +2,7 @@ import React from "react";
 import gql from "graphql-tag";
 import { Query, Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
 import Button from "@material-ui/core/Button";
@@ -160,7 +160,13 @@ const styles = theme => ({
     paddingLeft: theme.spacing.unit * 4,
     paddingRight: theme.spacing.unit * 4,
     justifyContent: "center"
-  }
+  },
+  makerLink: {
+    textDecoration: "none",
+    color: theme.palette.primary.main,
+    cursor: "pointer"
+  },
+  infoText: {}
 });
 
 class User extends React.Component {
@@ -717,9 +723,31 @@ class User extends React.Component {
 
     return (
       <div>
-        <Typography variant="h6" className={classes.infoText} color={"inherit"}>
-          {user.name}
-        </Typography>
+        {user.makers && (
+          <Typography
+            variant="h6"
+            className={classes.infoText}
+            color={"inherit"}
+          >
+            {user.name} (Owner of{" "}
+            {user.makers.map((maker, index) => (
+              <Link className={classes.makerLink} to={`/makers/${maker.slug}`}>
+                {maker.name}
+                {index < user.makers.length - 1 ? ", " : ""}
+              </Link>
+            ))}
+            )
+          </Typography>
+        )}
+        {!user.makers && (
+          <Typography
+            variant="h6"
+            className={classes.infoText}
+            color={"inherit"}
+          >
+            {user.name}
+          </Typography>
+        )}
         <Typography
           variant="body2"
           noWrap={width !== "xs" && width !== "sm"}
