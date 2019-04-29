@@ -8,19 +8,21 @@ class ApplicationController < ActionController::Base
   end
   layout :layout_by_resource
 
-    private
+  private
 
-    def layout_by_resource
-      if devise_controller?
-        "moderation"
-      elsif controller_name == "sponsors"
-        "sponsors"
-      elsif controller_name == "adverts"
-        "adverts"
-      else
-        "application"
-      end
+  def layout_by_resource
+    return "maintenance"
+    if devise_controller?
+      "moderation"
+    elsif controller_name == "sponsors"
+      "sponsors"
+    elsif controller_name == "adverts"
+      "adverts"
+    else
+      "application"
     end
+  end
+
   protected
 
   def initialize_meta
