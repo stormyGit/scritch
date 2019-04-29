@@ -11,7 +11,5 @@ class CreateSpecies < ActiveRecord::Migration[5.2]
     remove_reference :fursuits, :fursuit_specy
     add_reference :fursuit_species, :fursuit, index: true, type: :uuid
     add_reference :fursuit_species, :specy, index: true, type: :uuid
-    drop_table :hybrids
-    drop_table :fursuit_specy_hybrids
   end
 end
