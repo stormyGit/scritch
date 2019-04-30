@@ -11,7 +11,9 @@ class ApplicationController < ActionController::Base
   private
 
   def layout_by_resource
-    return "maintenance"
+    if App.first.maintenance
+      return "maintenance"
+    end
     if devise_controller?
       "moderation"
     elsif controller_name == "sponsors"
