@@ -14,7 +14,6 @@ namespace :makers do
       # puts "#{i + 2} => #{name}"
       makers << [name, country, web_1, i + 1, region]
       i = i + 1
-      puts makers.to_s
     end
 
     makers.each do |e|

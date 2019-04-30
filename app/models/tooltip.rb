@@ -4,8 +4,8 @@ class Tooltip < ApplicationRecord
   mount_base64_uploader :file, TooltipUploader
 
   CATEGORIES = [
-    "fursuiting",
-    "website",
-    "convention"
+    "Fursuits",
+    "Scritch",
+    "Conventions"
   ]
 end

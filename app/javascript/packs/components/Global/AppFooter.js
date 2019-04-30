@@ -236,17 +236,17 @@ class AppFooter extends React.Component {
           )}
           <Grid container spacing={8} className={classes.grid}>
             <Grid item xs={4} className={classes.socialLeft}>
-              <a
-                href="https://twitter.com/PixelScritch"
-                target="_blank"
-                className={classes.link}
-              >
-                <Typography variant="h4" color="primary">
-                  <Tooltip title="Follow us on Twitter!">
+              <Typography variant="h4" color="primary">
+                <Tooltip title="Follow us on Twitter!">
+                  <a
+                    href="https://twitter.com/PixelScritch"
+                    target="_blank"
+                    className={classes.link}
+                  >
                     <FontAwesomeIcon icon={faTwitter} />
-                  </Tooltip>
-                </Typography>
-              </a>
+                  </a>
+                </Tooltip>
+              </Typography>
             </Grid>
             <Grid item xs={4}>
               <Typography>
@@ -278,17 +278,17 @@ class AppFooter extends React.Component {
               </Typography>
             </Grid>
             <Grid item xs={4} className={classes.socialRight}>
-              <a
-                href="https://t.me/ScritchNews"
-                target="_blank"
-                className={classes.link}
-              >
-                <Typography variant="h4" color="primary">
-                  <Tooltip title="Get the latest News on Telegram!">
+              <Typography variant="h4" color="primary">
+                <Tooltip title="Get the latest News on Telegram!">
+                  <a
+                    href="https://t.me/ScritchNews"
+                    target="_blank"
+                    className={classes.link}
+                  >
                     <FontAwesomeIcon icon={faTelegram} />
-                  </Tooltip>
-                </Typography>
-              </a>
+                  </a>
+                </Tooltip>
+              </Typography>
             </Grid>
           </Grid>
         </div>

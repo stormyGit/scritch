@@ -2,38 +2,32 @@ require 'csv'
 
 namespace :tooltips do
   task :fetch, [:filepath] => :environment do |t, args|
-    # i = 0
-    # makers = []
-    # csv_text = open("app/assets/csv/makers.csv")
-    # csv = CSV.parse(csv_text, :headers => true)
-    # csv.each do |row|
-    #   name = row[2]
-    #   country = row[0]
-    #   region = row[1] == "Unknown" ? nil : row[1]
-    #   web_1 = row[5]
-    #   # puts "#{i + 2} => #{name}"
-    #   makers << [name, country, web_1, i + 1, region]
-    #   i = i + 1
-    #   puts makers.to_s
-    # end
-    #
-    # makers.each do |e|
-    #   puts e
-    #   puts "\n"
-    #   if e[3] == 1
-    #     maker = Maker.create!(name: e[0], country: "Owner Made", region: nil, web: nil, reference: e[3])
-    #     maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - Owner Made.png")
-    #     maker.save!
-    #     next
-    #   end
-    #   maker = Maker.create!(name: e[0], country: e[1], region: e[4], web: e[2], reference: e[3])
-    #   begin
-    #     maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - #{maker.country}.png")
-    #   rescue
-    #     TechReport.create!(user: User.first, description: "MAKER:: #{maker.name}")
-    #     maker.avatar = File.open("app/assets/images/makerPlaceholder.png")
-    #   end
-    #   maker.save!
-    # end
+
+    tooltips = []
+    csv_text = open("app/assets/csv/tooltips.csv")
+    csv = CSV.parse(csv_text, :headers => true)
+    csv.each do |row|
+      name = row[0]
+      category = row[4]
+      aspect = row[5]
+      topic = row[6]
+      body = row[10]
+      tooltips << [name, category, aspect, topic, body]
+    end
+
+    tooltips.each do |e|
+      puts e
+      puts "\n"
+      if e[1] == "Scritch"
+        next
+      end
+      tooltip = Tooltip.create!(name: e[0], category: e[1], aspect: e[2], topic: e[3], body: e[4])
+      begin
+        tooltip.file = File.open("app/assets/images/tooltips/#{tooltip.name}.png")
+      rescue
+        TechReport.create!(user: User.first, description: "TOOLTIP:: #{tooltip.name}")
+      end
+      tooltip.save!
+    end
   end
 end

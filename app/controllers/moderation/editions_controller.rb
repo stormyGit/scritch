@@ -11,12 +11,12 @@ class Moderation::EditionsController < ModerationController
     end
 
     @editions = @editions.page(params[:page]).per(30)
-
   end
 
   def show
     @event = Event.find(params[:event_id])
-    @edition = Edition.find(params[:id])
+    @edition = Edition.find_by(slug: params[:id], event: @event)
+
   end
 
   def update
@@ -42,8 +42,8 @@ class Moderation::EditionsController < ModerationController
   end
 
   def edit
-    @edition = Edition.find(params[:id])
     @event = Event.find(params[:event_id])
+    @edition = Edition.find_by(slug: params[:id], event: @event)
 
   end
 

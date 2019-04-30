@@ -13,7 +13,7 @@ class Moderator < ApplicationRecord
     tooltips
   )
 
-  devise :database_authenticatable, :rememberable, :trackable
+  devise :database_authenticatable, :rememberable, :trackable, :recoverable, :rememberable
 
   has_many :moderation_comments, class_name: "Moderation::Comment"
 

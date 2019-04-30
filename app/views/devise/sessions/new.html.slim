@@ -14,6 +14,7 @@
             .control
               = f.password_field :password, autocomplete: "off", class: "input", required: true
 
+        /= link_to "Forgot your password?", new_moderator_password_path
         .field.is-grouped
           .control
             = f.submit "Sign in", class: "button is-info"
