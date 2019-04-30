@@ -31,7 +31,6 @@
       }
       img {
         width: 256px;
-        height: 256px;
       }
       p {
         color: white;
@@ -39,14 +38,18 @@
         margin-top: 2em;
         font-size: 2em;
       }
+      .link {
+        text-decoration: "none",
+        color: "#0c8cff"
+      }
     </style>
   </head>
 
   <body>
     <div class="dialog">
-      <img src="./logo.png" />
-      <p>We're currently under maintenance.</p>
-      <p>Please try again later!</p>
+      <%= image_tag "logo_full_shaded.png" %>
+      <p>Scritch is currently under maintenance.</p>
+      <p>For information and updates, consider joining the <a style="text-decoration: none; color: #0c8cff" href="https://t.me/ScritchNews" target="_blank">Scritch Telegram Channel</a>.</p>
     </div>
   </body>
 </html>
