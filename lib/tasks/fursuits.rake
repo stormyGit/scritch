@@ -40,7 +40,6 @@ namespace :fursuits do
             fursuit_leg_type: FursuitLegType.find_by(name: e[5]),
             fursuit_build: FursuitBuild.find_by(name: e[6]),
             fursuit_padding: FursuitPadding.find_by(name: e[7]),
-            fursuit_finger: FursuitFinger.find_by(name: e[8]),
             base_color: e[9],
             eyes_color: e[10]
           )
@@ -53,7 +52,6 @@ namespace :fursuits do
             fursuit_leg_type: FursuitLegType.find_by(name: e[5]),
             fursuit_build: FursuitBuild.find_by(name: e[6]),
             fursuit_padding: FursuitPadding.find_by(name: e[7]),
-            fursuit_finger: FursuitFinger.find_by(name: e[8]),
             base_color: e[9],
             eyes_color: e[10],
             species_ids: [Specy.find_by(name: e[1]).uuid]

@@ -20,10 +20,14 @@ namespace :events do
     conlist = conlist.uniq
     conlist.each do |e|
       puts e.to_s
-      if e[1] == "No Link"
-        Event.create!(name: e[0])
-      else
-        Event.create!(name: e[0], web: e[1])
+      begin
+        if e[1] == "No Link"
+          Event.create!(name: e[0])
+        else
+          Event.create!(name: e[0], web: e[1])
+        end
+      rescue
+        TechReport.create!(user: User.first, description: "EVENT CREATE:: #{e[0]}")
       end
     end
     puts conlist.to_s
@@ -68,27 +72,31 @@ namespace :events do
 
     editionList.each do |e|
       puts e.to_s
-      edition = Edition.create!(
-        event: Event.find_by(name: e[0]),
-        attendance: e[1],
-        theme: e[2],
-        charity: e[11],
-        country: e[3],
-        city: e[4],
-        venue: e[5],
-        kind: e[6],
-        start_date: DateTime.parse(e[7]),
-        end_date: DateTime.parse(e[8]),
-        name: e[9],
-        year: e[10])
-      if edition.event.avatar.blank?
-        begin
-          edition.event.avatar = File.open("app/assets/images/events/Scritch Event Thumbnail - #{edition.country}.png")
-        rescue
-          TechReport.create!(user: User.first, description: "EVENT:: #{edition.event.name}")
-          edition.event.avatar = File.open("app/assets/images/events/FAILED.png")
+      begin
+        edition = Edition.create!(
+          event: Event.find_by(name: e[0]),
+          attendance: e[1],
+          theme: e[2],
+          charity: e[11],
+          country: e[3],
+          city: e[4],
+          venue: e[5],
+          kind: e[6],
+          start_date: DateTime.parse(e[7]),
+          end_date: DateTime.parse(e[8]),
+          name: e[9],
+          year: e[10])
+        if edition.event.avatar.blank?
+          begin
+            edition.event.avatar = File.open("app/assets/images/events/Scritch Event Thumbnail - #{edition.country}.png")
+          rescue
+            TechReport.create!(user: User.first, description: "EVENT:: #{edition.event.name}")
+            edition.event.avatar = File.open("app/assets/images/events/FAILED.png")
+          end
+          edition.event.save!
         end
-        edition.event.save!
+      rescue
+        TechReport.create!(user: User.first, description: "EDITION CREATE:: #{e[0]} - #{e[9]}")
       end
     end
 

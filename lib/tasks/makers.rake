@@ -15,28 +15,29 @@ namespace :makers do
       makers << [name, country, web_1, i + 1, region]
       i = i + 1
       puts makers.to_s
-      puts "\n"
-      puts "\n"
-      puts "\n"
     end
 
     makers.each do |e|
       puts e
       puts "\n"
-      if e[3] == 1
-        maker = Maker.create!(name: e[0], country: "Owner Made", region: nil, web: nil, reference: e[3])
-        maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - Owner Made.png")
-        maker.save!
-        next
-      end
-      maker = Maker.create!(name: e[0], country: e[1], region: e[4], web: e[2], reference: e[3])
       begin
-        maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - #{maker.country}.png")
+        if e[3] == 1
+          maker = Maker.create!(name: e[0], country: "Owner Made", region: nil, web: nil, reference: e[3])
+          maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - Owner Made.png")
+          maker.save!
+          next
+        end
+        maker = Maker.create!(name: e[0], country: e[1], region: e[4], web: e[2], reference: e[3])
+        begin
+          maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - #{maker.country}.png")
+        rescue
+          TechReport.create!(user: User.first, description: "MAKER:: #{maker.name}")
+          maker.avatar = File.open("app/assets/images/makerPlaceholder.png")
+        end
+        maker.save!
       rescue
-        TechReport.create!(user: User.first, description: "MAKER:: #{maker.name}")
-        maker.avatar = File.open("app/assets/images/makerPlaceholder.png")
+        TechReport.create!(user: User.first, description: "MAKER CREATE:: #{e[0]}")
       end
-      maker.save!
     end
 
   end
