@@ -52,20 +52,9 @@ br
               = @fursuit.species.present? ? @fursuit.species.first.name : "Unknown"
           br
           p.is-size-4
-            | Style
+            | Role
           p.is-size-5
-            = @fursuit.fursuit_style ? @fursuit.fursuit_style.name : "Unknown"
-          br
-          p.is-size-4
-            | Leg Type
-          p.is-size-5
-            = @fursuit.fursuit_leg_type ? @fursuit.fursuit_leg_type.name : "Unknown"
-
-        .column.is-4
-          p.is-size-4
-            | Padding
-          p.is-size-5
-            = @fursuit.fursuit_padding ? @fursuit.fursuit_padding.name : "Unknown"
+            = @fursuit.fursuit_finger ? @fursuit.fursuit_finger.name : "Unknown"
           br
           p.is-size-4
             | Build
@@ -73,15 +62,10 @@ br
             = @fursuit.fursuit_build ? @fursuit.fursuit_build.name : "Unknown"
           br
           p.is-size-4
-            | Appearance
+            | Style
           p.is-size-5
-            = @fursuit.fursuit_gender ? @fursuit.fursuit_gender.name : "Unknown"
-          br
-          p.is-size-4
-            | Role
-          p.is-size-5
-            = @fursuit.fursuit_finger ? @fursuit.fursuit_finger.name : "Unknown"
-          br
+            = @fursuit.fursuit_style ? @fursuit.fursuit_style.name : "Unknown"
+        .column.is-4
           p.is-size-4
             | Base Colour
           p.is-size-5
@@ -91,7 +75,22 @@ br
             | Eye Colour
           p.is-size-5
             = @fursuit.eyes_color ? @fursuit.eyes_color : "Unknown"
+          br
+          p.is-size-4
+            | Padding
+          p.is-size-5
+            = @fursuit.fursuit_padding ? @fursuit.fursuit_padding.name : "Unknown"
+          br
+          p.is-size-4
+            | Appearance
+          p.is-size-5
+            = @fursuit.fursuit_gender ? @fursuit.fursuit_gender.name : "Unknown"
 
+          br
+          p.is-size-4
+            | Leg Type
+          p.is-size-5
+            = @fursuit.fursuit_leg_type ? @fursuit.fursuit_leg_type.name : "Unknown"
 
 
 

@@ -84,6 +84,7 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     backgroundColor: theme.palette.danger.main
   },
   rightButton: {
@@ -249,11 +250,22 @@ class AppLayoutRemake extends React.Component {
                     src={logo}
                     className={classes.pointer}
                   />
-                  <Typography variant="h4">Account Suspended</Typography>
-                  <Typography variant="h5">
+                  {(width === "sm" || width === "xs") && (
+                    <Typography variant="subtitle1">Suspended</Typography>
+                  )}
+                  {width !== "sm" && width !== "xs" && (
+                    <Typography variant="h4">Account Suspended</Typography>
+                  )}
+                  <Typography
+                    variant={
+                      width === "sm" || width === "xs" ? "subtitle1" : "h5"
+                    }
+                  >
                     {`Until: ${dateFormat(
                       suspendedUserLimit,
-                      "mmmm dS, yyyy"
+                      width === "sm" || width === "xs"
+                        ? "dd/mm/yy"
+                        : "mmmm dS, yyyy"
                     )}`}
                   </Typography>
                   <PoliciesSupportButton

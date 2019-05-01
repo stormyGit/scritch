@@ -37,7 +37,6 @@ class Moderation::MakersController < ModerationController
     begin
       maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - #{maker.country}.png")
     rescue
-      File.open("failedMakers", 'a') { |file| file.write("#{maker.name}\n")}
       maker.avatar = File.open("app/assets/images/makerPlaceholder.png")
     end
     maker.save!

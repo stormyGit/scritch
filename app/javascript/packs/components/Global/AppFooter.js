@@ -235,7 +235,7 @@ class AppFooter extends React.Component {
             </React.Fragment>
           )}
           <Grid container spacing={8} className={classes.grid}>
-            <Grid item xs={4} className={classes.socialLeft}>
+            <Grid item xs={2} md={4} className={classes.socialLeft}>
               <Typography variant="h4" color="primary">
                 <Tooltip title="Follow us on Twitter!">
                   <a
@@ -248,7 +248,7 @@ class AppFooter extends React.Component {
                 </Tooltip>
               </Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={8} md={4}>
               <Typography>
                 <Link to={"/terms_of_use"} className={classes.link}>
                   Terms & Conditions
@@ -277,7 +277,7 @@ class AppFooter extends React.Component {
                 {process.env.SITE_VERSION})
               </Typography>
             </Grid>
-            <Grid item xs={4} className={classes.socialRight}>
+            <Grid item xs={2} md={4} className={classes.socialRight}>
               <Typography variant="h4" color="primary">
                 <Tooltip title="Get the latest News on Telegram!">
                   <a

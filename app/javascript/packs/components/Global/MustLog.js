@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import withCurrentSession from "../withCurrentSession";
 import dateFormat from "dateformat";
+import withWidth from "@material-ui/core/withWidth";
 
 const styles = theme => ({
   root: {
@@ -16,12 +17,19 @@ const styles = theme => ({
   },
   padder: {
     padding: 100
+  },
+  padderSmall: {
+    padding: 40
   }
 });
 
-const MustLog = ({ classes, className, currentSession }) => (
+const MustLog = ({ classes, className, currentSession, width }) => (
   <React.Fragment>
-    <div className={classes.padder} />
+    <div
+      className={
+        width === "xs" || width === "sm" ? classes.padderSmall : classes.padder
+      }
+    />
     <Grid container alignItems="center" justify="center" className={className}>
       <Grid container item xs={12}>
         {!currentSession && (
@@ -48,8 +56,12 @@ const MustLog = ({ classes, className, currentSession }) => (
         )}
       </Grid>
     </Grid>
-    <div className={classes.padder} />
+    <div
+      className={
+        width === "xs" || width === "sm" ? classes.padderSmall : classes.padder
+      }
+    />
   </React.Fragment>
 );
 
-export default withStyles(styles)(withCurrentSession(MustLog));
+export default withStyles(styles)(withCurrentSession(withWidth()(MustLog)));

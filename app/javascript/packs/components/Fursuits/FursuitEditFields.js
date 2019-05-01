@@ -728,15 +728,15 @@ class FursuitEditFields extends React.Component {
           {this.renderHybridCheck()}
           {!this.state.hybridSearch && this.renderFursuitSpeciesFilter()}
           {this.state.hybridSearch && this.renderHybridSpeciesFilter()}
+          {this.renderFursuitFingersFilter()}
           {this.renderMakerFilter()}
-          {this.renderFursuitStylesFilter()}
-          {this.renderFursuitGenderFilter()}
           {this.renderFursuitBuildFilter()}
-          {this.renderFursuitPaddingFilter()}
+          {this.renderFursuitStylesFilter()}
           {this.renderFursuitColorFilter()}
           {this.renderFursuitEyesFilter()}
+          {this.renderFursuitGenderFilter()}
+          {this.renderFursuitPaddingFilter()}
           {this.renderFursuitLegsFilter()}
-          {this.renderFursuitFingersFilter()}
         </Grid>
       </Grid>
     );

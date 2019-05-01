@@ -47,11 +47,6 @@ class Moderation::FursuitsController < ModerationController
     begin
       fursuit.avatar = File.open("app/assets/images/species/#{e[11]}.png")
     rescue
-      if (fursuit.makers.present?)
-        File.open("failedFursuits", 'a') { |file| file.write("#{fursuit.name} by: #{fursuit.makers[0].name}\n")}
-      else
-        File.open("failedFursuits", 'a') { |file| file.write("#{fursuit.name} by: Unknown Maker\n")}
-      end
       fursuit.avatar = File.open("app/assets/images/species/FAILED.png")
     end
     #    authorize fursuit

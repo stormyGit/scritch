@@ -706,18 +706,18 @@ class FursuitFiltersMobile extends React.Component {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <Grid container spacing={8}>
-                {this.renderFursuitLegsFilter()}
-                {this.renderFursuitStylesFilter()}
-                {this.renderFursuitBuildFilter()}
-                {this.renderFursuitPaddingFilter()}
-                {this.renderFursuitFingersFilter()}
-                {this.renderFursuitGendersFilter()}
-                {this.renderFursuitColorFilter()}
-                {this.renderFursuitEyesFilter()}
-                {this.renderMakerFilter()}
                 {this.renderHybridCheck()}
                 {!this.state.hybridSearch && this.renderFursuitSpeciesFilter()}
                 {this.state.hybridSearch && this.renderHybridSpeciesFilter()}
+                {this.renderMakerFilter()}
+                {this.renderFursuitBuildFilter()}
+                {this.renderFursuitStylesFilter()}
+                {this.renderFursuitFingersFilter()}
+                {this.renderFursuitColorFilter()}
+                {this.renderFursuitEyesFilter()}
+                {this.renderFursuitGendersFilter()}
+                {this.renderFursuitPaddingFilter()}
+                {this.renderFursuitLegsFilter()}
               </Grid>
             </ExpansionPanelDetails>
             <ExpansionPanelActions>

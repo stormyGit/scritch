@@ -49,7 +49,6 @@ const styles = theme => ({
   },
   text: {},
   makerTitle: {
-    maxWidth: "40vw",
     marginBottom: 0,
     fontWeight: 200
   },
