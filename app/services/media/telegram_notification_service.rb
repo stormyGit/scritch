@@ -9,7 +9,7 @@ module Media
 
     def call
       return unless Rails.env.production?
-      
+
       telegram_send_message_service.call
     end
 
@@ -37,7 +37,7 @@ module Media
         inline_keyboard: [
           [
             {
-              text: 'View on Murrtube',
+              text: 'View on Scritch',
               url: Rails.application.routes.url_helpers.admin_medium_url(medium)
             }
           ]

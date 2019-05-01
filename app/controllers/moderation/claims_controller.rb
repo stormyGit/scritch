@@ -21,6 +21,7 @@ class Moderation::ClaimsController < ModerationController
 
   def update
     claim = Claim.find(params[:id])
+    raise Pundit::NotAuthorizedError unless FursuitUserPolicy.new(nil, claim).create?
 
     if claim.conflictual
       if params[:status] == "approve"

@@ -536,8 +536,8 @@ module Types
         media = media.joins(:fursuits).where("fursuits.slug = ?", arguments[:fursuit_id])
       end
       if arguments[:fursuits].present?
-        media = media.joins(:fursuits).where("fursuits.uuid IN (?)", arguments[:fursuits])
-        #media = media.joins(:fursuits).where(fursuits: {uuid: arguments[:fursuits]}).group("media.id").having('count(media.id) >= ?', arguments[:fursuits].size)
+        #media = media.joins(:fursuits).where("fursuits.uuid IN (?)", arguments[:fursuits])
+        media = media.joins(:fursuits).where(fursuits: {uuid: arguments[:fursuits]}).group("media.id", "users.id").having('count(media.id) >= ?', arguments[:fursuits].size)
       end
       if arguments[:tagging].present?
         media = media.where.not("completion > ?", 99).where(tag_locked: false).order(:completion)

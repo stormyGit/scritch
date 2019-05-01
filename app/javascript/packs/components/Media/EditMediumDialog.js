@@ -32,6 +32,7 @@ import { withRouter } from "react-router-dom";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import withCurrentSession from "../withCurrentSession";
 
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import EmptyList from "../Global/EmptyList";
@@ -183,8 +184,9 @@ class EditMediumDialog extends React.Component {
       fursuits: medium.fursuits ? medium.fursuits : [],
       fursuitsCount: medium.fursuitsCount,
       photographerSlug: medium.photographerSlug,
-      photographerString: medium.photographerStringg,
-      isPhotographer: medium.isPhotographer
+      photographerString: medium.photographerString,
+      isPhotographer:
+        medium.photographerSlug == this.props.currentSession.user.slug
     });
   }
 
@@ -855,4 +857,6 @@ class EditMediumDialog extends React.Component {
     );
   }
 }
-export default withStyles(styles)(withRouter(withWidth()(EditMediumDialog)));
+export default withStyles(styles)(
+  withRouter(withWidth()(withCurrentSession(EditMediumDialog)))
+);

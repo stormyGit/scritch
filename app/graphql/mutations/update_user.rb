@@ -20,6 +20,13 @@ class Mutations::UpdateUser < Mutations::BaseMutation
 
   def resolve(arguments)
     user = User.find(arguments[:id])
+
+    if arguments[:slug].present?
+      Medium.where(photographer_slug: user.slug).each do |e|
+        e.update!(photographer_slug: arguments[:slug])
+      end
+    end
+
     user.assign_attributes(arguments)
 
     raise Pundit::NotAuthorizedError unless UserPolicy.new(context[:current_user], user).update?
@@ -27,6 +34,7 @@ class Mutations::UpdateUser < Mutations::BaseMutation
     if arguments[:remove_avatar]
       user.remove_avatar!
     end
+
 
     if arguments[:remove_banner]
       user.remove_banner!

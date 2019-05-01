@@ -29,7 +29,7 @@ class BannedUser < ApplicationRecord
       "You have been banned #{self.ban_end_in_words} for the following reason: #{self.notification_message}."
     else
       "You have been banned #{self.ban_end_in_words}"
-    end + " Please send an email to contact@howlr.im with your Telegram username if you think this is a mistake."
+    end + " Please send an email to contact@scritch.es with your Telegram username if you think this is a mistake."
   end
 
   def store_telegram_id

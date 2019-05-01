@@ -5,6 +5,10 @@ class FursuitUserPolicy < ApplicationPolicy
     end
   end
 
+  def create?
+    FursuitUser.where(fursuit: record.fursuit, user: record.user).count < 1
+  end
+
   def show?
     true
   end

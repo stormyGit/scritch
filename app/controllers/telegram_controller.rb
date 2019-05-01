@@ -41,6 +41,7 @@ class TelegramController < Telegram::Bot::UpdatesController
   def callback_query(query)
     action, id     = query.split(" ")
     message_id     = self.payload["message"]["message_id"]
+    raise Pundit::NotAuthorizedError unless FursuitUserPolicy.new(nil, claim).create?
 
     case action
     when 'APPROVE_CLAIM'

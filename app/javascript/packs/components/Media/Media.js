@@ -34,6 +34,7 @@ const styles = theme => ({
   },
   filters: {
     padding: theme.spacing.unit * 1,
+    textAlign: "center",
     alignItems: "center"
   },
   clearSubsButton: {
