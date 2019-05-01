@@ -104,6 +104,15 @@ class SponsorDialog extends React.Component {
               </ListItemIcon>
               <ListItemText
                 inset
+                primary="Follow User Accounts (Photographers) to see content that they upload."
+              />
+            </ListItem>
+            <ListItem>
+              <ListItemIcon>
+                <CheckIcon />
+              </ListItemIcon>
+              <ListItemText
+                inset
                 primary="Follow Fursuiters to see content that they are tagged in."
               />
             </ListItem>

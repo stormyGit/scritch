@@ -285,6 +285,12 @@ class AdvertiseDialog extends React.Component {
                 <ListItemIcon>
                   <CheckIcon />
                 </ListItemIcon>
+                <ListItemText inset primary="Maximum file size of 10MB" />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon>
+                  <CheckIcon />
+                </ListItemIcon>
                 <ListItemText
                   inset
                   primary="Image type should be JPEG, PNG, or GIF"

@@ -134,7 +134,6 @@ Rails.application.routes.draw do
   get "/terms_of_use", to: "media#index"
   get "/user_guide", to: "media#index"
   get "/faq", to: "media#index"
-  get "/api_policy", to: "media#index"
   get "/privacy_policy", to: "media#index"
   get "/announcements", to: "media#index"
 

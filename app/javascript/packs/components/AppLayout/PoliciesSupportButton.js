@@ -96,9 +96,6 @@ class PoliciesSupportButton extends React.Component {
               Privacy Policy
             </MenuItem>
           </Link>
-          <Link to={"/api_policy"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>API Policy</MenuItem>
-          </Link>
           {currentSession && (
             <MenuItem
               onClick={() => {

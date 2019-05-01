@@ -533,7 +533,7 @@ class DrawerMenuRemake extends React.Component {
                           <FaveIcon />
                         </ListItemIcon>
                         <ListItemText
-                          primary="Favorites Gallery"
+                          primary="Favourites Gallery"
                           primaryTypographyProps={{ className: classes.text }}
                         />
                       </ListItem>

@@ -106,7 +106,7 @@ const terminologyTableRows = [
   {
     aspect: "Asset",
     term: "Page",
-    description: "Subdomain of the Website, supporting navigation of Services."
+    description: "Route of the Website, supporting navigation of Services."
   },
   {
     aspect: "Asset",
@@ -121,9 +121,9 @@ const terminologyTableRows = [
   },
   {
     aspect: "Asset",
-    term: "Website (www.scritch.es/*)",
+    term: "Website (https://scritch.es/*)",
     description:
-      "www.scritch.es and all subdomains that make up the User interface, accessible through the world wide web."
+      "https://scritch.es, all pages and subdomains that make up the User interface, accessible through the world wide web."
   },
   {
     aspect: "Account",
@@ -196,7 +196,7 @@ const terminologyTableRows = [
     aspect: "Account",
     term: "User",
     description:
-      "Person using the Website at any level of Access through a Account."
+      "Person using the Website at any level of Access through an Account ."
   },
   {
     aspect: "Service",
@@ -208,7 +208,7 @@ const terminologyTableRows = [
     aspect: "Service",
     term: "Claim",
     description:
-      "Function that allows a Account to request Ownership of an Card."
+      "Function that allows an Account to request Ownership of an Card."
   },
   {
     aspect: "Service",
@@ -287,7 +287,7 @@ const contentRestrictionsRows = [
   {
     restriction: "NSFW",
     description:
-      "Sexually explicit content (cropped or censored) including (but not limited to) images, acts, or links to external sources."
+      "Sexually explicit content (cropped or censored) including (but not limited to) images, acts, or links to external sources, as well as depictions of apparel worn that would usually be unacceptable in the public lobby of a convention."
   },
   {
     restriction: "Body Fluids",
@@ -319,12 +319,12 @@ const accountLevelsRows = [
   {
     level: "Unregistered",
     description:
-      "Users are Unregistered prior to creating a Account or whilst logged out of Scritch."
+      "Users are Unregistered prior to creating an Account or whilst logged out of Scritch."
   },
   {
     level: "Registered",
     description:
-      "Users are Registered after they have created a Account by logging into Scritch."
+      "Users are Registered after they have created an Account by logging into Scritch."
   },
   {
     level: "Card Owner",
@@ -342,9 +342,9 @@ const accountLevelsRows = [
       "Users are Admins that have been promoted by Scritch to gain Access to Website moderator Services."
   },
   {
-    level: "Hiatus",
+    level: "Suspended",
     description:
-      "Users are placed on Hiatus as a form of time out following breach of Scritch’s Code of Conduct for a preset period of time."
+      "Users are placed on Suspension as a form of time out following breach of Scritch’s Code of Conduct for a preset period of time."
   }
 ];
 
@@ -370,11 +370,11 @@ const levelTransitionsRows = [
   {
     start_level: "Registered",
     action: "Negative Involvement",
-    end_level: "Hiatus"
+    end_level: "Suspended"
   },
   {
-    start_level: "Hiatus",
-    action: "Hiatus Time Elapses",
+    start_level: "Suspended",
+    action: "Suspension Time Elapses",
     end_level: "Registered"
   }
 ];
@@ -420,6 +420,10 @@ const mediaFiltersRows = [
     result: "Only Content tagged with the Filtered Event Edition."
   },
   {
+    filter: "Sub Event",
+    result: "Only Content tagged with the Filtered Sub Event."
+  },
+  {
     filter: "Category",
     result: "Only Content tagged with the Filtered Category."
   }
@@ -429,12 +433,12 @@ const mediaSortRows = [
   { sort: "Earliest First", result: "Date captured from earliest to latest." },
   { sort: "Latest First", result: "Date captured from latest to earliest." },
   {
-    sort: "Most Scritches",
-    result: "Amount of Scritches content has received from User Involvement."
-  },
-  {
     sort: "Most Views",
     result: "Amount of Views content has received from User Involvement."
+  },
+  {
+    sort: "Most Scritches",
+    result: "Amount of Scritches content has received from User Involvement."
   },
   {
     sort: "Most Favourites",
@@ -456,14 +460,14 @@ const uploadGuidelinesRows = [
   {
     guideline: "Batch Upload",
     guidance:
-      "Since Event and Edition Tags are mandatory on any media Uploaded to Scritch, Uploaders should batch Upload media by Event Edition or Category (if not related to an Event) to prevent confusion and corruption of the Content Database."
+      "Avoid uploading collections featuring a variety of different Events-Editions-SubEvents as this will corrupt media recovery from the Content Database by confusing search Fields."
   }
 ];
 
 const tagCompletionRows = [
-  { field: "Number of Fursuits", percentage: "Take from Stormy." },
-  { field: "Fursuits", percentage: "Take from Stormy." },
-  { field: "Category", percentage: "Take from Stormy." }
+  { field: "Number of Fursuits", percentage: "10%" },
+  { field: "Fursuits", percentage: "70%" },
+  { field: "Category", percentage: "20%" }
 ];
 
 class WebsiteUserGuide extends React.Component {
@@ -476,17 +480,13 @@ class WebsiteUserGuide extends React.Component {
           Website User Guide
         </Typography>
         <Typography variant="subtitle1">
-          Date of last revision: <strong>24 March 2019</strong>
+          Date of last revision: <strong>01 May 2019</strong>
         </Typography>
         {SpacerWithHR}
         <Typography variant="h4" id="contents">
           CONTENTS
         </Typography>
         <Typography variant="subtitle1">
-          <a href="#landing_page" className={classes.link}>
-            LANDING PAGE
-          </a>
-          <br />
           <a href="#code_conduct" className={classes.link}>
             CODE OF CONDUCT
           </a>
@@ -571,15 +571,6 @@ class WebsiteUserGuide extends React.Component {
           <br />
         </Typography>
         {SpacerWithHR}
-        <span id="landing_page" className={classes.sectionPadder} />
-        <Typography variant="h4">LANDING PAGE</Typography>
-        <Typography variant="subtitle1">
-          Although Scritch has been designed to host strictly SFW Content, the
-          Landing Page provides a means for the Website to confirm a User is
-          over 18. By clicking “ENTER” the User is agreeing to the Website Terms
-          and Conditions.
-        </Typography>
-        {SpacerWithHR}
         <span id="code_conduct" className={classes.sectionPadder} />
         <Typography variant="h4">CODE OF CONDUCT</Typography>
         <Typography variant="subtitle1">
@@ -588,7 +579,7 @@ class WebsiteUserGuide extends React.Component {
         </Typography>
         <List dense>
           <ListItem>
-            Illegal Activity (as laid down by
+            Illegal Activity (as laid down by{" "}
             <a href="http://www.gov.uk/browse/justice" className={classes.link}>
               {" http://www.gov.uk/browse/justice"}
             </a>
@@ -640,9 +631,9 @@ class WebsiteUserGuide extends React.Component {
             Scritch promises to maintain past, present, and future: Convention,
             Maker, and Fursuit Cards to allow a complete chronical of all
             Content, able to be tagged also by Category. The Admin Pool ensures
-            User safety and security by keeping all Involvement on
-            www.scritch.es/* within the Website Code of Conduct and media in
-            line with Content Restrictions below.
+            User safety and security by keeping all Involvement on the Website
+            within the Website Code of Conduct and media in line with Content
+            Restrictions below.
           </Typography>
         </Paper>
         {SpacerWithHR}
@@ -658,9 +649,9 @@ class WebsiteUserGuide extends React.Component {
         <span id="content_restrictions" className={classes.sectionPadder} />
         <Typography variant="h4">CONTENT RESTRICTIONS</Typography>
         <Typography variant="subtitle1">
-          User Content is laid out in the Terms of Use Policy in section:{" "}
+          User Content is laid out in the Terms of Use in section:{" "}
           <strong>Acceptable Use; Disclaimer</strong>, however to be clear in
-          this document; the Website will maintain SFW content through not
+          this document, the Website will maintain SFW content through not
           hosting:
         </Typography>
         <Paper className={classes.tableRoot}>
@@ -746,7 +737,7 @@ class WebsiteUserGuide extends React.Component {
         <Typography variant="h6">Involvement Action Weighting</Typography>
         <Typography variant="subtitle1">
           User Involvement Actions are weighted in line with the points system
-          below. If a Account Owns multiple Fursuits, points weighted against
+          below. If an Account Owns multiple Fursuits, points weighted against
           actions related to each Fursuit will aggregate to a total points score
           for the Account itself.
         </Typography>
@@ -803,7 +794,7 @@ class WebsiteUserGuide extends React.Component {
             Equates to a User Species Block value of 4. Allowing a top heavy top
             user species by addressing the decimal:
             <br />
-            4 x 179 = 716 (Everything Above 716 Top User Block) = 34 Zebras
+            4 x 180 = 720 (Everything Above 720 Top User Block) = 30 Zebras
             <br />
           </Typography>
         </Paper>
@@ -813,7 +804,7 @@ class WebsiteUserGuide extends React.Component {
             variant="subtitle1"
             style={{ fontStyle: "italic", fontWeight: 800 }}
           >
-            Example 1
+            Example 2
           </Typography>
           <Typography variant="subtitle1" style={{ fontStyle: "italic" }}>
             Total Number of Users: 17560
@@ -853,23 +844,24 @@ class WebsiteUserGuide extends React.Component {
           <a href="#claim_fursuit" className={classes.link}>
             <ListItem>
               Claim a Fursuit Card&nbsp;
-              <strong>{"(Not Available During Hiatus)"}</strong>
+              <strong>{"(Not Available During Suspension)"}</strong>
             </ListItem>
           </a>
           <a href="#claim_maker" className={classes.link}>
             <ListItem>
               Claim a Maker Card&nbsp;
-              <strong>{"(Not Available During Hiatus)"}</strong>
+              <strong>{"(Not Available During Suspension)"}</strong>
             </ListItem>
           </a>
           <a href="#upload" className={classes.link}>
             <ListItem>
-              Upload&nbsp;<strong>{"(Not Available During Hiatus)"}</strong>
+              Upload&nbsp;<strong>{"(Not Available During Suspension)"}</strong>
             </ListItem>
           </a>
           <a href="#scritch" className={classes.link}>
             <ListItem>
-              Scritch&nbsp;<strong>{"(Not Available During Hiatus)"}</strong>
+              Scritching&nbsp;
+              <strong>{"(Not Available During Suspension)"}</strong>
             </ListItem>
           </a>
           <a href="#sponsor" className={classes.link}>
@@ -877,17 +869,18 @@ class WebsiteUserGuide extends React.Component {
           </a>
           <a href="#follow" className={classes.link}>
             <ListItem>
-              Follow&nbsp;<strong>{"(Not Available During Hiatus)"}</strong>
+              Follow&nbsp;<strong>{"(Not Available During Suspension)"}</strong>
             </ListItem>
           </a>
           <a href="#tag" className={classes.link}>
             <ListItem>
-              Tag&nbsp;<strong>{"(Not Available During Hiatus)"}</strong>
+              Tag&nbsp;<strong>{"(Not Available During Suspension)"}</strong>
             </ListItem>
           </a>
           <a href="#fave" className={classes.link}>
             <ListItem>
-              Favourite&nbsp;<strong>{"(Not Available During Hiatus)"}</strong>
+              Favourite&nbsp;
+              <strong>{"(Not Available During Suspension)"}</strong>
             </ListItem>
           </a>
           <a href="#tip" className={classes.link}>
@@ -901,7 +894,7 @@ class WebsiteUserGuide extends React.Component {
           </a>
           <a href="#report" className={classes.link}>
             <ListItem>
-              Report&nbsp;<strong>{"(Not Available During Hiatus)"}</strong>
+              Report&nbsp;<strong>{"(Not Available During Suspension)"}</strong>
             </ListItem>
           </a>
         </List>
@@ -921,7 +914,6 @@ class WebsiteUserGuide extends React.Component {
         <List dense>
           <ListItem>Terms and Conditions</ListItem>
           <ListItem>Privacy Policy</ListItem>
-          <ListItem>API Policy</ListItem>
           <ListItem>
             Website User Guide <strong>{"(this Document)"}</strong>
           </ListItem>
@@ -931,9 +923,9 @@ class WebsiteUserGuide extends React.Component {
         <span id="register" className={classes.sectionPadder} />
         <Typography variant="h5">REGISTER</Typography>
         <Typography variant="subtitle1">
-          Registering with Scritch through: Telegram, Twitter, and Facebook
-          Login credentials is through click of the “LOGIN” button to the top
-          right of the Homepage.
+          Registering with Scritch through: Telegram Login credentials is
+          through click of the “LOGIN WITH TELEGRAM” button to the top right of
+          the Homepage.
         </Typography>
         {SpacerWithHR}
         <span id="browse" className={classes.sectionPadder} />
@@ -941,12 +933,12 @@ class WebsiteUserGuide extends React.Component {
         <Typography variant="subtitle1">
           Registered Users can browse the following extensive Databases which
           drop down as a sub menu of the Website sidebar when the User clicks
-          the “Browse” menu item:
+          “Browse”:
         </Typography>
         <List dense>
           <ListItem>Media</ListItem>
-          <ListItem>Fursuit</ListItem>
-          <ListItem>Maker</ListItem>
+          <ListItem>Fursuits</ListItem>
+          <ListItem>Makers</ListItem>
           <ListItem>Events</ListItem>
         </List>
         <Typography variant="subtitle1">
@@ -1002,43 +994,52 @@ class WebsiteUserGuide extends React.Component {
         <span id="claim_fursuit" className={classes.sectionPadder} />
         <Typography variant="h5">CLAIM A FURSUIT CARD</Typography>
         <Typography variant="subtitle1">
-          A Account can Claim one Fursuit Card a day (this restriction has been
-          put in place to safeguard against misuse).
+          An Account can Claim Fursuit Cards. Each claim is subject to approval
+          or rejection by ouor Admin pool.
           <br />
           <br />
-          Only an unclaimed Fursuit Card can be claimed by a Account and must
-          only be claimed by Accounts that <strong>{" currently"}</strong> own
-          them in real life.
+          An unclaimed Fursuit Card can be claimed by an Account and must only
+          be claimed by Accounts that <strong>{" currently"}</strong> own them
+          in real life.
+          <br />
+          <br />
+          An existing claim can be contested by an Account and is subject to
+          investigation by our Admin pool.
           <br />
           <br />
           To claim a Fursuit Card, locate a Fursuit from the Fursuit Database
           through the Browse Service of the Website, then view the related
-          Fursuit Card in full screen. You will see a “Claim” button; by
-          clicking this, you will presented with…
+          Fursuit Card in full screen. You will see a “Claim” or a “Contest
+          Claim” button (depending on the claim status of the Fursuit Card); by
+          clicking this, you will presented with a Claim Dialog.
         </Typography>
         {SpacerWithHR}
         <span id="claim_maker" className={classes.sectionPadder} />
         <Typography variant="h5">CLAIM A MAKER CARD</Typography>
         <Typography variant="subtitle1">
-          A Account can claim only one Maker Card (this restriction has been put
-          in place to safeguard against misuse).
+          An Account can claim a Maker Card.
           <br />
           <br />
-          Only an unclaimed Maker Card can be claimed by a Account and Maker
-          Cards must only be claimed by Accounts that are/were owned by the
-          Maker Studio in real life.
+          An unclaimed Maker Card can be claimed by an Account and Maker Cards
+          must only be claimed by Accounts that are/were owned by the Maker
+          Studio in real life.
+          <br />
+          <br />
+          An existing claim can be contested by an Account and is subject to
+          investigation by our Admin pool.
           <br />
           <br />
           To claim a Maker Card, locate a Maker from the Maker Database through
           the Browse Service of the Website, then view the related Maker Card in
-          full screen. You will see a “Claim” button; by clicking this, you will
-          presented with…
+          full screen. You will see a “Claim” or a “Contest Claim” button
+          (depending on the claim status of the Maker Card); by clicking this,
+          you will presented with a Maker Claim Dialog
         </Typography>
         {SpacerWithHR}
         <span id="upload" className={classes.sectionPadder} />
         <Typography variant="h5">UPLOAD</Typography>
         <Typography variant="subtitle1">
-          Any Account not under Hiatus can Upload media files to Scritch. By
+          Any Account not under Suspension can Upload media files to Scritch. By
           Uploading the media to Scritch you grant the Website the ability to
           host the Content to support all User Involvement.
           <br />
@@ -1048,18 +1049,22 @@ class WebsiteUserGuide extends React.Component {
           Owners and link Website Assets held in its Databases.
           <br />
           <br />
-          On Uploading media to Scritch, an Event and Edition must be assigned
-          or a Category selected (if the media was not captured at a specific
-          Event Edition), this is because the Uploader is the most likely to
+          On Uploading media to Scritch, an Event, Edition and Sub Event must be
+          assigned and/or a Category selected (if the media was not captured at
+          a specific Event), this is because the Uploader is the most likely to
           know where the media was captured.
           <br />
           <br />
           There is no limit to how many articles of media can be uploaded to
           Scritch, however guidelines apply to media Uploaded onto the Website,
-          which safeguards User exposure to inappropriate Content listed out in
-          Content Restrictions.
+          which safeguards User exposure to inappropriate Content listed out in{" "}
+          <a href="#content_restrictions" className={classes.link}>
+            Content Restrictions
+          </a>
+          .
         </Typography>
-        <Typography variant="h6"> Upload Guidelines</Typography>
+        {Spacer}
+        <Typography variant="h6">Upload Guidelines</Typography>
         <Typography variant="subtitle1">
           Additional Upload guidelines to maximise the accuracy and
           effectiveness of Scritch are as follows:
@@ -1086,7 +1091,7 @@ class WebsiteUserGuide extends React.Component {
         </Paper>
         {SpacerWithHR}
         <span id="scritch" className={classes.sectionPadder} />
-        <Typography variant="h5">SCRITCH</Typography>
+        <Typography variant="h5">SCRITCHING</Typography>
         <Typography variant="subtitle1">
           Any Registered User can show their like of Content by “Scritching” it.
           All Scritches are recorded and influence the hierarchy of Assets that
@@ -1101,15 +1106,27 @@ class WebsiteUserGuide extends React.Component {
           following additional Services for their Account:
         </Typography>
         <List dense>
-          <ListItem>Ability to Favourite Content</ListItem>
-          <ListItem>Organise Favourited Content in Custom Galleries</ListItem>
-          <ListItem>Follow Fursuit Cards</ListItem>
-          <ListItem>Follow Maker Cards</ListItem>
-          <ListItem>Toggle Advertisement Visibility</ListItem>
+          <ListItem>
+            Following of User Accounts (Photographers) to see content that they
+            upload
+          </ListItem>
+          <ListItem>
+            Following of Fursuiters to see content that they are tagged in
+          </ListItem>
+          <ListItem>
+            Favouriting of Media that is then held in personal Favourites
+            Gallery
+          </ListItem>
+          <ListItem>
+            Following of Fursuit Makers for notification of newly-added Fursuits
+          </ListItem>
+          <ListItem>
+            Notification of commission status changes on followed Makers
+          </ListItem>
         </List>
         <Typography variant="subtitle1">
           To Sponsor Scritch, navigate to the Sponsor area of the sidebar and
-          click “Become a Sponsor!”, then follow the on screen prompts.
+          click “Become a Sponsor!”, then follow the on-screen prompts.
         </Typography>
         {SpacerWithHR}
         <span id="follow" className={classes.sectionPadder} />
@@ -1118,24 +1135,43 @@ class WebsiteUserGuide extends React.Component {
           A Sponsor can choose to Follow a:
         </Typography>
         <List dense>
+          <ListItem>User Account</ListItem>
           <ListItem>Fursuit</ListItem>
-          <ListItem>Maker (Phase 2)</ListItem>
-          <ListItem>Category (Phase 2)</ListItem>
-          <ListItem>Convention (Phase 2)</ListItem>
+          <ListItem>Maker</ListItem>
         </List>
+        <Typography variant="h6">What Following a User Account Does</Typography>
+        <Typography variant="subtitle1">
+          A Follower of a User Account will receive upload feeds of any Content
+          linked to that User Account through the Subscriptions Menu.
+          <br />
+          <br />
+          To Follow User Accounts, navigate to their profile page and click the
+          “Follow” button.
+        </Typography>
+        {Spacer}
         <Typography variant="h6">What Following a Fursuit Does</Typography>
         <Typography variant="subtitle1">
           Following a Fursuit raises the Fursuit Card Follower metric by 1 and
           Notifies the Fursuit Card Owner that their Fursuit has been Followed.
           <br />
           <br />
-          A Follower of a Fursuit will receive Notifications of any Content that
-          the Fursuit Card is linked to from that point on.
+          A Follower of a Fursuit will receive upload feeds of any Content that
+          the Fursuit Card is tagged into from that point on through the
+          Subscriptions Menu.
           <br />
           <br />
           To Follow Fursuits, locate them from the Fursuit Database, then view
-          the related Fursuit Card full screen. You will see a “Follow” button;
-          by clicking this, you will presented with…
+          the related Fursuit Card full screen and click the “Follow” button.
+        </Typography>
+        {Spacer}
+        <Typography variant="h6">What Following a Maker Does</Typography>
+        <Typography variant="subtitle1">
+          A Follower of a Maker will receive a feed of newly-added Fursuits by
+          that Maker through the Subscriptions Menu.
+          <br />
+          <br />
+          To Follow Makers, locate them from the Maker Database, then view the
+          related Maker Card and click the “Follow” button.
         </Typography>
         {SpacerWithHR}
         <span id="tag" className={classes.sectionPadder} />
@@ -1148,6 +1184,7 @@ class WebsiteUserGuide extends React.Component {
           The Tagging console allows sort by Tag completion of Content (See Tag
           Completion section of this guide).
         </Typography>
+        {Spacer}
         <Typography variant="h6">What Tagging a Fursuit Does</Typography>
         <Typography variant="subtitle1">
           Tagging a Fursuit in Content creates a Website link between the
@@ -1184,6 +1221,7 @@ class WebsiteUserGuide extends React.Component {
             </TableBody>
           </Table>
         </Paper>
+        {Spacer}
         <Typography variant="subtitle1">
           The goal is for all Content to achieve 100% Tag Completion, which
           means all Assets have been Tagged correctly.
@@ -1192,16 +1230,11 @@ class WebsiteUserGuide extends React.Component {
         <span id="fave" className={classes.sectionPadder} />
         <Typography variant="h5">FAVOURITE</Typography>
         <Typography variant="subtitle1">
-          A sponsor can choose to favourite an article of media.
+          A Sponsor can choose to Favourite an article of media.
           <br />
           <br />
-          Favouriting Content increases the Favourite count of the Uploader
-          Account and locates the Content in the customisable Favourites Gallery
-          area of the User that Favourited it.
-          <br />
-          <br />
-          Sponsors can sort Favourites into albums to allow custom gallery
-          organisation relevant to their interests.
+          Favouriting Content increases the Favourites count of the Uploader
+          Account and locates the Content in the Sponsor's Favourites Gallery.
         </Typography>
         {SpacerWithHR}
         <span id="tip" className={classes.sectionPadder} />
@@ -1215,7 +1248,15 @@ class WebsiteUserGuide extends React.Component {
           <br />
           <br />
           To Tip Scritch, navigate to the Tip menu item of the Website sidebar
-          and...
+          and click the "Donate With Paypal" Button which navigates to{" "}
+          <a
+            href="https://paypal.me/ScritchMe"
+            target="_blank"
+            className={classes.link}
+          >
+            https://paypal.me/ScritchMe
+          </a>
+          .
         </Typography>
         {SpacerWithHR}
         <span id="advertise" className={classes.sectionPadder} />
@@ -1229,20 +1270,27 @@ class WebsiteUserGuide extends React.Component {
           <br />
           <br />
           To Advertise with Scritch, click Ads &amp; Social in the Website
-          header and and...
+          header and click on "Advertise with Scritch".
+          <br />
+          <br />
+          All advertisements must be 300x90 pixels, and not exceed 10MB in size.
         </Typography>
         {SpacerWithHR}
         <span id="block" className={classes.sectionPadder} />
         <Typography variant="h5">BLOCK</Typography>
         <Typography variant="subtitle1">
-          Any Registered User can choose to Block another User on Scritch to
-          prevent Following and contact whilst the Block is active.
-          <br />
-          <br />
-          Blocked users can be unblocked through the…
-          <br />
-          <br />
-          To Block a Account...
+          Any Registered User can choose to Block another User on Scritch which:
+        </Typography>
+        <List dense>
+          <ListItem>Prevents visibility of either User's Media</ListItem>
+          <ListItem>
+            Prevents Blocked User from seeing Blocker's profile
+          </ListItem>
+        </List>
+        <Typography variant="subtitle1">
+          To Block an Account, navigate to a User profile page, click the
+          dropdown menu on the top right of the profile, then click on "Block
+          User".
         </Typography>
         {SpacerWithHR}
         <span id="report" className={classes.sectionPadder} />
@@ -1257,7 +1305,7 @@ class WebsiteUserGuide extends React.Component {
           incorrect on the Website.
           <br />
           <br />
-          To submit a Report, click...
+          To submit a Report, click the Flag button wherever it is available.
           <br />
           <br />
           All reports are handled by the Admin Pool in a timely fashion relative

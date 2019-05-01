@@ -251,7 +251,7 @@ class AppFooter extends React.Component {
             <Grid item xs={8} md={4}>
               <Typography>
                 <Link to={"/terms_of_use"} className={classes.link}>
-                  Terms & Conditions
+                  Terms of Use
                 </Link>{" "}
                 -{" "}
                 <Link to={"/privacy_policy"} className={classes.link}>
@@ -259,12 +259,8 @@ class AppFooter extends React.Component {
                 </Link>
               </Typography>
               <Typography>
-                <Link to={"/api_policy"} className={classes.link}>
-                  API Policy
-                </Link>{" "}
-                -{" "}
                 <Link to={"/user_guide"} className={classes.link}>
-                  User Guide
+                  Website User Guide
                 </Link>{" "}
                 -{" "}
                 <Link to={"/faq"} className={classes.link}>
