@@ -321,45 +321,44 @@ class AppLayoutRemake extends React.Component {
                   }}
                 >
                   {!this.state.searchEnabled && (
-                    <React.Fragment>
-                      <img
-                        onClick={() =>
-                          this.setState({
-                            mainDrawer: !this.state.mainDrawer,
-                            tempDrawer: !this.state.tempDrawer
-                          })
-                        }
-                        src={logo}
-                        className={classes.pointer}
+                    <img
+                      onClick={() =>
+                        this.setState({
+                          mainDrawer: !this.state.mainDrawer,
+                          tempDrawer: !this.state.tempDrawer
+                        })
+                      }
+                      src={logo}
+                      className={classes.pointer}
+                    />
+                  )}
+                  {(this.state.searchEnabled ||
+                    width === "lg" ||
+                    width === "xl") && (
+                    <div
+                      className={classes.searchBar}
+                      style={{
+                        paddingLeft: appBarPadding,
+                        maxWidth:
+                          width === "lg" || width === "xl" ? 200 : "none",
+                        marginRight: width === "lg" || width === "xl" ? 16 : 0
+                      }}
+                    >
+                      <SearchBar
+                        autoFocus={width !== "lg" && width !== "xl" && !query.q}
+                        cancelOnEscape
+                        value={query.q}
+                        onRequestSearch={q => {
+                          if (typeof q === "string") {
+                            this.handleRequestSearch(q);
+                          }
+                        }}
                       />
-                      {(this.state.searchEnabled ||
-                        width === "lg" ||
-                        width === "xl") && (
-                        <div
-                          className={classes.searchBar}
-                          style={{
-                            paddingLeft: appBarPadding,
-                            maxWidth:
-                              width === "lg" || width === "xl" ? 200 : "none",
-                            marginRight:
-                              width === "lg" || width === "xl" ? 16 : 0
-                          }}
-                        >
-                          <SearchBar
-                            autoFocus={
-                              width !== "lg" && width !== "xl" && !query.q
-                            }
-                            cancelOnEscape
-                            value={query.q}
-                            onRequestSearch={q => {
-                              if (typeof q === "string") {
-                                this.handleRequestSearch(q);
-                              }
-                            }}
-                          />
-                        </div>
-                      )}
+                    </div>
+                  )}
 
+                  {!this.state.searchEnabled && (
+                    <React.Fragment>
                       <UploadButton
                         onClick={() => this.setState({ uploadDialog: true })}
                       />
@@ -374,7 +373,7 @@ class AppLayoutRemake extends React.Component {
                     </React.Fragment>
                   )}
 
-                  {this.state.searchEnabled && !query.q && (
+                  {this.state.searchEnabled && (
                     <IconButton
                       className={classes.closeIcon}
                       onClick={() => {
