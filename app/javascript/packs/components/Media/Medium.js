@@ -437,7 +437,7 @@ class Medium extends React.Component {
                       <Grid item lg={1} xs={12} />
                       <Grid item lg={10} xs={12}>
                         <img
-                          onClick={this.scrollTo}
+                          onClick={() => {}}
                           onContextMenu={e => {
                             e.preventDefault();
                           }}
