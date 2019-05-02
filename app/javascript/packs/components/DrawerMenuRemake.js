@@ -122,7 +122,9 @@ class DrawerMenuRemake extends React.Component {
           className={classes.drawerSpacer}
           style={{
             justifyContent:
-              width === "lg" || width === "xl" ? "space-between" : "flex-start"
+              width === "lg" || width === "xl"
+                ? "space-between"
+                : "space-between"
           }}
         >
           {currentSession && currentSession.user.suspendedUser && (

@@ -52,7 +52,6 @@ class SponsorDashboardDialog extends React.Component {
         onClose={() => {
           this.props.onClose();
         }}
-        size={500}
       >
         <GlobalProgress absolute />
 

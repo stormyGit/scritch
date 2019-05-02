@@ -14,6 +14,12 @@ Rails.application.routes.draw do
   post 'adverts/refill', :to => "adverts#refill"
   get '/sitemap.xml', to: redirect(Pathname.new(ENV["S3_ENDPOINT"]).join(ENV["S3_BUCKET"]).join("sitemap.xml").to_s, status: 301)
 
+
+  get '/403', :to => "errors#403"
+  get '/404', :to => "errors#404"
+  get '/422', :to => "errors#422"
+  get '/500', :to => "errors#500"
+
   devise_for :moderators
   # devise_for :admin_users, ActiveAdmin::Devise.config
   # ActiveAdmin.routes(self)

@@ -116,6 +116,10 @@ const styles = theme => ({
   },
   cookieButton: {
     backgroundColor: theme.palette.secondary.main
+  },
+  link: {
+    textDecoration: "none",
+    color: theme.palette.primary.main
   }
 });
 
@@ -199,7 +203,7 @@ class AppLayoutRemake extends React.Component {
         <GlobalProgress />
         <div className={classes.root}>
           <CookieConsent
-            buttonStyle={{ backgroundColor: "#DF0174" }}
+            buttonStyle={{ backgroundColor: process.env.SECONDARY_COLOR }}
             style={{ textAlign: "center" }}
           >
             <Typography
@@ -210,21 +214,38 @@ class AppLayoutRemake extends React.Component {
                 paddingLeft: width === "xl" || width === "lg" ? 200 : 0
               }}
             >
-              This website uses cookies to enhance the user experience.
+              We use cookies to improve your experience on Scritch and to keep
+              you logged in. By using this Website, you consent to the storing
+              on your device of all the technologies described in our{" "}
+              <Link to="/privacy_policy" className={classes.link}>
+                Privacy Policy
+              </Link>{" "}
+              and also agree to our{" "}
+              <Link to="/terms_of_use" className={classes.link}>
+                Terms of Use
+              </Link>
+              .
             </Typography>
           </CookieConsent>
-          {this.state.mainDrawer && (
-            <Hidden smDown>
-              <PermanentDrawer />
-            </Hidden>
+          {(width === "xs" || width === "sm") && (
+            <React.Fragment>
+              {console.log("small")}
+              <TemporaryDrawer
+                open={this.state.tempDrawer}
+                onOpen={() => {
+                  console.log("opening");
+                  this.setState({ tempDrawer: true });
+                }}
+                onClose={() => this.setState({ tempDrawer: false })}
+              />
+            </React.Fragment>
           )}
-          <Hidden mdUp>
-            <TemporaryDrawer
-              open={this.state.tempDrawer}
-              onOpen={() => this.setState({ tempDrawer: true })}
-              onClose={() => this.setState({ tempDrawer: false })}
-            />
-          </Hidden>
+          {width !== "xs" && width !== "sm" && (
+            <React.Fragment>
+              {console.log("large")}
+              <PermanentDrawer open={this.state.mainDrawer} />
+            </React.Fragment>
+          )}
           <main className={classes.content}>
             <div className={classes.toolbar} />
             {currentSession && currentSession.user.suspendedUser && (
@@ -245,7 +266,10 @@ class AppLayoutRemake extends React.Component {
                 >
                   <img
                     onClick={() =>
-                      this.setState({ mainDrawer: !this.state.mainDrawer })
+                      this.setState({
+                        mainDrawer: !this.state.mainDrawer,
+                        tempDrawer: !this.state.tempDrawer
+                      })
                     }
                     src={logo}
                     className={classes.pointer}
@@ -300,7 +324,10 @@ class AppLayoutRemake extends React.Component {
                     <React.Fragment>
                       <img
                         onClick={() =>
-                          this.setState({ mainDrawer: !this.state.mainDrawer })
+                          this.setState({
+                            mainDrawer: !this.state.mainDrawer,
+                            tempDrawer: !this.state.tempDrawer
+                          })
                         }
                         src={logo}
                         className={classes.pointer}

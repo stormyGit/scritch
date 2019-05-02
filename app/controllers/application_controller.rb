@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :set_csrf_token, if: :valid_request_origin?
 
   before_action :initialize_meta
+  rescue_from Pundit::NotAuthorizedError, with: :not_authorized
 
   def index
   end
@@ -38,5 +39,9 @@ class ApplicationController < ActionController::Base
     cookies["csrf-token"] = {
       value: form_authenticity_token,
     }
+  end
+
+  def not_authorized
+    render "errors/403", status: 403
   end
 end
