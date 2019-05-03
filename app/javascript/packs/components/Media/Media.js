@@ -53,6 +53,7 @@ class Media extends React.Component {
     edition: null,
     category: null,
     subEvent: null,
+    gifs: false,
     sort: this.props.sort ? this.props.sort : "latest",
     hasMore: true
   };
@@ -64,6 +65,7 @@ class Media extends React.Component {
       event: null,
       edition: null,
       category: null,
+      gifs: false,
       subEvent: null,
       sort: "latest"
     });
@@ -137,6 +139,7 @@ class Media extends React.Component {
         ) : (
           <MediaFilters
             onChange={value => {
+              console.log(value);
               this.setState({ [value.label]: value.value });
             }}
             clearFilters={() => this.clearFilters()}
@@ -210,6 +213,7 @@ class Media extends React.Component {
           !home &&
           !withSubsClear &&
           this.renderMediaFilters()}
+        {console.log(this.state)}
         <Query
           query={GET_MEDIA}
           fetchPolicy="network-only"
@@ -221,6 +225,7 @@ class Media extends React.Component {
             editionId: this.state.edition ? this.state.edition.value : null,
             categoryId: this.state.category ? this.state.category.value : null,
             subEventId: this.state.subEvent ? this.state.subEvent.value : null,
+            gifs: this.state.gifs,
             fursuitId: this.props.fursuitId,
             fursuits: this.state.fursuits
               ? this.state.fursuits.map(e => e.id)

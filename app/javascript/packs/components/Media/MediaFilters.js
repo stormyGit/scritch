@@ -17,6 +17,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 import {
   LOAD_EVENTS_SELECT,
@@ -116,6 +117,7 @@ class MediaFilters extends React.Component {
       edition: null,
       category: null,
       subEvent: null,
+      gifs: false,
       sort: { label: "Latest", value: "latest" },
       name: "",
       expansion: false
@@ -131,6 +133,7 @@ class MediaFilters extends React.Component {
       edition: null,
       category: null,
       subEvent: null,
+      gifs: false,
       sort: { value: "latest", label: "Latest" },
       name: ""
     };
@@ -422,6 +425,30 @@ class MediaFilters extends React.Component {
     );
   }
 
+  renderGifFilter() {
+    const { classes } = this.props;
+    return (
+      <Grid item xs={2}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={this.state.gifs}
+              onChange={() => {
+                console.log(event.target.checked);
+                this.setState({ gifs: event.target.checked });
+                this.props.onChange({
+                  label: "gifs",
+                  value: event.target.checked
+                });
+              }}
+            />
+          }
+          label="Show only GIFs"
+        />
+      </Grid>
+    );
+  }
+
   renderSortingFilter() {
     const { classes } = this.props;
 
@@ -447,7 +474,7 @@ class MediaFilters extends React.Component {
 
     return (
       <React.Fragment>
-        <Grid item xs={4}>
+        <Grid item xs={2}>
           <Typography variant="h5" className={classes.label}>
             Sort by
           </Typography>
@@ -589,6 +616,7 @@ class MediaFilters extends React.Component {
                 {this.renderEventFilter()}
                 {this.renderSubEventFilter()}
                 {this.renderCategoryFilter()}
+                {this.renderGifFilter()}
                 {this.renderSortingFilter()}
               </Grid>
             </ExpansionPanelDetails>

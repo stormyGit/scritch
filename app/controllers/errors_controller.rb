@@ -1,5 +1,5 @@
 class ErrorsController < ApplicationController
-  def 403
+  def not_authorized
 
   end
 end

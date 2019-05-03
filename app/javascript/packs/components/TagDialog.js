@@ -350,7 +350,46 @@ class TagDialog extends React.Component {
                             }
 
                             <div style={{ padding: 8 }} />
-
+                            {!medium.category && (
+                              <React.Fragment>
+                                <Query
+                                  query={LOAD_CATEGORIES}
+                                  variables={{
+                                    sort: "latest",
+                                    offset: 0,
+                                    limit: 150
+                                  }}
+                                >
+                                  {({ data, loading, error, fetchMore }) => {
+                                    if (loading || error) {
+                                      return null;
+                                    }
+                                    const categoryList = [];
+                                    data.categories.map(e =>
+                                      categoryList.push({
+                                        value: e.id,
+                                        label: e.name
+                                      })
+                                    );
+                                    return (
+                                      <Select
+                                        clearable={true}
+                                        placeholder="Category"
+                                        isSearchable
+                                        onChange={mediaCategory => {
+                                          this.setState({
+                                            mediaCategory: mediaCategory
+                                          });
+                                        }}
+                                        options={categoryList}
+                                        className={classes.selectInput}
+                                      />
+                                    );
+                                  }}
+                                </Query>
+                                <div style={{ padding: 5 }} />
+                              </React.Fragment>
+                            )}
                             <div className={classes.inputFields}>
                               <TextField
                                 label="No. of Fursuits"
@@ -506,6 +545,7 @@ class TagDialog extends React.Component {
                         </Grid>
                         {
                           <div className={classes.loginButtonContainer}>
+                            {console.log(this.state)}
                             <div className={classes.loginButton}>
                               {
                                 <Button
@@ -516,6 +556,9 @@ class TagDialog extends React.Component {
                                         input: {
                                           id: medium.id,
                                           title: medium.title,
+                                          categoryId:
+                                            this.state.mediaCategory &&
+                                            this.state.mediaCategory.value,
                                           fursuitsCount: parseInt(
                                             this.state.fursuitsCount
                                           ),

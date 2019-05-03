@@ -39,9 +39,12 @@ class Medium < ApplicationRecord
   def get_completion
     completion = 0
 
-    if self.fursuits_count.present?
+    if self.category.present?
+      completion += 20
+    end
+    if self.fursuits_count.present? && self.fursuits_count > 0
       completion += 10
-      completion += (90 * (self.fursuits.count.to_f / self.fursuits_count.to_f)) # self.fursuits.count / self.fursuits_count
+      completion += (70 * (self.fursuits.count.to_f / self.fursuits_count.to_f)) # self.fursuits.count / self.fursuits_count
     end
 
     completion

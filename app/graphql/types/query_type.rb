@@ -48,6 +48,7 @@ module Types
       argument :uuid, ID, required: false
       argument :limit, Integer, required: true
       argument :tagging, Boolean, required: false
+      argument :gifs, Boolean, required: false
       argument :faves, Boolean, required: false
       argument :edition_id, ID, required: false
       argument :event_id, ID, required: false
@@ -472,6 +473,9 @@ module Types
     end
 
     def media(arguments = {})
+      puts "\n" * 30
+      puts arguments
+      puts "\n" * 30
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
 
       if arguments[:faves].present?
@@ -526,6 +530,10 @@ module Types
       end
       if arguments[:sub_event_id].present?
         media = media.where(sub_event_id: arguments[:sub_event_id])
+      end
+
+      if arguments[:gifs].present? && arguments[:gifs] == true
+        media = media.where(is_gif: true)
       end
 
       if arguments[:category_id].present?

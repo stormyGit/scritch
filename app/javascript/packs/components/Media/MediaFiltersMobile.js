@@ -17,6 +17,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
 import {
   LOAD_EVENTS_SELECT,
@@ -116,6 +117,7 @@ class MediaFiltersMobile extends React.Component {
       edition: null,
       category: null,
       subEvent: null,
+      gifs: false,
       sort: { label: "Latest", value: "latest" },
       name: "",
       expansion: false
@@ -130,6 +132,7 @@ class MediaFiltersMobile extends React.Component {
       event: null,
       edition: null,
       category: null,
+      gifs: false,
       subEvent: null,
       sort: { value: "latest", label: "Latest" },
       name: ""
@@ -417,6 +420,30 @@ class MediaFiltersMobile extends React.Component {
     );
   }
 
+  renderGifFilter() {
+    const { classes } = this.props;
+    return (
+      <Grid item xs={12}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={this.state.gifs}
+              value={this.state.gifs}
+              onChange={() => {
+                this.setState({ gifs: event.target.checked });
+                this.props.onChange({
+                  label: "gifs",
+                  value: event.target.checked
+                });
+              }}
+            />
+          }
+          label="Show only GIFs"
+        />
+      </Grid>
+    );
+  }
+
   renderSortingFilter() {
     const { classes } = this.props;
 
@@ -584,6 +611,7 @@ class MediaFiltersMobile extends React.Component {
                 {this.renderEventFilter()}
                 {this.renderSubEventFilter()}
                 {this.renderCategoryFilter()}
+                {this.renderGifFilter()}
                 {this.renderSortingFilter()}
               </Grid>
             </ExpansionPanelDetails>
