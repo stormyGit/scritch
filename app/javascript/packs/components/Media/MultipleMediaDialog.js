@@ -113,25 +113,22 @@ class DropZoneField extends React.Component {
     if (this.state.disabled) {
       return;
     }
-
+    var loadedFiles = [];
+    this.setState({ uploading: true });
+    this.setState({ disabled: true });
+    console.log("here");
     const pushFile = index => {
-      this.setState({ file: files[index], uploading: true });
-
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        this.props.onLoaded(files[index], reader.result).then(() => {
-          if (files[index + 1]) {
-            pushFile(index + 1);
-          } else {
-            this.setState({ uploaded: true, uploading: false });
-            this.props.onComplete();
-          }
-        });
-      });
-      reader.readAsDataURL(files[index]);
+      loadedFiles.push(files[index]);
+      console.log(files[index].name);
+      if (files[index + 1]) {
+        pushFile(index + 1);
+      } else {
+        this.setState({ uploaded: true, uploading: false });
+        this.props.onLoaded(loadedFiles);
+        this.props.onComplete();
+      }
     };
     pushFile(0);
-    this.setState({ disabled: true });
     this.props.onStart();
   }
 
@@ -153,10 +150,27 @@ class DropZoneField extends React.Component {
         }}
         onDrop={files => this.handleDrop(files)}
       >
-        {this.state.uploaded && (
+        {this.state.uploaded && !this.props.pushing && !this.props.pushed && (
           <div>
             <Typography variant="h6" color="inherit" noWrap>
-              All pictures were successfuly imported
+              Media ready for upload.
+            </Typography>
+            <Typography variant="h6" color="inherit" noWrap>
+              Fill in Event-Edition-SubEvent and/or Category Dropdowns
+            </Typography>
+          </div>
+        )}
+        {this.state.uploaded && this.props.pushing && !this.props.pushed && (
+          <div>
+            <Typography variant="h6" color="inherit" noWrap>
+              Pushing to Server
+            </Typography>
+          </div>
+        )}
+        {this.state.uploaded && !this.props.pushing && this.props.pushed && (
+          <div>
+            <Typography variant="h6" color="inherit" noWrap>
+              All pictures were successfuly uploaded
             </Typography>
           </div>
         )}
@@ -168,8 +182,18 @@ class DropZoneField extends React.Component {
                 marginBottom: width === "lg" || width === "xl" ? 16 : 0
               }}
             />
+          </div>
+        )}
+        {this.props.pushing && this.props.currentFile && (
+          <div>
+            <CircularProgress
+              className={classes.progress}
+              style={{
+                marginBottom: width === "lg" || width === "xl" ? 16 : 0
+              }}
+            />
             <Typography variant="caption" color="inherit" noWrap>
-              {this.state.file.name}
+              {this.props.currentFile.name}
             </Typography>
           </div>
         )}
@@ -246,11 +270,21 @@ const styles = theme => ({
   listPadding: {
     marginBottom: theme.spacing.unit,
     marginTop: theme.spacing.unit
+  },
+  uploadLine: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: theme.spacing.unit
   }
 });
 
 class MultipleMediaDialog extends React.Component {
   state = {
+    files: [],
+    file: null,
+    pushed: false,
+    pushing: false,
     title: "",
     description: "",
     photographerSlug: "",
@@ -267,6 +301,48 @@ class MultipleMediaDialog extends React.Component {
     isPhotographer: true
   };
 
+  loadFiles(createMedium) {
+    const goThroughFiles = index => {
+      this.setState({ file: this.state.files[index], uploading: true });
+
+      const sendFile = (createMedium, result) =>
+        createMedium({
+          variables: {
+            input: {
+              title: "title", //processFileName(file),
+              isGif: false, //isGif(file),
+              description: this.state.description,
+              commentsDisabled: false,
+              shareOnTwitter: this.state.shareOnTwitter,
+              isPhotographer: this.state.isPhotographer,
+              photographerSlug: this.state.photographerSlug,
+              photographerString: this.state.photographerString,
+              picture: result,
+              editionId: this.state.mediaEdition.value,
+              categoryId: this.state.mediaCategory.value,
+              subEventId: this.state.mediaSubEvent.value
+            }
+          }
+        });
+
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        this.setState({ currentFile: this.state.files[index] });
+        sendFile(createMedium, reader.result).then(() => {
+          if (this.state.files[index + 1]) {
+            goThroughFiles(index + 1);
+          } else {
+            this.setState({ pushed: true });
+            this.setState({ pushing: false });
+          }
+        });
+      });
+      reader.readAsDataURL(this.state.files[index]);
+    };
+    goThroughFiles(0);
+    this.setState({ pushing: true });
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.open !== nextProps.open) {
       this.setInitialValues();
@@ -275,7 +351,10 @@ class MultipleMediaDialog extends React.Component {
 
   setInitialValues() {
     this.setState({
+      files: [],
       uploaded: false,
+      pushed: false,
+      pushing: false,
       complete: false,
       uploading: false,
       photographerSlug: "",
@@ -465,7 +544,6 @@ class MultipleMediaDialog extends React.Component {
                     onChange={e =>
                       this.setState({ isPhotographer: e.target.checked })
                     }
-                    value={this.state.isPhotographer}
                     color="primary"
                   />
                 }
@@ -557,73 +635,73 @@ class MultipleMediaDialog extends React.Component {
                 />
               </ListItem>
             </List>
-            <Typography variant="h6" color="primary">
-              Upload
-            </Typography>
-            <div style={{ padding: 5 }} />
-            <Mutation mutation={CREATE_MEDIUM}>
-              {(createMedium, { called }) => {
-                return (
-                  <DropZoneFieldWithStyle
-                    dropzoneDisabled={
-                      (Object.keys(this.state.mediaSubEvent).length == 0 &&
-                        Object.keys(this.state.mediaCategory).length == 0) ||
-                      (Object.keys(this.state.mediaEvent).length != 0 &&
-                        Object.keys(this.state.mediaSubEvent).length == 0) ||
-                      (!this.state.isPhotographer &&
-                        (this.state.photographerSlug === "" &&
-                          this.state.photographerString === ""))
-                    }
-                    onStart={() => {
-                      this.setState({ uploading: true });
-                    }}
-                    onLoaded={(file, result) =>
-                      createMedium({
-                        variables: {
-                          input: {
-                            title: processFileName(file),
-                            isGif: isGif(file),
-                            description: this.state.description,
-                            commentsDisabled: false,
-                            shareOnTwitter: this.state.shareOnTwitter,
-                            isPhotographer: this.state.isPhotographer,
-                            photographerSlug: this.state.photographerSlug,
-                            photographerString: this.state.photographerString,
-                            picture: result,
-                            editionId: this.state.mediaEdition.value,
-                            categoryId: this.state.mediaCategory.value,
-                            subEventId: this.state.mediaSubEvent.value
-                          }
-                        }
-                      })
-                    }
-                    onComplete={() => {
-                      this.setState({ complete: true });
-                    }}
-                  />
-                );
+            <div className={classes.uploadLine}>
+              <Typography variant="h6" color="primary">
+                Upload
+              </Typography>
+              <Mutation mutation={CREATE_MEDIUM}>
+                {(createMedium, { called }) => {
+                  return (
+                    <Button
+                      size="large"
+                      disabled={
+                        !this.state.complete ||
+                        this.state.pushing ||
+                        this.state.pushed ||
+                        ((Object.keys(this.state.mediaSubEvent).length == 0 &&
+                          Object.keys(this.state.mediaCategory).length == 0) ||
+                          (Object.keys(this.state.mediaEvent).length != 0 &&
+                            Object.keys(this.state.mediaSubEvent).length ==
+                              0) ||
+                          (!this.state.isPhotographer &&
+                            (this.state.photographerSlug === "" &&
+                              this.state.photographerString === "")))
+                      }
+                      onClick={() => this.loadFiles(createMedium)}
+                    >
+                      Send Pictures
+                    </Button>
+                  );
+                }}
+              </Mutation>
+            </div>
+            <DropZoneFieldWithStyle
+              dropzoneDisabled={false}
+              pushing={this.state.pushing}
+              pushed={this.state.pushed}
+              onStart={() => {}}
+              onLoaded={payload => {
+                this.setState({
+                  files: payload
+                });
               }}
-            </Mutation>
+              onComplete={() => {
+                this.setState({ complete: true });
+              }}
+              currentFile={this.state.currentFile}
+            />
           </DialogContent>
+          {console.log(this.state)}
           <DialogActions>
             <Grid container spacing={0} justify="space-between">
               <Grid item />
               <Grid item>
                 <Button
-                  disabled={this.state.uploading}
+                  disabled={!this.state.complete || this.state.pushed}
                   onClick={() => {
                     this.props.onClose();
                     this.setInitialValues();
+                    location.reload();
                   }}
                 >
                   Cancel
                 </Button>
                 <Button
-                  disabled={!this.state.complete}
+                  disabled={this.state.pushing}
                   onClick={() => {
                     this.props.onClose();
                     this.setInitialValues();
-                    location.reload();
+                    this.state.pushed && location.reload();
                   }}
                 >
                   Close

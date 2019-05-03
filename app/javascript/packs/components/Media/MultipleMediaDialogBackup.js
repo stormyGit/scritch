@@ -113,15 +113,22 @@ class DropZoneField extends React.Component {
     if (this.state.disabled) {
       return;
     }
+
     const pushFile = index => {
       this.setState({ file: files[index], uploading: true });
-      this.props.onLoaded(files[index]);
-      if (files[index + 1]) {
-        pushFile(index + 1);
-      } else {
-        this.setState({ uploaded: true, uploading: false });
-        this.props.onComplete();
-      }
+
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        this.props.onLoaded(files[index], reader.result).then(() => {
+          if (files[index + 1]) {
+            pushFile(index + 1);
+          } else {
+            this.setState({ uploaded: true, uploading: false });
+            this.props.onComplete();
+          }
+        });
+      });
+      reader.readAsDataURL(files[index]);
     };
     pushFile(0);
     this.setState({ disabled: true });
@@ -146,24 +153,10 @@ class DropZoneField extends React.Component {
         }}
         onDrop={files => this.handleDrop(files)}
       >
-        {this.state.uploaded && !this.props.pushing && !this.props.pushed && (
+        {this.state.uploaded && (
           <div>
             <Typography variant="h6" color="inherit" noWrap>
               All pictures were successfuly imported
-            </Typography>
-          </div>
-        )}
-        {this.state.uploaded && this.props.pushing && !this.props.pushed && (
-          <div>
-            <Typography variant="h6" color="inherit" noWrap>
-              Pushing to Server
-            </Typography>
-          </div>
-        )}
-        {this.state.uploaded && !this.props.pushing && this.props.pushed && (
-          <div>
-            <Typography variant="h6" color="inherit" noWrap>
-              All pictures were successfuly uploaded
             </Typography>
           </div>
         )}
@@ -177,19 +170,6 @@ class DropZoneField extends React.Component {
             />
             <Typography variant="caption" color="inherit" noWrap>
               {this.state.file.name}
-            </Typography>
-          </div>
-        )}
-        {this.props.pushing && this.props.currentFile && (
-          <div>
-            <CircularProgress
-              className={classes.progress}
-              style={{
-                marginBottom: width === "lg" || width === "xl" ? 16 : 0
-              }}
-            />
-            <Typography variant="caption" color="inherit" noWrap>
-              {this.props.currentFile.name}
             </Typography>
           </div>
         )}
@@ -266,21 +246,11 @@ const styles = theme => ({
   listPadding: {
     marginBottom: theme.spacing.unit,
     marginTop: theme.spacing.unit
-  },
-  uploadLine: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: theme.spacing.unit
   }
 });
 
-class MultipleMediaDialogRemake extends React.Component {
+class MultipleMediaDialog extends React.Component {
   state = {
-    files: [],
-    file: null,
-    pushed: false,
-    pushing: false,
     title: "",
     description: "",
     photographerSlug: "",
@@ -297,48 +267,6 @@ class MultipleMediaDialogRemake extends React.Component {
     isPhotographer: true
   };
 
-  loadFiles(createMedium) {
-    const goThroughFiles = index => {
-      this.setState({ file: this.state.files[index], uploading: true });
-
-      const sendFile = (createMedium, result) =>
-        createMedium({
-          variables: {
-            input: {
-              title: "title", //processFileName(file),
-              isGif: false, //isGif(file),
-              description: this.state.description,
-              commentsDisabled: false,
-              shareOnTwitter: this.state.shareOnTwitter,
-              isPhotographer: this.state.isPhotographer,
-              photographerSlug: this.state.photographerSlug,
-              photographerString: this.state.photographerString,
-              picture: result,
-              editionId: this.state.mediaEdition.value,
-              categoryId: this.state.mediaCategory.value,
-              subEventId: this.state.mediaSubEvent.value
-            }
-          }
-        });
-
-      const reader = new FileReader();
-      reader.addEventListener("load", () => {
-        this.setState({ currentFile: this.state.files[index] });
-        sendFile(createMedium, reader.result).then(() => {
-          if (this.state.files[index + 1]) {
-            goThroughFiles(index + 1);
-          } else {
-            this.setState({ pushed: true });
-            this.setState({ pushing: false });
-          }
-        });
-      });
-      reader.readAsDataURL(this.state.files[index]);
-    };
-    goThroughFiles(0);
-    this.setState({ pushing: true });
-  }
-
   componentWillReceiveProps(nextProps) {
     if (this.props.open !== nextProps.open) {
       this.setInitialValues();
@@ -347,10 +275,7 @@ class MultipleMediaDialogRemake extends React.Component {
 
   setInitialValues() {
     this.setState({
-      files: [],
       uploaded: false,
-      pushed: false,
-      pushing: false,
       complete: false,
       uploading: false,
       photographerSlug: "",
@@ -366,7 +291,6 @@ class MultipleMediaDialogRemake extends React.Component {
   render() {
     const { classes, uploadEnabled } = this.props;
 
-    console.log(this.state);
     return (
       <React.Fragment>
         <ResponsiveDialog
@@ -375,7 +299,7 @@ class MultipleMediaDialogRemake extends React.Component {
           disableBackdropClick={this.state.uploading}
           disableEscapeKeyDown={this.state.uploading}
         >
-          <DialogTitle>Upload Media REMAKE</DialogTitle>
+          <DialogTitle>Upload Media</DialogTitle>
           <DialogContent className={classes.dialogContent}>
             <Typography variant="h6" className={classes.blurb}>
               Event Media? - Select Event, Edition, and Sub Event below
@@ -541,6 +465,7 @@ class MultipleMediaDialogRemake extends React.Component {
                     onChange={e =>
                       this.setState({ isPhotographer: e.target.checked })
                     }
+                    value={this.state.isPhotographer}
                     color="primary"
                   />
                 }
@@ -632,55 +557,53 @@ class MultipleMediaDialogRemake extends React.Component {
                 />
               </ListItem>
             </List>
-            <div className={classes.uploadLine}>
-              <Typography variant="h6" color="primary">
-                Upload
-              </Typography>
-              <Mutation mutation={CREATE_MEDIUM}>
-                {(createMedium, { called }) => {
-                  return (
-                    <Button
-                      size="large"
-                      disabled={
-                        !this.state.complete ||
-                        this.state.pushing ||
-                        this.state.pushed ||
-                        ((Object.keys(this.state.mediaSubEvent).length == 0 &&
-                          Object.keys(this.state.mediaCategory).length == 0) ||
-                          (Object.keys(this.state.mediaEvent).length != 0 &&
-                            Object.keys(this.state.mediaSubEvent).length ==
-                              0) ||
-                          (!this.state.isPhotographer &&
-                            (this.state.photographerSlug === "" &&
-                              this.state.photographerString === "")))
-                      }
-                      onClick={() => this.loadFiles(createMedium)}
-                    >
-                      Send Pictures
-                    </Button>
-                  );
-                }}
-              </Mutation>
-            </div>
-            <DropZoneFieldWithStyle
-              dropzoneDisabled={false}
-              pushing={this.state.pushing}
-              pushed={this.state.pushed}
-              onStart={() => {
-                console.log("ON START");
-                this.setState({ uploading: true });
+            <Typography variant="h6" color="primary">
+              Upload
+            </Typography>
+            <div style={{ padding: 5 }} />
+            <Mutation mutation={CREATE_MEDIUM}>
+              {(createMedium, { called }) => {
+                return (
+                  <DropZoneFieldWithStyle
+                    dropzoneDisabled={
+                      (Object.keys(this.state.mediaSubEvent).length == 0 &&
+                        Object.keys(this.state.mediaCategory).length == 0) ||
+                      (Object.keys(this.state.mediaEvent).length != 0 &&
+                        Object.keys(this.state.mediaSubEvent).length == 0) ||
+                      (!this.state.isPhotographer &&
+                        (this.state.photographerSlug === "" &&
+                          this.state.photographerString === ""))
+                    }
+                    onStart={() => {
+                      this.setState({ uploading: true });
+                    }}
+                    onLoaded={(file, result) =>
+                      createMedium({
+                        variables: {
+                          input: {
+                            title: processFileName(file),
+                            isGif: isGif(file),
+                            description: this.state.description,
+                            commentsDisabled: false,
+                            shareOnTwitter: this.state.shareOnTwitter,
+                            isPhotographer: this.state.isPhotographer,
+                            photographerSlug: this.state.photographerSlug,
+                            photographerString: this.state.photographerString,
+                            picture: result,
+                            editionId: this.state.mediaEdition.value,
+                            categoryId: this.state.mediaCategory.value,
+                            subEventId: this.state.mediaSubEvent.value
+                          }
+                        }
+                      })
+                    }
+                    onComplete={() => {
+                      this.setState({ complete: true });
+                    }}
+                  />
+                );
               }}
-              onLoaded={payload => {
-                console.log("ON LOADED", payload);
-                this.setState(prevState => ({
-                  files: [...prevState.files, payload]
-                }));
-              }}
-              onComplete={() => {
-                this.setState({ complete: true });
-              }}
-              currentFile={this.state.currentFile}
-            />
+            </Mutation>
           </DialogContent>
           <DialogActions>
             <Grid container spacing={0} justify="space-between">
@@ -714,4 +637,4 @@ class MultipleMediaDialogRemake extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(MultipleMediaDialogRemake));
+export default withStyles(styles)(withRouter(MultipleMediaDialog));
