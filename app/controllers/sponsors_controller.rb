@@ -13,7 +13,7 @@ class SponsorsController < ApplicationController
   end
 
   def charge
-    if params[:type] == "charge.succeeded" && (params[:data][:object][:amount] == 1000 || params[:data][:object][:amount] == 100)
+    if params[:type] == "charge.succeeded" && (params[:data][:object][:amount] == 1000 || params[:data][:object][:amount] == 100 || params[:data][:object][:amount] == 450)
       ChargeSuccess.new(id: params[:data][:object][:customer]).process
     elsif params[:type] == "customer.subscription.deleted"
       SubscriptionCancel.new(id: params[:data][:object][:customer]).process
@@ -55,18 +55,51 @@ class SponsorsController < ApplicationController
               :plan        => :yearly
             ]
           )
+        elsif subType == ENV["SEMESTER_SUB_ID"]
+          Stripe::Subscription.create(
+            :customer    => customer.id,
+            :items        => [
+              :plan        => :semester
+            ]
+          )
         end
 
-      @amount = subType.present? && subType == ENV["MONTH_SUB_ID"] ? "$1.00"
-        : subType.present? && subType == ENV["YEAR_SUB_ID"] ?
-          "$10.00" : "N/A"
+      @amount =
+        case subType
+          when ENV["MONTH_SUB_ID"]
+            "£1.00"
+          when ENV["YEAR_SUB_ID"]
+            "£10.00"
+          when ENV["SEMESTER_SUB_ID"]
+            "£4.50"
+          else
+            "N/A"
+          end
 
-      @period = subType.present? && subType == ENV["MONTH_SUB_ID"] ? "/Mth"
-        : subType.present? && subType == ENV["YEAR_SUB_ID"] ?
-          "/Yr" : "N/A"
+      @period =
+        case subType
+          when ENV["MONTH_SUB_ID"]
+            "/Mth"
+          when ENV["YEAR_SUB_ID"]
+            "/Yr"
+          when ENV["SEMESTER_SUB_ID"]
+            "/6-Mth"
+          else
+            "N/A"
+          end
 
-      user_plan = subType.present? && subType == ENV["MONTH_SUB_ID"] ? "monthly"
-        : subType.present? && subType == ENV["YEAR_SUB_ID"] ? "yearly" : nil
+      user_plan =
+        case subType
+          when ENV["MONTH_SUB_ID"]
+            "monthly"
+          when ENV["YEAR_SUB_ID"]
+            "yearly"
+          when ENV["SEMESTER_SUB_ID"]
+            "semester"
+          else
+            nil
+          end
+
       sponsor = Sponsor.create(
         user: @current_session.user,
         charge: charge,
