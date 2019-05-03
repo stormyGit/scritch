@@ -6,7 +6,10 @@ class SponsorsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :charge
 
   def new
-    raise Pundit::NotAuthorizedError unless SponsorPolicy.new(@current_session.user, nil).new?
+    render body: nil, status: 404 unless @current_session.present?
+    if @current_session.present?
+      raise Pundit::NotAuthorizedError unless SponsorPolicy.new(@current_session.user, nil).new?
+    end
   end
 
   def charge
@@ -112,18 +115,6 @@ class SponsorsController < ApplicationController
 
   def get_session
     @current_session ||= Session.find_by(uuid: cookies.signed[:token])
-  end
-
-  def check_eligible
-    # if @current_session.blank? || @current_session.user.sponsor.present? || @current_session.user.sponsor.status != "canceled"
-    #   redirect_to root_path
-    # end PUNDIT
-  end
-
-  def check_sponsorship
-    # if @current_session.blank? || @current_session.user.sponsor.blank? || @current_session.user.sponsor.status != "live"
-    #   redirect_to root_path
-    # end #PUNDIT
   end
 
   def set_cache_headers
