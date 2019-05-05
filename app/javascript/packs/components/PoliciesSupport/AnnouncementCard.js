@@ -2,7 +2,9 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
-import Card from "@material-ui/core/Card";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import dayjs from "dayjs";
@@ -12,7 +14,7 @@ const styles = theme => ({
   card: {
     width: "100%",
     borderRadius: 0,
-    paddingBottom: theme.spacing.unit * 8
+    padding: theme.spacing.unit * 2
   },
   content: {
     padding: theme.spacing.unit * 4
@@ -25,6 +27,9 @@ const styles = theme => ({
   link: {
     textDecoration: "none",
     color: theme.palette.primary.main
+  },
+  pixelImage: {
+    width: "100%"
   }
 });
 
@@ -32,13 +37,28 @@ class AnnouncementCard extends React.Component {
   state = {};
 
   renderHeader() {
-    const { classes, announcement } = this.props;
+    const { classes, announcement, width } = this.props;
 
     return (
-      <CardHeader
-        title={announcement.title}
-        subheader={timeAgo.format(dayjs(announcement.createdAt).toDate())}
-      />
+      <React.Fragment>
+        <Grid container spacing={8}>
+          <Grid item xs={12} lg={10} xl={9}>
+            <Typography variant="h3">{announcement.title}</Typography>
+            <Typography variant="h6">
+              {timeAgo.format(dayjs(announcement.createdAt).toDate())}
+            </Typography>
+          </Grid>
+          {width === "xl" && <Grid item xl={1} />}
+          {(width === "xl" || width === "lg") && (
+            <Grid item lg={2}>
+              <img
+                className={classes.pixelImage}
+                src={require("images/pixel/Header - Announcements.png")}
+              />
+            </Grid>
+          )}
+        </Grid>
+      </React.Fragment>
     );
   }
 
@@ -46,14 +66,14 @@ class AnnouncementCard extends React.Component {
     const { classes, announcement, horizontal } = this.props;
 
     return (
-      <CardContent className={classes.content} className={classes.text}>
+      <div className={classes.content} className={classes.text}>
         <ReactMarkdown
           renderers={{
             link: props => <a className={classes.link} {...props} />
           }}
           source={announcement.body}
         />
-      </CardContent>
+      </div>
     );
   }
 
@@ -61,10 +81,14 @@ class AnnouncementCard extends React.Component {
     const { classes, announcement } = this.props;
 
     return (
-      <Card className={classes.card} elevation={0}>
-        {this.renderHeader()}
-        {this.renderContent()}
-      </Card>
+      <React.Fragment>
+        <Paper className={classes.card} elevation={0}>
+          {this.renderHeader()}
+          <hr />
+          {this.renderContent()}
+        </Paper>
+        <div style={{ padding: 16 }} />
+      </React.Fragment>
     );
   }
 

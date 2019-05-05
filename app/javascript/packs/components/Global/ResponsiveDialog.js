@@ -10,6 +10,7 @@ function Transition(props) {
 const ResponsiveDialog = ({ width, ...props }) => (
   <Dialog
     TransitionComponent={Transition}
+    scroll="body"
     fullScreen={width === "md" || width === "sm" || width === "xs"}
     PaperProps={{
       style: props.size

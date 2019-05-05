@@ -7,7 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Grid from "@material-ui/core/Grid";
 import PageTitle from "../Global/PageTitle";
 
-import Privacy from "../../Privacy";
+import Privacy from "../../PrivacyPolicy";
 
 const styles = theme => ({
   card: {

@@ -1,5 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
+import withWidth from "@material-ui/core/withWidth";
 
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
@@ -10,6 +11,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
   tableRoot: {
@@ -33,6 +35,9 @@ const styles = theme => ({
     marginTop: "-56px",
     paddingTop: "56px",
     display: "block"
+  },
+  pixelImage: {
+    width: "100%"
   }
 });
 
@@ -47,13 +52,26 @@ const SpacerWithHR = (
 
 class TermsOfUse extends React.Component {
   render() {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
 
     return (
       <React.Fragment>
-        <Typography variant="h2" id="website-user-guide1">
-          Scritch Terms & Conditions of Use (“Terms of Use”)
-        </Typography>
+        <Grid container spacing={8}>
+          <Grid item xs={12} lg={10} xl={9}>
+            <Typography variant="h2" id="website-user-guide1">
+              Scritch Terms & Conditions of Use (“Terms of Use”)
+            </Typography>
+          </Grid>
+          {width === "xl" && <Grid item xl={1} />}
+          {(width === "xl" || width === "lg") && (
+            <Grid item lg={2}>
+              <img
+                className={classes.pixelImage}
+                src={require("images/pixel/Header - Terms of Use.png")}
+              />
+            </Grid>
+          )}
+        </Grid>
         <Typography variant="subtitle1">
           Date of last revision: <strong>01 May 2019</strong>
         </Typography>
@@ -1175,4 +1193,4 @@ class TermsOfUse extends React.Component {
   }
 }
 
-export default withStyles(styles)(TermsOfUse);
+export default withStyles(styles)(withWidth()(TermsOfUse));

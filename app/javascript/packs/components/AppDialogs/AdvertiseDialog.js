@@ -237,7 +237,7 @@ class AdvertiseDialog extends React.Component {
   }
 
   render() {
-    const { classes, uploadEnabled } = this.props;
+    const { classes, uploadEnabled, width } = this.props;
 
     return (
       <React.Fragment>
@@ -251,20 +251,37 @@ class AdvertiseDialog extends React.Component {
 
           <DialogTitle>Advertise with Scritch!</DialogTitle>
           <DialogContent>
-            <Typography variant="h6" className={classes.blurb}>
-              All media uploaded must abide by the Content Restrictions detailed
-              in the{" "}
-              <Link target="_blank" to="/user_guide" className={classes.link}>
-                Website User Guide
-              </Link>
-              .
-            </Typography>
-            <div style={{ padding: 10 }} />
-            <Typography variant="h6" className={classes.blurb}>
-              Have an advert that relates to a product or service in the fandom?
-              Upload it here and then select an impressions bundle you have
-              complete control over!
-            </Typography>
+            <Grid container spacing={8}>
+              <Grid item xs={12} lg={9} xl={9}>
+                <Typography variant="h6" className={classes.blurb}>
+                  All media uploaded must abide by the Content Restrictions
+                  detailed in the{" "}
+                  <Link
+                    target="_blank"
+                    to="/user_guide"
+                    className={classes.link}
+                  >
+                    Website User Guide
+                  </Link>
+                  .
+                </Typography>
+                <div style={{ padding: 10 }} />
+                <Typography variant="h6" className={classes.blurb}>
+                  Have an advert that relates to a product or service in the
+                  fandom? Upload it here and then select an impressions bundle
+                  you have complete control over!
+                </Typography>
+              </Grid>
+              {(width === "xl" || width === "lg") && (
+                <Grid item lg={3}>
+                  <img
+                    style={{ width: "100%" }}
+                    src={require("images/pixel/Header - Advertise With Us Pop-up.png")}
+                  />
+                </Grid>
+              )}
+            </Grid>
+
             <div style={{ padding: 10 }} />
             <Typography variant="h6" className={classes.blurb}>
               Scritch supports 4 randomised advertisement slots on every page of
@@ -383,4 +400,4 @@ class AdvertiseDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(AdvertiseDialog));
+export default withStyles(styles)(withRouter(withWidth()(AdvertiseDialog)));

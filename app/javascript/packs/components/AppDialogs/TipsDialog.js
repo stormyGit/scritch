@@ -73,8 +73,8 @@ class TipsDialog extends React.Component {
         <DialogContent>
           <div className={classes.root}>
             <img
-              src={require("images/donation.png")}
-              style={{ width: "50%", borderRadius: "100%" }}
+              src={require("images/pixel/Header - Tipping Jar.png")}
+              style={{ width: "50%" }}
             />
             <Typography variant="h5" className={classes.text}>
               If you like the website, support new features by throwing a Tip
