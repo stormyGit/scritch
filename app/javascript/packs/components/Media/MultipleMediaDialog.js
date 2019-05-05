@@ -116,10 +116,8 @@ class DropZoneField extends React.Component {
     var loadedFiles = [];
     this.setState({ uploading: true });
     this.setState({ disabled: true });
-    console.log("here");
     const pushFile = index => {
       loadedFiles.push(files[index]);
-      console.log(files[index].name);
       if (files[index + 1]) {
         pushFile(index + 1);
       } else {
@@ -681,7 +679,6 @@ class MultipleMediaDialog extends React.Component {
               currentFile={this.state.currentFile}
             />
           </DialogContent>
-          {console.log(this.state)}
           <DialogActions>
             <Grid container spacing={0} justify="space-between">
               <Grid item />

@@ -10,6 +10,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import withWidth from "@material-ui/core/withWidth";
 
 const styles = theme => ({
   tableRoot: {
@@ -472,16 +474,30 @@ const tagCompletionRows = [
 
 class WebsiteUserGuide extends React.Component {
   render() {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
 
     return (
       <React.Fragment>
-        <Typography variant="h2" id="website-user-guide1">
-          Website User Guide
-        </Typography>
-        <Typography variant="subtitle1">
-          Date of last revision: <strong>01 May 2019</strong>
-        </Typography>
+        <Grid container spacing={8}>
+          <Grid item xs={12} lg={10} xl={9}>
+            <Typography variant="h2" id="website-user-guide1">
+              Website User Guide
+            </Typography>
+            <br />
+            <Typography variant="subtitle1">
+              Date of last revision: <strong>01 May 2019</strong>
+            </Typography>
+          </Grid>
+          {width === "xl" && <Grid item xl={1} />}
+          {(width === "xl" || width === "lg") && (
+            <Grid item lg={2}>
+              <img
+                style={{ width: "100%" }}
+                src={require("images/pixel/Header - Website User Guide.png")}
+              />
+            </Grid>
+          )}
+        </Grid>
         {SpacerWithHR}
         <Typography variant="h4" id="contents">
           CONTENTS
@@ -1317,4 +1333,4 @@ class WebsiteUserGuide extends React.Component {
   }
 }
 
-export default withStyles(styles)(WebsiteUserGuide);
+export default withStyles(styles)(withWidth()(WebsiteUserGuide));

@@ -5,7 +5,7 @@ module Types
     field :reported_picture_title, String, null: true
 
     def reported_picture_title
-      object.medium&.title
+      object.medium&.uuid.split("-")[0]
     end
   end
 end

@@ -81,8 +81,8 @@ class Media extends React.Component {
 
     return (
       <Grid spacing={8} container className={classes.filters}>
-        <Grid item xs={false} md={2} />
-        <Grid item xs={12} md={8}>
+        <Grid item xs={false} lg={2} />
+        <Grid item xs={12} lg={8}>
           {width === "xs" || width == "sm" ? (
             <MediaFiltersMobile
               onChange={value => {
@@ -99,7 +99,7 @@ class Media extends React.Component {
             />
           )}
         </Grid>
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} lg={2}>
           <Mutation
             mutation={mutation}
             onCompleted={() => this.setState({ uuid: uuidv4() })}
@@ -138,6 +138,7 @@ class Media extends React.Component {
           />
         ) : (
           <MediaFilters
+            faves={this.props.faves}
             onChange={value => {
               console.log(value);
               this.setState({ [value.label]: value.value });

@@ -16,10 +16,10 @@ const styles = theme => ({
     fontWeight: 200
   },
   padder: {
-    padding: 100
+    padding: 56
   },
   padderSmall: {
-    padding: 40
+    padding: 8
   }
 });
 
@@ -31,7 +31,7 @@ const MustLog = ({ classes, className, currentSession, width }) => (
       }
     />
     <Grid container alignItems="center" justify="center" className={className}>
-      <Grid container item xs={12}>
+      <Grid item xs={12} style={{ textAlign: "center" }}>
         {!currentSession && (
           <Typography variant="h4" align="center" className={classes.title}>
             You must be logged in to access this page
@@ -39,6 +39,12 @@ const MustLog = ({ classes, className, currentSession, width }) => (
         )}
         {currentSession && currentSession.user.suspendedUser && (
           <React.Fragment>
+            <div style={{ textAlign: "center" }}>
+              <img
+                style={{ width: "200px", height: "200px", textAlign: "center" }}
+                src={require("images/pixel/Header - Suspension Message.png")}
+              />
+            </div>
             <Typography variant="h4" align="center" className={classes.title}>
               Your account has been suspended for the following reason:
             </Typography>

@@ -322,7 +322,10 @@ class ActivitiesDialog extends React.Component {
 
     return (
       <ListItem key={activity.id}>
-        <UserAvatar user={activity.owner} size={64} />
+        <UserAvatar
+          modAvatar={require("images/pixel/Notification Avatar - Reports (General Admin Account) - Icon.png")}
+          size={64}
+        />
         <ListItemText
           primary={
             <React.Fragment>
@@ -350,7 +353,10 @@ class ActivitiesDialog extends React.Component {
 
     return (
       <ListItem key={activity.id}>
-        <UserAvatar user={activity.owner} size={64} />
+        <UserAvatar
+          modAvatar={require("images/pixel/Notification Avatar - Reports (General Admin Account) - Icon.png")}
+          size={64}
+        />
         <ListItemText
           primary={
             <React.Fragment>
@@ -378,7 +384,10 @@ class ActivitiesDialog extends React.Component {
 
     return (
       <ListItem key={activity.id}>
-        <UserAvatar user={activity.owner} size={64} />
+        <UserAvatar
+          modAvatar={require("images/pixel/Notification Avatar - Reports (General Admin Account) - Icon.png")}
+          size={64}
+        />
         <ListItemText
           primary={
             <React.Fragment>
@@ -406,7 +415,10 @@ class ActivitiesDialog extends React.Component {
 
     return (
       <ListItem key={activity.id}>
-        <UserAvatar user={activity.owner} size={64} />
+        <UserAvatar
+          modAvatar={require("images/pixel/Notification Avatar - Reports (General Admin Account) - Icon.png")}
+          size={64}
+        />
         <ListItemText
           primary={
             <React.Fragment>
@@ -757,6 +769,7 @@ class ActivitiesDialog extends React.Component {
               return null;
             }
 
+            console.log(data.activities);
             return (
               <React.Fragment>
                 {data.activities.length === 0 ? (

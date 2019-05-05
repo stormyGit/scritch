@@ -11,12 +11,17 @@ const styles = theme => ({
   }
 });
 
-const UserAvatar = ({ user, classes, size }) => (
+const UserAvatar = ({ user, classes, size, modAvatar }) => (
   <div>
-    {user.avatar ? (
+    {user && user.avatar ? (
       <Avatar
         src={user.avatar}
         className={classes.avatar}
+        style={size && { width: size - 4, height: size - 4 }}
+      />
+    ) : modAvatar ? (
+      <Avatar
+        src={modAvatar}
         style={size && { width: size - 4, height: size - 4 }}
       />
     ) : (

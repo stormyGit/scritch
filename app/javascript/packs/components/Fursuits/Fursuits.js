@@ -127,9 +127,21 @@ class Fursuits extends React.Component {
   renderFiltersWithSubsClear() {
     const { classes, location, width } = this.props;
     return (
-      <Grid spacing={8} container className={classes.filters}>
-        <Grid item xs={false} md={2} />
-        <Grid item xs={12} md={8}>
+      <Grid
+        spacing={8}
+        container
+        className={classes.filters}
+        alignItems="center"
+      >
+        {(width === "xl" || width === "lg") && (
+          <Grid item lg={2}>
+            <img
+              style={{ width: "80%" }}
+              src={require("images/pixel/Header - Search Fursuit Browse.png")}
+            />
+          </Grid>
+        )}
+        <Grid item xs={12} lg={8}>
           {width === "xs" || width === "sm" ? (
             <FursuitFiltersMobile
               onChange={value => {
@@ -152,7 +164,7 @@ class Fursuits extends React.Component {
             />
           )}
         </Grid>
-        <Grid item xs={12} md={2}>
+        <Grid item xs={12} lg={2}>
           <Mutation
             mutation={READ_MAKER_NOTIFICATIONS}
             onCompleted={() => this.setState({ uuid: uuidv4() })}

@@ -61,20 +61,22 @@ class TermsOfUse extends React.Component {
             <Typography variant="h2" id="website-user-guide1">
               Scritch Terms & Conditions of Use (“Terms of Use”)
             </Typography>
+            <br />
+            <Typography variant="subtitle1">
+              Date of last revision: <strong>01 May 2019</strong>
+            </Typography>
           </Grid>
           {width === "xl" && <Grid item xl={1} />}
           {(width === "xl" || width === "lg") && (
             <Grid item lg={2}>
               <img
-                className={classes.pixelImage}
+                style={{ width: "100%" }}
                 src={require("images/pixel/Header - Terms of Use.png")}
               />
             </Grid>
           )}
         </Grid>
-        <Typography variant="subtitle1">
-          Date of last revision: <strong>01 May 2019</strong>
-        </Typography>
+
         {SpacerWithHR}
         <Typography variant="h4" id="contents">
           CONTENTS

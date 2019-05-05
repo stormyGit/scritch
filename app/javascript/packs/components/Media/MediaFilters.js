@@ -560,7 +560,7 @@ class MediaFilters extends React.Component {
   }
 
   renderFilters() {
-    const { classes, width } = this.props;
+    const { classes, width, faves } = this.props;
 
     return (
       <Grid container spacing={8} alignItems="center">
@@ -568,7 +568,11 @@ class MediaFilters extends React.Component {
           <Grid item lg={2}>
             <img
               style={{ width: "80%" }}
-              src={require("images/pixel/Header - Search Media Browse.png")}
+              src={
+                faves
+                  ? require("images/pixel/Header - Subscriptions.png")
+                  : require("images/pixel/Header - Search Media Browse.png")
+              }
             />
           </Grid>
         )}
