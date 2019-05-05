@@ -674,8 +674,8 @@ class FursuitFilters extends React.Component {
 
     return (
       <Grid container spacing={8}>
-        <Grid item xs={false} lg={2} />
-        <Grid item xs={12} lg={8}>
+        <Grid item xs={false} lg={1} />
+        <Grid item xs={12} lg={10}>
           <ExpansionPanel
             expanded={this.state.expansion}
             onChange={() =>
@@ -727,7 +727,7 @@ class FursuitFilters extends React.Component {
             </ExpansionPanelActions>
           </ExpansionPanel>
         </Grid>
-        <Grid item xs={false} lg={3} />
+        <Grid item xs={false} lg={1} />
       </Grid>
     );
   }

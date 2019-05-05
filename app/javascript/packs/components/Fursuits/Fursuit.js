@@ -306,12 +306,7 @@ class Fursuit extends React.Component {
                     wrap="nowrap"
                   >
                     <Grid item>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        noWrap
-                      >
+                      <Typography gutterBottom variant="h5" component="h2">
                         {fursuit.name}
                       </Typography>
                       <Typography
@@ -652,10 +647,10 @@ class Fursuit extends React.Component {
       <React.Fragment>
         <div className={classes.container}>
           <Grid container spacing={8}>
-            <Grid item lg={10} xs={12}>
+            <Grid item lg={9} xl={10} xs={12}>
               {this.renderFursuitMedia()}
             </Grid>
-            <Grid item lg={2} xs={12}>
+            <Grid item lg={3} xl={2} xs={12}>
               {this.renderFursuitData()}
             </Grid>
           </Grid>

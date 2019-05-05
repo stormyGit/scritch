@@ -52,7 +52,7 @@ class AnnouncementCard extends React.Component {
           {(width === "xl" || width === "lg") && (
             <Grid item lg={2}>
               <img
-                className={classes.pixelImage}
+                style={{ width: "100%" }}
                 src={require("images/pixel/Header - Announcements.png")}
               />
             </Grid>

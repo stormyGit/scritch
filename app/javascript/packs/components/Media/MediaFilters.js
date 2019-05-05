@@ -1,5 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
+import withWidth from "@material-ui/core/withWidth";
 
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
@@ -559,12 +560,19 @@ class MediaFilters extends React.Component {
   }
 
   renderFilters() {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
 
     return (
-      <Grid container spacing={8}>
-        {this.state.fursuits.length == 0 && <Grid item xs={false} lg={2} />}
-        <Grid item xs={12} lg={this.state.fursuits.length > 0 ? 10 : 8}>
+      <Grid container spacing={8} alignItems="center">
+        {(width === "xl" || width === "lg") && (
+          <Grid item lg={2}>
+            <img
+              style={{ width: "80%" }}
+              src={require("images/pixel/Header - Search Media Browse.png")}
+            />
+          </Grid>
+        )}
+        <Grid item xs={12} lg={8}>
           <ExpansionPanel
             expanded={this.state.expansion}
             onChange={() =>
@@ -662,4 +670,4 @@ class MediaFilters extends React.Component {
   }
 }
 
-export default withStyles(styles)(MediaFilters);
+export default withStyles(styles)(withWidth()(MediaFilters));
