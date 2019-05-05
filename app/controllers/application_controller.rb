@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   private
 
   def layout_by_resource
-    if App.first.maintenance && cookies.signed["god-mode"].blank? || cookies.signed["god-mode"] != ENV["GOD_MODE_TOKEN"]
+    if App.first.maintenance && (cookies.signed["god-mode"].blank? || cookies.signed["god-mode"] != ENV["GOD_MODE_TOKEN"])
       return "maintenance"
     end
     if devise_controller?
