@@ -6,13 +6,16 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :not_authorized
 
   def index
+    if params[:god_mode].present? && params[:god_mode] == ENV["GOD_MODE_PWD"]
+      cookies.signed["god-mode"] = ENV["GOD_MODE_TOKEN"]
+    end
   end
   layout :layout_by_resource
 
   private
 
   def layout_by_resource
-    if App.first.maintenance
+    if App.first.maintenance && cookies.signed["god-mode"].blank? || cookies.signed["god-mode"] != ENV["GOD_MODE_TOKEN"]
       return "maintenance"
     end
     if devise_controller?
