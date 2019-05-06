@@ -10,8 +10,11 @@ br
           = f.label :name, "Name"
           = f.text_field :name, class: "input"
         .field
-          = f.label :email, "email"
+          = f.label :email, "Email"
           = f.text_field :email, class: "input"
+        .field
+          = f.label :telegram_username, "Telegram Username"
+          = f.text_field :telegram_username, class: "input"
 
         .field
           = f.submit "Add moderator", class: "button"

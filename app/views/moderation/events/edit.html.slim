@@ -13,11 +13,7 @@ br
           = f.label :web, "Website"
           = f.text_field :web, class: "input", value: @event.web
 
-        br
-        .field
-          = f.label :avatar, "Image"
-          br
-          = f.file_field :avatar, class: "upload-file"
+    
 
         .field
           = f.submit "Update", class: "button"

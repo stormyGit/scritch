@@ -4,8 +4,9 @@ class Moderator < ApplicationRecord
     analytics
     assets
     suspended_users
-    claims
     events
+    fursuit_claims
+    maker_claims
     moderators
     reports
     sponsors

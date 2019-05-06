@@ -10,10 +10,14 @@ class Moderation::StatisticsController < ModerationController
 
     @now_data = [
       {title: "Users", value: User.count},
-      {title: "Sponsors", value: Sponsor.where(status: "live").where.not(plan: "Free trial").count},
+      {title: "Sponsors (FT / C / L)", value: "#{Sponsor.count} (#{Sponsor.where(status: "Free Trial").count} / #{Sponsor.where(status: "canceled").count} / #{Sponsor.where(status: "live").count})"},
+      {title: "Adverts", value: Advert.count},
+      {title: "Reports (O, C, A)", value: "#{Report.count} (#{Report.where(status: "new", assignee_id: nil).count} / #{Report.where("reports.status = 'accepted' OR reports.status = 'dismissed' OR reports.status = 'closed'").count} / #{Report.where(status: "new").where.not(assignee_id: nil).count})"},
+      {title: "Suspended Users", value: SuspendedUser.count},
+      {title: "Moderators", value: Moderator.count},
       {title: "Fursuits", value: Fursuit.count},
       {title: "Makers", value: Maker.count},
-      {title: "Events", value: Event.count},
+      {title: "Events / Editions", value: "#{Event.count} / #{Edition.count}"},
       {title: "Media", value: Medium.count},
       {title: "Average Tag Completion", value: "#{average_completion}%"},
       {title: "Scritches", value: Like.count},

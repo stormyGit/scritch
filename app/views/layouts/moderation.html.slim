@@ -99,12 +99,12 @@ html lang="en"
                       | Fursuits
                     = active_link_to moderation_makers_path, class: "dropdown-item", class_active: 'is-active', active: :exact do
                       | Makers
-                    = active_link_to moderation_asset_requests_path, class: "dropdown-item", class_active: 'is-active', active: :exact do
-                      | Asset Requests
                     - if moderator_can_see?("events")
                       = active_link_to moderation_events_path, class: "dropdown-item", class_active: "is-active", active: :exact do
                         | Events
-            - if moderator_can_see?("claims")
+                    = active_link_to moderation_asset_requests_path, class: "dropdown-item", class_active: 'is-active', active: :exact do
+                      | Asset Requests
+            - if moderator_can_see?("fursuit_claims")
               .dropdown.is-hoverable.navbar-item
                 .dropdown-trigger
                   button.button
@@ -115,9 +115,10 @@ html lang="en"
                 .dropdown-menu role="menu"
                   .dropdown-content
                     = active_link_to moderation_claims_path, class: "navbar-item", class_active: "is-active", active: :exact do
-                      | Claims
-                    = active_link_to moderation_maker_claims_path, class: "navbar-item", class_active: "is-active", active: :exact do
-                      | Maker Claims
+                      | Fursuit Claims
+                    - if moderator_can_see?("maker_claims")
+                      = active_link_to moderation_maker_claims_path, class: "navbar-item", class_active: "is-active", active: :exact do
+                        | Maker Claims
             - if moderator_can_see?("reports")
               = active_link_to moderation_reports_path, class: "navbar-item is-hidden-desktop is-hidden-widescreen", class_active: "is-active", active: :exact do
                 | All open reports

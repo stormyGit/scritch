@@ -105,9 +105,21 @@ class Events extends React.Component {
           {({ data, loading, error, fetchMore }) => (
             <React.Fragment>
               {!searching && (
-                <Grid spacing={8} container className={classes.filters}>
-                  <Grid item xs={false} md={2} />
-                  <Grid item xs={12} md={8}>
+                <Grid
+                  spacing={8}
+                  container
+                  className={classes.filters}
+                  alignItems="center"
+                >
+                  {(width === "xl" || width === "lg") && (
+                    <Grid item lg={2}>
+                      <img
+                        style={{ width: "80%" }}
+                        src={require("images/pixel/Furcon.png")}
+                      />
+                    </Grid>
+                  )}
+                  <Grid item xs={12} lg={8}>
                     {width === "xs" || width === "sm" ? (
                       <EventFiltersMobile
                         onChange={value => {
@@ -124,7 +136,7 @@ class Events extends React.Component {
                       />
                     )}
                   </Grid>
-                  <Grid item xs={12} md={2}>
+                  <Grid item xs={12} lg={2}>
                     <Button
                       variant="outlined"
                       className={classes.requestButton}

@@ -31,6 +31,7 @@ class Moderation::EditionsController < ModerationController
       :kind,
       :attendance,
       :venue,
+      :theme,
       :year
     ]))
     #    authorize edition
@@ -64,6 +65,7 @@ class Moderation::EditionsController < ModerationController
       :kind,
       :attendance,
       :venue,
+      :theme,
       :year
     ]))
     #    authorize edition

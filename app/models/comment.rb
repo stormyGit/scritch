@@ -6,6 +6,7 @@ class Comment < ApplicationRecord
 
   has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity', dependent: :destroy
 
+  has_many :comment_reports, dependent: :destroy
   belongs_to :user
   belongs_to :medium
   belongs_to :parent, optional: true, class_name: "Comment", counter_cache: :replies_count, touch: true

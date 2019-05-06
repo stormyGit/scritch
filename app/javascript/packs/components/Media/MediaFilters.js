@@ -560,7 +560,7 @@ class MediaFilters extends React.Component {
   }
 
   renderFilters() {
-    const { classes, width, faves } = this.props;
+    const { classes, width, faves, fursuitSubs } = this.props;
 
     return (
       <Grid container spacing={8} alignItems="center">
@@ -571,6 +571,8 @@ class MediaFilters extends React.Component {
               src={
                 faves
                   ? require("images/pixel/Header - Subscriptions.png")
+                  : fursuitSubs
+                  ? require("images/pixel/Header - Search Global Search from Website Search Bar.png")
                   : require("images/pixel/Header - Search Media Browse.png")
               }
             />

@@ -12,7 +12,7 @@ module Types
     end
 
     def sender
-      User.find_by(telegram_id: ENV["ADMIN_ACCOUNT_TELEGRAM_ID"])
+      User.find_by(telegram_id: ENV["MODERATOR_TELEGRAM_ID"])
     end
   end
 end

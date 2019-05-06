@@ -67,6 +67,6 @@ class Moderation::MakerClaimsController < ModerationController
   protected
 
   def ensure_assets_capability!
-    ensure_capability! "claims"
+    ensure_capability! "maker_claims"
   end
 end

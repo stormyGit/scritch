@@ -13,6 +13,7 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import CheckIcon from "@material-ui/icons/Check";
+import WarningIcon from "@material-ui/icons/Warning";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -66,6 +67,9 @@ const styles = theme => ({
   },
   blurb: {
     fontWeight: 200
+  },
+  warning: {
+    color: theme.palette.danger.main
   }
 });
 
@@ -164,6 +168,16 @@ class SignUpDialog extends React.Component {
                 <ListItemText
                   inset
                   primary="A unique session identifier will be stored in your browser to keep you connected."
+                />
+              </ListItem>
+              <ListItem>
+                <ListItemIcon classes={{ root: classes.warning }}>
+                  <WarningIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  classes={{ primary: classes.warning }}
+                  primary="Telegram uses Cookies to log you in. Please make sure that Third-Party Cookies are not blocked on your browser."
                 />
               </ListItem>
             </List>

@@ -46,7 +46,7 @@ class Moderation::UsersController < ModerationController
 
   def serious_tag_violation
     @user.update!(score: @user.score - 30) #__SCORE__ SERIOUS TAG VIOLATION
-    accept_all_tag_reports(params[:medium_id])
+    accept_all_tag_reports(params[:medium_id], true)
     FursuitMedium.where(uuid: params[:fursuit_media]).destroy_all
     medium = Medium.find(params[:medium_id])
     medium.update!(completion: medium.get_completion)
@@ -55,7 +55,7 @@ class Moderation::UsersController < ModerationController
 
   def minor_tag_violation
     @user.update!(score: @user.score - 0) #__SCORE__ MINOR TAG VIOLATION
-    accept_all_tag_reports(params[:medium_id])
+    accept_all_tag_reports(params[:medium_id], true)
     FursuitMedium.where(uuid: params[:fursuit_media]).destroy_all
     medium = Medium.find(params[:medium_id])
     medium.update!(completion: medium.get_completion)
@@ -63,7 +63,7 @@ class Moderation::UsersController < ModerationController
   end
 
   def serious_user_violation
-    accept_all_user_reports(params[:profile_id])
+    accept_all_user_reports(params[:profile_id], true)
     if !@user.suspended_user.present?
       SuspendedUser.create!(user: @user, limit: Time.now + (2 ** @user.offenses_number).days, reason: "User profile was in serious violation of Scritch's terms of use")
     end
@@ -73,13 +73,13 @@ class Moderation::UsersController < ModerationController
 
   def minor_user_violation
     @user.update!(score: @user.score - 10) #__SCORE__ MINOR MEDIUM VIOLATION
-    accept_all_user_reports(params[:profile_id])
+    accept_all_user_reports(params[:profile_id], true)
     #User.find(params[:profile_id]).destroy TODO MODERATE PROFILE
     redirect_back fallback_location: moderation_reports_path
   end
 
   def serious_medium_violation
-    accept_all_medium_reports(params[:medium_id])
+    accept_all_medium_reports(params[:medium_id], true)
     Medium.find(params[:medium_id]).destroy
     if !@user.suspended_user.present?
       SuspendedUser.create!(user: @user, limit: Time.now + (2 ** @user.offenses_number).days, reason: "Posted a picture in serious violation of Scritch's terms of use")
@@ -90,13 +90,13 @@ class Moderation::UsersController < ModerationController
 
   def minor_medium_violation
     @user.update!(score: @user.score - 10) #__SCORE__ MINOR MEDIUM VIOLATION
-    accept_all_medium_reports(params[:medium_id])
+    accept_all_medium_reports(params[:medium_id], true)
     Medium.find(params[:medium_id]).destroy
     redirect_back fallback_location: moderation_medium_reports_path
   end
 
   def serious_comment_violation
-    accept_all_comment_reports(params[:comment_id])
+    accept_all_comment_reports(params[:comment_id], true)
     Comment.find(params[:comment_id]).destroy
     if !@user.suspended_user.present?
       SuspendedUser.create!(user: @user, limit: Time.now + (2 ** @user.offenses_number).days, reason: "Posted a comment in serious violation of Scritch's terms of use")
@@ -107,7 +107,7 @@ class Moderation::UsersController < ModerationController
 
   def minor_comment_violation
     @user.update!(score: @user.score - 10) #__SCORE__ MINOR COMMENT VIOLATION
-    accept_all_comment_reports(params[:comment_id])
+    accept_all_comment_reports(params[:comment_id], true)
     Comment.find(params[:comment_id]).destroy
     redirect_back fallback_location: moderation_comment_reports_path
   end
@@ -116,28 +116,28 @@ class Moderation::UsersController < ModerationController
     @user.update!(score: @user.score - 10) #__SCORE__ BAD REPORT
     if params[:comment_id].present?
       if params[:submit_and_close].present? && params[:comment_id].present?
-        accept_all_comment_reports(params[:comment_id])
+        accept_all_comment_reports(params[:comment_id], false)
       else
         CommentReport.find(params[:report_id]).update(status: 'accepted')
       end
       redirect_back fallback_location: moderation_comment_reports_path
     elsif params[:medium_id].present? && !params[:tag_report]
       if params[:submit_and_close].present? && params[:medium_id].present?
-        accept_all_medium_reports(params[:medium_id])
+        accept_all_medium_reports(params[:medium_id], false)
       else
         MediumReport.find(params[:report_id]).update(status: 'accepted')
       end
       redirect_back fallback_location: moderation_medium_reports_path
     elsif params[:profile_id].present?
       if params[:submit_and_close].present? && params[:profile_id].present?
-        accept_all_profile_reports(params[:profile_id])
+        accept_all_profile_reports(params[:profile_id], false)
       else
         Report.find(params[:report_id]).update(status: 'accepted')
       end
       redirect_back fallback_location: moderation_reports_path
     elsif params[:tag_report].present?
       if params[:submit_and_close].present? && params[:tag_report].present?
-        accept_all_tag_reports(params[:medium_id])
+        accept_all_tag_reports(params[:medium_id], false)
       else
         Medium.find(params[:medium_id]).update!(completion: Medium.find(params[:medium_id]).get_completion())
         TagReport.find(params[:report_id]).update(status: 'accepted')
@@ -156,21 +156,45 @@ class Moderation::UsersController < ModerationController
     Telegram::DeleteModerationMessageService.new(@user).call
   end
 
-  def accept_all_user_reports(profile_id)
-    Report.where(status: 'new', user_id: profile_id).update(status: 'accepted')
+  def accept_all_user_reports(profile_id, reporter_ok)
+    Report.where(status: 'new', user_id: profile_id).each do |e|
+      e.update(status: 'accepted')
+      if reporter_ok
+        u = User.find_by(uuid: e.reporter_id)
+        u.update!(score: u.score + 10)
+      end
+    end
   end
 
-  def accept_all_comment_reports(comment_id)
-    CommentReport.where(status: 'new', comment_id: comment_id).update(status: 'accepted')
+  def accept_all_comment_reports(comment_id, reporter_ok)
+    CommentReport.where(status: 'new', comment_id: comment_id).each do |e|
+      e.update(status: 'accepted')
+      if reporter_ok
+        u = User.find_by(uuid: e.reporter_id)
+        u.update!(score: u.score + 10)
+      end
+    end
   end
 
-  def accept_all_medium_reports(medium_id)
-    MediumReport.where(status: 'new', medium_id: medium_id).update(status: 'accepted')
+  def accept_all_medium_reports(medium_id, reporter_ok)
+    MediumReport.where(status: 'new', medium_id: medium_id).each do |e|
+      e.update(status: 'accepted')
+      if reporter_ok
+        u = User.find_by(uuid: e.reporter_id)
+        u.update!(score: u.score + 10)
+      end
+    end
   end
 
-  def accept_all_tag_reports(medium_id)
+  def accept_all_tag_reports(medium_id, reporter_ok)
     Medium.find(params[:medium_id]).update!(completion: Medium.find(params[:medium_id]).get_completion())
-    TagReport.where(status: 'new', medium_id: medium_id).update(status: 'accepted')
+    TagReport.where(status: 'new', medium_id: medium_id).each do |e|
+      e.update(status: 'accepted')
+      if reporter_ok
+        u = User.find_by(uuid: e.reporter_id)
+        u.update!(score: u.score + 10)
+      end
+    end
   end
 
 end

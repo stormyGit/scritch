@@ -7,6 +7,7 @@
     .column.is-2
     .column.is-10
       .columns.is-centered.is-multiline
-        - @reports.each do |report|
-          .column.is-6
-            = render partial: 'moderation/medium_reports/report', locals: { report: report }
+        - if @reports.present?
+          - @reports.each do |report|
+            .column.is-6
+              = render partial: 'moderation/medium_reports/report', locals: { report: report }

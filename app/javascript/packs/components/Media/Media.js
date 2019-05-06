@@ -92,6 +92,7 @@ class Media extends React.Component {
             />
           ) : (
             <MediaFilters
+              fursuitSubs={this.props.filter == "subscriptions_fursuits"}
               onChange={value => {
                 this.setState({ [value.label]: value.value });
               }}
