@@ -3,13 +3,15 @@ class Moderator < ApplicationRecord
     adverts
     analytics
     assets
-    suspended_users
+    delete_and_edit
     events
     fursuit_claims
     maker_claims
     moderators
     reports
     sponsors
+    suspended_users
+    tickets
     tech
     tooltips
   )

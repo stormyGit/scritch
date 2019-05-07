@@ -2,6 +2,9 @@ module Types
   class QueryType < Types::BaseObject
     include ActiveRecord::Sanitization::ClassMethods
 
+    field :commission_statuses, [CommissionStatusType], null: false do
+      description "Find a medium by ID"
+    end
     field :fursuit_leg_types, [FursuitLegTypeType], null: false do
       description "Find a medium by ID"
     end
@@ -248,6 +251,7 @@ module Types
       argument :offset, Integer, required: false
       argument :name, String, required: false
       argument :country, String, required: false
+      argument :commission_status, ID, required: false
       argument :region, String, required: false
     end
 
@@ -306,6 +310,10 @@ module Types
       tooltips = Tooltip.order("RANDOM()").where(public: true)
 
       tooltips
+    end
+
+    def commission_statuses
+      CommissionStatus.all.order(:name)
     end
 
     def makers_country
@@ -443,6 +451,10 @@ module Types
 
     def makers(arguments)
       makers = Maker.all
+
+      if arguments[:commission_status].present?
+        makers = makers.where(commission_status_id: arguments[:commission_status])
+      end
 
       if arguments[:country].present?
         makers = makers.where(country: arguments[:country])

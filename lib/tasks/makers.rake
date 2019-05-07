@@ -22,20 +22,22 @@ namespace :makers do
       begin
         if e[3] == 1
           maker = Maker.create!(name: e[0], country: "Owner Made", region: nil, web: nil, reference: e[3])
+          maker.commission_status = CommissionStatus.find_by(name: "Closed")
           maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - Owner Made.png")
           maker.save!
           next
         end
         maker = Maker.create!(name: e[0], country: e[1], region: e[4], web: e[2], reference: e[3])
+        maker.commission_status = CommissionStatus.find_by(name: "Closed")
         begin
           maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - #{maker.country}.png")
         rescue
-          TechReport.create!(user: User.first, description: "MAKER:: #{maker.name}")
+          TechReport.create!(kind: "exception", user: User.first, description: "MAKER:: #{maker.name}")
           maker.avatar = File.open("app/assets/images/makerPlaceholder.png")
         end
         maker.save!
       rescue
-        TechReport.create!(user: User.first, description: "MAKER CREATE:: #{e[0]}")
+        TechReport.create!(kind: "exception", user: User.first, description: "MAKER CREATE:: #{e[0]}")
       end
     end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_06_213930) do
+ActiveRecord::Schema.define(version: 2019_05_07_042901) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -214,6 +214,13 @@ ActiveRecord::Schema.define(version: 2019_05_06_213930) do
     t.datetime "updated_at", null: false
     t.uuid "parent_id"
     t.integer "replies_count", default: 0
+  end
+
+  create_table "commission_statuses", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "editions", force: :cascade do |t|
@@ -450,6 +457,8 @@ ActiveRecord::Schema.define(version: 2019_05_06_213930) do
     t.string "region"
     t.uuid "user_id"
     t.string "commission_status", default: "N/A"
+    t.uuid "commission_status_id"
+    t.index ["commission_status_id"], name: "index_makers_on_commission_status_id"
     t.index ["user_id"], name: "index_makers_on_user_id"
   end
 

@@ -2,7 +2,6 @@ class Moderation::ClaimsController < ModerationController
   include ModerationHelper
   before_action :ensure_assets_capability!
 
-
   def index
     if flash[:notice] == "Signed in successfully."
       flash[:notice] = ""

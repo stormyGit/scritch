@@ -58,8 +58,9 @@ br
                 .card-footer-item
                   = link_to "Edit", edit_moderation_fursuit_path(id: fursuit.slug)
 
-    .card-footer
-      .card-footer-item
-        = link_to "Edit", edit_moderation_maker_path(id: @maker.slug)
-      .card-footer-item
-        = link_to "Delete", moderation_maker_path(id: @maker.slug), method: :delete, class: "has-text-danger"
+    - if moderator_can_see?("delete_and_edit")
+      .card-footer
+        .card-footer-item
+          = link_to "Edit", edit_moderation_maker_path(id: @maker.slug)
+        .card-footer-item
+          = link_to "Delete", moderation_maker_path(id: @maker.slug), method: :delete, class: "has-text-danger"

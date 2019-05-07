@@ -45,6 +45,7 @@ class Makers extends React.Component {
     criteria: {
       name: "",
       country: "",
+      commissionStatus: null,
       region: ""
     }
   };
@@ -53,6 +54,7 @@ class Makers extends React.Component {
     this.setState({
       name: "",
       country: "",
+      commissionStatus: null,
       region: ""
     });
   }
@@ -101,6 +103,7 @@ class Makers extends React.Component {
             name: searching ? query.q : this.state.name,
             country: this.state.country,
             region: this.state.region,
+            commissionStatus: this.state.commissionStatus,
             limit,
             offset: 0
           }}

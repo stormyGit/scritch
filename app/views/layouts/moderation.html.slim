@@ -82,9 +82,12 @@ html lang="en"
                       | Comment Reports
                     = active_link_to moderation_tag_reports_path, class: "dropdown-item", class_active: "is-active", active: /^\/moderation\/(tag_reports|pictures).*/ do
                       | Tag Reports
-                    - if moderator_can_see?("tech")
-                      = active_link_to moderation_tech_reports_path, class: "dropdown-item", class_active: "is-active", active: :exact do
-                        | Tech Reports
+            - if moderator_can_see?("tickets")
+              = active_link_to moderation_tech_reports_path, class: "navbar-item", class_active: "is-active", active: :exact do
+                | Tickets
+            - if moderator_can_see?("tech")
+              = active_link_to moderation_tech_reports_path(switch: ENV["TECH_SWITCH_CODE"]), class: "navbar-item", class_active: "is-active", active: :exact do
+                | Tech
             - if moderator_can_see?("assets")
               .dropdown.is-hoverable.navbar-item
                 .dropdown-trigger

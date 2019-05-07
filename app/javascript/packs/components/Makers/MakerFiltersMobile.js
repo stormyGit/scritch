@@ -17,8 +17,11 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { LOAD_MAKER_COUNTRIES } from "../../queries/makerQueries";
-import { LOAD_MAKER_REGIONS } from "../../queries/makerQueries";
+import {
+  LOAD_MAKER_COUNTRIES,
+  LOAD_MAKER_REGIONS,
+  LOAD_COMMISSION_STATUSES
+} from "../../queries/makerQueries";
 
 import { Link, withRouter } from "react-router-dom";
 
@@ -101,6 +104,7 @@ class MakerFiltersMobile extends React.Component {
     this.state = {
       expansion: false,
       name: "",
+      commissionStatus: null,
       country: null,
       region: null
     };
@@ -110,6 +114,7 @@ class MakerFiltersMobile extends React.Component {
   clearFilters(filter) {
     var criteria = {
       name: "",
+      commissionStatus: null,
       country: null,
       region: null
     };
@@ -248,6 +253,54 @@ class MakerFiltersMobile extends React.Component {
     );
   }
 
+  renderCommissionFilter(country) {
+    const { classes } = this.props;
+
+    return (
+      <Query query={LOAD_COMMISSION_STATUSES}>
+        {({ data, loading, error }) => {
+          if (error || !data || !data.commissionStatuses) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={12}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+          const commissionsList = [];
+          data.commissionStatuses.map(
+            e => e && commissionsList.push({ value: e.id, label: e.name })
+          );
+          if (commissionsList.length == 0) {
+            return null;
+          }
+          return (
+            <Grid item xs={12}>
+              <Select
+                fullWidth
+                placeholder="Commission Status"
+                isClearable
+                isSearchable
+                value={this.state.commissionStatus}
+                onChange={commissionStatus => {
+                  this.setState({ commissionStatus: commissionStatus });
+                  this.props.onChange({
+                    label: "commissionStatus",
+                    value: commissionStatus ? commissionStatus.value : null
+                  });
+                }}
+                options={commissionsList}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    );
+  }
+
   renderFilters() {
     const { classes } = this.props;
 
@@ -286,12 +339,7 @@ class MakerFiltersMobile extends React.Component {
             <ExpansionPanelDetails>
               <Grid container spacing={8}>
                 {this.renderCountryFilter()}
-                {false &&
-                  filters.map(filter => (
-                    <Grid key={filter} item lg={3}>
-                      {this.renderSelect(filter)}
-                    </Grid>
-                  ))}
+                {this.renderCommissionFilter()}
               </Grid>
             </ExpansionPanelDetails>
             <ExpansionPanelActions>

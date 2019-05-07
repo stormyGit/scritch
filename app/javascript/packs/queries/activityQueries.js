@@ -20,6 +20,11 @@ export const GET_ACTIVITIES = gql`
             title
           }
         }
+        ... on AssetRequest {
+          id
+          assetType
+          assetName
+        }
         ... on Fave {
           id
           medium {

@@ -12,7 +12,7 @@
       .columns.has-text-centered
         .column.is-6.is-offset-3
           p.is-size-2.has-text-primary
-            | Tech Reports
+            = "#{@tech ? "Tech Reports" : "Tickets"}"
   .columns.is-multiline
     #navbar-padder
     - @reports.each do |report|

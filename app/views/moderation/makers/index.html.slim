@@ -42,8 +42,9 @@
           .card-footer
             .card-footer-item
               = link_to "View", moderation_maker_path(id: maker.slug)
-            .card-footer-item
-              = link_to "Edit", edit_moderation_maker_path(id: maker.slug)
+              - if moderator_can_see?("delete_and_edit")
+                .card-footer-item
+                  = link_to "Edit", edit_moderation_maker_path(id: maker.slug)
 
   .columns
     .column.is-6.is-offset-3.has-text-primary

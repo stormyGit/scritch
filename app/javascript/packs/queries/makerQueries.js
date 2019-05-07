@@ -9,11 +9,21 @@ export const LOAD_MAKERS_SELECT = gql`
   }
 `;
 
+export const LOAD_COMMISSION_STATUSES = gql`
+  query commissionStatuses {
+    commissionStatuses {
+      id
+      name
+    }
+  }
+`;
+
 export const LOAD_MAKERS = gql`
   query Makers(
     $name: String
     $country: String
     $region: String
+    $commissionStatus: ID
     $limit: Int!
     $offset: Int!
   ) {
@@ -21,6 +31,7 @@ export const LOAD_MAKERS = gql`
       name: $name
       country: $country
       region: $region
+      commissionStatus: $commissionStatus
       limit: $limit
       offset: $offset
     ) {
@@ -46,6 +57,10 @@ export const LOAD_MAKER = gql`
       avatar
       claimed
       claimRejected
+      commissionStatus {
+        id
+        name
+      }
       followed
       possessed
       fursuitsNumber

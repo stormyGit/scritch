@@ -10,6 +10,7 @@ module Types
     field :web, String, null: true
     field :fursuits, [FursuitType], null: false
     field :user, UserType, null: true
+    field :commission_status, CommissionStatusType, null: false
     field :claimed, Boolean, null: false
     field :claim_rejected, Boolean, null: false
     field :possessed, Boolean, null: false

@@ -19,6 +19,7 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import Typography from "@material-ui/core/Typography";
 import Select from "react-select";
 
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
@@ -31,6 +32,7 @@ import ImageCropper from "../Global/ImageCropper";
 import MakerAvatar from "./MakerAvatar";
 
 import { UPDATE_MAKER } from "../../queries/makerMutations";
+import { LOAD_COMMISSION_STATUSES } from "../../queries/makerQueries";
 
 const AVATAR_SIZE = 96;
 
@@ -128,6 +130,7 @@ class EditMakerDialog extends React.Component {
   state = {
     name: "",
     country: "",
+    commissionStatus: null,
     region: "",
     web: "",
     avatarMenu: false
@@ -156,6 +159,10 @@ class EditMakerDialog extends React.Component {
       id: maker.id,
       name: maker.name || "",
       country: maker.country && { value: maker.country, label: maker.country },
+      commissionStatus: maker.commissionStatus && {
+        value: maker.commissionStatus.id,
+        label: maker.commissionStatus.name
+      },
       region: maker.region,
       avatar: maker.avatar,
       web: maker.web
@@ -286,6 +293,43 @@ class EditMakerDialog extends React.Component {
               margin="dense"
               fullWidth
             />
+            <div style={{ padding: 5 }} />
+            <Typography variant="subtitle1">Commission Status</Typography>
+            <Query query={LOAD_COMMISSION_STATUSES}>
+              {({ data, loading, error }) => {
+                if (error || !data || !data.commissionStatuses) {
+                  return null;
+                }
+                if (loading) {
+                  return (
+                    <Grid item xs={4}>
+                      <CircularProgress />
+                    </Grid>
+                  );
+                }
+                const commissionsList = [];
+                data.commissionStatuses.map(
+                  e => e && commissionsList.push({ value: e.id, label: e.name })
+                );
+                if (commissionsList.length == 0) {
+                  return null;
+                }
+                return (
+                  <Select
+                    fullWidth
+                    placeholder="Commission Status"
+                    isClearable
+                    isSearchable
+                    value={this.state.commissionStatus}
+                    onChange={commissionStatus => {
+                      this.setState({ commissionStatus: commissionStatus });
+                    }}
+                    options={commissionsList}
+                    className={classes.selectInput}
+                  />
+                );
+              }}
+            </Query>
           </DialogContent>
           <DialogActions>
             <Button onClick={this.props.onClose}>Cancel</Button>
@@ -300,6 +344,9 @@ class EditMakerDialog extends React.Component {
                           id: maker.id,
                           name: this.state.name,
                           country: this.state.country.value,
+                          commissionStatusId:
+                            this.state.commissionStatus &&
+                            this.state.commissionStatus.value,
                           region: this.state.region,
                           web: this.state.web,
                           ...(this.state.avatar !== maker.avatar

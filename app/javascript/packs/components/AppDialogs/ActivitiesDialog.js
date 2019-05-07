@@ -472,6 +472,56 @@ class ActivitiesDialog extends React.Component {
     );
   }
 
+  renderAssetRequestAccepted(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem key={activity.id}>
+        <UserAvatar
+          modAvatar={require("images/pixel/Notification Avatar - Reports (General Admin Account) - Icon.png")}
+          size={64}
+        />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your request to add the ${activity.trackable.assetType} ${
+                  activity.trackable.assetName
+                } has been approved!`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderAssetRequestRejected(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem key={activity.id}>
+        <UserAvatar
+          modAvatar={require("images/pixel/Notification Avatar - Reports (General Admin Account) - Icon.png")}
+          size={64}
+        />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your request to add the ${activity.trackable.assetType} ${
+                  activity.trackable.assetName
+                } has been rejected. Please contact Support if you think this is a mistake.`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
   renderFursuitClaimSuccess(activity) {
     const { classes } = this.props;
 
@@ -583,6 +633,37 @@ class ActivitiesDialog extends React.Component {
                 {`Your Claim for ${
                   activity.trackable.name
                 } has been rejected. Please contact Support if you think this is a mistake.`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderMakerCommissionsOpen(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem
+        key={activity.id}
+        button
+        onClick={() => {
+          this.props.history.push({
+            pathname: `/makers/${activity.trackable.slug}`
+          });
+          this.props.onClose();
+        }}
+      >
+        <MakerAvatar avatar={activity.trackable.avatar} />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`The Studio ${
+                  activity.trackable.name
+                } has just opened for commissions!`}
               </Typography>
             </React.Fragment>
           }
@@ -734,6 +815,8 @@ class ActivitiesDialog extends React.Component {
         return this.renderMakerClaimSuccess(activity);
       case "maker.claim_reject":
         return this.renderMakerClaimReject(activity);
+      case "maker.commissions_open":
+        return this.renderMakerCommissionsOpen(activity);
       case "advert.approved":
         return this.renderAdvertSuccess(activity);
       case "advert.rejected":
@@ -746,6 +829,10 @@ class ActivitiesDialog extends React.Component {
         return this.renderSponsorshipStarted(activity);
       case "fursuit_subscription.create":
         return this.renderFursuitFollowed(activity);
+      case "asset_request.accepted":
+        return this.renderAssetRequestAccepted(activity);
+      case "asset_request.rejected":
+        return this.renderAssetRequestRejected(activity);
       default:
         return null;
     }

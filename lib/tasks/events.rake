@@ -27,7 +27,7 @@ namespace :events do
           Event.create!(name: e[0], web: e[1])
         end
       rescue
-        TechReport.create!(user: User.first, description: "EVENT CREATE:: #{e[0]}")
+        TechReport.create!(kind: "exception", user: User.first, description: "EVENT CREATE:: #{e[0]}")
       end
     end
     puts conlist.to_s
@@ -90,13 +90,13 @@ namespace :events do
           begin
             edition.event.avatar = File.open("app/assets/images/events/Scritch Event Thumbnail - #{edition.country}.png")
           rescue
-            TechReport.create!(user: User.first, description: "EVENT:: #{edition.event.name}")
+            TechReport.create!(kind: "exception", user: User.first, description: "EVENT:: #{edition.event.name}")
             edition.event.avatar = File.open("app/assets/images/events/FAILED.png")
           end
           edition.event.save!
         end
       rescue
-        TechReport.create!(user: User.first, description: "EDITION CREATE:: #{e[0]} - #{e[9]}")
+        TechReport.create!(kind: "exception", user: User.first, description: "EDITION CREATE:: #{e[0]} - #{e[9]}")
       end
     end
 

@@ -34,8 +34,9 @@
             .card-footer
               .card-footer-item
                 = link_to "View", moderation_event_edition_path(id: edition.slug)
-              .card-footer-item
-                = link_to "Edit", edit_moderation_event_edition_path(id: edition.slug)
+              - if moderator_can_see?("delete_and_edit")
+                .card-footer-item
+                  = link_to "Edit", edit_moderation_event_edition_path(id: edition.slug)
 
   .columns
     .column.is-6.is-offset-3

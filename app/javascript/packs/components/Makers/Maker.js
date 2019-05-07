@@ -427,6 +427,24 @@ class Maker extends React.Component {
                               {maker.fursuitsNumber}
                             </Typography>
                             <div style={{ padding: 10 }} />
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              component="h2"
+                              color="primary"
+                              className={classes.makerTitle}
+                            >
+                              Commission Status
+                            </Typography>
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="h2"
+                              className={classes.makerTitle}
+                            >
+                              {maker.commissionStatus.name}
+                            </Typography>
+                            <div style={{ padding: 10 }} />
                           </Grid>
                         </Grid>
                         <Divider />

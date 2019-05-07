@@ -6,12 +6,12 @@ class AssetRequest < ApplicationRecord
   has_many :moderation_comments, as: :subject, class_name: "Moderation::Comment"
 
   include PublicActivity::Model
-  tracked owner: Proc.new{ |_, model| User.first }, recipient: Proc.new{ |_, model| model.user }, only: [:mark_as_accepted]
+  tracked owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV["MODERATOR_TELEGRAM_ID"]) }, recipient: Proc.new{ |_, model| model.user }
+  has_many :activities, as: :trackable, class_name: 'PublicActivity::Activity', dependent: :destroy
 
   validates :asset_name, presence: true
   validates :url, presence: true
   validates :asset_type, presence: true
-
 
   STATUSES = [
     :new,

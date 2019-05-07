@@ -61,9 +61,9 @@ namespace :fursuits do
           fursuit.avatar = File.open("app/assets/images/species/#{e[11]}.png")
         rescue
           if Maker.find_by(reference: e[3].to_i).present?
-            TechReport.create!(user: User.first, description: "FURSUIT AVATAR:: #{fursuit.name} by: #{Maker.find_by(reference: e[3].to_i).name}")
+            TechReport.create!(kind: "exception", user: User.first, description: "FURSUIT AVATAR:: #{fursuit.name} by: #{Maker.find_by(reference: e[3].to_i).name}")
           else
-            TechReport.create!(user: User.first, description: "FURSUIT AVATAR:: #{fursuit.name} by: UNKNOWN")
+            TechReport.create!(kind: "exception", user: User.first, description: "FURSUIT AVATAR:: #{fursuit.name} by: UNKNOWN")
           end
           fursuit.avatar = File.open("app/assets/images/species/FAILED.png")
         end
@@ -72,7 +72,7 @@ namespace :fursuits do
           FursuitMaker.create!(fursuit: fursuit, maker: Maker.find_by(reference: e[3].to_i))
         end
       rescue => error
-        TechReport.create!(user: User.first, description: "FURSUIT CREATION:: #{e[0]} -- #{e[1]} -- #{e[9]} =======>>> #{error}")
+        TechReport.create!(kind: "exception", user: User.first, description: "FURSUIT CREATION:: #{e[0]} -- #{e[1]} -- #{e[9]} =======>>> #{error}")
       end
 
 

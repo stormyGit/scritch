@@ -6,8 +6,17 @@ class Moderation::TechReportsController < ModerationController
   before_action :ensure_reports_capability!
 
   def index
-    @reports = TechReport
-      .order(updated_at: :desc)
+    if params[:switch].present? && params[:switch] == ENV["TECH_SWITCH_CODE"] && moderator_can_see?("tech")
+      @reports = TechReport
+        .where(kind: "exception")
+        .order(updated_at: :desc)
+      @tech = true
+    else
+      @reports = TechReport
+        .where.not(kind: "exception")
+        .order(updated_at: :desc)
+      @tech = false
+    end
 
   end
 
@@ -16,14 +25,14 @@ class Moderation::TechReportsController < ModerationController
 
   def destroy
     @report.destroy
-    flash[:notice] = "Tech Report removed!"
+    flash[:notice] = "Ticket removed!"
     flash[:class] = "has-text-danger"
     redirect_back fallback_location: moderation_tech_report_path(@report)
   end
   protected
 
   def ensure_reports_capability!
-    ensure_capability! "tech"
+    ensure_capability! "tickets"
   end
 
   def load_report

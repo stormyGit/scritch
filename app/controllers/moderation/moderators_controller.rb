@@ -17,7 +17,8 @@ class Moderation::ModeratorsController < ModerationController
     moderator = Moderator.new
     moderator.assign_attributes(params.require(:moderator).permit([
       :name,
-      :email
+      :email,
+      :telegram_username
     ]))
     #    authorize moderator
     tmpPass = SecureRandom.base64

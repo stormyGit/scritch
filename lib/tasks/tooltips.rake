@@ -25,7 +25,7 @@ namespace :tooltips do
       begin
         tooltip.file = File.open("app/assets/images/tooltips/#{tooltip.name}.png")
       rescue
-        TechReport.create!(user: User.first, description: "TOOLTIP:: #{tooltip.name}")
+        TechReport.create!(kind: "exception", user: User.first, description: "TOOLTIP:: #{tooltip.name}")
       end
       tooltip.save!
     end

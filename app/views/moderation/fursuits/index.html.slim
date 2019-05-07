@@ -40,8 +40,9 @@
           .card-footer
             .card-footer-item
               = link_to "View", moderation_fursuit_path(id: fursuit.slug)
-            .card-footer-item
-              = link_to "Edit", edit_moderation_fursuit_path(id: fursuit.slug)
+              - if moderator_can_see?("delete_and_edit")
+                .card-footer-item
+                  = link_to "Edit", edit_moderation_fursuit_path(id: fursuit.slug)
 
   .columns
     .column.is-6.is-offset-3.has-text-primary

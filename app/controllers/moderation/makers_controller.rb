@@ -34,6 +34,7 @@ class Moderation::MakersController < ModerationController
       :region
     ]))
     #    authorize maker
+    maker.commission_status = CommissionStatus.find_by(name: "Closed")
     begin
       maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - #{maker.country}.png")
     rescue
@@ -46,11 +47,13 @@ class Moderation::MakersController < ModerationController
   end
 
   def edit
+    raise Pundit::NotAuthorizedError unless moderator_can_see?("delete_and_edit")
     @maker = Maker.find(params[:id])
 
   end
 
   def update
+    raise Pundit::NotAuthorizedError unless moderator_can_see?("delete_and_edit")
     maker = Maker.find(params[:id])
     maker.assign_attributes(params.require(:maker).permit([
       :user_id,
@@ -67,6 +70,7 @@ class Moderation::MakersController < ModerationController
   end
 
   def destroy
+    raise Pundit::NotAuthorizedError unless moderator_can_see?("delete_and_edit")
     maker = Maker.find(params[:id])
     maker.destroy!
 

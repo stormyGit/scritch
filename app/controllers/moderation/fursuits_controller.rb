@@ -57,10 +57,12 @@ class Moderation::FursuitsController < ModerationController
   end
 
   def edit
+    raise Pundit::NotAuthorizedError unless moderator_can_see?("delete_and_edit")
     @fursuit = Fursuit.find(params[:id])
   end
 
   def update
+    raise Pundit::NotAuthorizedError unless moderator_can_see?("delete_and_edit")
     fursuit = Fursuit.find(params[:id])
     fursuit.assign_attributes(params.require(:fursuit).permit([
       :user_id,
@@ -88,6 +90,7 @@ class Moderation::FursuitsController < ModerationController
   end
 
   def destroy
+    raise Pundit::NotAuthorizedError unless moderator_can_see?("delete_and_edit")
     fursuit = Fursuit.find(params[:id])
     fursuit.destroy!
 

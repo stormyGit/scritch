@@ -8,6 +8,7 @@ class Maker < ApplicationRecord
   friendly_id :slug_candidates, use: :slugged
 
   belongs_to :user, optional: true
+  belongs_to :commission_status, optional: true
   mount_base64_uploader :avatar, AvatarUploader
 
   has_many :fursuit_makers, dependent: :destroy

@@ -35,8 +35,9 @@ br
           - if @edition.event.avatar.present?
             = image_tag @edition.event.avatar_url
 
-    .card-footer
-      .card-footer-item
-        = link_to "Edit", edit_moderation_event_edition_path(id: @edition.slug, event_id: @event.slug)
-      .card-footer-item
-        = link_to "Delete", moderation_event_edition_path(id: @edition.slug, event_id: @event.slug), method: :delete, class: "has-text-danger"
+    - if moderator_can_see?("delete_and_edit")
+      .card-footer
+        .card-footer-item
+          = link_to "Edit", edit_moderation_event_edition_path(id: @edition.slug, event_id: @event.slug)
+        .card-footer-item
+          = link_to "Delete", moderation_event_edition_path(id: @edition.slug, event_id: @event.slug), method: :delete, class: "has-text-danger"

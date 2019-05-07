@@ -37,9 +37,10 @@
                 = image_tag event.avatar_url
             .card-content style="height: 100px;"
               = event.name
-            .card-footer
-              .card-footer-item
-                = link_to "Edit", edit_moderation_event_path(event.slug)
+            - if moderator_can_see?("delete_and_edit")
+              .card-footer
+                .card-footer-item
+                  = link_to "Edit", edit_moderation_event_path(event.slug)
 
   .columns
     .column.is-6.is-offset-3

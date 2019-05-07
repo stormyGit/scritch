@@ -20,6 +20,7 @@ class Moderation::EditionsController < ModerationController
   end
 
   def update
+    raise Pundit::NotAuthorizedError unless moderator_can_see?("delete_and_edit")
     edition = Edition.find(params[:id])
     edition.assign_attributes(params.require(:edition).permit([
       :event_id,
@@ -43,6 +44,8 @@ class Moderation::EditionsController < ModerationController
   end
 
   def edit
+    raise Pundit::NotAuthorizedError unless moderator_can_see?("delete_and_edit")
+
     @event = Event.find(params[:event_id])
     @edition = Edition.find_by(slug: params[:id], event: @event)
 
@@ -77,6 +80,7 @@ class Moderation::EditionsController < ModerationController
   end
 
   def destroy
+    raise Pundit::NotAuthorizedError unless moderator_can_see?("delete_and_edit")
     event = params[:event_id]
     edition = Edition.find(params[:id])
     edition.destroy!
