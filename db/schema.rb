@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_07_042901) do
+ActiveRecord::Schema.define(version: 2019_05_08_204458) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -634,6 +634,7 @@ ActiveRecord::Schema.define(version: 2019_05_07_042901) do
     t.integer "faves", default: 0
     t.integer "comments", default: 0
     t.float "average_completion", default: 0.0
+    t.integer "impressions"
   end
 
   create_table "sub_events", force: :cascade do |t|

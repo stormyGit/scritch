@@ -12,6 +12,7 @@ class Moderation::StatisticsController < ModerationController
       {title: "Users", value: User.count},
       {title: "Sponsors (FT / C / L)", value: "#{Sponsor.count} (#{Sponsor.where(status: "Free Trial").count} / #{Sponsor.where(status: "canceled").count} / #{Sponsor.where(status: "live").count})"},
       {title: "Adverts", value: Advert.count},
+      {title: "Total Impressions", value: Statistic.last.impressions},
       {title: "Reports (O, C, A)", value: "#{Report.count} (#{Report.where(status: "new", assignee_id: nil).count} / #{Report.where("reports.status = 'accepted' OR reports.status = 'dismissed' OR reports.status = 'closed'").count} / #{Report.where(status: "new").where.not(assignee_id: nil).count})"},
       {title: "Suspended Users", value: SuspendedUser.count},
       {title: "Moderators", value: Moderator.count},
@@ -63,6 +64,19 @@ class Moderation::StatisticsController < ModerationController
     @users_per_day = []
     @users_count.sort.each_with_index do |u, index|
       @users_per_day = @users_per_day + [[u[0], @users_count.sort[index][1].to_i - (index == 0 ? 0 : @users_count.sort[index - 1][1].to_i)]]
+    end
+
+    @impressions_count = Statistic.pluck("date_trunc('day', created_at)", :impressions)
+    @impressions_count.each do |u|
+      if u.present?
+        tmp = u[0].to_s
+        u[0] = tmp[0..tmp.index(':') - 4]
+      end
+    end
+
+    @impressions_per_day = []
+    @impressions_count.sort.each_with_index do |u, index|
+      @impressions_per_day = @impressions_per_day + [[u[0], @impressions_count.sort[index][1].to_i - (index == 0 ? 0 : @impressions_count.sort[index - 1][1].to_i)]]
     end
   end
 end

@@ -83,11 +83,13 @@ class AdvertsController < ApplicationController
 
   def get_adverts
     @adverts = @current_session.user.advert.order(created_at: :desc)
+    @impressions_count = Statistic.last.impressions - Statistic.last(2).first.impressions
+
     @expiry =
-      if @adverts.where(status: "live").length == 0
+      if @adverts.where(status: "live").length == 0 || @impressions_count == 0
         "N/A"
       else
-        Time.now() + ((@current_session.user.available_impressions / 15000) / @adverts.where(status: "live").length).days #TODO get estimate
+        Time.now() + ((@current_session.user.available_impressions / @impressions_count) / @adverts.where(status: "live").length).days #TODO get estimate
       end
   end
 

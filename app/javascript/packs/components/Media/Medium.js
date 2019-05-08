@@ -447,6 +447,9 @@ class Medium extends React.Component {
                           <video
                             loop="loop"
                             autoplay="autoplay"
+                            onContextMenu={e => {
+                              e.preventDefault();
+                            }}
                             className={
                               medium.exif &&
                               JSON.parse(medium.exif).Orientation === "6"

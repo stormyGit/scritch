@@ -40,3 +40,15 @@
       .column.is-12.has-text-centered
         h3.is-size-2 New Users per day
     = line_chart @users_per_day
+
+  .chart
+    .columns
+      .column.is-12.has-text-centered
+        h3.is-size-2 Impressions
+    = line_chart @impressions_count
+
+  .chart
+    .columns
+      .column.is-12.has-text-centered
+        h3.is-size-2 Impressions per day
+    = line_chart @impressions_per_day
