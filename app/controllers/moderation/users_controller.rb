@@ -45,7 +45,7 @@ class Moderation::UsersController < ModerationController
   end
 
   def serious_tag_violation
-    @user.update!(score: @user.score - 30) #__SCORE__ SERIOUS TAG VIOLATION
+    @user.update!(score: @user.score - 10) #__SCORE__ SERIOUS TAG VIOLATION
     accept_all_tag_reports(params[:medium_id], true)
     FursuitMedium.where(uuid: params[:fursuit_media]).destroy_all
     medium = Medium.find(params[:medium_id])

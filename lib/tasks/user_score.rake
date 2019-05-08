@@ -10,8 +10,14 @@ namespace :user_score do
     User.find_each do |e|
       tags = FursuitMedium.where(user: e).distinct.count
       pictures = Medium.where(user: e).distinct.count
-
-      e.update!(global_score: pictures + tags)
+      comments = Comment.where(user: e).distinct.count
+      scritchesGiven = Like.where(user_id: e).distinct.count
+      scritchesReceived = Like.joins(:medium).where("media.user_id = ?", e.uuid).distinct.count
+      favesGiven = Fave.where(user_id: e).distinct.count
+      favesReceived = Fave.joins(:medium).where("media.user_id = ?", e.uuid).distinct.count * 2
+      followers = Follow.where(follower_id: e.uuid).distinct.count
+      following = Follow.where(followable_id: e.uuid).distinct.count
+      e.update!(global_score: (pictures + tags + comments + scritchesGiven + scritchesReceived + favesGiven + favesReceived + followers + following))
     end
   end
 
