@@ -26,6 +26,7 @@ import Grid from "@material-ui/core/Grid";
 import { Link, withRouter } from "react-router-dom";
 import timeAgo from "../../timeAgo";
 import UserAvatar from "../Users/UserAvatar";
+import Gif from "./Gif";
 import countContractor from "../../countContractor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faEye, faStar } from "@fortawesome/free-solid-svg-icons";
@@ -115,7 +116,14 @@ class MediumCard extends React.Component {
                   ? classes.verticalMedia
                   : classes.horizontalMedia
               }
-              image={medium.thumbnail}
+              component={
+                medium.thumbnail.substr(
+                  medium.thumbnail.lastIndexOf(".") + 1
+                ) === "mp4"
+                  ? "video"
+                  : "img"
+              }
+              src={medium.thumbnail}
               title={medium.title}
             />
             {this.renderActions()}

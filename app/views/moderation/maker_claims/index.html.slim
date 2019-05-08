@@ -35,7 +35,7 @@
                   p.is-size-4
                     | &nbsp;&nbsp;Maker
                   p.is-size-5
-                    = link_to "#{maker_claim.maker.name}", moderation_fursuit_path(id: maker_claim.maker.slug), target: "_blank"
+                    = link_to "#{maker_claim.maker.name}", moderation_maker_path(id: maker_claim.maker.slug), target: "_blank"
                   p.is-size-5
                     = "from #{maker_claim.maker.country}"
                 br

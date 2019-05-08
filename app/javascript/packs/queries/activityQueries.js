@@ -98,6 +98,7 @@ export const GET_ACTIVITIES = gql`
         ... on Fursuit {
           id
           name
+          avatar
         }
       }
     }

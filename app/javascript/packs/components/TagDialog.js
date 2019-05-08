@@ -342,9 +342,10 @@ class TagDialog extends React.Component {
                             </DialogContent>
                             {
                               <Typography variant="subtitle1">
+                                The Category makes up 20% of Completion.
                                 Entering No. of Fursuits in this media
                                 constitutes 10% Completion, with the remaining
-                                90% equally split by the number of Fursuits
+                                70% equally split by the number of Fursuits
                                 declared when tagged.
                               </Typography>
                             }

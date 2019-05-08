@@ -94,8 +94,8 @@ class SponsorDialog extends React.Component {
             />
           )}
           <Typography variant="h6" className={classes.textTitle}>
-            Make use of the following website features for just $1 a month or
-            $10 a year!
+            Make use of the following website features for just £1 a month or
+            £4.99 every 6 months!
           </Typography>
           <List className={classes.listPadder}>
             <ListItem>

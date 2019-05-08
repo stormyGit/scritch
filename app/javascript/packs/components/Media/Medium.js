@@ -436,20 +436,44 @@ class Medium extends React.Component {
                     <Grid container className={classes.gridContainer}>
                       <Grid item lg={1} xs={12} />
                       <Grid item lg={10} xs={12}>
-                        <img
-                          onClick={() => {}}
-                          onContextMenu={e => {
-                            e.preventDefault();
-                          }}
-                          className={
-                            medium.exif &&
-                            JSON.parse(medium.exif).Orientation === "6"
-                              ? classes.mediaV
-                              : classes.mediaH
-                          }
-                          src={`${medium.picture}`}
-                          title={medium.title}
-                        />
+                        {console.log(
+                          medium.picture.substr(
+                            medium.picture.lastIndexOf(".") + 1
+                          )
+                        )}
+                        {medium.picture.substr(
+                          medium.picture.lastIndexOf(".") + 1
+                        ) === "mp4" && (
+                          <video
+                            loop="loop"
+                            autoplay="autoplay"
+                            className={
+                              medium.exif &&
+                              JSON.parse(medium.exif).Orientation === "6"
+                                ? classes.mediaV
+                                : classes.mediaH
+                            }
+                            src={medium.picture}
+                          />
+                        )}
+                        {medium.picture.substr(
+                          medium.picture.lastIndexOf(".") + 1
+                        ) !== "mp4" && (
+                          <img
+                            onClick={() => {}}
+                            onContextMenu={e => {
+                              e.preventDefault();
+                            }}
+                            className={
+                              medium.exif &&
+                              JSON.parse(medium.exif).Orientation === "6"
+                                ? classes.mediaV
+                                : classes.mediaH
+                            }
+                            src={`${medium.picture}`}
+                            title={medium.title}
+                          />
+                        )}
                       </Grid>
                       <Grid item lg={1} xs={12} />
                     </Grid>
