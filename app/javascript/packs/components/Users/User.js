@@ -723,7 +723,7 @@ class User extends React.Component {
 
     return (
       <div>
-        {user.makers && (
+        {user.makers && user.makers.length > 0 && (
           <Typography
             variant="h6"
             className={classes.infoText}
@@ -739,7 +739,7 @@ class User extends React.Component {
             )
           </Typography>
         )}
-        {!user.makers && (
+        {(!user.makers || user.makers.length == 0) && (
           <Typography
             variant="h6"
             className={classes.infoText}

@@ -13,7 +13,7 @@ class SponsorsController < ApplicationController
   end
 
   def charge
-    if params[:type] == "charge.succeeded" && (params[:data][:object][:amount] == 1000 || params[:data][:object][:amount] == 100 || params[:data][:object][:amount] == 450)
+    if params[:type] == "charge.succeeded" && (params[:data][:object][:amount] == 1000 || params[:data][:object][:amount] == 100 || params[:data][:object][:amount] == 499)
       ChargeSuccess.new(id: params[:data][:object][:customer]).process
     elsif params[:type] == "customer.subscription.deleted"
       SubscriptionCancel.new(id: params[:data][:object][:customer]).process
@@ -71,7 +71,7 @@ class SponsorsController < ApplicationController
           when ENV["YEAR_SUB_ID"]
             "£10.00"
           when ENV["SEMESTER_SUB_ID"]
-            "£4.50"
+            "£4.99"
           else
             "N/A"
           end

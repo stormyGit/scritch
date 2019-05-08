@@ -41,17 +41,17 @@
                 .column.is-4
                   p
                     strong
-                      | 6 Months (£4.50)
+                      | 6 Months (£4.99)
                   br
                   article
                     label.amount
                       span
-                        = "Price: £4.50"
+                        = "Price: £4.99"
                       p
                         | Give it a try!
                   br
                   = form_tag sponsors_path(sub: ENV["SEMESTER_SUB_ID"]) do
-                    script.stripe-button data-label="6 Months Sponsorship" data-currency="gbp" data-zip-code="true" data-amount="450" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("6 Months Sponsorship") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
+                    script.stripe-button data-label="6 Months Sponsorship" data-currency="gbp" data-zip-code="true" data-amount="499" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("6 Months Sponsorship") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
 
                 .column.is-4
                   p
