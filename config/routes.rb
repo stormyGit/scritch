@@ -116,7 +116,9 @@ Rails.application.routes.draw do
     end
   end
 
-  telegram_webhook TelegramController
+  telegram_webhook TelegramController, :default
+  telegram_webhook TelegramController, :login
+  telegram_webhook TelegramController, :admin
 
   post "/graphql", to: "graphql#execute"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
