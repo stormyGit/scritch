@@ -485,9 +485,6 @@ module Types
     end
 
     def media(arguments = {})
-      puts "\n" * 30
-      puts arguments
-      puts "\n" * 30
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
 
       if arguments[:faves].present?

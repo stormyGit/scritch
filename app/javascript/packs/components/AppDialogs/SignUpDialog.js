@@ -80,7 +80,6 @@ class SignUpDialog extends React.Component {
   };
 
   handleTelegramResponse(response) {
-    console.log(response);
     this.setState({ submiting: true });
     this.props.onSubmit({
       telegramId: response.id,
