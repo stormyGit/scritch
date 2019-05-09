@@ -41,11 +41,11 @@ class TelegramController < Telegram::Bot::UpdatesController
   def callback_query(query)
     action, id     = query.split(" ")
     message_id     = self.payload["message"]["message_id"]
-    raise Pundit::NotAuthorizedError unless FursuitUserPolicy.new(nil, claim).create?
 
     case action
     when 'APPROVE_CLAIM'
       claim = Claim.find(id)
+      raise Pundit::NotAuthorizedError unless FursuitUserPolicy.new(nil, claim).create?
       chat_id = ENV["TELEGRAM_CLAIM_GROUP_ID"]
       FursuitUser.create!(user: claim.user, fursuit: claim.fursuit)
       claim.fursuit.create_activity :claim_success, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: claim.user
@@ -64,7 +64,7 @@ class TelegramController < Telegram::Bot::UpdatesController
     #ExceptionNotifier.notify_exception(error)
   ensure
     Telegram.bots[:admin].delete_message({
-      chat_id: ENV["TELEGRAM_CLAIM_GROUP_ID"],
+      chat_id: chat_id,
       message_id: message_id
     })
   end
