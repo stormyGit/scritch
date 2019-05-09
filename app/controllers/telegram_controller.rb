@@ -60,10 +60,11 @@ class TelegramController < Telegram::Bot::UpdatesController
     end
 
   rescue => error
-    ExceptionNotifier.notify_exception(error)
+    puts error
+    #ExceptionNotifier.notify_exception(error)
   ensure
     Telegram.bots[:admin].delete_message({
-      chat_id: chat_id,
+      chat_id: ENV["TELEGRAM_CLAIM_GROUP_ID"],
       message_id: message_id
     })
   end

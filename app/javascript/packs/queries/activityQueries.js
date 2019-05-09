@@ -99,6 +99,7 @@ export const GET_ACTIVITIES = gql`
           id
           name
           avatar
+          slug
         }
       }
     }
