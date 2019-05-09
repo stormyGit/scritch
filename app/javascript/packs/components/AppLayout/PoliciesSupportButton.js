@@ -43,19 +43,17 @@ class PoliciesSupportButton extends React.Component {
 
     return (
       <React.Fragment>
-        {this.props.width !== "xl" &&
-          this.props.width !== "lg" &&
-          currentSession && (
-            <IconButton
-              aria-owns={open ? "menu-appbar" : undefined}
-              aria-haspopup="true"
-              title="Databases"
-              onClick={event => this.handleMenu(event)}
-              color={this.props.suspended ? "white" : "primary"}
-            >
-              <SupportIcon />
-            </IconButton>
-          )}
+        {this.props.width !== "xl" && this.props.width !== "lg" && (
+          <IconButton
+            aria-owns={open ? "menu-appbar" : undefined}
+            aria-haspopup="true"
+            title="Support"
+            onClick={event => this.handleMenu(event)}
+            color={this.props.suspended ? "white" : "primary"}
+          >
+            <SupportIcon />
+          </IconButton>
+        )}
         {(this.props.width === "xl" || this.props.width === "lg") && (
           <Button
             onClick={event => this.handleMenu(event)}

@@ -2,6 +2,7 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import { Link, withRouter } from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
+import withWidth from "@material-ui/core/withWidth";
 import Button from "@material-ui/core/Button";
 import ButtonBase from "@material-ui/core/ButtonBase";
 import IconButton from "@material-ui/core/IconButton";
@@ -24,7 +25,7 @@ class UserButton extends React.Component {
   };
 
   render() {
-    const { classes, currentSession } = this.props;
+    const { classes, currentSession, width } = this.props;
 
     return (
       <React.Fragment>
@@ -32,7 +33,7 @@ class UserButton extends React.Component {
           <Button
             onClick={this.props.openSignUp}
             variant="outlined"
-            size="large"
+            size={width === "xl" || width === "lg" ? "large" : "small"}
           >
             Login with Telegram
           </Button>
@@ -102,4 +103,6 @@ class UserButton extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withCurrentSession(UserButton)));
+export default withStyles(styles)(
+  withRouter(withCurrentSession(withWidth()(UserButton)))
+);

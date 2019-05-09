@@ -332,30 +332,33 @@ class AppLayoutRemake extends React.Component {
                       className={classes.pointer}
                     />
                   )}
-                  {(this.state.searchEnabled ||
-                    width === "lg" ||
-                    width === "xl") && (
-                    <div
-                      className={classes.searchBar}
-                      style={{
-                        paddingLeft: appBarPadding,
-                        maxWidth:
-                          width === "lg" || width === "xl" ? 200 : "none",
-                        marginRight: width === "lg" || width === "xl" ? 16 : 0
-                      }}
-                    >
-                      <SearchBar
-                        autoFocus={width !== "lg" && width !== "xl" && !query.q}
-                        cancelOnEscape
-                        value={query.q}
-                        onRequestSearch={q => {
-                          if (typeof q === "string") {
-                            this.handleRequestSearch(q);
-                          }
+                  {currentSession &&
+                    (this.state.searchEnabled ||
+                      width === "lg" ||
+                      width === "xl") && (
+                      <div
+                        className={classes.searchBar}
+                        style={{
+                          paddingLeft: appBarPadding,
+                          maxWidth:
+                            width === "lg" || width === "xl" ? 200 : "none",
+                          marginRight: width === "lg" || width === "xl" ? 16 : 0
                         }}
-                      />
-                    </div>
-                  )}
+                      >
+                        <SearchBar
+                          autoFocus={
+                            width !== "lg" && width !== "xl" && !query.q
+                          }
+                          cancelOnEscape
+                          value={query.q}
+                          onRequestSearch={q => {
+                            if (typeof q === "string") {
+                              this.handleRequestSearch(q);
+                            }
+                          }}
+                        />
+                      </div>
+                    )}
 
                   {!this.state.searchEnabled && (
                     <React.Fragment>
@@ -384,7 +387,8 @@ class AppLayoutRemake extends React.Component {
                     </IconButton>
                   )}
 
-                  {!this.state.searchEnabled &&
+                  {false &&
+                    !this.state.searchEnabled &&
                     width !== "lg" &&
                     width !== "xl" && (
                       <IconButton
