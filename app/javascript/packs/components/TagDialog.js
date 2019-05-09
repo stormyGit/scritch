@@ -546,7 +546,6 @@ class TagDialog extends React.Component {
                         </Grid>
                         {
                           <div className={classes.loginButtonContainer}>
-                            {console.log(this.state)}
                             <div className={classes.loginButton}>
                               {
                                 <Button

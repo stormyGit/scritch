@@ -436,11 +436,6 @@ class Medium extends React.Component {
                     <Grid container className={classes.gridContainer}>
                       <Grid item lg={1} xs={12} />
                       <Grid item lg={10} xs={12}>
-                        {console.log(
-                          medium.picture.substr(
-                            medium.picture.lastIndexOf(".") + 1
-                          )
-                        )}
                         {medium.picture.substr(
                           medium.picture.lastIndexOf(".") + 1
                         ) === "mp4" && (

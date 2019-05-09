@@ -141,7 +141,6 @@ class Media extends React.Component {
           <MediaFilters
             faves={this.props.faves}
             onChange={value => {
-              console.log(value);
               this.setState({ [value.label]: value.value });
             }}
             clearFilters={() => this.clearFilters()}
@@ -215,7 +214,6 @@ class Media extends React.Component {
           !home &&
           !withSubsClear &&
           this.renderMediaFilters()}
-        {console.log(this.state)}
         <Query
           query={GET_MEDIA}
           fetchPolicy="network-only"

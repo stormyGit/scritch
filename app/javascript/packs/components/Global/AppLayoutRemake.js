@@ -229,11 +229,9 @@ class AppLayoutRemake extends React.Component {
           </CookieConsent>
           {(width === "xs" || width === "sm") && (
             <React.Fragment>
-              {console.log("small")}
               <TemporaryDrawer
                 open={this.state.tempDrawer}
                 onOpen={() => {
-                  console.log("opening");
                   this.setState({ tempDrawer: true });
                 }}
                 onClose={() => this.setState({ tempDrawer: false })}
@@ -242,7 +240,6 @@ class AppLayoutRemake extends React.Component {
           )}
           {width !== "xs" && width !== "sm" && (
             <React.Fragment>
-              {console.log("large")}
               <PermanentDrawer open={this.state.mainDrawer} />
             </React.Fragment>
           )}

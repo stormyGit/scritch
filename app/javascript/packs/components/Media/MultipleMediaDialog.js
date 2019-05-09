@@ -117,7 +117,6 @@ class DropZoneField extends React.Component {
     this.setState({ uploading: true });
     this.setState({ disabled: true });
     const pushFile = index => {
-      console.log(files[index]);
       loadedFiles.push(files[index]);
       if (files[index + 1]) {
         pushFile(index + 1);

@@ -34,7 +34,6 @@ class MetricsBar extends React.Component {
   render() {
     const { classes, currentSession } = this.props;
 
-    console.log(currentSession);
     return (
       <React.Fragment>
         {currentSession && (

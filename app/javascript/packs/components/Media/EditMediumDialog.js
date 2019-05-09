@@ -504,11 +504,6 @@ class EditMediumDialog extends React.Component {
                                         this.state.mediaEvent &&
                                         this.state.mediaEvent.value !=
                                           mediaEvent;
-                                      console.log(
-                                        editionSwitch,
-                                        this.state.mediaEvent,
-                                        mediaEvent
-                                      );
                                       this.setState({ mediaEvent: mediaEvent });
                                       if (editionSwitch)
                                         this.setState({ mediaEdition: null });

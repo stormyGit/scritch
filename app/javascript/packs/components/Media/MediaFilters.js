@@ -435,7 +435,6 @@ class MediaFilters extends React.Component {
             <Checkbox
               checked={this.state.gifs}
               onChange={() => {
-                console.log(event.target.checked);
                 this.setState({ gifs: event.target.checked });
                 this.props.onChange({
                   label: "gifs",
