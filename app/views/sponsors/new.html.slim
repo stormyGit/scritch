@@ -53,20 +53,5 @@
                   = form_tag sponsors_path(sub: ENV["SEMESTER_SUB_ID"]) do
                     script.stripe-button data-label="6 Months Sponsorship" data-currency="gbp" data-zip-code="true" data-amount="499" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("6 Months Sponsorship") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
 
-                .column.is-4
-                  p
-                    strong
-                      | One Year (£10)
-                  br
-                  article
-                    label.amount
-                      span
-                        = "Price: £10.00"
-                      p
-                        | Get 2 Months Free!
-                  br
-                  = form_tag sponsors_path(sub: ENV["YEAR_SUB_ID"]) do
-                    script.stripe-button data-label="Yearly Sponsorship" data-currency="gbp" data-zip-code="true" data-amount="1000" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("Yearly Sponsorship") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
-
 
           div style="height: 24px;"

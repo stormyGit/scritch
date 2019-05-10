@@ -388,6 +388,11 @@ class MultipleMediaDialog extends React.Component {
             <Typography variant="h6" color="primary">
               Categories
             </Typography>
+            <Typography variant="subtitle2" style={{ fontWeight: 400 }}>
+              Choose "Other" if none applicable.
+              <br />
+              Consider Contacting Support to suggest a new Category.
+            </Typography>
             <div style={{ padding: 5 }} />
             <Query
               query={LOAD_CATEGORIES}
