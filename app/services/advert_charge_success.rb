@@ -12,7 +12,7 @@ class AdvertChargeSuccess
   end
 
   def process
-    user.update_column(:available_impressions, @user.available_impressions + @refill)
+    user.update(available_impressions: @user.available_impressions + @refill, bought_impressions: @user.bought_impressions + @refill)
     #ChargeMailer.confirmation(charge).deliver_later
   end
 

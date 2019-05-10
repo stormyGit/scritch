@@ -16,7 +16,7 @@ FriendlyId.defaults do |config|
   # undesirable to allow as slugs. Edit this list as needed for your app.
   config.use :reserved
 
-  config.reserved_words = %w(pictures)
+  config.reserved_words = %w(pictures admin login moderation moderator administrator fursuits makers events subscriptions favorites terms_of_use privacy_policy user_guide annoucements tag search ads sponsors adverts )
 
   # This adds an option to to treat reserved words as conflicts rather than exceptions.
   # When there is no good candidate, a UUID will be appended, matching the existing
