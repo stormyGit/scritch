@@ -25,8 +25,8 @@ br
         .field
           = f.label :species_ids, "Species"
           br
-          .select
-            = f.select :species_ids, options_for_select(Specy.all.order(:name).pluck(:name, :uuid), @fursuit.species_ids), {:include_blank => true}
+          .select.is-multiple
+            = f.select :species_ids, options_for_select(Specy.all.order(:name).pluck(:name, :uuid), @fursuit.species_ids), {:include_blank => true}, { :multiple => true, :size => 6}
         .field
           = f.label :fursuit_finger_id, "Role"
           br
