@@ -5,6 +5,7 @@ export const GET_ADVERTS = gql`
     adverts(uuid: $uuid, limit: $limit) {
       id
       file
+      url
       isPlaceholder
     }
   }

@@ -149,12 +149,7 @@ class AppFooter extends React.Component {
                                 />
                               )}
                               {!data.adverts[0].isPlaceholder && (
-                                <a
-                                  href={`${process.env.SITE_URL}/adverts/${
-                                    data.adverts[0].id
-                                  }/go_to`}
-                                  target="_blank"
-                                >
+                                <a href={data.adverts[0].url} target="_blank">
                                   <img
                                     src={data.adverts[0].file}
                                     className={classes.advert}
@@ -208,12 +203,7 @@ class AppFooter extends React.Component {
                                   />
                                 )}
                                 {!data.adverts[1].isPlaceholder && (
-                                  <a
-                                    href={`${process.env.SITE_URL}/adverts/${
-                                      data.adverts[1].id
-                                    }/go_to`}
-                                    target="_blank"
-                                  >
+                                  <a href={data.adverts[1].url} target="_blank">
                                     <img
                                       src={data.adverts[1].file}
                                       className={classes.advert}
