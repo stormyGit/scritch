@@ -23,9 +23,10 @@ class Mutations::UpdateMedium < Mutations::BaseMutation
 
     raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).update?
 
-    if arguments[:is_photographer]
+    if arguments[:is_photographer].present? && arguments[:is_photographer]
       medium.photographer_slug = medium.user.slug
     else
+      medium.photographer_slug = nil
       if arguments[:photographer_slug].present?
         if User.where(slug: arguments[:photographer_slug]).count == 0
           medium.photographer_string = arguments[:photographer_slug]

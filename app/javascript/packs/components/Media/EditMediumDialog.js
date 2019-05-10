@@ -187,6 +187,8 @@ class EditMediumDialog extends React.Component {
       photographerString: medium.photographerString,
       isPhotographer:
         medium.photographerSlug == this.props.currentSession.user.slug
+          ? true
+          : false
     });
   }
 
