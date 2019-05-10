@@ -35,7 +35,7 @@
     .content
       | Picture:
     .has-text-centered
-      img src=report.medium.thumbnail style="width: 80%"
+      img src=report.medium.picture_url(:thumbnail) style="width: 80%"
     .is-size-7
       = "#{time_ago_in_words(report.medium.created_at)} ago"
     - if report.tags.present?

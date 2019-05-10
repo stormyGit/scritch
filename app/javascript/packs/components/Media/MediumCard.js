@@ -110,22 +110,29 @@ class MediumCard extends React.Component {
       <Query query={GET_ACTIVE_PREVIEW}>
         {({ data }) => (
           <div className={horizontal ? undefined : classes.cardMediaContainer}>
-            <CardMedia
-              className={
-                medium.exif && JSON.parse(medium.exif).Orientation === "6"
-                  ? classes.verticalMedia
-                  : classes.horizontalMedia
-              }
-              component={
-                medium.thumbnail.substr(
-                  medium.thumbnail.lastIndexOf(".") + 1
-                ) === "mp4"
-                  ? "video"
-                  : "img"
-              }
-              src={medium.thumbnail}
-              title={medium.title}
-            />
+            {medium.thumbnail.substr(medium.thumbnail.lastIndexOf(".") + 1) ===
+            "mp4" ? (
+              <CardMedia
+                className={
+                  medium.exif && JSON.parse(medium.exif).Orientation === "6"
+                    ? classes.verticalMedia
+                    : classes.horizontalMedia
+                }
+                component={"video"}
+                src={medium.thumbnail}
+                title={medium.title}
+              />
+            ) : (
+              <CardMedia
+                className={
+                  medium.exif && JSON.parse(medium.exif).Orientation === "6"
+                    ? classes.verticalMedia
+                    : classes.horizontalMedia
+                }
+                image={medium.thumbnail}
+                title={medium.title}
+              />
+            )}
             {this.renderActions()}
           </div>
         )}

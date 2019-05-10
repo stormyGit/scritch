@@ -7,12 +7,17 @@ class Moderation::StatisticsController < ModerationController
       total = total + m.completion
     end
     average_completion = total.to_f / Medium.count
+    total = 0
+    Advert.find_each do |m|
+      total = total + m.impressions
+    end
+    impressions_now = total
 
     @now_data = [
       {title: "Users", value: User.count},
       {title: "Sponsors (FT / C / L)", value: "#{Sponsor.count} (#{Sponsor.where(status: "Free Trial").count} / #{Sponsor.where(status: "canceled").count} / #{Sponsor.where(status: "live").count})"},
       {title: "Adverts", value: Advert.count},
-      {title: "Total Impressions", value: Statistic.last.impressions},
+      {title: "Total Impressions", value: impressions_now},
       {title: "Reports (O, C, A)", value: "#{Report.count} (#{Report.where(status: "new", assignee_id: nil).count} / #{Report.where("reports.status = 'accepted' OR reports.status = 'dismissed' OR reports.status = 'closed'").count} / #{Report.where(status: "new").where.not(assignee_id: nil).count})"},
       {title: "Suspended Users", value: SuspendedUser.count},
       {title: "Moderators", value: Moderator.count},
