@@ -89,7 +89,7 @@ class AdvertsController < ApplicationController
       if @adverts.where(status: "live").length == 0 || @impressions_count == 0
         "N/A"
       else
-        Time.now() + ((@current_session.user.available_impressions / @impressions_count) / @adverts.where(status: "live").length).days #TODO get estimate
+        Time.now() + (@current_session.user.available_impressions / (@impressions_count / @adverts.where(status: "live").length)).days #TODO get estimate
       end
   end
 

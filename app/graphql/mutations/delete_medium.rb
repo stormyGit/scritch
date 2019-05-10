@@ -9,6 +9,9 @@ class Mutations::DeleteMedium < Mutations::BaseMutation
 
     raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).destroy?
 
+    Activity.where(key: "medium_report.create", trackable_id: medium.medium_reports.select(:uuid)).each do |e|
+      e.destroy
+    end
     if medium.destroy
       {
         medium: medium,

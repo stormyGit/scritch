@@ -19,7 +19,6 @@ class PictureUploader < SecureUploader
   end
 
   def store_meta
-    byebug
     if file.present? && model.present?
       image = ::MiniMagick::Image.open(file.file)
       if image.exif["Orientation"] == "6"
