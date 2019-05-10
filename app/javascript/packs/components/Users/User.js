@@ -660,7 +660,7 @@ class User extends React.Component {
                 <Grid item xs={12}>
                   <Gallery
                     images={data.likesByUser.map(like => ({
-                      src: like.medium.picture,
+                      src: like.medium.thumbnail,
                       thumbnail: like.medium.thumbnail,
                       thumbnailWidth:
                         like.medium.width / (like.medium.height / 256.0),

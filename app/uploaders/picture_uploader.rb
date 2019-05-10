@@ -9,6 +9,10 @@ class PictureUploader < SecureUploader
     end
   end
 
+  version :resized do
+    process resize_to_fit: [1280, nil]
+  end
+
   version :thumbnail do
      process :only_first_frame
      process resize_to_fit: [nil, 256]

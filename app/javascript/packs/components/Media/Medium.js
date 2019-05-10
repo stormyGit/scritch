@@ -436,8 +436,8 @@ class Medium extends React.Component {
                     <Grid container className={classes.gridContainer}>
                       <Grid item lg={1} xs={12} />
                       <Grid item lg={10} xs={12}>
-                        {medium.picture.substr(
-                          medium.picture.lastIndexOf(".") + 1
+                        {medium.resized.substr(
+                          medium.resized.lastIndexOf(".") + 1
                         ) === "mp4" && (
                           <video
                             loop="loop"
@@ -451,11 +451,11 @@ class Medium extends React.Component {
                                 ? classes.mediaV
                                 : classes.mediaH
                             }
-                            src={medium.picture}
+                            src={medium.resized}
                           />
                         )}
-                        {medium.picture.substr(
-                          medium.picture.lastIndexOf(".") + 1
+                        {medium.resized.substr(
+                          medium.resized.lastIndexOf(".") + 1
                         ) !== "mp4" && (
                           <img
                             onClick={() => {}}
@@ -468,7 +468,7 @@ class Medium extends React.Component {
                                 ? classes.mediaV
                                 : classes.mediaH
                             }
-                            src={`${medium.picture}`}
+                            src={`${medium.resized}`}
                             title={medium.title}
                           />
                         )}

@@ -359,7 +359,7 @@ class Medium extends React.Component {
                               ? classes.mediaV
                               : classes.mediaH
                           }
-                          src={`${medium.picture}`}
+                          src={`${medium.resized}`}
                           title={medium.title}
                         />
                       </Grid>

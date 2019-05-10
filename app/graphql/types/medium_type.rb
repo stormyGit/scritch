@@ -6,6 +6,7 @@ module Types
     field :title, String, null: false
     field :description, String, null: true
     field :picture, String, null: false
+    field :resized, String, null: false
     field :thumbnail, String, null: false
     field :width, Integer, null: true
     field :height, Integer, null: true
@@ -74,6 +75,10 @@ module Types
 
     def picture
       object.picture_url
+    end
+
+    def resized
+      return object.picture_url(:resized)
     end
 
     def thumbnail

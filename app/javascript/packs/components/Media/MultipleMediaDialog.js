@@ -590,7 +590,7 @@ class MultipleMediaDialog extends React.Component {
                 />
                 <TextField
                   className={classes.listPadding}
-                  label="Photographer's Name"
+                  label={`Photographer's Name (type "Unknown" if you are not sure)`}
                   name="photographerString"
                   variant="outlined"
                   style={{ zIndex: 0 }}

@@ -64,7 +64,7 @@ class MediumCard extends React.Component {
     return (
       <CardMedia
         className={classes.horizontalMedia}
-        image={medium.picture}
+        image={medium.thumbnail}
         title={medium.title}
       />
     );

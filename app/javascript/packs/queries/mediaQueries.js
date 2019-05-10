@@ -198,6 +198,7 @@ export const GET_MEDIUM = gql`
       faved
       viewsCount
       createdAt
+      resized
       commentsDisabled
       tagList
       fursuits {
