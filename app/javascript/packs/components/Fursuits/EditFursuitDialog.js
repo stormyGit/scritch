@@ -264,6 +264,7 @@ class EditFursuitDialog extends React.Component {
                           fursuitFingerId: this.state.fursuitFinger,
                           fursuitBuildId: this.state.fursuitBuild,
                           fursuitGenderId: this.state.fursuitGender,
+                          fursuitPaddingId: this.state.fursuitPadding,
                           fursuitStyleId: this.state.fursuitStyle,
                           speciesIds: this.state.speciesIds
                             ? this.state.speciesIds.map(e =>

@@ -30,6 +30,9 @@
 
     .content
       = "Request to add: #{asset_request.asset_type}"
+      - if asset_request.user.telegram_username.present?
+        br
+        = "by #{asset_request.user.telegram_username}"
       br
       br
       = "Name: #{asset_request.asset_name}"
