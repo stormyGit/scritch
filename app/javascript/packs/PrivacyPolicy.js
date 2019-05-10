@@ -1,6 +1,7 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 
+import withWidth from "@material-ui/core/withWidth";
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -8,6 +9,7 @@ import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
+import Grid from "@material-ui/core/Grid";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
@@ -45,18 +47,32 @@ const SpacerWithHR = (
   </React.Fragment>
 );
 
-class TermsOfUse extends React.Component {
+class PrivacyPolicy extends React.Component {
   render() {
-    const { classes } = this.props;
+    const { classes, width } = this.props;
 
     return (
       <React.Fragment>
-        <Typography variant="h2" id="website-user-guide1">
-          Scritch Privacy Policy
-        </Typography>
-        <Typography variant="subtitle1">
-          Date of last revision: <strong>01 May 2019</strong>
-        </Typography>
+        <Grid container spacing={8}>
+          <Grid item xs={12} lg={10} xl={9}>
+            <Typography variant="h2" id="website-user-guide1">
+              Scritch Privacy Policy
+            </Typography>
+            <br />
+            <Typography variant="subtitle1">
+              Date of last revision: <strong>09 May 2019</strong>
+            </Typography>
+          </Grid>
+          {width === "xl" && <Grid item xl={1} />}
+          {(width === "xl" || width === "lg") && (
+            <Grid item lg={2}>
+              <img
+                style={{ width: "100%" }}
+                src={require("images/pixel/Header - Privacy.png")}
+              />
+            </Grid>
+          )}
+        </Grid>
         {SpacerWithHR}
         <Typography variant="h4" id="contents">
           CONTENTS
@@ -428,4 +444,4 @@ class TermsOfUse extends React.Component {
   }
 }
 
-export default withStyles(styles)(TermsOfUse);
+export default withStyles(styles)(withWidth()(PrivacyPolicy));

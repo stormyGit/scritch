@@ -637,6 +637,15 @@ class MultipleMediaDialog extends React.Component {
                   primary="Try and avoid uploading a lot of media from the same shoot where minimal differences are apparent"
                 />
               </ListItem>
+              <ListItem>
+                <ListItemIcon>
+                  <CheckIcon />
+                </ListItemIcon>
+                <ListItemText
+                  inset
+                  primary="Ensure Media is in the correct orientation prior to selecting it for upload"
+                />
+              </ListItem>
             </List>
             <div className={classes.uploadLine}>
               <Typography variant="h6" color="primary">
