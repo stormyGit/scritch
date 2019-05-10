@@ -39,21 +39,21 @@ class AdvertsController < ApplicationController
         if impressions == "1"
           Stripe::Charge.create(
             amount: 600,
-            currency: 'usd',
+            currency: 'gbp',
             description: '100k ad impressions',
             customer: customer["id"]
           )
         elsif impressions == "2"
           Stripe::Charge.create(
             amount: 5000,
-            currency: 'usd',
+            currency: 'gbp',
             description: '1 million ad impressions',
             customer: customer["id"]
           )
         elsif impressions == "3"
           Stripe::Charge.create(
             amount: 40000,
-            currency: 'usd',
+            currency: 'gbp',
             description: '10 million ad impressions',
             customer: customer["id"]
           )

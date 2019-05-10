@@ -94,45 +94,45 @@
             br
             | -
             br
-            | $6
+            | £6
             br
             | -
             br
-            | $0.06 per 1000 Impressions
+            | £0.06 per 1000 Impressions
             br
             br
             = form_tag adverts_refill_path(impressions: 1) do
-              script.stripe-button data-label="Choose" data-zip-code="true" data-amount="600" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("100K Ad Impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
+              script.stripe-button data-label="Choose" data-zip-code="true" data-currency="gbp" data-amount="600" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("100K Ad Impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
 
           .column.is-4
             | 1 Million
             br
             | -
             br
-            | $50
+            | £50
             br
             | -
             br
-            | $0.05 per 1000 Impressions
+            | £0.05 per 1000 Impressions
             br
             br
             = form_tag adverts_refill_path(impressions: 2) do
-              script.stripe-button data-label="Choose" data-zip-code="true" data-amount="5000" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("100K Ad Impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
+              script.stripe-button data-label="Choose" data-zip-code="true" data-currency="gbp" data-amount="5000" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("100K Ad Impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
 
           .column.is-4
             | 10 Million
             br
             | -
             br
-            | $400
+            | £400
             br
             | -
             br
-            | $0.04 per 1000 Impressions
+            | £0.04 per 1000 Impressions
             br
             br
             = form_tag adverts_refill_path(impressions: 3) do
-              script.stripe-button data-label="Choose" data-zip-code="true" data-amount="40000" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("100K Ad Impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
+              script.stripe-button data-label="Choose" data-zip-code="true" data-currency="gbp" data-amount="40000" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("100K Ad Impressions on Scritch") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
 
       footer.modal-card-foot
         #modalClose.button Cancel
