@@ -73,6 +73,15 @@ class Moderation::EditionsController < ModerationController
     ]))
     #    authorize edition
     edition.year = edition.start_date.year
+    if edition.event.avatar.blank?
+      begin
+        edition.event.avatar = File.open("app/assets/images/events/Scritch Event Thumbnail - #{edition.country}.png")
+      rescue
+        TechReport.create!(kind: "exception", user: User.first, description: "EVENT:: #{edition.event.name}")
+        edition.event.avatar = File.open("app/assets/images/events/FAILED.png")
+      end
+      edition.event.save!
+    end
     edition.save!
     flash[:notice] = "Edition added!"
     flash[:class] = ""
@@ -82,7 +91,7 @@ class Moderation::EditionsController < ModerationController
   def destroy
     raise Pundit::NotAuthorizedError unless moderator_can_see?("delete_and_edit")
     event = params[:event_id]
-    edition = Edition.find_by(slug: params[:id], event: Event.find(params[:event_id]))
+    edition = Edition.find_by(slug: params[:id], event: Event.find(event))
     edition.destroy!
 
     flash[:notice] = "Event removed!"
