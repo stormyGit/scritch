@@ -102,5 +102,3 @@ namespace :events do
 
   end
 end
-
-/2019"), end_date: DateTime.parse("23/06/2019"), name: "2019")
