@@ -839,8 +839,11 @@ class User extends React.Component {
                     )}
                     {currentSession && currentSession.user.id !== user.id && (
                       <div className={classes.titleBarContainerUserActions}>
-                        {user.chatEnabled && this.renderMessageButton(user)}
-                        {this.renderFollowButton(user)}
+                        {false &&
+                          user.chatEnabled &&
+                          this.renderMessageButton(user)}
+                        {currentSession.user.sponsor &&
+                          this.renderFollowButton(user)}
                         {this.renderMoreUserOptions(user)}
                       </div>
                     )}
