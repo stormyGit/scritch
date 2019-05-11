@@ -82,7 +82,7 @@ class Moderation::EditionsController < ModerationController
   def destroy
     raise Pundit::NotAuthorizedError unless moderator_can_see?("delete_and_edit")
     event = params[:event_id]
-    edition = Edition.find(params[:id])
+    edition = Edition.find_by(slug: params[:id], event: Event.find(params[:event_id]))
     edition.destroy!
 
     flash[:notice] = "Event removed!"
