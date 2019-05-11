@@ -39,6 +39,7 @@ class Medium < ApplicationRecord
 
   mount_base64_uploader :picture, PictureUploader
 
+
   def get_completion
     completion = 0
 
