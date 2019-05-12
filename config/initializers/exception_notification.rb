@@ -3,7 +3,7 @@ require 'exception_notification/rails'
 ExceptionNotification.configure do |config|
   # Ignore additional exception types.
   # ActiveRecord::RecordNotFound, Mongoid::Errors::DocumentNotFound, AbstractController::ActionNotFound and ActionController::RoutingError are already added.
-  config.ignored_exceptions += %w{ActiveJob::DeserializationError}
+  config.ignored_exceptions += %w{ActiveJob::DeserializationError ActionController::InvalidAuthenticityToken}
 
   # Adds a condition to decide when an exception must be ignored or not.
   # The ignore_if method can be invoked multiple times to add extra conditions.
@@ -20,8 +20,8 @@ ExceptionNotification.configure do |config|
     :exception_recipients => %w{stormy@scritch.es}
   }
 
-  config.add_notifier :create_tech_report,
-    ->(exception, options) { TechReport.create!(kind: "exception", body: "#{exception}", user: User.first)}
+  # config.add_notifier :create_tech_report,
+  #   ->(exception, options) { TechReport.create!(kind: "exception", body: "#{exception}", user: User.first)}
 
   # Campfire notifier sends notifications to your Campfire room. Requires 'tinder' gem.
   # config.add_notifier :campfire, {
