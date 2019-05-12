@@ -20,6 +20,9 @@ ExceptionNotification.configure do |config|
     :exception_recipients => %w{contact+exceptions@scritch.es}
   }
 
+  config.add_notifier :create_tech_report,
+    ->(exception, options) { TechReport.create!(kind: "exception", body: "#{exception}", user: User.first)}
+
   # Campfire notifier sends notifications to your Campfire room. Requires 'tinder' gem.
   # config.add_notifier :campfire, {
   #   :subdomain => 'my_subdomain',

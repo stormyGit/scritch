@@ -217,7 +217,7 @@ class SignUpDialog extends React.Component {
                 />
               </div>
             }
-            {true && (
+            {false && (
               <Typography
                 variant="caption"
                 className={classes.troubleLink}

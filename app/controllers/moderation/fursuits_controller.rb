@@ -45,7 +45,7 @@ class Moderation::FursuitsController < ModerationController
     ]))
 
     begin
-      fursuit.avatar = File.open("app/assets/images/species/#{e[11]}.png")
+      fursuit.avatar = File.open("app/assets/images/species/#{fursuit.is_hybrid ? "Hybrid" : fursuit.species[0]}.png")
     rescue
       fursuit.avatar = File.open("app/assets/images/species/FAILED.png")
     end
