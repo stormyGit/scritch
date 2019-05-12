@@ -651,32 +651,6 @@ class MultipleMediaDialog extends React.Component {
               <Typography variant="h6" color="primary">
                 Upload
               </Typography>
-              <Mutation mutation={CREATE_MEDIUM}>
-                {(createMedium, { called }) => {
-                  return (
-                    <Button
-                      size="large"
-                      color="secondary"
-                      disabled={
-                        !this.state.complete ||
-                        this.state.pushing ||
-                        this.state.pushed ||
-                        ((Object.keys(this.state.mediaSubEvent).length == 0 &&
-                          Object.keys(this.state.mediaCategory).length == 0) ||
-                          (Object.keys(this.state.mediaEvent).length != 0 &&
-                            Object.keys(this.state.mediaSubEvent).length ==
-                              0) ||
-                          (!this.state.isPhotographer &&
-                            (this.state.photographerSlug === "" &&
-                              this.state.photographerString === "")))
-                      }
-                      onClick={() => this.loadFiles(createMedium)}
-                    >
-                      Send Pictures
-                    </Button>
-                  );
-                }}
-              </Mutation>
             </div>
             <DropZoneFieldWithStyle
               dropzoneDisabled={false}
@@ -698,6 +672,33 @@ class MultipleMediaDialog extends React.Component {
             <Grid container spacing={0} justify="space-between">
               <Grid item />
               <Grid item>
+                <Mutation mutation={CREATE_MEDIUM}>
+                  {(createMedium, { called }) => {
+                    return (
+                      <Button
+                        size="large"
+                        color="secondary"
+                        disabled={
+                          !this.state.complete ||
+                          this.state.pushing ||
+                          this.state.pushed ||
+                          ((Object.keys(this.state.mediaSubEvent).length == 0 &&
+                            Object.keys(this.state.mediaCategory).length ==
+                              0) ||
+                            (Object.keys(this.state.mediaEvent).length != 0 &&
+                              Object.keys(this.state.mediaSubEvent).length ==
+                                0) ||
+                            (!this.state.isPhotographer &&
+                              (this.state.photographerSlug === "" &&
+                                this.state.photographerString === "")))
+                        }
+                        onClick={() => this.loadFiles(createMedium)}
+                      >
+                        Send Pictures
+                      </Button>
+                    );
+                  }}
+                </Mutation>
                 <Button
                   disabled={!this.state.complete || this.state.pushed}
                   onClick={() => {

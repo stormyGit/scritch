@@ -78,6 +78,12 @@ class AssetRequestDialog extends React.Component {
                 Please provide the following information:
                 <List>
                   <ListItem>
+                    <ListItem>
+                      <ListItemIcon>
+                        <CheckIcon />
+                      </ListItemIcon>
+                      <ListItemText primary="Creation Year" />
+                    </ListItem>
                     <ListItemIcon>
                       <CheckIcon />
                     </ListItemIcon>
@@ -87,13 +93,13 @@ class AssetRequestDialog extends React.Component {
                     <ListItemIcon>
                       <CheckIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Maker" />
+                    <ListItemText primary="Role (Artist, Cosplayer, Dancer, Fursuiter, Furtuber, Gamer, Gearhead, Musician, Photographer)" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
                       <CheckIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Creation Year" />
+                    <ListItemText primary="Maker" />
                   </ListItem>
                   <ListItem>
                     <ListItemIcon>
@@ -111,24 +117,6 @@ class AssetRequestDialog extends React.Component {
                     <ListItemIcon>
                       <CheckIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Padding (Muscle, Plush, None)" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Leg Type (Plantigrade, Digitigrade, Quad or N/A if Partial)" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Role (Artist, Cosplayer, Dancer, Fursuiter, Furtuber, Gamer, Gearhead, Musician, Photographer)" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
                     <ListItemText primary="Base Colour" />
                   </ListItem>
                   <ListItem>
@@ -136,6 +124,24 @@ class AssetRequestDialog extends React.Component {
                       <CheckIcon />
                     </ListItemIcon>
                     <ListItemText primary="Eye Colour" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Appearance (Masculine, Feminine, Androgynous)" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Padding (Muscle, Plush, None)" />
+                  </ListItem>
+                  <ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Leg Type (Plantigrade, Digitigrade, Quad or N/A if Partial)" />
                   </ListItem>
                 </List>
               </Typography>
