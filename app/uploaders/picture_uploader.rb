@@ -18,6 +18,14 @@ class PictureUploader < SecureUploader
      process resize_to_fit: [nil, 256]
   end
 
+  def strip
+    manipulate! do |img|
+      img.strip
+      img = yield(img) if block_given?
+      img
+    end
+  end
+
   def store_meta
     if file.present? && model.present?
       image = ::MiniMagick::Image.open(file.file)
@@ -40,5 +48,6 @@ class PictureUploader < SecureUploader
   end
 
   process :store_meta
+  process :strip
 
 end
