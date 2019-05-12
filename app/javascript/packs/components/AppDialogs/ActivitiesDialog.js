@@ -732,7 +732,10 @@ class ActivitiesDialog extends React.Component {
 
     return (
       <ListItem key={activity.id}>
-        <UserAvatar user={activity.owner} size={64} />
+        <UserAvatar
+          modAvatar={require("images/pixel/Header - Sponsorship Successful Pop-up icon.png")}
+          size={64}
+        />
         <ListItemText
           primary={
             <React.Fragment>
@@ -752,7 +755,10 @@ class ActivitiesDialog extends React.Component {
 
     return (
       <ListItem key={activity.id}>
-        <UserAvatar user={activity.owner} size={64} />
+        <UserAvatar
+          modAvatar={require("images/pixel/Header - Sponsorship Successful Pop-up icon.png")}
+          size={64}
+        />
         <ListItemText
           primary={
             <React.Fragment>
@@ -772,7 +778,10 @@ class ActivitiesDialog extends React.Component {
 
     return (
       <ListItem key={activity.id}>
-        <UserAvatar user={activity.owner} size={64} />
+        <UserAvatar
+          modAvatar={require("images/pixel/Header - Sponsorship Successful Pop-up icon.png")}
+          size={64}
+        />
         <ListItemText
           primary={
             <React.Fragment>

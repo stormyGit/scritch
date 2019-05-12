@@ -373,6 +373,14 @@ class AdvertiseDialog extends React.Component {
             <Grid container spacing={0} justify="space-between">
               <Grid item />
               <Grid item>
+                {this.state.complete && (
+                  <a
+                    href="http://127.0.0.1:3001/adverts"
+                    className={classes.link}
+                  >
+                    <Button color="secondary">Advertiser Dashboard</Button>
+                  </a>
+                )}
                 <Button
                   disabled={this.state.uploading}
                   onClick={() => {
