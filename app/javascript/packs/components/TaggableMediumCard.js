@@ -152,7 +152,7 @@ class TaggableMediumCard extends React.Component {
               style={{ color: "#ffffffee", fontSize: 15, fontWeight: 400 }}
             >
               {medium.completion}%{" "}
-              {medium.completion == 0
+              {medium.fursuitsCount == 0
                 ? "(How many Suits?)"
                 : `(${medium.fursuitsCount -
                     medium.fursuits.length} Suits to Tag)`}
