@@ -78,12 +78,12 @@ class AssetRequestDialog extends React.Component {
                 Please provide the following information:
                 <List>
                   <ListItem>
-                    <ListItem>
-                      <ListItemIcon>
-                        <CheckIcon />
-                      </ListItemIcon>
-                      <ListItemText primary="Creation Year" />
-                    </ListItem>
+                    <ListItemIcon>
+                      <CheckIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Creation Year" />
+                  </ListItem>
+                  <ListItem>
                     <ListItemIcon>
                       <CheckIcon />
                     </ListItemIcon>
