@@ -862,6 +862,7 @@ class ActivitiesDialog extends React.Component {
         <Query query={GET_ACTIVITIES} variables={{ offset, limit }}>
           {({ loading, error, data, fetchMore }) => {
             if (loading || error || !data.activities) {
+              console.log(error);
               return null;
             }
 
