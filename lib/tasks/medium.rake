@@ -6,4 +6,21 @@ namespace :medium do
       end
     end
   end
+
+  task :fix_exif => :environment do
+    Medium.where.not(exif: nil).each do |e|
+      tmp = {
+        "DateTimeOriginal" => e.exif["DateTimeOriginal"],
+        "Model" => e.exif["Model"],
+        "FNumber" => e.exif["FNumber"],
+        "ExposureTime" => e.exif["ExposureTime"],
+        "FocalLength" => e.exif["FocalLength"],
+        "ISOSpeedRatings" => e.exif["ISOSpeedRatings"],
+        "Flash" => e.exif["Flash"],
+      }
+      e.exif = tmp
+      e.save!
+    end
+
+  end
 end

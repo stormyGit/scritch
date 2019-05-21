@@ -40,7 +40,15 @@ class PictureUploader < SecureUploader
         model.is_gif = true
       end
       if image.exif
-        model.exif = image.exif
+        model.exif = {
+          "DateTimeOriginal" => image.exif["DateTimeOriginal"],
+          "Model" => image.exif["Model"],
+          "FNumber" => image.exif["FNumber"],
+          "ExposureTime" => image.exif["ExposureTime"],
+          "FocalLength" => image.exif["FocalLength"],
+          "ISOSpeedRatings" => image.exif["ISOSpeedRatings"],
+          "Flash" => image.exif["Flash"],
+        }
       end
       # model.data = image.data
       model.size = image.size
