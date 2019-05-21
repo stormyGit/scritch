@@ -532,10 +532,10 @@ module Types
         media = media.where(user_id: arguments[:user_id])
       end
       if arguments[:event_id].present?
-        media = media.joins(:edition).where("editions.event_id = ?", arguments[:event_id]).order("editions.year DESC")
+        media = media.joins(:edition).where("editions.event_id = ?", arguments[:event_id])
       end
       if arguments[:edition_id].present?
-        media = media.where(edition_id: arguments[:edition_id]).joins(:edition).order("editions.year DESC")
+        media = media.where(edition_id: arguments[:edition_id])
       end
       if arguments[:sub_event_id].present?
         media = media.where(sub_event_id: arguments[:sub_event_id])
@@ -552,10 +552,13 @@ module Types
       if arguments[:fursuit_id].present?
         media = media.joins(:fursuits).where("fursuits.slug = ?", arguments[:fursuit_id])
       end
-      if arguments[:fursuits].present?
-        #media = media.joins(:fursuits).where("fursuits.uuid IN (?)", arguments[:fursuits])
+
+      if arguments[:fursuits].present? && arguments[:filter] == 'subscriptions_fursuits'
+        media = media.joins(:fursuits).where(fursuits: {uuid: arguments[:fursuits]}).group("media.id").having('count(media.id) >= ?', arguments[:fursuits].size)
+      elsif arguments[:fursuits].present?
         media = media.joins(:fursuits).where(fursuits: {uuid: arguments[:fursuits]}).group("media.id", "users.id").having('count(media.id) >= ?', arguments[:fursuits].size)
       end
+
       if arguments[:tagging].present?
         media = media.where.not("completion > ?", 99).where(tag_locked: false).order(:completion)
       end
