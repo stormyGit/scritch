@@ -39,6 +39,10 @@ module Types
     field :comments_disabled, Boolean, null: false
     field :tag_list, [String], null: false
 
+    def title
+      object.uuid.split('-')[0]
+    end
+
     def fursuits
       object.fursuits.order(:name)
     end
