@@ -10,7 +10,10 @@ class Mutations::CreateAssetRequest < Mutations::BaseMutation
   def resolve(arguments)
     asset_request = AssetRequest.new(arguments)
     asset_request.user = context[:current_user]
-
+    if /:\/\//.match?(arguments[:url])
+      asset_request.url = arguments[:url].split("://")[1]
+    end
+  
     if asset_request.save
       {
         asset_request: asset_request,

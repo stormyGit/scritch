@@ -865,7 +865,7 @@ class ActivitiesDialog extends React.Component {
           fetchPolicy="network-only"
         >
           {({ loading, error, data, fetchMore }) => {
-            if (loading || error || !data.activities) {
+            if (loading || error || !data) {
               console.log("e", error);
               console.log("lo", loading);
               console.log("d", data);
@@ -877,7 +877,7 @@ class ActivitiesDialog extends React.Component {
             console.log("d", data);
             return (
               <React.Fragment>
-                {data.activities.length === 0 ? (
+                {!data.activities || data.activities.length === 0 ? (
                   <DialogContent className={classes.emptyNoficationContainer}>
                     <NotificationsNoneIcon
                       className={classes.emptyNoficationIcon}
