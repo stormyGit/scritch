@@ -862,10 +862,12 @@ class ActivitiesDialog extends React.Component {
         <Query query={GET_ACTIVITIES} variables={{ offset, limit }}>
           {({ loading, error, data, fetchMore }) => {
             if (loading || error || !data.activities) {
-              console.log(error);
+              console.log("e", error);
+              console.log("l", loading);
               return null;
             }
 
+            console.log("d", data);
             return (
               <React.Fragment>
                 {data.activities.length === 0 ? (
