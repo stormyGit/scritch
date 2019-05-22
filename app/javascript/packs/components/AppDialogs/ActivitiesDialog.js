@@ -136,7 +136,7 @@ class ActivitiesDialog extends React.Component {
                   component="span"
                   className={classes.highlight}
                 >
-                  {activity.trackable.medium.title}
+                  {activity.trackable.medium.id.split("-")[0]}
                 </Typography>
               </Typography>
             </React.Fragment>

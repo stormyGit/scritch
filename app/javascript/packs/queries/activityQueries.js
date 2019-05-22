@@ -17,7 +17,6 @@ export const GET_ACTIVITIES = gql`
           id
           medium {
             id
-            title
           }
         }
         ... on AssetRequest {
