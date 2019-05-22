@@ -948,6 +948,7 @@ class ActivitiesDialog extends React.Component {
                           loading ||
                           error ||
                           !data ||
+                          !data.activities ||
                           data.activities.length === 0
                         }
                       >
