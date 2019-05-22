@@ -4,8 +4,7 @@ class ActivityPolicy < ApplicationPolicy
       if user.blank?
         scope.none
       else
-        scope
-          .where(recipient: user).where.not(owner: user)
+        scope.where(recipient: user).where.not(owner: user)
       end
     end
   end

@@ -863,7 +863,10 @@ class ActivitiesDialog extends React.Component {
           {({ loading, error, data, fetchMore }) => {
             if (loading || error || !data.activities) {
               console.log("e", error);
-              console.log("l", loading);
+              console.log("lo", loading);
+              console.log("d", data);
+              console.log("o", offset);
+              console.log("li", limit);
               return null;
             }
 

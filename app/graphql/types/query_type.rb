@@ -613,10 +613,14 @@ module Types
     end
 
     def activities(arguments = {})
-      ActivityPolicy::Scope.new(context[:current_user], Activity.all).resolve
+      act = ActivityPolicy::Scope.new(context[:current_user], Activity.all).resolve
         .order(created_at: :desc)
         .offset(arguments[:offset]).limit(arguments[:limit])
         .includes(:owner, :recipient, :trackable)
+      puts "\n" * 30
+      puts act
+      puts "\n" * 30
+      act
     end
 
     def announcements(arguments = {})
