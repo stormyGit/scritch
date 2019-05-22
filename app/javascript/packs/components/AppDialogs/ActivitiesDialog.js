@@ -870,7 +870,7 @@ class ActivitiesDialog extends React.Component {
               return null;
             }
 
-            console.log("d", data);
+            // console.log("d", data);
             return (
               <React.Fragment>
                 {!data.activities || data.activities.length === 0 ? (
