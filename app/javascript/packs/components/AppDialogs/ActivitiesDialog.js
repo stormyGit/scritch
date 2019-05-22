@@ -859,11 +859,7 @@ class ActivitiesDialog extends React.Component {
         className={classes.root}
       >
         <GlobalProgress absolute />
-        <Query
-          query={GET_ACTIVITIES}
-          variables={{ offset, limit }}
-          fetchPolicy="cache-and-network"
-        >
+        <Query query={GET_ACTIVITIES} variables={{ offset, limit }}>
           {({ loading, error, data, fetchMore }) => {
             if (loading || error || !data) {
               console.log("e", error);
@@ -875,19 +871,6 @@ class ActivitiesDialog extends React.Component {
             }
 
             console.log("d", data);
-            data.activities &&
-              this.props.client.mutate({
-                mutation: READ_ACTIVITIES,
-                variables: { input: {} },
-                update: cache => {
-                  cache.writeQuery({
-                    query: GET_UNREAD_ACTIVITY_COUNT,
-                    data: {
-                      unreadActivityCount: 0
-                    }
-                  });
-                }
-              });
             return (
               <React.Fragment>
                 {!data.activities || data.activities.length === 0 ? (
