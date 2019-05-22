@@ -187,25 +187,33 @@ class PrivacyPolicy extends React.Component {
         {Spacer}
         <Typography variant="h5">2.1 Information You Provide to Us</Typography>
         <Typography variant="subtitle1">
-          We collect information you provide directly to us. For example, we
-          collect information when you:
+          Information that you provide is collected in support of the Website
+          services that require this data.
           <br />
           <br />
-          Create an account;
+          Stripe handles purchase of products or services and independently
+          collects information that facilitates transactions, including: email,
+          credit card information, address.
           <br />
-          Purchase products or services;
+          <br />
+          Scritch itself collects information required to support the following:
+          <br />
+          <br />
+          Creation of an account;
+          <br />
           <br />
           Participate in a survey, contest or sweepstakes;
           <br />
-          Contact us for any reason, such as to request help with the Services
-          or to provide us with your comments/feedback, or;
           <br />
-          Post information in connection with media.
+          Contact of the Website Admin for any reason, such as to request help
+          with the Services or to provide us with your comments/feedback;
           <br />
           <br />
-          The types of information we may collect include your name, email
-          address, ZIP code, credit card information and other information you
-          choose to provide.
+          Post of information in connection with media.
+          <br />
+          <br />
+          This extends to record of Telegram ID to allow close out of report
+          tickets and claim handling.
         </Typography>
         {Spacer}
         <Typography variant="h5">
