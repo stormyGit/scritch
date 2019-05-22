@@ -862,7 +862,7 @@ class ActivitiesDialog extends React.Component {
         <Query
           query={GET_ACTIVITIES}
           variables={{ offset, limit }}
-          fetchPolicy="network-only"
+          fetchPolicy="cache-and-network"
         >
           {({ loading, error, data, fetchMore }) => {
             if (loading || error || !data) {
