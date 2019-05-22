@@ -87,22 +87,22 @@ class ActivitiesDialog extends React.Component {
 
   componentDidMount() {}
 
-  componentWillReceiveProps(nextProps) {
-    if (!this.props.open && nextProps.open) {
-      this.props.client.mutate({
-        mutation: READ_ACTIVITIES,
-        variables: { input: {} },
-        update: cache => {
-          cache.writeQuery({
-            query: GET_UNREAD_ACTIVITY_COUNT,
-            data: {
-              unreadActivityCount: 0
-            }
-          });
-        }
-      });
-    }
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (!this.props.open && nextProps.open) {
+  //     this.props.client.mutate({
+  //       mutation: READ_ACTIVITIES,
+  //       variables: { input: {} },
+  //       update: cache => {
+  //         cache.writeQuery({
+  //           query: GET_UNREAD_ACTIVITY_COUNT,
+  //           data: {
+  //             unreadActivityCount: 0
+  //           }
+  //         });
+  //       }
+  //     });
+  //   }
+  // }
 
   renderLikeCreate(activity) {
     const { classes } = this.props;
@@ -875,6 +875,19 @@ class ActivitiesDialog extends React.Component {
             }
 
             console.log("d", data);
+            data.activities &&
+              this.props.client.mutate({
+                mutation: READ_ACTIVITIES,
+                variables: { input: {} },
+                update: cache => {
+                  cache.writeQuery({
+                    query: GET_UNREAD_ACTIVITY_COUNT,
+                    data: {
+                      unreadActivityCount: 0
+                    }
+                  });
+                }
+              });
             return (
               <React.Fragment>
                 {!data.activities || data.activities.length === 0 ? (
