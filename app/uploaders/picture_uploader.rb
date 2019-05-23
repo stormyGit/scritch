@@ -48,6 +48,7 @@ class PictureUploader < SecureUploader
           "FocalLength" => image.exif["FocalLength"],
           "ISOSpeedRatings" => image.exif["ISOSpeedRatings"],
           "Flash" => image.exif["Flash"],
+          "Orientation" => image.exif["Orientation"],
         }
       end
       # model.data = image.data

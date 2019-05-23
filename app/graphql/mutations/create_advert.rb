@@ -8,9 +8,7 @@ class Mutations::CreateAdvert < Mutations::BaseMutation
   def resolve(arguments)
     advert = Advert.new(arguments)
     advert.user = context[:current_user]
-    if /:\/\//.match?(arguments[:url])
-      advert.url = "http://#{arguments[:url]}"
-    end
+    advert.url = "http://#{arguments[:url].split("://").last}"
     #raise Pundit::NotAuthorizedError unless AdvertPolicy.new(context[:current_user], advert).create?
 
     if advert.save
