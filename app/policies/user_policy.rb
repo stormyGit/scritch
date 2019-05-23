@@ -20,7 +20,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def destroy?
-    create?
+    update?
   end
 
   def follow?
