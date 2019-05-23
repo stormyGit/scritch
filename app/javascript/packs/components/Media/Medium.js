@@ -214,18 +214,20 @@ class Medium extends React.Component {
         {({ loading, error, data }) => {
           const medium = data ? data.medium : null;
 
-          var orientation;
-          if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
-            orientation = classes.mediaVleft;
-          else if (medium.exif && JSON.parse(medium.exif).Orientation === "8")
-            orientation = classes.mediaVright;
-          else if (medium.exif && JSON.parse(medium.exif).Orientation === "3")
-            orientation = classes.mediaHflip;
-          else orientation = classes.mediaH;
-
           if (loading || error) {
             return null;
           }
+          var orientation;
+          if (medium) {
+            if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
+              orientation = classes.mediaVleft;
+            else if (medium.exif && JSON.parse(medium.exif).Orientation === "8")
+              orientation = classes.mediaVright;
+            else if (medium.exif && JSON.parse(medium.exif).Orientation === "3")
+              orientation = classes.mediaHflip;
+            else orientation = classes.mediaH;
+          } else orientation = classes.mediaH;
+
           return (
             medium && (
               <React.Fragment>
