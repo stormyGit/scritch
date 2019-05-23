@@ -106,8 +106,23 @@ const styles = theme => ({
     maxHeight: "calc(100vh - 56px)",
     objectFit: "contain"
   },
-  mediaV: {
+  mediaHflip: {
+    transform: "rotate(180deg)",
+    width: "100%",
+    maxHeight: "calc(100vh - 56px)",
+    objectFit: "contain"
+  },
+  mediaVleft: {
     transform: "rotate(90deg)",
+    width: "calc(100vh - 56px)",
+    height: "calc(100vh - 56px)",
+    maxHeight: "calc(100vh - 56px)",
+    objectFit: "contain",
+    margin: "auto",
+    display: "block"
+  },
+  mediaVright: {
+    transform: "rotate(-90deg)",
     width: "calc(100vh - 56px)",
     height: "calc(100vh - 56px)",
     maxHeight: "calc(100vh - 56px)",
@@ -198,6 +213,15 @@ class Medium extends React.Component {
       >
         {({ loading, error, data }) => {
           const medium = data ? data.medium : null;
+
+          var orientation;
+          if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
+            orientation = classes.mediaVleft;
+          else if (medium.exif && JSON.parse(medium.exif).Orientation === "8")
+            orientation = classes.mediaVright;
+          else if (medium.exif && JSON.parse(medium.exif).Orientation === "3")
+            orientation = classes.mediaHflip;
+          else orientation = classes.mediaH;
 
           if (loading || error) {
             return null;
@@ -445,12 +469,7 @@ class Medium extends React.Component {
                             onContextMenu={e => {
                               e.preventDefault();
                             }}
-                            className={
-                              medium.exif &&
-                              JSON.parse(medium.exif).Orientation === "6"
-                                ? classes.mediaV
-                                : classes.mediaH
-                            }
+                            className={orientation}
                             src={medium.resized}
                           />
                         )}
@@ -462,12 +481,7 @@ class Medium extends React.Component {
                             onContextMenu={e => {
                               e.preventDefault();
                             }}
-                            className={
-                              medium.exif &&
-                              JSON.parse(medium.exif).Orientation === "6"
-                                ? classes.mediaV
-                                : classes.mediaH
-                            }
+                            className={orientation}
                             src={`${medium.resized}`}
                             title={medium.title}
                           />
