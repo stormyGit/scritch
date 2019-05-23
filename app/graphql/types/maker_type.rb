@@ -42,7 +42,7 @@ module Types
     end
 
     def fursuits
-      object.fursuits.order("fursuits.name")
+      object.fursuits.where(visible: true).order("fursuits.name")
     end
 
     def fursuits_number

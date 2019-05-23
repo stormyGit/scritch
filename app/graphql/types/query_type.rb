@@ -550,7 +550,7 @@ module Types
       end
 
       if arguments[:fursuit_id].present?
-        media = media.joins(:fursuits).where("fursuits.slug = ?", arguments[:fursuit_id])
+        media = media.joins(:fursuits).where("fursuits.slug = ? AND fursuits.visible = ?", arguments[:fursuit_id], true)
       end
 
       if arguments[:fursuits].present? && arguments[:filter] == 'subscriptions_fursuits'
