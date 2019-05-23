@@ -371,11 +371,11 @@ module Types
 
 
     def fursuit(arguments)
-      Fursuit.find(arguments[:id])
+      Fursuit.where(visible: true).find(arguments[:id])
     end
 
     def fursuits(arguments)
-      fursuits = Fursuit.all
+      fursuits = Fursuit.where(visible: true)
 
       if arguments[:filter].present? && arguments[:filter] == "subscriptions_fursuits"
         fursuits = fursuits.joins(:makers).where("makers.uuid IN (?)", context[:current_user].followed_makers.pluck(:uuid))
@@ -446,11 +446,11 @@ module Types
     end
 
     def maker(arguments)
-      Maker.find(arguments[:id])
+      Maker.where(visible: true).find(arguments[:id])
     end
 
     def makers(arguments)
-      makers = Maker.all
+      makers = Maker.where(visible: true)
 
       if arguments[:commission_status].present?
         makers = makers.where(commission_status_id: arguments[:commission_status])

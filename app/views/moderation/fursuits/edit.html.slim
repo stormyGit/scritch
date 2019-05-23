@@ -16,6 +16,10 @@ br
           = f.label :name, "Name"
           = f.text_field :name, class: "input"
         .field
+          = f.check_box :visible, {:checked => @fursuit.visible}
+          | &nbsp;&nbsp;
+          = f.label :visible, "Visible ?", class: "checkbox"
+        .field
           = f.label :creation_year, "Creation Year"
           = f.text_field :creation_year, class: "input"
         .field

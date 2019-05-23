@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_10_222206) do
+ActiveRecord::Schema.define(version: 2019_05_23_054039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -395,6 +395,7 @@ ActiveRecord::Schema.define(version: 2019_05_10_222206) do
     t.string "eyes_color"
     t.boolean "is_hybrid", default: false
     t.uuid "fursuit_gender_id"
+    t.boolean "visible", default: true
     t.index ["fursuit_gender_id"], name: "index_fursuits_on_fursuit_gender_id"
   end
 
@@ -458,6 +459,7 @@ ActiveRecord::Schema.define(version: 2019_05_10_222206) do
     t.uuid "user_id"
     t.string "commission_status", default: "N/A"
     t.uuid "commission_status_id"
+    t.boolean "visible", default: true
     t.index ["commission_status_id"], name: "index_makers_on_commission_status_id"
     t.index ["user_id"], name: "index_makers_on_user_id"
   end

@@ -39,6 +39,7 @@ class Moderation::FursuitsController < ModerationController
       :eyes_color,
       :fursuit_leg_type_id,
       :creation_year,
+      :visible,
       :slug,
       species_ids: [],
       maker_ids: []
@@ -77,6 +78,7 @@ class Moderation::FursuitsController < ModerationController
       :eyes_color,
       :fursuit_leg_type_id,
       :creation_year,
+      :visible,
       :slug,
       species_ids: [],
       maker_ids: []

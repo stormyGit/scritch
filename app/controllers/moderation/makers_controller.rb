@@ -60,6 +60,7 @@ class Moderation::MakersController < ModerationController
       :name,
       :country,
       :web,
+      :visible,
       :region
     ]))
     #    authorize maker
