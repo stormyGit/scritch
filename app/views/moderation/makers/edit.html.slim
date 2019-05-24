@@ -16,6 +16,10 @@ br
           = f.label :region, "Region"
           = f.text_field :region, class: "input"
         .field
+          = f.check_box :visible, {:checked => @maker.visible}
+          | &nbsp;&nbsp;
+          = f.label :visible, "Visible ?", class: "checkbox"
+        .field
           = f.label :web, "Website"
           = f.text_field :web, class: "input"
 

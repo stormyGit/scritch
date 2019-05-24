@@ -28,6 +28,10 @@ module Types
     field :species, [SpecyType], null: false
     field :fursuit_gender, FursuitGenderType, null: true
 
+    def makers
+      object.makers.where(visible: true)
+    end
+
     def claimed
       Claim.where(user: context[:current_user], fursuit: object, status: "open").count > 0
     end
