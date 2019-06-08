@@ -148,7 +148,6 @@ class TagDialogMobile extends React.Component {
 
   isFormOk() {
     if (this.state.fursuits.length > this.state.fursuitsCount) return false;
-    else if (this.state.fursuitsCount > 30) return false;
     return true;
   }
 

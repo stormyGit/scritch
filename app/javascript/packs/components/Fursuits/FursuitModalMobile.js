@@ -110,7 +110,7 @@ class FursuitModal extends React.Component {
                             >
                               {localFursuit.makers[0]
                                 ? localFursuit.makers[0].name
-                                : "Unknown"}
+                                : "Redacted"}
                             </Typography>
                           </Grid>
                         </Grid>

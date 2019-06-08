@@ -13,6 +13,10 @@ class Moderation::FursuitsController < ModerationController
       @fursuits = @fursuits.where("fursuits.name @@ ? or fursuits.name ilike ?", params[:name], "%#{params[:name]}%")
     end
 
+    if params[:claimed].present? && params[:claimed]
+      @fursuits = @fursuits.includes(:users).where.not(users: {uuid: nil})
+    end
+
     @fursuits = @fursuits.page(params[:page]).per(90)
   end
 

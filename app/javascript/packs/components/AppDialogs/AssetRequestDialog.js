@@ -141,7 +141,7 @@ class AssetRequestDialog extends React.Component {
                     <ListItemIcon>
                       <CheckIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Leg Type (Plantigrade, Digitigrade, Quad or N/A if Partial)" />
+                    <ListItemText primary="Leg Type (Plantigrade, Digitigrade, Quad or N/A if Partial without Feetpaws)" />
                   </ListItem>
                 </List>
               </Typography>

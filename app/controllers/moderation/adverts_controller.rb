@@ -8,7 +8,7 @@ class Moderation::AdvertsController < ModerationController
       flash[:notice] = ""
     end
 
-    @adverts = Advert.all.order(created_at: :desc)
+    @adverts = Advert.where.not(status: "rejected").order(created_at: :desc)
 
     if params[:where_status].present?
       @adverts = @adverts.where(status: params[:where_status])

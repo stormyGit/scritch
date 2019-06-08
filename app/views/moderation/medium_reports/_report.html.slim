@@ -65,6 +65,8 @@
                     | Serious violation of ToS
                   = link_to "#minor-medium-violation-#{report.medium.user.id}", class: 'dropdown-item', data: { activator: true }
                     | Minor violation of ToS
+                  = link_to "#harmless-medium-violation-#{report.medium.user.id}", class: 'dropdown-item', data: { activator: true }
+                    | Harmless violation of ToS
                   = link_to "#worthless-medium-report-#{report.medium.user.id}", class: 'dropdown-item', data: { activator: true }
                     | Not worth reporting
 
@@ -111,6 +113,9 @@
 
 - if report.medium && report.medium.user.present?
   = render partial: "moderation/shared/user_modal", locals: { user: report.medium.user, open: false }
+  = form_for report.medium.user, url: moderation_user_harmless_medium_violation_path(user_id: report.medium.user.id, medium_id: report.medium.id, report_id: report.id), method: :put do |f|
+    = render partial: "moderation/shared/minor_violation", locals: { user: report.medium.user, title: "Remove medium by #{report.medium.user.name} without consequences", id: "harmless-medium-violation-#{report.medium.user.id}" }
+
   = form_for report.medium.user, url: moderation_user_serious_medium_violation_path(user_id: report.medium.user.id, medium_id: report.medium.id, report_id: report.id), method: :put do |f|
     = render partial: "moderation/shared/minor_violation", locals: { user: report.medium.user, title: "Remove medium by #{report.medium.user.name} with account hiatus", id: "serious-medium-violation-#{report.medium.user.id}" }
 

@@ -82,6 +82,7 @@ Rails.application.routes.draw do
       put :serious_user_violation
       put :minor_comment_violation
       put :serious_comment_violation
+      put :harmless_medium_violation
       put :minor_medium_violation
       put :serious_medium_violation
       put :minor_comment_violation

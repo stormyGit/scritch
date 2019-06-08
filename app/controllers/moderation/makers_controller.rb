@@ -13,6 +13,10 @@ class Moderation::MakersController < ModerationController
       @makers = @makers.where("makers.name @@ ? or makers.name ilike ?", params[:name], "%#{params[:name]}%")
     end
 
+    if params[:claimed].present? && params[:claimed]
+      @makers = @makers.where.not(user: nil)
+    end
+
     @makers = @makers.page(params[:page]).per(90)
   end
 
@@ -31,6 +35,7 @@ class Moderation::MakersController < ModerationController
       :name,
       :web,
       :country,
+      :commission_status_id,
       :region
     ]))
     #    authorize maker
@@ -38,7 +43,7 @@ class Moderation::MakersController < ModerationController
     begin
       maker.avatar = File.open("app/assets/images/makers/Scritch Maker Thumbnail - #{maker.country}.png")
     rescue
-      maker.avatar = File.open("app/assets/images/makerPlaceholder.png")
+      maker.avatar = File.open("app/assets/images/makers/FAILED.png")
     end
     maker.save!
     flash[:notice] = "Maker added!"
@@ -60,6 +65,7 @@ class Moderation::MakersController < ModerationController
       :name,
       :country,
       :web,
+      :commission_status_id,
       :visible,
       :region
     ]))

@@ -24,6 +24,11 @@
       .column.is-3.is-offset-4
         .field
           = text_field_tag :name, params[:name], placeholder: "Search..", class: "input"
+        .field
+          .label
+            .has-text-primary
+              = check_box_tag :claimed, params[:claimed], params[:claimed]
+              | &nbsp;&nbsp;Claimed
       .column.is-1
         = submit_tag ("Search"), class: "button"
   br

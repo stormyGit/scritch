@@ -456,7 +456,7 @@ class FursuitMobile extends React.Component {
                           className={classes.fursuitTitle}
                           noWrap
                         >
-                          Unknown
+                          Redacted
                         </Typography>
                       )}
                       <div style={{ padding: 5 }} />

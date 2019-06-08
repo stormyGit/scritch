@@ -374,10 +374,7 @@ class AdvertiseDialog extends React.Component {
               <Grid item />
               <Grid item>
                 {this.state.complete && (
-                  <a
-                    href="http://127.0.0.1:3001/adverts"
-                    className={classes.link}
-                  >
+                  <a href="http://scritch.es/adverts" className={classes.link}>
                     <Button color="secondary">Advertiser Dashboard</Button>
                   </a>
                 )}

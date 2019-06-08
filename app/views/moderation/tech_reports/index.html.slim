@@ -24,6 +24,9 @@
           .card-content
             = report.description
           .card-footer
+            - if report.user.telegram_username.present?
+              .card-footer-item
+                = link_to "Contact User", "https://t.me/#{report.user.telegram_username}", target: "_blank"
             .card-footer-item
               = link_to "Go To Page", report.page
             .card-footer-item

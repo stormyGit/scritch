@@ -95,6 +95,12 @@ class Moderation::UsersController < ModerationController
     redirect_back fallback_location: moderation_medium_reports_path
   end
 
+  def harmless_medium_violation
+    accept_all_medium_reports(params[:medium_id], true)
+    Medium.find(params[:medium_id]).destroy
+    redirect_back fallback_location: moderation_medium_reports_path
+  end
+
   def serious_comment_violation
     accept_all_comment_reports(params[:comment_id], true)
     Comment.find(params[:comment_id]).destroy

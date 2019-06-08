@@ -24,6 +24,12 @@ br
           = f.text_field :web, class: "input"
 
         .field
+          = f.label :commission_status_id, "Commission Status"
+          br
+          .select
+            = f.select :commission_status_id, options_for_select(CommissionStatus.all.order(:name).pluck(:name, :uuid), @maker.commission_status_id), {:include_blank => true}
+
+        .field
           = f.submit "Update", class: "button"
 
     .card-footer

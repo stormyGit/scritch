@@ -149,7 +149,6 @@ class TagDialog extends React.Component {
 
   isFormOk() {
     if (this.state.fursuits.length > this.state.fursuitsCount) return false;
-    else if (this.state.fursuitsCount > 30) return false;
     return true;
   }
 
@@ -295,7 +294,7 @@ class TagDialog extends React.Component {
               {(updateMedium, { called }) => {
                 return (
                   <React.Fragment>
-                    <ResponsiveDialog open={open} onClose={onClose} size={900}>
+                    <ResponsiveDialog open={open} onClose={onClose} size={1200}>
                       {((width !== "lg" && width !== "xl") || true) && (
                         <DialogTitle className={classes.titleBarContainer}>
                           <Grid
@@ -337,7 +336,7 @@ class TagDialog extends React.Component {
                                     ? classes.mediaV
                                     : classes.mediaH
                                 }
-                                style={{ maxWidth: "100%" }}
+                                style={{ width: "100%" }}
                               />
                             </DialogContent>
                             {
