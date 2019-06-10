@@ -111,7 +111,7 @@
         = link_to moderation_medium_report_reopen_path(report.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to reopen this report?" } do
           | Reopen report
 
-- if report.medium && report.medium.user.present?
+- if report.medium.present? && report.reporter.present? && report.medium.user.present?
   = render partial: "moderation/shared/user_modal", locals: { user: report.medium.user, open: false }
   = form_for report.medium.user, url: moderation_user_harmless_medium_violation_path(user_id: report.medium.user.id, medium_id: report.medium.id, report_id: report.id), method: :put do |f|
     = render partial: "moderation/shared/minor_violation", locals: { user: report.medium.user, title: "Remove medium by #{report.medium.user.name} without consequences", id: "harmless-medium-violation-#{report.medium.user.id}" }
