@@ -24,9 +24,16 @@
           .card-content
             = report.description
           .card-footer
-            - if report.user.telegram_username.present?
+            - if report.user.present? && report.user.telegram_username.present?
               .card-footer-item
                 = link_to "Contact User", "https://t.me/#{report.user.telegram_username}", target: "_blank"
+            - elsif report.user.present? && report.user.telegram_username.blank?
+              .card-footer-item
+                | No Telegram ID
+            - elsif report.user.blank?
+              .card-footer-item
+                | User Deleted
+
             .card-footer-item
               = link_to "Go To Page", report.page
             .card-footer-item
