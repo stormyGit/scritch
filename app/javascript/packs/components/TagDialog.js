@@ -328,7 +328,7 @@ class TagDialog extends React.Component {
                           >
                             <DialogContent style={{ textAlign: "center" }}>
                               <img
-                                src={`${medium.thumbnail}`}
+                                src={`${medium.resized}`}
                                 title={medium.title}
                                 className={
                                   medium.exif &&
