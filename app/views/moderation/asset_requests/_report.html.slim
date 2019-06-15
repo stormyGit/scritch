@@ -30,11 +30,17 @@
 
     .content
       = "Request to add: #{asset_request.asset_type}"
-      - if asset_request.user.telegram_username.present?
+      - if asset_request.user.present ? && asset_request.user.telegram_username.present?
         br
         = "by "
         a href="https://t.me/#{asset_request.user.telegram_username}" target="_blank"
           = "@#{asset_request.user.telegram_username}"
+      - elsif asset_request.user.present ? && asset_request.user.telegram_username.blank?
+        br
+        = "by #{asset_request.user.name}"
+      - else
+        br
+        = "by User Unknown"
       br
       br
       = "Name: #{asset_request.asset_name}"
