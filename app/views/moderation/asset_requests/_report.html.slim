@@ -35,7 +35,7 @@
         = "by "
         a href="https://t.me/#{asset_request.user.telegram_username}" target="_blank"
           = "@#{asset_request.user.telegram_username}"
-      - if asset_request.user.present ? && asset_request.user.telegram_username.blank?
+      - if asset_request.user.present? && asset_request.user.telegram_username.blank?
         br
         = "by #{asset_request.user.name}"
       - if asset_request.user.blank?
