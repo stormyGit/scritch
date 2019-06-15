@@ -43,6 +43,7 @@ class User < ApplicationRecord
 
   validates :name, presence: true
   validates :slug, presence: true, uniqueness: true
+  validates :telegram_id, presence: true, uniqueness: true
 
   has_many :list_users, dependent: :destroy
   has_many :lists
