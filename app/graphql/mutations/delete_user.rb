@@ -12,10 +12,14 @@ class Mutations::DeleteUser < Mutations::BaseMutation
 
     puts "\n" * 30
     if user.sponsor.present?
-      sponsor = Stripe::Subscription.retrieve(
-        user.sponsor.charge_id
-      )
-      sponsor.delete
+      begin
+        sponsor = Stripe::Subscription.retrieve(
+          user.sponsor.charge_id
+        )
+        sponsor.delete
+      rescue => error
+        TechReport.create!(user: User.first, body: error, kind: "exception", page: "https://google.com")
+      end
     end
 
     if user.destroy
