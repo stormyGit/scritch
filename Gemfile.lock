@@ -846,7 +846,6 @@ GEM
       activesupport (>= 4.0, < 6)
     excon (0.62.0)
     execjs (2.7.0)
-    exif (2.2.0)
     faker (1.9.3)
       i18n (>= 0.7)
     faraday (0.15.4)
@@ -1319,7 +1318,6 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   devise
   exception_notification
-  exif
   faker
   figaro
   fog
