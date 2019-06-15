@@ -187,7 +187,7 @@ class Moderation::UsersController < ModerationController
       e.update(status: 'accepted')
       if reporter_ok
         u = User.find_by(uuid: e.reporter_id)
-        u.update!(score: u.score + 10)
+        u.update(score: u.score + 10)
       end
     end
   end

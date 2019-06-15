@@ -10,7 +10,11 @@ module Types
     field :editions, [EditionType], null: false
 
     def country
-      object.editions.order("editions.year DESC").first.country
+      if object.editions.present?
+        object.editions.order("editions.year DESC").first.country
+      else
+        "Unknown"
+      end
     end
 
     def avatar
