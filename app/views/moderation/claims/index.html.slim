@@ -14,50 +14,51 @@
   .columns.is-multiline
     - if @claims.present?
       - @claims.each do |claim|
-        .column.is-4
-          .card
-            .card-header
-              .card-header-title
-                = "Claim ##{claim.uuid.split('-')[0]}"
-            .card-content
-              .columns.is-multiline
-                .column.is-6
-                  p.is-size-4
-                    | &nbsp;&nbsp;Claimer
-                  p.is-size-5
-                    = "#{claim.user.name}"
-                  p.is-size-5
-                    - if claim.user.telegram_username.present?
-                      a href="http://t.me/#{claim.user.telegram_username}" target="_blank"
-                        = "@#{claim.user.telegram_username}"
-
-                .column.is-6
-                  p.is-size-4
-                    | &nbsp;&nbsp;Fursuit
-                  p.is-size-5
-                    = link_to "#{claim.fursuit.name}", moderation_fursuit_path(id: claim.fursuit.slug), target: "_blank"
-                  - if claim.fursuit.makers[0].present?
-                    p.is-size-5
-                      = "by #{claim.fursuit.makers[0].name}"
-                  p.is-size-5
-                    = claim.fursuit.creation_year
-                br
-                .column.is-12
-                  - if claim.conflictual
+        - if claim.user.present?
+          .column.is-4
+            .card
+              .card-header
+                .card-header-title
+                  = "Claim ##{claim.uuid.split('-')[0]}"
+              .card-content
+                .columns.is-multiline
+                  .column.is-6
                     p.is-size-4
-                      | &nbsp;&nbsp;Asset already owned!
+                      | &nbsp;&nbsp;Claimer
                     p.is-size-5
-                      = "Current Owner: #{claim.fursuit.users[0].name}"
-                      br
-                      - if claim.fursuit.users[0].telegram_username.present?
-                        a href="http://t.me/#{claim.fursuit.users[0].telegram_username}" target="_blank"
-                          = "@#{claim.fursuit.users[0].telegram_username}"
+                      = "#{claim.user.name}"
+                    p.is-size-5
+                      - if claim.user.telegram_username.present?
+                        a href="http://t.me/#{claim.user.telegram_username}" target="_blank"
+                          = "@#{claim.user.telegram_username}"
 
-            .card-footer
-              .card-footer-item
-                = link_to "Approve", moderation_claim_path(claim, status: "approve"), method: :put
-              .card-footer-item
-                = link_to "Reject", moderation_claim_path(claim, status: "reject"), method: :put
+                  .column.is-6
+                    p.is-size-4
+                      | &nbsp;&nbsp;Fursuit
+                    p.is-size-5
+                      = link_to "#{claim.fursuit.name}", moderation_fursuit_path(id: claim.fursuit.slug), target: "_blank"
+                    - if claim.fursuit.makers[0].present?
+                      p.is-size-5
+                        = "by #{claim.fursuit.makers[0].name}"
+                    p.is-size-5
+                      = claim.fursuit.creation_year
+                  br
+                  .column.is-12
+                    - if claim.conflictual
+                      p.is-size-4
+                        | &nbsp;&nbsp;Asset already owned!
+                      p.is-size-5
+                        = "Current Owner: #{claim.fursuit.users[0].name}"
+                        br
+                        - if claim.fursuit.users[0].telegram_username.present?
+                          a href="http://t.me/#{claim.fursuit.users[0].telegram_username}" target="_blank"
+                            = "@#{claim.fursuit.users[0].telegram_username}"
+
+              .card-footer
+                .card-footer-item
+                  = link_to "Approve", moderation_claim_path(claim, status: "approve"), method: :put
+                .card-footer-item
+                  = link_to "Reject", moderation_claim_path(claim, status: "reject"), method: :put
 
 
   .columns
