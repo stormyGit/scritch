@@ -1,24 +1,28 @@
-# README
+INSTALL and SETUP PostgresQL
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+---
 
-* Ruby version
 
-* System dependencies
+bundle install
 
-* Configuration
+yarn
 
-* Database creation
 
-* Database initialization
+---
 
-* How to run the test suite
 
-* Services (job queues, cache servers, search engines, etc.)
+bundle exec rails db:create
 
-* Deployment instructions
+bundle exec rails db:migrate
 
-* ...
+
+---
+
+
+console: bundle exec rails c
+
+Rails server: bundle exec rails s -p 3001
+
+JS: ./bin/webpack-dev-server
+
