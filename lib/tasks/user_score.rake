@@ -39,7 +39,7 @@ namespace :user_score do
           sp += 1
         end
       rescue => error
-        TechReport.create!(kind: "exception", user: User.first, description: "FAILED SPECIES RAKE :: USER #{user.name} - #{user.uuid}")
+        TechReport.create!(kind: "exception", user: User.first, description: "FAILED SPECIES RAKE :: USER #{user.name} - #{user.uuid} - #{error.message}")
       end
     end
   end

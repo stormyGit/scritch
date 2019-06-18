@@ -1,0 +1,66 @@
+.card.fursuit_request
+  .card-content
+    .level
+      .level-left
+        .title.is-4
+          | Request ##{fursuit_request.attributes["id"]}
+          - unless in_report_page?
+            = link_to moderation_fursuit_request_path(fursuit_request), target: "_blank" do
+              span.icon
+                i.material-icons.is-size-6 open_in_new
+      .level-right
+        - if fursuit_request.assignee.blank?
+          = button_to moderation_fursuit_request_assign_path(fursuit_request.id), class: 'button', method: :put do
+            | Assign myself
+        - else
+          .dropdown.is-hoverable
+            .dropdown-trigger
+              button.button
+                span
+                  | Assigned to #{fursuit_request.assignee == current_moderator ? 'you' : fursuit_request.assignee.name}
+                span.icon.is-small
+                  i.material-icons expand_more
+            .dropdown-menu role="menu"
+              .dropdown-content
+                - if fursuit_request.assignee != current_moderator
+                  = link_to moderation_fursuit_request_assign_path(fursuit_request.id), class: 'dropdown-item', method: :put
+                    | Assign to me
+                = link_to moderation_fursuit_request_unassign_path(fursuit_request.id), class: 'dropdown-item', method: :put
+                  | Unassign
+
+    .content
+      = "Request to add: #{fursuit_request.name}"
+      - if fursuit_request.user.present? && fursuit_request.user.telegram_username.present?
+        br
+        = "by "
+        a href="https://t.me/#{fursuit_request.user.telegram_username}" target="_blank"
+          = "@#{fursuit_request.user.telegram_username}"
+      - if fursuit_request.user.present? && fursuit_request.user.telegram_username.blank?
+        br
+        = "by #{fursuit_request.user.name}"
+      - if fursuit_request.user.blank?
+        br
+        = "by User Unknown"
+      br
+      a href=fursuit_request.url target="_blank"
+        | Asset URL
+
+    - if fursuit_request.notes.present?
+      | Requester comment
+      .content.citation
+        = format_text(fursuit_request.notes)
+
+    .is-size-7
+      = "#{time_ago_in_words(fursuit_request.created_at)} ago"
+
+  - if fursuit_request.assignee == current_moderator
+    footer class="card-footer"
+      - if fursuit_request.status == 'new'
+        = link_to moderation_fursuit_request_dismiss_path(fursuit_request.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to dismiss this fursuit_request?" } do
+          | Ignore
+        /= link_to moderation_fursuit_request_mark_as_accepted_path(fursuit_request.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to mark this fursuit_request as accepted?" } do
+        = link_to moderation_fursuit_request_path(fursuit_request.id), class: "card-footer-item"
+          | View
+      - else
+        = link_to moderation_fursuit_request_reopen_path(fursuit_request.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to reopen this fursuit_request?" } do
+          | Reopen fursuit_request

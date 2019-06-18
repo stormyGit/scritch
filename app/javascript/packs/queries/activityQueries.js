@@ -24,6 +24,10 @@ export const GET_ACTIVITIES = gql`
           assetType
           assetName
         }
+        ... on FursuitRequest {
+          id
+          name
+        }
         ... on Fave {
           id
           medium {

@@ -1,0 +1,12 @@
+= render partial: 'moderation/shared/side_menu'
+
+#reports.container.full-height-container
+  .has-text-centered.has-text-primary.is-size-2
+    | Asset Requests
+  .columns.is-centered
+    .column.is-2
+    .column.is-10
+      .columns.is-centered.is-multiline
+        - @fursuit_requests.each do |fursuit_request|
+          .column.is-6
+            = render partial: 'moderation/fursuit_requests/report', locals: { fursuit_request: fursuit_request }

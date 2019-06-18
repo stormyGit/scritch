@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_23_054039) do
+ActiveRecord::Schema.define(version: 2019_06_18_220539) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -341,6 +341,31 @@ ActiveRecord::Schema.define(version: 2019_05_23_054039) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "fursuit_requests", force: :cascade do |t|
+    t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.string "name"
+    t.integer "creation_year"
+    t.uuid "fursuit_leg_type_id"
+    t.uuid "fursuit_style_id"
+    t.uuid "fursuit_padding_id"
+    t.uuid "fursuit_build_id"
+    t.uuid "fursuit_finger_id"
+    t.uuid "fursuit_gender_id"
+    t.uuid "maker_ids", array: true
+    t.string "base_color"
+    t.string "eyes_color"
+    t.string "url"
+    t.string "notes"
+    t.uuid "species_ids", array: true
+    t.boolean "is_hybrid", default: false
+    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "status", default: "new"
+    t.bigint "assignee_id"
+    t.index ["user_id"], name: "index_fursuit_requests_on_user_id"
   end
 
   create_table "fursuit_species", force: :cascade do |t|

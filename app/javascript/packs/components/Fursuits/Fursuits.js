@@ -6,7 +6,7 @@ import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
 import Tooltip from "@material-ui/core/Tooltip";
-import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
+import RequestFursuitDialog from "./RequestFursuitDialog";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -345,10 +345,9 @@ class Fursuits extends React.Component {
             );
           }}
         </Query>
-        <AssetRequestDialog
+        <RequestFursuitDialog
           open={this.state.assetRequestDialog}
           onClose={() => this.setState({ assetRequestDialog: false })}
-          assetType="Fursuit"
         />
       </React.Fragment>
     );

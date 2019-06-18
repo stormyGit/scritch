@@ -133,8 +133,8 @@ class FursuitEditFields extends React.Component {
   }
 
   setInitialValues(fursuit) {
+    if (!this.props.fursuit) return null;
     this.setState({
-      id: fursuit.id,
       fursuitLegType: this.props.fursuit.fursuitLegType && {
         value: this.props.fursuit.fursuitLegType.id,
         label: this.props.fursuit.fursuitLegType.name

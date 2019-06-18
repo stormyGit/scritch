@@ -12,6 +12,7 @@ class User < ApplicationRecord
   mount_base64_uploader :banner, BannerUploader
 
   has_many :media, dependent: :destroy
+  has_many :fursuit_requests, dependent: :destroy
 
   has_one :suspended_user, dependent: :destroy
 

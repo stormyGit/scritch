@@ -40,6 +40,7 @@ module Types
     field :create_claim, mutation: Mutations::CreateClaim
     field :create_maker_claim, mutation: Mutations::CreateMakerClaim
     field :update_fursuit, mutation: Mutations::UpdateFursuit
+    field :create_fursuit_request, mutation: Mutations::CreateFursuitRequest
     field :update_maker, mutation: Mutations::UpdateMaker
     field :tag_lock_medium, mutation: Mutations::TagLockMedium
     field :tag_unlock_medium, mutation: Mutations::TagUnlockMedium

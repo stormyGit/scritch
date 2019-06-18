@@ -1,0 +1,134 @@
+= render partial: 'moderation/shared/side_menu'
+
+#reports.container.full-height-container
+  .columns.is-centered
+    .column.is-half.is-narrow
+      .card.fursuit_request
+        .card-content
+          .level
+            .level-left
+              .title.is-4
+                | Request ##{@fursuit_request.attributes["id"]}
+                - unless in_report_page?
+                  = link_to moderation_fursuit_request_path(@fursuit_request), target: "_blank" do
+                    span.icon
+                      i.material-icons.is-size-6 open_in_new
+            .level-right
+              - if @fursuit_request.assignee.blank?
+                = button_to moderation_fursuit_request_assign_path(@fursuit_request.id), class: 'button', method: :put do
+                  | Assign myself
+              - else
+                .dropdown.is-hoverable
+                  .dropdown-trigger
+                    button.button
+                      span
+                        | Assigned to #{@fursuit_request.assignee == current_moderator ? 'you' : @fursuit_request.assignee.name}
+                      span.icon.is-small
+                        i.material-icons expand_more
+                  .dropdown-menu role="menu"
+                    .dropdown-content
+                      - if @fursuit_request.assignee != current_moderator
+                        = link_to moderation_fursuit_request_assign_path(@fursuit_request.id), class: 'dropdown-item', method: :put
+                          | Assign to me
+                      = link_to moderation_fursuit_request_unassign_path(@fursuit_request.id), class: 'dropdown-item', method: :put
+                        | Unassign
+
+          .content
+            = "Request to add: #{@fursuit_request.name}"
+            - if @fursuit_request.user.present? && @fursuit_request.user.telegram_username.present?
+              br
+              = "by "
+              a href="https://t.me/#{@fursuit_request.user.telegram_username}" target="_blank"
+                = "@#{@fursuit_request.user.telegram_username}"
+            - if @fursuit_request.user.present? && @fursuit_request.user.telegram_username.blank?
+              br
+              = "by #{@fursuit_request.user.name}"
+            - if @fursuit_request.user.blank?
+              br
+              = "by User Unknown"
+            br
+            br
+            a href=@fursuit_request.url target="_blank"
+              | Asset URL
+
+          - if @fursuit_request.notes.present?
+            | Requester comment
+            .content.citation
+              = format_text(@fursuit_request.notes)
+
+          = form_for @fursuit_request, :url => moderation_fursuit_request_path, method: :put do |f|
+            .field
+              = f.label :name, "Name"
+              = f.text_field :name, class: "input"
+            .field
+              = f.label :creation_year, "Creation Year"
+              = f.text_field :creation_year, class: "input"
+            .field
+              = f.check_box :is_hybrid, {:checked =>@fursuit_request.is_hybrid}
+              | &nbsp;&nbsp;
+              = f.label :is_hybrid, "Hybrid ?", class: "checkbox"
+            .field
+              = f.label :species_ids, "Species"
+              br
+              .select.is-multiple
+                = f.select :species_ids, options_for_select(Specy.all.order(:name).pluck(:name, :uuid),@fursuit_request.species_ids), {:include_blank => true}, { :multiple => true, :size => 6}
+            .field
+              = f.label :fursuit_finger_id, "Role"
+              br
+              .select
+                = f.select :fursuit_finger_id, options_for_select(FursuitFinger.all.order(:name).pluck(:name, :uuid),@fursuit_request.fursuit_finger_id), {:include_blank => true}
+            .field
+              = f.label :maker_ids, "Maker(s)"
+              br
+              .select.is-multiple
+                = f.select(:maker_ids, options_for_select(Maker.all.order(:name).pluck(:name, :uuid), @fursuit_request.maker_ids), {:include_blank => true}, { :multiple => true, :size => 6})
+            .field
+              = f.label :fursuit_build_id, "Build"
+              br
+              .select
+                = f.select :fursuit_build_id, options_for_select(FursuitBuild.all.order(:name).pluck(:name, :uuid),@fursuit_request.fursuit_build_id), {:include_blank => true}
+            .field
+              = f.label :fursuit_style_id, "Style"
+              br
+              .select
+                = f.select :fursuit_style_id, options_for_select(FursuitStyle.all.order(:name).pluck(:name, :uuid),@fursuit_request.fursuit_style_id), {:include_blank => true}
+            .field
+              = f.label :base_color, "Base Colour"
+              br
+              .select
+                = f.select :base_color, options_for_select(Fursuit::BASE_COLORS,@fursuit_request.base_color), {:include_blank => true}
+            .field
+              = f.label :eyes_color, "Eye Colour"
+              br
+              .select
+                = f.select :eyes_color, options_for_select(Fursuit::EYES_COLORS,@fursuit_request.eyes_color), {:include_blank => true}
+            .field
+              = f.label :fursuit_gender_id, "Appearance"
+              br
+              .select
+                = f.select :fursuit_gender_id, options_for_select(FursuitGender.all.order(:name).pluck(:name, :uuid),@fursuit_request.fursuit_gender_id), {:include_blank => true}
+            .field
+              = f.label :fursuit_padding_id, "Padding"
+              br
+              .select
+                = f.select :fursuit_padding_id, options_for_select(FursuitPadding.all.order(:name).pluck(:name, :uuid),@fursuit_request.fursuit_padding_id), {:include_blank => true}
+            .field
+              = f.label :fursuit_leg_type_id, "Legs"
+              br
+              .select
+                = f.select :fursuit_leg_type_id, options_for_select(FursuitLegType.all.order(:name).pluck(:name, :uuid),@fursuit_request.fursuit_leg_type_id), {:include_blank => true}
+
+            .field
+              = f.submit "Update", class: "button"
+          br
+          br
+          .is-size-7
+            = "#{time_ago_in_words(@fursuit_request.created_at)} ago"
+
+        - if @fursuit_request.assignee == current_moderator
+          footer class="card-footer"
+            - if @fursuit_request.status == 'new'
+              = link_to moderation_fursuit_requests_path, class: "card-footer-item"
+                | Go Back
+              = link_to moderation_fursuit_request_mark_as_accepted_path(@fursuit_request.id), class: "card-footer-item", method: :put, data: { confirm: "Are you sure you want to mark this fursuit_request as accepted?" } do
+                | Add Fursuit

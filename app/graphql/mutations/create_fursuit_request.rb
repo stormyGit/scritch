@@ -1,7 +1,6 @@
-class Mutations::UpdateFursuit < Mutations::BaseMutation
-  argument :id, ID, required: true
+class Mutations::CreateFursuitRequest < Mutations::BaseMutation
+  argument :user_id, ID, required: true
   argument :name, String, required: true
-  argument :slug, String, required: true
   argument :maker_ids, [ID], required: false
   argument :creation_year, Integer, required: false
   argument :fursuit_leg_type_id, ID, required: false
@@ -12,28 +11,27 @@ class Mutations::UpdateFursuit < Mutations::BaseMutation
   argument :fursuit_finger_id, ID, required: false
   argument :is_hybrid, Boolean, required: false
   argument :species_ids, [ID], required: false
-  argument :avatar, String, required: false
   argument :base_color, String, required: false
   argument :eyes_color, String, required: false
+  argument :url, String, required: false
+  argument :notes, String, required: false
 
-  field :fursuit, Types::FursuitType, null: true
+  field :fursuit_request, Types::FursuitRequestType, null: true
   field :errors, [String], null: false
 
   def resolve(arguments)
-    fursuit = Fursuit.find(arguments[:id])
-    fursuit.assign_attributes(arguments)
+    puts arguments
+    fursuit_request = FursuitRequest.new(arguments)
 
-    raise Pundit::NotAuthorizedError unless FursuitPolicy.new(context[:current_user], fursuit).update?
-
-    if fursuit.save
+    if fursuit_request.save
       {
-        fursuit: fursuit,
+        fursuit_request: fursuit_request,
         errors: [],
       }
     else
       {
-        fursuit: fursuit,
-        errors: fursuit.errors.full_messages
+        fursuit_request: nil,
+        errors: fursuit_request.errors.full_messages
       }
     end
   end

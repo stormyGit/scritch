@@ -107,6 +107,8 @@ html lang="en"
                         | Events
                     = active_link_to moderation_asset_requests_path, class: "dropdown-item", class_active: 'is-active', active: :exact do
                       | Asset Requests
+                    = active_link_to moderation_fursuit_requests_path, class: "dropdown-item", class_active: 'is-active', active: :exact do
+                      | Fursuit Requests
             - if moderator_can_see?("fursuit_claims")
               .dropdown.is-hoverable.navbar-item
                 .dropdown-trigger

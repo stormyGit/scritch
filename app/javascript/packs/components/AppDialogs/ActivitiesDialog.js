@@ -472,6 +472,56 @@ class ActivitiesDialog extends React.Component {
     );
   }
 
+  renderFursuitRequestAccepted(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem key={activity.id}>
+        <UserAvatar
+          modAvatar={require("images/pixel/Notification Avatar - Reports (General Admin Account) - Icon.png")}
+          size={64}
+        />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your request to add the Fursuit '${
+                  activity.trackable.name
+                }' has been approved!`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
+  renderFursuitRequestRejected(activity) {
+    const { classes } = this.props;
+
+    return (
+      <ListItem key={activity.id}>
+        <UserAvatar
+          modAvatar={require("images/pixel/Notification Avatar - Reports (General Admin Account) - Icon.png")}
+          size={64}
+        />
+        <ListItemText
+          primary={
+            <React.Fragment>
+              <Typography variant="body1">
+                {`Your request to add the Fursuit '${
+                  activity.trackable.name
+                }' has been rejected. Please contact Support if you think this is a mistake.`}
+              </Typography>
+            </React.Fragment>
+          }
+          secondary={timeAgo.format(dayjs(activity.createdAt).toDate())}
+        />
+      </ListItem>
+    );
+  }
+
   renderAssetRequestAccepted(activity) {
     const { classes } = this.props;
 
@@ -842,6 +892,10 @@ class ActivitiesDialog extends React.Component {
         return this.renderAssetRequestAccepted(activity);
       case "asset_request.rejected":
         return this.renderAssetRequestRejected(activity);
+      case "fursuit_request.accepted":
+        return this.renderFursuitRequestAccepted(activity);
+      case "fursuit_request.rejected":
+        return this.renderFursuitRequestRejected(activity);
       default:
         return null;
     }

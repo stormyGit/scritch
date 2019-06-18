@@ -67,6 +67,13 @@ Rails.application.routes.draw do
       put :assign
       put :unassign
     end
+    resources :fursuit_requests do
+      put :dismiss
+      put :mark_as_accepted
+      put :reopen
+      put :assign
+      put :unassign
+    end
     resources :tag_reports do
       put :dismiss
       put :mark_as_accepted
