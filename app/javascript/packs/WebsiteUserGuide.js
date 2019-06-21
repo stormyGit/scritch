@@ -931,7 +931,7 @@ class WebsiteUserGuide extends React.Component {
           <ListItem>Terms and Conditions</ListItem>
           <ListItem>Privacy Policy</ListItem>
           <ListItem>
-            Website User Guide <strong>{"(this Document)"}</strong>
+            Website User Guide&nbsp;<strong>{"(this Document)"}</strong>
           </ListItem>
           <ListItem>FAQs</ListItem>
         </List>
