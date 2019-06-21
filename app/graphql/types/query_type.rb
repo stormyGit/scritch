@@ -239,6 +239,7 @@ module Types
     field :maker, MakerType, null: false do
       description "Find a maker by ID"
       argument :id, ID, required: true
+      argument :sort, String, required: true
     end
 
     field :makers_select, [MakerType], null: false do
@@ -446,7 +447,19 @@ module Types
     end
 
     def maker(arguments)
-      Maker.where(visible: true).find(arguments[:id])
+      maker = Maker.where(visible: true).find(arguments[:id])
+
+      puts "\n" * 30
+      puts arguments
+      puts "\n" * 30
+
+      if arguments[:sort] == "alpha"
+      #   maker = maker.fursuits.sort_by{|e| e.name}
+      # elsif arguments[:sort] == "latest"
+      #   maker = maker.fursuits.sort_by{|e| e.creation_year}.reverse
+      end
+
+      maker
     end
 
     def makers(arguments)

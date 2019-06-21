@@ -41,10 +41,6 @@ module Types
       object.maker_subscriptions.count
     end
 
-    def fursuits
-      object.fursuits.where(visible: true).order("fursuits.name")
-    end
-
     def fursuits_number
       object.fursuits.count || 0
     end

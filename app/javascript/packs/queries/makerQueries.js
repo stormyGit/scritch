@@ -46,8 +46,8 @@ export const LOAD_MAKERS = gql`
 `;
 
 export const LOAD_MAKER = gql`
-  query Maker($id: ID!) {
-    maker(id: $id) {
+  query Maker($id: ID!, $sort: String!) {
+    maker(id: $id, sort: $sort) {
       id
       name
       slug
@@ -72,11 +72,11 @@ export const LOAD_MAKER = gql`
         id
         name
         avatar
+        slug
         species {
           id
           name
         }
-        slug
       }
     }
   }

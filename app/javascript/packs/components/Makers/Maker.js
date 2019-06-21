@@ -88,6 +88,12 @@ const styles = theme => ({
   },
   sideSpace: {
     marginRight: theme.spacing.unit
+  },
+  sortButton: {
+    textAlign: "center"
+  },
+  buttonPadding: {
+    margin: theme.spacing.unit
   }
 });
 
@@ -96,7 +102,8 @@ class Maker extends React.Component {
     editMaker: false,
     fursuit: null,
     openFursuit: false,
-    claimDialog: false
+    claimDialog: false,
+    sort: "alpha"
   };
   constructor(props) {
     super(props);
@@ -203,12 +210,15 @@ class Maker extends React.Component {
         <Query
           query={LOAD_MAKER}
           variables={{
-            id: match.params.id
+            id: match.params.id,
+            sort: this.state.sort
           }}
         >
           {({ loading, error, data }) => {
             const maker = data ? data.maker : null;
 
+            maker && console.log(maker);
+            console.log(this.state);
             return (
               !loading &&
               !error &&
@@ -217,7 +227,35 @@ class Maker extends React.Component {
                   <PageTitle>{!loading && maker ? maker.name : null}</PageTitle>
                   <Grid container spacing={8}>
                     <Grid item lg={9} xs={12}>
-                      <div style={{ padding: 5 }} />
+                      <div className={classes.sortButton}>
+                        <Button
+                          variant={
+                            this.state.sort == "alpha"
+                              ? "contained"
+                              : "outlined"
+                          }
+                          className={classes.buttonPadding}
+                          onClick={() => {
+                            this.setState({ sort: "alpha" });
+                          }}
+                        >
+                          Sort A-Z
+                        </Button>
+                        <Button
+                          variant={
+                            this.state.sort == "latest"
+                              ? "contained"
+                              : "outlined"
+                          }
+                          className={classes.buttonPadding}
+                          onClick={() => {
+                            this.setState({ sort: "latest" });
+                          }}
+                        >
+                          Show most recent first
+                        </Button>
+                      </div>
+                      <div style={{ padding: 8 }} />
                       <Grid container spacing={8}>
                         {data.maker.fursuits.map(fursuit => {
                           return (
