@@ -155,22 +155,6 @@ class Maker extends React.Component {
         </Mutation>
       );
     } else {
-      const button = (
-        <Button
-          size={width !== "lg" && width !== "xl" ? "small" : "large"}
-          disabled={!this.props.currentSession.user.sponsor}
-          fullWidth
-          variant="outlined"
-          onClick={() => {
-            createFollow({
-              variables: { input: { makerId: maker.id } }
-            });
-          }}
-        >
-          Follow
-        </Button>
-      );
-
       return (
         <Mutation
           mutation={CREATE_MAKER_SUBSCRIPTION}
@@ -188,6 +172,22 @@ class Maker extends React.Component {
           }}
         >
           {(createFollow, { data }) => {
+            const button = (
+              <Button
+                size={width !== "lg" && width !== "xl" ? "small" : "large"}
+                disabled={!this.props.currentSession.user.sponsor}
+                fullWidth
+                variant="outlined"
+                onClick={() => {
+                  createFollow({
+                    variables: { input: { makerId: maker.id } }
+                  });
+                }}
+              >
+                Follow
+              </Button>
+            );
+
             return this.props.currentSession.user.sponsor ? (
               button
             ) : (

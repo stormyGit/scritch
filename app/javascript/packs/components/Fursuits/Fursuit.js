@@ -163,22 +163,6 @@ class Fursuit extends React.Component {
         </Mutation>
       );
     } else {
-      const button = (
-        <Button
-          size={width !== "lg" && width !== "xl" ? "small" : "large"}
-          variant="outlined"
-          disabled={!this.props.currentSession.user.sponsor}
-          fullWidth
-          onClick={() => {
-            createFollow({
-              variables: { input: { fursuitId: fursuit.id } }
-            });
-          }}
-        >
-          Follow
-        </Button>
-      );
-
       return (
         <Mutation
           mutation={CREATE_SUBSCRIPTION}
@@ -196,6 +180,22 @@ class Fursuit extends React.Component {
           }}
         >
           {(createFollow, { data }) => {
+            const button = (
+              <Button
+                size={width !== "lg" && width !== "xl" ? "small" : "large"}
+                variant="outlined"
+                disabled={!this.props.currentSession.user.sponsor}
+                fullWidth
+                onClick={() => {
+                  createFollow({
+                    variables: { input: { fursuitId: fursuit.id } }
+                  });
+                }}
+              >
+                Follow
+              </Button>
+            );
+
             return this.props.currentSession.user.sponsor ? (
               button
             ) : (
