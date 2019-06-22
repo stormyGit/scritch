@@ -13,24 +13,21 @@ class Moderation::StatisticsController < ModerationController
     end
     impressions_now = total
 
+    @extra_capable = moderator_can_see?("extra_analytics")
     @now_data = [
-      {title: "Users", value: User.count},
-      {title: "Sponsors (FT / C / L)", value: "#{Sponsor.count} (#{Sponsor.where(plan: "Free Trial").count} / #{Sponsor.where(status: "canceled").count} / #{Sponsor.where(status: "live").where.not(plan: "Free Trial").count})"},
-      {title: "Adverts", value: Advert.count},
-      {title: "Total Impressions", value: impressions_now},
-      {title: "Reports (O, C, A)", value: "#{Report.count} (#{Report.where(status: "new", assignee_id: nil).count} / #{Report.where("reports.status = 'accepted' OR reports.status = 'dismissed' OR reports.status = 'closed'").count} / #{Report.where(status: "new").where.not(assignee_id: nil).count})"},
-      {title: "Suspended Users", value: SuspendedUser.count},
-      {title: "Moderators", value: Moderator.count},
-      {title: "Fursuits", value: Fursuit.count},
-      {title: "Makers", value: Maker.count},
-      {title: "Events / Editions", value: "#{Event.count} / #{Edition.count}"},
-      {title: "Media", value: Medium.count},
-      {title: "Average Tag Completion", value: "#{average_completion}%"},
-      {title: "Scritches", value: Like.count},
-      {title: "Faves", value: Fave.count},
-      {title: "Tags", value: FursuitMedium.count},
-      {title: "Claimed Suits", value: FursuitUser.count},
-      {title: "Claimed Makers", value: Maker.where.not(user: nil).count}
+      {title: "Users / Suspended", value: "#{User.count} / #{SuspendedUser.count}", lock: false},
+      {title: "Moderators", value: Moderator.count, lock: false},
+      {title: "Media / Tags", value: "#{Medium.count} / #{FursuitMedium.count}", lock: false},
+      {title: "Adverts", value: Advert.count, lock: true},
+      {title: "Makers / Claimed", value: "#{Maker.count} / #{Maker.where.not(user: nil).count}", lock: false},
+      {title: "Reports (O, C, A)", value: "#{Report.count} (#{Report.where(status: "new", assignee_id: nil).count} / #{Report.where("reports.status = 'accepted' OR reports.status = 'dismissed' OR reports.status = 'closed'").count} / #{Report.where(status: "new").where.not(assignee_id: nil).count})", lock: false},
+      {title: "Average Tag Completion", value: "#{average_completion}%", lock: false},
+      {title: "Total Impressions", value: impressions_now, lock: true},
+      {title: "Fursuits / Claimed", value: "#{Fursuit.count} / #{FursuitUser.count}", lock: false},
+      {title: "Scritches", value: Like.count, lock: false},
+      {title: "Faves", value: Fave.count, lock: false},
+      {title: "Sponsors (FT / C / L)", value: "#{Sponsor.count} (#{Sponsor.where(plan: "Free Trial").count} / #{Sponsor.where(status: "canceled").count} / #{Sponsor.where(status: "live").where.not(plan: "Free Trial").count})", lock: true},
+      {title: "Events / Editions", value: "#{Event.count} / #{Edition.count}", lock: false}
     ]
 
     @users_count = Statistic.pluck("date_trunc('day', created_at)", :users)

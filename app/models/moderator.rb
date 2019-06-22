@@ -2,9 +2,11 @@ class Moderator < ApplicationRecord
   CAPABILITIES = %w(
     adverts
     analytics
+    announcements
     assets
     delete_and_edit
     events
+    extra_analytics
     fursuit_claims
     maker_claims
     moderators

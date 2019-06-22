@@ -29,6 +29,12 @@ br
             = "Attendance"
           p.is-size-5
             = "#{@edition.attendance}"
+          br
+          p.is-size-4
+            = "Guests of Honour"
+          - @edition.guest_of_honours&.each do |e|
+            p.is-size-5
+              = e
 
         .column.is-4
         .column.is-4

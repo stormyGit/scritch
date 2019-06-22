@@ -2,6 +2,7 @@ import React from "react";
 import { Query, Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import Tooltip from "@material-ui/core/Tooltip";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
@@ -154,6 +155,22 @@ class Maker extends React.Component {
         </Mutation>
       );
     } else {
+      const button = (
+        <Button
+          size={width !== "lg" && width !== "xl" ? "small" : "large"}
+          disabled={!this.props.currentSession.user.sponsor}
+          fullWidth
+          variant="outlined"
+          onClick={() => {
+            createFollow({
+              variables: { input: { makerId: maker.id } }
+            });
+          }}
+        >
+          Follow
+        </Button>
+      );
+
       return (
         <Mutation
           mutation={CREATE_MAKER_SUBSCRIPTION}
@@ -170,20 +187,15 @@ class Maker extends React.Component {
             });
           }}
         >
-          {(createFollow, { data }) => (
-            <Button
-              size={width !== "lg" && width !== "xl" ? "small" : "large"}
-              fullWidth
-              variant="outlined"
-              onClick={() => {
-                createFollow({
-                  variables: { input: { makerId: maker.id } }
-                });
-              }}
-            >
-              Follow
-            </Button>
-          )}
+          {(createFollow, { data }) => {
+            return this.props.currentSession.user.sponsor ? (
+              button
+            ) : (
+              <Tooltip title="You must be a Sponsor to Follow a Maker">
+                <div>{button}</div>
+              </Tooltip>
+            );
+          }}
         </Mutation>
       );
     }
@@ -227,34 +239,36 @@ class Maker extends React.Component {
                   <PageTitle>{!loading && maker ? maker.name : null}</PageTitle>
                   <Grid container spacing={8}>
                     <Grid item lg={9} xs={12}>
-                      <div className={classes.sortButton}>
-                        <Button
-                          variant={
-                            this.state.sort == "alpha"
-                              ? "contained"
-                              : "outlined"
-                          }
-                          className={classes.buttonPadding}
-                          onClick={() => {
-                            this.setState({ sort: "alpha" });
-                          }}
-                        >
-                          Sort A-Z
-                        </Button>
-                        <Button
-                          variant={
-                            this.state.sort == "latest"
-                              ? "contained"
-                              : "outlined"
-                          }
-                          className={classes.buttonPadding}
-                          onClick={() => {
-                            this.setState({ sort: "latest" });
-                          }}
-                        >
-                          Show most recent first
-                        </Button>
-                      </div>
+                      {false && (
+                        <div className={classes.sortButton}>
+                          <Button
+                            variant={
+                              this.state.sort == "alpha"
+                                ? "contained"
+                                : "outlined"
+                            }
+                            className={classes.buttonPadding}
+                            onClick={() => {
+                              this.setState({ sort: "alpha" });
+                            }}
+                          >
+                            Sort A-Z
+                          </Button>
+                          <Button
+                            variant={
+                              this.state.sort == "latest"
+                                ? "contained"
+                                : "outlined"
+                            }
+                            className={classes.buttonPadding}
+                            onClick={() => {
+                              this.setState({ sort: "latest" });
+                            }}
+                          >
+                            Show most recent first
+                          </Button>
+                        </div>
+                      )}
                       <div style={{ padding: 8 }} />
                       <Grid container spacing={8}>
                         {data.maker.fursuits.map(fursuit => {
@@ -351,17 +365,11 @@ class Maker extends React.Component {
                                 </Button>
                               </Grid>
                             )}
-                            {!maker.claimed &&
-                              !maker.possessed &&
-                              currentSession.user.sponsor && (
-                                <Grid
-                                  item
-                                  xs={12}
-                                  className={classes.sideSpace}
-                                >
-                                  {this.renderFollowButton(maker)}
-                                </Grid>
-                              )}
+                            {!maker.claimed && !maker.possessed && (
+                              <Grid item xs={12} className={classes.sideSpace}>
+                                {this.renderFollowButton(maker)}
+                              </Grid>
+                            )}
                           </Grid>
                         </React.Fragment>
                       )}

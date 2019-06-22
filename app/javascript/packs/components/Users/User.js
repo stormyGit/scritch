@@ -14,6 +14,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Paper from "@material-ui/core/Paper";
 import Divider from "@material-ui/core/Divider";
+import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
 import Hidden from "@material-ui/core/Hidden";
 import ButtonBase from "@material-ui/core/ButtonBase";
@@ -331,19 +332,30 @@ class User extends React.Component {
             });
           }}
         >
-          {(createFollow, { data }) => (
-            <Button
-              variant="contained"
-              size={width !== "lg" && width !== "xl" ? "small" : "medium"}
-              onClick={() => {
-                createFollow({
-                  variables: { input: { followableId: user.id } }
-                });
-              }}
-            >
-              Follow
-            </Button>
-          )}
+          {(createFollow, { data }) => {
+            const button = (
+              <Button
+                variant="contained"
+                disabled={!this.props.currentSession.user.sponsor}
+                size={width !== "lg" && width !== "xl" ? "small" : "medium"}
+                onClick={() => {
+                  createFollow({
+                    variables: { input: { followableId: user.id } }
+                  });
+                }}
+              >
+                Follow
+              </Button>
+            );
+
+            return this.props.currentSession.user.sponsor ? (
+              button
+            ) : (
+              <Tooltip title="You must be a Sponsor to Follow a User">
+                <div>{button}</div>
+              </Tooltip>
+            );
+          }}
         </Mutation>
       );
     }
@@ -808,9 +820,7 @@ class User extends React.Component {
                   )}
                   {currentSession && currentSession.user.id !== user.id && (
                     <div className={classes.titleBarContainerUserActions}>
-                      {currentSession &&
-                        currentSession.user.sponsor &&
-                        this.renderFollowButton(user)}
+                      {currentSession && this.renderFollowButton(user)}
                       {this.renderMoreUserOptions(user)}
                     </div>
                   )}

@@ -72,7 +72,8 @@ const styles = theme => {
       textAlign: "center"
     },
     link: {
-      textDecoration: "none"
+      textDecoration: "none",
+      color: theme.palette.primary.main
     },
     root: {
       flexGrow: 1
@@ -671,7 +672,7 @@ class FursuitEditFields extends React.Component {
   }
 
   renderMakerFilter() {
-    const { classes } = this.props;
+    const { classes, inRequest } = this.props;
 
     return (
       <Query query={LOAD_MAKERS_SELECT}>
@@ -694,9 +695,20 @@ class FursuitEditFields extends React.Component {
 
           return (
             <Grid item xs={12}>
-              <Typography variant="h6" className={classes.label}>
-                Maker
-              </Typography>
+              {inRequest && (
+                <Typography variant="h6" className={classes.label}>
+                  Maker (If Maker is not present,{" "}
+                  <Link to="/makers" className={classes.link}>
+                    Request a New Maker
+                  </Link>{" "}
+                  first)
+                </Typography>
+              )}
+              {!inRequest && (
+                <Typography variant="h6" className={classes.label}>
+                  Maker
+                </Typography>
+              )}
               <Select
                 fullWidth
                 placeholder="Maker"

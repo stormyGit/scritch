@@ -13,7 +13,7 @@ A. Scritch was designed from the ground up, by Fursuiters for Fursuiters. Its go
 
 A. Scritch has been designed to be as user-intuitive as possible, but for further guidance on how to use the Website, please refer to the Website User Guide and the related answers in this FAQ.
 
-**Q. Why did you pre add so many Fursuits?**
+**Q. Why did you pre-populate so many Fursuits?**
 
 A. Scritch needed to be functional on launch, with a complement of Fursuits essential for this to support tagging etc. Moreover, the sheer amount of Fursuits would have presented an insurmountable creation approval bottleneck if requested from scratch post-launch.
 
@@ -229,7 +229,7 @@ A. Scritch allows upload of any image type, including GIFs!
 
 A. Scritch designers were aware of the technical challenges with trying to design an Advertisement within a specified file size parameter. For this reason, the decision was taken to not limit the file size, bearing in mind of course that the time an Advert is exposed to a user is usually brief, so there is an urgency to communicate information as quickly as possible before the next screen refresh.
 
-This has however been done for ease of creating an Advertisement and not to promote stringed/lengthy Advertisments, so Admins reserve the right to reject, should this approach be abused.
+This has however been done for ease of creating an Advertisement and not to promote stringed/lengthy Advertisements, so Admins reserve the right to reject, should this approach be abused.
 
 **Q. Why must Advertisement files be 300x90 pixels?**
 
@@ -276,7 +276,7 @@ ___
 
 **Q. How can I contest an Account Suspension?**
 
-A. Account Suspensions are in place to safeguard the browsing experience of Scritch Users and avoid malicious corruption of Content Fields. If you have been suspended, your actions have been reviewed by a member of the Admin Team and you must wait it out. 
+A. Account Suspensions are in place to safeguard the browsing experience of Scritch Users and avoid malicious corruption of Content Fields. If you have been suspended, your actions have been reviewed by a member of the Admin Team and you must wait it out.
 
 **Q. Someone is claiming to be staff and is asking for my Personal Information, what should I do?**
 

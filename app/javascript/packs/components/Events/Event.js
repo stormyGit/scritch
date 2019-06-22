@@ -369,6 +369,30 @@ class Event extends React.Component {
                                     </Typography>
                                   </React.Fragment>
                                 )}
+                                {edition.guestOfHonours.length > 0 && (
+                                  <React.Fragment>
+                                    <div style={{ padding: 5 }} />
+                                    <Typography
+                                      gutterBottom
+                                      variant="h6"
+                                      component="h2"
+                                      color="primary"
+                                      className={classes.eventTitle}
+                                    >
+                                      Guests of Honour
+                                    </Typography>
+                                    {edition.guestOfHonours.map(guest => (
+                                      <Typography
+                                        gutterBottom
+                                        variant="h5"
+                                        component="h2"
+                                        className={classes.eventTitle}
+                                      >
+                                        {guest}
+                                      </Typography>
+                                    ))}
+                                  </React.Fragment>
+                                )}
                                 {edition.charity && (
                                   <React.Fragment>
                                     <div style={{ padding: 5 }} />

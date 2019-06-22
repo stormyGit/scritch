@@ -48,6 +48,11 @@ const styles = theme => ({
   text: {
     fontWeight: 200,
     padding: theme.spacing.unit * 2
+  },
+  advert: {
+    textAlign: "center",
+    alignItems: "center",
+    width: "80%"
   }
 });
 

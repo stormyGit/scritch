@@ -30,8 +30,8 @@ const MustLog = ({ classes, className, currentSession, width }) => (
         width === "xs" || width === "sm" ? classes.padderSmall : classes.padder
       }
     />
-    <Grid container alignItems="center" justify="center" className={className}>
-      <Grid item xs={12} style={{ textAlign: "center" }}>
+    <Grid container spacing={8} alignItems="center" justify="center">
+      <Grid item xs={12} style={{ textAlign: "center", padding: 8, margin: 8 }}>
         {!currentSession && (
           <Typography variant="h4" align="center" className={classes.title}>
             You must be logged in to access this page

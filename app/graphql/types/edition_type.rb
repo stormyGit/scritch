@@ -7,6 +7,7 @@ module Types
     field :event, EventType, null: true
     field :country, String, null: false
     field :city, String, null: false
+    field :guest_of_honours, [String], null: false
     field :kind, String, null: false
     field :venue, String, null: true
     field :attendance, Integer, null: true

@@ -59,6 +59,7 @@ export const LOAD_EDITION = gql`
       theme
       attendance
       charity
+      guestOfHonours
       city
       country
       startDate

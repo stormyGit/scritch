@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_18_220539) do
+ActiveRecord::Schema.define(version: 2019_06_21_214946) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -241,6 +241,7 @@ ActiveRecord::Schema.define(version: 2019_06_18_220539) do
     t.string "picture"
     t.string "theme"
     t.string "charity"
+    t.string "guest_of_honours", array: true
     t.index "to_tsvector('english'::regconfig, (name)::text)", name: "index_editions_on_name", using: :gin
   end
 

@@ -459,11 +459,11 @@ class TermsOfUse extends React.Component {
           <br />
           <br />
           Notwithstanding the foregoing, by uploading and/or posting any User
-          Content to the Services, you grant Scritch Limited a perpetual,
-          non-exclusive and royalty-free right to use the User Content (and the
-          user name that is submitted in connection with such User Content) as
-          is reasonably necessary in order to enable Scritch Limited to provide
-          the Services, including to display the User Content on the Services.
+          Content to the Services, you grant Scritch Limited a perpetual and
+          royalty-free right to use the User Content (and the user name that is
+          submitted in connection with such User Content) as is reasonably
+          necessary in order to enable Scritch Limited to provide the Services,
+          including to display the User Content on the Services.
           <br />
           <br />
           You represent and warrant that:
@@ -1115,7 +1115,7 @@ class TermsOfUse extends React.Component {
         <Typography variant="h4">4 COPYRIGHT POLICY</Typography>
         <Typography variant="subtitle1">
           In accordance with the EU copyright directive, the text of which may
-          be found on the European Commission website at
+          be found on the European Commission website at&nbsp;
           <a
             href="https://ec.europa.eu/digital-single-market/en/eu-copyright-legislation"
             target="_blank"

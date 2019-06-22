@@ -1,0 +1,24 @@
+br
+.container
+  .columns
+    .column.is-4.is-offset-4
+      .columns.has-text-centered
+        .column.is-12
+          = link_to "Back", moderation_announcements_path, class: "button", style: "width: 100%"
+
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        | Update Announcement
+    .card-content
+      = form_for Announcement.new, :url => moderation_announcements_path, method: :post do |f|
+        .field
+          = f.label :title, "Title"
+          = f.text_field :title, class: "input"
+        .field
+          = f.label :body, "Body"
+          = f.text_area :body, class: "textarea", rows: 20
+
+
+        .field
+          = f.submit "Create", class: "button"

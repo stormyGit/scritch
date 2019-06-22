@@ -10,7 +10,10 @@ import RequestFursuitDialog from "./RequestFursuitDialog";
 
 import { withStyles } from "@material-ui/core/styles";
 
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 import Grid from "@material-ui/core/Grid";
+import Snackbar from "@material-ui/core/Snackbar";
 import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Select from "@material-ui/core/Select";
@@ -52,6 +55,7 @@ const styles = theme => ({
 
 class Fursuits extends React.Component {
   state = {
+    snack: false,
     assetRequestDialog: false,
     uuid: null,
     hasMore: true,
@@ -87,6 +91,10 @@ class Fursuits extends React.Component {
       fursuitEyes: "",
       maker: ""
     });
+  }
+
+  handleClose() {
+    this.setState({ snack: false });
   }
 
   renderResults({ data, onLoadMore, hasMore, withMaker }) {
@@ -345,9 +353,34 @@ class Fursuits extends React.Component {
             );
           }}
         </Query>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+          }}
+          open={this.state.snack}
+          autoHideDuration={6000}
+          onClose={this.handleClose}
+          ContentProps={{
+            "aria-describedby": "message-id"
+          }}
+          message={<span id="message-id">Fursuit Request Submitted!</span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              className={classes.close}
+              onClick={() => this.handleClose()}
+            >
+              <CloseIcon />
+            </IconButton>
+          ]}
+        />
         <RequestFursuitDialog
           open={this.state.assetRequestDialog}
           onClose={() => this.setState({ assetRequestDialog: false })}
+          submitSnack={() => this.setState({ snack: true })}
         />
       </React.Fragment>
     );

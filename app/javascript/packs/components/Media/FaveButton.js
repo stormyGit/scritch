@@ -3,6 +3,7 @@ import FavoriteIcon from "@material-ui/icons/Star";
 import NoFavoriteIcon from "@material-ui/icons/StarBorder";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
 import { Query, Mutation } from "react-apollo";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -49,7 +50,7 @@ class FaveButton extends React.Component {
     favesDialog: false
   };
 
-  render() {
+  renderButton() {
     const { medium, classes, link, currentSession, ...props } = this.props;
     const favesCount = medium.favesCount;
 
@@ -109,6 +110,7 @@ class FaveButton extends React.Component {
               {createFave => (
                 <IconButton
                   size="small"
+                  disabled={this.props.disabled}
                   color="secondary"
                   classes={{ root: classes.iconButton }}
                   disabled={!currentSession}
@@ -128,6 +130,7 @@ class FaveButton extends React.Component {
         <div className={classes.root}>
           <Button
             size="small"
+            disabled={this.props.disabled}
             classes={{
               root: classes.button
             }}
@@ -147,6 +150,18 @@ class FaveButton extends React.Component {
         />
       </React.Fragment>
     );
+  }
+
+  render() {
+    const { currentSession } = this.props;
+
+    if (!currentSession.user.sponsor)
+      return (
+        <Tooltip title="You must be a Sponsor to Fave a Media">
+          <span>{this.renderButton()}</span>
+        </Tooltip>
+      );
+    return this.renderButton();
   }
 }
 

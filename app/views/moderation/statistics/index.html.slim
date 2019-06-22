@@ -2,11 +2,19 @@
   .chart
     .columns.is-multiline
       - @now_data.each do |data|
-        .column.is-3.has-text-centered
-          p.is-size-4
-            = data[:title]
-          p.is-size-4
-            = data[:value]
+        - if @extra_capable
+          .column.is-3.has-text-centered
+            p.is-size-4
+              = data[:title]
+            p.is-size-4
+              = data[:value]
+        - else
+          - if !data[:lock]
+            .column.is-4.has-text-centered
+              p.is-size-4
+                = data[:title]
+              p.is-size-4
+                = data[:value]
 #charts.container.full-height-container
   .chart
     .columns

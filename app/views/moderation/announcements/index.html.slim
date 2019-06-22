@@ -1,0 +1,41 @@
+#navbar-padder
+.container
+  - if flash[:notice].present?
+    .columns
+      .column.is-6.is-offset-3
+        .card.green
+          .card-content.has-text-centered
+            strong class=flash[:class]
+              = flash[:notice]
+    br
+  .columns
+    .column.is-6.is-offset-3
+      .columns.has-text-centered
+        .column.is-6
+          = link_to "Back", moderation_path, class: "button", style: "width: 100%"
+        .column.is-6
+          = link_to "New announcement", new_moderation_announcement_path, class: "button", style: "width: 100%"
+  br
+  p.is-size-1.has-text-centered.has-text-primary
+    | Announcements
+  br
+  br
+  .columns.is-multiline
+    - @announcements.each do |announcement|
+      .column.is-12
+        .card
+          .card-header
+            .card-header-title
+              = announcement.title
+          .card-content
+            = markdown(announcement.body)
+          .card-footer
+            .card-footer-item
+              = link_to "View", moderation_announcement_path(announcement)
+              - if moderator_can_see?("delete_and_edit")
+                .card-footer-item
+                  = link_to "Edit", edit_moderation_announcement_path(announcement)
+
+  .columns
+    .column.is-6.is-offset-3.has-text-primary
+      = paginate @announcements

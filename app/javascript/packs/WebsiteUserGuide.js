@@ -645,7 +645,7 @@ class WebsiteUserGuide extends React.Component {
         <Paper className={classes.paperQuote}>
           <Typography variant="subtitle1" style={{ fontStyle: "italic" }}>
             Scritch promises to maintain past, present, and future: Convention,
-            Maker, and Fursuit Cards to allow a complete chronical of all
+            Maker, and Fursuit Cards to allow a complete chronicle of all
             Content, able to be tagged also by Category. The Admin Pool ensures
             User safety and security by keeping all Involvement on the Website
             within the Website Code of Conduct and media in line with Content
@@ -1011,7 +1011,7 @@ class WebsiteUserGuide extends React.Component {
         <Typography variant="h5">CLAIM A FURSUIT CARD</Typography>
         <Typography variant="subtitle1">
           An Account can Claim Fursuit Cards. Each claim is subject to approval
-          or rejection by ouor Admin pool.
+          or rejection by our Admin pool.
           <br />
           <br />
           An unclaimed Fursuit Card can be claimed by an Account and must only

@@ -1,0 +1,102 @@
+br
+.container
+  .columns
+    .column.is-4.is-offset-4
+      .columns.has-text-centered
+        .column.is-12
+          = link_to "Back", moderation_fursuits_path, class: "button", style: "width: 100%"
+
+  .card
+    .card-header
+      .card-header-title.has-text-centered
+        = @fursuit.name
+
+
+    .card-content
+      .columns
+        .column.is-4
+          - if @fursuit.avatar.present?
+            = image_tag @fursuit.avatar_url
+          br
+          br
+          - if @fursuit.users.present?
+            p.is-size-4
+              | Asset owned by:
+              br
+              - @fursuit.users.each do |user|
+                = user.name
+          - else
+            p.is-size-4
+              | Asset not owned
+
+        .column.is-4
+          p.is-size-4
+            | Created
+          p.is-size-5
+            = @fursuit.creation_year
+          br
+          p.is-size-4
+            | Maker(s)
+          p.is-size-5
+            - @fursuit.makers.present? && @fursuit.makers.each do |maker|
+              a href=moderation_maker_path(id: maker.slug)
+                = maker.name
+          br
+          p.is-size-4
+            | Species
+          p.is-size-5
+            - if @fursuit.is_hybrid
+              = "Hybrid"
+              = @fursuit.species.present? ? " (#{@fursuit.species.pluck(:name).join(", ")})" : " (No Species specified)"
+            - else
+              = @fursuit.species.present? ? @fursuit.species.first.name : "Unknown"
+          br
+          p.is-size-4
+            | Role
+          p.is-size-5
+            = @fursuit.fursuit_finger ? @fursuit.fursuit_finger.name : "Unknown"
+          br
+          p.is-size-4
+            | Build
+          p.is-size-5
+            = @fursuit.fursuit_build ? @fursuit.fursuit_build.name : "Unknown"
+          br
+          p.is-size-4
+            | Style
+          p.is-size-5
+            = @fursuit.fursuit_style ? @fursuit.fursuit_style.name : "Unknown"
+        .column.is-4
+          p.is-size-4
+            | Base Colour
+          p.is-size-5
+            = @fursuit.base_color ? @fursuit.base_color : "Unknown"
+          br
+          p.is-size-4
+            | Eye Colour
+          p.is-size-5
+            = @fursuit.eyes_color ? @fursuit.eyes_color : "Unknown"
+          br
+          p.is-size-4
+            | Padding
+          p.is-size-5
+            = @fursuit.fursuit_padding ? @fursuit.fursuit_padding.name : "Unknown"
+          br
+          p.is-size-4
+            | Appearance
+          p.is-size-5
+            = @fursuit.fursuit_gender ? @fursuit.fursuit_gender.name : "Unknown"
+
+          br
+          p.is-size-4
+            | Leg Type
+          p.is-size-5
+            = @fursuit.fursuit_leg_type ? @fursuit.fursuit_leg_type.name : "Unknown"
+
+
+
+    - if moderator_can_see?("delete_and_edit")
+      .card-footer
+        .card-footer-item
+          = link_to "Edit", edit_moderation_fursuit_path(id: @fursuit.slug)
+        .card-footer-item
+          = link_to "Delete", moderation_fursuit_path(id: @fursuit.slug), method: :delete, class: "has-text-danger"

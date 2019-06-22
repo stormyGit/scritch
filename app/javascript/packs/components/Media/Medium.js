@@ -540,9 +540,10 @@ class Medium extends React.Component {
                                     </Button>
                                   )}
                                 <LikeButton medium={medium} />
-                                {currentSession.user.sponsor && (
-                                  <FaveButton medium={medium} />
-                                )}
+                                <FaveButton
+                                  medium={medium}
+                                  disabled={!currentSession.user.sponsor}
+                                />
                               </Grid>
                             </Grid>
                           </div>

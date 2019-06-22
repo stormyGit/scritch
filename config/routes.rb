@@ -38,6 +38,8 @@ Rails.application.routes.draw do
 
     resources :tech_reports do
     end
+    resources :announcements do
+    end
 
     resources :reports do
       put :dismiss

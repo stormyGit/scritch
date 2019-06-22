@@ -163,6 +163,22 @@ class Fursuit extends React.Component {
         </Mutation>
       );
     } else {
+      const button = (
+        <Button
+          size={width !== "lg" && width !== "xl" ? "small" : "large"}
+          variant="outlined"
+          disabled={!this.props.currentSession.user.sponsor}
+          fullWidth
+          onClick={() => {
+            createFollow({
+              variables: { input: { fursuitId: fursuit.id } }
+            });
+          }}
+        >
+          Follow
+        </Button>
+      );
+
       return (
         <Mutation
           mutation={CREATE_SUBSCRIPTION}
@@ -179,20 +195,15 @@ class Fursuit extends React.Component {
             });
           }}
         >
-          {(createFollow, { data }) => (
-            <Button
-              size={width !== "lg" && width !== "xl" ? "small" : "large"}
-              variant="outlined"
-              fullWidth
-              onClick={() => {
-                createFollow({
-                  variables: { input: { fursuitId: fursuit.id } }
-                });
-              }}
-            >
-              Follow
-            </Button>
-          )}
+          {(createFollow, { data }) => {
+            return this.props.currentSession.user.sponsor ? (
+              button
+            ) : (
+              <Tooltip title="You must be a Sponsor to Follow a Fursuit">
+                <div>{button}</div>
+              </Tooltip>
+            );
+          }}
         </Mutation>
       );
     }
@@ -289,13 +300,11 @@ class Fursuit extends React.Component {
                         </Button>
                       </Grid>
                     )}
-                    {!fursuit.claimed &&
-                      !fursuit.possessed &&
-                      currentSession.user.sponsor && (
-                        <Grid item xs={12} className={classes.sideSpace}>
-                          {this.renderFollowButton(fursuit)}
-                        </Grid>
-                      )}
+                    {!fursuit.claimed && !fursuit.possessed && (
+                      <Grid item xs={12} className={classes.sideSpace}>
+                        {this.renderFollowButton(fursuit)}
+                      </Grid>
+                    )}
                   </Grid>
                 </React.Fragment>
                 <div className={classes.pictureInfo}>

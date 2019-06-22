@@ -37,6 +37,7 @@ class Moderation::EditionsController < ModerationController
     ]))
     #    authorize edition
     edition.year = edition.start_date.year
+    edition.guest_of_honours = params[:goh].split(", ")
     edition.save!
     flash[:notice] = "Edition updated!"
     flash[:class] = "has-text-warning"
@@ -73,6 +74,7 @@ class Moderation::EditionsController < ModerationController
     ]))
     #    authorize edition
     edition.year = edition.start_date.year
+    edition.guest_of_honours = params[:goh].split(", ")
     if edition.event.avatar.blank?
       begin
         edition.event.avatar = File.open("app/assets/images/events/Scritch Event Thumbnail - #{edition.country}.png")
