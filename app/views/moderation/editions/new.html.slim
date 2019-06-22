@@ -34,6 +34,10 @@ br
           = f.label :venue, "Venue"
           = f.text_field :venue, class: "input"
         .field
+          label
+            | Guests of Honour
+          = text_field_tag :goh, params[:goh], class: "input"
+        .field
           = f.label :kind, "Event kind"
           br
           .select
