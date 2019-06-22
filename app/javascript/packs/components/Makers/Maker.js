@@ -230,6 +230,7 @@ class Maker extends React.Component {
             const maker = data ? data.maker : null;
 
             maker && console.log(maker);
+
             console.log(this.state);
             return (
               !loading &&

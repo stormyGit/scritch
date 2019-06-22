@@ -73,6 +73,7 @@ export const LOAD_MAKER = gql`
         name
         avatar
         slug
+        creationYear
         species {
           id
           name

@@ -44,5 +44,10 @@ module Types
     def fursuits_number
       object.fursuits.count || 0
     end
+
+    def fursuits
+      object.fursuits.where(visible: true).order(:name)
+    end
+
   end
 end

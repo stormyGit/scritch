@@ -447,19 +447,7 @@ module Types
     end
 
     def maker(arguments)
-      maker = Maker.where(visible: true).find(arguments[:id])
-
-      puts "\n" * 30
-      puts arguments
-      puts "\n" * 30
-
-      if arguments[:sort] == "alpha"
-      #   maker = maker.fursuits.sort_by{|e| e.name}
-      # elsif arguments[:sort] == "latest"
-      #   maker = maker.fursuits.sort_by{|e| e.creation_year}.reverse
-      end
-
-      maker
+      Maker.where(visible: true).find(arguments[:id])
     end
 
     def makers(arguments)
