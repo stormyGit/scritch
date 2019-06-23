@@ -204,7 +204,8 @@ class MakerMobile extends React.Component {
         <Query
           query={LOAD_MAKER}
           variables={{
-            id: match.params.id
+            id: match.params.id,
+            sort: "alpha"
           }}
         >
           {({ loading, error, data }) => {
