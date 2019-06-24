@@ -80,7 +80,7 @@ class Moderation::FursuitRequestsController < ModerationController
     fursuit.save!
     @fursuit_request.update(status: "accepted")
     @fursuit_request.create_activity :accepted, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: @fursuit_request.user
-    redirect_back fallback_location: moderation_fursuit_requests_path
+    redirect_to moderation_fursuit_requests_path
   end
 
   def reopen

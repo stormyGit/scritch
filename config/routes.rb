@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   post 'adverts/refill', :to => "adverts#refill"
   get '/sitemap.xml', to: redirect(Pathname.new(ENV["S3_ENDPOINT"]).join(ENV["S3_BUCKET"]).join("sitemap.xml").to_s, status: 301)
 
+  post 'moderation/fix_all_completions', :to => "moderation/tag_reports#fix_all_completions"
 
   get '/403', :to => "errors#403"
   get '/404', :to => "errors#404"

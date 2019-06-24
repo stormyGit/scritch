@@ -25,30 +25,38 @@ class Moderation::TagReportsController < ModerationController
 
   def dismiss
     @report.update(status: "dismissed")
-    redirect_back fallback_location: moderation_report_path(@report)
+    redirect_back fallback_location: moderation_tag_reports_path
   end
 
   def mark_as_accepted
     @report.update(status: "accepted")
-    redirect_back fallback_location: moderation_report_path(@report)
+    redirect_back fallback_location: moderation_tag_reports_path
   end
 
   def reopen
     @report.update(status: 'new')
 
-    redirect_back fallback_location: moderation_report_path(@report)
+    redirect_back fallback_location: moderation_tag_reports_path
   end
 
   def assign
     @report.update(assignee: current_moderator)
 
-    redirect_back fallback_location: moderation_report_path(@report)
+    redirect_back fallback_location: moderation_tag_reports_path
   end
 
   def unassign
     @report.update(assignee: nil)
 
-    redirect_back fallback_location: moderation_report_path(@report)
+    redirect_back fallback_location: moderation_tag_reports_path
+  end
+
+  def fix_all_completions
+    Medium.all.each do |medium|
+      medium.update!(completion: medium.get_completion)
+    end
+    flash[:notice] = "Completion Fix Applied!"
+    redirect_back fallback_location: moderation_tag_reports_path
   end
 
   protected

@@ -1,8 +1,20 @@
 = render partial: 'moderation/shared/side_menu'
 
 #reports.container.full-height-container
+  - if flash[:notice].present?
+    .columns
+      .column.is-6.is-offset-3
+        .card.green
+          .card-content.has-text-centered
+            strong class=flash[:class]
+              = flash[:notice]
+  br
   .has-text-centered.has-text-primary.is-size-2
     | Tag Reports
+  br
+  .has-text-centered
+    = button_to "Fix Completion for all Media", moderation_fix_all_completions_path, class: "button"
+
   .columns.is-centered
     .column.is-2
     .column.is-10
