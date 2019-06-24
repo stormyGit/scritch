@@ -12,8 +12,9 @@
   .has-text-centered.has-text-primary.is-size-2
     | Tag Reports
   br
-  .has-text-centered
-    = button_to "Fix Completion for all Media", moderation_fix_all_completions_path, class: "button"
+  - if moderator_can_see?("moderators")
+    .has-text-centered
+      = button_to "Fix Completion for all Media", moderation_fix_all_completions_path, class: "button"
 
   .columns.is-centered
     .column.is-2
