@@ -7,7 +7,7 @@ class Edition < ApplicationRecord
   belongs_to :event
   has_many :media
 
-  mount_base64_uploader :picture, PictureUploader
+  mount_base64_uploader :picture, AvatarUploader
 
   validates :name, presence: true
   validates :slug, presence: true

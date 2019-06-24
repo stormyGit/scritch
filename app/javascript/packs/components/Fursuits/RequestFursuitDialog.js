@@ -142,9 +142,9 @@ class RequestFursuitDialog extends React.Component {
   };
 
   isFormNotOk() {
-    return false;
     if (
       !this.state.name ||
+      !this.state.url ||
       /^\s*$/.test(this.state.name) ||
       !this.state.fursuitFinger ||
       !this.state.fursuitBuild ||
@@ -188,7 +188,7 @@ class RequestFursuitDialog extends React.Component {
               fullWidth
             />
             <TextField
-              label="URL (Optional)"
+              label="URL"
               name="url"
               value={this.state.url}
               onChange={e => this.setState({ url: e.target.value })}
