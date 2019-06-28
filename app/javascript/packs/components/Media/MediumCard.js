@@ -62,7 +62,15 @@ const styles = theme => ({
   verticalMedia: {
     transform: "rotate(90deg)",
     width: "100%",
-    height: "178%",
+    height: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0
+  },
+  verticalMediaR: {
+    transform: "rotate(-90deg)",
+    width: "100%",
+    height: "100%",
     position: "absolute",
     top: 0,
     left: 0
@@ -73,6 +81,15 @@ const styles = theme => ({
     minHeight: "100%"
   },
   horizontalMedia: {
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    objectFit: "cover",
+    top: 0,
+    left: 0
+  },
+  horizontalMediaFlip: {
+    transform: "rotate(180deg)",
     width: "100%",
     height: "100%",
     position: "absolute",
@@ -107,6 +124,17 @@ class MediumCard extends React.Component {
   renderMedia() {
     const { classes, medium, horizontal, width, client } = this.props;
 
+    var orientation;
+    if (medium) {
+      if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
+        orientation = classes.verticalMedia;
+      else if (medium.exif && JSON.parse(medium.exif).Orientation === "8")
+        orientation = classes.verticalMediaR;
+      else if (medium.exif && JSON.parse(medium.exif).Orientation === "3")
+        orientation = classes.horizontalMediaFlip;
+      else orientation = classes.horizontalMedia;
+    } else orientation = classes.horizontalMedia;
+
     return (
       <Query query={GET_ACTIVE_PREVIEW}>
         {({ data }) => (
@@ -114,22 +142,14 @@ class MediumCard extends React.Component {
             {medium.thumbnail.substr(medium.thumbnail.lastIndexOf(".") + 1) ===
             "mp4" ? (
               <CardMedia
-                className={
-                  medium.exif && JSON.parse(medium.exif).Orientation === "6"
-                    ? classes.verticalMedia
-                    : classes.horizontalMedia
-                }
+                className={orientation}
                 component={"video"}
                 src={medium.thumbnail}
                 title={medium.title}
               />
             ) : (
               <CardMedia
-                className={
-                  medium.exif && JSON.parse(medium.exif).Orientation === "6"
-                    ? classes.verticalMedia
-                    : classes.horizontalMedia
-                }
+                className={orientation}
                 image={medium.thumbnail}
                 title={medium.title}
               />
