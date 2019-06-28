@@ -858,6 +858,11 @@ class User extends React.Component {
                       slug={user.slug}
                       className={classes.userAvatar}
                     />
+                    {user.isModerator && (
+                      <div className={classes.titleBarContainerAdminInfo}>
+                        SCRITCH ADMIN
+                      </div>
+                    )}
                     {currentSession && currentSession.user.id === user.id && (
                       <div className={classes.titleBarContainerUserActions}>
                         {this.renderEditButton(user)}
@@ -868,6 +873,7 @@ class User extends React.Component {
                         {false &&
                           user.chatEnabled &&
                           this.renderMessageButton(user)}
+
                         {currentSession.user.sponsor &&
                           this.renderFollowButton(user)}
                         {this.renderMoreUserOptions(user)}
