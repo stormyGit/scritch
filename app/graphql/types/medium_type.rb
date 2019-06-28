@@ -36,6 +36,7 @@ module Types
 
     field :liked, Boolean, null: false
     field :faved, Boolean, null: false
+    
     field :comments_disabled, Boolean, null: false
     field :tag_list, [String], null: false
 
