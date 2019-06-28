@@ -68,7 +68,7 @@ const styles = theme => ({
     left: 0
   },
   horizontalMediaContainer: {
-    maxWidth: "46%",
+    //maxWidth: "46%",
     minWidth: "46%",
     minHeight: "100%"
   },
@@ -76,6 +76,7 @@ const styles = theme => ({
     width: "100%",
     height: "100%",
     position: "absolute",
+    objectFit: "cover",
     top: 0,
     left: 0
   },
@@ -84,7 +85,7 @@ const styles = theme => ({
   },
   cardMediaContainer: {
     position: "relative",
-    paddingTop: "56%"
+    paddingTop: "100%"
   },
   leftIcon: {
     marginRight: theme.spacing.unit,
@@ -168,34 +169,30 @@ class MediumCard extends React.Component {
           </Grid>
         )}
         {width !== "sm" && width !== "xs" && (
-          <Grid container spacing={8} justify="space-between" wrap="nowrap">
+          <Grid
+            container
+            spacing={8}
+            justify="space-between"
+            wrap="nowrap"
+            style={{ maxWidth: "100%" }}
+          >
             <Grid item>
-              <Grid container spacing={0} wrap="nowrap">
-                <Grid item>
-                  <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
-                    <CommentIcon size="small" className={classes.leftIcon} />
-                    {countContractor(medium.commentsCount)}
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
-                    <FontAwesomeIcon
-                      icon={faPaw}
-                      className={classes.leftIcon}
-                    />
-                    {countContractor(medium.likesCount)}
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
-                    <FontAwesomeIcon
-                      icon={faStar}
-                      className={classes.leftIcon}
-                    />
-                    {countContractor(medium.favesCount)}
-                  </Button>
-                </Grid>
-              </Grid>
+              <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
+                <CommentIcon size="small" className={classes.leftIcon} />
+                {countContractor(medium.commentsCount)}
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
+                <FontAwesomeIcon icon={faPaw} className={classes.leftIcon} />
+                {countContractor(medium.likesCount)}
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
+                <FontAwesomeIcon icon={faStar} className={classes.leftIcon} />
+                {countContractor(medium.favesCount)}
+              </Button>
             </Grid>
             <Grid item>
               <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
