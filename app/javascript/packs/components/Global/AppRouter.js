@@ -142,11 +142,11 @@ class AppRouter extends React.Component {
                     exact
                     path="/pictures/:id"
                     component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? width === "xs" || width === "sm"
-                          ? MediumMobile
-                          : Medium
-                        : MustLog
+                      currentSession && currentSession.user.suspendedUser
+                        ? MustLog
+                        : width === "xs" || width === "sm"
+                        ? MediumMobile
+                        : Medium
                     }
                   />
                   <Route

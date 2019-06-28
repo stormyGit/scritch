@@ -40,10 +40,16 @@ module Types
     field :faved_count, Integer, null: false
     field :tagged_count, Integer, null: false
 
+    field :is_moderator, Boolean, null: false
+
     field :blocked, Boolean, null: false
     field :has_adverts, Boolean, null: false
 
     field :unread_announcements_count, Integer, null: false
+
+    def is_moderator
+      Moderator.where.not(telegram_id: nil).where(telegram_id: object.telegram_id).count > 0
+    end
 
     def has_adverts
       object.advert.present?

@@ -121,6 +121,12 @@ const styles = theme => ({
     display: "flex",
     alignItems: "center"
   },
+  titleBarContainerAdminInfo: {
+    display: "flex",
+    alignItems: "center",
+    fontWeight: 800,
+    color: theme.palette.danger.main
+  },
   titleBarContainerUserActions: {
     display: "flex",
     alignItems: "center"
@@ -743,7 +749,11 @@ class User extends React.Component {
           >
             {user.name} (Owner of{" "}
             {user.makers.map((maker, index) => (
-              <Link className={classes.makerLink} to={`/makers/${maker.slug}`}>
+              <Link
+                key={maker.id}
+                className={classes.makerLink}
+                to={`/makers/${maker.slug}`}
+              >
                 {maker.name}
                 {index < user.makers.length - 1 ? ", " : ""}
               </Link>
@@ -787,6 +797,7 @@ class User extends React.Component {
   renderUserProfile(user) {
     const { classes, currentSession } = this.props;
 
+    console.log(user);
     return (
       <GridList cols={1} spacing={0} className={classes.userProfile}>
         <GridListTile
@@ -813,6 +824,11 @@ class User extends React.Component {
                     />
                     {this.renderUserInfos(user)}
                   </div>
+                  {user.isModerator && (
+                    <div className={classes.titleBarContainerAdminInfo}>
+                      SCRITCH ADMIN
+                    </div>
+                  )}
                   {currentSession && currentSession.user.id === user.id && (
                     <div className={classes.titleBarContainerUserActions}>
                       {this.renderEditButton(user)}
@@ -922,7 +938,7 @@ class User extends React.Component {
                               }
                               indicatorColor="secondary"
                               textColor="secondary"
-                              fullWidth
+                              variant="fullWidth"
                             >
                               <Tab
                                 value="pictures"

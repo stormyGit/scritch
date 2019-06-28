@@ -37,6 +37,7 @@ export const GET_USER = gql`
       website
       showAds
       showTooltips
+      isModerator
       followed
       following
       mediaCount

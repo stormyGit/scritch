@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_21_214946) do
+ActiveRecord::Schema.define(version: 2019_06_28_100553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -517,7 +517,7 @@ ActiveRecord::Schema.define(version: 2019_06_21_214946) do
     t.uuid "category_id"
     t.uuid "panel_id"
     t.integer "completion", default: 0
-    t.integer "fursuits_count"
+    t.integer "fursuits_count", default: 0
     t.uuid "sub_event_id"
     t.integer "faves_count", default: 0
     t.string "photographer_slug"

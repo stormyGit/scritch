@@ -18,13 +18,14 @@ class Moderation::ModeratorsController < ModerationController
     moderator.assign_attributes(params.require(:moderator).permit([
       :name,
       :email,
+      :telegram_id,
       :telegram_username
     ]))
     #    authorize moderator
     tmpPass = SecureRandom.base64
     moderator.password = tmpPass
     moderator.save!
-    flash[:notice] = "Moderator added! #{tmpPass}"
+    flash[:notice] = "Moderator added! PASSWORD: [#{tmpPass}]"
     flash[:class] = ""
     redirect_to moderation_moderators_path
   end

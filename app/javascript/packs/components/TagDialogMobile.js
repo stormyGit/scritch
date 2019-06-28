@@ -540,7 +540,7 @@ class TagDialogMobile extends React.Component {
                                       }
                                     }).then(() => {
                                       onClose();
-                                      !this.props.noReload && location.reload();
+                                      //  !this.props.noReload && location.reload();
                                     });
                                   }}
                                 >

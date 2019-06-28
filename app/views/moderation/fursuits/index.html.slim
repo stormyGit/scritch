@@ -39,6 +39,8 @@
           .card-header
             .card-header-title
               = fursuit.name
+              br
+              = "by #{fursuit.makers[0]&.name}"
           .card-image
             - if fursuit.avatar.present?
               = image_tag fursuit.avatar_url
