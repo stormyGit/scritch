@@ -424,7 +424,7 @@ class DrawerMenuRemake extends React.Component {
                   return null;
                 }}
               </Query>
-              {user && !user.sponsor && (
+              {false && user && !user.sponsor && (
                 <div>
                   <ListItem
                     button
@@ -444,7 +444,7 @@ class DrawerMenuRemake extends React.Component {
                   </ListItem>
                 </div>
               )}
-              {user && user.sponsor && (
+              {user && true && (
                 <div>
                   <ListItem
                     button
@@ -456,7 +456,7 @@ class DrawerMenuRemake extends React.Component {
                       <PetsIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary="Sponsor Menu"
+                      primary={"Menu"}
                       primaryTypographyProps={{ className: classes.text }}
                     />
                     {this.state.sponsorMenu ? (
@@ -471,28 +471,30 @@ class DrawerMenuRemake extends React.Component {
                     unmountOnExit
                   >
                     <List component="div" disablePadding>
-                      <ListItem
-                        button
-                        onClick={() =>
-                          this.setState({ sponsorDashboardDialog: true })
-                        }
-                      >
-                        <ListItemText
-                          primary={
-                            user.sponsor.status == "live" &&
-                            user.sponsor.plan != "Free Trial"
-                              ? `Renews: ${dateFormat(
-                                  sponsorLimit,
-                                  "mmmm dS, yyyy"
-                                )}`
-                              : `Expires ${dateFormat(
-                                  sponsorLimit,
-                                  "mmmm dS, yyyy"
-                                )}`
+                      {false && (
+                        <ListItem
+                          button
+                          onClick={() =>
+                            this.setState({ sponsorDashboardDialog: true })
                           }
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
+                        >
+                          <ListItemText
+                            primary={
+                              user.sponsor.status == "live" &&
+                              user.sponsor.plan != "Free Trial"
+                                ? `Renews: ${dateFormat(
+                                    sponsorLimit,
+                                    "mmmm dS, yyyy"
+                                  )}`
+                                : `Expires ${dateFormat(
+                                    sponsorLimit,
+                                    "mmmm dS, yyyy"
+                                  )}`
+                            }
+                            primaryTypographyProps={{ className: classes.text }}
+                          />
+                        </ListItem>
+                      )}
                       <ListItem
                         button
                         selected={location.pathname === "/subscriptions"}
@@ -516,29 +518,31 @@ class DrawerMenuRemake extends React.Component {
                           primaryTypographyProps={{ className: classes.text }}
                         />
                       </ListItem>
-                      <ListItem
-                        button
-                        selected={location.pathname === "/favorites"}
-                        onClick={() => {
-                          this.props.history.push({
-                            pathname: "/favorites"
-                          });
-                          if (this.props.onClose) {
-                            this.props.onClose();
-                          }
-                        }}
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
+                      {user && user.sponsor && (
+                        <ListItem
+                          button
+                          selected={location.pathname === "/favorites"}
+                          onClick={() => {
+                            this.props.history.push({
+                              pathname: "/favorites"
+                            });
+                            if (this.props.onClose) {
+                              this.props.onClose();
+                            }
+                          }}
                         >
-                          <FaveIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Favourites Gallery"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
+                          <ListItemIcon
+                            className={classes.text}
+                            color="secondary"
+                          >
+                            <FaveIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary="Favourites Gallery"
+                            primaryTypographyProps={{ className: classes.text }}
+                          />
+                        </ListItem>
+                      )}
                     </List>
                   </Collapse>
                 </div>

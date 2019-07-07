@@ -296,13 +296,11 @@ class FursuitMobile extends React.Component {
                         </Button>
                       </Grid>
                     )}
-                    {!fursuit.claimed &&
-                      !fursuit.possessed &&
-                      currentSession.user.sponsor && (
-                        <Grid item xs={6} className={classes.sideSpace}>
-                          {this.renderFollowButton(fursuit)}
-                        </Grid>
-                      )}
+                    {!fursuit.claimed && !fursuit.possessed && (
+                      <Grid item xs={6} className={classes.sideSpace}>
+                        {this.renderFollowButton(fursuit)}
+                      </Grid>
+                    )}
                   </Grid>
                 </React.Fragment>
                 <div className={classes.pictureInfo}>

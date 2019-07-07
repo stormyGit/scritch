@@ -73,7 +73,9 @@ class FursuitUserCard extends React.Component {
         className={classes.padder}
         avatar={<FursuitAvatar avatar={fursuit.avatar} />}
         title={<Typography variant="h6">{fursuit.name}</Typography>}
-        subheader={fursuit.makers[0].name}
+        subheader={
+          fursuit.makers && fursuit.makers[0] && fursuit.makers[0].name
+        }
       />
     );
   }

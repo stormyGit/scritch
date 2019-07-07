@@ -184,7 +184,7 @@ class Fursuit extends React.Component {
               <Button
                 size={width !== "lg" && width !== "xl" ? "small" : "large"}
                 variant="outlined"
-                disabled={!this.props.currentSession.user.sponsor}
+                //disabled={!this.props.currentSession.user.sponsor}
                 fullWidth
                 onClick={() => {
                   createFollow({
@@ -196,13 +196,14 @@ class Fursuit extends React.Component {
               </Button>
             );
 
-            return this.props.currentSession.user.sponsor ? (
-              button
-            ) : (
-              <Tooltip title="You must be a Sponsor to Follow a Fursuit">
-                <div>{button}</div>
-              </Tooltip>
-            );
+            return button;
+            // return this.props.currentSession.user.sponsor ? (
+            //   button
+            // ) : (
+            //   <Tooltip title="You must be a Sponsor to Follow a Fursuit">
+            //     <div>{button}</div>
+            //   </Tooltip>
+            // );
           }}
         </Mutation>
       );

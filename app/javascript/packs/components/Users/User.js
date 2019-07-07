@@ -342,7 +342,7 @@ class User extends React.Component {
             const button = (
               <Button
                 variant="contained"
-                disabled={!this.props.currentSession.user.sponsor}
+                //disabled={!this.props.currentSession.user.sponsor}
                 size={width !== "lg" && width !== "xl" ? "small" : "medium"}
                 onClick={() => {
                   createFollow({
@@ -354,13 +354,15 @@ class User extends React.Component {
               </Button>
             );
 
-            return this.props.currentSession.user.sponsor ? (
-              button
-            ) : (
-              <Tooltip title="You must be a Sponsor to Follow a User">
-                <div>{button}</div>
-              </Tooltip>
-            );
+            return button;
+
+            // return this.props.currentSession.user.sponsor ? (
+            //   button
+            // ) : (
+            //   <Tooltip title="You must be a Sponsor to Follow a User">
+            //     <div>{button}</div>
+            //   </Tooltip>
+            // );
           }}
         </Mutation>
       );
@@ -836,7 +838,7 @@ class User extends React.Component {
                   )}
                   {currentSession && currentSession.user.id !== user.id && (
                     <div className={classes.titleBarContainerUserActions}>
-                      {currentSession && this.renderFollowButton(user)}
+                      {this.renderFollowButton(user)}
                       {this.renderMoreUserOptions(user)}
                     </div>
                   )}
@@ -874,8 +876,7 @@ class User extends React.Component {
                           user.chatEnabled &&
                           this.renderMessageButton(user)}
 
-                        {currentSession.user.sponsor &&
-                          this.renderFollowButton(user)}
+                        {true && this.renderFollowButton(user)}
                         {this.renderMoreUserOptions(user)}
                       </div>
                     )}

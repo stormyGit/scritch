@@ -291,13 +291,11 @@ class MakerMobile extends React.Component {
                                 </Button>
                               </Grid>
                             )}
-                            {!maker.claimed &&
-                              !maker.possessed &&
-                              currentSession.user.sponsor && (
-                                <Grid item xs={6} className={classes.sideSpace}>
-                                  {this.renderFollowButton(maker)}
-                                </Grid>
-                              )}
+                            {!maker.claimed && !maker.possessed && (
+                              <Grid item xs={6} className={classes.sideSpace}>
+                                {this.renderFollowButton(maker)}
+                              </Grid>
+                            )}
                           </Grid>
                         </React.Fragment>
                       )}

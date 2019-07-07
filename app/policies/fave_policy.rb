@@ -25,7 +25,7 @@ class FavePolicy < ApplicationPolicy
   end
 
   def create?
-    user.present? && user == record.user && !user.has_block_with?(record.user) && user.sponsor
+    user.present? && user == record.user && !user.has_block_with?(record.user)
   end
 
   def update?
