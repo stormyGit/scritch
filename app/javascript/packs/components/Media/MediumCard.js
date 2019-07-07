@@ -110,12 +110,6 @@ const styles = theme => ({
   }
 });
 
-const GET_ACTIVE_PREVIEW = gql`
-  {
-    activePreview @client
-  }
-`;
-
 class MediumCard extends React.Component {
   state = {
     displayMetrics: false
@@ -136,28 +130,24 @@ class MediumCard extends React.Component {
     } else orientation = classes.horizontalMedia;
 
     return (
-      <Query query={GET_ACTIVE_PREVIEW}>
-        {({ data }) => (
-          <div className={horizontal ? undefined : classes.cardMediaContainer}>
-            {medium.thumbnail.substr(medium.thumbnail.lastIndexOf(".") + 1) ===
-            "mp4" ? (
-              <CardMedia
-                className={orientation}
-                component={"video"}
-                src={medium.thumbnail}
-                title={medium.title}
-              />
-            ) : (
-              <CardMedia
-                className={orientation}
-                image={medium.thumbnail}
-                title={medium.title}
-              />
-            )}
-            {this.renderActions()}
-          </div>
+      <div className={horizontal ? undefined : classes.cardMediaContainer}>
+        {medium.thumbnail.substr(medium.thumbnail.lastIndexOf(".") + 1) ===
+        "mp4" ? (
+          <CardMedia
+            className={orientation}
+            component={"video"}
+            src={medium.thumbnail}
+            title={medium.title}
+          />
+        ) : (
+          <CardMedia
+            className={orientation}
+            image={medium.thumbnail}
+            title={medium.title}
+          />
         )}
-      </Query>
+        {this.renderActions()}
+      </div>
     );
   }
 

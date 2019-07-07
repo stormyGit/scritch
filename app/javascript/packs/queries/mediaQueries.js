@@ -225,6 +225,7 @@ export const GET_MEDIUM = gql`
         name
         event {
           id
+          slug
           name
         }
       }

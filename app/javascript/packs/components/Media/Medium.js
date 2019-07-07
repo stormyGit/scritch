@@ -330,7 +330,14 @@ class Medium extends React.Component {
                           component="h2"
                           className={classes.dataFieldTitle}
                         >
-                          {medium.edition.event.name} ({medium.edition.name})
+                          <Link
+                            to={`/events/${medium.edition.event.slug}?edition=${
+                              medium.edition.id
+                            }`}
+                            className={classes.link}
+                          >
+                            {medium.edition.event.name} ({medium.edition.name})
+                          </Link>
                         </Typography>
                       </Grid>
                     )}

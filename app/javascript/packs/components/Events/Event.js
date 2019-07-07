@@ -274,7 +274,11 @@ class Event extends React.Component {
                         <Query
                           query={LOAD_EDITION}
                           variables={{
-                            id: this.state.edition.value
+                            id: match.params.edition
+                              ? match.params.edition
+                              : this.state.edition
+                              ? this.state.edition.value
+                              : null
                           }}
                         >
                           {({ loading, error, data }) => {

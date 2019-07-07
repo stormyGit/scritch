@@ -78,7 +78,14 @@ class MediumDataDialog extends React.Component {
                   className={classes.text}
                   noWrap
                 >
-                  {medium.edition.event.name} ({medium.edition.name})
+                  <Link
+                    to={`/events/${medium.edition.event.slug}?edition=${
+                      medium.edition.id
+                    }`}
+                    className={classes.link}
+                  >
+                    {medium.edition.event.name} ({medium.edition.name})
+                  </Link>
                 </Typography>
               </Grid>
             )}

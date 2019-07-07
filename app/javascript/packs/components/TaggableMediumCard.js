@@ -103,12 +103,6 @@ const styles = theme => ({
   }
 });
 
-const GET_ACTIVE_PREVIEW = gql`
-  {
-    activePreview @client
-  }
-`;
-
 class TaggableMediumCard extends React.Component {
   state = {
     tagDialog: false
@@ -118,22 +112,18 @@ class TaggableMediumCard extends React.Component {
     const { classes, medium, horizontal, width, client } = this.props;
 
     return (
-      <Query query={GET_ACTIVE_PREVIEW}>
-        {({ data }) => (
-          <div className={horizontal ? undefined : classes.cardMediaContainer}>
-            <CardMedia
-              className={
-                medium.exif && JSON.parse(medium.exif).Orientation === "6"
-                  ? classes.verticalMedia
-                  : classes.horizontalMedia
-              }
-              image={medium.thumbnail}
-              title={medium.title}
-            />
-            {this.renderActions()}
-          </div>
-        )}
-      </Query>
+      <div className={horizontal ? undefined : classes.cardMediaContainer}>
+        <CardMedia
+          className={
+            medium.exif && JSON.parse(medium.exif).Orientation === "6"
+              ? classes.verticalMedia
+              : classes.horizontalMedia
+          }
+          image={medium.thumbnail}
+          title={medium.title}
+        />
+        {this.renderActions()}
+      </div>
     );
   }
 
