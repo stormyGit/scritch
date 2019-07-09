@@ -48,6 +48,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import HomeIcon from "@material-ui/icons/Home";
 import DatabaseIcon from "@material-ui/icons/LibraryBooks";
+import MenuIcon from "@material-ui/icons/Menu";
 
 import { Link, withRouter } from "react-router-dom";
 
@@ -424,26 +425,7 @@ class DrawerMenuRemake extends React.Component {
                   return null;
                 }}
               </Query>
-              {false && user && !user.sponsor && (
-                <div>
-                  <ListItem
-                    button
-                    onClick={() => {
-                      this.setState({
-                        sponsorDialog: !this.state.sponsorDialog
-                      });
-                    }}
-                  >
-                    <ListItemIcon className={classes.text} color="secondary">
-                      <PetsIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="Become a sponsor!"
-                      primaryTypographyProps={{ className: classes.text }}
-                    />
-                  </ListItem>
-                </div>
-              )}
+
               {user && true && (
                 <div>
                   <ListItem
@@ -453,10 +435,10 @@ class DrawerMenuRemake extends React.Component {
                     }}
                   >
                     <ListItemIcon className={classes.text} color="secondary">
-                      <PetsIcon />
+                      <MenuIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary={"Menu"}
+                      primary={user.sponsor ? "Sponsor Menu" : "Menu"}
                       primaryTypographyProps={{ className: classes.text }}
                     />
                     {this.state.sponsorMenu ? (
@@ -471,7 +453,7 @@ class DrawerMenuRemake extends React.Component {
                     unmountOnExit
                   >
                     <List component="div" disablePadding>
-                      {false && (
+                      {user && user.sponsor && (
                         <ListItem
                           button
                           onClick={() =>
@@ -494,6 +476,31 @@ class DrawerMenuRemake extends React.Component {
                             primaryTypographyProps={{ className: classes.text }}
                           />
                         </ListItem>
+                      )}
+                      {user && !user.sponsor && (
+                        <div>
+                          <ListItem
+                            button
+                            onClick={() => {
+                              this.setState({
+                                sponsorDialog: !this.state.sponsorDialog
+                              });
+                            }}
+                          >
+                            <ListItemIcon
+                              className={classes.text}
+                              color="secondary"
+                            >
+                              <PetsIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Become a sponsor!"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </div>
                       )}
                       <ListItem
                         button
