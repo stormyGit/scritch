@@ -500,6 +500,8 @@ module Types
           media.order("media.created_at, media.created_at")
         when 'scritches'
           media.order(["media.likes_count DESC, media.created_at DESC"])
+        when 'scritches_month'
+          #media.where("media.created_at > ?", 30.days.ago).order(["media.likes_count DESC, media.created_at DESC"])
         when 'views'
           media.order(["media.views_count DESC, media.created_at DESC"])
         when 'faves'

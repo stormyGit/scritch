@@ -477,6 +477,48 @@ class Fursuit extends React.Component {
                           Redacted
                         </Typography>
                       )}
+                      {fursuit.users && fursuit.users.length > 0 && (
+                        <React.Fragment>
+                          <div style={{ padding: 5 }} />
+                          <Typography
+                            gutterBottom
+                            variant="h6"
+                            component="h2"
+                            color="primary"
+                            className={classes.fursuitTitle}
+                            noWrap
+                          >
+                            Owned by
+                          </Typography>
+                          {fursuit.users[0].public && (
+                            <Link
+                              to={`/${fursuit.users[0].slug}`}
+                              className={classes.link}
+                            >
+                              <Typography
+                                gutterBottom
+                                variant="h5"
+                                component="h2"
+                                color="secondary"
+                                noWrap
+                              >
+                                {fursuit.users[0].name}
+                              </Typography>
+                            </Link>
+                          )}
+                          {!fursuit.users[0].public && (
+                            <Typography
+                              gutterBottom
+                              variant="h5"
+                              component="h2"
+                              className={classes.fursuitTitle}
+                              noWrap
+                            >
+                              Private
+                            </Typography>
+                          )}
+                        </React.Fragment>
+                      )}
                       <div style={{ padding: 5 }} />
                       <Typography
                         gutterBottom

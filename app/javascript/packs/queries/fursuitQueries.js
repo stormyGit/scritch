@@ -112,6 +112,8 @@ export const LOAD_FURSUIT = gql`
       }
       users {
         id
+        public
+        slug
         name
       }
     }
