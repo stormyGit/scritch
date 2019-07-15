@@ -29,7 +29,7 @@ class LatestPictures extends React.Component {
         <Media home={true} sort="latest" limit={12} {...this.props} />
         <div className={classes.padder}>
           <Typography variant={typoSize}>
-            Most Scritched (last 30 days)
+            Most Scritched (Last 30 Days)
           </Typography>
         </div>
         <Media home={true} sort="scritches_month" limit={12} {...this.props} />
