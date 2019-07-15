@@ -368,56 +368,59 @@ class Medium extends React.Component {
                     <Grid container spacing={8}>
                       <Grid item lg={9} xs={12}>
                         <CardContent>
-                          <div className={classes.pictureInfo}>
-                            <Grid container spacing={8}>
-                              <Grid item xs={12}>
-                                <div className={classes.topRow}>
-                                  <Typography
-                                    gutterBottom
-                                    variant="subtitle1"
-                                    noWrap
-                                  >
-                                    {countFormat(
-                                      medium.viewsCount,
-                                      "view",
-                                      "views"
-                                    )}
-                                  </Typography>
-                                  <Button
-                                    onClick={() =>
-                                      this.setState({ downloadDialog: true })
-                                    }
-                                    variant="outlined"
-                                    className={classes.buttonPadder}
-                                  >
-                                    Download
-                                  </Button>
-                                  {medium.exif &&
-                                    Object.keys(JSON.parse(medium.exif))
-                                      .length !== 0 &&
-                                    JSON.parse(medium.exif).DateTimeOriginal &&
-                                    JSON.parse(medium.exif).Model && (
-                                      <Button
-                                        onClick={() =>
-                                          this.setState({ exifDialog: true })
-                                        }
-                                        variant="outlined"
-                                        className={classes.buttonPadder}
-                                      >
-                                        EXIF
-                                      </Button>
-                                    )}
-                                </div>
+                          {currentSession && (
+                            <div className={classes.pictureInfo}>
+                              <Grid container spacing={8}>
+                                <Grid item xs={12}>
+                                  <div className={classes.topRow}>
+                                    <Typography
+                                      gutterBottom
+                                      variant="subtitle1"
+                                      noWrap
+                                    >
+                                      {countFormat(
+                                        medium.viewsCount,
+                                        "view",
+                                        "views"
+                                      )}
+                                    </Typography>
+                                    <Button
+                                      onClick={() =>
+                                        this.setState({ downloadDialog: true })
+                                      }
+                                      variant="outlined"
+                                      className={classes.buttonPadder}
+                                    >
+                                      Download
+                                    </Button>
+                                    {medium.exif &&
+                                      Object.keys(JSON.parse(medium.exif))
+                                        .length !== 0 &&
+                                      JSON.parse(medium.exif)
+                                        .DateTimeOriginal &&
+                                      JSON.parse(medium.exif).Model && (
+                                        <Button
+                                          onClick={() =>
+                                            this.setState({ exifDialog: true })
+                                          }
+                                          variant="outlined"
+                                          className={classes.buttonPadder}
+                                        >
+                                          EXIF
+                                        </Button>
+                                      )}
+                                  </div>
+                                </Grid>
+                                <Grid item xs={7}>
+                                  <LikeButton medium={medium} />
+                                </Grid>
+                                <FaveButton
+                                  medium={medium}
+                                  disabled={!currentSession.user.sponsor}
+                                />
                               </Grid>
-                              <Grid item xs={7}>
-                                <LikeButton medium={medium} />
-                              </Grid>
-                              <FaveButton
-                                medium={medium}
-                                disabled={!currentSession.user.sponsor}
-                              />
-                            </Grid>
-                          </div>
+                            </div>
+                          )}
                           {medium.fursuits.length != 0 && (
                             <div>
                               <div className={classes.padder} />
@@ -478,39 +481,54 @@ class Medium extends React.Component {
                           </div>
                           <Divider />
                         </CardContent>
-                        <CardContent>
-                          {medium.commentsDisabled ? (
-                            <Typography gutterBottom variant="caption">
-                              {"Comments are disabled for this video."}
-                            </Typography>
-                          ) : (
-                            <React.Fragment>
-                              <Typography
-                                gutterBottom
-                                variant="h6"
-                                component="h3"
-                              >
-                                {countFormat(
-                                  medium.commentsCount,
-                                  "comment",
-                                  "comments"
-                                )}
+                        {currentSession && (
+                          <CardContent>
+                            {medium.commentsDisabled ? (
+                              <Typography gutterBottom variant="caption">
+                                {"Comments are disabled for this video."}
                               </Typography>
-                              {currentSession ? (
-                                <CommentForm medium={medium} />
-                              ) : (
-                                <Typography gutterBottom variant="caption">
-                                  {"You must be connected to write a comment."}
+                            ) : (
+                              <React.Fragment>
+                                <Typography
+                                  gutterBottom
+                                  variant="h6"
+                                  component="h3"
+                                >
+                                  {countFormat(
+                                    medium.commentsCount,
+                                    "comment",
+                                    "comments"
+                                  )}
                                 </Typography>
-                              )}
-                              <Comments
-                                medium={medium}
-                                parent={null}
-                                commentsCount={medium.commentsCount}
-                              />
-                            </React.Fragment>
-                          )}
-                        </CardContent>
+                                {currentSession ? (
+                                  <CommentForm medium={medium} />
+                                ) : (
+                                  <Typography gutterBottom variant="caption">
+                                    {
+                                      "You must be connected to write a comment."
+                                    }
+                                  </Typography>
+                                )}
+                                <Comments
+                                  medium={medium}
+                                  parent={null}
+                                  commentsCount={medium.commentsCount}
+                                />
+                              </React.Fragment>
+                            )}
+                          </CardContent>
+                        )}
+                        {!currentSession && (
+                          <div style={{ textAlign: "center" }}>
+                            <Typography
+                              gutterBottom
+                              variant="h6"
+                              component="h3"
+                            >
+                              Log In to view Media information and Comments
+                            </Typography>
+                          </div>
+                        )}
                       </Grid>
                       <Grid item lg={3} xs={12}>
                         <CardContent>
