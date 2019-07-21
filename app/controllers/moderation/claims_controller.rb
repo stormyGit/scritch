@@ -7,7 +7,7 @@ class Moderation::ClaimsController < ModerationController
       flash[:notice] = ""
     end
 
-    @claims = Claim.where(status: :open).order(:created_at)
+    @claims = Claim.where(status: "open").order(:created_at)
 
     @claims = @claims.page(params[:page]).per(90)
   end
