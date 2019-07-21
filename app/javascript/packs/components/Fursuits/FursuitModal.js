@@ -37,7 +37,7 @@ class FursuitModal extends React.Component {
         }}
       >
         {({ loading, error, data }) => {
-          if (!data.fursuit) return null;
+          if (loading || error || !data || !data.fursuit) return null;
           let localFursuit = data.fursuit;
 
           return (
