@@ -30,7 +30,7 @@ class Mutations::CreateSession < Mutations::BaseMutation
 
       begin
         profile_photos = Telegram.bots[:login].get_user_profile_photos(user_id: params[:telegram_id], limit: 1)
-        return if profile_photos["result"]["total_count"] == 0
+        #return if profile_photos["result"]["total_count"] == 0
 
         profile_photo_file = profile_photos["result"]["photos"][0].sort_by do |profile_photo|
           profile_photo["width"]
