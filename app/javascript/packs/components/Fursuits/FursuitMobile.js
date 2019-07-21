@@ -328,6 +328,7 @@ class FursuitMobile extends React.Component {
                       >
                         {fursuit.creationYear}
                       </Typography>
+
                       <div style={{ padding: 5 }} />
                       <Typography
                         gutterBottom
@@ -419,6 +420,30 @@ class FursuitMobile extends React.Component {
                       </React.Fragment>
                     </Grid>
                     <Grid item>
+                      {fursuit.bio && (
+                        <React.Fragment>
+                          <div style={{ padding: 5 }} />
+                          <Typography
+                            gutterBottom
+                            variant="h6"
+                            component="h2"
+                            color="primary"
+                            className={classes.fursuitTitle}
+                            noWrap
+                          >
+                            Bio
+                          </Typography>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="h2"
+                            className={classes.fursuitTitle}
+                            noWrap={false}
+                          >
+                            {fursuit.bio}
+                          </Typography>
+                        </React.Fragment>
+                      )}
                       <div style={{ padding: 5 }} />
                       <Typography
                         gutterBottom

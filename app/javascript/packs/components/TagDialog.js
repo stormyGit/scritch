@@ -116,9 +116,25 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "space-between"
   },
-  mediaH: {},
-  mediaV: {
-    transform: "rotate(90deg)"
+  mediaH: {
+    width: "100%",
+    height: "100%",
+    objectFit: "contain"
+  },
+  mediaHflip: {
+    transform: "rotate(180deg)",
+    height: "100%",
+    width: "100%"
+  },
+  mediaVleft: {
+    transform: "rotate(90deg)",
+    height: "100%",
+    width: "100%"
+  },
+  mediaVright: {
+    transform: "rotate(-90deg)",
+    height: "100%",
+    width: "100%"
   },
   tagReportButton: {
     paddingBottom: theme.spacing.unit
@@ -276,6 +292,17 @@ class TagDialog extends React.Component {
             return null;
           }
 
+          var orientation;
+          if (medium) {
+            if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
+              orientation = classes.mediaVleft;
+            else if (medium.exif && JSON.parse(medium.exif).Orientation === "8")
+              orientation = classes.mediaVright;
+            else if (medium.exif && JSON.parse(medium.exif).Orientation === "3")
+              orientation = classes.mediaHflip;
+            else orientation = classes.mediaH;
+          } else orientation = classes.mediaH;
+
           return (
             <Mutation
               mutation={UPDATE_MEDIUM}
@@ -330,13 +357,7 @@ class TagDialog extends React.Component {
                               <img
                                 src={`${medium.resized}`}
                                 title={medium.title}
-                                className={
-                                  medium.exif &&
-                                  JSON.parse(medium.exif).Orientation === "6"
-                                    ? classes.mediaV
-                                    : classes.mediaH
-                                }
-                                style={{ width: "100%" }}
+                                className={orientation}
                               />
                             </DialogContent>
                             {
@@ -512,6 +533,16 @@ class TagDialog extends React.Component {
                                     >
                                       Report Wrong Tags
                                     </Button>
+                                  </div>
+                                )}
+                                <div style={{ padding: 8 }} />
+                                {this.state.fursuits.length -
+                                  medium.fursuits.length >
+                                  0 && (
+                                  <div className={classes.tagReportButton}>
+                                    <Typography variant="subtitle1">
+                                      Click on Fursuit icon to remove selection
+                                    </Typography>
                                   </div>
                                 )}
                                 <Grid container spacing={8}>

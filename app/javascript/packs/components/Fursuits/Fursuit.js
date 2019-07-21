@@ -439,6 +439,30 @@ class Fursuit extends React.Component {
                           </div>
                         )}
                       </React.Fragment>
+                      {fursuit.bio && (
+                        <React.Fragment>
+                          <div style={{ padding: 5 }} />
+                          <Typography
+                            gutterBottom
+                            variant="h6"
+                            component="h2"
+                            color="primary"
+                            className={classes.fursuitTitle}
+                            noWrap
+                          >
+                            Bio
+                          </Typography>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="h2"
+                            className={classes.fursuitTitle}
+                            noWrap={false}
+                          >
+                            {fursuit.bio}
+                          </Typography>
+                        </React.Fragment>
+                      )}
                       <div style={{ padding: 5 }} />
                       <Typography
                         gutterBottom

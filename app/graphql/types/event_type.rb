@@ -3,6 +3,7 @@ module Types
     description "Event object"
     field :id, ID, null: false
     field :name, String, null: false
+    field :status, String, null: false
     field :web, String, null: false
     field :country, String, null: false
     field :avatar, String, null: true

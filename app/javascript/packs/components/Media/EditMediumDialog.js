@@ -735,6 +735,18 @@ class EditMediumDialog extends React.Component {
                                     <div style={{ padding: 5 }} />
                                   </div>
                                 )}
+                                {this.state.fursuits.length -
+                                  medium.fursuits.length >
+                                  0 && (
+                                  <div className={classes.tagReportButton}>
+                                    <Typography
+                                      variant="subtitle1"
+                                      style={{ textAlign: "center" }}
+                                    >
+                                      Click on Fursuit icon to remove selection
+                                    </Typography>
+                                  </div>
+                                )}
                                 <Grid container spacing={8}>
                                   {this.state.fursuits.map(fursuit => (
                                     <Grid item xs={12} lg={6} key={fursuit.id}>

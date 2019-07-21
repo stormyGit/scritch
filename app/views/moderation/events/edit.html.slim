@@ -10,10 +10,13 @@ br
           = f.label :name, "Event name"
           = f.text_field :name, class: "input", value: @event.name
         .field
+          = f.label :status, "Event status"
+          = f.text_field :status, class: "input", value: @event.status
+        .field
           = f.label :web, "Website"
           = f.text_field :web, class: "input", value: @event.web
 
-    
+
 
         .field
           = f.submit "Update", class: "button"

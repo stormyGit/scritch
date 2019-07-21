@@ -1,6 +1,7 @@
 class Mutations::UpdateMaker < Mutations::BaseMutation
   argument :id, ID, required: true
   argument :name, String, required: true
+  argument :bio, String, required: false
   argument :country, String, required: false
   argument :commission_status_id, ID, required: false
   argument :region, String, required: false

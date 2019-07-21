@@ -244,17 +244,6 @@ class AssetRequestDialog extends React.Component {
             fullWidth
             rows={4}
             rowsMax={12}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment
-                  position="start"
-                  className={classes.domain}
-                  disableTypography
-                >
-                  {`https://`}
-                </InputAdornment>
-              )
-            }}
           />
           <TextField
             label="Please tell us more…"

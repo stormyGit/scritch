@@ -11,6 +11,7 @@ import SettingsDialog from "../AppDialogs/SettingsDialog";
 import AdvertiseDialog from "../AppDialogs/AdvertiseDialog";
 import SignUpDialog from "../AppDialogs/SignUpDialog";
 import TechDialog from "../AppDialogs/TechDialog";
+import SpeciesDialog from "../AppDialogs/SpeciesDialog";
 
 const styles = theme => ({
   close: {
@@ -34,6 +35,7 @@ class AppDialogs extends React.Component {
       signUpDialog,
       settingsDialog,
       techDialog,
+      speciesDialog,
       activitiesDialog,
       advertiseDialog
     } = this.props;
@@ -69,6 +71,12 @@ class AppDialogs extends React.Component {
           <AdvertiseDialog
             open={advertiseDialog}
             onClose={() => this.props.closeAdvertiseDialog()}
+          />
+        )}
+        {currentSession && (
+          <SpeciesDialog
+            open={speciesDialog}
+            onClose={() => this.props.closeSpeciesDialog()}
           />
         )}
         <TechDialog

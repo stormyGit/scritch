@@ -185,6 +185,7 @@ module Types
       description "List events"
       argument :name, String, required: false
       argument :country, String, required: false
+      argument :status, String, required: false
       argument :offset, Integer, required: true
       argument :limit, Integer, required: true
     end
@@ -269,6 +270,10 @@ module Types
       description "List events"
     end
 
+    field :events_statuses, [String, null: true], null: false do
+      description "List events"
+    end
+
     field :ribbon_announcement, RibbonAnnouncementType, null: true do
       description "Ribbon Announcement events"
     end
@@ -327,6 +332,10 @@ module Types
 
     def events_country
       Edition.all.distinct.order(:country).pluck(:country)
+    end
+
+    def events_statuses
+      Event.all.distinct.order(:status).pluck(:status)
     end
 
     def fursuit_leg_types
@@ -582,6 +591,10 @@ module Types
 
       if arguments[:country].present?
         events = events.joins(:editions).where("editions.country = ?", arguments[:country])
+      end
+
+      if arguments[:status].present?
+        events = events.where("events.status = ?", arguments[:status])
       end
 
       events.offset(arguments[:offset]).limit(arguments[:limit]).distinct.order(:name)

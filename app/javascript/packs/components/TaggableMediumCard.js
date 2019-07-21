@@ -65,13 +65,21 @@ const styles = theme => ({
   verticalMedia: {
     transform: "rotate(90deg)",
     width: "100%",
-    height: "178%",
+    height: "100%",
+    position: "absolute",
+    top: 0,
+    left: 0
+  },
+  verticalMediaR: {
+    transform: "rotate(-90deg)",
+    width: "100%",
+    height: "100%",
     position: "absolute",
     top: 0,
     left: 0
   },
   horizontalMediaContainer: {
-    maxWidth: "46%",
+    //maxWidth: "46%",
     minWidth: "46%",
     minHeight: "100%"
   },
@@ -79,6 +87,16 @@ const styles = theme => ({
     width: "100%",
     height: "100%",
     position: "absolute",
+    objectFit: "cover",
+    top: 0,
+    left: 0
+  },
+  horizontalMediaFlip: {
+    transform: "rotate(180deg)",
+    width: "100%",
+    height: "100%",
+    position: "absolute",
+    objectFit: "cover",
     top: 0,
     left: 0
   },
@@ -87,7 +105,7 @@ const styles = theme => ({
   },
   cardMediaContainer: {
     position: "relative",
-    paddingTop: "56%"
+    paddingTop: "100%"
   },
   infoBar: {
     display: "flex",
@@ -111,14 +129,21 @@ class TaggableMediumCard extends React.Component {
   renderMedia() {
     const { classes, medium, horizontal, width, client } = this.props;
 
+    var orientation;
+    if (medium) {
+      if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
+        orientation = classes.verticalMedia;
+      else if (medium.exif && JSON.parse(medium.exif).Orientation === "8")
+        orientation = classes.verticalMediaR;
+      else if (medium.exif && JSON.parse(medium.exif).Orientation === "3")
+        orientation = classes.horizontalMediaFlip;
+      else orientation = classes.horizontalMedia;
+    } else orientation = classes.horizontalMedia;
+
     return (
       <div className={horizontal ? undefined : classes.cardMediaContainer}>
         <CardMedia
-          className={
-            medium.exif && JSON.parse(medium.exif).Orientation === "6"
-              ? classes.verticalMedia
-              : classes.horizontalMedia
-          }
+          className={orientation}
           image={medium.thumbnail}
           title={medium.title}
         />

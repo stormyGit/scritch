@@ -630,7 +630,7 @@ class FursuitEditFields extends React.Component {
           isSearchable
           value={this.state.baseColor}
           onChange={color => {
-            this.setState({ fursuitColor: color });
+            this.setState({ baseColor: color });
             this.props.onChange({
               label: "baseColor",
               value: color ? color.value : null

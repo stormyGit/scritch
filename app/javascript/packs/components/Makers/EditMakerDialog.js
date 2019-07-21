@@ -129,6 +129,7 @@ const styles = theme => ({
 class EditMakerDialog extends React.Component {
   state = {
     name: "",
+    bio: "",
     country: "",
     commissionStatus: null,
     region: "",
@@ -158,6 +159,7 @@ class EditMakerDialog extends React.Component {
     this.setState({
       id: maker.id,
       name: maker.name || "",
+      bio: maker.bio || "",
       country: maker.country && { value: maker.country, label: maker.country },
       commissionStatus: maker.commissionStatus && {
         value: maker.commissionStatus.id,
@@ -263,6 +265,18 @@ class EditMakerDialog extends React.Component {
               fullWidth
             />
             <div style={{ padding: 5 }} />
+            <TextField
+              label={`Info (characters: ${this.state.bio.length}/280)`}
+              name="bio"
+              value={this.state.bio}
+              onChange={e => {
+                e.target.value.length <= 280 &&
+                  this.setState({ bio: e.target.value });
+              }}
+              margin="dense"
+              fullWidth
+            />
+            <div style={{ padding: 5 }} />
             <Select
               fullWidth
               placeholder="Country"
@@ -343,6 +357,7 @@ class EditMakerDialog extends React.Component {
                         input: {
                           id: maker.id,
                           name: this.state.name,
+                          bio: this.state.bio,
                           country: this.state.country.value,
                           commissionStatusId:
                             this.state.commissionStatus &&
@@ -371,7 +386,7 @@ class EditMakerDialog extends React.Component {
             image={this.state.avatarToEdit}
             width={300}
             height={300}
-            borderRadius={150}
+            borderRadius={30}
             onClose={() => {
               this.setState({ avatarToEdit: null });
             }}

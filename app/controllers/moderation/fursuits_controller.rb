@@ -7,7 +7,7 @@ class Moderation::FursuitsController < ModerationController
       flash[:notice] = ""
     end
 
-    @fursuits = Fursuit.all.order(:name)
+    @fursuits = Fursuit.all
 
     if params[:name].present?
       @fursuits = @fursuits.where("fursuits.name @@ ? or fursuits.name ilike ?", params[:name], "%#{params[:name]}%")
@@ -17,7 +17,7 @@ class Moderation::FursuitsController < ModerationController
       @fursuits = @fursuits.includes(:users).where.not(users: {uuid: nil})
     end
 
-    @fursuits = @fursuits.page(params[:page]).per(90)
+    @fursuits = @fursuits.order(:name).page(params[:page]).per(90)
   end
 
   def show
@@ -50,7 +50,7 @@ class Moderation::FursuitsController < ModerationController
     ]))
 
     begin
-      fursuit.avatar = File.open("app/assets/images/species/#{fursuit.is_hybrid ? "Hybrid" : fursuit.species[0]}.png")
+      fursuit.avatar = File.open("app/assets/images/species/#{fursuit.is_hybrid ? "Hybrid" : fursuit.species[0].avatar_file}.png")
     rescue
       fursuit.avatar = File.open("app/assets/images/species/FAILED.png")
     end
@@ -72,6 +72,7 @@ class Moderation::FursuitsController < ModerationController
     fursuit.assign_attributes(params.require(:fursuit).permit([
       :user_id,
       :name,
+      :bio,
       :is_hybrid,
       :fursuit_style_id,
       :fursuit_padding_id,

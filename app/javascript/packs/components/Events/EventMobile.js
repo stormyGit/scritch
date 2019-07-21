@@ -241,6 +241,30 @@ class Event extends React.Component {
                               Unknown
                             </Typography>
                           )}
+                          {event.status && (
+                            <React.Fragment>
+                              <div style={{ padding: 5 }} />
+                              <Typography
+                                gutterBottom
+                                variant="h6"
+                                component="h2"
+                                color="primary"
+                                className={classes.eventTitle}
+                                noWrap
+                              >
+                                Status
+                              </Typography>
+                              <Typography
+                                gutterBottom
+                                variant="h5"
+                                component="h2"
+                                className={classes.eventTitle}
+                                noWrap={false}
+                              >
+                                {event.status}
+                              </Typography>
+                            </React.Fragment>
+                          )}
                         </Grid>
                       </Grid>
                       <div style={{ padding: 10 }} />

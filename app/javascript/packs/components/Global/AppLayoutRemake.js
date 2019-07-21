@@ -132,6 +132,7 @@ class AppLayoutRemake extends React.Component {
     searchEnabled: false,
     activitiesDialog: false,
     chatDialog: false,
+    speciesDialog: false,
     settingsDialog: false,
     advertiseDialog: false,
     techDialog: false,
@@ -408,7 +409,13 @@ class AppLayoutRemake extends React.Component {
 
                   {!this.state.searchEnabled && (
                     <React.Fragment>
-                      {width === "xl" && <MetricsBar />}
+                      {width === "xl" && (
+                        <MetricsBar
+                          openSpeciesDialog={() =>
+                            this.setState({ speciesDialog: true })
+                          }
+                        />
+                      )}
                       <NotificationsButton
                         onClick={() =>
                           this.setState({ activitiesDialog: true })
@@ -455,6 +462,8 @@ class AppLayoutRemake extends React.Component {
               }
               techDialog={this.state.techDialog}
               closeTechDialog={() => this.setState({ techDialog: false })}
+              speciesDialog={this.state.speciesDialog}
+              closeSpeciesDialog={() => this.setState({ speciesDialog: false })}
             />
           </main>
         </div>

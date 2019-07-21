@@ -13,6 +13,7 @@ class User < ApplicationRecord
 
   has_many :media, dependent: :destroy
   has_many :fursuit_requests, dependent: :destroy
+  has_many :asset_requests, dependent: :destroy
 
   has_one :suspended_user, dependent: :destroy
 

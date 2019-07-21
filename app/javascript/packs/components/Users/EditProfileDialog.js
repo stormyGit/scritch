@@ -375,26 +375,15 @@ class EditProfileDialog extends React.Component {
               margin="dense"
               variant="outlined"
               fullWidth
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment
-                    position="start"
-                    className={classes.domain}
-                    disableTypography
-                  >
-                    {`https://${process.env.DOMAIN}/`}
-                  </InputAdornment>
-                )
-              }}
             />
             <div style={{ padding: 5 }} />
             <TextField
-              label={`Bio (characters: ${this.state.bio.length}/140)`}
+              label={`Bio (characters: ${this.state.bio.length}/280)`}
               name="bio"
               value={this.state.bio}
               variant="outlined"
               onChange={e => {
-                e.target.value.length <= 140 &&
+                e.target.value.length <= 280 &&
                   this.setState({ bio: e.target.value });
               }}
               margin="dense"

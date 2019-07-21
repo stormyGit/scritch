@@ -143,7 +143,11 @@ class Event extends React.Component {
           editionsOptions.push({ label: "All", value: null });
           if (!loading && !error && event)
             event.editions
-              .sort((a, b) => (a.name < b.name ? 1 : -1))
+              .sort((a, b) => {
+                var _a = parseInt(a.name),
+                  _b = parseInt(b.name);
+                return _b - _a;
+              })
               .map(e => {
                 editionsOptions.push({ label: e.name, value: e.id });
               });
@@ -251,6 +255,30 @@ class Event extends React.Component {
                           )}
                         </Grid>
                       </Grid>
+                      {event.status && (
+                        <React.Fragment>
+                          <div style={{ padding: 5 }} />
+                          <Typography
+                            gutterBottom
+                            variant="h6"
+                            component="h2"
+                            color="primary"
+                            className={classes.eventTitle}
+                            noWrap
+                          >
+                            Status
+                          </Typography>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="h2"
+                            className={classes.eventTitle}
+                            noWrap={false}
+                          >
+                            {event.status}
+                          </Typography>
+                        </React.Fragment>
+                      )}
                       <div style={{ padding: 10 }} />
                       <Typography
                         gutterBottom

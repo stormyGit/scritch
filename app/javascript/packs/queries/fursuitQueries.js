@@ -72,6 +72,7 @@ export const LOAD_FURSUIT = gql`
       claimRejected
       possessed
       followed
+      bio
       avatar
       creationYear
       fursuitLegType {

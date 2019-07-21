@@ -8,6 +8,7 @@ class MediumPolicy < ApplicationPolicy
           .where("media.user_id = ? OR media.created_at IS NOT NULL", user.uuid)
           .where(refused_at: nil)
           .joins(:user)
+          .where.not(user: SuspendedUser.pluck(:user_id))
           .where.not("? = SOME(users.blocked_users_ids)", user.uuid)
           .where.not(users: { uuid: Array(user.blocked_users_ids) })
       end

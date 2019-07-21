@@ -50,6 +50,7 @@ export const LOAD_MAKER = gql`
     maker(id: $id, sort: $sort) {
       id
       name
+      bio
       slug
       web
       country
@@ -69,6 +70,45 @@ export const LOAD_MAKER = gql`
         name
       }
       fursuits {
+        id
+        name
+        avatar
+        slug
+        creationYear
+        species {
+          id
+          name
+        }
+      }
+    }
+  }
+`;
+
+export const LOAD_MAKER_DATE = gql`
+  query Maker($id: ID!, $sort: String!) {
+    maker(id: $id, sort: $sort) {
+      id
+      name
+      slug
+      web
+      country
+      bio
+      region
+      avatar
+      claimed
+      claimRejected
+      commissionStatus {
+        id
+        name
+      }
+      followed
+      possessed
+      fursuitsNumber
+      user {
+        id
+        name
+      }
+      fursuitsByDate {
         id
         name
         avatar

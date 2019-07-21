@@ -14,7 +14,7 @@ import EditMakerDialog from "./EditMakerDialog";
 import MakerClaimDialog from "./MakerClaimDialog";
 
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
-import { LOAD_MAKER } from "../../queries/makerQueries";
+import { LOAD_MAKER, LOAD_MAKER_DATE } from "../../queries/makerQueries";
 import {
   CREATE_MAKER_SUBSCRIPTION,
   DELETE_MAKER_SUBSCRIPTION
@@ -221,7 +221,7 @@ class Maker extends React.Component {
           </React.Fragment>
         )}
         <Query
-          query={LOAD_MAKER}
+          query={this.state.sort == "alpha" ? LOAD_MAKER : LOAD_MAKER_DATE}
           variables={{
             id: match.params.id,
             sort: this.state.sort
@@ -229,10 +229,8 @@ class Maker extends React.Component {
         >
           {({ loading, error, data }) => {
             const maker = data ? data.maker : null;
+            if (!maker) return null;
 
-            maker && console.log(maker);
-
-            console.log(this.state);
             return (
               !loading &&
               !error &&
@@ -241,7 +239,7 @@ class Maker extends React.Component {
                   <PageTitle>{!loading && maker ? maker.name : null}</PageTitle>
                   <Grid container spacing={8}>
                     <Grid item lg={9} xs={12}>
-                      {false && (
+                      {
                         <div className={classes.sortButton}>
                           <Button
                             variant={
@@ -270,25 +268,43 @@ class Maker extends React.Component {
                             Show most recent first
                           </Button>
                         </div>
-                      )}
+                      }
                       <div style={{ padding: 8 }} />
                       <Grid container spacing={8}>
-                        {data.maker.fursuits.map(fursuit => {
-                          return (
-                            <Grid item xs={6} md={4} lg={2} key={fursuit.id}>
-                              <FursuitCard
-                                openFursuit={fursuit => {
-                                  this.setState({
-                                    openFursuit: true,
-                                    fursuit: fursuit
-                                  });
-                                }}
-                                key={fursuit.id}
-                                fursuit={fursuit}
-                              />
-                            </Grid>
-                          );
-                        })}
+                        {this.state.sort == "alpha" &&
+                          maker.fursuits.map(fursuit => {
+                            return (
+                              <Grid item xs={6} md={4} lg={2} key={fursuit.id}>
+                                <FursuitCard
+                                  openFursuit={fursuit => {
+                                    this.setState({
+                                      openFursuit: true,
+                                      fursuit: fursuit
+                                    });
+                                  }}
+                                  key={fursuit.id}
+                                  fursuit={fursuit}
+                                />
+                              </Grid>
+                            );
+                          })}
+                        {this.state.sort == "latest" &&
+                          maker.fursuitsByDate.map(fursuit => {
+                            return (
+                              <Grid item xs={6} md={4} lg={2} key={fursuit.id}>
+                                <FursuitCard
+                                  openFursuit={fursuit => {
+                                    this.setState({
+                                      openFursuit: true,
+                                      fursuit: fursuit
+                                    });
+                                  }}
+                                  key={fursuit.id}
+                                  fursuit={fursuit}
+                                />
+                              </Grid>
+                            );
+                          })}
                       </Grid>
                     </Grid>
                     <Grid item lg={3} xs={12}>
@@ -422,6 +438,30 @@ class Maker extends React.Component {
                         </Grid>
                         <Grid container spacing={8}>
                           <Grid item>
+                            {maker.bio && (
+                              <React.Fragment>
+                                <Typography
+                                  gutterBottom
+                                  variant="h6"
+                                  component="h2"
+                                  color="primary"
+                                  className={classes.makerTitle}
+                                  noWrap
+                                >
+                                  Info
+                                </Typography>
+                                <Typography
+                                  gutterBottom
+                                  variant="h5"
+                                  component="h2"
+                                  className={classes.makerTitle}
+                                  noWrap={false}
+                                >
+                                  {maker.bio}
+                                </Typography>
+                                <div style={{ padding: 5 }} />
+                              </React.Fragment>
+                            )}
                             <Typography
                               gutterBottom
                               variant="h6"

@@ -321,17 +321,6 @@ class AdvertiseDialog extends React.Component {
               variant="outlined"
               style={{ zIndex: 0 }}
               value={this.state.url}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment
-                    position="start"
-                    className={classes.domain}
-                    disableTypography
-                  >
-                    {"http://"}
-                  </InputAdornment>
-                )
-              }}
               onChange={e => {
                 this.setState({
                   url: e.target.value,

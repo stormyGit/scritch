@@ -183,6 +183,53 @@ class EventFilters extends React.Component {
     );
   }
 
+  renderStatusFilter() {
+    const { classes } = this.props;
+
+    return (
+      <Query query={LOAD_EVENTS_STATUSES}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={12}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          const statusesList = [];
+          data.eventsStatuses.map(e =>
+            statusesList.push({ value: e, label: e })
+          );
+
+          return (
+            <Grid item xs={12}>
+              <Select
+                fullWidth
+                placeholder="Status"
+                isClearable
+                isSearchable
+                value={this.state.status}
+                onChange={status => {
+                  this.setState({ status: status });
+                  this.props.onChange({
+                    label: "status",
+                    value: status ? status.value : null
+                  });
+                }}
+                options={statusesList}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    );
+  }
+
   renderFilters() {
     const { classes } = this.props;
 
@@ -221,6 +268,7 @@ class EventFilters extends React.Component {
             <ExpansionPanelDetails>
               <Grid container spacing={8}>
                 {this.renderCountryFilter()}
+                {this.renderStatusFilter()}
                 {false &&
                   filters.map(filter => (
                     <Grid key={filter} item lg={3}>

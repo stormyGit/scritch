@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_28_100553) do
+ActiveRecord::Schema.define(version: 2019_07_20_210929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -253,6 +253,7 @@ ActiveRecord::Schema.define(version: 2019_06_28_100553) do
     t.datetime "updated_at", null: false
     t.string "avatar"
     t.string "web"
+    t.string "status"
     t.index "to_tsvector('english'::regconfig, (name)::text)", name: "index_events_on_name", using: :gin
   end
 
@@ -422,6 +423,7 @@ ActiveRecord::Schema.define(version: 2019_06_28_100553) do
     t.boolean "is_hybrid", default: false
     t.uuid "fursuit_gender_id"
     t.boolean "visible", default: true
+    t.string "bio"
     t.index ["fursuit_gender_id"], name: "index_fursuits_on_fursuit_gender_id"
   end
 
@@ -486,6 +488,7 @@ ActiveRecord::Schema.define(version: 2019_06_28_100553) do
     t.string "commission_status", default: "N/A"
     t.uuid "commission_status_id"
     t.boolean "visible", default: true
+    t.string "bio"
     t.index ["commission_status_id"], name: "index_makers_on_commission_status_id"
     t.index ["user_id"], name: "index_makers_on_user_id"
   end
@@ -633,6 +636,7 @@ ActiveRecord::Schema.define(version: 2019_06_28_100553) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "avatar_file"
   end
 
   create_table "sponsors", force: :cascade do |t|
@@ -782,6 +786,9 @@ ActiveRecord::Schema.define(version: 2019_06_28_100553) do
     t.datetime "last_seen_fursuits", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "last_seen_makers", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "bought_impressions", default: 0
+    t.string "service", default: "telegram"
+    t.string "facebook_id"
+    t.string "facebook_email"
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end

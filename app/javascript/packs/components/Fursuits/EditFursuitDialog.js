@@ -124,6 +124,7 @@ class EditFursuitDialog extends React.Component {
   state = {
     name: "",
     slug: "",
+    bio: "",
     creationYear: 0,
     avatar: null,
     fursuitLegType: null,
@@ -164,6 +165,7 @@ class EditFursuitDialog extends React.Component {
     this.setState({
       id: fursuit.id,
       name: fursuit.name || "",
+      bio: fursuit.bio || "",
       slug: fursuit.slug || "",
       creationYear: fursuit.creationYear,
       avatar: fursuit.avatar,
@@ -218,7 +220,6 @@ class EditFursuitDialog extends React.Component {
   render() {
     const { classes, fursuit } = this.props;
 
-    console.log(fursuit, this.state);
     return (
       <React.Fragment>
         <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
@@ -232,6 +233,17 @@ class EditFursuitDialog extends React.Component {
               name="name"
               value={this.state.name}
               onChange={e => this.setState({ name: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
+            <TextField
+              label={`Bio (characters: ${this.state.bio.length}/280)`}
+              name="bio"
+              value={this.state.bio}
+              onChange={e => {
+                e.target.value.length <= 280 &&
+                  this.setState({ bio: e.target.value });
+              }}
               margin="dense"
               fullWidth
             />
@@ -288,6 +300,7 @@ class EditFursuitDialog extends React.Component {
                         input: {
                           id: fursuit.id,
                           name: this.state.name,
+                          bio: this.state.bio,
                           slug: this.state.slug,
                           fursuitFingerId: this.state.fursuitFinger,
                           fursuitBuildId: this.state.fursuitBuild,
@@ -331,7 +344,7 @@ class EditFursuitDialog extends React.Component {
             image={this.state.avatarToEdit}
             width={300}
             height={300}
-            borderRadius={150}
+            borderRadius={30}
             onClose={() => {
               this.setState({ avatarToEdit: null });
             }}

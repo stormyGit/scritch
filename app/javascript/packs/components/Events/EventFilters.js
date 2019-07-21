@@ -17,7 +17,10 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { LOAD_EVENTS_COUNTRIES } from "../../queries/eventQueries";
+import {
+  LOAD_EVENTS_COUNTRIES,
+  LOAD_EVENTS_STATUSES
+} from "../../queries/eventQueries";
 
 import { Link, withRouter } from "react-router-dom";
 
@@ -183,6 +186,53 @@ class EventFilters extends React.Component {
     );
   }
 
+  renderStatusFilter() {
+    const { classes } = this.props;
+
+    return (
+      <Query query={LOAD_EVENTS_STATUSES}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          const statusesList = [];
+          data.eventsStatuses.map(e =>
+            statusesList.push({ value: e, label: e })
+          );
+
+          return (
+            <Grid item xs={4}>
+              <Select
+                fullWidth
+                placeholder="Status"
+                isClearable
+                isSearchable
+                value={this.state.status}
+                onChange={status => {
+                  this.setState({ status: status });
+                  this.props.onChange({
+                    label: "status",
+                    value: status ? status.value : null
+                  });
+                }}
+                options={statusesList}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    );
+  }
+
   renderFilters() {
     const { classes } = this.props;
 
@@ -227,6 +277,7 @@ class EventFilters extends React.Component {
                       {this.renderSelect(filter)}
                     </Grid>
                   ))}
+                {this.renderStatusFilter()}
               </Grid>
             </ExpansionPanelDetails>
             <ExpansionPanelActions>

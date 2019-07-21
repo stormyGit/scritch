@@ -43,14 +43,16 @@ class Events extends React.Component {
     hasMore: true,
     criteria: {
       name: "",
-      country: ""
+      country: "",
+      status: ""
     }
   };
 
   clearFilters() {
     this.setState({
       name: "",
-      country: ""
+      country: "",
+      status: ""
     });
   }
 
@@ -98,6 +100,7 @@ class Events extends React.Component {
           variables={{
             name: searching ? query.q : this.state.name,
             country: this.state.country,
+            status: this.state.status,
             limit,
             offset: 0
           }}

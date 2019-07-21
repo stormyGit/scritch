@@ -35,11 +35,13 @@ import AnnouncementIcon from "@material-ui/icons/Announcement";
 import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
 
 import SettingsDialog from "./AppDialogs/SettingsDialog";
+import MetricsBar from "./AppLayout/MetricsBar";
 import SponsorDashboardDialog from "./AppDialogs/SponsorDashboardDialog";
 import SponsorDialog from "./AppDialogs/SponsorDialog";
 import TipsDialog from "./AppDialogs/TipsDialog";
 import SignUpDialog from "./AppDialogs/SignUpDialog";
 import AnnouncementsDialog from "./AppDialogs/AnnouncementsDialog";
+import SpeciesDialog from "./AppDialogs/SpeciesDialog";
 import MultipleMediaDialog from "./Media/MultipleMediaDialog";
 import { GET_RIBBON_ANNOUNCEMENT } from "../queries/announcementQueries";
 
@@ -107,7 +109,8 @@ class DrawerMenuRemake extends React.Component {
     sponsorDashboardDialog: false,
     tipsDialog: false,
     databaseList: false,
-    sponsorMenu: true
+    sponsorMenu: true,
+    speciesDialog: false
   };
   render() {
     const { classes, location, currentSession, width } = this.props;
@@ -408,6 +411,7 @@ class DrawerMenuRemake extends React.Component {
                   </React.Fragment>
                 </List>
               </div>
+
               <Query query={GET_RIBBON_ANNOUNCEMENT}>
                 {({ loading, error, data }) => {
                   if (loading || error || !data) return null;
@@ -425,7 +429,15 @@ class DrawerMenuRemake extends React.Component {
                   return null;
                 }}
               </Query>
-
+              {width !== "xl" && (
+                <div>
+                  <MetricsBar
+                    openSpeciesDialog={() =>
+                      this.setState({ speciesDialog: true })
+                    }
+                  />
+                </div>
+              )}
               {user && true && (
                 <div>
                   <ListItem
@@ -654,6 +666,15 @@ class DrawerMenuRemake extends React.Component {
           open={this.state.sponsorDialog}
           onClose={() => {
             this.setState({ sponsorDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
+          }}
+        />
+        <SpeciesDialog
+          open={this.state.speciesDialog}
+          onClose={() => {
+            this.setState({ speciesDialog: false });
             if (this.props.onClose) {
               this.props.onClose();
             }

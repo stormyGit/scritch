@@ -8,6 +8,7 @@ export const LOAD_EVENT = gql`
       web
       slug
       avatar
+      status
       country
       editions {
         id
@@ -19,8 +20,20 @@ export const LOAD_EVENT = gql`
 `;
 
 export const LOAD_EVENTS = gql`
-  query Events($name: String, $country: String, $limit: Int!, $offset: Int!) {
-    events(name: $name, country: $country, limit: $limit, offset: $offset) {
+  query Events(
+    $name: String
+    $country: String
+    $status: String
+    $limit: Int!
+    $offset: Int!
+  ) {
+    events(
+      name: $name
+      country: $country
+      status: $status
+      limit: $limit
+      offset: $offset
+    ) {
       id
       name
       country
@@ -80,5 +93,11 @@ export const LOAD_SUB_EVENTS = gql`
 export const LOAD_EVENTS_COUNTRIES = gql`
   query eventsCountry {
     eventsCountry
+  }
+`;
+
+export const LOAD_EVENTS_STATUSES = gql`
+  query eventsStatuses {
+    eventsStatuses
   }
 `;

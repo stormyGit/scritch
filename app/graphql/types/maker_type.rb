@@ -3,12 +3,14 @@ module Types
     description "Fursuit object"
     field :id, ID, null: false
     field :name, String, null: false
+    field :bio, String, null: true
     field :country, String, null: false
     field :region, String, null: true
     field :slug, String, null: false
     field :avatar, String, null: true
     field :web, String, null: true
     field :fursuits, [FursuitType], null: false
+    field :fursuits_by_date, [FursuitType], null: false
     field :user, UserType, null: true
     field :commission_status, CommissionStatusType, null: false
     field :claimed, Boolean, null: false
@@ -47,6 +49,10 @@ module Types
 
     def fursuits
       object.fursuits.where(visible: true).order(:name)
+    end
+
+    def fursuits_by_date
+      object.fursuits.where(visible: true).order(creation_year: :desc)
     end
 
   end
