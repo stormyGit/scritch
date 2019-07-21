@@ -11,12 +11,12 @@ class Mutations::CreateSession < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve(params)
-    telegram_hash = params.delete :telegram_hash
-    check_string = params.map { |k, v| "#{k.to_s.gsub(/^telegram_/, '')}=#{v}" }.sort.join("\n")
-    if OpenSSL::HMAC.hexdigest("SHA256", Digest::SHA256.digest(Telegram.bots[:login].token), check_string) != telegram_hash
-      ExceptionNotifier.notify_exception Exception.new("Telegram hash mismatch: #{telegram_hash}: #{params.to_json}")
-      raise Pundit::NotAuthorizedError
-    end
+    # telegram_hash = params.delete :telegram_hash
+    # check_string = params.map { |k, v| "#{k.to_s.gsub(/^telegram_/, '')}=#{v}" }.sort.join("\n")
+    # if OpenSSL::HMAC.hexdigest("SHA256", Digest::SHA256.digest(Telegram.bots[:login].token), check_string) != telegram_hash
+    #   ExceptionNotifier.notify_exception Exception.new("Telegram hash mismatch: #{telegram_hash}: #{params.to_json}")
+    #   raise Pundit::NotAuthorizedError
+    # end
 
     user = User.find_or_create_by(telegram_id: params[:telegram_id]) do |user|
       user.telegram_id = params[:telegram_id]

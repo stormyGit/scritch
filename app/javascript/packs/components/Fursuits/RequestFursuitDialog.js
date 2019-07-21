@@ -245,7 +245,7 @@ class RequestFursuitDialog extends React.Component {
                               isHybrid: this.state.hybridSearch
                                 ? this.state.hybridSearch
                                 : false,
-                              makerIds: this.state.maker,
+                              makerIds: [this.state.maker],
                               creationYear: this.state.creationYear
                                 ? parseInt(this.state.creationYear)
                                 : null
