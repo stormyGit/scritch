@@ -439,7 +439,7 @@ namespace :species_rake do
     ].each do |e|
       begin
         Specy.find_by(name: e[:name]).update!(avatar_file: e[:icon])
-      rescue =>
+      rescue => error
         TechReport.create!(user: User.first, kind: "exception", description: "Species Icon Rake: #{e[:name]}")
       end
     end
