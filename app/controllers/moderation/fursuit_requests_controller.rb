@@ -73,7 +73,7 @@ class Moderation::FursuitRequestsController < ModerationController
     fursuit = Fursuit.new
     fursuit.assign_attributes(tmpAttr)
     begin
-      fursuit.avatar = File.open("app/assets/images/species/#{fursuit.is_hybrid ? "Hybrid" : fursuit.species[0]}.png")
+      fursuit.avatar = File.open("app/assets/images/species/#{fursuit.is_hybrid ? "Hybrid" : fursuit.species[0].avatar_file}.png")
     rescue
       fursuit.avatar = File.open("app/assets/images/species/FAILED.png")
     end
