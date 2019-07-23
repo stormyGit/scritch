@@ -437,7 +437,11 @@ namespace :species_rake do
       {name: "Wolverine", icon: "Missingno (No Avatar Graphic Found)"},
       {name: "Zebra", icon: "Zebra"}
     ].each do |e|
-      Specy.find_by(name: e["name"]).update!(avatar_file: e["icon"])
+      begin
+        Specy.find_by(name: e[:name]).update!(avatar_file: e[:icon])
+      rescue =>
+        TechReport.create!(user: User.first, kind: "exception", description: "Species Icon Rake: #{e[:name]}")
+      end
     end
   end
 end
