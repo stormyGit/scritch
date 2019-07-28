@@ -123,7 +123,7 @@ class AppRouter extends React.Component {
                     exact
                     path="/favorites"
                     component={
-                      currentSession && currentSession.user.sponsor
+                      currentSession && !currentSession.user.suspendedUser
                         ? Favorites
                         : MustLog
                     }

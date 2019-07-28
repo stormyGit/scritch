@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Query, Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
@@ -175,6 +175,64 @@ const styles = theme => ({
 
 var scroll = Scroll.animateScroll;
 
+const Image = ({ classes, orientation, medium }) => {
+  useEffect(
+    () => {
+      let metas = document.getElementsByTagName("meta");
+      let oldPicture;
+
+      for (var meta in metas)
+        if (metas[meta].name === "og:image") {
+          oldPicture = metas[meta].content;
+          metas[meta].content = medium.picture;
+        }
+
+      return () => {
+        let metas = document.getElementsByTagName("meta");
+
+        for (var meta in metas)
+          if (metas[meta].name === "og:image") {
+            metas[meta].content = oldPicture;
+          }
+      };
+    },
+    [medium.picture]
+  );
+
+  return (
+    <Grid container className={classes.gridContainer}>
+      <Grid item lg={1} xs={12} />
+      <Grid item lg={10} xs={12}>
+        {medium.resized.substr(medium.resized.lastIndexOf(".") + 1) ===
+          "mp4" && (
+          <video
+            loop="loop"
+            autoplay="autoplay"
+            onContextMenu={e => {
+              e.preventDefault();
+            }}
+            className={orientation}
+            src={medium.resized}
+          />
+        )}
+        {medium.resized.substr(medium.resized.lastIndexOf(".") + 1) !==
+          "mp4" && (
+          <img
+            onClick={() => {}}
+            onContextMenu={e => {
+              e.preventDefault();
+            }}
+            className={orientation}
+            src={`${medium.resized}`}
+            title={medium.title}
+          />
+        )}
+      </Grid>
+      <Grid item lg={1} xs={12} />
+    </Grid>
+  );
+};
+
 class Medium extends React.Component {
   state = {
     menuAnchor: null,
@@ -188,6 +246,7 @@ class Medium extends React.Component {
   };
 
   renderCommentsCount(count) {
+    console.log(123);
     if (count === 0) {
       return `No comments`;
     }
@@ -217,6 +276,7 @@ class Medium extends React.Component {
           if (loading || error) {
             return null;
           }
+
           var orientation;
           if (medium) {
             if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
@@ -470,38 +530,11 @@ class Medium extends React.Component {
                   </PageTitle>
 
                   <Card className={classes.card} elevation={0}>
-                    <Grid container className={classes.gridContainer}>
-                      <Grid item lg={1} xs={12} />
-                      <Grid item lg={10} xs={12}>
-                        {medium.resized.substr(
-                          medium.resized.lastIndexOf(".") + 1
-                        ) === "mp4" && (
-                          <video
-                            loop="loop"
-                            autoplay="autoplay"
-                            onContextMenu={e => {
-                              e.preventDefault();
-                            }}
-                            className={orientation}
-                            src={medium.resized}
-                          />
-                        )}
-                        {medium.resized.substr(
-                          medium.resized.lastIndexOf(".") + 1
-                        ) !== "mp4" && (
-                          <img
-                            onClick={() => {}}
-                            onContextMenu={e => {
-                              e.preventDefault();
-                            }}
-                            className={orientation}
-                            src={`${medium.resized}`}
-                            title={medium.title}
-                          />
-                        )}
-                      </Grid>
-                      <Grid item lg={1} xs={12} />
-                    </Grid>
+                    <Image
+                      classes={classes}
+                      orientation={orientation}
+                      medium={medium}
+                    />
                     <Grid container spacing={8}>
                       <Grid item lg={9} xs={12}>
                         <CardContent>
@@ -552,10 +585,7 @@ class Medium extends React.Component {
                                       </Button>
                                     )}
                                   <LikeButton medium={medium} />
-                                  <FaveButton
-                                    medium={medium}
-                                    disabled={!currentSession.user.sponsor}
-                                  />
+                                  <FaveButton medium={medium} />
                                 </Grid>
                               </Grid>
                             </div>

@@ -155,12 +155,6 @@ class FaveButton extends React.Component {
   render() {
     const { currentSession } = this.props;
 
-    if (!currentSession.user.sponsor)
-      return (
-        <Tooltip title="You must be a Sponsor to Fave a Media">
-          <span>{this.renderButton()}</span>
-        </Tooltip>
-      );
     return this.renderButton();
   }
 }

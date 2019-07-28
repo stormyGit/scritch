@@ -414,10 +414,7 @@ class Medium extends React.Component {
                                 <Grid item xs={7}>
                                   <LikeButton medium={medium} />
                                 </Grid>
-                                <FaveButton
-                                  medium={medium}
-                                  disabled={!currentSession.user.sponsor}
-                                />
+                                <FaveButton medium={medium} />
                               </Grid>
                             </div>
                           )}

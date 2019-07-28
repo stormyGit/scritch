@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import gql from "graphql-tag";
 import { Query, withApollo } from "react-apollo";
@@ -20,6 +20,7 @@ import FavoriteIcon from "@material-ui/icons/Star";
 import EyeIcon from "@material-ui/icons/RemoveRedEye";
 import dayjs from "dayjs";
 import queryString from "query-string";
+import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -47,9 +48,17 @@ const styles = theme => ({
         ? "linear-gradient(#000000ff, #00000000)"
         : "linear-gradient(#000000ff, #00000000)"
   },
+  overlayLarge: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    background: "rgba(0, 0, 0, 0.5)"
+  },
   typo: {
     color: "#ffffffdd",
-    fontSize: 15
+    fontSize: "1.7rem"
   },
   horizontalCard: {
     display: "flex"
@@ -106,134 +115,177 @@ const styles = theme => ({
   },
   leftIcon: {
     marginRight: theme.spacing.unit,
-    fontSize: 15
+    fontSize: "1.7rem"
+  },
+  leftIconSmall: {
+    marginRight: theme.spacing.unit,
+    fontSize: 17
+  },
+  flex: {
+    display: "flex"
+  },
+  flexVertical: {
+    display: "flex",
+    flexDirection: "column",
+    height: "100%"
   }
 });
 
+const Media = ({ classes, medium, width }) => {
+  const [mouseOver, setMouseOver] = useState(false);
+
+  var orientation;
+  if (medium) {
+    if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
+      orientation = classes.verticalMedia;
+    else if (medium.exif && JSON.parse(medium.exif).Orientation === "8")
+      orientation = classes.verticalMediaR;
+    else if (medium.exif && JSON.parse(medium.exif).Orientation === "3")
+      orientation = classes.horizontalMediaFlip;
+    else orientation = classes.horizontalMedia;
+  } else orientation = classes.horizontalMedia;
+
+  return (
+    <div
+      className={classes.cardMediaContainer}
+      onMouseEnter={() => setMouseOver(true)}
+      onMouseLeave={() => setMouseOver(false)}
+    >
+      {medium.thumbnail.substr(medium.thumbnail.lastIndexOf(".") + 1) ===
+      "mp4" ? (
+        <CardMedia
+          className={orientation}
+          component={"video"}
+          src={medium.thumbnail}
+          title={medium.title}
+        />
+      ) : (
+        <CardMedia
+          className={orientation}
+          image={medium.thumbnail}
+          title={medium.title}
+        />
+      )}
+      <Infos
+        classes={classes}
+        medium={medium}
+        width={width}
+        mouseOver={mouseOver}
+      />
+    </div>
+  );
+};
+
+const Infos = ({ classes, medium, width, mouseOver }) => {
+  if (!mouseOver)
+    return (
+      <div className={classes.overlay}>
+        <Grid
+          container
+          spacing={8}
+          justify="space-around"
+          className={classes.flex}
+        >
+          <Button
+            disabled
+            size="small"
+            style={{ color: "#ffffffee", fontSize: 17 }}
+          >
+            <CommentIcon className={classes.leftIconSmall} />
+            {countContractor(medium.commentsCount)}
+          </Button>
+          <Button
+            disabled
+            size="small"
+            style={{ color: "#ffffffee", fontSize: 17 }}
+          >
+            <FontAwesomeIcon icon={faPaw} className={classes.leftIconSmall} />
+            {countContractor(medium.likesCount)}
+          </Button>
+          <Button
+            disabled
+            size="small"
+            style={{ color: "#ffffffee", fontSize: 17 }}
+          >
+            <FontAwesomeIcon icon={faEye} className={classes.leftIconSmall} />
+            {countContractor(medium.viewsCount)}
+          </Button>
+        </Grid>
+      </div>
+    );
+
+  return (
+    <div className={classes.overlayLarge}>
+      <Grid
+        container
+        spacing={8}
+        justify="space-between"
+        className={classes.flexVertical}
+      >
+        <Grid
+          container
+          spacing={8}
+          justify="space-around"
+          className={classes.flex}
+        >
+          <Button disabled style={{ color: "#ffffffee", fontSize: "1.7rem" }}>
+            <CommentIcon size="small" className={classes.leftIcon} />
+            {countContractor(medium.commentsCount)}
+          </Button>
+          <Button disabled style={{ color: "#ffffffee", fontSize: "1.7rem" }}>
+            <FontAwesomeIcon icon={faPaw} className={classes.leftIcon} />
+            {countContractor(medium.likesCount)}
+          </Button>
+        </Grid>
+        <Grid
+          container
+          spacing={8}
+          justify="space-around"
+          className={classes.flex}
+        >
+          <Button disabled style={{ color: "#ffffffee", fontSize: "1.7rem" }}>
+            <FontAwesomeIcon icon={faStar} className={classes.leftIcon} />
+            {countContractor(medium.favesCount)}
+          </Button>
+          <Button disabled style={{ color: "#ffffffee", fontSize: "1.7rem" }}>
+            <FontAwesomeIcon icon={faEye} className={classes.leftIcon} />
+            {countContractor(medium.viewsCount)}
+          </Button>
+        </Grid>
+        <Grid
+          container
+          spacing={8}
+          justify="space-around"
+          className={classes.flex}
+        >
+          <Button disabled style={{ color: "#ffffffee", fontSize: "1.7rem" }}>
+            <TagIcon size="small" className={classes.leftIcon} />
+            {`${medium.completion}%`}
+          </Button>
+        </Grid>
+      </Grid>
+    </div>
+  );
+};
+
 class MediumCard extends React.Component {
   state = {
+    mouseOver: false,
     displayMetrics: false
   };
 
-  renderMedia() {
-    const { classes, medium, horizontal, width, client } = this.props;
-
-    var orientation;
-    if (medium) {
-      if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
-        orientation = classes.verticalMedia;
-      else if (medium.exif && JSON.parse(medium.exif).Orientation === "8")
-        orientation = classes.verticalMediaR;
-      else if (medium.exif && JSON.parse(medium.exif).Orientation === "3")
-        orientation = classes.horizontalMediaFlip;
-      else orientation = classes.horizontalMedia;
-    } else orientation = classes.horizontalMedia;
-
-    return (
-      <div className={horizontal ? undefined : classes.cardMediaContainer}>
-        {medium.thumbnail.substr(medium.thumbnail.lastIndexOf(".") + 1) ===
-        "mp4" ? (
-          <CardMedia
-            className={orientation}
-            component={"video"}
-            src={medium.thumbnail}
-            title={medium.title}
-          />
-        ) : (
-          <CardMedia
-            className={orientation}
-            image={medium.thumbnail}
-            title={medium.title}
-          />
-        )}
-        {this.renderActions()}
-      </div>
-    );
-  }
-
-  renderActions() {
+  render() {
     const { classes, medium, width } = this.props;
-
-    return (
-      <div className={classes.overlay}>
-        {(width === "sm" || width === "xs") && (
-          <Grid container spacing={8} justify="space-between" wrap="nowrap">
-            <Grid item xs={4}>
-              <Button disabled size="small" style={{ color: "#ffffffee" }}>
-                <CommentIcon className={classes.leftIcon} />
-                {countContractor(medium.commentsCount)}
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button disabled size="small" style={{ color: "#ffffffee" }}>
-                <FontAwesomeIcon icon={faPaw} className={classes.leftIcon} />
-                {countContractor(medium.likesCount)}
-              </Button>
-            </Grid>
-            <Grid item xs={4}>
-              <Button disabled size="small" style={{ color: "#ffffffee" }}>
-                <FontAwesomeIcon icon={faStar} className={classes.leftIcon} />
-                {countContractor(medium.favesCount)}
-              </Button>
-            </Grid>
-          </Grid>
-        )}
-        {width !== "sm" && width !== "xs" && (
-          <Grid
-            container
-            spacing={8}
-            justify="space-between"
-            wrap="nowrap"
-            style={{ maxWidth: "100%" }}
-          >
-            <Grid item>
-              <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
-                <CommentIcon size="small" className={classes.leftIcon} />
-                {countContractor(medium.commentsCount)}
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
-                <FontAwesomeIcon icon={faPaw} className={classes.leftIcon} />
-                {countContractor(medium.likesCount)}
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
-                <FontAwesomeIcon icon={faStar} className={classes.leftIcon} />
-                {countContractor(medium.favesCount)}
-              </Button>
-            </Grid>
-            <Grid item>
-              <Button disabled style={{ color: "#ffffffee", fontSize: 15 }}>
-                <FontAwesomeIcon icon={faEye} className={classes.leftIcon} />
-                {countContractor(medium.viewsCount)}
-              </Button>
-            </Grid>
-          </Grid>
-        )}
-      </div>
-    );
-  }
-
-  renderVertical() {
-    const { classes, medium } = this.props;
 
     return (
       <Card className={classes.card} elevation={0}>
         <CardActionArea
           component={props => <Link to={`/pictures/${medium.id}`} {...props} />}
         >
-          {this.renderMedia()}
+          <Media classes={classes} medium={medium} width={width} />
         </CardActionArea>
       </Card>
     );
-  }
-
-  render() {
-    const { horizontal } = this.props;
-
-    return this.renderVertical();
   }
 }
 
