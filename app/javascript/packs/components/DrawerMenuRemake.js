@@ -227,29 +227,20 @@ class DrawerMenuRemake extends React.Component {
               <div>
                 <List disablePadding={width !== "lg" && width !== "xl"}>
                   <React.Fragment>
-                    <ListItem
-                      button
-                      selected={
-                        location.pathname === "/" ||
-                        location.pathname === "/pictures"
-                      }
-                      onClick={() => {
-                        this.props.history.push({
-                          pathname: "/"
-                        });
-                        if (this.props.onClose) {
-                          this.props.onClose();
-                        }
-                      }}
-                    >
-                      <ListItemIcon className={classes.text} color="secondary">
-                        <HomeIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary="Home"
-                        primaryTypographyProps={{ className: classes.text }}
-                      />
-                    </ListItem>
+                    <Link to="/" className={classes.link}>
+                      <ListItem button selected={location.pathname === "/"}>
+                        <ListItemIcon
+                          className={classes.text}
+                          color="secondary"
+                        >
+                          <HomeIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Home"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                    </Link>
                     <ListItem
                       button
                       onClick={() => {

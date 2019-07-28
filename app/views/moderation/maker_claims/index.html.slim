@@ -25,9 +25,9 @@
                   p.is-size-4
                     | &nbsp;&nbsp;Claimer
                   p.is-size-5
-                    = "#{maker_claim.user.name}"
+                    = "#{maker_claim.user&.name}"
                   p.is-size-5
-                    - if maker_claim.user.telegram_username.present?
+                    - if maker_claim.user&.telegram_username.present?
                       a href="http://t.me/#{maker_claim.user.telegram_username}" target="_blank"
                         = "@#{maker_claim.user.telegram_username}"
 
@@ -44,7 +44,7 @@
                     p.is-size-4
                       | &nbsp;&nbsp;Asset already owned!
                     p.is-size-5
-                      = "Current Owner: #{maker_claim.maker.user.name}"
+                      = "Current Owner: #{maker_claim.maker.user&.name}"
                       br
                       - if maker_claim.maker.user.telegram_username.present?
                         a href="http://t.me/#{maker_claim.maker.user.telegram_username}" target="_blank"
