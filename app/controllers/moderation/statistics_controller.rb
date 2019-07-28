@@ -27,7 +27,8 @@ class Moderation::StatisticsController < ModerationController
       {title: "Scritches", value: Like.count, lock: false},
       {title: "Faves", value: Fave.count, lock: false},
       {title: "Sponsors (FT / C / L)", value: "#{Sponsor.count} (#{Sponsor.where(plan: "Free Trial").count} / #{Sponsor.where(status: "canceled").count} / #{Sponsor.where(status: "live").where.not(plan: "Free Trial").count})", lock: true},
-      {title: "Events / Editions", value: "#{Event.count} / #{Edition.count}", lock: false}
+      {title: "Events / Editions", value: "#{Event.count} / #{Edition.count}", lock: false},
+      {title: "Storage Disk Usage", value: "#{`df -m /`.split(/\b/)[24].to_i}%", lock: false}
     ]
 
     @users_count = Statistic.pluck("date_trunc('day', created_at)", :users)
