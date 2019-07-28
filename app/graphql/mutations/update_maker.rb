@@ -24,7 +24,7 @@ class Mutations::UpdateMaker < Mutations::BaseMutation
 
     raise Pundit::NotAuthorizedError unless MakerPolicy.new(context[:current_user], maker).update?
 
-    if oldStatus == "Closed" && newStatus.present? && (newStatus == "Open" || newStatus == "Open (with conditions")
+    if oldStatus == "Closed" && newStatus.present? && (newStatus == "Open" || newStatus == "Open (with conditions)")
       maker.subscribers.each do |e|
         maker.create_activity :commissions_open, owner: Proc.new{ |_, model| model }, recipient: e
       end
