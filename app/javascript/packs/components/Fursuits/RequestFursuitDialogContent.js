@@ -144,7 +144,6 @@ class RequestFursuitDialog extends React.Component {
   isFormNotOk() {
     if (
       !this.state.name ||
-      !this.state.url ||
       /^\s*$/.test(this.state.name) ||
       !this.state.fursuitFinger ||
       !this.state.fursuitBuild ||
@@ -167,116 +166,112 @@ class RequestFursuitDialog extends React.Component {
 
     return (
       <React.Fragment>
-        <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
-          <GlobalProgress absolute />
-          <DialogTitle>{`Request a new Fursuit`}</DialogTitle>
-          <DialogContent className={classes.dialogContent}>
-            <TextField
-              label="Name"
-              name="name"
-              value={this.state.name}
-              onChange={e => this.setState({ name: e.target.value })}
-              margin="dense"
-              fullWidth
-            />
-            <TextField
-              label="Creation year"
-              name="creationYear"
-              value={this.state.creationYear}
-              onChange={e => this.setState({ creationYear: e.target.value })}
-              margin="dense"
-              fullWidth
-            />
-            <TextField
-              label="URL"
-              name="url"
-              value={this.state.url}
-              onChange={e => this.setState({ url: e.target.value })}
-              margin="dense"
-              fullWidth
-            />
-            <FursuitEditFields
-              inRequest={true}
-              onChange={value => {
-                this.setState({
-                  [value.label]: value.value
-                });
-              }}
-            />
-            <TextField
-              label="Additional Information (Optional)"
-              name="notes"
-              value={this.state.notes}
-              onChange={e => this.setState({ notes: e.target.value })}
-              margin="dense"
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.props.onClose}>Cancel</Button>
-            <Mutation mutation={CREATE_FURSUIT_REQUEST}>
-              {(createFursuitRequest, { data }) => {
-                const notOk = this.isFormNotOk();
-                const button = (
-                  <div>
-                    <Button
-                      disabled={notOk}
-                      onClick={() => {
-                        createFursuitRequest({
-                          variables: {
-                            input: {
-                              userId: currentSession.user.id,
-                              name: this.state.name,
-                              url: this.state.url,
-                              notes: this.state.notes,
-                              fursuitFingerId: this.state.fursuitFinger,
-                              fursuitBuildId: this.state.fursuitBuild,
-                              fursuitGenderId: this.state.fursuitGender,
-                              fursuitPaddingId: this.state.fursuitPadding,
-                              fursuitStyleId: this.state.fursuitStyle,
-                              speciesIds: this.state.speciesIds
-                                ? this.state.speciesIds.map(e =>
-                                    e.value ? e.value : e
-                                  )
-                                : null,
-                              fursuitLegTypeId: this.state.fursuitLegType,
-                              baseColor: this.state.baseColor,
-                              eyesColor: this.state.eyesColor,
-                              isHybrid: this.state.hybridSearch
-                                ? this.state.hybridSearch
-                                : false,
-                              makerIds: [this.state.maker],
-                              creationYear: this.state.creationYear
-                                ? parseInt(this.state.creationYear)
-                                : null
-                            }
+        <DialogContent className={classes.dialogContent}>
+          <TextField
+            label="Name"
+            name="name"
+            value={this.state.name}
+            onChange={e => this.setState({ name: e.target.value })}
+            margin="dense"
+            fullWidth
+          />
+          <TextField
+            label="Creation year"
+            name="creationYear"
+            value={this.state.creationYear}
+            onChange={e => this.setState({ creationYear: e.target.value })}
+            margin="dense"
+            fullWidth
+          />
+          <TextField
+            label="URL (Optional)"
+            name="url"
+            value={this.state.url}
+            onChange={e => this.setState({ url: e.target.value })}
+            margin="dense"
+            fullWidth
+          />
+          <FursuitEditFields
+            inRequest={true}
+            onChange={value => {
+              this.setState({
+                [value.label]: value.value
+              });
+            }}
+          />
+          <TextField
+            label="Additional Information (Optional)"
+            name="notes"
+            value={this.state.notes}
+            onChange={e => this.setState({ notes: e.target.value })}
+            margin="dense"
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.props.onClose}>Cancel</Button>
+          <Mutation mutation={CREATE_FURSUIT_REQUEST}>
+            {(createFursuitRequest, { data }) => {
+              const notOk = this.isFormNotOk();
+              const button = (
+                <div>
+                  <Button
+                    disabled={notOk}
+                    onClick={() => {
+                      createFursuitRequest({
+                        variables: {
+                          input: {
+                            userId: currentSession.user.id,
+                            name: this.state.name,
+                            url: this.state.url,
+                            notes: this.state.notes,
+                            fursuitFingerId: this.state.fursuitFinger,
+                            fursuitBuildId: this.state.fursuitBuild,
+                            fursuitGenderId: this.state.fursuitGender,
+                            fursuitPaddingId: this.state.fursuitPadding,
+                            fursuitStyleId: this.state.fursuitStyle,
+                            speciesIds: this.state.speciesIds
+                              ? this.state.speciesIds.map(e =>
+                                  e.value ? e.value : e
+                                )
+                              : null,
+                            fursuitLegTypeId: this.state.fursuitLegType,
+                            baseColor: this.state.baseColor,
+                            eyesColor: this.state.eyesColor,
+                            isHybrid: this.state.hybridSearch
+                              ? this.state.hybridSearch
+                              : false,
+                            makerIds: [this.state.maker],
+                            creationYear: this.state.creationYear
+                              ? parseInt(this.state.creationYear)
+                              : null
                           }
-                        }).then(updated => {
-                          console.log(updated);
-                          this.props.onClose();
-                          this.props.submitSnack();
-                        });
-                      }}
-                    >
-                      Send
-                    </Button>
-                  </div>
-                );
+                        }
+                      }).then(updated => {
+                        console.log(updated);
+                        this.props.onClose();
+                        this.props.submitSnack();
+                      });
+                    }}
+                  >
+                    Send
+                  </Button>
+                </div>
+              );
 
-                return (
-                  <React.Fragment>
-                    {notOk && (
-                      <Tooltip title="Check Completion of Required Fields">
-                        {button}
-                      </Tooltip>
-                    )}
-                    {!notOk && button}
-                  </React.Fragment>
-                );
-              }}
-            </Mutation>
-          </DialogActions>
-        </ResponsiveDialog>
+              return (
+                <React.Fragment>
+                  {notOk && (
+                    <Tooltip title="Check Completion of Required Fields">
+                      {button}
+                    </Tooltip>
+                  )}
+                  {!notOk && button}
+                </React.Fragment>
+              );
+            }}
+          </Mutation>
+        </DialogActions>
       </React.Fragment>
     );
   }

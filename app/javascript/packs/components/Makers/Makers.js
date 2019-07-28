@@ -7,7 +7,10 @@ import withWidth from "@material-ui/core/withWidth";
 
 import { withStyles } from "@material-ui/core/styles";
 
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 import Grid from "@material-ui/core/Grid";
+import Snackbar from "@material-ui/core/Snackbar";
 import Button from "@material-ui/core/Button";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import PageTitle from "../Global/PageTitle";
@@ -42,6 +45,7 @@ class Makers extends React.Component {
   state = {
     hasMore: true,
     assetRequestDialog: false,
+    snack: false,
     criteria: {
       name: "",
       country: "",
@@ -197,10 +201,35 @@ class Makers extends React.Component {
             </React.Fragment>
           )}
         </Query>
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+          }}
+          open={this.state.snack}
+          autoHideDuration={6000}
+          onClose={this.handleClose}
+          ContentProps={{
+            "aria-describedby": "message-id"
+          }}
+          message={<span id="message-id">Maker Request Submitted!</span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              className={classes.close}
+              onClick={() => this.setState({ snack: false })}
+            >
+              <CloseIcon />
+            </IconButton>
+          ]}
+        />
         <AssetRequestDialog
           open={this.state.assetRequestDialog}
           onClose={() => this.setState({ assetRequestDialog: false })}
           assetType="Maker"
+          submitSnack={() => this.setState({ snack: true })}
         />
       </React.Fragment>
     );

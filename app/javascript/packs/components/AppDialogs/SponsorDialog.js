@@ -94,69 +94,14 @@ class SponsorDialog extends React.Component {
             />
           )}
           <Typography variant="h6" className={classes.textTitle}>
-            Make use of the following website features for just £1 a month or
-            £4.99 every 6 months!
+            We value each and every one that supports the website. So much so,
+            that rather than create a fundraising account and have a percentage
+            eaten up by another entity, Scritch allows support direct from the
+            website in the form of a Sponsorship.
           </Typography>
-          <List className={classes.listPadder}>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText
-                inset
-                primary="Follow User Accounts (Photographers) to see content that they upload."
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText
-                inset
-                primary="Follow Fursuiters to see content that they are tagged in."
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText
-                inset
-                primary="Favourite media that is then held in your personal Favourites Gallery."
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText
-                inset
-                primary="Follow Fursuit Makers to be notified of newly added Fursuits that have them assigned as the Maker."
-              />
-            </ListItem>
-            <ListItem>
-              <ListItemIcon>
-                <CheckIcon />
-              </ListItemIcon>
-              <ListItemText
-                inset
-                primary="Get notified of commission status changes on Makers you follow."
-              />
-            </ListItem>
-          </List>
+
           <Typography variant="h6" className={classes.text}>
-            {`We appreciate all Sponsorships taken up by our users, as with your
-            support we can grow the website through innovative new services and
-            features <3`}
-          </Typography>
-          <Typography
-            variant="subtitle1"
-            className={classes.textTitle}
-            style={{ fontStyle: "italic" }}
-          >
-            Please Note: all features above can be worked around as a standard
-            member, it just makes more sense to enjoy notifications and
-            automations and we really do appreciate your support!
+            {`Sponsorships allow for more effort to be devoted to the coding of the website, with future perks also planned to thank those that get behind us early on <3`}
           </Typography>
           <div className={classes.buttonsRoot}>
             <a

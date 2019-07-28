@@ -21,7 +21,7 @@ import WhatshotIcon from "@material-ui/icons/Whatshot";
 import PictureIcon from "@material-ui/icons/PhotoLibrary";
 import SettingsIcon from "@material-ui/icons/Settings";
 import PetsIcon from "@material-ui/icons/Pets";
-import ToysIcon from "@material-ui/icons/Toys";
+import AdsIcon from "@material-ui/icons/BusinessCenter";
 import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 import VerifiedUserIcon from "@material-ui/icons/VerifiedUser";
 import AsssistantPhotoIcon from "@material-ui/icons/AssistantPhoto";
@@ -34,7 +34,9 @@ import ContactSupportIcon from "@material-ui/icons/ContactSupport";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
 
+import AssetRequestDialog from "./AppDialogs/AssetRequestDialog";
 import SettingsDialog from "./AppDialogs/SettingsDialog";
+import AdvertiseDialog from "./AppDialogs/AdvertiseDialog";
 import MetricsBar from "./AppLayout/MetricsBar";
 import SponsorDashboardDialog from "./AppDialogs/SponsorDashboardDialog";
 import SponsorDialog from "./AppDialogs/SponsorDialog";
@@ -44,13 +46,16 @@ import AnnouncementsDialog from "./AppDialogs/AnnouncementsDialog";
 import SpeciesDialog from "./AppDialogs/SpeciesDialog";
 import MultipleMediaDialog from "./Media/MultipleMediaDialog";
 import { GET_RIBBON_ANNOUNCEMENT } from "../queries/announcementQueries";
-
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 import ProfileAvatar from "./Users/ProfileAvatar";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import HomeIcon from "@material-ui/icons/Home";
 import DatabaseIcon from "@material-ui/icons/LibraryBooks";
 import MenuIcon from "@material-ui/icons/Menu";
+import AddIcon from "@material-ui/icons/Add";
 
 import { Link, withRouter } from "react-router-dom";
 
@@ -110,8 +115,11 @@ class DrawerMenuRemake extends React.Component {
     tipsDialog: false,
     databaseList: false,
     sponsorMenu: true,
+    snack: false,
+    assetDialog: false,
     speciesDialog: false
   };
+
   render() {
     const { classes, location, currentSession, width } = this.props;
     const user =
@@ -364,6 +372,25 @@ class DrawerMenuRemake extends React.Component {
                         </List>
                       )}
                     </Collapse>
+                    {user && (
+                      <ListItem
+                        button
+                        onClick={() => {
+                          this.setState({ assetDialog: true });
+                        }}
+                      >
+                        <ListItemIcon
+                          className={classes.text}
+                          color="secondary"
+                        >
+                          <AddIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Create"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
+                    )}
                     {currentSession && (
                       <ListItem
                         button
@@ -389,21 +416,47 @@ class DrawerMenuRemake extends React.Component {
                         />
                       </ListItem>
                     )}
-                    {user && (
+                    <ListItem
+                      button
+                      selected={location.pathname === "/subscriptions"}
+                      onClick={() => {
+                        this.props.history.push({
+                          pathname: "/subscriptions"
+                        });
+                        if (this.props.onClose) {
+                          this.props.onClose();
+                        }
+                      }}
+                    >
+                      <ListItemIcon className={classes.text} color="secondary">
+                        <SubscriptionsIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Subscriptions"
+                        primaryTypographyProps={{ className: classes.text }}
+                      />
+                    </ListItem>
+                    {user && user.sponsor && (
                       <ListItem
                         button
+                        selected={location.pathname === "/favorites"}
                         onClick={() => {
-                          this.setState({ tipsDialog: true });
+                          this.props.history.push({
+                            pathname: "/favorites"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
                         }}
                       >
                         <ListItemIcon
                           className={classes.text}
                           color="secondary"
                         >
-                          <TipsIcon />
+                          <FaveIcon />
                         </ListItemIcon>
                         <ListItemText
-                          primary="Tip Jar"
+                          primary="Favourites Gallery"
                           primaryTypographyProps={{ className: classes.text }}
                         />
                       </ListItem>
@@ -450,7 +503,7 @@ class DrawerMenuRemake extends React.Component {
                       <MenuIcon />
                     </ListItemIcon>
                     <ListItemText
-                      primary={user.sponsor ? "Sponsor Menu" : "Menu"}
+                      primary={"Support the Site"}
                       primaryTypographyProps={{ className: classes.text }}
                     />
                     {this.state.sponsorMenu ? (
@@ -466,28 +519,46 @@ class DrawerMenuRemake extends React.Component {
                   >
                     <List component="div" disablePadding>
                       {user && user.sponsor && (
-                        <ListItem
-                          button
-                          onClick={() =>
-                            this.setState({ sponsorDashboardDialog: true })
-                          }
-                        >
-                          <ListItemText
-                            primary={
-                              user.sponsor.status == "live" &&
-                              user.sponsor.plan != "Free Trial"
-                                ? `Renews: ${dateFormat(
-                                    sponsorLimit,
-                                    "mmmm dS, yyyy"
-                                  )}`
-                                : `Expires ${dateFormat(
-                                    sponsorLimit,
-                                    "mmmm dS, yyyy"
-                                  )}`
+                        <React.Fragment>
+                          <ListItem>
+                            <ListItemIcon
+                              className={classes.text}
+                              color="secondary"
+                            >
+                              <PetsIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Sponsorship Period:"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                          <ListItem
+                            button
+                            onClick={() =>
+                              this.setState({ sponsorDashboardDialog: true })
                             }
-                            primaryTypographyProps={{ className: classes.text }}
-                          />
-                        </ListItem>
+                          >
+                            <ListItemText
+                              primary={
+                                user.sponsor.status == "live" &&
+                                user.sponsor.plan != "Free Trial"
+                                  ? `Renews: ${dateFormat(
+                                      sponsorLimit,
+                                      "mmmm dS, yyyy"
+                                    )}`
+                                  : `Expires ${dateFormat(
+                                      sponsorLimit,
+                                      "mmmm dS, yyyy"
+                                    )}`
+                              }
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </React.Fragment>
                       )}
                       {user && !user.sponsor && (
                         <div>
@@ -506,7 +577,7 @@ class DrawerMenuRemake extends React.Component {
                               <PetsIcon />
                             </ListItemIcon>
                             <ListItemText
-                              primary="Become a sponsor!"
+                              primary="Become a Sponsor!"
                               primaryTypographyProps={{
                                 className: classes.text
                               }}
@@ -514,50 +585,40 @@ class DrawerMenuRemake extends React.Component {
                           </ListItem>
                         </div>
                       )}
-                      <ListItem
-                        button
-                        selected={location.pathname === "/subscriptions"}
-                        onClick={() => {
-                          this.props.history.push({
-                            pathname: "/subscriptions"
-                          });
-                          if (this.props.onClose) {
-                            this.props.onClose();
-                          }
-                        }}
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
-                        >
-                          <SubscriptionsIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Subscriptions"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                      {user && user.sponsor && (
+                      {user && (
                         <ListItem
                           button
-                          selected={location.pathname === "/favorites"}
                           onClick={() => {
-                            this.props.history.push({
-                              pathname: "/favorites"
-                            });
-                            if (this.props.onClose) {
-                              this.props.onClose();
-                            }
+                            this.setState({ adsDialog: true });
                           }}
                         >
                           <ListItemIcon
                             className={classes.text}
                             color="secondary"
                           >
-                            <FaveIcon />
+                            <AdsIcon />
                           </ListItemIcon>
                           <ListItemText
-                            primary="Favourites Gallery"
+                            primary="Advertise"
+                            primaryTypographyProps={{ className: classes.text }}
+                          />
+                        </ListItem>
+                      )}
+                      {user && (
+                        <ListItem
+                          button
+                          onClick={() => {
+                            this.setState({ tipsDialog: true });
+                          }}
+                        >
+                          <ListItemIcon
+                            className={classes.text}
+                            color="secondary"
+                          >
+                            <TipsIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary="Tip Jar"
                             primaryTypographyProps={{ className: classes.text }}
                           />
                         </ListItem>
@@ -680,6 +741,26 @@ class DrawerMenuRemake extends React.Component {
             }
           }}
         />
+        <AdvertiseDialog
+          open={this.state.adsDialog}
+          onClose={() => {
+            this.setState({ adsDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
+          }}
+        />
+        <AssetRequestDialog
+          open={this.state.assetDialog}
+          onClose={() => {
+            this.setState({ assetDialog: false });
+            if (this.props.onClose) {
+              this.props.onClose();
+            }
+          }}
+          submitSnack={() => this.setState({ snack: true })}
+          assetType="Asset"
+        />
         <SponsorDashboardDialog
           open={this.state.sponsorDashboardDialog}
           onClose={() => {
@@ -688,6 +769,30 @@ class DrawerMenuRemake extends React.Component {
               this.props.onClose();
             }
           }}
+        />
+        <Snackbar
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "left"
+          }}
+          open={this.state.snack}
+          autoHideDuration={6000}
+          onClose={this.handleClose}
+          ContentProps={{
+            "aria-describedby": "message-id"
+          }}
+          message={<span id="message-id">Request Submitted!</span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              className={classes.close}
+              onClick={() => this.setState({ snack: false })}
+            >
+              <CloseIcon />
+            </IconButton>
+          ]}
         />
       </React.Fragment>
     );

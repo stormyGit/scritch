@@ -18,6 +18,14 @@ class PictureUploader < SecureUploader
      process resize_to_fit: [nil, 256]
   end
 
+  # def mogrify
+  #   manipulate! do |img|
+  #     img.format do |c|
+  #       convert.profile.+('!icc,!xmp,*')
+  #     end
+  #   end
+  # end
+
   def strip
     manipulate! do |img|
       img.strip
@@ -56,6 +64,7 @@ class PictureUploader < SecureUploader
     end
   end
 
+  #process :mogrify
   process :store_meta
   process :strip
 

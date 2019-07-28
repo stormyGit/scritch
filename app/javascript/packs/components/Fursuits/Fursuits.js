@@ -6,7 +6,7 @@ import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
 import Tooltip from "@material-ui/core/Tooltip";
-import RequestFursuitDialog from "./RequestFursuitDialog";
+import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
 
 import { withStyles } from "@material-ui/core/styles";
 
@@ -91,10 +91,6 @@ class Fursuits extends React.Component {
       fursuitEyes: "",
       maker: ""
     });
-  }
-
-  handleClose() {
-    this.setState({ snack: false });
   }
 
   renderResults({ data, onLoadMore, hasMore, withMaker }) {
@@ -371,13 +367,14 @@ class Fursuits extends React.Component {
               aria-label="Close"
               color="inherit"
               className={classes.close}
-              onClick={() => this.handleClose()}
+              onClick={() => this.setState({ snack: false })}
             >
               <CloseIcon />
             </IconButton>
           ]}
         />
-        <RequestFursuitDialog
+        <AssetRequestDialog
+          assetType="Fursuit"
           open={this.state.assetRequestDialog}
           onClose={() => this.setState({ assetRequestDialog: false })}
           submitSnack={() => this.setState({ snack: true })}

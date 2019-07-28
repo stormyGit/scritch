@@ -34,6 +34,11 @@ class Mutations::CreateMedium < Mutations::BaseMutation
       elsif arguments[:photographer_string].present?
         medium.photographer_string = arguments[:photographer_string]
       end
+      if arguments[:photographer_slug].blank?
+        medium.photographer_slug = nil
+      elsif arguments[:photographer_string].blank?
+        medium.photographer_string = nil
+      end
     end
 
     if medium.save

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { withStyles } from "@material-ui/core/styles";
 
 import gql from "graphql-tag";
@@ -112,6 +112,61 @@ const styles = theme => {
     }
   };
 };
+
+const MakerFilter = React.memo(
+  ({ classes, inRequest, onChange, maker }) => (
+    <Query query={LOAD_MAKERS_SELECT}>
+      {({ data, loading, error }) => {
+        console.log(123);
+        if (error || !data) {
+          return null;
+        }
+        if (loading) {
+          return (
+            <Grid item xs={8}>
+              <CircularProgress />
+            </Grid>
+          );
+        }
+
+        const makersList = [];
+        data.makersSelect.map(e =>
+          makersList.push({ value: e.id, label: e.name })
+        );
+
+        return (
+          <Grid item xs={12}>
+            {inRequest && (
+              <Typography variant="h6" className={classes.label}>
+                Maker (If Maker is not present,{" "}
+                <Link to="/makers" className={classes.link}>
+                  Request a New Maker
+                </Link>{" "}
+                first)
+              </Typography>
+            )}
+            {!inRequest && (
+              <Typography variant="h6" className={classes.label}>
+                Maker
+              </Typography>
+            )}
+            <Select
+              fullWidth
+              placeholder="Maker"
+              isClearable
+              isSearchable
+              value={maker}
+              onChange={onChange}
+              options={makersList}
+              className={classes.selectInput}
+            />
+          </Grid>
+        );
+      }}
+    </Query>
+  ),
+  ({ maker: oldMaker }, { maker: newMaker }) => oldMaker == newMaker
+);
 
 class FursuitEditFields extends React.Component {
   constructor(props) {
@@ -733,7 +788,7 @@ class FursuitEditFields extends React.Component {
   }
 
   renderFilters() {
-    const { classes } = this.props;
+    const { classes, inRequest } = this.props;
     return (
       <Grid container spacing={8}>
         <Grid item xs={12}>
@@ -741,7 +796,18 @@ class FursuitEditFields extends React.Component {
           {!this.state.hybridSearch && this.renderFursuitSpeciesFilter()}
           {this.state.hybridSearch && this.renderHybridSpeciesFilter()}
           {this.renderFursuitFingersFilter()}
-          {this.renderMakerFilter()}
+          <MakerFilter
+            classes={classes}
+            inRequest={inRequest}
+            maker={this.state.maker}
+            onChange={maker => {
+              this.setState({ maker: maker });
+              this.props.onChange({
+                label: "maker",
+                value: maker ? maker.value : null
+              });
+            }}
+          />
           {this.renderFursuitBuildFilter()}
           {this.renderFursuitStylesFilter()}
           {this.renderFursuitColorFilter()}

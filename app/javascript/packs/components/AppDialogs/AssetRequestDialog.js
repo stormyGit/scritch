@@ -20,8 +20,10 @@ import CheckIcon from "@material-ui/icons/Check";
 
 import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
+import EventMakerRequestDialogContent from "./EventMakerRequestDialogContent";
 import GlobalProgress from "../Global/GlobalProgress";
 import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
+import RequestFursuitDialogContent from "../Fursuits/RequestFursuitDialogContent";
 import withCurrentSession from "../withCurrentSession";
 
 import { CREATE_ASSET_REQUEST } from "../../queries/reportMutations";
@@ -29,6 +31,15 @@ import { CREATE_ASSET_REQUEST } from "../../queries/reportMutations";
 const styles = theme => ({
   selected: {
     opacity: "50%"
+  },
+  flexButtons: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  buttonPadder: {
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3
   },
   domain: {
     marginRight: 1,
@@ -43,6 +54,7 @@ const styles = theme => ({
 
 class AssetRequestDialog extends React.Component {
   state = {
+    assetType: null,
     assetName: "",
     body: "",
     url: ""
@@ -67,233 +79,91 @@ class AssetRequestDialog extends React.Component {
     }
 
     return (
-      <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
+      <ResponsiveDialog
+        open={this.props.open}
+        onClose={() => {
+          this.props.onClose();
+          this.setState({ assetType: null });
+        }}
+      >
         <GlobalProgress absolute />
 
-        <DialogTitle>{`Request a new: ${assetType}`}</DialogTitle>
-        <DialogContent>
-          {assetType == "Fursuit" && (
-            <React.Fragment>
-              <Typography variant="subtitle1">
-                Please provide the following information:
-                <List>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Creation Year" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Species" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Role (Artist, Cosplayer, Dancer, Fursuiter, Furtuber, Gamer, Gearhead, Musician, Photographer)" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Maker" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Build (Fullsuit, Partial)" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Style (Toony, Realistic, Realistic Toony)" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Base Colour" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Eye Colour" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Appearance (Masculine, Feminine, Androgynous)" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Padding (Muscle, Plush, None)" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Leg Type (Plantigrade, Digitigrade, Quad or N/A if Partial without Feetpaws)" />
-                  </ListItem>
-                </List>
-              </Typography>
-            </React.Fragment>
-          )}
-          {assetType == "Maker" && (
-            <React.Fragment>
-              <Typography variant="subtitle1">
-                Please provide the following information:
-              </Typography>
-              <List>
-                <ListItem>
-                  <ListItemIcon>
-                    <CheckIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Country" />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <CheckIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Region" />
-                </ListItem>
-              </List>
-            </React.Fragment>
-          )}
-          {assetType == "Event" && (
-            <React.Fragment>
-              <Typography variant="subtitle1">
-                Please provide the following information:
-                <List>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Start and End Dates" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Country" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Region" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="City" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Venue" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Attendance" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Theme" />
-                  </ListItem>
-                  <ListItem>
-                    <ListItemIcon>
-                      <CheckIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Charity" />
-                  </ListItem>
-                </List>
-              </Typography>
-            </React.Fragment>
-          )}
-          <TextField
-            label="Name"
-            name="name"
-            value={this.state.assetName}
-            onChange={e => this.setState({ assetName: e.target.value })}
-            margin="dense"
-            fullWidth
-            rows={4}
-            rowsMax={12}
-          />
-          <TextField
-            label={`URL to ${this.props.assetType}`}
-            name="url"
-            value={this.state.url}
-            onChange={e => this.setState({ url: e.target.value })}
-            margin="dense"
-            fullWidth
-            rows={4}
-            rowsMax={12}
-          />
-          <TextField
-            label="Please tell us more…"
-            name="body"
-            value={this.state.body}
-            onChange={e => this.setState({ body: e.target.value })}
-            margin="dense"
-            fullWidth
-            multiline
-            rows={4}
-            rowsMax={12}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => {
-              this.props.onClose();
-              this.setState({ assetName: "", body: "", url: "" });
-            }}
-          >
-            Cancel
-          </Button>
-          <Mutation mutation={CREATE_ASSET_REQUEST} update={cache => {}}>
-            {(createAssetRequest, { data }) => (
-              <Button
-                disabled={
-                  !!this.state.url.match(/^\s*$/) ||
-                  !!this.state.assetName.match(/^\s*$/)
-                }
-                onClick={() => {
-                  createAssetRequest({
-                    variables: {
-                      input: {
-                        body: this.state.body,
-                        assetName: this.state.assetName,
-                        assetType: this.props.assetType,
-                        url: `http://${this.state.url}`
-                      }
-                    }
-                  }).then(() => {
-                    this.props.onClose();
-                    this.setState({ assetName: "", body: "", url: "" });
-                  });
-                }}
-              >
-                Send request
-              </Button>
+        <DialogTitle>{`Request Creation of a New: ${
+          this.state.assetType ? this.state.assetType : assetType
+        }`}</DialogTitle>
+        {assetType == "Asset" && (
+          <DialogContent>
+            {!this.state.assetType && (
+              <React.Fragment>
+                <Typography variant="subtitle1">
+                  Before clicking one of the buttons below, check that there
+                  isn't one already in existence (through the Browse Side Bar
+                  Menu). Scritch is always growing and another User may have
+                  already requested what you are looking to add, even your own
+                  Fursuit!
+                </Typography>
+                <div style={{ padding: 8 }} />
+              </React.Fragment>
             )}
-          </Mutation>
-        </DialogActions>
+            <div className={classes.flexButtons}>
+              <Button
+                className={classes.buttonPadder}
+                variant="outlined"
+                onClick={() => this.setState({ assetType: "Fursuit" })}
+              >
+                Fursuit
+              </Button>
+              <Button
+                className={classes.buttonPadder}
+                variant="outlined"
+                onClick={() => this.setState({ assetType: "Maker" })}
+              >
+                Maker
+              </Button>
+              <Button
+                className={classes.buttonPadder}
+                variant="outlined"
+                onClick={() => this.setState({ assetType: "Event" })}
+              >
+                Event
+              </Button>
+            </div>
+          </DialogContent>
+        )}
+        {(assetType == "Fursuit" || this.state.assetType == "Fursuit") && (
+          <RequestFursuitDialogContent
+            submitSnack={this.props.submitSnack}
+            onClose={this.props.onClose}
+          />
+        )}
+        {(assetType == "Maker" || this.state.assetType == "Maker") && (
+          <EventMakerRequestDialogContent
+            assetType="Maker"
+            assetName="Maker"
+            submitSnack={this.props.submitSnack}
+            onClose={this.props.onClose}
+          />
+        )}
+        {(assetType == "Event" || this.state.assetType == "Event") && (
+          <EventMakerRequestDialogContent
+            assetType="Event"
+            assetName="Event"
+            submitSnack={this.props.submitSnack}
+            onClose={this.props.onClose}
+          />
+        )}
+        {!this.state.assetType && assetType == "Asset" && (
+          <DialogActions>
+            <Button
+              onClick={() => {
+                this.props.onClose();
+                this.setState({ assetType: null });
+              }}
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        )}
       </ResponsiveDialog>
     );
   }
