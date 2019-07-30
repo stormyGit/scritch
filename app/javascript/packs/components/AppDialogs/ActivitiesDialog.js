@@ -918,13 +918,12 @@ class ActivitiesDialog extends React.Component {
             if (loading || error || !data) {
               console.log("e", error);
               console.log("lo", loading);
-              console.log("d", data);
               console.log("o", offset);
               console.log("li", limit);
               return null;
             }
 
-            // console.log("d", data);
+            console.log("d", data);
             return (
               <React.Fragment>
                 {!data.activities || data.activities.length === 0 ? (
