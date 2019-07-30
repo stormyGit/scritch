@@ -136,7 +136,7 @@ class Settings extends React.Component {
                 </Grid>
               )}
             </Mutation>
-            {currentSession.user.sponsor && (
+            {currentSession && (
               <Mutation
                 mutation={UPDATE_USER}
                 update={(cache, { data: { updateUser } }) => {
