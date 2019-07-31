@@ -913,7 +913,11 @@ class ActivitiesDialog extends React.Component {
         className={classes.root}
       >
         <GlobalProgress absolute />
-        <Query query={GET_ACTIVITIES} variables={{ offset, limit }}>
+        <Query
+          query={GET_ACTIVITIES}
+          variables={{ offset, limit }}
+          returnPartialData={true}
+        >
           {({ loading, error, data, fetchMore }) => {
             if (loading || error || !data) {
               console.log("e", error);
