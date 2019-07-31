@@ -917,6 +917,7 @@ class ActivitiesDialog extends React.Component {
           query={GET_ACTIVITIES}
           variables={{ offset, limit }}
           returnPartialData={true}
+          fetchPolicy="network-only"
         >
           {({ loading, error, data, fetchMore }) => {
             if (loading || error || !data) {
