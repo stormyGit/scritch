@@ -17,7 +17,10 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { LOAD_EVENTS_COUNTRIES } from "../../queries/eventQueries";
+import {
+  LOAD_EVENTS_COUNTRIES,
+  LOAD_EVENTS_STATUSES
+} from "../../queries/eventQueries";
 
 import { Link, withRouter } from "react-router-dom";
 
