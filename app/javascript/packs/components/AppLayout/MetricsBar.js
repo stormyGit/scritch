@@ -127,10 +127,7 @@ class MetricsBar extends React.Component {
               <div className={classes.metrics}>
                 <Tooltip title="Scritches">
                   <Typography variant="subtitle1">
-                    <FontAwesomeIcon
-                      icon={faPaw}
-                      className={classes.dataSpacer}
-                    />{" "}
+                    <FontAwesomeIcon icon={faPaw} />{" "}
                     {currentSession.user.likedCount}
                   </Typography>
                 </Tooltip>
