@@ -111,7 +111,7 @@ const styles = theme => {
 };
 
 const MakerFilter = React.memo(
-  ({ classes, inRequest, onChange, maker }) => (
+  ({ classes, onChange, maker }) => (
     <Query query={LOAD_MAKERS_SELECT}>
       {({ data, loading, error }) => {
         if (error || !data) {
@@ -127,20 +127,6 @@ const MakerFilter = React.memo(
 
         return (
           <Grid item xs={12} md={6} lg={4}>
-            {inRequest && (
-              <Typography variant="h6" className={classes.label}>
-                Maker (If Maker is not present,{" "}
-                <Link to="/makers" className={classes.link}>
-                  Request a New Maker
-                </Link>{" "}
-                first)
-              </Typography>
-            )}
-            {!inRequest && (
-              <Typography variant="h6" className={classes.label}>
-                Maker
-              </Typography>
-            )}
             <Select
               fullWidth
               placeholder="Maker"
@@ -165,9 +151,6 @@ const MakerFilter = React.memo(
 const GenderFilter = React.memo(
   ({ classes, onChange, gender }) => (
     <React.Fragment>
-      <Typography variant="h6" className={classes.label}>
-        Appearance
-      </Typography>
       <Query query={LOAD_GENDERS}>
         {({ data, loading, error }) => {
           if (error || !data) {
@@ -208,9 +191,6 @@ const GenderFilter = React.memo(
 const PaddingFilter = React.memo(
   ({ classes, onChange, padding }) => (
     <React.Fragment>
-      <Typography variant="h6" className={classes.label}>
-        Padding
-      </Typography>
       <Query query={LOAD_PADDINGS}>
         {({ data, loading, error }) => {
           if (error || !data) {
@@ -251,9 +231,6 @@ const PaddingFilter = React.memo(
 const FingersFilter = React.memo(
   ({ classes, onChange, finger }) => (
     <React.Fragment>
-      <Typography variant="h6" className={classes.label}>
-        Role
-      </Typography>
       <Query query={LOAD_FINGERS}>
         {({ data, loading, error }) => {
           if (error || !data) {
@@ -294,9 +271,6 @@ const FingersFilter = React.memo(
 const LegFilter = React.memo(
   ({ classes, onChange, legType }) => (
     <React.Fragment>
-      <Typography variant="h6" className={classes.label}>
-        Leg type
-      </Typography>
       <Query query={LOAD_LEG_TYPES}>
         {({ data, loading, error }) => {
           if (error || !data) {
@@ -337,9 +311,6 @@ const LegFilter = React.memo(
 const BuildFilter = React.memo(
   ({ classes, onChange, build }) => (
     <React.Fragment>
-      <Typography variant="h6" className={classes.label}>
-        Build
-      </Typography>
       <Query query={LOAD_BUILDS}>
         {({ data, loading, error }) => {
           if (error || !data) {
@@ -380,9 +351,6 @@ const BuildFilter = React.memo(
 const StyleFilter = React.memo(
   ({ classes, onChange, style }) => (
     <React.Fragment>
-      <Typography variant="h6" className={classes.label}>
-        Style
-      </Typography>
       <Query query={LOAD_STYLES}>
         {({ data, loading, error }) => {
           if (error || !data) {
@@ -423,9 +391,6 @@ const StyleFilter = React.memo(
 const ColorFilter = React.memo(
   ({ classes, onChange, color }) => (
     <Grid item xs={12} md={6} lg={4}>
-      <Typography variant="h6" className={classes.label}>
-        Base Colour
-      </Typography>
       <Select
         fullWidth
         placeholder="Base Colour"
@@ -444,9 +409,6 @@ const ColorFilter = React.memo(
 const EyesFilter = React.memo(
   ({ classes, onChange, color }) => (
     <Grid item xs={12} md={6} lg={4}>
-      <Typography variant="h6" className={classes.label}>
-        Base Colour
-      </Typography>
       <Select
         fullWidth
         placeholder="Eyes Colour"
@@ -464,7 +426,7 @@ const EyesFilter = React.memo(
 
 const HybridCheckbox = React.memo(
   ({ classes, onChange, hybridSearch }) => (
-    <Grid item xs={12} md={6} lg={4}>
+    <Grid item xs={12} md={12} lg={5}>
       <FormControlLabel
         control={<Checkbox checked={hybridSearch} onChange={onChange} />}
         label="Activate hybrid species search"
@@ -478,9 +440,6 @@ const HybridCheckbox = React.memo(
 const FursuitSpeciesFilter = React.memo(
   ({ classes, onChange, speciesIds }) => (
     <React.Fragment>
-      <Typography variant="h6" className={classes.label}>
-        Species
-      </Typography>
       <Query query={LOAD_SPECIES}>
         {({ data, loading, error }) => {
           if (error || !data) {
@@ -488,14 +447,14 @@ const FursuitSpeciesFilter = React.memo(
           }
           if (loading) {
             return (
-              <Grid item xs={12} md={6} lg={4}>
+              <Grid item xs={12} md={12} lg={7}>
                 <CircularProgress />
               </Grid>
             );
           }
 
           return (
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={12} md={12} lg={7}>
               <Select
                 fullWidth
                 placeholder="Species"
@@ -522,9 +481,6 @@ const FursuitSpeciesFilter = React.memo(
 const HybridSpeciesFilter = React.memo(
   ({ classes, onChange, speciesIds }) => (
     <React.Fragment>
-      <Typography variant="h6" className={classes.label}>
-        Species
-      </Typography>
       <Query query={LOAD_SPECIES}>
         {({ data, loading, error }) => {
           if (error || !data) {
@@ -532,14 +488,14 @@ const HybridSpeciesFilter = React.memo(
           }
           if (loading) {
             return (
-              <Grid item xs={12} md={6} lg={4}>
+              <Grid item xs={12} md={12} lg={7}>
                 <CircularProgress />
               </Grid>
             );
           }
 
           return (
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={12} md={12} lg={7}>
               <Select
                 fullWidth
                 placeholder="Species"
@@ -721,7 +677,6 @@ class FursuitFilters extends React.Component {
                 />
                 <MakerFilter
                   classes={classes}
-                  inRequest={inRequest}
                   maker={this.state.maker}
                   onChange={maker => {
                     this.setState({ maker: maker });
