@@ -110,6 +110,460 @@ const styles = theme => {
   };
 };
 
+const MakerFilter = React.memo(
+  ({ classes, inRequest, onChange, maker }) => (
+    <Query query={LOAD_MAKERS_SELECT}>
+      {({ data, loading, error }) => {
+        if (error || !data) {
+          return null;
+        }
+        if (loading) {
+          return (
+            <Grid item xs={12} md={6} lg={4}>
+              <CircularProgress />
+            </Grid>
+          );
+        }
+
+        return (
+          <Grid item xs={12} md={6} lg={4}>
+            {inRequest && (
+              <Typography variant="h6" className={classes.label}>
+                Maker (If Maker is not present,{" "}
+                <Link to="/makers" className={classes.link}>
+                  Request a New Maker
+                </Link>{" "}
+                first)
+              </Typography>
+            )}
+            {!inRequest && (
+              <Typography variant="h6" className={classes.label}>
+                Maker
+              </Typography>
+            )}
+            <Select
+              fullWidth
+              placeholder="Maker"
+              isClearable
+              isSearchable
+              value={maker}
+              onChange={onChange}
+              options={data.makersSelect.map(option => ({
+                label: option.name,
+                value: option.id
+              }))}
+              className={classes.selectInput}
+            />
+          </Grid>
+        );
+      }}
+    </Query>
+  ),
+  ({ maker: oldMaker }, { maker: newMaker }) => oldMaker == newMaker
+);
+
+const GenderFilter = React.memo(
+  ({ classes, onChange, gender }) => (
+    <React.Fragment>
+      <Typography variant="h6" className={classes.label}>
+        Appearance
+      </Typography>
+      <Query query={LOAD_GENDERS}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={12} md={6} lg={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          return (
+            <Grid item xs={12} md={6} lg={4}>
+              <Select
+                fullWidth
+                placeholder="Appearance"
+                isClearable
+                isSearchable
+                value={gender}
+                onChange={onChange}
+                options={data.fursuitGenders.map(option => ({
+                  label: option.name,
+                  value: option.id
+                }))}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    </React.Fragment>
+  ),
+  ({ gender: oldGender }, { gender: newGender }) => oldGender == newGender
+);
+
+const PaddingFilter = React.memo(
+  ({ classes, onChange, padding }) => (
+    <React.Fragment>
+      <Typography variant="h6" className={classes.label}>
+        Padding
+      </Typography>
+      <Query query={LOAD_PADDINGS}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={12} md={6} lg={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          return (
+            <Grid item xs={12} md={6} lg={4}>
+              <Select
+                fullWidth
+                placeholder="Padding"
+                isClearable
+                isSearchable
+                value={padding}
+                onChange={onChange}
+                options={data.fursuitPaddings.map(option => ({
+                  label: option.name,
+                  value: option.id
+                }))}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    </React.Fragment>
+  ),
+  ({ padding: oldPadding }, { padding: newPadding }) => oldPadding == newPadding
+);
+
+const FingersFilter = React.memo(
+  ({ classes, onChange, finger }) => (
+    <React.Fragment>
+      <Typography variant="h6" className={classes.label}>
+        Role
+      </Typography>
+      <Query query={LOAD_FINGERS}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={12} md={6} lg={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          return (
+            <Grid item xs={12} md={6} lg={4}>
+              <Select
+                fullWidth
+                placeholder="Role"
+                isClearable
+                isSearchable
+                value={finger}
+                onChange={onChange}
+                options={data.fursuitFingers.map(option => ({
+                  label: option.name,
+                  value: option.id
+                }))}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    </React.Fragment>
+  ),
+  ({ finger: oldFinger }, { finger: newFinger }) => oldFinger == newFinger
+);
+
+const LegFilter = React.memo(
+  ({ classes, onChange, legType }) => (
+    <React.Fragment>
+      <Typography variant="h6" className={classes.label}>
+        Leg type
+      </Typography>
+      <Query query={LOAD_LEG_TYPES}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={12} md={6} lg={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          return (
+            <Grid item xs={12} md={6} lg={4}>
+              <Select
+                fullWidth
+                placeholder="Leg Type"
+                isClearable
+                isSearchable
+                value={legType}
+                onChange={onChange}
+                options={data.fursuitLegTypes.map(option => ({
+                  label: option.name,
+                  value: option.id
+                }))}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    </React.Fragment>
+  ),
+  ({ legType: oldLegType }, { legType: newLegType }) => oldLegType == newLegType
+);
+
+const BuildFilter = React.memo(
+  ({ classes, onChange, build }) => (
+    <React.Fragment>
+      <Typography variant="h6" className={classes.label}>
+        Build
+      </Typography>
+      <Query query={LOAD_BUILDS}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={12} md={6} lg={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          return (
+            <Grid item xs={12} md={6} lg={4}>
+              <Select
+                fullWidth
+                placeholder="Build"
+                isClearable
+                isSearchable
+                value={build}
+                onChange={onChange}
+                options={data.fursuitBuilds.map(option => ({
+                  label: option.name,
+                  value: option.id
+                }))}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    </React.Fragment>
+  ),
+  ({ build: oldBuild }, { build: newBuild }) => oldBuild == newBuild
+);
+
+const StyleFilter = React.memo(
+  ({ classes, onChange, style }) => (
+    <React.Fragment>
+      <Typography variant="h6" className={classes.label}>
+        Style
+      </Typography>
+      <Query query={LOAD_STYLES}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={12} md={6} lg={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          return (
+            <Grid item xs={12} md={6} lg={4}>
+              <Select
+                fullWidth
+                placeholder="Style"
+                isClearable
+                isSearchable
+                value={style}
+                onChange={onChange}
+                options={data.fursuitStyles.map(option => ({
+                  label: option.name,
+                  value: option.id
+                }))}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    </React.Fragment>
+  ),
+  ({ style: oldStyle }, { style: newStyle }) => oldStyle == newStyle
+);
+
+const ColorFilter = React.memo(
+  ({ classes, onChange, color }) => (
+    <Grid item xs={12} md={6} lg={4}>
+      <Typography variant="h6" className={classes.label}>
+        Base Colour
+      </Typography>
+      <Select
+        fullWidth
+        placeholder="Base Colour"
+        isClearable
+        isSearchable
+        value={color}
+        onChange={onChange}
+        options={fursuitColors}
+        className={classes.selectInput}
+      />
+    </Grid>
+  ),
+  ({ color: oldColor }, { color: newColor }) => oldColor == newColor
+);
+
+const EyesFilter = React.memo(
+  ({ classes, onChange, color }) => (
+    <Grid item xs={12} md={6} lg={4}>
+      <Typography variant="h6" className={classes.label}>
+        Base Colour
+      </Typography>
+      <Select
+        fullWidth
+        placeholder="Eyes Colour"
+        isClearable
+        isSearchable
+        value={color}
+        onChange={onChange}
+        options={fursuitEyes}
+        className={classes.selectInput}
+      />
+    </Grid>
+  ),
+  ({ color: oldColor }, { color: newColor }) => oldColor == newColor
+);
+
+const HybridCheckbox = React.memo(
+  ({ classes, onChange, hybridSearch }) => (
+    <Grid item xs={12} md={6} lg={4}>
+      <FormControlLabel
+        control={<Checkbox checked={hybridSearch} onChange={onChange} />}
+        label="Activate hybrid species search"
+      />
+    </Grid>
+  ),
+  ({ hybridSearch: oldHybridSearch }, { hybridSearch: newHybridSearch }) =>
+    oldHybridSearch == newHybridSearch
+);
+
+const FursuitSpeciesFilter = React.memo(
+  ({ classes, onChange, speciesIds }) => (
+    <React.Fragment>
+      <Typography variant="h6" className={classes.label}>
+        Species
+      </Typography>
+      <Query query={LOAD_SPECIES}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={12} md={6} lg={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          return (
+            <Grid item xs={12} md={6} lg={4}>
+              <Select
+                fullWidth
+                placeholder="Species"
+                isClearable
+                isSearchable
+                value={speciesIds}
+                onChange={onChange}
+                options={data.species.map(option => ({
+                  label: option.name,
+                  value: option.id
+                }))}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    </React.Fragment>
+  ),
+  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) =>
+    oldSpeciesIds == newSpeciesIds
+);
+
+const HybridSpeciesFilter = React.memo(
+  ({ classes, onChange, speciesIds }) => (
+    <React.Fragment>
+      <Typography variant="h6" className={classes.label}>
+        Species
+      </Typography>
+      <Query query={LOAD_SPECIES}>
+        {({ data, loading, error }) => {
+          if (error || !data) {
+            return null;
+          }
+          if (loading) {
+            return (
+              <Grid item xs={12} md={6} lg={4}>
+                <CircularProgress />
+              </Grid>
+            );
+          }
+
+          return (
+            <Grid item xs={12} md={6} lg={4}>
+              <Select
+                fullWidth
+                placeholder="Species"
+                isClearable
+                isSearchable
+                isMulti
+                value={speciesIds}
+                onChange={onChange}
+                options={data.species.map(option => ({
+                  label: option.name,
+                  value: option.id
+                }))}
+                className={classes.selectInput}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    </React.Fragment>
+  ),
+  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) =>
+    oldSpeciesIds == newSpeciesIds
+);
+
 class FursuitFilters extends React.Component {
   constructor(props) {
     super(props);
@@ -171,504 +625,6 @@ class FursuitFilters extends React.Component {
     }
   }
 
-  renderFursuitLegsFilter() {
-    const { classes } = this.props;
-
-    return (
-      <Query query={LOAD_LEG_TYPES}>
-        {({ data, loading, error }) => {
-          if (error || !data) {
-            return null;
-          }
-          if (loading) {
-            return (
-              <Grid item xs={4}>
-                <CircularProgress />
-              </Grid>
-            );
-          }
-
-          const legList = [];
-          data.fursuitLegTypes.map(e =>
-            legList.push({ value: e.id, label: e.name })
-          );
-
-          return (
-            <Grid item xs={4}>
-              <Select
-                fullWidth
-                placeholder="Leg Type"
-                isClearable
-                isSearchable
-                value={this.state.fursuitLegType}
-                onChange={legType => {
-                  this.setState({ fursuitLegType: legType });
-                  this.props.onChange({
-                    label: "fursuitLegType",
-                    value: legType ? legType.value : null
-                  });
-                }}
-                options={legList}
-                className={classes.selectInput}
-              />
-            </Grid>
-          );
-        }}
-      </Query>
-    );
-  }
-
-  renderFursuitStylesFilter() {
-    const { classes } = this.props;
-
-    return (
-      <Query query={LOAD_STYLES}>
-        {({ data, loading, error }) => {
-          if (error || !data) {
-            return null;
-          }
-          if (loading) {
-            return (
-              <Grid item xs={4}>
-                <CircularProgress />
-              </Grid>
-            );
-          }
-
-          const stylesList = [];
-          data.fursuitStyles.map(e =>
-            stylesList.push({ value: e.id, label: e.name })
-          );
-
-          return (
-            <Grid item xs={4}>
-              <Select
-                fullWidth
-                placeholder="Style"
-                isClearable
-                isSearchable
-                value={this.state.fursuitStyle}
-                onChange={style => {
-                  this.setState({ fursuitStyle: style });
-                  this.props.onChange({
-                    label: "fursuitStyle",
-                    value: style ? style.value : null
-                  });
-                }}
-                options={stylesList}
-                className={classes.selectInput}
-              />
-            </Grid>
-          );
-        }}
-      </Query>
-    );
-  }
-
-  renderFursuitSpeciesFilter() {
-    const { classes } = this.props;
-
-    return (
-      <Query query={LOAD_SPECIES}>
-        {({ data, loading, error }) => {
-          if (error || !data) {
-            return null;
-          }
-          if (loading) {
-            return (
-              <Grid item xs={7}>
-                <CircularProgress />
-              </Grid>
-            );
-          }
-
-          const speciesList = [];
-          data.species.map(e =>
-            speciesList.push({ value: e.id, label: e.name })
-          );
-
-          return (
-            <Grid item xs={7}>
-              <Select
-                fullWidth
-                placeholder="Species"
-                isClearable
-                isSearchable
-                value={this.state.speciesIds}
-                onChange={specy => {
-                  this.setState({ speciesIds: specy });
-                  this.props.onChange({
-                    label: "speciesIds",
-                    value: specy ? [specy] : null
-                  });
-                }}
-                options={speciesList}
-                className={classes.selectInput}
-              />
-            </Grid>
-          );
-        }}
-      </Query>
-    );
-  }
-
-  renderHybridSpeciesFilter() {
-    const { classes } = this.props;
-
-    return (
-      <Query query={LOAD_SPECIES}>
-        {({ data, loading, error }) => {
-          if (error || !data) {
-            return null;
-          }
-          if (loading) {
-            return (
-              <Grid item xs={7}>
-                <CircularProgress />
-              </Grid>
-            );
-          }
-          const speciesList = [];
-          data.species.map(e =>
-            speciesList.push({ value: e.id, label: e.name })
-          );
-
-          return (
-            <Grid item xs={7}>
-              <Select
-                fullWidth
-                placeholder="Species"
-                isClearable
-                isSearchable
-                isMulti
-                value={this.state.speciesIds}
-                onChange={specy => {
-                  this.setState({ speciesIds: specy });
-                  this.props.onChange({
-                    label: "speciesIds",
-                    value: specy
-                  });
-                }}
-                options={speciesList}
-                className={classes.selectInput}
-              />
-            </Grid>
-          );
-        }}
-      </Query>
-    );
-  }
-
-  renderHybridCheck() {
-    const { classes } = this.props;
-
-    return (
-      <Grid item xs={5}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={this.state.hybridSearch}
-              onChange={() => {
-                this.setState({ hybridSearch: event.target.checked });
-                this.props.onChange({
-                  label: "hybridSearch",
-                  value: event.target.checked
-                });
-              }}
-              value={this.state.hybridSearch}
-            />
-          }
-          label="Activate hybrid species search"
-        />
-      </Grid>
-    );
-  }
-
-  renderFursuitBuildFilter() {
-    const { classes } = this.props;
-
-    return (
-      <Query query={LOAD_BUILDS}>
-        {({ data, loading, error }) => {
-          if (error || !data) {
-            return null;
-          }
-          if (loading) {
-            return (
-              <Grid item xs={4}>
-                <CircularProgress />
-              </Grid>
-            );
-          }
-
-          const buildList = [];
-          data.fursuitBuilds.map(e =>
-            buildList.push({ value: e.id, label: e.name })
-          );
-
-          return (
-            <Grid item xs={4}>
-              <Select
-                fullWidth
-                placeholder="Build"
-                isClearable
-                isSearchable
-                value={this.state.fursuitBuild}
-                onChange={build => {
-                  this.setState({ fursuitBuild: build });
-                  this.props.onChange({
-                    label: "fursuitBuild",
-                    value: build ? build.value : null
-                  });
-                }}
-                options={buildList}
-                className={classes.selectInput}
-              />
-            </Grid>
-          );
-        }}
-      </Query>
-    );
-  }
-
-  renderFursuitGendersFilter() {
-    const { classes } = this.props;
-
-    return (
-      <Query query={LOAD_GENDERS}>
-        {({ data, loading, error }) => {
-          if (error || !data) {
-            return null;
-          }
-          if (loading) {
-            return (
-              <Grid item xs={4}>
-                <CircularProgress />
-              </Grid>
-            );
-          }
-
-          const genderList = [];
-          data.fursuitGenders.map(e =>
-            genderList.push({ value: e.id, label: e.name })
-          );
-
-          return (
-            <Grid item xs={4}>
-              <Select
-                fullWidth
-                placeholder="Appearance"
-                isClearable
-                isSearchable
-                value={this.state.fursuitGender}
-                onChange={gender => {
-                  this.setState({ fursuitGender: gender });
-                  this.props.onChange({
-                    label: "fursuitGender",
-                    value: gender ? gender.value : null
-                  });
-                }}
-                options={genderList}
-                className={classes.selectInput}
-              />
-            </Grid>
-          );
-        }}
-      </Query>
-    );
-  }
-
-  renderFursuitPaddingFilter() {
-    const { classes } = this.props;
-
-    return (
-      <Query query={LOAD_PADDINGS}>
-        {({ data, loading, error }) => {
-          if (error || !data) {
-            return null;
-          }
-          if (loading) {
-            return (
-              <Grid item xs={4}>
-                <CircularProgress />
-              </Grid>
-            );
-          }
-
-          const paddingList = [];
-          data.fursuitPaddings.map(e =>
-            paddingList.push({ value: e.id, label: e.name })
-          );
-
-          return (
-            <Grid item xs={4}>
-              <Select
-                fullWidth
-                placeholder="Padding"
-                isClearable
-                isSearchable
-                value={this.state.fursuitPadding}
-                onChange={padding => {
-                  this.setState({ fursuitPadding: padding });
-                  this.props.onChange({
-                    label: "fursuitPadding",
-                    value: padding ? padding.value : null
-                  });
-                }}
-                options={paddingList}
-                className={classes.selectInput}
-              />
-            </Grid>
-          );
-        }}
-      </Query>
-    );
-  }
-
-  renderFursuitFingersFilter() {
-    const { classes } = this.props;
-
-    return (
-      <Query query={LOAD_FINGERS}>
-        {({ data, loading, error }) => {
-          if (error || !data) {
-            return null;
-          }
-          if (loading) {
-            return (
-              <Grid item xs={4}>
-                <CircularProgress />
-              </Grid>
-            );
-          }
-
-          const fingersList = [];
-          data.fursuitFingers.map(e =>
-            fingersList.push({ value: e.id, label: e.name })
-          );
-
-          return (
-            <Grid item xs={4}>
-              <Select
-                fullWidth
-                placeholder="Role"
-                isClearable
-                isSearchable
-                value={this.state.fursuitFingers}
-                onChange={fingers => {
-                  this.setState({ fursuitFingers: fingers });
-                  this.props.onChange({
-                    label: "fursuitFingers",
-                    value: fingers ? fingers.value : null
-                  });
-                }}
-                options={fingersList}
-                className={classes.selectInput}
-              />
-            </Grid>
-          );
-        }}
-      </Query>
-    );
-  }
-
-  renderFursuitColorFilter() {
-    const { classes } = this.props;
-
-    return (
-      <Grid item xs={4}>
-        <Select
-          fullWidth
-          placeholder="Base Colour"
-          isClearable
-          isSearchable
-          value={this.state.fursuitColor}
-          onChange={color => {
-            this.setState({ fursuitColor: color });
-            this.props.onChange({
-              label: "fursuitColor",
-              value: color ? color.value : null
-            });
-          }}
-          options={fursuitColors}
-          className={classes.selectInput}
-        />
-      </Grid>
-    );
-  }
-
-  renderFursuitEyesFilter() {
-    const { classes } = this.props;
-
-    return (
-      <Grid item xs={4}>
-        <Select
-          fullWidth
-          placeholder="Eye Colour"
-          isClearable
-          isSearchable
-          value={this.state.fursuitEyes}
-          onChange={color => {
-            this.setState({ fursuitEyes: color });
-            this.props.onChange({
-              label: "fursuitEyes",
-              value: color ? color.value : null
-            });
-          }}
-          options={fursuitEyes}
-          className={classes.selectInput}
-        />
-      </Grid>
-    );
-  }
-
-  renderMakerFilter() {
-    const { classes } = this.props;
-
-    return (
-      <Query query={LOAD_MAKERS_SELECT}>
-        {({ data, loading, error }) => {
-          if (error || !data) {
-            return null;
-          }
-          if (loading) {
-            return (
-              <Grid item xs={4}>
-                <CircularProgress />
-              </Grid>
-            );
-          }
-
-          const makersList = [];
-          data.makersSelect.map(e =>
-            makersList.push({ value: e.id, label: e.name })
-          );
-
-          return (
-            <Grid item xs={4}>
-              <Select
-                fullWidth
-                placeholder="Maker"
-                isClearable
-                isSearchable
-                value={this.state.maker}
-                onChange={maker => {
-                  this.setState({ maker: maker });
-                  this.props.onChange({
-                    label: "maker",
-                    value: maker ? maker.value : null
-                  });
-                }}
-                options={makersList}
-                className={classes.selectInput}
-              />
-            </Grid>
-          );
-        }}
-      </Query>
-    );
-  }
-
   renderFilters() {
     const { classes } = this.props;
 
@@ -706,18 +662,152 @@ class FursuitFilters extends React.Component {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
               <Grid container spacing={8}>
-                {this.renderHybridCheck()}
-                {!this.state.hybridSearch && this.renderFursuitSpeciesFilter()}
-                {this.state.hybridSearch && this.renderHybridSpeciesFilter()}
-                {this.renderMakerFilter()}
-                {this.renderFursuitFingersFilter()}
-                {this.renderFursuitBuildFilter()}
-                {this.renderFursuitStylesFilter()}
-                {this.renderFursuitColorFilter()}
-                {this.renderFursuitEyesFilter()}
-                {this.renderFursuitGendersFilter()}
-                {this.renderFursuitPaddingFilter()}
-                {this.renderFursuitLegsFilter()}
+                <HybridCheckbox
+                  classes={classes}
+                  hybridSearch={this.state.hybridSearch}
+                  onChange={() => {
+                    this.setState({ hybridSearch: event.target.checked });
+                    this.props.onChange({
+                      label: "hybridSearch",
+                      value: event.target.checked
+                    });
+                    if (this.state.speciesIds.length > 0) {
+                      this.setState({ speciesIds: [this.state.speciesIds[0]] });
+                      this.props.onChange({
+                        label: "speciesIds",
+                        value: [this.state.speciesIds[0]]
+                      });
+                    }
+                  }}
+                />
+
+                {!this.state.hybridSearch ? (
+                  <FursuitSpeciesFilter
+                    classes={classes}
+                    speciesIds={
+                      this.state.speciesIds && this.state.speciesIds[0]
+                    }
+                    onChange={specy => {
+                      this.setState({ speciesIds: specy });
+                      this.props.onChange({
+                        label: "speciesIds",
+                        value: specy ? [specy] : null
+                      });
+                    }}
+                  />
+                ) : (
+                  <HybridSpeciesFilter
+                    classes={classes}
+                    speciesIds={this.state.speciesIds}
+                    onChange={specy => {
+                      this.setState({ speciesIds: specy });
+                      this.props.onChange({
+                        label: "speciesIds",
+                        value: specy
+                      });
+                    }}
+                  />
+                )}
+                <FingersFilter
+                  classes={classes}
+                  finger={this.state.fursuitFinger}
+                  onChange={finger => {
+                    this.setState({ fursuitFinger: finger });
+                    this.props.onChange({
+                      label: "fursuitFinger",
+                      value: finger ? finger.value : null
+                    });
+                  }}
+                />
+                <MakerFilter
+                  classes={classes}
+                  inRequest={inRequest}
+                  maker={this.state.maker}
+                  onChange={maker => {
+                    this.setState({ maker: maker });
+                    this.props.onChange({
+                      label: "maker",
+                      value: maker ? maker.value : null
+                    });
+                  }}
+                />
+                <BuildFilter
+                  classes={classes}
+                  build={this.state.fursuitBuild}
+                  onChange={build => {
+                    this.setState({ fursuitBuild: build });
+                    this.props.onChange({
+                      label: "fursuitBuild",
+                      value: build ? build.value : null
+                    });
+                  }}
+                />
+                <StyleFilter
+                  classes={classes}
+                  style={this.state.fursuitStyle}
+                  onChange={style => {
+                    this.setState({ fursuitStyle: style });
+                    this.props.onChange({
+                      label: "fursuitStyle",
+                      value: style ? style.value : null
+                    });
+                  }}
+                />
+                <ColorFilter
+                  classes={classes}
+                  color={this.state.baseColor}
+                  onChange={color => {
+                    this.setState({ fursuitColor: color });
+                    this.props.onChange({
+                      label: "baseColor",
+                      value: color ? color.value : null
+                    });
+                  }}
+                />
+                <EyesFilter
+                  classes={classes}
+                  color={this.state.eyesColor}
+                  onChange={color => {
+                    this.setState({ fursuitEyes: color });
+                    this.props.onChange({
+                      label: "eyesColor",
+                      value: color ? color.value : null
+                    });
+                  }}
+                />
+                <GenderFilter
+                  classes={classes}
+                  gender={this.state.fursuitGender}
+                  onChange={gender => {
+                    this.setState({ fursuitGender: gender });
+                    this.props.onChange({
+                      label: "fursuitGender",
+                      value: gender ? gender.value : null
+                    });
+                  }}
+                />
+                <PaddingFilter
+                  classes={classes}
+                  padding={this.state.fursuitPadding}
+                  onChange={padding => {
+                    this.setState({ fursuitPadding: padding });
+                    this.props.onChange({
+                      label: "fursuitPadding",
+                      value: padding ? padding.value : null
+                    });
+                  }}
+                />
+                <LegFilter
+                  classes={classes}
+                  legType={this.state.fursuitLegType}
+                  onChange={legType => {
+                    this.setState({ fursuitLegType: legType });
+                    this.props.onChange({
+                      label: "fursuitLegType",
+                      value: legType ? legType.value : null
+                    });
+                  }}
+                />
               </Grid>
             </ExpansionPanelDetails>
             <ExpansionPanelActions>
