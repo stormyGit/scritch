@@ -1,6 +1,12 @@
 import React from "react";
 import { Query, Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
+import withWidth from "@material-ui/core/withWidth";
+
+import DefaultAvatar from "../Users/DefaultAvatar";
+import InfoIcon from "@material-ui/icons/InfoOutlined";
+import IconButton from "@material-ui/core/IconButton";
+import Collapse from "@material-ui/core/Collapse";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -8,7 +14,6 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Divider from "@material-ui/core/Divider";
 import PageTitle from "../Global/PageTitle";
 import queryString from "query-string";
-import Gallery from "react-grid-gallery";
 import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
 import FursuitClaimDialog from "./FursuitClaimDialog";
@@ -95,9 +100,6 @@ const styles = theme => ({
   metrics: {
     display: "flex"
   },
-  dataSpacer: {
-    marginLeft: theme.spacing.unit * 2
-  },
 
   tooltip: {
     fontSize: "2em"
@@ -106,24 +108,49 @@ const styles = theme => ({
     marginRight: theme.spacing.unit
   },
   fursuitAvatar: {
+    width: "80%",
+    borderRadius: "20%"
+  },
+  fursuitAvatarMobile: {
     width: "100%",
     borderRadius: "20%"
   },
   infoHeader: {
-    display: "flex"
+    padding: theme.spacing.unit * 1,
+    display: "flex",
+    alignItems: "center"
+  },
+  detailsHeader: {
+    padding: theme.spacing.unit * 1,
+    display: "flex",
+    alignItems: "center",
+    textAlign: "center",
+    justifyContent: "center"
   },
   avatarContainer: {
+    display: "flex",
     textAlign: "center",
     alignItems: "center"
   },
   headerTitles: {
     display: "flex",
-    paddingBottom: theme.spacing.unit * 2
+    alignItems: "center",
+    paddingBottom: theme.spacing.unit * 1
   },
   headerTitlesSpaced: {
     display: "flex",
     justifyContent: "space-between",
-    paddingBottom: theme.spacing.unit * 2
+    paddingBottom: theme.spacing.unit * 1
+  },
+  headerTitlesLeft: {
+    display: "flex",
+    paddingBottom: theme.spacing.unit * 1
+  },
+  dataSpacer: {
+    marginLeft: theme.spacing.unit * 4
+  },
+  dataSpacerLarge: {
+    marginLeft: theme.spacing.unit * 6
   },
   headerTitlesContent: {
     display: "flex",
@@ -133,52 +160,267 @@ const styles = theme => ({
   fursuitTitle: {
     fontWeight: 200
   },
+  fursuitTitlePadded: {
+    fontWeight: 200,
+    paddingLeft: theme.spacing.unit * 2
+  },
   actionButtonPadding: {
     paddingLeft: theme.spacing.unit * 2
+  },
+  infoButton: {
+    color: theme.palette.primary.main
   },
   link: {
     textDecoration: "none",
     color: theme.palette.primary.main
+  },
+  centerAlign: {
+    alignItems: "center"
+  },
+  textAligner: {
+    textAlign: "center"
   }
 });
 
-const Avatar = withStyles(styles)(({ fursuit, classes }) => {
+const Padder = () => <div style={{ padding: 16 }} />;
+const MicroPadder = () => <div style={{ padding: 8 }} />;
+
+const DetailField = ({ data, dataShort, field }) => {
+  console.log(field);
+  return (
+    <Tooltip title={dataShort ? dataShort : data ? data.name : "Unknown"}>
+      <div
+        style={{
+          textAlign: "center",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column"
+        }}
+      >
+        <DefaultAvatar text={field} key="avatar" />
+        <Typography variant="subtitle1">{field}</Typography>
+      </div>
+    </Tooltip>
+  );
+};
+
+const Avatar = withStyles(styles)(({ fursuit, classes, avatarClass }) => {
   return (
     <div className={classes.avatarContainer}>
-      <img className={classes.fursuitAvatar} src={fursuit.avatar} />
+      <img className={avatarClass} src={fursuit.avatar} />
     </div>
   );
 });
 
-const Metrics = withStyles(styles)(({ fursuit, classes }) => (
-  <div className={classes.headerTitlesSpaced}>
-    <Tooltip title="Scritches">
-      <Typography variant="subtitle1">
-        <FontAwesomeIcon icon={faPaw} /> {fursuit.likesCount}
-      </Typography>
-    </Tooltip>
-    <Tooltip title="Favorites">
-      <Typography variant="subtitle1">
-        <FontAwesomeIcon icon={faStar} /> {fursuit.favesCount}
-      </Typography>
-    </Tooltip>
-    <Tooltip title="Followers">
-      <Typography variant="subtitle1">
-        <FontAwesomeIcon icon={faUsers} /> {fursuit.followersCount}
-      </Typography>
-    </Tooltip>
-    <Tooltip title="Pictures">
-      <Typography variant="subtitle1">
-        <FontAwesomeIcon icon={faTags} /> {fursuit.mediaCount}
-      </Typography>
-    </Tooltip>
-  </div>
-));
+const Metrics = withStyles(styles)(
+  withWidth()(({ fursuit, classes, width }) =>
+    width !== "lg" && width !== "xl" ? (
+      <div className={classes.headerTitlesLeft}>
+        <Tooltip title="Scritches">
+          <Typography variant="subtitle1">
+            <FontAwesomeIcon icon={faPaw} /> {fursuit.likesCount}
+          </Typography>
+        </Tooltip>
+        <Tooltip title="Favorites">
+          <Typography variant="subtitle1" className={classes.dataSpacer}>
+            <FontAwesomeIcon icon={faStar} /> {fursuit.favesCount}
+          </Typography>
+        </Tooltip>
+        <Tooltip title="Followers">
+          <Typography variant="subtitle1" className={classes.dataSpacer}>
+            <FontAwesomeIcon icon={faUsers} /> {fursuit.followersCount}
+          </Typography>
+        </Tooltip>
+        <Tooltip title="Pictures">
+          <Typography variant="subtitle1" className={classes.dataSpacer}>
+            <FontAwesomeIcon icon={faTags} /> {fursuit.mediaCount}
+          </Typography>
+        </Tooltip>
+      </div>
+    ) : (
+      <div className={classes.headerTitlesLeft}>
+        <Tooltip title="Scritches">
+          <Typography variant="subtitle1">
+            <strong>{fursuit.likesCount}</strong> likes
+          </Typography>
+        </Tooltip>
+        <Tooltip title="Favorites">
+          <Typography variant="subtitle1" className={classes.dataSpacer}>
+            <strong>{fursuit.favesCount}</strong> faves
+          </Typography>
+        </Tooltip>
+        <Tooltip title="Followers">
+          <Typography variant="subtitle1" className={classes.dataSpacer}>
+            <strong>{fursuit.followersCount}</strong> followers
+          </Typography>
+        </Tooltip>
+        <Tooltip title="Pictures">
+          <Typography variant="subtitle1" className={classes.dataSpacer}>
+            <strong>{fursuit.mediaCount}</strong> media
+          </Typography>
+        </Tooltip>
+      </div>
+    )
+  )
+);
+
+const SubtitleRow = withStyles(styles)(
+  withWidth()(({ classes, fursuit, width }) => (
+    <React.Fragment>
+      <div className={classes.headerTitlesLeft}>
+        <Typography variant="subtitle1" className={classes.fursuitTitle}>
+          {fursuit.isHybrid &&
+            (fursuit.species.length > 0
+              ? `Hybrid (${fursuit.species.map(e => e.name).join(", ")})`
+              : "Hybrid (Undefined)")}
+          {!fursuit.isHybrid &&
+            (fursuit.species[0] ? fursuit.species[0].name : "Unknown")}
+        </Typography>
+        {(width === "xl" || width === "lg") && fursuit.makers && (
+          <div className={classes.dataSpacerLarge}>
+            {fursuit.makers.length == 0 ? (
+              <Typography variant="subtitle1" className={classes.fursuitTitle}>
+                Made by <em>Redacted</em>
+              </Typography>
+            ) : (
+              <Typography variant="subtitle1" className={classes.fursuitTitle}>
+                Made by{" "}
+                <Link
+                  to={`/makers/${fursuit.makers[0].slug}`}
+                  target="_blank"
+                  className={classes.link}
+                >
+                  {fursuit.makers[0].name}
+                </Link>{" "}
+                in {fursuit.creationYear}
+              </Typography>
+            )}
+          </div>
+        )}
+        {(width === "xl" || width === "lg") &&
+          fursuit.users &&
+          fursuit.users.length > 0 && (
+            <div className={classes.dataSpacerLarge}>
+              <Typography variant="subtitle1" className={classes.fursuitTitle}>
+                Owned by{" "}
+                {fursuit.users[0].public ? (
+                  <Link
+                    to={`/${fursuit.users[0].slug}`}
+                    className={classes.link}
+                  >
+                    {fursuit.users[0].name}
+                  </Link>
+                ) : (
+                  <em>Private</em>
+                )}
+              </Typography>
+            </div>
+          )}
+      </div>
+      {width !== "xl" && width !== "lg" && fursuit.makers && (
+        <React.Fragment>
+          <div>
+            <React.Fragment>
+              {fursuit.makers.length == 0 ? (
+                <Typography
+                  variant="subtitle1"
+                  className={classes.fursuitTitle}
+                >
+                  Made by <em>Redacted</em>
+                </Typography>
+              ) : (
+                <Typography
+                  variant="subtitle1"
+                  className={classes.fursuitTitle}
+                >
+                  Made by{" "}
+                  <Link
+                    to={`/makers/${fursuit.makers[0].slug}`}
+                    target="_blank"
+                    className={classes.link}
+                  >
+                    {fursuit.makers[0].name}
+                  </Link>{" "}
+                  in {fursuit.creationYear}
+                </Typography>
+              )}
+            </React.Fragment>
+          </div>
+          {fursuit.users && fursuit.users.length > 0 && (
+            <div>
+              <Typography variant="subtitle1" className={classes.fursuitTitle}>
+                Owned by{" "}
+                {fursuit.users[0].public ? (
+                  <Link
+                    to={`/${fursuit.users[0].slug}`}
+                    className={classes.link}
+                  >
+                    {fursuit.users[0].name}
+                  </Link>
+                ) : (
+                  <em>Private</em>
+                )}
+              </Typography>
+            </div>
+          )}
+        </React.Fragment>
+      )}
+    </React.Fragment>
+  ))
+);
+
+const FursuitDetail = withStyles(styles)(
+  withWidth()(({ fursuit, classes, width }) =>
+    width === "xl" || width === "lg" ? (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between"
+        }}
+      >
+        <DetailField field="Build" data={fursuit.fursuitBuild} />
+        <DetailField field="Style" data={fursuit.fursuitStyle} />
+        <DetailField field="Base" dataShort={fursuit.baseColor} />
+        <DetailField field="Eyes" dataShort={fursuit.eyesColor} />
+        <DetailField field="Appearance" data={fursuit.fursuitGender} />
+        <DetailField field="Padding" data={fursuit.fursuitPadding} />
+        <DetailField field="Leg Type" data={fursuit.fursuitLegType} />
+      </div>
+    ) : (
+      <Grid container spacing={16} className={classes.detailsHeader}>
+        <Grid item xs={4}>
+          <DetailField field="Build" data={fursuit.fursuitBuild} />
+        </Grid>
+        <Grid item xs={4}>
+          <DetailField field="Style" data={fursuit.fursuitStyle} />
+        </Grid>
+        <Grid item xs={4}>
+          <DetailField field="Base" dataShort={fursuit.baseColor} />
+        </Grid>
+        <Grid item xs={4}>
+          <DetailField field="Eyes" dataShort={fursuit.eyesColor} />
+        </Grid>
+        <Grid item xs={4}>
+          <DetailField field="Appearance" data={fursuit.fursuitGender} />
+        </Grid>
+        <Grid item xs={4}>
+          <DetailField field="Padding" data={fursuit.fursuitPadding} />
+        </Grid>
+        <Grid item xs={4}>
+          <DetailField field="Leg Type" data={fursuit.fursuitLegType} />
+        </Grid>
+      </Grid>
+    )
+  )
+);
 
 class Fursuit extends React.Component {
   state = {
     claimDialog: false,
-    editFursuitDialog: false
+    editFursuitDialog: false,
+    fursuitDetail: false
   };
 
   renderFollowButton(fursuit) {
@@ -203,7 +445,7 @@ class Fursuit extends React.Component {
         >
           {(deleteFollow, { data }) => (
             <Button
-              size={"medium"}
+              size={"small"}
               variant="outlined"
               className={
                 width === "lg" || width === "xl"
@@ -244,7 +486,7 @@ class Fursuit extends React.Component {
           {(createFollow, { data }) => {
             return (
               <Button
-                size={"medium"}
+                size={"small"}
                 variant="outlined"
                 onClick={() => {
                   createFollow({
@@ -271,7 +513,7 @@ class Fursuit extends React.Component {
           fursuit.users.length == 0 && (
             <Button
               color="primary"
-              size="medium"
+              size="small"
               variant="outlined"
               onClick={() => this.setState({ claimDialog: true })}
             >
@@ -279,7 +521,7 @@ class Fursuit extends React.Component {
             </Button>
           )}
         {fursuit.claimed && !fursuit.possessed && (
-          <Button color="primary" size="medium" variant="outlined" disabled>
+          <Button color="primary" size="small" variant="outlined" disabled>
             Claim pending
           </Button>
         )}
@@ -289,7 +531,7 @@ class Fursuit extends React.Component {
           fursuit.users.length > 0 && (
             <Button
               color="primary"
-              size="medium"
+              size="small"
               variant="outlined"
               onClick={() => this.setState({ claimDialog: true })}
             >
@@ -299,7 +541,7 @@ class Fursuit extends React.Component {
         {fursuit.possessed && (
           <Button
             color="primary"
-            size="medium"
+            size="small"
             variant="outlined"
             onClick={() => this.setState({ editFursuitDialog: true })}
           >
@@ -314,55 +556,150 @@ class Fursuit extends React.Component {
   }
 
   renderFursuitHeader(fursuit) {
-    const { classes, match, currentSession } = this.props;
+    const { classes, match, currentSession, width } = this.props;
 
     return (
-      <div className={classes.infoHeader}>
-        <Grid container spacind={48}>
-          <Grid item xs={false} lg={1} />
-          <Grid item xs={2} lg={2} className={classes.avatarContainer}>
-            <Avatar fursuit={fursuit} className={classes.fursuitAvatar} />
-          </Grid>
-          <Grid item xs={false} lg={1} />
-          <Grid item xs={10} lg={7}>
-            <div className={classes.headerTitles}>
-              <Typography variant="h4" className={classes.fursuitTitle} noWrap>
-                {fursuit.name}
-              </Typography>
-              <div className={classes.actionButtonPadding}>
-                {this.renderActionButton(fursuit)}
-              </div>
-            </div>
-            <div className={classes.headerTitlesSpaced}>
-              <Typography variant="h5" className={classes.fursuitTitle}>
-                {fursuit.isHybrid &&
-                  (fursuit.species.length > 0
-                    ? `Hybrid (${fursuit.species.map(e => e.name).join(", ")})`
-                    : "Hybrid (Undefined)")}
-                {!fursuit.isHybrid &&
-                  (fursuit.species[0] ? fursuit.species[0].name : "Unknown")}
-              </Typography>
-              {fursuit.makers && (
-                <Typography variant="h5" className={classes.fursuitTitle}>
-                  Made by{" "}
-                  <Link
-                    to={`/makers/${fursuit.makers[0].slug}`}
-                    className={classes.link}
-                  >
-                    {fursuit.makers[0].name}
-                  </Link>
+      <React.Fragment>
+        <div className={classes.infoHeader}>
+          <Grid container spacing={48} className={classes.centerAlign}>
+            <Grid item xs={false} lg={2} />
+            <Grid item xs={2} lg={2} className={classes.avatarContainer}>
+              <Avatar fursuit={fursuit} avatarClass={classes.fursuitAvatar} />
+            </Grid>
+            <Grid item xs={10} lg={6}>
+              <div className={classes.headerTitles}>
+                <Typography
+                  variant="h5"
+                  className={classes.fursuitTitle}
+                  noWrap
+                >
+                  {fursuit.name}
                 </Typography>
-              )}
-              <Typography variant="h5" className={classes.fursuitTitle}>
-                {fursuit.creationYear}
-              </Typography>
-            </div>
-
-            <Metrics fursuit={fursuit} />
+                <Typography
+                  variant="subtitle1"
+                  className={classes.fursuitTitlePadded}
+                  noWrap
+                >
+                  {fursuit.fursuitFinger ? fursuit.fursuitFinger.name : ""}
+                </Typography>
+                <div className={classes.actionButtonPadding}>
+                  {this.renderActionButton(fursuit)}
+                </div>
+                <div className={classes.actionButtonPadding}>
+                  <IconButton
+                    color="primary"
+                    onClick={() =>
+                      this.setState({
+                        fursuitDetail: !this.state.fursuitDetail
+                      })
+                    }
+                  >
+                    <InfoIcon />
+                  </IconButton>
+                </div>
+              </div>
+              <Metrics fursuit={fursuit} />
+              <SubtitleRow fursuit={fursuit} />
+              <div className={classes.headerTitles}>
+                <Typography
+                  variant="subtitle1"
+                  className={classes.fursuitTitle}
+                  noWrap
+                >
+                  {fursuit.bio}
+                </Typography>
+              </div>
+            </Grid>
+            <Grid item xs={false} lg={2} />
           </Grid>
-          <Grid item xs={false} lg={1} />
-        </Grid>
-      </div>
+        </div>
+        {this.state.fursuitDetail && (
+          <React.Fragment>
+            {width === "xl" || width === "lg" ? <Padder /> : <MicroPadder />}
+            <Grid container spacing={48} className={classes.centerAlign}>
+              <Grid item xs={false} lg={2} />
+              <Grid item xs={12} lg={8}>
+                <FursuitDetail fursuit={fursuit} />
+              </Grid>
+              <Grid item xs={false} lg={2} />
+            </Grid>
+          </React.Fragment>
+        )}
+      </React.Fragment>
+    );
+  }
+
+  renderFursuitHeaderMobile(fursuit) {
+    const { classes, match, currentSession, width } = this.props;
+
+    return (
+      <React.Fragment>
+        <div className={classes.infoHeader}>
+          <Grid container spacing={24} className={classes.centerAlign}>
+            <Grid item xs={3} className={classes.avatarContainer}>
+              <Avatar
+                fursuit={fursuit}
+                avatarClass={classes.fursuitAvatarMobile}
+              />
+            </Grid>
+            <Grid item xs={9}>
+              <div className={classes.headerTitles}>
+                <Typography
+                  variant="h5"
+                  className={classes.fursuitTitle}
+                  noWrap
+                >
+                  {fursuit.name}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  className={classes.fursuitTitlePadded}
+                  noWrap
+                >
+                  {fursuit.fursuitFinger ? fursuit.fursuitFinger.name : ""}
+                </Typography>
+              </div>
+              <div>
+                {this.renderActionButton(fursuit)}
+                <IconButton
+                  className={classes.actionButtonPadding}
+                  color="primary"
+                  onClick={() =>
+                    this.setState({
+                      fursuitDetail: !this.state.fursuitDetail
+                    })
+                  }
+                >
+                  <InfoIcon />
+                </IconButton>
+              </div>
+            </Grid>
+            <Grid item xs={12}>
+              <Metrics fursuit={fursuit} />
+              <SubtitleRow fursuit={fursuit} />
+              <div className={classes.headerTitles}>
+                <Typography
+                  variant="subtitle1"
+                  className={classes.fursuitTitle}
+                  noWrap
+                >
+                  {fursuit.bio}
+                </Typography>
+              </div>
+            </Grid>
+          </Grid>
+        </div>
+        {this.state.fursuitDetail && (
+          <React.Fragment>
+            {width === "xl" || width === "lg" ? <Padder /> : <MicroPadder />}
+            <Grid container spacing={24} className={classes.centerAlign}>
+              <Grid item xs={false} lg={2} />
+              <FursuitDetail fursuit={fursuit} />
+              <Grid item xs={false} lg={2} />
+            </Grid>
+          </React.Fragment>
+        )}
+      </React.Fragment>
     );
   }
 
@@ -372,405 +709,8 @@ class Fursuit extends React.Component {
     return <Media fursuit={true} fursuitId={match.params.id} />;
   }
 
-  renderFursuitData() {
-    const { classes, match, currentSession } = this.props;
-    let limit = parseInt(process.env.USER_MEDIA_PAGE_SIZE);
-    const query = queryString.parse(location.search);
-
-    return (
-      <Query
-        query={LOAD_FURSUIT}
-        variables={{
-          id: match.params.id
-        }}
-      >
-        {({ loading, error, data }) => {
-          const fursuit = data ? data.fursuit : null;
-
-          return (
-            !loading &&
-            !error &&
-            fursuit && (
-              <React.Fragment>
-                <PageTitle>
-                  {!loading && fursuit ? fursuit.name : null}
-                </PageTitle>
-                <React.Fragment>
-                  <Grid container spacing={8} />
-                </React.Fragment>
-                <div className={classes.pictureInfo}>
-                  <Grid
-                    container
-                    spacing={8}
-                    justify="space-between"
-                    wrap="nowrap"
-                  >
-                    <Grid item>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {fursuit.name}
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.creationYear}
-                      </Typography>
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Species
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap={false}
-                      >
-                        {fursuit.isHybrid &&
-                          (fursuit.species.length > 0
-                            ? `Hybrid (${fursuit.species
-                                .map(e => e.name)
-                                .join(", ")})`
-                            : "Hybrid (Undefined)")}
-                        {!fursuit.isHybrid &&
-                          (fursuit.species[0]
-                            ? fursuit.species[0].name
-                            : "Unknown")}
-                      </Typography>
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Role
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.fursuitFinger
-                          ? fursuit.fursuitFinger.name
-                          : "Unknown"}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <div style={{ padding: 5 }} />
-                  <Grid
-                    container
-                    spacing={8}
-                    alignItems="center"
-                    justify="center"
-                  >
-                    <Grid xs={1} item />
-                    <Grid xs={10} item>
-                      <img
-                        style={{ width: "100%", borderRadius: "5%" }}
-                        src={fursuit.avatar}
-                      />
-                    </Grid>
-                    <Grid xs={1} item />
-                  </Grid>
-                  <Grid container spacing={8}>
-                    <Grid item>
-                      <div style={{ padding: 5 }} />
-                      <React.Fragment />
-                      {fursuit.bio && (
-                        <React.Fragment>
-                          <div style={{ padding: 5 }} />
-                          <Typography
-                            gutterBottom
-                            variant="h6"
-                            component="h2"
-                            color="primary"
-                            className={classes.fursuitTitle}
-                            noWrap
-                          >
-                            Bio
-                          </Typography>
-                          <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="h2"
-                            className={classes.fursuitTitle}
-                            noWrap={false}
-                          >
-                            {fursuit.bio}
-                          </Typography>
-                        </React.Fragment>
-                      )}
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Made by
-                      </Typography>
-                      {fursuit.makers && fursuit.makers.length > 0 && (
-                        <Link
-                          to={`/makers/${fursuit.makers[0].slug}`}
-                          className={classes.link}
-                        >
-                          <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="h2"
-                            color="secondary"
-                            noWrap
-                          >
-                            {fursuit.makers[0].name}
-                          </Typography>
-                        </Link>
-                      )}
-                      {fursuit.makers && fursuit.makers.length == 0 && (
-                        <Typography
-                          gutterBottom
-                          variant="h5"
-                          component="h2"
-                          className={classes.fursuitTitle}
-                          noWrap
-                        >
-                          Redacted
-                        </Typography>
-                      )}
-                      {fursuit.users && fursuit.users.length > 0 && (
-                        <React.Fragment>
-                          <div style={{ padding: 5 }} />
-                          <Typography
-                            gutterBottom
-                            variant="h6"
-                            component="h2"
-                            color="primary"
-                            className={classes.fursuitTitle}
-                            noWrap
-                          >
-                            Owned by
-                          </Typography>
-                          {fursuit.users[0].public && (
-                            <Link
-                              to={`/${fursuit.users[0].slug}`}
-                              className={classes.link}
-                            >
-                              <Typography
-                                gutterBottom
-                                variant="h5"
-                                component="h2"
-                                color="secondary"
-                                noWrap
-                              >
-                                {fursuit.users[0].name}
-                              </Typography>
-                            </Link>
-                          )}
-                          {!fursuit.users[0].public && (
-                            <Typography
-                              gutterBottom
-                              variant="h5"
-                              component="h2"
-                              className={classes.fursuitTitle}
-                              noWrap
-                            >
-                              Private
-                            </Typography>
-                          )}
-                        </React.Fragment>
-                      )}
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Build
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.fursuitBuild
-                          ? fursuit.fursuitBuild.name
-                          : "Unknown"}
-                      </Typography>
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Style
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.fursuitStyle
-                          ? fursuit.fursuitStyle.name
-                          : "Unknown"}
-                      </Typography>
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Base Colour
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.baseColor ? fursuit.baseColor : "Unknown"}
-                      </Typography>
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Eye Colour
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.eyesColor ? fursuit.eyesColor : "Unknown"}
-                      </Typography>
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Appearance
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.fursuitGender
-                          ? fursuit.fursuitGender.name
-                          : "Unknown"}
-                      </Typography>
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Padding
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.fursuitPadding
-                          ? fursuit.fursuitPadding.name
-                          : "Unknown"}
-                      </Typography>
-                      <div style={{ padding: 5 }} />
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="h2"
-                        color="primary"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        Leg Type
-                      </Typography>
-                      <Typography
-                        gutterBottom
-                        variant="h5"
-                        component="h2"
-                        className={classes.fursuitTitle}
-                        noWrap
-                      >
-                        {fursuit.fursuitLegType
-                          ? fursuit.fursuitLegType.name
-                          : "Unknown"}
-                      </Typography>
-
-                      <div style={{ padding: 5 }} />
-                    </Grid>
-                  </Grid>
-                  <Divider />
-                </div>
-                <FursuitClaimDialog
-                  fursuit={fursuit.id}
-                  open={this.state.claimDialog}
-                  onClose={() => this.setState({ claimDialog: false })}
-                />
-                <EditFursuitDialog
-                  fursuit={fursuit}
-                  open={this.state.editFursuitDialog}
-                  onClose={() => this.setState({ editFursuitDialog: false })}
-                />
-              </React.Fragment>
-            )
-          );
-        }}
-      </Query>
-    );
-  }
-
   render() {
-    const { classes, match, currentSession } = this.props;
+    const { classes, match, currentSession, width } = this.props;
 
     return (
       <React.Fragment>
@@ -795,31 +735,41 @@ class Fursuit extends React.Component {
 
             return (
               <React.Fragment>
+                {width === "xl" || width === "lg" ? (
+                  <Padder />
+                ) : (
+                  <MicroPadder />
+                )}
+
                 <PageTitle>{fursuit ? fursuit.name : null}</PageTitle>
-                {this.renderFursuitHeader(fursuit)}
+                {width === "sm" || width === "xs"
+                  ? this.renderFursuitHeaderMobile(fursuit)
+                  : this.renderFursuitHeader(fursuit)}
+                {width === "xl" || width === "lg" ? (
+                  <Padder />
+                ) : (
+                  <MicroPadder />
+                )}
                 {this.renderFursuitMedia()}
+                <FursuitClaimDialog
+                  fursuit={fursuit.id}
+                  open={this.state.claimDialog}
+                  onClose={() => this.setState({ claimDialog: false })}
+                />
+                <EditFursuitDialog
+                  fursuit={fursuit}
+                  open={this.state.editFursuitDialog}
+                  onClose={() => this.setState({ editFursuitDialog: false })}
+                />
               </React.Fragment>
             );
           }}
         </Query>
       </React.Fragment>
     );
-
-    // return (
-    //   <React.Fragment>
-    //     <div className={classes.container}>
-    //       <Grid container spacing={8}>
-    //         <Grid item lg={9} xl={10} xs={12}>
-    //           {this.renderFursuitMedia()}
-    //         </Grid>
-    //         <Grid item lg={3} xl={2} xs={12}>
-    //           {this.renderFursuitData()}
-    //         </Grid>
-    //       </Grid>
-    //     </div>
-    //   </React.Fragment>
-    // );
   }
 }
 
-export default withStyles(styles)(withRouter(withCurrentSession(Fursuit)));
+export default withStyles(styles)(
+  withRouter(withWidth()(withCurrentSession(Fursuit)))
+);
