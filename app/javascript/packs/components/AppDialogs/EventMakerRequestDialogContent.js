@@ -21,7 +21,6 @@ import CheckIcon from "@material-ui/icons/Check";
 import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
-import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
 import withCurrentSession from "../withCurrentSession";
 
 import { CREATE_ASSET_REQUEST } from "../../queries/reportMutations";
