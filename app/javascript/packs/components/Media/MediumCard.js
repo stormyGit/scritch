@@ -166,12 +166,7 @@ const Media = ({ classes, medium, width }) => {
           title={medium.title}
         />
       )}
-      <Infos
-        classes={classes}
-        medium={medium}
-        width={width}
-        mouseOver={mouseOver}
-      />
+      
     </div>
   );
 };

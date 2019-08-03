@@ -1,55 +1,59 @@
-import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import withCurrentSession from "../withCurrentSession";
-import withWidth from "@material-ui/core/withWidth";
+import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import withCurrentSession from '../withCurrentSession';
+import withWidth from '@material-ui/core/withWidth';
 
-import Fursuit from "../Fursuits/Fursuit";
-import FursuitMobile from "../Fursuits/FursuitMobile";
-import Fursuits from "../Fursuits/Fursuits";
+import Fursuit from '../Fursuits/Fursuit';
+import FursuitMobile from '../Fursuits/FursuitMobile';
+import Fursuits from '../Fursuits/Fursuits';
 
-import Media from "../Media/Media";
-import Medium from "../Media/Medium";
-import MediumMobile from "../Media/MediumMobile";
+import Media from '../Media/Media';
+import MediaRework from '../Media/MediaRework';
+import Medium from '../Media/Medium';
+import MediumMobile from '../Media/MediumMobile';
 
-import User from "../Users/User";
+import User from '../Users/User';
 
-import Maker from "../Makers/Maker";
-import MakerMobile from "../Makers/MakerMobile";
-import Makers from "../Makers/Makers";
+import Maker from '../Makers/Maker';
+import MakerMobile from '../Makers/MakerMobile';
+import Makers from '../Makers/Makers';
 
-import Event from "../Events/Event";
-import EventMobile from "../Events/EventMobile";
-import Events from "../Events/Events";
+import Event from '../Events/Event';
+import EventMobile from '../Events/EventMobile';
+import Events from '../Events/Events';
 
-import Announcements from "../PoliciesSupport/Announcements";
-import Terms from "../PoliciesSupport/Terms";
-import UserGuide from "../PoliciesSupport/UserGuide";
-import Faq from "../PoliciesSupport/Faq";
-import PrivacyPolicy from "../PoliciesSupport/PrivacyPolicy";
+import Announcements from '../PoliciesSupport/Announcements';
+import Terms from '../PoliciesSupport/Terms';
+import UserGuide from '../PoliciesSupport/UserGuide';
+import Faq from '../PoliciesSupport/Faq';
+import PrivacyPolicy from '../PoliciesSupport/PrivacyPolicy';
 
-import TagPage from "../TagPage";
-import LatestPictures from "../LatestPictures";
-import AdsLister from "../AdsLister";
-import Favorites from "../Favorites";
-import Subscriptions from "../Subscriptions";
-import SearchPage from "../SearchPage";
+import TagPage from '../TagPage';
+import LatestPictures from '../LatestPictures';
+import AdsLister from '../AdsLister';
+import Favorites from '../Favorites';
+import Subscriptions from '../Subscriptions';
+import SearchPage from '../SearchPage';
 
-import AppLayoutRemake from "./AppLayoutRemake";
-import AppFooter from "./AppFooter";
-import AppHeader from "./AppHeader";
-import MustLog from "./MustLog";
+import AppLayoutRemake from './AppLayoutRemake';
+import AppFooter from './AppFooter';
+import AppHeader from './AppHeader';
+import MustLog from './MustLog';
 
 class AppRouter extends React.Component {
   render() {
     const { currentSession, width } = this.props;
+
     return (
       <BrowserRouter>
         <Route
-          render={({ location }) => (
-            <React.Fragment>
+          render={({ location }) => {
+            const withoutAdds = location.pathname === '/pictures';
+
+            return (<React.Fragment>
               <AppLayoutRemake>
                 <div style={{ paddingTop: 20 }} />
-                <AppHeader />
+                {withoutAdds ? null : <AppHeader />}
                 <Switch location={location}>
                   <Route exact path="/" component={LatestPictures} />
                   <Route
@@ -133,7 +137,7 @@ class AppRouter extends React.Component {
                     path="/pictures"
                     component={
                       currentSession && !currentSession.user.suspendedUser
-                        ? Media
+                        ? MediaRework
                         : MustLog
                     }
                   />
@@ -144,7 +148,7 @@ class AppRouter extends React.Component {
                     component={
                       currentSession && currentSession.user.suspendedUser
                         ? MustLog
-                        : width === "xs" || width === "sm"
+                        : width === 'xs' || width === 'sm'
                         ? MediumMobile
                         : Medium
                     }
@@ -154,7 +158,7 @@ class AppRouter extends React.Component {
                     path="/fursuits/:id"
                     component={
                       currentSession && !currentSession.user.suspendedUser
-                        ? width === "xs" || width === "sm"
+                        ? width === 'xs' || width === 'sm'
                           ? FursuitMobile
                           : Fursuit
                         : MustLog
@@ -165,7 +169,7 @@ class AppRouter extends React.Component {
                     path="/makers/:id"
                     component={
                       currentSession && !currentSession.user.suspendedUser
-                        ? width === "xs" || width === "sm"
+                        ? width === 'xs' || width === 'sm'
                           ? MakerMobile
                           : Maker
                         : MustLog
@@ -176,7 +180,7 @@ class AppRouter extends React.Component {
                     path="/events/:id"
                     component={
                       currentSession && !currentSession.user.suspendedUser
-                        ? width === "xs" || width === "sm"
+                        ? width === 'xs' || width === 'sm'
                           ? EventMobile
                           : Event
                         : MustLog
@@ -202,10 +206,10 @@ class AppRouter extends React.Component {
                   />
                 </Switch>
                 <div style={{ paddingTop: 20 }} />
-                <AppFooter />
+                { withoutAdds ? null : <AppFooter /> }
               </AppLayoutRemake>
-            </React.Fragment>
-          )}
+            </React.Fragment>);
+          }}
         />
       </BrowserRouter>
     );
