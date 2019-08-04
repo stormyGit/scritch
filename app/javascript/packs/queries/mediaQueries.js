@@ -87,6 +87,57 @@ export const GET_MEDIA = gql`
   }
 `;
 
+export const GET_USER_MEDIA = gql`
+  query UserMedia($userId: ID!, $limit: Int!, $offset: Int!) {
+    userMedia(userId: $userId, limit: $limit, offset: $offset) {
+      id
+      slug
+      title
+      thumbnail
+      completion
+      createdAt
+      commentsCount
+      likesCount
+      favesCount
+      viewsCount
+    }
+  }
+`;
+
+export const GET_FURSUIT_MEDIA = gql`
+  query FursuitMedia($fursuitId: ID!, $limit: Int!, $offset: Int!) {
+    fursuitMedia(fursuitId: $fursuitId, limit: $limit, offset: $offset) {
+      id
+      slug
+      title
+      thumbnail
+      completion
+      createdAt
+      commentsCount
+      likesCount
+      favesCount
+      viewsCount
+    }
+  }
+`;
+
+export const GET_FRONT_MEDIA = gql`
+  query FrontMedia($filter: String!, $limit: Int!) {
+    frontMedia(filter: $filter, limit: $limit) {
+      id
+      slug
+      title
+      thumbnail
+      completion
+      createdAt
+      commentsCount
+      likesCount
+      favesCount
+      viewsCount
+    }
+  }
+`;
+
 export const GET_MEDIA_WITH_FURSUITS = gql`
   query Media(
     $q: String

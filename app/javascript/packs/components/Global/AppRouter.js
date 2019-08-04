@@ -9,6 +9,7 @@ import FursuitMobile from "../Fursuits/FursuitMobile";
 import Fursuits from "../Fursuits/Fursuits";
 
 import Media from "../Media/Media";
+import MediaAll from "../Media/MediaAll";
 import Medium from "../Media/Medium";
 import MediumMobile from "../Media/MediumMobile";
 
@@ -43,168 +44,176 @@ import MustLog from "./MustLog";
 class AppRouter extends React.Component {
   render() {
     const { currentSession, width } = this.props;
+
     return (
       <BrowserRouter>
         <Route
-          render={({ location }) => (
-            <React.Fragment>
-              <AppLayoutRemake>
-                <div style={{ paddingTop: 20 }} />
-                <AppHeader />
-                <Switch location={location}>
-                  <Route exact path="/" component={LatestPictures} />
-                  <Route
-                    exact
-                    path="/announcements"
-                    component={Announcements}
-                  />
-                  <Route exact path="/terms_of_use" component={Terms} />
-                  <Route exact path="/user_guide" component={UserGuide} />
-                  <Route exact path="/faq" component={Faq} />
-                  <Route
-                    exact
-                    path="/privacy_policy"
-                    component={PrivacyPolicy}
-                  />
-                  <Route
-                    exact
-                    path="/fursuits"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? Fursuits
-                        : MustLog
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/makers"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? Makers
-                        : MustLog
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/events"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? Events
-                        : MustLog
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/tag"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? TagPage
-                        : MustLog
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/search"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? SearchPage
-                        : MustLog
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/subscriptions"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? Subscriptions
-                        : MustLog
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/favorites"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? Favorites
-                        : MustLog
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/pictures"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? Media
-                        : MustLog
-                    }
-                  />
-                  <Route exact path="/ads" component={AdsLister} />
-                  <Route
-                    exact
-                    path="/pictures/:id"
-                    component={
-                      currentSession && currentSession.user.suspendedUser
-                        ? MustLog
-                        : width === "xs" || width === "sm"
-                        ? MediumMobile
-                        : Medium
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/fursuits/:id"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? FursuitRemake
-                        : MustLog
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/makers/:id"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? width === "xs" || width === "sm"
-                          ? MakerMobile
-                          : Maker
-                        : MustLog
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/events/:id"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? width === "xs" || width === "sm"
-                          ? EventMobile
-                          : Event
-                        : MustLog
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/:id"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? User
-                        : MustLog
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/:id/:tab"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? User
-                        : MustLog
-                    }
-                  />
-                </Switch>
-                <div style={{ paddingTop: 20 }} />
-                <AppFooter />
-              </AppLayoutRemake>
-            </React.Fragment>
-          )}
+          render={({ location }) => {
+            const withoutAdds = location.pathname === "/pictures";
+
+            return (
+              <React.Fragment>
+                <AppLayoutRemake>
+                  <div style={{ paddingTop: 20 }} />
+                  {withoutAdds ? null : <AppHeader />}
+                  <Switch location={location}>
+                    <Route exact path="/" component={LatestPictures} />
+                    <Route
+                      exact
+                      path="/announcements"
+                      component={Announcements}
+                    />
+                    <Route exact path="/terms_of_use" component={Terms} />
+                    <Route exact path="/user_guide" component={UserGuide} />
+                    <Route exact path="/faq" component={Faq} />
+                    <Route
+                      exact
+                      path="/privacy_policy"
+                      component={PrivacyPolicy}
+                    />
+                    <Route
+                      exact
+                      path="/fursuits"
+                      component={
+                        currentSession && !currentSession.user.suspendedUser
+                          ? Fursuits
+                          : MustLog
+                      }
+                    />
+                    <Route
+                      exact
+                      path="/makers"
+                      component={
+                        currentSession && !currentSession.user.suspendedUser
+                          ? Makers
+                          : MustLog
+                      }
+                    />
+                    <Route
+                      exact
+                      path="/events"
+                      component={
+                        currentSession && !currentSession.user.suspendedUser
+                          ? Events
+                          : MustLog
+                      }
+                    />
+                    <Route
+                      exact
+                      path="/tag"
+                      component={
+                        currentSession && !currentSession.user.suspendedUser
+                          ? TagPage
+                          : MustLog
+                      }
+                    />
+                    <Route
+                      exact
+                      path="/search"
+                      component={
+                        currentSession && !currentSession.user.suspendedUser
+                          ? SearchPage
+                          : MustLog
+                      }
+                    />
+                    <Route
+                      exact
+                      path="/subscriptions"
+                      component={
+                        currentSession && !currentSession.user.suspendedUser
+                          ? Subscriptions
+                          : MustLog
+                      }
+                    />
+                    <Route
+                      exact
+                      path="/favorites"
+                      component={
+                        currentSession && !currentSession.user.suspendedUser
+                          ? Favorites
+                          : MustLog
+                      }
+                    />
+                    <Route
+                      exact
+                      path="/pictures"
+                      component={
+                        currentSession && !currentSession.user.suspendedUser
+                          ? MediaAll
+                          : MustLog
+                      }
+                    />
+                    <Route exact path="/ads" component={AdsLister} />
+                    <Route
+                      exact
+                      path="/pictures/:id"
+                      component={
+                        currentSession && currentSession.user.suspendedUser
+                          ? MustLog
+                          : width === "xs" || width === "sm"
+                          ? MediumMobile
+                          : Medium
+                      }
+                    />
+                    <Route
+                      exact
+                      path="/fursuits/:id"
+                      component={
+                        currentSession && !currentSession.user.suspendedUser
+                          ? width === "xs" || width === "sm"
+                            ? FursuitMobile
+                            : Fursuit
+                          : MustLog
+                      }
+                    />
+                    <Route
+                      exact
+                      path="/makers/:id"
+                      component={
+                        currentSession && !currentSession.user.suspendedUser
+                          ? width === "xs" || width === "sm"
+                            ? MakerMobile
+                            : Maker
+                          : MustLog
+                      }
+                    />
+                    <Route
+                      exact
+                      path="/events/:id"
+                      component={
+                        currentSession && !currentSession.user.suspendedUser
+                          ? width === "xs" || width === "sm"
+                            ? EventMobile
+                            : Event
+                          : MustLog
+                      }
+                    />
+                    <Route
+                      exact
+                      path="/:id"
+                      component={
+                        currentSession && !currentSession.user.suspendedUser
+                          ? User
+                          : MustLog
+                      }
+                    />
+                    <Route
+                      exact
+                      path="/:id/:tab"
+                      component={
+                        currentSession && !currentSession.user.suspendedUser
+                          ? User
+                          : MustLog
+                      }
+                    />
+                  </Switch>
+                  <div style={{ paddingTop: 20 }} />
+                  {withoutAdds ? null : <AppFooter />}
+                </AppLayoutRemake>
+              </React.Fragment>
+            );
+          }}
+
         />
       </BrowserRouter>
     );
