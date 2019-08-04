@@ -22,7 +22,6 @@ import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import EventMakerRequestDialogContent from "./EventMakerRequestDialogContent";
 import GlobalProgress from "../Global/GlobalProgress";
-import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
 import RequestFursuitDialogContent from "../Fursuits/RequestFursuitDialogContent";
 import withCurrentSession from "../withCurrentSession";
 

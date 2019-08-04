@@ -32,7 +32,6 @@ import Background from "../../photo.jpg";
 import { Link, withRouter } from "react-router-dom";
 
 import FursuitFilters from "./FursuitFilters";
-import FursuitFiltersMobile from "./FursuitFiltersMobile";
 import FursuitModal from "./FursuitModal";
 import FursuitModalMobile from "./FursuitModalMobile";
 
@@ -146,27 +145,15 @@ class Fursuits extends React.Component {
           </Grid>
         )}
         <Grid item xs={12} lg={8}>
-          {width === "xs" || width === "sm" ? (
-            <FursuitFiltersMobile
-              onChange={value => {
-                this.setState({
-                  [value.label]: value.value,
-                  request: this.state.request + 1
-                });
-              }}
-              clearFilters={() => this.clearFilters()}
-            />
-          ) : (
-            <FursuitFilters
-              onChange={value => {
-                this.setState({
-                  [value.label]: value.value,
-                  request: this.state.request + 1
-                });
-              }}
-              clearFilters={() => this.clearFilters()}
-            />
-          )}
+          <FursuitFilters
+            onChange={value => {
+              this.setState({
+                [value.label]: value.value,
+                request: this.state.request + 1
+              });
+            }}
+            clearFilters={() => this.clearFilters()}
+          />
         </Grid>
         <Grid item xs={12} lg={2}>
           <Mutation
@@ -211,27 +198,15 @@ class Fursuits extends React.Component {
           </Grid>
         )}
         <Grid item xs={12} lg={8}>
-          {width === "xs" || width === "sm" ? (
-            <FursuitFiltersMobile
-              onChange={value => {
-                this.setState({
-                  [value.label]: value.value,
-                  request: this.state.request + 1
-                });
-              }}
-              clearFilters={() => this.clearFilters()}
-            />
-          ) : (
-            <FursuitFilters
-              onChange={value => {
-                this.setState({
-                  [value.label]: value.value,
-                  request: this.state.request + 1
-                });
-              }}
-              clearFilters={() => this.clearFilters()}
-            />
-          )}
+          <FursuitFilters
+            onChange={value => {
+              this.setState({
+                [value.label]: value.value,
+                request: this.state.request + 1
+              });
+            }}
+            clearFilters={() => this.clearFilters()}
+          />
         </Grid>
         <Grid item xs={12} lg={2}>
           <Button

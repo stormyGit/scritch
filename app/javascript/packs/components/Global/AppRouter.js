@@ -4,6 +4,7 @@ import withCurrentSession from "../withCurrentSession";
 import withWidth from "@material-ui/core/withWidth";
 
 import Fursuit from "../Fursuits/Fursuit";
+import FursuitRemake from "../Fursuits/FursuitRemake";
 import FursuitMobile from "../Fursuits/FursuitMobile";
 import Fursuits from "../Fursuits/Fursuits";
 
@@ -212,6 +213,7 @@ class AppRouter extends React.Component {
               </React.Fragment>
             );
           }}
+
         />
       </BrowserRouter>
     );

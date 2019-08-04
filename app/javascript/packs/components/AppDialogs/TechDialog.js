@@ -73,12 +73,20 @@ class TechDialog extends React.Component {
           <Typography variant="h6" className={classes.blurb}>
             Have an issue or found a website malfunction? Let us know here!
           </Typography>
-          <div style={{ padding: 10 }} />
+          <div style={{ padding: 8 }} />
           <Typography variant="h6" className={classes.blurb}>
             Have a suggestion for a new feature/development? Tell us your idea
             below!
           </Typography>
-          <div style={{ padding: 10 }} />
+          <div style={{ padding: 8 }} />
+          <Typography variant="h6" className={classes.blurb}>
+            You can also email us at{" "}
+            <a href="mailto:contact@scritch.es" className={classes.link}>
+              contact@scritch.es
+            </a>
+            for Claim related issues or Moderation appeals.
+          </Typography>
+          <div style={{ padding: 8 }} />
           <Select
             placeholder="Category"
             isClearable
@@ -95,7 +103,7 @@ class TechDialog extends React.Component {
             ]}
             className={classes.selectInput}
           />
-          <div style={{ padding: 10 }} />
+          <div style={{ padding: 8 }} />
           <TextField
             label="Type here..."
             name="description"
