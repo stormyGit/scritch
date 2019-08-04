@@ -11,6 +11,7 @@ import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Grid from "@material-ui/core/Grid";
 import Fab from "@material-ui/core/Fab";
+import Typography from "@material-ui/core/Typography";
 
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -69,14 +70,13 @@ const styles = theme => ({
 });
 
 const DEFAULT_FILTERS = {
-  fursuits: [],
-  user: null,
-  event: null,
-  edition: null,
-  category: null,
+  sort: "latest",
+  eventId: null,
+  editionId: null,
+  categoryId: null,
+  subEventId: null,
   gifs: false,
-  subEvent: null,
-  sort: "latest"
+  fursuits: []
 };
 
 // Sketchy..
@@ -124,138 +124,57 @@ const MediumRow = withStyles(styles)(
   })
 );
 
-function Media({ classes, width, fursuitId }) {
+function Media({ classes, width, media, fetchMore, limit, hasMore }) {
   // Unused
   // const [filters, setFilters] = useState(DEFAULT_FILTERS);
-  const [queryArg, setQueryArg] = useState({
-    sort: "latest",
-    eventId: null,
-    editionId: null,
-    categoryId: null,
-    subEventId: null,
-    gifs: false,
-    fursuits: null,
-    offset: 0,
-    limit: 48,
-    hasMore: true
-  });
 
-  const [filters, setFilters] = useState(false);
+  if (!media || media.length == 0) {
+    return (
+      <div style={{ padding: 48, textAlign: "center" }}>
+        <Typography variant="h6" style={{ fontWeight: 200 }}>
+          No Results
+        </Typography>
+      </div>
+    );
+  }
 
-  console.log(queryArg);
+  const isItemLoaded = index =>
+    !hasMore || index < media.length / GetColumnNumber(width);
+
   return (
     <React.Fragment>
-      <Query query={GET_MEDIA} fetchPolicy="network-only" variables={queryArg}>
-        {({ data, loading, error, fetchMore }) => {
-          if (loading || error || !data) return null;
-
-          const { media } = data;
-          const isItemLoaded = index =>
-            !queryArg.hasMore || index < media.length / GetColumnNumber(width);
+      <AutoSizer>
+        {({ width: gridWidth, height }) => {
+          const itemsPerRow = GetColumnNumber(width);
+          const rowCount = Math.ceil(media.length / itemsPerRow) || 1;
 
           return (
-            <div
-              style={{ height: "calc(100vh - 56px)" }}
-              className={
-                width === "sm" || width == "xs"
-                  ? classes.mobile_hide_sm
-                  : undefined
-              }
+            <InfiniteLoader
+              isItemLoaded={isItemLoaded}
+              itemCount={media.length + limit}
+              loadMoreItems={() => {
+                // There is no more item to load, return directly
+                if (!hasMore) return;
+                fetchMore();
+              }}
             >
-              <AutoSizer>
-                {({ width: gridWidth, height }) => {
-                  const itemsPerRow = GetColumnNumber(width);
-                  const rowCount = Math.ceil(media.length / itemsPerRow) || 1;
-
-                  return (
-                    <InfiniteLoader
-                      isItemLoaded={isItemLoaded}
-                      itemCount={media.length + queryArg.limit}
-                      loadMoreItems={() => {
-                        // There is no more item to load, return directly
-                        if (!queryArg.hasMore) return;
-
-                        fetchMore({
-                          variables: {
-                            offset: media.length,
-                            limit: queryArg.limit
-                          },
-                          updateQuery: (prev, { fetchMoreResult }) => {
-                            if (!fetchMoreResult) return prev;
-
-                            if (fetchMoreResult.media.length === 0) {
-                              setQueryArg({ ...queryArg, hasMore: false });
-                            } else {
-                              return {
-                                ...prev,
-                                media: [...prev.media, ...fetchMoreResult.media]
-                              };
-                            }
-                          }
-                        });
-                      }}
-                    >
-                      {({ onItemsRendered, ref }) => (
-                        <List
-                          onItemsRendered={onItemsRendered}
-                          ref={ref}
-                          height={height}
-                          itemCount={rowCount}
-                          itemData={{ itemsPerRow: itemsPerRow, media }}
-                          itemSize={(gridWidth - 16) / itemsPerRow}
-                          width={gridWidth}
-                        >
-                          {MediumRow}
-                        </List>
-                      )}
-                    </InfiniteLoader>
-                  );
-                }}
-              </AutoSizer>
-              <Fab
-                color="primary"
-                variant="extended"
-                size="medium"
-                aria-label="filters"
-                className={classes.fab}
-                onClick={() => setFilters(true)}
-              >
-                <FontAwesomeIcon
-                  icon={faFilter}
-                  className={classes.extendedIcon}
-                />
-                Filters
-              </Fab>
-            </div>
+              {({ onItemsRendered, ref }) => (
+                <List
+                  onItemsRendered={onItemsRendered}
+                  ref={ref}
+                  height={height}
+                  itemCount={rowCount}
+                  itemData={{ itemsPerRow: itemsPerRow, media }}
+                  itemSize={(gridWidth - 16) / itemsPerRow}
+                  width={gridWidth}
+                >
+                  {MediumRow}
+                </List>
+              )}
+            </InfiniteLoader>
           );
         }}
-      </Query>
-      <MediaFiltersRework
-        open={filters}
-        onChange={value => {
-          console.log(value);
-          value.label === "eventId"
-            ? setQueryArg({
-                ...queryArg,
-                [value.label]: value.value,
-                editionId: null
-              })
-            : setQueryArg({ ...queryArg, [value.label]: value.value });
-        }}
-        clearFilters={() =>
-          setQueryArg({
-            ...queryArg,
-            sort: "latest",
-            eventId: null,
-            editionId: null,
-            categoryId: null,
-            subEventId: null,
-            gifs: false,
-            fursuits: null
-          })
-        }
-        onClose={() => setFilters(false)}
-      />
+      </AutoSizer>
     </React.Fragment>
   );
 }

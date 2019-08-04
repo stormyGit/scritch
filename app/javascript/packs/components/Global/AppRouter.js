@@ -8,6 +8,7 @@ import FursuitMobile from "../Fursuits/FursuitMobile";
 import Fursuits from "../Fursuits/Fursuits";
 
 import Media from "../Media/Media";
+import MediaAll from "../Media/MediaAll";
 import Medium from "../Media/Medium";
 import MediumMobile from "../Media/MediumMobile";
 
@@ -137,7 +138,7 @@ class AppRouter extends React.Component {
                       path="/pictures"
                       component={
                         currentSession && !currentSession.user.suspendedUser
-                          ? Media
+                          ? MediaAll
                           : MustLog
                       }
                     />

@@ -20,7 +20,6 @@ import { GET_USERS } from "../../queries/userQueries";
 
 import MediumCard from "./MediumCard";
 import MediaFilters from "./MediaFilters";
-import MediaFiltersMobile from "./MediaFiltersMobile";
 import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
 import UserCard from "../Users/UserCard";

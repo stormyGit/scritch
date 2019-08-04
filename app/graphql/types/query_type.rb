@@ -63,6 +63,20 @@ module Types
       argument :limit, Integer, required: true
     end
 
+    field :fursuit_media, [MediumType], null: false do
+      description "List media"
+      argument :fursuit_id, ID, required: true
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
+    field :user_media, [MediumType], null: false do
+      description "List media"
+      argument :user_id, ID, required: true
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
     field :adverts, [AdvertType], null: false do
       description "List media"
       argument :uuid, ID, required: false
@@ -546,9 +560,7 @@ module Types
           media
         end
 
-      if arguments[:user_id].present?
-        media = media.where(user_id: arguments[:user_id])
-      end
+
       if arguments[:event_id].present?
         media = media.joins(:edition).where("editions.event_id = ?", arguments[:event_id])
       end
@@ -567,9 +579,7 @@ module Types
         media = media.where(category_id: arguments[:category_id])
       end
 
-      if arguments[:fursuit_id].present?
-        media = media.joins(:fursuits).where("fursuits.slug = ? AND fursuits.visible = ?", arguments[:fursuit_id], true)
-      end
+
 
       if arguments[:fursuits].present? && arguments[:filter] == 'subscriptions_fursuits'
         media = media.joins(:fursuits).where(fursuits: {uuid: arguments[:fursuits]}).group("media.id").having('count(media.id) >= ?', arguments[:fursuits].size)
@@ -598,6 +608,20 @@ module Types
         end
 
       media.limit(arguments[:limit])
+    end
+
+    def fursuit_media(arguments = {})
+      media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
+      media = media.joins(:fursuits).where("fursuits.slug = ? AND fursuits.visible = ?", arguments[:fursuit_id], true)
+
+      media.offset(arguments[:offset]).limit(arguments[:limit])
+    end
+
+    def user_media(arguments = {})
+      media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
+      media = media.where(user_id: arguments[:user_id])
+
+      media.offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def event(arguments)

@@ -202,7 +202,7 @@ class MediaFilters extends React.Component {
                 }));
                 this.props.onChange({
                   label: "fursuits",
-                  value: [...this.state.fursuits, payload]
+                  value: [...this.state.fursuits, payload].map(e => e.id)
                 });
               }}
             />
@@ -288,7 +288,7 @@ class MediaFilters extends React.Component {
             }
             if (loading) {
               return (
-                <Grid item xs={12} lg={4}>
+                <Grid item xs={false} lg={4}>
                   <CircularProgress />
                 </Grid>
               );
