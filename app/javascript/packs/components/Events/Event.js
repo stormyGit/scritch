@@ -124,11 +124,19 @@ class Event extends React.Component {
     this.props.history.push(`/pictures/${media[this.state.currentImage].id}`);
   }
 
+  setEdition() {
+    const query = queryString.parse(location.search);
+    if (query.edition_id && this.state.edition == null)
+      this.setState({
+        edition: { label: query.edition_name, value: query.edition_id }
+      });
+  }
+
   render() {
     const { classes, match, currentSession, event } = this.props;
     let limit = parseInt(process.env.USER_MEDIA_PAGE_SIZE);
-    const query = queryString.parse(location.search);
 
+    this.setEdition();
     return (
       <Query
         query={LOAD_EVENT}
@@ -176,12 +184,7 @@ class Event extends React.Component {
                         wrap="nowrap"
                       >
                         <Grid item>
-                          <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="h2"
-                            noWrap
-                          >
+                          <Typography gutterBottom variant="h5" component="h2">
                             {event.name}{" "}
                             {!this.state.edition
                               ? "(All Editions)"
@@ -292,19 +295,22 @@ class Event extends React.Component {
                       <Select
                         className={classes.selectInput}
                         options={editionsOptions}
-                        defaultValue={{ label: "All", value: null }}
+                        value={
+                          this.state.edition
+                            ? this.state.edition
+                            : { label: "All", value: null }
+                        }
                         onChange={edition => {
                           this.setState({ edition: edition });
                         }}
                         placeholder="Select Edition..."
                       />
+                      {console.log(this.state.edition)}
                       {this.state.edition && this.state.edition.value && (
                         <Query
                           query={LOAD_EDITION}
                           variables={{
-                            id: match.params.edition
-                              ? match.params.edition
-                              : this.state.edition
+                            id: this.state.edition
                               ? this.state.edition.value
                               : null
                           }}

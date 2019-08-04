@@ -48,16 +48,19 @@ class PictureUploader < SecureUploader
         model.is_gif = true
       end
       if image.exif
-        model.exif = {
-          "DateTimeOriginal" => image.exif["DateTimeOriginal"],
-          "Model" => image.exif["Model"],
-          "FNumber" => image.exif["FNumber"],
-          "ExposureTime" => image.exif["ExposureTime"],
-          "FocalLength" => image.exif["FocalLength"],
-          "ISOSpeedRatings" => image.exif["ISOSpeedRatings"],
-          "Flash" => image.exif["Flash"],
-          "Orientation" => image.exif["Orientation"],
-        }
+        model.exif = image.exif.except(
+          "GPSInfo",
+          "GPSVersionID",
+          "GPSLatitudeRef",
+          "GPSLatitude",
+          "GPSLongitudeRef",
+          "GPSLongitude",
+          "GPSAltitudeRef",
+          "GPSAltitude",
+          "GPSTimeStamp",
+          "GPSProcessingMethod",
+          "GPSDateStamp"
+        )
       end
       # model.data = image.data
       model.size = image.size

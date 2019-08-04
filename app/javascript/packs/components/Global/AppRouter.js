@@ -208,6 +208,7 @@ class AppRouter extends React.Component {
               </React.Fragment>
             );
           }}
+
         />
       </BrowserRouter>
     );
