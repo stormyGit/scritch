@@ -57,6 +57,12 @@ module Types
       argument :event_id, ID, required: false
     end
 
+    field :front_media, [MediumType], null: false do
+      description "List media"
+      argument :filter, String, required: true
+      argument :limit, Integer, required: true
+    end
+
     field :adverts, [AdvertType], null: false do
       description "List media"
       argument :uuid, ID, required: false
@@ -576,6 +582,22 @@ module Types
       end
 
       media.offset(arguments[:offset]).limit(arguments[:limit])
+    end
+
+    def front_media(arguments = {})
+      media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
+
+      media =
+        case arguments[:filter]
+        when 'latest'
+          media.order("media.created_at DESC, media.created_at DESC")
+        when 'scritches'
+          media.where("media.created_at > ?", 30.days.ago).order(["media.likes_count DESC, media.created_at DESC"])
+        else
+          media
+        end
+
+      media.limit(arguments[:limit])
     end
 
     def event(arguments)
