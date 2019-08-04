@@ -23,19 +23,19 @@ import ShareIcon from "@material-ui/icons/Share";
 const styles = theme => ({
   root: {
     display: "flex",
+    padding: theme.spacing.unit * 2,
     flexGrow: 1,
-    maxHeight: 125,
-    paddingBottom: 10
+    maxHeight: 90
   },
   grid: {
     textAlign: "center",
-    maxHeight: 125
+    maxHeight: 90
   },
   icon: {
     color: theme.palette.text.primary
   },
   toolTip: {
-    height: 125
+    height: 90
   },
   advert: {
     width: 300,
@@ -59,53 +59,9 @@ class AppHeader extends React.Component {
 
   render() {
     const { classes, width, currentSession } = this.props;
-    var limit = width != "xs" ? 2 : 1;
+    var limit = width === "xs" || width === "sm" ? 1 : width === "md" ? 2 : 3;
 
-    if (
-      currentSession &&
-      (!currentSession.user.showAds && !currentSession.user.showTooltips)
-    )
-      return null;
-
-    if (
-      currentSession &&
-      !currentSession.user.showAds &&
-      currentSession.user.showTooltips
-    )
-      return (
-        <Query
-          query={GET_TOOLTIP}
-          variables={{ uuid: uuidv4() }}
-          fetchPolicy="network-only"
-        >
-          {({ loading, error, data }) => {
-            if (loading || error) {
-              return <div style={{ height: 125, width: 100 }} />;
-            }
-            if (data && data.tooltip)
-              return (
-                <div className={classes.root}>
-                  <Grid
-                    container
-                    spacing={8}
-                    className={classes.grid}
-                    justify="center"
-                    alignItems="center"
-                  >
-                    <Grid item xs={false} lg={4} />
-                    <Grid item xs={false} lg={4}>
-                      <img
-                        src={data.tooltip.file}
-                        className={classes.toolTip}
-                      />
-                    </Grid>
-                    <Grid item xs={false} lg={4} />
-                  </Grid>
-                </div>
-              );
-          }}
-        </Query>
-      );
+    if (currentSession && !currentSession.user.showAds) return null;
 
     return (
       <div className={classes.root}>
@@ -129,7 +85,7 @@ class AppHeader extends React.Component {
                 if (data.adverts && data.adverts.length == limit)
                   return (
                     <React.Fragment>
-                      <Grid item xs={12} sm={6} lg={4}>
+                      <Grid item xs={12} md={6} lg={4}>
                         {data.adverts[0].isPlaceholder && (
                           <img
                             src={data.adverts[0].file}
@@ -148,40 +104,8 @@ class AppHeader extends React.Component {
                           </a>
                         )}
                       </Grid>
-                      {(width === "xl" || width === "lg") &&
-                        (!currentSession ||
-                          (currentSession &&
-                            currentSession.user.showTooltips)) && (
-                          <Grid item xs={false} lg={4}>
-                            <Query
-                              query={GET_TOOLTIP}
-                              variables={{ uuid: uuidv4() }}
-                              fetchPolicy="network-only"
-                            >
-                              {({ loading, error, data }) => {
-                                if (loading || error) {
-                                  return (
-                                    <div style={{ height: 125, width: 100 }} />
-                                  );
-                                }
-                                if (data && data.tooltip)
-                                  return (
-                                    <img
-                                      src={data.tooltip.file}
-                                      className={classes.toolTip}
-                                    />
-                                  );
-                              }}
-                            </Query>
-                          </Grid>
-                        )}
-                      {(width === "xl" || width === "lg") &&
-                        currentSession &&
-                        !currentSession.user.showTooltips && (
-                          <Grid item xs={false} lg={4} />
-                        )}
-                      {width !== "xs" && (
-                        <Grid item sm={6} lg={4}>
+                      {width !== "xs" && width !== "sm" && (
+                        <Grid item md={6} lg={4}>
                           {data.adverts[1].isPlaceholder && (
                             <img
                               src={data.adverts[1].file}
@@ -195,6 +119,27 @@ class AppHeader extends React.Component {
                             <a href={data.adverts[1].url} target="_blank">
                               <img
                                 src={data.adverts[1].file}
+                                className={classes.advert}
+                              />
+                            </a>
+                          )}
+                        </Grid>
+                      )}
+                      {width !== "xs" && width !== "sm" && width !== "md" && (
+                        <Grid item lg={4}>
+                          {data.adverts[2].isPlaceholder && (
+                            <img
+                              src={data.adverts[2].file}
+                              className={classes.placeholderAdvert}
+                              onClick={() =>
+                                this.setState({ advertsDialog: true })
+                              }
+                            />
+                          )}
+                          {!data.adverts[2].isPlaceholder && (
+                            <a href={data.adverts[2].url} target="_blank">
+                              <img
+                                src={data.adverts[2].file}
                                 className={classes.advert}
                               />
                             </a>

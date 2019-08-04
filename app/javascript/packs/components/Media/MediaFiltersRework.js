@@ -1,5 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
+import withWidth from "@material-ui/core/withWidth";
 
 import gql from "graphql-tag";
 import { Query } from "react-apollo";
@@ -9,15 +10,19 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import Select from "react-select";
 import MenuItem from "@material-ui/core/MenuItem";
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+
+import ResponsiveDialog from "../Global/ResponsiveDialog";
+
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 
 import {
   LOAD_EVENTS_SELECT,
@@ -64,6 +69,9 @@ const styles = theme => {
     searchBar: {
       width: "100%"
     },
+    thinFont: {
+      fontWeight: 200
+    },
     filters: {
       textAlign: "center"
     },
@@ -101,13 +109,15 @@ const styles = theme => {
       fontFamily: theme.typography.fontFamily
     },
     label: {
-      textAlign: "center",
+      textAlign: "right",
       fontWeight: 200
     }
   };
 };
 
-class MediaFiltersMobile extends React.Component {
+const Padder = () => <div style={{ padding: 16 }} />;
+
+class MediaFilters extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -132,8 +142,8 @@ class MediaFiltersMobile extends React.Component {
       event: null,
       edition: null,
       category: null,
-      gifs: false,
       subEvent: null,
+      gifs: false,
       sort: { value: "latest", label: "Latest" },
       name: ""
     };
@@ -192,7 +202,7 @@ class MediaFiltersMobile extends React.Component {
                 }));
                 this.props.onChange({
                   label: "fursuits",
-                  value: [...this.state.fursuits, payload]
+                  value: [...this.state.fursuits, payload].map(e => e.id)
                 });
               }}
             />
@@ -218,7 +228,7 @@ class MediaFiltersMobile extends React.Component {
             }
             if (loading) {
               return (
-                <Grid item xs={12}>
+                <Grid item xs={12} lg={4}>
                   <CircularProgress />
                 </Grid>
               );
@@ -232,22 +242,19 @@ class MediaFiltersMobile extends React.Component {
               return null;
             }
             return (
-              <Grid item xs={12}>
+              <Grid item xs={12} lg={4}>
                 <Select
                   fullWidth
                   placeholder="Event"
                   isClearable
                   isSearchable
                   value={this.state.event}
-                  onChange={event => {
-                    this.setState({ event: event, edition: null });
+                  onChange={evt => {
+                    this.setState({ event: evt, edition: null });
+                    console.log(evt);
                     this.props.onChange({
-                      label: "event",
-                      value: event
-                    });
-                    this.props.onChange({
-                      label: "edition",
-                      value: null
+                      label: "eventId",
+                      value: evt ? evt.value : null
                     });
                   }}
                   options={eventsList}
@@ -258,6 +265,11 @@ class MediaFiltersMobile extends React.Component {
           }}
         </Query>
         {this.state.event && this.renderEditionFilter()}
+        {!this.state.event && (
+          <React.Fragment>
+            <Grid item xs={12} lg={4} />
+          </React.Fragment>
+        )}
       </React.Fragment>
     );
   }
@@ -276,7 +288,7 @@ class MediaFiltersMobile extends React.Component {
             }
             if (loading) {
               return (
-                <Grid item xs={12}>
+                <Grid item xs={false} lg={4}>
                   <CircularProgress />
                 </Grid>
               );
@@ -290,7 +302,7 @@ class MediaFiltersMobile extends React.Component {
               return null;
             }
             return (
-              <Grid item xs={12}>
+              <Grid item xs={12} lg={4}>
                 <Select
                   fullWidth
                   placeholder="Edition"
@@ -300,8 +312,8 @@ class MediaFiltersMobile extends React.Component {
                   onChange={edition => {
                     this.setState({ edition: edition });
                     this.props.onChange({
-                      label: "edition",
-                      value: edition
+                      label: "editionId",
+                      value: edition ? edition.value : null
                     });
                   }}
                   options={editionsList}
@@ -331,7 +343,7 @@ class MediaFiltersMobile extends React.Component {
           }
           if (loading) {
             return (
-              <Grid item xs={12}>
+              <Grid item xs={12} lg={4}>
                 <CircularProgress />
               </Grid>
             );
@@ -345,7 +357,7 @@ class MediaFiltersMobile extends React.Component {
             return null;
           }
           return (
-            <Grid item xs={12}>
+            <Grid item xs={12} lg={4}>
               <Select
                 fullWidth
                 placeholder="Sub Event"
@@ -355,8 +367,8 @@ class MediaFiltersMobile extends React.Component {
                 onChange={subEvent => {
                   this.setState({ subEvent: subEvent });
                   this.props.onChange({
-                    label: "subEvent",
-                    value: subEvent
+                    label: "subEventId",
+                    value: subEvent ? subEvent.value : null
                   });
                 }}
                 options={subEventsList}
@@ -381,7 +393,7 @@ class MediaFiltersMobile extends React.Component {
             }
             if (loading) {
               return (
-                <Grid item xs={12}>
+                <Grid item xs={12} lg={4}>
                   <CircularProgress />
                 </Grid>
               );
@@ -395,7 +407,7 @@ class MediaFiltersMobile extends React.Component {
               return null;
             }
             return (
-              <Grid item xs={12}>
+              <Grid item xs={12} lg={4}>
                 <Select
                   fullWidth
                   placeholder="Category"
@@ -405,8 +417,8 @@ class MediaFiltersMobile extends React.Component {
                   onChange={category => {
                     this.setState({ category: category });
                     this.props.onChange({
-                      label: "category",
-                      value: category
+                      label: "categoryId",
+                      value: category ? category.value : null
                     });
                   }}
                   options={categoriesList}
@@ -423,12 +435,11 @@ class MediaFiltersMobile extends React.Component {
   renderGifFilter() {
     const { classes } = this.props;
     return (
-      <Grid item xs={12}>
+      <Grid item xs={12} lg={2}>
         <FormControlLabel
           control={
             <Checkbox
               checked={this.state.gifs}
-              value={this.state.gifs}
               onChange={() => {
                 this.setState({ gifs: event.target.checked });
                 this.props.onChange({
@@ -469,12 +480,12 @@ class MediaFiltersMobile extends React.Component {
 
     return (
       <React.Fragment>
-        <Grid item xs={4}>
+        <Grid item xs={2}>
           <Typography variant="h5" className={classes.label}>
             Sort by
           </Typography>
         </Grid>
-        <Grid item xs={8}>
+        <Grid item xs={12} lg={4}>
           <Select
             fullWidth
             isSearchable
@@ -554,101 +565,73 @@ class MediaFiltersMobile extends React.Component {
   }
 
   renderFilters() {
-    const { classes } = this.props;
+    const { classes, width, open, onClose } = this.props;
 
     return (
-      <Grid container spacing={8}>
-        {this.state.fursuits.length == 0 && <Grid item xs={false} lg={2} />}
-        <Grid item xs={12} lg={this.state.fursuits.length > 0 ? 10 : 8}>
-          <ExpansionPanel
-            expanded={this.state.expansion}
-            onChange={() =>
-              this.state.expansion == false &&
-              this.setState({ expansion: !this.state.expansion })
-            }
-          >
-            {!this.props.isTagPage && (
-              <ExpansionPanelSummary
-                expandIcon={
-                  <ExpandMoreIcon
-                    onClick={() =>
-                      this.setState({ expansion: !this.state.expansion })
-                    }
-                  />
-                }
-              >
-                <Grid container spacing={8}>
-                  <Grid item xs={12}>
-                    <SearchBar
-                      className={classes.searchBar}
-                      onChange={value => this.handleSearch(value)}
-                      value={this.state.name}
-                      onCancelSearch={() => this.handleSearch("")}
-                      placeholder="Search fursuits..."
-                    />
-                  </Grid>
-                </Grid>
-              </ExpansionPanelSummary>
-            )}
-            {this.props.isTagPage && (
-              <ExpansionPanelSummary
-                expandIcon={
-                  <ExpandMoreIcon
-                    onClick={() =>
-                      this.setState({ expansion: !this.state.expansion })
-                    }
-                  />
-                }
-              >
-                <Typography>Filters</Typography>
-              </ExpansionPanelSummary>
-            )}
-            <ExpansionPanelDetails>
-              <Grid container spacing={8}>
-                {this.state.name &&
-                  !this.props.isTagPage &&
-                  this.renderFursuitFilter()}
-                {this.renderEventFilter()}
-                {this.renderSubEventFilter()}
-                {this.renderCategoryFilter()}
-                {this.renderGifFilter()}
-                {this.renderSortingFilter()}
-              </Grid>
-            </ExpansionPanelDetails>
-            <ExpansionPanelActions>
-              <Button onClick={value => this.clearFilters(value)}>
-                Clear Filters
-              </Button>
-            </ExpansionPanelActions>
-          </ExpansionPanel>
-        </Grid>
-        {this.state.fursuits.length > 0 && (
-          <Grid item xs={false} lg={2}>
-            <Grid container spacing={8}>
-              {this.state.fursuits.map(fursuit => (
-                <Grid item xs={4} key={fursuit.id}>
-                  <FursuitMiniCard
-                    fursuit={fursuit}
-                    onClick={payload => {
-                      let index = this.state.fursuits.indexOf(payload);
-                      this.setState({
-                        fursuits: this.state.fursuits.filter(
-                          (_, i) => i !== index
-                        )
-                      });
-                      this.props.onChange({
-                        label: "fursuits",
-                        value: this.state.fursuits.filter((_, i) => i !== index)
-                      });
-                    }}
-                  />
-                </Grid>
-              ))}
+      <ResponsiveDialog open={open} onClose={onClose}>
+        <DialogTitle>Media Filters</DialogTitle>
+        <DialogContent>
+          <Grid container spacing={24}>
+            <Grid item xs={12}>
+              <SearchBar
+                className={classes.searchBar}
+                onChange={value => this.handleSearch(value)}
+                value={this.state.name}
+                onCancelSearch={() => this.handleSearch("")}
+                placeholder="Search fursuits..."
+              />
             </Grid>
           </Grid>
-        )}
-        {this.state.fursuits.length == 0 && <Grid item xs={false} lg={2} />}
-      </Grid>
+          <Padder />
+          <Grid container spacing={16}>
+            {this.state.name &&
+              !this.props.isTagPage &&
+              this.renderFursuitFilter()}
+            {this.renderEventFilter()}
+            {this.renderSubEventFilter()}
+            {this.renderCategoryFilter()}
+            {true && <Grid item xs={false} lg={2} />}
+            {false && this.renderGifFilter()}
+            {this.renderSortingFilter()}
+          </Grid>
+          <Padder />
+          <div style={{ textAlign: "center" }}>
+            <Button onClick={value => this.clearFilters(value)}>
+              Clear Filters
+            </Button>
+          </div>
+          {this.state.fursuits.length > 0 && (
+            <Grid item xs={12} lg={12}>
+              <Grid container spacing={8}>
+                {this.state.fursuits.map(fursuit => (
+                  <Grid item xs={6} lg={2} key={fursuit.id}>
+                    <FursuitMiniCard
+                      fursuit={fursuit}
+                      onClick={payload => {
+                        let index = this.state.fursuits.indexOf(payload);
+                        this.setState({
+                          fursuits: this.state.fursuits.filter(
+                            (_, i) => i !== index
+                          )
+                        });
+                        this.props.onChange({
+                          label: "fursuits",
+                          value: this.state.fursuits.filter(
+                            (_, i) => i !== index
+                          )
+                        });
+                      }}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose}>Close</Button>
+        </DialogActions>
+      </ResponsiveDialog>
     );
   }
 
@@ -657,4 +640,4 @@ class MediaFiltersMobile extends React.Component {
   }
 }
 
-export default withStyles(styles)(MediaFiltersMobile);
+export default withStyles(styles)(withWidth()(MediaFilters));

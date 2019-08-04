@@ -40,7 +40,6 @@ import {
   UNBLOCK_USER
 } from "../../queries/userMutations";
 import { GET_SESSION } from "../../queries/globalQueries";
-import { GET_MEDIA } from "../../queries/mediaQueries";
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import {
   GET_USER,
@@ -49,6 +48,7 @@ import {
   GET_FOLLOWINGS_BY_USER
 } from "../../queries/userQueries";
 
+import MediaUser from "../Media/MediaUser";
 import MediumCard from "../Media/MediumCard";
 import FursuitCard from "../Fursuits/FursuitCard";
 import FursuitUserCard from "../Fursuits/FursuitUserCard";
@@ -470,55 +470,7 @@ class User extends React.Component {
     let offset = 0;
     let limit = parseInt(process.env.USER_MEDIA_PAGE_SIZE);
 
-    return (
-      <Query
-        query={GET_MEDIA}
-        variables={{ sort: "latest", userId: user.id, offset, limit }}
-      >
-        {({ data, loading, error, fetchMore }) => {
-          if (loading || error) {
-            return null;
-          }
-
-          if (data.media.length === 0) {
-            return (
-              <EmptyList label={`${user.name} doesn't have any pictures.`} />
-            );
-          }
-
-          return (
-            <React.Fragment>
-              <Grid container spacing={8}>
-                {data.media.map(medium => (
-                  <Grid item xs={6} md={4} lg={3} xl={2} key={medium.id}>
-                    <MediumCard medium={medium} />
-                  </Grid>
-                ))}
-                {data.media.length < user.mediaCount && (
-                  <LoadMoreButton
-                    onClick={() => {
-                      fetchMore({
-                        variables: {
-                          offset: data.media.length,
-                          limit
-                        },
-                        updateQuery: (prev, { fetchMoreResult }) => {
-                          if (!fetchMoreResult) return prev;
-
-                          return Object.assign({}, prev, {
-                            media: [...prev.media, ...fetchMoreResult.media]
-                          });
-                        }
-                      });
-                    }}
-                  />
-                )}
-              </Grid>
-            </React.Fragment>
-          );
-        }}
-      </Query>
-    );
+    return <MediaUser userId={user.id} />;
   }
 
   renderFollowing(user) {

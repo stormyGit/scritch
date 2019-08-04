@@ -57,6 +57,34 @@ module Types
       argument :event_id, ID, required: false
     end
 
+    field :front_media, [MediumType], null: false do
+      description "List media"
+      argument :filter, String, required: true
+      argument :limit, Integer, required: true
+    end
+
+    field :fursuit_media, [MediumType], null: false do
+      description "List media"
+      argument :fursuit_id, ID, required: true
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
+    field :user_media, [MediumType], null: false do
+      description "List media"
+      argument :user_id, ID, required: true
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
+    field :event_media, [MediumType], null: false do
+      description "List media"
+      argument :event_id, ID, required: true
+      argument :edition_id, ID, required: false
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
     field :adverts, [AdvertType], null: false do
       description "List media"
       argument :uuid, ID, required: false
@@ -540,9 +568,7 @@ module Types
           media
         end
 
-      if arguments[:user_id].present?
-        media = media.where(user_id: arguments[:user_id])
-      end
+
       if arguments[:event_id].present?
         media = media.joins(:edition).where("editions.event_id = ?", arguments[:event_id])
       end
@@ -561,9 +587,7 @@ module Types
         media = media.where(category_id: arguments[:category_id])
       end
 
-      if arguments[:fursuit_id].present?
-        media = media.joins(:fursuits).where("fursuits.slug = ? AND fursuits.visible = ?", arguments[:fursuit_id], true)
-      end
+
 
       if arguments[:fursuits].present? && arguments[:filter] == 'subscriptions_fursuits'
         media = media.joins(:fursuits).where(fursuits: {uuid: arguments[:fursuits]}).group("media.id").having('count(media.id) >= ?', arguments[:fursuits].size)
@@ -576,6 +600,46 @@ module Types
       end
 
       media.offset(arguments[:offset]).limit(arguments[:limit])
+    end
+
+    def front_media(arguments = {})
+      media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
+
+      media =
+        case arguments[:filter]
+        when 'latest'
+          media.order("media.created_at DESC, media.created_at DESC")
+        when 'scritches'
+          media.where("media.created_at > ?", 30.days.ago).order(["media.likes_count DESC, media.created_at DESC"])
+        else
+          media
+        end
+
+      media.limit(arguments[:limit])
+    end
+
+    def fursuit_media(arguments = {})
+      media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
+      media = media.joins(:fursuits).where("fursuits.slug = ? AND fursuits.visible = ?", arguments[:fursuit_id], true)
+
+      media.order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
+    end
+
+    def user_media(arguments = {})
+      media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
+      media = media.where(user_id: arguments[:user_id])
+
+      media.order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
+    end
+
+    def event_media(arguments = {})
+      media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
+      media = media.joins(:edition).where("editions.event_id = ?", arguments[:event_id])
+      if arguments[:edition_id].present?
+        media = media.where(edition_id: arguments[:edition_id])
+      end
+
+      media.order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def event(arguments)

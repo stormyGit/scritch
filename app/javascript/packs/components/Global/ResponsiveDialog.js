@@ -16,7 +16,7 @@ const ResponsiveDialog = ({ width, ...props }) => (
       style: props.size
         ? { minWidth: props.size }
         : width === "lg" || width === "xl"
-        ? { minWidth: 700 }
+        ? { minWidth: 800 }
         : {}
     }}
     {...props}

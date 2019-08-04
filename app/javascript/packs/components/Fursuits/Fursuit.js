@@ -14,7 +14,7 @@ import LoadMoreButton from "../Global/LoadMoreButton";
 import FursuitClaimDialog from "./FursuitClaimDialog";
 import FursuitAvatar from "./FursuitAvatar";
 import EditFursuitDialog from "./EditFursuitDialog";
-import Media from "../Media/Media";
+import MediaFursuit from "../Media/MediaFursuit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPaw,
@@ -213,7 +213,7 @@ class Fursuit extends React.Component {
   renderFursuitMedia() {
     const { classes, match, currentSession } = this.props;
 
-    return <Media fursuit={true} fursuitId={match.params.id} />;
+    return <MediaFursuit fursuitId={match.params.id} />;
   }
 
   renderFursuitData() {
