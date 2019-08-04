@@ -166,7 +166,6 @@ const Media = ({ classes, medium, width }) => {
           title={medium.title}
         />
       )}
-      
     </div>
   );
 };

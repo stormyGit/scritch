@@ -12,19 +12,21 @@ const styles = theme => ({
   }
 });
 
-const DefaultAvatar = ({ classes, text, className, size }) => {
+const DefaultAvatar = ({ classes, text, className, size, color }) => {
   const effectiveSize = size || DEFAULT_SIZE;
 
   return (
     <Avatar
       className={[classes.avatar, className].join(" ")}
       style={{
-        backgroundColor: randomColor({ luminosity: "dark", seed: text }),
+        backgroundColor: color
+          ? color
+          : randomColor({ luminosity: "dark", seed: text }),
         width: effectiveSize,
         height: effectiveSize
       }}
     >
-      {text[0].toUpperCase()}
+      {text && text[0].toUpperCase()}
     </Avatar>
   );
 };

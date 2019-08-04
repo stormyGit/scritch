@@ -114,114 +114,121 @@ class AppFooter extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.root}>
-          {adRibbon}
-          {(!currentSession ||
-            (currentSession && currentSession.user.showAds)) && (
-            <React.Fragment>
-              <Grid
-                container
-                spacing={8}
-                className={classes.grid}
-                justify="center"
-                alignItems="center"
-              >
-                <Query
-                  query={GET_ADVERTS}
-                  variables={{ uuid: uuidv4(), limit }}
-                  fetchPolicy="network-only"
+          {false && adRibbon}
+          {false &&
+            (!currentSession ||
+              (currentSession && currentSession.user.showAds)) && (
+              <React.Fragment>
+                <Grid
+                  container
+                  spacing={8}
+                  className={classes.grid}
+                  justify="center"
+                  alignItems="center"
                 >
-                  {({ loading, error, data }) => {
-                    if (loading || error) {
-                      return null;
-                    }
-                    if (data) {
-                      if (data.adverts && data.adverts.length == limit)
-                        return (
-                          <React.Fragment>
-                            <Grid item xs={12} sm={6} lg={4}>
-                              {data.adverts[0].isPlaceholder && (
-                                <img
-                                  src={data.adverts[0].file}
-                                  className={classes.placeholderAdvert}
-                                  onClick={() =>
-                                    this.setState({ advertsDialog: true })
-                                  }
-                                />
-                              )}
-                              {!data.adverts[0].isPlaceholder && (
-                                <a href={data.adverts[0].url} target="_blank">
+                  <Query
+                    query={GET_ADVERTS}
+                    variables={{ uuid: uuidv4(), limit }}
+                    fetchPolicy="network-only"
+                  >
+                    {({ loading, error, data }) => {
+                      if (loading || error) {
+                        return null;
+                      }
+                      if (data) {
+                        if (data.adverts && data.adverts.length == limit)
+                          return (
+                            <React.Fragment>
+                              <Grid item xs={12} sm={6} lg={4}>
+                                {data.adverts[0].isPlaceholder && (
                                   <img
                                     src={data.adverts[0].file}
-                                    className={classes.advert}
-                                  />
-                                </a>
-                              )}
-                            </Grid>
-                            {(width === "xl" || width === "lg") &&
-                              (!currentSession ||
-                                (currentSession &&
-                                  currentSession.user.showTooltips)) && (
-                                <Grid item xs={false} lg={4}>
-                                  <Query
-                                    query={GET_TOOLTIP}
-                                    variables={{ uuid: uuidv4() }}
-                                    fetchPolicy="network-only"
-                                  >
-                                    {({ loading, error, data }) => {
-                                      if (loading || error) {
-                                        return (
-                                          <div
-                                            style={{ height: 125, width: 100 }}
-                                          />
-                                        );
-                                      }
-                                      if (data && data.tooltip)
-                                        return (
-                                          <img
-                                            src={data.tooltip.file}
-                                            className={classes.toolTip}
-                                          />
-                                        );
-                                    }}
-                                  </Query>
-                                </Grid>
-                              )}
-                            {(width === "xl" || width === "lg") &&
-                              currentSession &&
-                              !currentSession.user.showTooltips && (
-                                <Grid item xs={false} lg={4} />
-                              )}
-                            {width !== "xs" && (
-                              <Grid item sm={6} lg={4}>
-                                {data.adverts[1].isPlaceholder && (
-                                  <img
-                                    src={data.adverts[1].file}
                                     className={classes.placeholderAdvert}
                                     onClick={() =>
                                       this.setState({ advertsDialog: true })
                                     }
                                   />
                                 )}
-                                {!data.adverts[1].isPlaceholder && (
-                                  <a href={data.adverts[1].url} target="_blank">
+                                {!data.adverts[0].isPlaceholder && (
+                                  <a href={data.adverts[0].url} target="_blank">
                                     <img
-                                      src={data.adverts[1].file}
+                                      src={data.adverts[0].file}
                                       className={classes.advert}
                                     />
                                   </a>
                                 )}
                               </Grid>
-                            )}
-                          </React.Fragment>
-                        );
-                      else return null;
-                    } else return null;
-                  }}
-                </Query>
-              </Grid>
-              <div style={{ paddingTop: 10 }} />
-            </React.Fragment>
-          )}
+                              {(width === "xl" || width === "lg") &&
+                                (!currentSession ||
+                                  (currentSession &&
+                                    currentSession.user.showTooltips)) && (
+                                  <Grid item xs={false} lg={4}>
+                                    <Query
+                                      query={GET_TOOLTIP}
+                                      variables={{ uuid: uuidv4() }}
+                                      fetchPolicy="network-only"
+                                    >
+                                      {({ loading, error, data }) => {
+                                        if (loading || error) {
+                                          return (
+                                            <div
+                                              style={{
+                                                height: 125,
+                                                width: 100
+                                              }}
+                                            />
+                                          );
+                                        }
+                                        if (data && data.tooltip)
+                                          return (
+                                            <img
+                                              src={data.tooltip.file}
+                                              className={classes.toolTip}
+                                            />
+                                          );
+                                      }}
+                                    </Query>
+                                  </Grid>
+                                )}
+                              {(width === "xl" || width === "lg") &&
+                                currentSession &&
+                                !currentSession.user.showTooltips && (
+                                  <Grid item xs={false} lg={4} />
+                                )}
+                              {width !== "xs" && (
+                                <Grid item sm={6} lg={4}>
+                                  {data.adverts[1].isPlaceholder && (
+                                    <img
+                                      src={data.adverts[1].file}
+                                      className={classes.placeholderAdvert}
+                                      onClick={() =>
+                                        this.setState({ advertsDialog: true })
+                                      }
+                                    />
+                                  )}
+                                  {!data.adverts[1].isPlaceholder && (
+                                    <a
+                                      href={data.adverts[1].url}
+                                      target="_blank"
+                                    >
+                                      <img
+                                        src={data.adverts[1].file}
+                                        className={classes.advert}
+                                      />
+                                    </a>
+                                  )}
+                                </Grid>
+                              )}
+                            </React.Fragment>
+                          );
+                        else return null;
+                      } else return null;
+                    }}
+                  </Query>
+                </Grid>
+                <div style={{ paddingTop: 10 }} />
+              </React.Fragment>
+            )}
           <Grid container spacing={8} className={classes.grid}>
             <Grid item xs={2} md={4} className={classes.socialLeft}>
               <Typography variant="h4" color="primary">

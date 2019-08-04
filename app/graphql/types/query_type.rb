@@ -77,6 +77,14 @@ module Types
       argument :limit, Integer, required: true
     end
 
+    field :event_media, [MediumType], null: false do
+      description "List media"
+      argument :event_id, ID, required: true
+      argument :edition_id, ID, required: false
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
     field :adverts, [AdvertType], null: false do
       description "List media"
       argument :uuid, ID, required: false
@@ -614,14 +622,24 @@ module Types
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
       media = media.joins(:fursuits).where("fursuits.slug = ? AND fursuits.visible = ?", arguments[:fursuit_id], true)
 
-      media.offset(arguments[:offset]).limit(arguments[:limit])
+      media.order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def user_media(arguments = {})
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
       media = media.where(user_id: arguments[:user_id])
 
-      media.offset(arguments[:offset]).limit(arguments[:limit])
+      media.order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
+    end
+
+    def event_media(arguments = {})
+      media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
+      media = media.joins(:edition).where("editions.event_id = ?", arguments[:event_id])
+      if arguments[:edition_id].present?
+        media = media.where(edition_id: arguments[:edition_id])
+      end
+
+      media.order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
     end
 
     def event(arguments)

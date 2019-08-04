@@ -4,6 +4,7 @@ import withCurrentSession from "../withCurrentSession";
 import withWidth from "@material-ui/core/withWidth";
 
 import Fursuit from "../Fursuits/Fursuit";
+import FursuitRemake from "../Fursuits/FursuitRemake";
 import FursuitMobile from "../Fursuits/FursuitMobile";
 import Fursuits from "../Fursuits/Fursuits";
 
@@ -19,6 +20,7 @@ import MakerMobile from "../Makers/MakerMobile";
 import Makers from "../Makers/Makers";
 
 import Event from "../Events/Event";
+import EventRemake from "../Events/EventRemake";
 import EventMobile from "../Events/EventMobile";
 import Events from "../Events/Events";
 
@@ -48,13 +50,12 @@ class AppRouter extends React.Component {
       <BrowserRouter>
         <Route
           render={({ location }) => {
-            const withoutAdds = location.pathname === "/pictures";
+            //const withoutAdds = location.pathname === "/pictures";
 
             return (
               <React.Fragment>
                 <AppLayoutRemake>
-                  <div style={{ paddingTop: 20 }} />
-                  {withoutAdds ? null : <AppHeader />}
+                  <AppHeader />
                   <Switch location={location}>
                     <Route exact path="/" component={LatestPictures} />
                     <Route
@@ -159,9 +160,7 @@ class AppRouter extends React.Component {
                       path="/fursuits/:id"
                       component={
                         currentSession && !currentSession.user.suspendedUser
-                          ? width === "xs" || width === "sm"
-                            ? FursuitMobile
-                            : Fursuit
+                          ? FursuitRemake
                           : MustLog
                       }
                     />
@@ -181,9 +180,7 @@ class AppRouter extends React.Component {
                       path="/events/:id"
                       component={
                         currentSession && !currentSession.user.suspendedUser
-                          ? width === "xs" || width === "sm"
-                            ? EventMobile
-                            : Event
+                          ? EventRemake
                           : MustLog
                       }
                     />
@@ -206,8 +203,7 @@ class AppRouter extends React.Component {
                       }
                     />
                   </Switch>
-                  <div style={{ paddingTop: 20 }} />
-                  {withoutAdds ? null : <AppFooter />}
+                  {false && <AppFooter />}
                 </AppLayoutRemake>
               </React.Fragment>
             );

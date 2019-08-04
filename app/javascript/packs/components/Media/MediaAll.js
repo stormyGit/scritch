@@ -97,8 +97,9 @@ function MediaAll({ classes, width }) {
 
         return (
           <React.Fragment>
+            <div style={{ padding: 16 }} />
             <div
-              style={{ height: "calc(100vh - 56px)" }}
+              style={{ height: "calc(100vh - 178px)" }}
               className={
                 width === "sm" || width == "xs"
                   ? classes.mobile_hide_sm
