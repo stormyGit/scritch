@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_20_210929) do
+ActiveRecord::Schema.define(version: 2019_08_04_221627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -760,7 +760,7 @@ ActiveRecord::Schema.define(version: 2019_07_20_210929) do
     t.string "telegram_id"
     t.string "avatar"
     t.string "banner"
-    t.string "theme", default: "dark"
+    t.string "theme", default: "light"
     t.datetime "last_activities_read"
     t.string "website"
     t.boolean "public", default: true

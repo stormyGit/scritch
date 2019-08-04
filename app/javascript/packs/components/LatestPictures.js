@@ -34,7 +34,6 @@ const Padder = () => <div style={{ padding: 16 }} />;
 class LatestPictures extends React.Component {
   render() {
     const { width, classes } = this.props;
-
     let typoSize = width === "xs" || width === "sm" ? "h5" : "h4";
 
     return (

@@ -267,78 +267,64 @@ class DrawerMenuRemake extends React.Component {
                       timeout="auto"
                       unmountOnExit
                     >
-                      {user && (
-                        <List component="div" disablePadding>
-                          <Link to="/pictures" className={classes.link}>
-                            <ListItem
-                              button
-                              className={classes.nested}
-                              selected={location.pathname === "/pictures"}
-                            >
-                              <ListItemText
-                                primary="Media"
-                                primaryTypographyProps={{
-                                  className: classes.text
-                                }}
-                              />
-                            </ListItem>
-                          </Link>
-                          <Link to="/fursuits" className={classes.link}>
-                            <ListItem
-                              button
-                              className={classes.nested}
-                              selected={location.pathname === "/fursuits"}
-                            >
-                              <ListItemText
-                                primary="Fursuits"
-                                primaryTypographyProps={{
-                                  className: classes.text
-                                }}
-                              />
-                            </ListItem>
-                          </Link>
-                          <Link to="/makers" className={classes.link}>
-                            <ListItem
-                              button
-                              selected={location.pathname === "/makers"}
-                              className={classes.nested}
-                            >
-                              <ListItemText
-                                primary="Makers"
-                                primaryTypographyProps={{
-                                  className: classes.text
-                                }}
-                              />
-                            </ListItem>
-                          </Link>
-                          <Link to="/events" className={classes.link}>
-                            <ListItem
-                              button
-                              selected={location.pathname === "/events"}
-                              className={classes.nested}
-                            >
-                              <ListItemText
-                                primary="Events"
-                                primaryTypographyProps={{
-                                  className: classes.text
-                                }}
-                              />
-                            </ListItem>
-                          </Link>
-                        </List>
-                      )}
-                      {!user && (
-                        <List component="div" disablePadding>
-                          <ListItem button disabled className={classes.nested}>
+                      <List component="div" disablePadding>
+                        <Link to="/pictures" className={classes.link}>
+                          <ListItem
+                            button
+                            className={classes.nested}
+                            selected={location.pathname === "/pictures"}
+                          >
                             <ListItemText
-                              primary="You must be logged in"
+                              primary="Media"
                               primaryTypographyProps={{
                                 className: classes.text
                               }}
                             />
                           </ListItem>
-                        </List>
-                      )}
+                        </Link>
+                        <Link to="/fursuits" className={classes.link}>
+                          <ListItem
+                            button
+                            className={classes.nested}
+                            selected={location.pathname === "/fursuits"}
+                          >
+                            <ListItemText
+                              primary="Fursuits"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </Link>
+                        <Link to="/makers" className={classes.link}>
+                          <ListItem
+                            button
+                            selected={location.pathname === "/makers"}
+                            className={classes.nested}
+                          >
+                            <ListItemText
+                              primary="Makers"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </Link>
+                        <Link to="/events" className={classes.link}>
+                          <ListItem
+                            button
+                            selected={location.pathname === "/events"}
+                            className={classes.nested}
+                          >
+                            <ListItemText
+                              primary="Events"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </Link>
+                      </List>
                     </Collapse>
                     {user && (
                       <ListItem
@@ -360,58 +346,66 @@ class DrawerMenuRemake extends React.Component {
                       </ListItem>
                     )}
                     {currentSession && (
-                      <Link to="/tag" className={classes.link}>
-                        <ListItem
-                          button
-                          selected={location.pathname === "/tag"}
-                        >
-                          <ListItemIcon
-                            className={classes.text}
-                            color="secondary"
+                      <React.Fragment>
+                        <Link to="/tag" className={classes.link}>
+                          <ListItem
+                            button
+                            selected={location.pathname === "/tag"}
                           >
-                            <TagIcon />
-                          </ListItemIcon>
-                          <ListItemText
-                            primary="Tag Media"
-                            primaryTypographyProps={{ className: classes.text }}
-                          />
-                        </ListItem>
-                      </Link>
+                            <ListItemIcon
+                              className={classes.text}
+                              color="secondary"
+                            >
+                              <TagIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Tag Media"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </Link>
+                        <Link to="/subscriptions" className={classes.link}>
+                          <ListItem
+                            button
+                            selected={location.pathname === "/subscriptions"}
+                          >
+                            <ListItemIcon
+                              className={classes.text}
+                              color="secondary"
+                            >
+                              <SubscriptionsIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Subscriptions"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </Link>
+                        <Link to="/favorites" className={classes.link}>
+                          <ListItem
+                            button
+                            selected={location.pathname === "/favorites"}
+                          >
+                            <ListItemIcon
+                              className={classes.text}
+                              color="secondary"
+                            >
+                              <FaveIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Favourites Gallery"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </Link>
+                      </React.Fragment>
                     )}
-                    <Link to="/subscriptions" className={classes.link}>
-                      <ListItem
-                        button
-                        selected={location.pathname === "/subscriptions"}
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
-                        >
-                          <SubscriptionsIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Subscriptions"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                    </Link>
-                    <Link to="/favorites" className={classes.link}>
-                      <ListItem
-                        button
-                        selected={location.pathname === "/favorites"}
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
-                        >
-                          <FaveIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Favourites Gallery"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                    </Link>
                   </React.Fragment>
                 </List>
               </div>

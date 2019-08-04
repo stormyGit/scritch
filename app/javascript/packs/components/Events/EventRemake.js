@@ -510,12 +510,6 @@ class Event extends React.Component {
 
                     return (
                       <React.Fragment>
-                        {width === "xl" || width === "lg" ? (
-                          <Padder />
-                        ) : (
-                          <MicroPadder />
-                        )}
-
                         <PageTitle>{event ? event.name : null}</PageTitle>
                         {width === "sm" || width === "xs"
                           ? this.renderEventHeaderMobile(

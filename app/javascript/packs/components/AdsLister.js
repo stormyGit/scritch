@@ -71,10 +71,7 @@ class AdsLister extends React.Component {
       <React.Fragment>
         {adverts.map(advert => (
           <Grid item xs={12} md={6} lg={4} key={advert.id}>
-            <a
-              href={`${process.env.SITE_URL}/adverts/${advert.id}/go_to`}
-              target="_blank"
-            >
+            <a href={advert.url} target="_blank">
               <img src={advert.file} className={classes.advert} />
             </a>
           </Grid>

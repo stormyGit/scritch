@@ -551,9 +551,6 @@ class Fursuit extends React.Component {
             Edit fursuit
           </Button>
         )}
-        {!fursuit.claimed &&
-          !fursuit.possessed &&
-          this.renderFollowButton(fursuit)}
       </React.Fragment>
     );
   }
@@ -588,6 +585,11 @@ class Fursuit extends React.Component {
                 <div className={classes.actionButtonPadding}>
                   {this.renderActionButton(fursuit)}
                 </div>
+                {!fursuit.claimed && !fursuit.possessed && (
+                  <div className={classes.actionButtonPadding}>
+                    {this.renderFollowButton(fursuit)}
+                  </div>
+                )}
                 <div className={classes.actionButtonPadding}>
                   <IconButton
                     color="primary"
@@ -664,6 +666,11 @@ class Fursuit extends React.Component {
               </div>
               <div>
                 {this.renderActionButton(fursuit)}
+                <div style={{ padding: 4 }} />
+                {!fursuit.claimed &&
+                  !fursuit.possessed &&
+                  this.renderFollowButton(fursuit)}
+
                 <IconButton
                   className={classes.actionButtonPadding}
                   color="primary"
@@ -738,12 +745,6 @@ class Fursuit extends React.Component {
 
             return (
               <React.Fragment>
-                {width === "xl" || width === "lg" ? (
-                  <Padder />
-                ) : (
-                  <MicroPadder />
-                )}
-
                 <PageTitle>{fursuit ? fursuit.name : null}</PageTitle>
                 {width === "sm" || width === "xs"
                   ? this.renderFursuitHeaderMobile(fursuit)

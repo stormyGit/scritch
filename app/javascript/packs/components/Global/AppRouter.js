@@ -15,6 +15,7 @@ import MediumMobile from "../Media/MediumMobile";
 
 import User from "../Users/User";
 
+import MakerRemake from "../Makers/MakerRemake";
 import Maker from "../Makers/Maker";
 import MakerMobile from "../Makers/MakerMobile";
 import Makers from "../Makers/Makers";
@@ -42,6 +43,9 @@ import AppFooter from "./AppFooter";
 import AppHeader from "./AppHeader";
 import MustLog from "./MustLog";
 
+const Padder = () => <div style={{ padding: 16 }} />;
+const MicroPadder = () => <div style={{ padding: 8 }} />;
+
 class AppRouter extends React.Component {
   render() {
     const { currentSession, width } = this.props;
@@ -56,6 +60,11 @@ class AppRouter extends React.Component {
               <React.Fragment>
                 <AppLayoutRemake>
                   <AppHeader />
+                  {width === "xl" || width === "lg" ? (
+                    <Padder />
+                  ) : (
+                    <MicroPadder />
+                  )}
                   <Switch location={location}>
                     <Route exact path="/" component={LatestPictures} />
                     <Route
@@ -75,27 +84,27 @@ class AppRouter extends React.Component {
                       exact
                       path="/fursuits"
                       component={
-                        currentSession && !currentSession.user.suspendedUser
-                          ? Fursuits
-                          : MustLog
+                        currentSession && currentSession.user.suspendedUser
+                          ? MustLog
+                          : Fursuits
                       }
                     />
                     <Route
                       exact
                       path="/makers"
                       component={
-                        currentSession && !currentSession.user.suspendedUser
-                          ? Makers
-                          : MustLog
+                        currentSession && currentSession.user.suspendedUser
+                          ? MustLog
+                          : Makers
                       }
                     />
                     <Route
                       exact
                       path="/events"
                       component={
-                        currentSession && !currentSession.user.suspendedUser
-                          ? Events
-                          : MustLog
+                        currentSession && currentSession.user.suspendedUser
+                          ? MustLog
+                          : Events
                       }
                     />
                     <Route
@@ -111,9 +120,9 @@ class AppRouter extends React.Component {
                       exact
                       path="/search"
                       component={
-                        currentSession && !currentSession.user.suspendedUser
-                          ? SearchPage
-                          : MustLog
+                        currentSession && currentSession.user.suspendedUser
+                          ? MustLog
+                          : SearchPage
                       }
                     />
                     <Route
@@ -138,9 +147,9 @@ class AppRouter extends React.Component {
                       exact
                       path="/pictures"
                       component={
-                        currentSession && !currentSession.user.suspendedUser
-                          ? MediaAll
-                          : MustLog
+                        currentSession && currentSession.user.suspendedUser
+                          ? MustLog
+                          : MediaAll
                       }
                     />
                     <Route exact path="/ads" component={AdsLister} />
@@ -159,29 +168,27 @@ class AppRouter extends React.Component {
                       exact
                       path="/fursuits/:id"
                       component={
-                        currentSession && !currentSession.user.suspendedUser
-                          ? FursuitRemake
-                          : MustLog
+                        currentSession && currentSession.user.suspendedUser
+                          ? MustLog
+                          : FursuitRemake
                       }
                     />
                     <Route
                       exact
                       path="/makers/:id"
                       component={
-                        currentSession && !currentSession.user.suspendedUser
-                          ? width === "xs" || width === "sm"
-                            ? MakerMobile
-                            : Maker
-                          : MustLog
+                        currentSession && currentSession.user.suspendedUser
+                          ? MustLog
+                          : MakerRemake
                       }
                     />
                     <Route
                       exact
                       path="/events/:id"
                       component={
-                        currentSession && !currentSession.user.suspendedUser
-                          ? EventRemake
-                          : MustLog
+                        currentSession && currentSession.user.suspendedUser
+                          ? MustLog
+                          : EventRemake
                       }
                     />
                     <Route
@@ -197,9 +204,9 @@ class AppRouter extends React.Component {
                       exact
                       path="/:id/:tab"
                       component={
-                        currentSession && !currentSession.user.suspendedUser
-                          ? User
-                          : MustLog
+                        currentSession && currentSession.user.suspendedUser
+                          ? MustLog
+                          : User
                       }
                     />
                   </Switch>
@@ -208,7 +215,6 @@ class AppRouter extends React.Component {
               </React.Fragment>
             );
           }}
-
         />
       </BrowserRouter>
     );

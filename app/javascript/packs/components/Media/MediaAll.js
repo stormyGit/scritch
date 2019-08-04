@@ -89,89 +89,90 @@ function MediaAll({ classes, width }) {
   const [filters, setFilters] = useState(false);
 
   return (
-    <Query query={GET_MEDIA} fetchPolicy="network-only" variables={queryArg}>
-      {({ data, loading, error, fetchMore }) => {
-        if (loading || error || !data) return null;
+    <React.Fragment>
+      <Query query={GET_MEDIA} fetchPolicy="network-only" variables={queryArg}>
+        {({ data, loading, error, fetchMore }) => {
+          if (loading || error || !data) return null;
 
-        const { media } = data;
+          const { media } = data;
 
-        return (
-          <React.Fragment>
-            <div style={{ padding: 16 }} />
-            <div
-              style={{ height: "calc(100vh - 178px)" }}
-              className={
-                width === "sm" || width == "xs"
-                  ? classes.mobile_hide_sm
-                  : undefined
-              }
-            >
-              <Media
-                media={media}
-                limit={queryArg.limit}
-                hasMore={hasMore}
-                fetchMore={() =>
-                  fetchMore({
-                    variables: {
-                      offset: media.length,
-                      limit: queryArg.limit
-                    },
-                    updateQuery: (prev, { fetchMoreResult }) => {
-                      if (!fetchMoreResult) return prev;
-
-                      if (fetchMoreResult.media.length === 0) {
-                        setHasMore(false);
-                      } else {
-                        return {
-                          ...prev,
-                          media: [...prev.media, ...fetchMoreResult.media]
-                        };
-                      }
-                    }
-                  })
+          return (
+            <React.Fragment>
+              <div
+                style={{ height: "calc(100vh - 178px)" }}
+                className={
+                  width === "sm" || width == "xs"
+                    ? classes.mobile_hide_sm
+                    : undefined
                 }
-              />
-              <Fab
-                color="primary"
-                variant="extended"
-                size="medium"
-                aria-label="filters"
-                className={classes.fab}
-                onClick={() => setFilters(true)}
               >
-                <FontAwesomeIcon
-                  icon={faFilter}
-                  className={classes.extendedIcon}
-                />
-                Filters
-              </Fab>
-            </div>
-            <MediaFiltersRework
-              open={filters}
-              onChange={value => {
-                console.log(value);
-                value.label === "eventId"
-                  ? setQueryArg({
-                      ...queryArg,
-                      [value.label]: value.value,
-                      editionId: null
+                <Media
+                  media={media}
+                  limit={queryArg.limit}
+                  hasMore={hasMore}
+                  fetchMore={() =>
+                    fetchMore({
+                      variables: {
+                        offset: media.length,
+                        limit: queryArg.limit
+                      },
+                      updateQuery: (prev, { fetchMoreResult }) => {
+                        if (!fetchMoreResult) return prev;
+
+                        if (fetchMoreResult.media.length === 0) {
+                          setHasMore(false);
+                        } else {
+                          return {
+                            ...prev,
+                            media: [...prev.media, ...fetchMoreResult.media]
+                          };
+                        }
+                      }
                     })
-                  : setQueryArg({ ...queryArg, [value.label]: value.value });
-                setHasMore(true);
-              }}
-              clearFilters={() => {
-                setQueryArg({
-                  ...queryArg,
-                  ...DEFAULT_FILTERS
-                });
-                setHasMore(true);
-              }}
-              onClose={() => setFilters(false)}
-            />
-          </React.Fragment>
-        );
-      }}
-    </Query>
+                  }
+                />
+                <Fab
+                  color="primary"
+                  variant="extended"
+                  size="medium"
+                  aria-label="filters"
+                  className={classes.fab}
+                  onClick={() => setFilters(true)}
+                >
+                  <FontAwesomeIcon
+                    icon={faFilter}
+                    className={classes.extendedIcon}
+                  />
+                  Filters
+                </Fab>
+              </div>
+            </React.Fragment>
+          );
+        }}
+      </Query>
+      <MediaFiltersRework
+        open={filters}
+        onChange={value => {
+          console.log(value);
+          value.label === "eventId"
+            ? setQueryArg({
+                ...queryArg,
+                [value.label]: value.value,
+                editionId: null
+              })
+            : setQueryArg({ ...queryArg, [value.label]: value.value });
+          setHasMore(true);
+        }}
+        clearFilters={() => {
+          setQueryArg({
+            ...queryArg,
+            ...DEFAULT_FILTERS
+          });
+          setHasMore(true);
+        }}
+        onClose={() => setFilters(false)}
+      />
+    </React.Fragment>
   );
 }
 

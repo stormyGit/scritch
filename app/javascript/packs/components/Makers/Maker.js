@@ -172,10 +172,9 @@ class Maker extends React.Component {
           }}
         >
           {(createFollow, { data }) => {
-            const button = (
+            return (
               <Button
                 size={width !== "lg" && width !== "xl" ? "small" : "large"}
-                //disabled={!this.props.currentSession.user.sponsor}
                 fullWidth
                 variant="outlined"
                 onClick={() => {
@@ -187,15 +186,6 @@ class Maker extends React.Component {
                 Follow
               </Button>
             );
-
-            return button;
-            // return this.props.currentSession.user.sponsor ? (
-            //   button
-            // ) : (
-            //   <Tooltip title="You must be a Sponsor to Follow a Maker">
-            //     <div>{button}</div>
-            //   </Tooltip>
-            // );
           }}
         </Mutation>
       );
