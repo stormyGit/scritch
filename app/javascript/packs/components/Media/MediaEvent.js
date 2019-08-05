@@ -72,12 +72,13 @@ const styles = theme => ({
 function MediaEvent({ classes, width, eventId, editionId }) {
   const [queryArg, setQueryArg] = useState({
     eventId,
-    editionId,
+    editionId: editionId ? editionId.value : null,
     offset: 0,
     limit: 48
   });
   const [hasMore, setHasMore] = useState(true);
   const [filters, setFilters] = useState(false);
+  console.log(eventId, editionId);
 
   return (
     <Query
@@ -88,6 +89,7 @@ function MediaEvent({ classes, width, eventId, editionId }) {
       {({ data, loading, error, fetchMore }) => {
         if (loading || error || !data) return null;
 
+        console.log(data);
         const { eventMedia } = data;
 
         return (

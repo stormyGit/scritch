@@ -114,7 +114,7 @@ class DrawerMenuRemake extends React.Component {
     sponsorDashboardDialog: false,
     tipsDialog: false,
     databaseList: false,
-    sponsorMenu: true,
+    sponsorMenu: false,
     snack: false,
     assetDialog: false,
     adsDialog: false,

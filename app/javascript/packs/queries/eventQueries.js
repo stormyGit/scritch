@@ -12,8 +12,17 @@ export const LOAD_EVENT = gql`
       country
       editions {
         id
-        year
         name
+        slug
+        venue
+        theme
+        attendance
+        charity
+        guestOfHonours
+        city
+        country
+        startDate
+        endDate
       }
     }
   }

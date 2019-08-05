@@ -633,6 +633,9 @@ module Types
     end
 
     def event_media(arguments = {})
+      puts "\n" * 30
+      puts arguments
+      puts "\n" * 30
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
       media = media.joins(:edition).where("editions.event_id = ?", arguments[:event_id])
       if arguments[:edition_id].present?

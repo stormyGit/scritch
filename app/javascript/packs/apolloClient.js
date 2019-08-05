@@ -19,7 +19,7 @@ const apolloClient = new ApolloClient({
   },
   clientState: {
     defaults: {
-      theme: process.env.DEFAULT_THEME || "dark",
+      theme: process.env.DEFAULT_THEME || "light",
       pageTitle: null
     },
     resolvers: {

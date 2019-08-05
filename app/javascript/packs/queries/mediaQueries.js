@@ -104,6 +104,7 @@ export const GET_EVENT_MEDIA = gql`
       commentsCount
       likesCount
       favesCount
+      editionId
       viewsCount
     }
   }

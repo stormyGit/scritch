@@ -120,7 +120,7 @@ class TaggableMedia extends React.Component {
           limit,
           tagging: true,
           userId: this.state.userId,
-          sort: this.state.sort,
+          sort: this.state.sort.value,
           eventId: this.state.event ? this.state.event.value : null,
           editionId: this.state.edition ? this.state.edition.value : null,
           categoryId: this.state.category ? this.state.category.value : null,

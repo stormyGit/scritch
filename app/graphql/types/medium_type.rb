@@ -25,6 +25,8 @@ module Types
 
     field :fursuits, [FursuitType], null: false
 
+    field :edition_id, ID, null: true
+
     field :edition, EditionType, null: true
     field :sub_event, SubEventType, null: true
     field :category, CategoryType, null: true
@@ -36,7 +38,7 @@ module Types
 
     field :liked, Boolean, null: false
     field :faved, Boolean, null: false
-    
+
     field :comments_disabled, Boolean, null: false
     field :tag_list, [String], null: false
 
