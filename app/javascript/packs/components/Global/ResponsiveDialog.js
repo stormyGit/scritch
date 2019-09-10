@@ -13,11 +13,12 @@ const ResponsiveDialog = ({ width, ...props }) => (
     scroll="body"
     fullScreen={width === "md" || width === "sm" || width === "xs"}
     PaperProps={{
-      style: props.size
-        ? { minWidth: props.size }
-        : width === "lg" || width === "xl"
-        ? { minWidth: 800 }
-        : {}
+      style:
+        props.size && (width === "lg" || width === "xl")
+          ? { minWidth: props.size }
+          : width === "lg" || width === "xl"
+          ? { minWidth: 800 }
+          : {}
     }}
     {...props}
   />

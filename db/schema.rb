@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_04_221627) do
+ActiveRecord::Schema.define(version: 2019_09_10_150202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 2019_08_04_221627) do
     t.boolean "maintenance", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "staging", default: false
   end
 
   create_table "asset_requests", force: :cascade do |t|

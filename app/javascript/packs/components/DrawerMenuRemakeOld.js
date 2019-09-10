@@ -53,16 +53,9 @@ import ProfileAvatar from "./Users/ProfileAvatar";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import HomeIcon from "@material-ui/icons/Home";
-import ScoreIcon from "@material-ui/icons/InsertChartOutlined";
-import MediaIcon from "@material-ui/icons/Photo";
-import FursuitIcon from "@material-ui/icons/AccessibilityNew";
-import MakerIcon from "@material-ui/icons/Build";
-import EventIcon from "@material-ui/icons/Business";
 import DatabaseIcon from "@material-ui/icons/LibraryBooks";
 import MenuIcon from "@material-ui/icons/Menu";
 import AddIcon from "@material-ui/icons/Add";
-import Zoom from "@material-ui/core/Zoom";
-import Tooltip from "@material-ui/core/Tooltip";
 
 import { Link, withRouter } from "react-router-dom";
 
@@ -110,9 +103,6 @@ const styles = theme => {
     paper: {
       padding: theme.spacing.unit * 2,
       margin: theme.spacing.unit * 2
-    },
-    oversizeTooltip: {
-      fontSize: "1.5em"
     }
   };
 };
@@ -238,176 +228,181 @@ class DrawerMenuRemake extends React.Component {
                 <List disablePadding={width !== "lg" && width !== "xl"}>
                   <React.Fragment>
                     <Link to="/" className={classes.link}>
-                      <Tooltip
-                        TransitionComponent={Zoom}
-                        title="Home"
-                        placement="right"
-                      >
-                        <ListItem button selected={location.pathname === "/"}>
-                          <ListItemIcon
-                            className={classes.text}
-                            color="secondary"
-                          >
-                            <HomeIcon />
-                          </ListItemIcon>
-                        </ListItem>
-                      </Tooltip>
-                    </Link>
-                    <Link to="/pictures" className={classes.link}>
-                      <Tooltip
-                        TransitionComponent={Zoom}
-                        title="Media"
-                        placement="right"
-                      >
-                        <ListItem
-                          button
-                          selected={location.pathname === "/pictures"}
+                      <ListItem button selected={location.pathname === "/"}>
+                        <ListItemIcon
+                          className={classes.text}
+                          color="secondary"
                         >
-                          <ListItemIcon
-                            className={classes.text}
-                            color="secondary"
-                          >
-                            <MediaIcon />
-                          </ListItemIcon>
-                        </ListItem>
-                      </Tooltip>
+                          <HomeIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Home"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
                     </Link>
-                    <Link to="/fursuits" className={classes.link}>
-                      <Tooltip
-                        TransitionComponent={Zoom}
-                        title="Fursuits"
-                        placement="right"
-                      >
-                        <ListItem
-                          button
-                          selected={location.pathname === "/fursuits"}
-                        >
-                          <ListItemIcon
-                            className={classes.text}
-                            color="secondary"
+                    <ListItem
+                      button
+                      onClick={() => {
+                        this.setState({
+                          databaseList: !this.state.databaseList
+                        });
+                      }}
+                    >
+                      <ListItemIcon className={classes.text} color="secondary">
+                        <DatabaseIcon />
+                      </ListItemIcon>
+                      <ListItemText
+                        primary="Browse"
+                        primaryTypographyProps={{ className: classes.text }}
+                      />
+                      {this.state.databaseList ? (
+                        <ExpandLess className={classes.text} />
+                      ) : (
+                        <ExpandMore className={classes.text} />
+                      )}
+                    </ListItem>
+                    <Collapse
+                      in={this.state.databaseList}
+                      timeout="auto"
+                      unmountOnExit
+                    >
+                      <List component="div" disablePadding>
+                        <Link to="/pictures" className={classes.link}>
+                          <ListItem
+                            button
+                            className={classes.nested}
+                            selected={location.pathname === "/pictures"}
                           >
-                            <FursuitIcon />
-                          </ListItemIcon>
-                        </ListItem>
-                      </Tooltip>
-                    </Link>
-                    <Link to="/makers" className={classes.link}>
-                      <Tooltip
-                        TransitionComponent={Zoom}
-                        title="Makers"
-                        placement="right"
-                      >
-                        <ListItem
-                          button
-                          selected={location.pathname === "/makers"}
-                        >
-                          <ListItemIcon
-                            className={classes.text}
-                            color="secondary"
+                            <ListItemText
+                              primary="Media"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </Link>
+                        <Link to="/fursuits" className={classes.link}>
+                          <ListItem
+                            button
+                            className={classes.nested}
+                            selected={location.pathname === "/fursuits"}
                           >
-                            <MakerIcon />
-                          </ListItemIcon>
-                        </ListItem>
-                      </Tooltip>
-                    </Link>
-                    <Link to="/events" className={classes.link}>
-                      <Tooltip
-                        TransitionComponent={Zoom}
-                        title="Events"
-                        placement="right"
-                      >
-                        <ListItem
-                          button
-                          selected={location.pathname === "/events"}
-                        >
-                          <ListItemIcon
-                            className={classes.text}
-                            color="secondary"
+                            <ListItemText
+                              primary="Fursuits"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </Link>
+                        <Link to="/makers" className={classes.link}>
+                          <ListItem
+                            button
+                            selected={location.pathname === "/makers"}
+                            className={classes.nested}
                           >
-                            <EventIcon />
-                          </ListItemIcon>
-                        </ListItem>
-                      </Tooltip>
-                    </Link>
+                            <ListItemText
+                              primary="Makers"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </Link>
+                        <Link to="/events" className={classes.link}>
+                          <ListItem
+                            button
+                            selected={location.pathname === "/events"}
+                            className={classes.nested}
+                          >
+                            <ListItemText
+                              primary="Events"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </Link>
+                      </List>
+                    </Collapse>
                     {user && (
-                      <Tooltip
-                        TransitionComponent={Zoom}
-                        title="Create"
-                        placement="right"
+                      <ListItem
+                        button
+                        onClick={() => {
+                          this.setState({ assetDialog: true });
+                        }}
                       >
-                        <ListItem
-                          button
-                          onClick={() => {
-                            this.setState({ assetDialog: true });
-                          }}
+                        <ListItemIcon
+                          className={classes.text}
+                          color="secondary"
                         >
-                          <ListItemIcon
-                            className={classes.text}
-                            color="secondary"
-                          >
-                            <AddIcon />
-                          </ListItemIcon>
-                        </ListItem>
-                      </Tooltip>
+                          <AddIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Create"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
                     )}
                     {currentSession && (
                       <React.Fragment>
                         <Link to="/tag" className={classes.link}>
-                          <Tooltip
-                            TransitionComponent={Zoom}
-                            title="Tag"
-                            placement="right"
+                          <ListItem
+                            button
+                            selected={location.pathname === "/tag"}
                           >
-                            <ListItem
-                              button
-                              selected={location.pathname === "/tag"}
+                            <ListItemIcon
+                              className={classes.text}
+                              color="secondary"
                             >
-                              <ListItemIcon
-                                className={classes.text}
-                                color="secondary"
-                              >
-                                <TagIcon />
-                              </ListItemIcon>
-                            </ListItem>
-                          </Tooltip>
+                              <TagIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Tag Media"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
                         </Link>
                         <Link to="/subscriptions" className={classes.link}>
-                          <Tooltip
-                            TransitionComponent={Zoom}
-                            title="Subscriptions"
-                            placement="right"
+                          <ListItem
+                            button
+                            selected={location.pathname === "/subscriptions"}
                           >
-                            <ListItem
-                              button
-                              selected={location.pathname === "/subscriptions"}
+                            <ListItemIcon
+                              className={classes.text}
+                              color="secondary"
                             >
-                              <ListItemIcon
-                                className={classes.text}
-                                color="secondary"
-                              >
-                                <SubscriptionsIcon />
-                              </ListItemIcon>
-                            </ListItem>
-                          </Tooltip>
+                              <SubscriptionsIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Subscriptions"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
                         </Link>
                         <Link to="/favorites" className={classes.link}>
-                          <Tooltip
-                            TransitionComponent={Zoom}
-                            title="Favourites Gallery"
-                            placement="right"
+                          <ListItem
+                            button
+                            selected={location.pathname === "/favorites"}
                           >
-                            <ListItem
-                              button
-                              selected={location.pathname === "/favorites"}
+                            <ListItemIcon
+                              className={classes.text}
+                              color="secondary"
                             >
-                              <ListItemIcon
-                                className={classes.text}
-                                color="secondary"
-                              >
-                                <FaveIcon />
-                              </ListItemIcon>
-                            </ListItem>
-                          </Tooltip>
+                              <FaveIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Favourites Gallery"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
                         </Link>
                       </React.Fragment>
                     )}
@@ -432,7 +427,7 @@ class DrawerMenuRemake extends React.Component {
                   return null;
                 }}
               </Query>
-              {false && width !== "xl" && (
+              {width !== "xl" && (
                 <div>
                   <MetricsBar
                     openSpeciesDialog={() =>
@@ -443,100 +438,138 @@ class DrawerMenuRemake extends React.Component {
               )}
               {user && true && (
                 <div>
-                  {user && user.sponsor && (
-                    <Tooltip
-                      TransitionComponent={Zoom}
-                      title="Sponsorship Info"
-                      placement="right"
-                    >
-                      <ListItem
-                        button
-                        onClick={() =>
-                          this.setState({ sponsorDashboardDialog: true })
-                        }
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
-                        >
-                          <PetsIcon />
-                        </ListItemIcon>
-                      </ListItem>
-                    </Tooltip>
-                  )}
-                  {user && !user.sponsor && (
-                    <div>
-                      <Tooltip
-                        TransitionComponent={Zoom}
-                        title="Become a Sponsor!"
-                        placement="right"
-                      >
+                  <ListItem
+                    button
+                    onClick={() => {
+                      this.setState({ sponsorMenu: !this.state.sponsorMenu });
+                    }}
+                  >
+                    <ListItemIcon className={classes.text} color="secondary">
+                      <MenuIcon />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={"Support the Site"}
+                      primaryTypographyProps={{ className: classes.text }}
+                    />
+                    {this.state.sponsorMenu ? (
+                      <ExpandLess className={classes.text} />
+                    ) : (
+                      <ExpandMore className={classes.text} />
+                    )}
+                  </ListItem>
+                  <Collapse
+                    in={this.state.sponsorMenu}
+                    timeout="auto"
+                    unmountOnExit
+                  >
+                    <List component="div" disablePadding>
+                      {user && user.sponsor && (
+                        <React.Fragment>
+                          <ListItem>
+                            <ListItemIcon
+                              className={classes.text}
+                              color="secondary"
+                            >
+                              <PetsIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Sponsorship Period:"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                          <ListItem
+                            button
+                            onClick={() =>
+                              this.setState({ sponsorDashboardDialog: true })
+                            }
+                          >
+                            <ListItemText
+                              primary={
+                                user.sponsor.status == "live" &&
+                                user.sponsor.plan != "Free Trial"
+                                  ? `Renews: ${dateFormat(
+                                      sponsorLimit,
+                                      "mmmm dS, yyyy"
+                                    )}`
+                                  : `Expires ${dateFormat(
+                                      sponsorLimit,
+                                      "mmmm dS, yyyy"
+                                    )}`
+                              }
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </React.Fragment>
+                      )}
+                      {user && !user.sponsor && (
+                        <div>
+                          <ListItem
+                            button
+                            onClick={() => {
+                              this.setState({
+                                sponsorDialog: !this.state.sponsorDialog
+                              });
+                            }}
+                          >
+                            <ListItemIcon
+                              className={classes.text}
+                              color="secondary"
+                            >
+                              <PetsIcon />
+                            </ListItemIcon>
+                            <ListItemText
+                              primary="Become a Sponsor!"
+                              primaryTypographyProps={{
+                                className: classes.text
+                              }}
+                            />
+                          </ListItem>
+                        </div>
+                      )}
+                      {user && (
                         <ListItem
                           button
                           onClick={() => {
-                            this.setState({
-                              sponsorDialog: !this.state.sponsorDialog
-                            });
+                            this.setState({ adsDialog: true });
                           }}
                         >
                           <ListItemIcon
                             className={classes.text}
                             color="secondary"
                           >
-                            <PetsIcon />
+                            <AdsIcon />
                           </ListItemIcon>
                           <ListItemText
-                            primary="Become a Sponsor!"
-                            primaryTypographyProps={{
-                              className: classes.text
-                            }}
+                            primary="Advertise"
+                            primaryTypographyProps={{ className: classes.text }}
                           />
                         </ListItem>
-                      </Tooltip>
-                    </div>
-                  )}
-                  {user && (
-                    <Tooltip
-                      TransitionComponent={Zoom}
-                      title="Advertise with Scritch"
-                      placement="right"
-                    >
-                      <ListItem
-                        button
-                        onClick={() => {
-                          this.setState({ adsDialog: true });
-                        }}
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
+                      )}
+                      {user && (
+                        <ListItem
+                          button
+                          onClick={() => {
+                            this.setState({ tipsDialog: true });
+                          }}
                         >
-                          <AdsIcon />
-                        </ListItemIcon>
-                      </ListItem>
-                    </Tooltip>
-                  )}
-                  {user && (
-                    <Tooltip
-                      TransitionComponent={Zoom}
-                      title="Tip Jar"
-                      placement="right"
-                    >
-                      <ListItem
-                        button
-                        onClick={() => {
-                          this.setState({ tipsDialog: true });
-                        }}
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
-                        >
-                          <TipsIcon />
-                        </ListItemIcon>
-                      </ListItem>
-                    </Tooltip>
-                  )}
+                          <ListItemIcon
+                            className={classes.text}
+                            color="secondary"
+                          >
+                            <TipsIcon />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary="Tip Jar"
+                            primaryTypographyProps={{ className: classes.text }}
+                          />
+                        </ListItem>
+                      )}
+                    </List>
+                  </Collapse>
                 </div>
               )}
               <div>
@@ -544,70 +577,64 @@ class DrawerMenuRemake extends React.Component {
                   {currentSession && !this.props.disableSettings && (
                     <React.Fragment>
                       <Link to="/announcements" className={classes.link}>
-                        <Tooltip
-                          TransitionComponent={Zoom}
-                          title="Announcements"
-                          placement="right"
-                        >
-                          <ListItem button>
-                            <ListItemIcon className={classes.text}>
-                              {currentSession &&
-                              user.unreadAnnouncementsCount > 0 ? (
-                                <Badge
-                                  badgeContent={user.unreadAnnouncementsCount}
-                                  color="primary"
-                                >
-                                  <AnnouncementIcon />
-                                </Badge>
-                              ) : (
+                        <ListItem button>
+                          <ListItemIcon className={classes.text}>
+                            {currentSession &&
+                            user.unreadAnnouncementsCount > 0 ? (
+                              <Badge
+                                badgeContent={user.unreadAnnouncementsCount}
+                                color="primary"
+                              >
                                 <AnnouncementIcon />
-                              )}
-                            </ListItemIcon>
-                          </ListItem>
-                        </Tooltip>
+                              </Badge>
+                            ) : (
+                              <AnnouncementIcon />
+                            )}
+                          </ListItemIcon>
+                          <ListItemText
+                            primary="Announcements"
+                            primaryTypographyProps={{ className: classes.text }}
+                          />
+                        </ListItem>
                       </Link>
                       <Divider />
-                      <Tooltip
-                        TransitionComponent={Zoom}
-                        title="Settings"
-                        placement="right"
+                      <ListItem
+                        button
+                        onClick={() => this.setState({ settingsDialog: true })}
                       >
-                        <ListItem
-                          button
-                          onClick={() =>
-                            this.setState({ settingsDialog: true })
-                          }
-                        >
-                          <ListItemIcon>
-                            <SettingsIcon />
-                          </ListItemIcon>
-                        </ListItem>
-                      </Tooltip>
+                        <ListItemIcon>
+                          <SettingsIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Settings"
+                          primaryTypographyProps={{
+                            noWrap: true
+                          }}
+                        />
+                      </ListItem>
                     </React.Fragment>
                   )}
                   {!currentSession && !this.props.disableSettings && (
                     <React.Fragment>
-                      <Tooltip
-                        TransitionComponent={Zoom}
-                        title="Announcements"
-                        placement="right"
+                      <ListItem
+                        button
+                        onClick={() => {
+                          this.props.history.push({
+                            pathname: "/announcements"
+                          });
+                          if (this.props.onClose) {
+                            this.props.onClose();
+                          }
+                        }}
                       >
-                        <ListItem
-                          button
-                          onClick={() => {
-                            this.props.history.push({
-                              pathname: "/announcements"
-                            });
-                            if (this.props.onClose) {
-                              this.props.onClose();
-                            }
-                          }}
-                        >
-                          <ListItemIcon className={classes.text}>
-                            <AnnouncementIcon />
-                          </ListItemIcon>
-                        </ListItem>
-                      </Tooltip>
+                        <ListItemIcon className={classes.text}>
+                          <AnnouncementIcon />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary="Announcements"
+                          primaryTypographyProps={{ className: classes.text }}
+                        />
+                      </ListItem>
                     </React.Fragment>
                   )}
                 </List>

@@ -534,7 +534,11 @@ class Maker extends React.Component {
   renderMakerFursuits(maker) {
     const { classes, match, currentSession } = this.props;
 
-    if (maker.fursuits.length == 0)
+    if (
+      (!maker.fursuits || (maker.fursuits && maker.fursuits.length === 0)) &&
+      (!maker.fursuitsByDate ||
+        (maker.fursuitsByDate && maker.fursuitsByDate.length === 0))
+    )
       return (
         <div style={{ width: "100%", textAlign: "center", padding: 24 }}>
           <Typography variant="h6" style={{ fontWeight: 200 }}>
@@ -545,7 +549,7 @@ class Maker extends React.Component {
 
     return (
       <React.Fragment>
-        {this.state.sort == "alpha" &&
+        {this.state.sort === "alpha" &&
           maker.fursuits.map(fursuit => {
             return (
               <Grid item xs={6} md={4} lg={2} key={fursuit.id}>
@@ -562,7 +566,7 @@ class Maker extends React.Component {
               </Grid>
             );
           })}
-        {this.state.sort == "latest" &&
+        {this.state.sort === "latest" &&
           maker.fursuitsByDate.map(fursuit => {
             return (
               <Grid item xs={6} md={4} lg={2} key={fursuit.id}>

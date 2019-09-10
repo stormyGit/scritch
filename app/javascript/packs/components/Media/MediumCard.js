@@ -9,6 +9,8 @@ import { Link } from "react-router-dom";
 
 import countContractor from "../../countContractor";
 
+import MediumDialog from "./MediumDialog";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPaw, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 
@@ -154,14 +156,23 @@ const Medium = withStyles(styles)(
 );
 
 function MediaCardRework({ classes, medium }) {
+  const [stateMedium, setStateMedium] = useState(null);
+  console.log(stateMedium);
   return (
-    <Card className={classes.card} elevation={0}>
-      <CardActionArea
-        component={props => <Link to={`/pictures/${medium.id}`} {...props} />}
-      >
-        <Medium medium={medium} />
-      </CardActionArea>
-    </Card>
+    <React.Fragment>
+      <Card className={classes.card} elevation={0}>
+        <CardActionArea onClick={() => setStateMedium(medium.id)}>
+          <Medium medium={medium} />
+        </CardActionArea>
+      </Card>
+      {stateMedium && (
+        <MediumDialog
+          mediumId={stateMedium}
+          onClose={() => setStateMedium(null)}
+          open={stateMedium != null}
+        />
+      )}
+    </React.Fragment>
   );
 }
 

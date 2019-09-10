@@ -2,7 +2,7 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import DrawerMenuRemake from "./DrawerMenuRemake";
+import DrawerMenuRemakeOld from "./DrawerMenuRemakeOld";
 
 const drawerWidth = 301;
 
@@ -35,7 +35,7 @@ class TemporaryDrawer extends React.Component {
         onClose={this.props.onClose}
         disableDiscovery={iOS}
       >
-        <DrawerMenuRemake onClose={this.props.onClose} />
+        <DrawerMenuRemakeOld onClose={this.props.onClose} />
       </SwipeableDrawer>
     );
   }

@@ -113,7 +113,7 @@ class SponsorDialog extends React.Component {
                 Become a sponsor
               </Button>
             </a>
-            {currentSession.user.usedFreeTrial === false && (
+            {false && currentSession.user.usedFreeTrial === false && (
               <React.Fragment>
                 <br />
                 <br />

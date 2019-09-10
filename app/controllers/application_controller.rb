@@ -9,6 +9,9 @@ class ApplicationController < ActionController::Base
     if params[:god_mode].present? && params[:god_mode] == ENV["GOD_MODE_PWD"]
       cookies.signed["god-mode"] = ENV["GOD_MODE_TOKEN"]
     end
+    if params[:staging_token].present? && params[:staging_token] == ENV["STAGING_PWD"]
+      cookies.signed["staging-token"] = ENV["STAGING_TOKEN"]
+    end
   end
   layout :layout_by_resource
 
@@ -17,6 +20,9 @@ class ApplicationController < ActionController::Base
   def layout_by_resource
     if App.first.maintenance && (cookies.signed["god-mode"].blank? || cookies.signed["god-mode"] != ENV["GOD_MODE_TOKEN"])
       return "maintenance"
+    end
+    if App.first.staging && (cookies.signed["staging-token"].blank? || cookies.signed["staging-token"] != ENV["STAGING_TOKEN"])
+      return "staging"
     end
     if devise_controller?
       "moderation"
