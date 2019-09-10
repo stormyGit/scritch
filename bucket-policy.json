@@ -7,7 +7,7 @@
       "Principal": {
         "AWS": ["*"]
       },
-      "Resource": ["arn:aws:s3:::staging/*"],
+      "Resource": ["arn:aws:s3:::scritch/*"],
       "Sid": ""
     }
   ]
