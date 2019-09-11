@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
       cookies.signed["staging-token"] = ENV["STAGING_TOKEN"]
     end
   end
+
   layout :layout_by_resource
 
   private
