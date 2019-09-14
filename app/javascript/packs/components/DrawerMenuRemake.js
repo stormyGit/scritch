@@ -415,23 +415,25 @@ class DrawerMenuRemake extends React.Component {
                 </List>
               </div>
 
-              <Query query={GET_RIBBON_ANNOUNCEMENT}>
-                {({ loading, error, data }) => {
-                  if (loading || error || !data) return null;
-                  if (data && data.ribbonAnnouncement) {
-                    return (
-                      <div>
-                        <Paper className={classes.paper}>
-                          <Typography>
-                            {data.ribbonAnnouncement.body}
-                          </Typography>
-                        </Paper>
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
-              </Query>
+              {false && (
+                <Query query={GET_RIBBON_ANNOUNCEMENT}>
+                  {({ loading, error, data }) => {
+                    if (loading || error || !data) return null;
+                    if (data && data.ribbonAnnouncement) {
+                      return (
+                        <div>
+                          <Paper className={classes.paper}>
+                            <Typography>
+                              {data.ribbonAnnouncement.body}
+                            </Typography>
+                          </Paper>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                </Query>
+              )}
               {false && width !== "xl" && (
                 <div>
                   <MetricsBar

@@ -31,6 +31,15 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "center"
   },
+  masterGridOnLoad: {
+    padding: 0,
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+
   mediaH: {
     width: "100%",
     maxHeight: "calc(100vh - 56px)",
@@ -69,7 +78,7 @@ class MediumDialog extends React.Component {
 
     return (
       <ResponsiveDialog open={open} onClose={onClose} size={1200}>
-        <DialogContent>
+        <DialogContent style={{ padding: 0, width: "100%", height: "100%" }}>
           <Query query={GET_MEDIUM} variables={{ id: mediumId }}>
             {({ error, loading, data }) => {
               if (error || loading) {
@@ -99,7 +108,7 @@ class MediumDialog extends React.Component {
               if (!medium) {
                 return (
                   <Grid container spacing={8}>
-                    <Grid item xs={12} className={classes.masterGrid}>
+                    <Grid item xs={12} className={classes.masterGridOnLoad}>
                       <Typography variant="h6">
                         Something went wrong :(
                       </Typography>
@@ -126,8 +135,8 @@ class MediumDialog extends React.Component {
               } else orientation = classes.mediaH;
 
               return (
-                <Grid container spacing={8}>
-                  <Grid item xs={12} lg={9}>
+                <Grid container spacing={0}>
+                  <Grid item xs={12} lg={9} className={classes.masterGrid}>
                     {medium.resized.substr(
                       medium.resized.lastIndexOf(".") + 1
                     ) === "mp4" && (
@@ -155,19 +164,17 @@ class MediumDialog extends React.Component {
                       />
                     )}
                   </Grid>
-                  <Grid item xs={12} lg={3}>
+                  <Grid item xs={12} lg={3} className={classes.masterGrid}>
                     Content
+                    <Button onClick={onClose} autoFocus>
+                      Close
+                    </Button>
                   </Grid>
                 </Grid>
               );
             }}
           </Query>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={onClose} autoFocus>
-            Close
-          </Button>
-        </DialogActions>
       </ResponsiveDialog>
     );
   }

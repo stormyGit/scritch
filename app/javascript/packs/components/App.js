@@ -27,7 +27,7 @@ const makeTheme = type => {
         main: "#0c8cff"
       },
       secondary: {
-        main: process.env.SECONDARY_COLOR
+        main: "#00ffbb"
       },
       danger: {
         main: "#ff6666"

@@ -154,6 +154,7 @@ class RequestFursuitDialog extends React.Component {
       !this.state.fursuitLegType ||
       !this.state.baseColor ||
       !this.state.eyesColor ||
+      !this.state.maker ||
       this.state.maker.length == 0 ||
       !this.state.creationYear
     )
