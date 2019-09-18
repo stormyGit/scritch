@@ -184,7 +184,7 @@ const Image = ({ classes, orientation, medium }) => {
       for (var meta in metas)
         if (metas[meta].name === "og:image") {
           oldPicture = metas[meta].content;
-          metas[meta].content = medium.picture;
+          metas[meta].content = medium.resized;
         }
 
       return () => {
@@ -196,7 +196,7 @@ const Image = ({ classes, orientation, medium }) => {
           }
       };
     },
-    [medium.picture]
+    [medium.resized]
   );
 
   return (

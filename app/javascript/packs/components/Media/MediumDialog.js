@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -8,8 +9,15 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Input from "@material-ui/core/Input";
+import IconButton from "@material-ui/core/IconButton";
+
+import CloseIcon from "@material-ui/icons/Close";
+import OkIcon from "@material-ui/icons/Check";
+
 import { withStyles } from "@material-ui/core/styles";
 import GlobalProgress from "../Global/GlobalProgress";
 import { GET_MEDIUM } from "../../queries/mediaQueries";
@@ -31,7 +39,7 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "center"
   },
-  masterGridOnLoad: {
+  masterGrid: {
     padding: 0,
     width: "100%",
     height: "100%",
@@ -39,7 +47,16 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "center"
   },
-
+  dataGrid: {
+    padding: theme.spacing.unit,
+    width: "100%",
+    height: "100%",
+    display: "flex"
+  },
+  flexSection: {
+    display: "flex",
+    justifyContent: "space-between"
+  },
   mediaH: {
     width: "100%",
     maxHeight: "calc(100vh - 56px)",
@@ -68,10 +85,17 @@ const styles = theme => ({
     objectFit: "contain",
     margin: "auto",
     display: "block"
+  },
+  copied: {
+    color: theme.palette.primary.main
   }
 });
 
 class MediumDialog extends React.Component {
+  state = {
+    copied: false
+  };
+
   render() {
     const { classes, width, open, onClose, mediumId } = this.props;
     if (!mediumId) return null;
@@ -164,11 +188,42 @@ class MediumDialog extends React.Component {
                       />
                     )}
                   </Grid>
-                  <Grid item xs={12} lg={3} className={classes.masterGrid}>
-                    Content
-                    <Button onClick={onClose} autoFocus>
-                      Close
-                    </Button>
+                  <Grid item xs={12} lg={3} className={classes.dataGrid}>
+                    <Grid container spacing={16}>
+                      <Grid item xs={12} className={classes.flexSection}>
+                        {true && (
+                          <CopyToClipboard
+                            text={`${process.env.SITE_URL}/pictures/${
+                              medium.id
+                            }`}
+                            onCopy={() => {
+                              this.setState({ copied: true });
+                              setTimeout(() => {
+                                this.setState({ copied: false });
+                              }, 3000);
+                            }}
+                          >
+                            <Button
+                              variant="outlined"
+                              className={
+                                this.state.copied ? classes.copied : null
+                              }
+                            >
+                              {this.state.copied
+                                ? "Copied to Clipboard"
+                                : "Get Link"}
+                            </Button>
+                          </CopyToClipboard>
+                        )}
+                        <IconButton onClick={onClose} autoFocus>
+                          <CloseIcon />
+                        </IconButton>
+                      </Grid>
+                      <Divider />
+                      <Grid item xs={12}>
+                        Content
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               );
