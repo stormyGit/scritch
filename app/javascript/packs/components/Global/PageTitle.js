@@ -6,7 +6,7 @@ class PageTitle extends React.Component {
     this.setPageTitle(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.children !== nextProps.children) {
       this.setPageTitle(nextProps);
     }

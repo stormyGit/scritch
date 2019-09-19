@@ -145,7 +145,7 @@ class EditProfileDialog extends React.Component {
     this.setInitialValues(this.props.user);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.props.user !== nextProps.user ||
       this.props.open !== nextProps.open

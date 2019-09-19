@@ -200,7 +200,7 @@ class User extends React.Component {
 
   componentWillUnmount() {}
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.match.params.tab !== nextProps.match.params.tab) {
       this.setState({ tab: nextProps.match.params.tab || "pictures" });
     }

@@ -45,7 +45,7 @@ class TechDialog extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.user !== nextProps.user) {
       this.setState({ description: "" });
     }

@@ -29,7 +29,7 @@ class InteractiveTextInput extends React.Component {
     this.setState({ anchorEl: uuid() });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.value !== nextProps.value) {
       this.searchUser(nextProps.value);
     }

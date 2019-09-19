@@ -222,7 +222,7 @@ class AdvertiseDialog extends React.Component {
     uploading: false
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.open !== nextProps.open) {
       this.setInitialValues();
     }

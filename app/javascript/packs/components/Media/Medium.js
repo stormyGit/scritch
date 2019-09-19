@@ -236,12 +236,12 @@ const Image = ({ classes, orientation, medium }) => {
 class Medium extends React.Component {
   state = {
     menuAnchor: null,
-    exifDialog: false,
-    downloadDialog: false,
     editMedium: false,
     showMenuButton: false,
     tagMedium: false,
     reportDialog: false,
+    exifDialog: false,
+    downloadDialog: false,
     tagReportDialog: false
   };
 

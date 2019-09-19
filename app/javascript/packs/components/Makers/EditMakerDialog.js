@@ -146,7 +146,7 @@ class EditMakerDialog extends React.Component {
     this.setInitialValues(this.props.maker);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.props.maker !== nextProps.maker ||
       this.props.open !== nextProps.open

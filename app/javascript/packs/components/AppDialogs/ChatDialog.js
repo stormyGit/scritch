@@ -261,7 +261,7 @@ class ChatDialog extends React.Component {
     this.readChat(this.props.user);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.messages !== nextProps.messages) {
       this.scrollToBottom();
       this.readChat(nextProps.user);
@@ -569,7 +569,7 @@ class ChatDialogLoader extends React.Component {
     this.setState({ user: this.props.user });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.setState({ user: nextProps.user });
   }
 

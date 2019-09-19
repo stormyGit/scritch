@@ -143,7 +143,7 @@ class AppLayoutRemake extends React.Component {
     this.handleQuery(this.props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.location.search !== nextProps.location.search) {
       this.handleQuery(nextProps);
     }

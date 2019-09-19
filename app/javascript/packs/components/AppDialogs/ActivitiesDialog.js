@@ -87,7 +87,7 @@ class ActivitiesDialog extends React.Component {
 
   componentDidMount() {}
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!this.props.open && nextProps.open) {
       this.props.client.mutate({
         mutation: READ_ACTIVITIES,

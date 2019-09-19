@@ -267,7 +267,7 @@ class MultipleMediaDialog extends React.Component {
     isPhotographer: true
   };
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.open !== nextProps.open) {
       this.setInitialValues();
     }

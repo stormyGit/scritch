@@ -76,7 +76,7 @@ class AnnouncementsDialog extends React.Component {
 
   componentDidMount() {}
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!this.props.open && nextProps.open && nextProps.currentSession) {
       this.props.client.mutate({
         mutation: READ_ANNOUNCEMENTS,

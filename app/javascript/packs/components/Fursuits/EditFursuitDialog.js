@@ -152,7 +152,7 @@ class EditFursuitDialog extends React.Component {
     this.setInitialValues(this.props.fursuit);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       this.props.fursuit !== nextProps.fursuit ||
       this.props.open !== nextProps.open

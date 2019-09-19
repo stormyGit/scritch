@@ -341,7 +341,7 @@ class MultipleMediaDialog extends React.Component {
     this.setState({ pushing: true });
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.open !== nextProps.open) {
       this.setInitialValues();
     }

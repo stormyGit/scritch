@@ -14,14 +14,22 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import Input from "@material-ui/core/Input";
 import IconButton from "@material-ui/core/IconButton";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import CloseIcon from "@material-ui/icons/Close";
 import OkIcon from "@material-ui/icons/Check";
+import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
+import withCurrentSession from "../withCurrentSession";
 import { withStyles } from "@material-ui/core/styles";
 import GlobalProgress from "../Global/GlobalProgress";
 import { GET_MEDIUM } from "../../queries/mediaQueries";
 import { Query } from "react-apollo";
+
+import ReportDialog from "../AppDialogs/ReportDialog";
+import TagReportDialog from "../AppDialogs/TagReportDialog";
+import ExifDialog from "../AppDialogs/ExifDialog";
+import DownloadDialog from "../AppDialogs/DownloadDialog";
 
 const styles = theme => ({
   link: {
@@ -91,13 +99,48 @@ const styles = theme => ({
   }
 });
 
+const DataSection = ({ classes }) => {
+  return (
+    <Grid item xs={12} className={classes.flexSection}>
+      <Typography variant="h6">Data Section</Typography>
+    </Grid>
+  );
+};
+
+const TagSection = ({ classes }) => {
+  return (
+    <Grid item xs={12} className={classes.flexSection}>
+      <Typography variant="h6">Tag Section</Typography>
+    </Grid>
+  );
+};
+
+const CommentSection = ({ classes }) => {
+  return (
+    <Grid item xs={12} className={classes.flexSection}>
+      <Typography variant="h6">Comment Section</Typography>
+    </Grid>
+  );
+};
+
 class MediumDialog extends React.Component {
   state = {
-    copied: false
+    copied: false,
+    reportDialog: false,
+    exifDialog: false,
+    downloadDialog: false,
+    tagReportDialog: false
   };
 
   render() {
-    const { classes, width, open, onClose, mediumId } = this.props;
+    const {
+      classes,
+      width,
+      open,
+      onClose,
+      mediumId,
+      currentSession
+    } = this.props;
     if (!mediumId) return null;
 
     return (
@@ -159,73 +202,110 @@ class MediumDialog extends React.Component {
               } else orientation = classes.mediaH;
 
               return (
-                <Grid container spacing={0}>
-                  <Grid item xs={12} lg={9} className={classes.masterGrid}>
-                    {medium.resized.substr(
-                      medium.resized.lastIndexOf(".") + 1
-                    ) === "mp4" && (
-                      <video
-                        loop="loop"
-                        autoplay="autoplay"
-                        onContextMenu={e => {
-                          e.preventDefault();
-                        }}
-                        className={orientation}
-                        src={medium.resized}
-                      />
-                    )}
-                    {medium.resized.substr(
-                      medium.resized.lastIndexOf(".") + 1
-                    ) !== "mp4" && (
-                      <img
-                        onClick={() => {}}
-                        onContextMenu={e => {
-                          e.preventDefault();
-                        }}
-                        className={orientation}
-                        src={`${medium.resized}`}
-                        title={medium.title}
-                      />
-                    )}
-                  </Grid>
-                  <Grid item xs={12} lg={3} className={classes.dataGrid}>
-                    <Grid container spacing={16}>
-                      <Grid item xs={12} className={classes.flexSection}>
-                        {true && (
-                          <CopyToClipboard
-                            text={`${process.env.SITE_URL}/pictures/${
-                              medium.id
-                            }`}
-                            onCopy={() => {
-                              this.setState({ copied: true });
-                              setTimeout(() => {
-                                this.setState({ copied: false });
-                              }, 3000);
-                            }}
-                          >
-                            <Button
-                              variant="outlined"
-                              className={
-                                this.state.copied ? classes.copied : null
-                              }
+                <React.Fragment>
+                  <Grid container spacing={0}>
+                    <Grid item xs={12} lg={9} className={classes.masterGrid}>
+                      {medium.resized.substr(
+                        medium.resized.lastIndexOf(".") + 1
+                      ) === "mp4" && (
+                        <video
+                          loop="loop"
+                          autoplay="autoplay"
+                          onContextMenu={e => {
+                            e.preventDefault();
+                          }}
+                          className={orientation}
+                          src={medium.resized}
+                        />
+                      )}
+                      {medium.resized.substr(
+                        medium.resized.lastIndexOf(".") + 1
+                      ) !== "mp4" && (
+                        <img
+                          onClick={() => {}}
+                          onContextMenu={e => {
+                            e.preventDefault();
+                          }}
+                          className={orientation}
+                          src={`${medium.resized}`}
+                          title={medium.title}
+                        />
+                      )}
+                    </Grid>
+                    <Grid item xs={12} lg={3} className={classes.dataGrid}>
+                      <Grid container spacing={16}>
+                        <Grid item xs={12} className={classes.flexSection}>
+                          {true && (
+                            <CopyToClipboard
+                              text={`${process.env.SITE_URL}/pictures/${
+                                medium.id
+                              }`}
+                              onCopy={() => {
+                                this.setState({ copied: true });
+                                setTimeout(() => {
+                                  this.setState({ copied: false });
+                                }, 3000);
+                              }}
                             >
-                              {this.state.copied
-                                ? "Copied to Clipboard"
-                                : "Get Link"}
-                            </Button>
-                          </CopyToClipboard>
-                        )}
-                        <IconButton onClick={onClose} autoFocus>
-                          <CloseIcon />
-                        </IconButton>
-                      </Grid>
-                      <Divider />
-                      <Grid item xs={12}>
-                        Content
+                              <Button
+                                variant="outlined"
+                                size="small"
+                                className={
+                                  this.state.copied ? classes.copied : null
+                                }
+                              >
+                                {this.state.copied
+                                  ? "Copied to Clipboard"
+                                  : "Get Link"}
+                              </Button>
+                            </CopyToClipboard>
+                          )}
+                          {currentSession && (
+                            <Tooltip title="Report Media">
+                              <IconButton
+                                onClick={() =>
+                                  this.setState({ reportDialog: true })
+                                }
+                              >
+                                <OutlinedFlag />
+                              </IconButton>
+                            </Tooltip>
+                          )}
+                          <IconButton onClick={onClose} autoFocus>
+                            <CloseIcon />
+                          </IconButton>
+                        </Grid>
+                        <Divider />
+                        <DataSection classes={classes} />
+                        <Divider />
+                        <TagSection classes={classes} />
+                        <Divider />
+                        <CommentSection classes={classes} />
                       </Grid>
                     </Grid>
                   </Grid>
-                </Grid>
+                  <ReportDialog
+                    open={this.state.reportDialog}
+                    onClose={() => this.setState({ reportDialog: false })}
+                    resource="medium"
+                    resourceId={medium.id}
+                  />
+                  <TagReportDialog
+                    open={this.state.tagReportDialog}
+                    onClose={() => this.setState({ tagReportDialog: false })}
+                    medium={medium}
+                  />
+                  <ExifDialog
+                    open={this.state.exifDialog}
+                    onClose={() => this.setState({ exifDialog: false })}
+                    medium={medium}
+                  />
+                  <DownloadDialog
+                    open={this.state.downloadDialog}
+                    onClose={() => this.setState({ downloadDialog: false })}
+                    medium={medium}
+                  />
+                </React.Fragment>
               );
             }}
           </Query>
@@ -235,4 +315,4 @@ class MediumDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(MediumDialog));
+export default withStyles(styles)(withRouter(withCurrentSession(MediumDialog)));
