@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -32,9 +32,17 @@ import ExifDialog from "../AppDialogs/ExifDialog";
 import DownloadDialog from "../AppDialogs/DownloadDialog";
 
 const styles = theme => ({
+  dialogTitleRoot: {
+    margin: 0,
+    padding: theme.spacing.unit * 2
+  },
   link: {
     textDecoration: "none",
     color: theme.palette.primary.main
+  },
+  dataLink: {
+    textDecoration: "none",
+    color: theme.palette.secondary.main
   },
   text: {
     fontWeight: 200
@@ -64,6 +72,11 @@ const styles = theme => ({
   flexSection: {
     display: "flex",
     justifyContent: "space-between"
+  },
+  flexSectionCentered: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
   },
   mediaH: {
     width: "100%",
@@ -96,18 +109,186 @@ const styles = theme => ({
   },
   copied: {
     color: theme.palette.primary.main
+  },
+  dataFieldTitle: {
+    maxWidth: "40vw",
+    fontWeight: 200
+  },
+  innerDialogCloseButton: {
+    position: "absolute",
+    right: theme.spacing.unit * 1,
+    top: theme.spacing.unit * 1,
+    color: theme.palette.grey[500]
+  },
+  masterGridBackdrop: {
+    padding: 0,
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "black"
   }
 });
 
-const DataSection = ({ classes }) => {
+const Spacer = () => <div style={{ padding: 9 }} />;
+
+const DataDialog = ({ classes, medium, open, onClose }) => {
   return (
-    <Grid item xs={12} className={classes.flexSection}>
-      <Typography variant="h6">Data Section</Typography>
-    </Grid>
+    <ResponsiveDialog open={open} onClose={onClose} size={600}>
+      <DialogTitle className={classes.dialogTitleRoot}>
+        <Typography variant="h6">Media Information</Typography>
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          className={classes.innerDialogCloseButton}
+        >
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent>
+        {medium.photographerSlug && (
+          <Grid item>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="h2"
+              color="primary"
+            >
+              Captured by
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="h2"
+              className={classes.dataFieldTitle}
+            >
+              <Link
+                to={`/${medium.photographerSlug}`}
+                target="_blank"
+                className={classes.dataLink}
+              >
+                {" "}
+                {medium.photographerSlug}
+              </Link>
+            </Typography>
+          </Grid>
+        )}
+        <Spacer />
+        {medium.photographerString && (
+          <Grid item>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="h2"
+              color="primary"
+            >
+              Captured by
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="h2"
+              className={classes.dataFieldTitle}
+            >
+              {medium.photographerString}
+            </Typography>
+          </Grid>
+        )}
+        {medium.edition && (
+          <Grid item>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="h2"
+              color="primary"
+            >
+              Event (Edition)
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="h2"
+              className={classes.dataFieldTitle}
+            >
+              <Link
+                to={`/events/${medium.edition.event.slug}?edition_id=${medium.edition.id}&edition_name=${medium.edition.name}`}
+                target="_blank"
+                className={classes.dataLink}
+              >
+                {medium.edition.event.name} ({medium.edition.name})
+              </Link>
+            </Typography>
+          </Grid>
+        )}
+        <Spacer />
+        {medium.subEvent && (
+          <Grid item>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="h2"
+              color="primary"
+            >
+              Sub Event
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="h2"
+              className={classes.dataFieldTitle}
+            >
+              {medium.subEvent.name}
+            </Typography>
+          </Grid>
+        )}
+        <Spacer />
+        {medium.category && (
+          <Grid item>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="h2"
+              color="primary"
+            >
+              Category
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="h2"
+              className={classes.dataFieldTitle}
+            >
+              {medium.category.name}
+            </Typography>
+          </Grid>
+        )}
+      </DialogContent>
+    </ResponsiveDialog>
   );
 };
 
-const TagSection = ({ classes }) => {
+const DataSection = ({ classes, medium }) => {
+  const [dataOpen, setDataOpen] = useState(false);
+
+  return (
+    <React.Fragment>
+      <DataDialog
+        classes={classes}
+        medium={medium}
+        open={dataOpen}
+        onClose={() => setDataOpen(false)}
+      />
+      <Grid item xs={12} className={classes.flexSectionCentered}>
+        <Button onClick={() => setDataOpen(true)} variant="outlined">
+          View Media Information
+        </Button>
+      </Grid>
+    </React.Fragment>
+  );
+};
+
+const TagSection = ({ classes, medium }) => {
   return (
     <Grid item xs={12} className={classes.flexSection}>
       <Typography variant="h6">Tag Section</Typography>
@@ -115,7 +296,7 @@ const TagSection = ({ classes }) => {
   );
 };
 
-const CommentSection = ({ classes }) => {
+const CommentSection = ({ classes, medium }) => {
   return (
     <Grid item xs={12} className={classes.flexSection}>
       <Typography variant="h6">Comment Section</Typography>
@@ -204,7 +385,12 @@ class MediumDialog extends React.Component {
               return (
                 <React.Fragment>
                   <Grid container spacing={0}>
-                    <Grid item xs={12} lg={9} className={classes.masterGrid}>
+                    <Grid
+                      item
+                      xs={12}
+                      lg={9}
+                      className={classes.masterGridBackdrop}
+                    >
                       {medium.resized.substr(
                         medium.resized.lastIndexOf(".") + 1
                       ) === "mp4" && (
@@ -237,9 +423,7 @@ class MediumDialog extends React.Component {
                         <Grid item xs={12} className={classes.flexSection}>
                           {true && (
                             <CopyToClipboard
-                              text={`${process.env.SITE_URL}/pictures/${
-                                medium.id
-                              }`}
+                              text={`${process.env.SITE_URL}/pictures/${medium.id}`}
                               onCopy={() => {
                                 this.setState({ copied: true });
                                 setTimeout(() => {
@@ -276,11 +460,11 @@ class MediumDialog extends React.Component {
                           </IconButton>
                         </Grid>
                         <Divider />
-                        <DataSection classes={classes} />
+                        <DataSection classes={classes} medium={medium} />
                         <Divider />
-                        <TagSection classes={classes} />
+                        <TagSection classes={classes} medium={medium} />
                         <Divider />
-                        <CommentSection classes={classes} />
+                        <CommentSection classes={classes} medium={medium} />
                       </Grid>
                     </Grid>
                   </Grid>

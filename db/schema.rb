@@ -787,9 +787,6 @@ ActiveRecord::Schema.define(version: 2019_09_10_150202) do
     t.datetime "last_seen_fursuits", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "last_seen_makers", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "bought_impressions", default: 0
-    t.string "service", default: "telegram"
-    t.string "facebook_id"
-    t.string "facebook_email"
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end

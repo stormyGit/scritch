@@ -2,6 +2,7 @@
   "name": "scritch",
   "private": true,
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.2",
     "@fortawesome/fontawesome-svg-core": "^1.2.13",
     "@fortawesome/free-brands-svg-icons": "^5.8.1",
     "@fortawesome/free-solid-svg-icons": "^5.7.0",
@@ -21,6 +22,7 @@
     "es6-shim": "^0.35.3",
     "es7-shim": "^6.0.0",
     "graphql": "^14.0.0",
+    "increase-memory-limit": "^1.0.7",
     "javascript-time-ago": "^1.0.31",
     "material-ui-chip-input": "^1.0.0-beta.8",
     "material-ui-search-bar": "^1.0.0-beta.11",
