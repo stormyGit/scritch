@@ -71,6 +71,7 @@ const styles = theme => ({
     padding: theme.spacing.unit,
     width: "100%",
     maxHeight: "100%",
+    height: "fit-content",
     display: "flex"
   },
   flexSection: {
@@ -420,12 +421,7 @@ class MediumDialog extends React.Component {
     if (!mediumId) return null;
 
     return (
-      <ResponsiveDialog
-        open={open}
-        onClose={onClose}
-        size={1200}
-        className={classes.dialogHeight}
-      >
+      <ResponsiveDialog open={open} onClose={onClose} size={1200}>
         <DialogContent style={{ padding: 0, width: "100%", height: "100%" }}>
           <Query query={GET_MEDIUM} variables={{ id: mediumId }}>
             {({ error, loading, data }) => {
