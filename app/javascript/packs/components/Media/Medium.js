@@ -176,28 +176,25 @@ const styles = theme => ({
 var scroll = Scroll.animateScroll;
 
 const Image = ({ classes, orientation, medium }) => {
-  useEffect(
-    () => {
+  useEffect(() => {
+    let metas = document.getElementsByTagName("meta");
+    let oldPicture;
+
+    for (var meta in metas)
+      if (metas[meta].name === "og:image") {
+        oldPicture = metas[meta].content;
+        metas[meta].content = medium.resized;
+      }
+
+    return () => {
       let metas = document.getElementsByTagName("meta");
-      let oldPicture;
 
       for (var meta in metas)
         if (metas[meta].name === "og:image") {
-          oldPicture = metas[meta].content;
-          metas[meta].content = medium.resized;
+          metas[meta].content = oldPicture;
         }
-
-      return () => {
-        let metas = document.getElementsByTagName("meta");
-
-        for (var meta in metas)
-          if (metas[meta].name === "og:image") {
-            metas[meta].content = oldPicture;
-          }
-      };
-    },
-    [medium.resized]
-  );
+    };
+  }, [medium.resized]);
 
   return (
     <Grid container className={classes.gridContainer}>
@@ -391,11 +388,7 @@ class Medium extends React.Component {
                           className={classes.dataFieldTitle}
                         >
                           <Link
-                            to={`/events/${
-                              medium.edition.event.slug
-                            }?edition_id=${medium.edition.id}&edition_name=${
-                              medium.edition.name
-                            }`}
+                            to={`/events/${medium.edition.event.slug}?edition_id=${medium.edition.id}&edition_name=${medium.edition.name}`}
                             className={classes.link}
                           >
                             {medium.edition.event.name} ({medium.edition.name})

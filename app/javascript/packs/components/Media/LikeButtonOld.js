@@ -1,19 +1,62 @@
 import React from "react";
-import FavoriteIcon from "@material-ui/icons/Star";
-import NoFavoriteIcon from "@material-ui/icons/StarBorder";
+import FavoriteIcon from "@material-ui/icons/Pets";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
 import { Query, Mutation } from "react-apollo";
+import SvgIcon from "@material-ui/core/SvgIcon";
 
 import { withStyles } from "@material-ui/core/styles";
+import withWidth from "@material-ui/core/withWidth";
 
 import { GET_MEDIUM } from "../../queries/mediaQueries";
-import { CREATE_FAVE, DELETE_FAVE } from "../../queries/mediaMutations";
-import countContractor from "../../countContractor";
-import withCurrentSession from "../withCurrentSession";
-import FavesDialog from "./FavesDialog";
+import { CREATE_LIKE, DELETE_LIKE } from "../../queries/mediaMutations";
 import countFormat from "../../countFormat";
+import withCurrentSession from "../withCurrentSession";
+import LikesDialog from "./LikesDialog";
+
+const NoFavoriteIcon = props => (
+  <SvgIcon {...props}>
+    <path fill="none" d="M0 0h24v24H0V0z" />
+    <circle
+      strokeWidth="2"
+      stroke={process.env.SECONDARY_COLOR}
+      fill="none"
+      cx="4.5"
+      cy="9.5"
+      r="2.5"
+    />
+    <circle
+      strokeWidth="2"
+      stroke={process.env.SECONDARY_COLOR}
+      fill="none"
+      cx="9"
+      cy="5.5"
+      r="2.5"
+    />
+    <circle
+      strokeWidth="2"
+      stroke={process.env.SECONDARY_COLOR}
+      fill="none"
+      cx="15"
+      cy="5.5"
+      r="2.5"
+    />
+    <circle
+      strokeWidth="2"
+      stroke={process.env.SECONDARY_COLOR}
+      fill="none"
+      cx="19.5"
+      cy="9.5"
+      r="2.5"
+    />
+    <path
+      strokeWidth="2"
+      stroke={process.env.SECONDARY_COLOR}
+      fill="none"
+      d="M17.34 14.86c-.87-1.02-1.6-1.89-2.48-2.91-.46-.54-1.05-1.08-1.75-1.32-.11-.04-.22-.07-.33-.09-.25-.04-.52-.04-.78-.04s-.53 0-.79.05c-.11.02-.22.05-.33.09-.7.24-1.28.78-1.75 1.32-.87 1.02-1.6 1.89-2.48 2.91-1.31 1.31-2.92 2.76-2.62 4.79.29 1.02 1.02 2.03 2.33 2.32.73.15 3.06-.44 5.54-.44h.18c2.48 0 4.81.58 5.54.44 1.31-.29 2.04-1.31 2.33-2.32.31-2.04-1.3-3.49-2.61-4.8z"
+    />
+  </SvgIcon>
+);
 
 const styles = theme => ({
   root: {
@@ -27,7 +70,8 @@ const styles = theme => ({
         ? "rgba(255, 255, 255, 0.2)"
         : "rgba(0, 0, 0, 0.2)",
     borderBottomWidth: 2,
-    borderBottomStyle: "solid"
+    borderBottomStyle: "solid",
+    alignItems: "center"
   },
   rootIcon: {
     marginLeft: theme.spacing.unit,
@@ -46,21 +90,21 @@ const styles = theme => ({
   }
 });
 
-class FaveButton extends React.Component {
+class LikeButton extends React.Component {
   state = {
-    favesDialog: false
+    likesDialog: false
   };
 
-  renderButton() {
+  render() {
     const { medium, classes, link, currentSession, ...props } = this.props;
-    const favesCount = medium.favesCount;
+    const likesCount = medium.likesCount;
 
     return (
       <React.Fragment>
         <div className={classes.rootIcon}>
-          {medium.faved ? (
+          {medium.liked ? (
             <Mutation
-              mutation={DELETE_FAVE}
+              mutation={DELETE_LIKE}
               update={cache => {
                 cache.writeQuery({
                   query: GET_MEDIUM,
@@ -68,20 +112,20 @@ class FaveButton extends React.Component {
                   data: {
                     medium: {
                       ...medium,
-                      faved: false,
-                      favesCount: favesCount - 1
+                      liked: false,
+                      likesCount: likesCount - 1
                     }
                   }
                 });
               }}
             >
-              {deleteFave => (
+              {deleteLike => (
                 <IconButton
                   size="small"
                   color="secondary"
                   classes={{ root: classes.iconButton }}
                   onClick={() => {
-                    deleteFave({
+                    deleteLike({
                       variables: { input: { mediumId: medium.id } }
                     });
                   }}
@@ -93,7 +137,7 @@ class FaveButton extends React.Component {
             </Mutation>
           ) : (
             <Mutation
-              mutation={CREATE_FAVE}
+              mutation={CREATE_LIKE}
               update={cache => {
                 cache.writeQuery({
                   query: GET_MEDIUM,
@@ -101,22 +145,21 @@ class FaveButton extends React.Component {
                   data: {
                     medium: {
                       ...medium,
-                      faved: true,
-                      favesCount: favesCount + 1
+                      liked: true,
+                      likesCount: likesCount + 1
                     }
                   }
                 });
               }}
             >
-              {createFave => (
+              {createLike => (
                 <IconButton
                   size="small"
-                  disabled={this.props.disabled}
                   color="secondary"
                   classes={{ root: classes.iconButton }}
                   disabled={!currentSession}
                   onClick={() => {
-                    createFave({
+                    createLike({
                       variables: { input: { mediumId: medium.id } }
                     });
                   }}
@@ -129,37 +172,28 @@ class FaveButton extends React.Component {
           )}
         </div>
         <div className={classes.root}>
-          <Tooltip title={countFormat(favesCount, "fave", "faves")}>
-            <Button
-              size="small"
-              disabled={this.props.disabled}
-              classes={{
-                root: classes.button
-              }}
-              onClick={() => {
-                this.setState({ favesDialog: true });
-              }}
-            >
-              {countContractor(favesCount)}
-            </Button>
-          </Tooltip>
+          <Button
+            size="small"
+            classes={{
+              root: classes.button
+            }}
+            onClick={() => {
+              this.setState({ likesDialog: true });
+            }}
+          >
+            {countFormat(likesCount, "scritch", "scritches")}
+          </Button>
         </div>
-        <FavesDialog
+        <LikesDialog
           medium={medium}
-          open={this.state.favesDialog}
+          open={this.state.likesDialog}
           onClose={() => {
-            this.setState({ favesDialog: false });
+            this.setState({ likesDialog: false });
           }}
         />
       </React.Fragment>
     );
   }
-
-  render() {
-    const { currentSession } = this.props;
-
-    return this.renderButton();
-  }
 }
 
-export default withStyles(styles)(withCurrentSession(FaveButton));
+export default withStyles(styles)(withCurrentSession(withWidth()(LikeButton)));

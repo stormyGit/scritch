@@ -17,6 +17,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import CloseIcon from "@material-ui/icons/Close";
+import DownloadIcon from "@material-ui/icons/SaveAlt";
 import OkIcon from "@material-ui/icons/Check";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
@@ -30,6 +31,8 @@ import ReportDialog from "../AppDialogs/ReportDialog";
 import TagReportDialog from "../AppDialogs/TagReportDialog";
 import ExifDialog from "../AppDialogs/ExifDialog";
 import DownloadDialog from "../AppDialogs/DownloadDialog";
+import LikeButton from "./LikeButton";
+import FaveButton from "./FaveButton";
 
 const styles = theme => ({
   dialogTitleRoot: {
@@ -76,6 +79,11 @@ const styles = theme => ({
   flexSectionCentered: {
     display: "flex",
     justifyContent: "center",
+    alignItems: "center"
+  },
+  flexSectionSpacedCentered: {
+    display: "flex",
+    justifyContent: "space-between",
     alignItems: "center"
   },
   mediaH: {
@@ -270,6 +278,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
 
 const DataSection = ({ classes, medium }) => {
   const [dataOpen, setDataOpen] = useState(false);
+  const [downloadOpen, setDownloadOpen] = useState(false);
 
   return (
     <React.Fragment>
@@ -279,10 +288,29 @@ const DataSection = ({ classes, medium }) => {
         open={dataOpen}
         onClose={() => setDataOpen(false)}
       />
+      <DownloadDialog
+        classes={classes}
+        open={downloadOpen}
+        onClose={() => setDownloadOpen(false)}
+        medium={medium}
+      />
       <Grid item xs={12} className={classes.flexSectionCentered}>
         <Button onClick={() => setDataOpen(true)} variant="outlined">
-          View Media Information
+          Display Media Information
         </Button>
+      </Grid>
+      <Grid item xs={12} className={classes.flexSectionSpacedCentered}>
+        <div>
+          <LikeButton medium={medium} />
+          <FaveButton medium={medium} />
+        </div>
+        <div>
+          <Tooltip title="Download Media">
+            <IconButton onClick={() => setDownloadOpen(true)} color="secondary">
+              <DownloadIcon />
+            </IconButton>
+          </Tooltip>
+        </div>
       </Grid>
     </React.Fragment>
   );

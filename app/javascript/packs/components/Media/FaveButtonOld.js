@@ -10,10 +10,9 @@ import { withStyles } from "@material-ui/core/styles";
 
 import { GET_MEDIUM } from "../../queries/mediaQueries";
 import { CREATE_FAVE, DELETE_FAVE } from "../../queries/mediaMutations";
-import countContractor from "../../countContractor";
+import countFormat from "../../countFormat";
 import withCurrentSession from "../withCurrentSession";
 import FavesDialog from "./FavesDialog";
-import countFormat from "../../countFormat";
 
 const styles = theme => ({
   root: {
@@ -129,20 +128,18 @@ class FaveButton extends React.Component {
           )}
         </div>
         <div className={classes.root}>
-          <Tooltip title={countFormat(favesCount, "fave", "faves")}>
-            <Button
-              size="small"
-              disabled={this.props.disabled}
-              classes={{
-                root: classes.button
-              }}
-              onClick={() => {
-                this.setState({ favesDialog: true });
-              }}
-            >
-              {countContractor(favesCount)}
-            </Button>
-          </Tooltip>
+          <Button
+            size="small"
+            disabled={this.props.disabled}
+            classes={{
+              root: classes.button
+            }}
+            onClick={() => {
+              this.setState({ favesDialog: true });
+            }}
+          >
+            {countFormat(favesCount, "fave", "faves")}
+          </Button>
         </div>
         <FavesDialog
           medium={medium}

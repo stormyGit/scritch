@@ -10,9 +10,11 @@ import withWidth from "@material-ui/core/withWidth";
 
 import { GET_MEDIUM } from "../../queries/mediaQueries";
 import { CREATE_LIKE, DELETE_LIKE } from "../../queries/mediaMutations";
-import countFormat from "../../countFormat";
+import countContractor from "../../countContractor";
 import withCurrentSession from "../withCurrentSession";
 import LikesDialog from "./LikesDialog";
+import { Tooltip } from "@material-ui/core";
+import countFormat from "../../countFormat";
 
 const NoFavoriteIcon = props => (
   <SvgIcon {...props}>
@@ -172,17 +174,19 @@ class LikeButton extends React.Component {
           )}
         </div>
         <div className={classes.root}>
-          <Button
-            size="small"
-            classes={{
-              root: classes.button
-            }}
-            onClick={() => {
-              this.setState({ likesDialog: true });
-            }}
-          >
-            {countFormat(likesCount, "scritch", "scritches")}
-          </Button>
+          <Tooltip title={countFormat(likesCount, "scritch", "scritches")}>
+            <Button
+              size="small"
+              classes={{
+                root: classes.button
+              }}
+              onClick={() => {
+                this.setState({ likesDialog: true });
+              }}
+            >
+              {countContractor(likesCount)}
+            </Button>
+          </Tooltip>
         </div>
         <LikesDialog
           medium={medium}
