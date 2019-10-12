@@ -33,6 +33,7 @@ import ExifDialog from "../AppDialogs/ExifDialog";
 import DownloadDialog from "../AppDialogs/DownloadDialog";
 import LikeButton from "./LikeButton";
 import FaveButton from "./FaveButton";
+import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
 
 const styles = theme => ({
   dialogTitleRoot: {
@@ -69,7 +70,7 @@ const styles = theme => ({
   dataGrid: {
     padding: theme.spacing.unit,
     width: "100%",
-    height: "100%",
+    maxHeight: "100%",
     display: "flex"
   },
   flexSection: {
@@ -136,6 +137,15 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "black"
+  },
+  fursuitLink: {
+    textDecoration: "none"
+  },
+  dialogHeight: {
+    height: "100%"
+  },
+  sideHeight: {
+    maxHeight: "100%"
   }
 });
 
@@ -317,10 +327,67 @@ const DataSection = ({ classes, medium }) => {
 };
 
 const TagSection = ({ classes, medium }) => {
+  const [tagReportOpen, setTagReportOpen] = useState(false);
+
   return (
-    <Grid item xs={12} className={classes.flexSection}>
-      <Typography variant="h6">Tag Section</Typography>
-    </Grid>
+    <React.Fragment>
+      <TagReportDialog
+        open={tagReportOpen}
+        onClose={() => setTagReportOpen(false)}
+        medium={medium}
+      />
+      {medium.fursuits.length != 0 && (
+        <React.Fragment>
+          <Grid item xs={12} className={classes.flexSection}>
+            <Grid
+              container
+              spacing={8}
+              className={classes.flexSectionSpacedCentered}
+            >
+              <div>
+                <Typography
+                  gutterBottom
+                  variant="h6"
+                  component="h2"
+                  color="primary"
+                >
+                  {"Fursuits"}
+                </Typography>
+              </div>
+              <div>
+                <div className={classes.tagReportButton}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => setTagReportOpen(true)}
+                  >
+                    Report Wrong Tags
+                  </Button>
+                </div>
+              </div>
+            </Grid>
+          </Grid>
+          <Grid item xs={12} className={classes.flexSection}>
+            <Grid
+              container
+              spacing={8}
+              className={classes.flexSectionSpacedCentered}
+            >
+              {medium.fursuits.map(fursuit => (
+                <Grid item xs={6} key={fursuit.id}>
+                  <Link
+                    target="_blank"
+                    to={`/fursuits/${fursuit.slug}`}
+                    className={classes.fursuitLink}
+                  >
+                    <FursuitMiniCard onClick={() => {}} fursuit={fursuit} />
+                  </Link>
+                </Grid>
+              ))}
+            </Grid>
+          </Grid>
+        </React.Fragment>
+      )}
+    </React.Fragment>
   );
 };
 
@@ -353,7 +420,12 @@ class MediumDialog extends React.Component {
     if (!mediumId) return null;
 
     return (
-      <ResponsiveDialog open={open} onClose={onClose} size={1200}>
+      <ResponsiveDialog
+        open={open}
+        onClose={onClose}
+        size={1200}
+        className={classes.dialogHeight}
+      >
         <DialogContent style={{ padding: 0, width: "100%", height: "100%" }}>
           <Query query={GET_MEDIUM} variables={{ id: mediumId }}>
             {({ error, loading, data }) => {
