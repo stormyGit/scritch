@@ -374,7 +374,7 @@ const TagSection = ({ classes, medium }) => {
               className={classes.flexSectionSpacedCentered}
             >
               {medium.fursuits.map(fursuit => (
-                <Grid item xs={6} key={fursuit.id}>
+                <Grid item xs={6} sm={3} md={6} key={fursuit.id}>
                   <Link
                     target="_blank"
                     to={`/fursuits/${fursuit.slug}`}

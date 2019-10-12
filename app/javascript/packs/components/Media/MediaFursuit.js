@@ -92,7 +92,7 @@ function MediaFursuit({ classes, width, fursuitId }) {
         return (
           <React.Fragment>
             <div
-              style={{ height: "calc(100vh - 414px)" }}
+              style={{ height: "calc(100vh)" }}
               className={
                 width === "sm" || width == "xs"
                   ? classes.mobile_hide_sm
