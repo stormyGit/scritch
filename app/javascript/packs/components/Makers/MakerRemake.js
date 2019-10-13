@@ -623,7 +623,7 @@ class Maker extends React.Component {
                 ) : (
                   <MicroPadder />
                 )}
-                <Grid container spacing={8}>
+                <Grid container spacing={8} style={{ padding: 4 }}>
                   {this.renderMakerFursuits(maker)}
                 </Grid>
                 <MakerClaimDialog

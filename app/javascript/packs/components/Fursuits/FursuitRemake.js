@@ -287,7 +287,7 @@ const SubtitleRow = withStyles(styles)(
                 >
                   {fursuit.makers[0].name}
                 </Link>{" "}
-                in {fursuit.creationYear}
+                {fursuit.creationYear && `in ${fursuit.creationYear}`}
               </Typography>
             )}
           </div>
@@ -336,8 +336,8 @@ const SubtitleRow = withStyles(styles)(
                     className={classes.link}
                   >
                     {fursuit.makers[0].name}
-                  </Link>{" "}
-                  in {fursuit.creationYear}
+                  </Link>
+                  {fursuit.creationYear && `in ${fursuit.creationYear}`}
                 </Typography>
               )}
             </React.Fragment>

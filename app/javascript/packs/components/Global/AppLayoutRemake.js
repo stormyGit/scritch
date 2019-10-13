@@ -4,6 +4,7 @@ import withWidth from "@material-ui/core/withWidth";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
+import Grid from "@material-ui/core/Grid";
 import SearchIcon from "@material-ui/icons/Search";
 import CloseIcon from "@material-ui/icons/Close";
 import queryString from "query-string";
@@ -18,8 +19,6 @@ import GlobalProgress from "../Global/GlobalProgress";
 import PermanentDrawer from "../PermanentDrawer";
 import TemporaryDrawer from "../TemporaryDrawer";
 
-import DatabasesButton from "../AppLayout/DatabasesButton";
-import TagButton from "../AppLayout/TagButton";
 import UploadButton from "../AppLayout/UploadButton";
 import SocialButton from "../AppLayout/SocialButton";
 import PoliciesSupportButton from "../AppLayout/PoliciesSupportButton";
@@ -27,12 +26,8 @@ import DisplayPageTitle from "../AppLayout/DisplayPageTitle";
 import MetricsBar from "../AppLayout/MetricsBar";
 import UserButton from "../AppLayout/UserButton";
 import NotificationsButton from "../AppLayout/NotificationsButton";
-import TechButton from "../AppLayout/TechButton";
-import SponsorButton from "../AppLayout/SponsorButton";
 import AppDialogs from "../AppLayout/AppDialogs";
-import MenuIcon from "@material-ui/icons/Menu";
 import CookieConsent from "react-cookie-consent";
-import Logo from "../Global/Logo";
 import logo from "../../../../assets/images/logo.png";
 
 const styles = theme => ({
@@ -437,7 +432,8 @@ class AppLayoutRemake extends React.Component {
                 overflowX: "hidden",
                 overflowY: "scroll",
                 height: "calc(100vh - 56px)",
-                paddingRight: -10,
+                paddingLeft: "5%",
+                paddingRight: "5%",
                 position: "relative"
               }}
             >
