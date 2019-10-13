@@ -17,8 +17,9 @@ import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 
 import CloseIcon from "@material-ui/icons/Close";
+import InfoIcon from "@material-ui/icons/InfoOutlined";
 import DownloadIcon from "@material-ui/icons/SaveAlt";
-import OkIcon from "@material-ui/icons/Check";
+import EditIcon from "@material-ui/icons/Edit";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
 import withCurrentSession from "../withCurrentSession";
@@ -308,6 +309,165 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
             </Typography>
           </Grid>
         )}
+        {medium.exif &&
+          Object.keys(JSON.parse(medium.exif)).length !== 0 &&
+          JSON.parse(medium.exif).DateTimeOriginal &&
+          JSON.parse(medium.exif).Model && (
+            <React.Fragment>
+              <FatDivider />
+              <List>
+                <ListItem>
+                  <Grid container spacing={8} className={classes.iconGridRoot}>
+                    <Grid item xs={2} className={classes.iconGrid}>
+                      <ListItemIcon>
+                        <DateIcon className={classes.leftIcon} />
+                      </ListItemIcon>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <ListItemText
+                        className={classes.textGrid}
+                        primary={`Captured: ${exif.DateTimeOriginal}`}
+                      />
+                    </Grid>
+                  </Grid>
+                </ListItem>
+                <ListItem>
+                  <Grid container spacing={8} className={classes.iconGridRoot}>
+                    <Grid item xs={2} className={classes.iconGrid}>
+                      <ListItemIcon>
+                        <CameraIcon className={classes.leftIcon} />
+                      </ListItemIcon>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <ListItemText
+                        className={classes.textGrid}
+                        primary={`Camera: ${exif.Model}`}
+                      />
+                    </Grid>
+                  </Grid>
+                </ListItem>
+                {exif.FNumber && (
+                  <ListItem>
+                    <Grid
+                      container
+                      spacing={8}
+                      className={classes.iconGridRoot}
+                    >
+                      <Grid item xs={2} className={classes.iconGrid}>
+                        <ListItemIcon>
+                          <Typography className={classes.leftIcon}>
+                            ʄ
+                          </Typography>
+                        </ListItemIcon>
+                      </Grid>
+                      <Grid item xs={10}>
+                        <ListItemText
+                          className={classes.textGrid}
+                          primary={`F-Stop: f/${String(
+                            parseFloat(exif.FNumber.split("/")[0]) /
+                              parseFloat(exif.FNumber.split("/")[1])
+                          )}`}
+                        />
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                )}
+                {exif.ExposureTime && (
+                  <ListItem>
+                    <Grid
+                      container
+                      spacing={8}
+                      className={classes.iconGridRoot}
+                    >
+                      <Grid item xs={2} className={classes.iconGrid}>
+                        <ListItemIcon>
+                          <TimerIcon className={classes.leftIcon} />
+                        </ListItemIcon>
+                      </Grid>
+                      <Grid item xs={10}>
+                        <ListItemText
+                          className={classes.textGrid}
+                          primary={`Exposure Time: ${exif.ExposureTime}`}
+                        />
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                )}
+                {exif.FocalLength && (
+                  <ListItem>
+                    <Grid
+                      container
+                      spacing={8}
+                      className={classes.iconGridRoot}
+                    >
+                      <Grid item xs={2} className={classes.iconGrid}>
+                        <ListItemIcon>
+                          <FontAwesomeIcon
+                            icon={faRulerHorizontal}
+                            className={classes.leftIcon}
+                          />
+                        </ListItemIcon>
+                      </Grid>
+                      <Grid item xs={10}>
+                        <ListItemText
+                          className={classes.textGrid}
+                          primary={`Focal Length: ${
+                            exif.FocalLength.split("/")[0]
+                          }.0mm`}
+                        />
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                )}
+                {exif.ISOSpeedRatings && (
+                  <ListItem>
+                    <Grid
+                      container
+                      spacing={8}
+                      className={classes.iconGridRoot}
+                    >
+                      <Grid item xs={2} className={classes.iconGrid}>
+                        <ListItemIcon>
+                          <IsoIcon className={classes.leftIcon} />
+                        </ListItemIcon>
+                      </Grid>
+                      <Grid item xs={10}>
+                        <ListItemText
+                          className={classes.textGrid}
+                          primary={`ISO: ${exif.ISOSpeedRatings}`}
+                        />
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                )}
+                {exif.Flash && (
+                  <ListItem>
+                    <Grid
+                      container
+                      spacing={8}
+                      className={classes.iconGridRoot}
+                    >
+                      <Grid item xs={2} className={classes.iconGrid}>
+                        <ListItemIcon>
+                          <FlashIcon className={classes.leftIcon} />
+                        </ListItemIcon>
+                      </Grid>
+                      <Grid item xs={10}>
+                        <ListItemText
+                          className={classes.textGrid}
+                          primary={`Flash: ${
+                            parseInt(exif.Flash) % 2 == 0
+                              ? "Did not fire"
+                              : "Fired"
+                          }`}
+                        />
+                      </Grid>
+                    </Grid>
+                  </ListItem>
+                )}
+              </List>
+            </React.Fragment>
+          )}
       </DialogContent>
     </ResponsiveDialog>
   );
@@ -330,15 +490,17 @@ const DataSection = ({ classes, medium }) => {
         onClose={() => setDownloadOpen(false)}
         medium={medium}
       />
-      <Grid item xs={12} className={classes.flexSectionCentered}>
-        <Button onClick={() => setDataOpen(true)} variant="outlined">
-          Display Media Information
-        </Button>
-      </Grid>
       <Grid item xs={12} className={classes.flexSectionSpacedCentered}>
         <div>
           <LikeButton medium={medium} />
           <FaveButton medium={medium} />
+        </div>
+        <div>
+          <Tooltip title="Display Media Information">
+            <IconButton onClick={() => setDataOpen(true)} color="secondary">
+              <InfoIcon />
+            </IconButton>
+          </Tooltip>
         </div>
         <div>
           <Tooltip title="Download Media">
@@ -409,75 +571,66 @@ const MediumActionButton = ({ currentSession, classes, medium }) => {
           />
         )}
       </Mutation>
-      <Grid item xs={12} className={classes.flexSectionCentered}>
-        {currentSession &&
-          (medium.user.id === currentSession.user.id ||
-            currentSession.user.moderator) && (
-            <Mutation
-              mutation={TAG_LOCK_MEDIUM}
-              update={cache => {}}
-              onCompleted={() => {
-                setEditDialogOpen(true);
-              }}
-              onError={() => {
-                setEditDialogOpen(true);
-              }}
-            >
-              {(tagLockMedium, { data }) => (
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    tagLockMedium({
-                      variables: {
-                        input: {
-                          id: medium.id
-                        }
-                      }
-                    });
-                  }}
-                >
-                  Edit picture
-                </Button>
-              )}
-            </Mutation>
-          )}
-        {currentSession &&
-          medium.user.id !== currentSession.user.id &&
-          medium.completion != 100 && (
-            <Mutation
-              mutation={TAG_LOCK_MEDIUM}
-              update={cache => {}}
-              onCompleted={() => {
-                setTagDialogOpen(true);
-              }}
-              onError={() => {
-                setTagDialogOpen(true);
-              }}
-            >
-              {(tagLockMedium, { data }) => (
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    tagLockMedium({
-                      variables: {
-                        input: {
-                          id: medium.id
-                        }
-                      }
-                    });
-                  }}
-                >
-                  Tag Picture
-                </Button>
-              )}
-            </Mutation>
-          )}
+      <Grid item xs={12} className={classes.flexSection}>
+        {currentSession && medium.completion != 100 && (
+          <Mutation
+            mutation={TAG_LOCK_MEDIUM}
+            update={cache => {}}
+            onCompleted={() => {
+              medium.user.id === currentSession.user.id ||
+              currentSession.user.moderator
+                ? setEditDialogOpen(true)
+                : setTagDialogOpen(true);
+            }}
+            onError={() => {
+              medium.user.id === currentSession.user.id ||
+              currentSession.user.moderator
+                ? setEditDialogOpen(true)
+                : setTagDialogOpen(true);
+            }}
+          >
+            {(tagLockMedium, { data }) => (
+              <Grid container spacing={8} justify="center" alignItems="center">
+                <Grid item lg={12} xs={12}>
+                  <Tooltip title="Tag Fursuits" placement="top">
+                    <img
+                      src={require("images/addTags.png")}
+                      style={{
+                        cursor: "pointer",
+                        width: "100%"
+                      }}
+                      onClick={() => {
+                        tagLockMedium({
+                          variables: {
+                            input: {
+                              id: medium.id
+                            }
+                          }
+                        });
+                      }}
+                    />
+                  </Tooltip>
+                </Grid>
+                <Grid item lg={12} xs={12} className={classes.content}>
+                  <Typography
+                    gutterBottom
+                    variant="subtitle1"
+                    className={classes.fursuitText}
+                    noWrap
+                  >
+                    Tag Fursuits
+                  </Typography>
+                </Grid>
+              </Grid>
+            )}
+          </Mutation>
+        )}
       </Grid>
     </React.Fragment>
   );
 };
 
-const TagSection = ({ classes, medium }) => {
+const TagSection = ({ currentSession, classes, medium }) => {
   const [tagReportOpen, setTagReportOpen] = useState(false);
 
   return (
@@ -489,42 +642,27 @@ const TagSection = ({ classes, medium }) => {
       />
       {medium.fursuits.length != 0 && (
         <React.Fragment>
-          <Grid item xs={12} className={classes.flexSection}>
-            <Grid
-              container
-              spacing={8}
-              className={classes.flexSectionSpacedCentered}
-            >
-              <div>
-                <Typography
-                  gutterBottom
-                  variant="h6"
-                  component="h2"
-                  color="primary"
+          <Grid item xs={12} className={classes.flexSectionSpacedCentered}>
+            <div>
+              <Typography gutterBottom variant="h6" component="h2">
+                {"Fursuits"}
+              </Typography>
+            </div>
+            <div>
+              <div className={classes.tagReportButton}>
+                <Button
+                  variant="outlined"
+                  onClick={() => setTagReportOpen(true)}
                 >
-                  {"Fursuits"}
-                </Typography>
+                  Report Wrong Tags
+                </Button>
               </div>
-              <div>
-                <div className={classes.tagReportButton}>
-                  <Button
-                    variant="outlined"
-                    onClick={() => setTagReportOpen(true)}
-                  >
-                    Report Wrong Tags
-                  </Button>
-                </div>
-              </div>
-            </Grid>
+            </div>
           </Grid>
           <Grid item xs={12} className={classes.flexSection}>
-            <Grid
-              container
-              spacing={8}
-              className={classes.flexSectionSpacedCentered}
-            >
+            <Grid container spacing={8} className={classes.flexSectionCentered}>
               {medium.fursuits.map(fursuit => (
-                <Grid item xs={6} sm={3} md={6} key={fursuit.id}>
+                <Grid item xs={6} sm={3} md={4} key={fursuit.id}>
                   <Link
                     target="_blank"
                     to={`/fursuits/${fursuit.slug}`}
@@ -534,6 +672,13 @@ const TagSection = ({ classes, medium }) => {
                   </Link>
                 </Grid>
               ))}
+              <Grid item xs={6} sm={3} md={4}>
+                <MediumActionButton
+                  currentSession={currentSession}
+                  classes={classes}
+                  medium={medium}
+                />
+              </Grid>
             </Grid>
           </Grid>
         </React.Fragment>
@@ -574,7 +719,7 @@ class MediumDialog extends React.Component {
   state = {
     copied: false,
     reportDialog: false,
-    exifDialog: false,
+    editMedium: false,
     downloadDialog: false,
     tagReportDialog: false
   };
@@ -737,21 +882,50 @@ class MediumDialog extends React.Component {
                               </IconButton>
                             </Tooltip>
                           )}
+                          {currentSession &&
+                            (medium.user.id === currentSession.user.id ||
+                              currentSession.user.moderator) && (
+                              <Mutation
+                                mutation={TAG_LOCK_MEDIUM}
+                                update={cache => {}}
+                                onCompleted={() => {
+                                  this.setState({ editMedium: true });
+                                }}
+                                onError={() => {
+                                  this.setState({ editMedium: true });
+                                }}
+                              >
+                                {(tagLockMedium, { data }) => (
+                                  <IconButton
+                                    variant="outlined"
+                                    onClick={() => {
+                                      tagLockMedium({
+                                        variables: {
+                                          input: {
+                                            id: medium.id
+                                          }
+                                        }
+                                      });
+                                    }}
+                                  >
+                                    <EditIcon />
+                                  </IconButton>
+                                )}
+                              </Mutation>
+                            )}
                           <IconButton onClick={onClose} autoFocus>
                             <CloseIcon />
                           </IconButton>
                         </Grid>
-                        <FatDivider />
-                        <MediumActionButton
-                          currentSession={currentSession}
-                          classes={classes}
-                          medium={medium}
-                        />
                         <DataSection classes={classes} medium={medium} />
                         <FatDivider />
                         {medium.fursuits.length != 0 && (
                           <React.Fragment>
-                            <TagSection classes={classes} medium={medium} />
+                            <TagSection
+                              currentSession={currentSession}
+                              classes={classes}
+                              medium={medium}
+                            />
                             <FatDivider />
                           </React.Fragment>
                         )}
@@ -784,6 +958,31 @@ class MediumDialog extends React.Component {
                     onClose={() => this.setState({ downloadDialog: false })}
                     medium={medium}
                   />
+                  <Mutation
+                    mutation={TAG_UNLOCK_MEDIUM}
+                    onCompleted={() => {
+                      this.setState({ editMedium: false });
+                    }}
+                    onError={() => {
+                      this.setState({ editMedium: false });
+                    }}
+                  >
+                    {(tagUnlockMedium, { data, error }) => (
+                      <EditMediumDialog
+                        open={this.state.editMedium}
+                        onClose={() => {
+                          tagUnlockMedium({
+                            variables: {
+                              input: {
+                                id: medium.id
+                              }
+                            }
+                          });
+                        }}
+                        mediumId={medium.id}
+                      />
+                    )}
+                  </Mutation>
                 </React.Fragment>
               );
             }}

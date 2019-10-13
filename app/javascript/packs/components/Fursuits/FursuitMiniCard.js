@@ -74,7 +74,7 @@ const styles = theme => ({
   chip: {
     marginRight: theme.spacing.unit
   },
-  fursuitTextext: {
+  fursuitText: {
     fontWeight: 400,
     textAlign: "center"
   },
