@@ -25,7 +25,12 @@ import withCurrentSession from "../withCurrentSession";
 import { withStyles } from "@material-ui/core/styles";
 import GlobalProgress from "../Global/GlobalProgress";
 import { GET_MEDIUM } from "../../queries/mediaQueries";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
+import {
+  TAG_LOCK_MEDIUM,
+  TAG_UNLOCK_MEDIUM
+} from "../../queries/mediaMutations";
+import countFormat from "../../countFormat";
 
 import ReportDialog from "../AppDialogs/ReportDialog";
 import TagReportDialog from "../AppDialogs/TagReportDialog";
@@ -34,6 +39,11 @@ import DownloadDialog from "../AppDialogs/DownloadDialog";
 import LikeButton from "./LikeButton";
 import FaveButton from "./FaveButton";
 import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
+import EditMediumDialog from "./EditMediumDialog";
+import TagDialog from "../TagDialog";
+import CommentForm from "./CommentForm";
+import Comments from "./Comments";
+import { withWidth } from "@material-ui/core";
 
 const styles = theme => ({
   dialogTitleRoot: {
@@ -70,7 +80,7 @@ const styles = theme => ({
   dataGrid: {
     padding: theme.spacing.unit,
     width: "100%",
-    maxHeight: "100%",
+    overflowY: "scroll",
     height: "fit-content",
     display: "flex"
   },
@@ -150,7 +160,11 @@ const styles = theme => ({
   }
 });
 
-const Spacer = () => <div style={{ padding: 9 }} />;
+const Spacer = () => <div style={{ padding: 8 }} />;
+
+const FatDivider = () => (
+  <hr style={{ borderTop: "1px solid", width: "80%", color: "grey" }} />
+);
 
 const DataDialog = ({ classes, medium, open, onClose }) => {
   return (
@@ -300,7 +314,6 @@ const DataSection = ({ classes, medium }) => {
         onClose={() => setDataOpen(false)}
       />
       <DownloadDialog
-        classes={classes}
         open={downloadOpen}
         onClose={() => setDownloadOpen(false)}
         medium={medium}
@@ -322,6 +335,131 @@ const DataSection = ({ classes, medium }) => {
             </IconButton>
           </Tooltip>
         </div>
+      </Grid>
+    </React.Fragment>
+  );
+};
+
+const MediumActionButton = ({ currentSession, classes, medium }) => {
+  const [tagDialogOpen, setTagDialogOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+
+  return (
+    <React.Fragment>
+      <Mutation
+        mutation={TAG_UNLOCK_MEDIUM}
+        onCompleted={() => {
+          setEditDialogOpen(false);
+        }}
+        onError={() => {
+          setEditDialogOpen(false);
+        }}
+      >
+        {(tagUnlockMedium, { data, error }) => (
+          <EditMediumDialog
+            open={editDialogOpen}
+            onClose={() => {
+              tagUnlockMedium({
+                variables: {
+                  input: {
+                    id: medium.id
+                  }
+                }
+              });
+            }}
+            mediumId={medium.id}
+          />
+        )}
+      </Mutation>
+      <Mutation
+        mutation={TAG_UNLOCK_MEDIUM}
+        onCompleted={() => {
+          setTagDialogOpen(false);
+        }}
+        onError={() => {
+          setTagDialogOpen(false);
+        }}
+      >
+        {(tagUnlockMedium, { data, error }) => (
+          <TagDialog
+            open={tagDialogOpen}
+            onClose={() => {
+              tagUnlockMedium({
+                variables: {
+                  input: {
+                    id: medium.id
+                  }
+                }
+              });
+            }}
+            mediumId={medium.id}
+            noReload={true}
+          />
+        )}
+      </Mutation>
+      <Grid item xs={12} className={classes.flexSectionCentered}>
+        {currentSession &&
+          (medium.user.id === currentSession.user.id ||
+            currentSession.user.moderator) && (
+            <Mutation
+              mutation={TAG_LOCK_MEDIUM}
+              update={cache => {}}
+              onCompleted={() => {
+                setEditDialogOpen(true);
+              }}
+              onError={() => {
+                setEditDialogOpen(true);
+              }}
+            >
+              {(tagLockMedium, { data }) => (
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    tagLockMedium({
+                      variables: {
+                        input: {
+                          id: medium.id
+                        }
+                      }
+                    });
+                  }}
+                >
+                  Edit picture
+                </Button>
+              )}
+            </Mutation>
+          )}
+        {currentSession &&
+          medium.user.id !== currentSession.user.id &&
+          medium.completion != 100 && (
+            <Mutation
+              mutation={TAG_LOCK_MEDIUM}
+              update={cache => {}}
+              onCompleted={() => {
+                setTagDialogOpen(true);
+              }}
+              onError={() => {
+                setTagDialogOpen(true);
+              }}
+            >
+              {(tagLockMedium, { data }) => (
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    tagLockMedium({
+                      variables: {
+                        input: {
+                          id: medium.id
+                        }
+                      }
+                    });
+                  }}
+                >
+                  Tag Picture
+                </Button>
+              )}
+            </Mutation>
+          )}
       </Grid>
     </React.Fragment>
   );
@@ -392,11 +530,31 @@ const TagSection = ({ classes, medium }) => {
   );
 };
 
-const CommentSection = ({ classes, medium }) => {
+const CommentSection = ({ currentSession, classes, medium }) => {
   return (
-    <Grid item xs={12} className={classes.flexSection}>
-      <Typography variant="h6">Comment Section</Typography>
-    </Grid>
+    <React.Fragment>
+      <Grid item xs={12}>
+        {currentSession && (
+          <React.Fragment>
+            <Typography gutterBottom variant="h6" component="h3">
+              {countFormat(medium.commentsCount, "comment", "comments")}
+            </Typography>
+            {currentSession ? (
+              <CommentForm medium={medium} />
+            ) : (
+              <Typography gutterBottom variant="caption">
+                {"You must be connected to write a comment."}
+              </Typography>
+            )}
+            <Comments
+              medium={medium}
+              parent={null}
+              commentsCount={medium.commentsCount}
+            />
+          </React.Fragment>
+        )}
+      </Grid>
+    </React.Fragment>
   );
 };
 
@@ -421,8 +579,13 @@ class MediumDialog extends React.Component {
     if (!mediumId) return null;
 
     return (
-      <ResponsiveDialog open={open} onClose={onClose} size={1200}>
-        <DialogContent style={{ padding: 0, width: "100%", height: "100%" }}>
+      <ResponsiveDialog open={open} onClose={onClose} size={1280}>
+        <DialogContent
+          style={{
+            padding: 0,
+            width: "100%"
+          }}
+        >
           <Query query={GET_MEDIUM} variables={{ id: mediumId }}>
             {({ error, loading, data }) => {
               if (error || loading) {
@@ -514,7 +677,18 @@ class MediumDialog extends React.Component {
                         />
                       )}
                     </Grid>
-                    <Grid item xs={12} lg={3} className={classes.dataGrid}>
+                    <Grid
+                      item
+                      xs={12}
+                      lg={3}
+                      className={classes.dataGrid}
+                      style={{
+                        maxHeight:
+                          width === "xl" || width === "lg"
+                            ? medium.height / (medium.width / 960)
+                            : "100%"
+                      }}
+                    >
                       <Grid container spacing={16}>
                         <Grid item xs={12} className={classes.flexSection}>
                           {true && (
@@ -555,12 +729,21 @@ class MediumDialog extends React.Component {
                             <CloseIcon />
                           </IconButton>
                         </Grid>
-                        <Divider />
+                        <FatDivider />
+                        <MediumActionButton
+                          currentSession={currentSession}
+                          classes={classes}
+                          medium={medium}
+                        />
                         <DataSection classes={classes} medium={medium} />
-                        <Divider />
+                        <FatDivider />
                         <TagSection classes={classes} medium={medium} />
-                        <Divider />
-                        <CommentSection classes={classes} medium={medium} />
+                        <FatDivider />
+                        <CommentSection
+                          currentSession={currentSession}
+                          classes={classes}
+                          medium={medium}
+                        />
                       </Grid>
                     </Grid>
                   </Grid>
@@ -595,4 +778,6 @@ class MediumDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withCurrentSession(MediumDialog)));
+export default withStyles(styles)(
+  withRouter(withCurrentSession(withWidth()(MediumDialog)))
+);

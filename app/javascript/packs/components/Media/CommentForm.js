@@ -163,9 +163,7 @@ class CommentForm extends React.Component {
                   autoFocus
                   name="body"
                   margin="dense"
-                  placeholder={
-                    parent ? "Add a public reply…" : "Add a public comment…"
-                  }
+                  placeholder={parent ? "Add a reply…" : "Add a comment…"}
                   type="text"
                   fullWidth
                   multiline

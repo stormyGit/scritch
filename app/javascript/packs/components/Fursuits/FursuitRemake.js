@@ -310,6 +310,7 @@ const SubtitleRow = withStyles(styles)(
                 {fursuit.users[0].public ? (
                   <Link
                     to={`/${fursuit.users[0].slug}`}
+                    target="_blank"
                     className={classes.link}
                   >
                     {fursuit.users[0].name}
