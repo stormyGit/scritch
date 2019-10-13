@@ -77,10 +77,22 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "center"
   },
+  "@global": {
+    "*::-webkit-scrollbar": {
+      width: "0.4em"
+    },
+    "*::-webkit-scrollbar-track": {
+      "-webkit-box-shadow": "inset 0 0 6px rgba(0,0,0,0.00)"
+    },
+    "*::-webkit-scrollbar-thumb": {
+      backgroundColor: "rgba(0,0,0,.1)",
+      outline: "1px solid slategrey"
+    }
+  },
   dataGrid: {
     padding: theme.spacing.unit,
     width: "100%",
-    overflowY: "scroll",
+    overflowY: "auto",
     height: "fit-content",
     display: "flex"
   },
@@ -737,8 +749,12 @@ class MediumDialog extends React.Component {
                         />
                         <DataSection classes={classes} medium={medium} />
                         <FatDivider />
-                        <TagSection classes={classes} medium={medium} />
-                        <FatDivider />
+                        {medium.fursuits.length != 0 && (
+                          <React.Fragment>
+                            <TagSection classes={classes} medium={medium} />
+                            <FatDivider />
+                          </React.Fragment>
+                        )}
                         <CommentSection
                           currentSession={currentSession}
                           classes={classes}

@@ -130,6 +130,7 @@ class MediaFilters extends React.Component {
       gifs: false,
       sort: { label: "Latest", value: "latest" },
       name: "",
+      nameInput: "",
       expansion: false
     };
   }
@@ -145,16 +146,19 @@ class MediaFilters extends React.Component {
       subEvent: null,
       gifs: false,
       sort: { value: "latest", label: "Latest" },
-      name: ""
+      name: "",
+      nameInput: ""
     };
     this.setState(criteria);
     this.props.clearFilters();
   }
 
   handleSearch(val) {
-    if (this.state.name.length >= 1 && val.length < 1) {
+    if (this.state.nameInput.length >= 1 && val.length < 1) {
       this.reset = true;
     }
+
+    this.setState({ nameInput: val });
 
     if (this.loadEventTimer) {
       clearTimeout(this.loadEventTimer);
@@ -576,7 +580,7 @@ class MediaFilters extends React.Component {
               <SearchBar
                 className={classes.searchBar}
                 onChange={value => this.handleSearch(value)}
-                value={this.state.name}
+                value={this.state.nameInput}
                 onCancelSearch={() => this.handleSearch("")}
                 placeholder="Search fursuits..."
               />
