@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Query, Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
@@ -420,6 +420,10 @@ const FursuitDetail = withStyles(styles)(
   )
 );
 
+const FursuitMedia = React.memo(({ fursuitId }) => (
+  <MediaFursuit fursuitId={fursuitId} />
+));
+
 class Fursuit extends React.Component {
   state = {
     claimDialog: false,
@@ -714,12 +718,6 @@ class Fursuit extends React.Component {
     );
   }
 
-  renderFursuitMedia() {
-    const { classes, match, currentSession } = this.props;
-
-    return <MediaFursuit fursuitId={match.params.id} />;
-  }
-
   render() {
     const { classes, match, currentSession, width } = this.props;
 
@@ -755,7 +753,7 @@ class Fursuit extends React.Component {
                 ) : (
                   <MicroPadder />
                 )}
-                {this.renderFursuitMedia()}
+                <FursuitMedia fursuitId={match.params.id} />
                 <FursuitClaimDialog
                   fursuit={fursuit.id}
                   open={this.state.claimDialog}

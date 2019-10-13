@@ -50,7 +50,7 @@ class Mutations::CreateSession < Mutations::BaseMutation
     session = Session.new(user: user)
 
     if session.save
-      context[:cookies].signed[:token] = {value: session.uuid, httponly: true, expires: Time.now + 1.month}
+      context[:cookies].signed[:token] = {value: session.uuid, httponly: true, expires: Time.now + 1.month, same_site: :strict}
       {
         session: session,
         errors: [],

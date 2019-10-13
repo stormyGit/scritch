@@ -7,10 +7,10 @@ class ApplicationController < ActionController::Base
 
   def index
     if params[:god_mode].present? && params[:god_mode] == ENV["GOD_MODE_PWD"]
-      cookies.signed["god-mode"] = ENV["GOD_MODE_TOKEN"]
+      cookies.signed["god-mode"] = {value: ENV["GOD_MODE_TOKEN"], same_site: :strict}
     end
     if params[:staging_token].present? && params[:staging_token] == ENV["STAGING_PWD"]
-      cookies.signed["staging-token"] = ENV["STAGING_TOKEN"]
+      cookies.signed["staging-token"] = {value: ENV["STAGING_TOKEN"], same_site: :strict}
     end
   end
 
@@ -48,6 +48,7 @@ class ApplicationController < ActionController::Base
   def set_csrf_token
     cookies["csrf-token"] = {
       value: form_authenticity_token,
+      same_site: :strict
     }
   end
 
