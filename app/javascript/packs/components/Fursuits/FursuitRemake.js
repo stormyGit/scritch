@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import { Query, Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
@@ -6,18 +6,12 @@ import withWidth from "@material-ui/core/withWidth";
 import DefaultAvatar from "../Users/DefaultAvatar";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
 import IconButton from "@material-ui/core/IconButton";
-import Collapse from "@material-ui/core/Collapse";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
-import Divider from "@material-ui/core/Divider";
 import PageTitle from "../Global/PageTitle";
-import queryString from "query-string";
-import EmptyList from "../Global/EmptyList";
-import LoadMoreButton from "../Global/LoadMoreButton";
 import FursuitClaimDialog from "./FursuitClaimDialog";
-import FursuitAvatar from "./FursuitAvatar";
 import EditFursuitDialog from "./EditFursuitDialog";
 import MediaFursuit from "../Media/MediaFursuit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -35,9 +29,6 @@ import {
 } from "../../queries/fursuitMutations";
 
 import withCurrentSession from "../withCurrentSession";
-import SocialButton from "../Global/SocialButton";
-import TwitterIcon from "../../icons/Twitter";
-import TelegramIcon from "../../icons/Telegram";
 import { Link, withRouter } from "react-router-dom";
 
 const styles = theme => ({

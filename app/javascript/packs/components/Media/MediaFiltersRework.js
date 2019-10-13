@@ -2,26 +2,20 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 
-import gql from "graphql-tag";
 import { Query } from "react-apollo";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
 import Select from "react-select";
-import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 
-import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
 import {
@@ -32,7 +26,6 @@ import {
 import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 
-import { Link, withRouter } from "react-router-dom";
 import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
 
 import SearchBar from "material-ui-search-bar";

@@ -1,17 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import gql from "graphql-tag";
-import { Query, withApollo } from "react-apollo";
+import { withApollo } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
-import queryString from "query-string";
 
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import Grid from "@material-ui/core/Grid";
-import { Link, withRouter } from "react-router-dom";
-
-import Background from "../../photo.jpg";
 
 const styles = theme => ({
   card: {

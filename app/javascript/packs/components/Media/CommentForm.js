@@ -1,12 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import gql from "graphql-tag";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import { Mutation } from "react-apollo";
 
@@ -15,8 +9,6 @@ import withCurrentSession from "../withCurrentSession";
 import InteractiveTextInput from "../Global/InteractiveTextInput";
 import { CREATE_COMMENT } from "../../queries/mediaMutations";
 import { GET_COMMENTS_BY_MEDIUM, GET_MEDIUM } from "../../queries/mediaQueries";
-
-import Logo from "../Global/Logo";
 
 const styles = theme => ({
   root: {

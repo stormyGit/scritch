@@ -1,18 +1,13 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import Input from "@material-ui/core/Input";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 
@@ -24,7 +19,6 @@ import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
 import withCurrentSession from "../withCurrentSession";
 import { withStyles } from "@material-ui/core/styles";
-import GlobalProgress from "../Global/GlobalProgress";
 import { GET_MEDIUM } from "../../queries/mediaQueries";
 import { Query, Mutation } from "react-apollo";
 import {
