@@ -11,6 +11,18 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import CameraIcon from "@material-ui/icons/CameraAlt";
+import FlashIcon from "@material-ui/icons/FlashOn";
+import TimerIcon from "@material-ui/icons/Timer";
+import IsoIcon from "@material-ui/icons/Iso";
+import DateIcon from "@material-ui/icons/DateRange";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRulerHorizontal } from "@fortawesome/free-solid-svg-icons";
+
 import CloseIcon from "@material-ui/icons/Close";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
 import DownloadIcon from "@material-ui/icons/SaveAlt";
