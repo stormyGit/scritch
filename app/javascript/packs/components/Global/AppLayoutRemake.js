@@ -444,8 +444,8 @@ class AppLayoutRemake extends React.Component {
                 overflowX: "hidden",
                 overflowY: "scroll",
                 height: "calc(100vh - 56px)",
-                paddingLeft: "5%",
-                paddingRight: "5%",
+                paddingLeft: width === "xl" || width === "lg" ? "5%" : 4,
+                paddingRight: width === "xl" || width === "lg" ? "5%" : 4,
                 position: "relative"
               }}
             >

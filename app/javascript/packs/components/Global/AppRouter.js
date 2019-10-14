@@ -3,26 +3,19 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
 import withWidth from "@material-ui/core/withWidth";
 
-import Fursuit from "../Fursuits/Fursuit";
 import FursuitRemake from "../Fursuits/FursuitRemake";
-import FursuitMobile from "../Fursuits/FursuitMobile";
 import Fursuits from "../Fursuits/Fursuits";
 
-import Media from "../Media/Media";
 import MediaAll from "../Media/MediaAll";
 import Medium from "../Media/Medium";
 import MediumMobile from "../Media/MediumMobile";
 
-import User from "../Users/User";
+import UserRemake from "../Users/UserRemake";
 
 import MakerRemake from "../Makers/MakerRemake";
-import Maker from "../Makers/Maker";
-import MakerMobile from "../Makers/MakerMobile";
 import Makers from "../Makers/Makers";
 
-import Event from "../Events/Event";
 import EventRemake from "../Events/EventRemake";
-import EventMobile from "../Events/EventMobile";
 import Events from "../Events/Events";
 
 import Announcements from "../PoliciesSupport/Announcements";
@@ -196,7 +189,7 @@ class AppRouter extends React.Component {
                       path="/:id"
                       component={
                         currentSession && !currentSession.user.suspendedUser
-                          ? User
+                          ? UserRemake
                           : MustLog
                       }
                     />
@@ -206,7 +199,7 @@ class AppRouter extends React.Component {
                       component={
                         currentSession && currentSession.user.suspendedUser
                           ? MustLog
-                          : User
+                          : UserRemake
                       }
                     />
                   </Switch>
