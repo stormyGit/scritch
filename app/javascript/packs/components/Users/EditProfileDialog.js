@@ -30,6 +30,7 @@ import BannerPlaceholder from "./BannerPlaceholder";
 import ProfileAvatar from "./ProfileAvatar";
 
 import { UPDATE_USER } from "../../queries/userMutations";
+import { GET_SESSION } from "../../queries/globalQueries";
 
 const AVATAR_SIZE = 96;
 
