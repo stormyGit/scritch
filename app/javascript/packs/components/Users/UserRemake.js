@@ -465,11 +465,7 @@ class User extends React.Component {
               {false && <Metrics fursuit={fursuit} />}
               {false && <SubtitleRow fursuit={fursuit} />}{" "}
               <div className={classes.headerTitles}>
-                <Typography
-                  variant="subtitle1"
-                  className={classes.userTitle}
-                  noWrap
-                >
+                <Typography variant="subtitle1" className={classes.userTitle}>
                   {user.bio}
                 </Typography>
               </div>

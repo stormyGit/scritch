@@ -176,6 +176,18 @@ const styles = theme => ({
   },
   sideHeight: {
     maxHeight: "100%"
+  },
+  leftIcon: {
+    fontSize: 25
+  },
+  iconGridRoot: {
+    alignItems: "center"
+  },
+  iconGrid: {
+    textAlign: "center"
+  },
+  textGrid: {
+    paddingLeft: theme.spacing.unit
   }
 });
 
@@ -186,6 +198,9 @@ const FatDivider = () => (
 );
 
 const DataDialog = ({ classes, medium, open, onClose }) => {
+  let exif = null;
+  if (medium.exif) exif = JSON.parse(medium.exif);
+
   return (
     <ResponsiveDialog open={open} onClose={onClose} size={600}>
       <DialogTitle className={classes.dialogTitleRoot}>
@@ -315,10 +330,11 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
             </Typography>
           </Grid>
         )}
-        {medium.exif &&
-          Object.keys(JSON.parse(medium.exif)).length !== 0 &&
-          JSON.parse(medium.exif).DateTimeOriginal &&
-          JSON.parse(medium.exif).Model && (
+        <Spacer />
+        {exif &&
+          Object.keys(exif).length !== 0 &&
+          exif.DateTimeOriginal &&
+          exif.Model && (
             <React.Fragment>
               <FatDivider />
               <List>
