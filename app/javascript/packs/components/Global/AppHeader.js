@@ -1,24 +1,13 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter, Link } from "react-router-dom";
 import { Query } from "react-apollo";
 import { GET_ADVERTS, GET_TOOLTIP } from "../../queries/advertQueries";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import Icon from "@material-ui/core/Icon";
-import Paper from "@material-ui/core/Paper";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
 import uuidv4 from "uuid/v4";
 import AdvertiseDialog from "../AppDialogs/AdvertiseDialog";
-
-import SubscriptionsIcon from "@material-ui/icons/ViewCarousel";
-import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
-import WhatshotIcon from "@material-ui/icons/Whatshot";
-import PicturesIcon from "@material-ui/icons/PhotoLibrary";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import ShareIcon from "@material-ui/icons/Share";
 
 const styles = theme => ({
   root: {

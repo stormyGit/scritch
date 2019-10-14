@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import { withRouter, Link } from "react-router-dom";
 import { Query } from "react-apollo";
@@ -14,7 +13,6 @@ import { faTwitter, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
-import Icon from "@material-ui/core/Icon";
 
 const styles = theme => ({
   root: {

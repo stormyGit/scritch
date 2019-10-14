@@ -1,5 +1,4 @@
 import React from "react";
-import Media from "./Media/Media";
 import Fursuits from "./Fursuits/Fursuits";
 import Makers from "./Makers/Makers";
 import Events from "./Events/Events";

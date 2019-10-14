@@ -1,35 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
-import gql from "graphql-tag";
 import { Mutation, Query, withApollo } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import CardHeader from "@material-ui/core/CardHeader";
-import Button from "@material-ui/core/Button";
-import Chip from "@material-ui/core/Chip";
-import IconButton from "@material-ui/core/IconButton";
-import Avatar from "@material-ui/core/Avatar";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import CommentIcon from "@material-ui/icons/Comment";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
-import NoFavoriteIcon from "@material-ui/icons/FavoriteBorder";
-import dayjs from "dayjs";
-import queryString from "query-string";
 import { TAG_LOCK_MEDIUM, TAG_UNLOCK_MEDIUM } from "../queries/mediaMutations";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import { Link, withRouter } from "react-router-dom";
-import { keyToCdnUrl } from "../mediaService";
-import timeAgo from "../timeAgo";
-import UserAvatar from "./Users/UserAvatar";
-import TruncatedText from "./Global/TruncatedText";
 
 import TagDialog from "./TagDialog";
 import TagDialogMobile from "./TagDialogMobile";

@@ -10,7 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import Select from "react-select";
 import timeAgo from "../../timeAgo";
-import PageTitle from "../Global//PageTitle";
+import PageTitle from "../Global/PageTitle";
 import queryString from "query-string";
 
 import { LOAD_EVENT, LOAD_EDITION } from "../../queries/eventQueries";
@@ -124,11 +124,19 @@ class Event extends React.Component {
     this.props.history.push(`/pictures/${media[this.state.currentImage].id}`);
   }
 
+  setEdition() {
+    const query = queryString.parse(location.search);
+    if (query.edition_id && this.state.edition == null)
+      this.setState({
+        edition: { label: query.edition_name, value: query.edition_id }
+      });
+  }
+
   render() {
     const { classes, match, currentSession, event } = this.props;
     let limit = parseInt(process.env.USER_MEDIA_PAGE_SIZE);
-    const query = queryString.parse(location.search);
 
+    this.setEdition();
     return (
       <Query
         query={LOAD_EVENT}
@@ -143,7 +151,11 @@ class Event extends React.Component {
           editionsOptions.push({ label: "All", value: null });
           if (!loading && !error && event)
             event.editions
-              .sort((a, b) => (a.name < b.name ? 1 : -1))
+              .sort((a, b) => {
+                var _a = parseInt(a.name),
+                  _b = parseInt(b.name);
+                return _b - _a;
+              })
               .map(e => {
                 editionsOptions.push({ label: e.name, value: e.id });
               });
@@ -155,7 +167,15 @@ class Event extends React.Component {
               <div className={classes.container} key={event.id}>
                 <PageTitle>{!loading && event ? event.name : null}</PageTitle>
                 <Grid container spacing={8}>
-                  <Grid item xs={12}>
+                  <Grid item lg={9} xs={12}>
+                    <EventMedia
+                      event={event.id}
+                      edition={
+                        this.state.edition ? this.state.edition.value : null
+                      }
+                    />
+                  </Grid>
+                  <Grid item lg={3} xs={12}>
                     <div className={classes.pictureInfo}>
                       <Grid
                         container
@@ -164,12 +184,7 @@ class Event extends React.Component {
                         wrap="nowrap"
                       >
                         <Grid item>
-                          <Typography
-                            gutterBottom
-                            variant="h5"
-                            component="h2"
-                            noWrap
-                          >
+                          <Typography gutterBottom variant="h5" component="h2">
                             {event.name}{" "}
                             {!this.state.edition
                               ? "(All Editions)"
@@ -194,8 +209,8 @@ class Event extends React.Component {
                         alignItems="center"
                         justify="center"
                       >
-                        <Grid xs={3} item />
-                        <Grid xs={6} item>
+                        <Grid xs={1} item />
+                        <Grid xs={10} item>
                           <img
                             src={event.avatar}
                             title={event.name}
@@ -203,7 +218,7 @@ class Event extends React.Component {
                             style={{ borderRadius: "5%" }}
                           />
                         </Grid>
-                        <Grid xs={3} item />
+                        <Grid xs={1} item />
                       </Grid>
                       <Grid container spacing={8}>
                         <Grid item>
@@ -241,32 +256,32 @@ class Event extends React.Component {
                               Unknown
                             </Typography>
                           )}
-                          {event.status && (
-                            <React.Fragment>
-                              <div style={{ padding: 5 }} />
-                              <Typography
-                                gutterBottom
-                                variant="h6"
-                                component="h2"
-                                color="primary"
-                                className={classes.eventTitle}
-                                noWrap
-                              >
-                                Status
-                              </Typography>
-                              <Typography
-                                gutterBottom
-                                variant="h5"
-                                component="h2"
-                                className={classes.eventTitle}
-                                noWrap={false}
-                              >
-                                {event.status}
-                              </Typography>
-                            </React.Fragment>
-                          )}
                         </Grid>
                       </Grid>
+                      {event.status && (
+                        <React.Fragment>
+                          <div style={{ padding: 5 }} />
+                          <Typography
+                            gutterBottom
+                            variant="h6"
+                            component="h2"
+                            color="primary"
+                            className={classes.eventTitle}
+                            noWrap
+                          >
+                            Status
+                          </Typography>
+                          <Typography
+                            gutterBottom
+                            variant="h5"
+                            component="h2"
+                            className={classes.eventTitle}
+                            noWrap={false}
+                          >
+                            {event.status}
+                          </Typography>
+                        </React.Fragment>
+                      )}
                       <div style={{ padding: 10 }} />
                       <Typography
                         gutterBottom
@@ -280,17 +295,24 @@ class Event extends React.Component {
                       <Select
                         className={classes.selectInput}
                         options={editionsOptions}
-                        defaultValue={{ label: "All", value: null }}
+                        value={
+                          this.state.edition
+                            ? this.state.edition
+                            : { label: "All", value: null }
+                        }
                         onChange={edition => {
                           this.setState({ edition: edition });
                         }}
                         placeholder="Select Edition..."
                       />
+                      {console.log(this.state.edition)}
                       {this.state.edition && this.state.edition.value && (
                         <Query
                           query={LOAD_EDITION}
                           variables={{
-                            id: this.state.edition.value
+                            id: this.state.edition
+                              ? this.state.edition.value
+                              : null
                           }}
                         >
                           {({ loading, error, data }) => {
@@ -385,6 +407,30 @@ class Event extends React.Component {
                                     </Typography>
                                   </React.Fragment>
                                 )}
+                                {edition.guestOfHonours.length > 0 && (
+                                  <React.Fragment>
+                                    <div style={{ padding: 5 }} />
+                                    <Typography
+                                      gutterBottom
+                                      variant="h6"
+                                      component="h2"
+                                      color="primary"
+                                      className={classes.eventTitle}
+                                    >
+                                      Guests of Honour
+                                    </Typography>
+                                    {edition.guestOfHonours.map(guest => (
+                                      <Typography
+                                        gutterBottom
+                                        variant="h5"
+                                        component="h2"
+                                        className={classes.eventTitle}
+                                      >
+                                        {guest}
+                                      </Typography>
+                                    ))}
+                                  </React.Fragment>
+                                )}
                                 {edition.charity && (
                                   <React.Fragment>
                                     <div style={{ padding: 5 }} />
@@ -414,14 +460,6 @@ class Event extends React.Component {
                         </Query>
                       )}
                     </div>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <EventMedia
-                      event={event.id}
-                      edition={
-                        this.state.edition ? this.state.edition.value : null
-                      }
-                    />
                   </Grid>
                 </Grid>
               </div>
