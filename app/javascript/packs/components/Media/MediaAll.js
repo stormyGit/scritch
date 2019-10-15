@@ -143,7 +143,6 @@ function MediaAll({ classes, width }) {
       <MediaFiltersRework
         open={filters}
         onChange={value => {
-          console.log(value);
           value.label === "eventId"
             ? setQueryArg({
                 ...queryArg,

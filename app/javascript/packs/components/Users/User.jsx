@@ -751,7 +751,6 @@ class User extends React.Component {
   renderUserProfile(user) {
     const { classes, currentSession } = this.props;
 
-    console.log(user);
     return (
       <GridList cols={1} spacing={0} className={classes.userProfile}>
         <GridListTile

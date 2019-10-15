@@ -248,7 +248,6 @@ class MediaFilters extends React.Component {
                   value={this.state.event}
                   onChange={evt => {
                     this.setState({ event: evt, edition: null });
-                    console.log(evt);
                     this.props.onChange({
                       label: "eventId",
                       value: evt ? evt.value : null

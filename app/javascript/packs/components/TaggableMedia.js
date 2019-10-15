@@ -12,7 +12,7 @@ import { GET_MEDIA_WITH_FURSUITS } from "../queries/mediaQueries";
 import TaggableMediumCard from "./TaggableMediumCard";
 import EmptyList from "./Global/EmptyList";
 import LoadMoreButton from "./Global/LoadMoreButton";
-import MediaFilters from "./Media/MediaFilters";
+import MediaFiltersRework from "./Media/MediaFiltersRework";
 
 import withCurrentSession from "./withCurrentSession";
 
@@ -122,7 +122,7 @@ class TaggableMedia extends React.Component {
         {({ data: { media }, loading, error, fetchMore }) => (
           <React.Fragment>
             <div className={classes.filters}>
-              <MediaFilters
+              <MediaFiltersRework
                 onChange={value => {
                   this.setState({ [value.label]: value.value });
                 }}

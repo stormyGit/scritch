@@ -722,13 +722,11 @@ class Fursuit extends React.Component {
         >
           {({ loading, error, data }) => {
             if (error) {
-              console.log(error);
-              return null;
+              return null; //TODO ERROR
             }
 
             if (loading || !data) {
-              console.log(loading);
-              return null;
+              return null; //TODO LOADING
             }
 
             const fursuit = data ? data.fursuit : null;

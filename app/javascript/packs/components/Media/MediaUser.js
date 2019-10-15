@@ -70,13 +70,11 @@ function MediaUser({ classes, width, userId }) {
     >
       {({ data, loading, error, fetchMore }) => {
         if (loading || error || !data) {
-          console.log(error, loading);
-          return null;
+          return null; //TODO ERROR LOADING
         }
 
         const { userMedia } = data;
 
-        console.log(data);
         return (
           <React.Fragment>
             <div

@@ -583,13 +583,11 @@ class Maker extends React.Component {
         >
           {({ loading, error, data }) => {
             if (error) {
-              console.log(error);
-              return null;
+              return null; //TODO ERROR
             }
 
             if (loading || !data) {
-              console.log(loading);
-              return null;
+              return null; //TODO LOADING
             }
 
             const maker = data ? data.maker : null;

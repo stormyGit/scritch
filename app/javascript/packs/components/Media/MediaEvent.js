@@ -63,7 +63,6 @@ function MediaEvent({ classes, width, eventId, editionId }) {
   });
   const [hasMore, setHasMore] = useState(true);
   const [filters, setFilters] = useState(false);
-  console.log(eventId, editionId);
 
   return (
     <Query
@@ -74,7 +73,6 @@ function MediaEvent({ classes, width, eventId, editionId }) {
       {({ data, loading, error, fetchMore }) => {
         if (loading || error || !data) return null;
 
-        console.log(data);
         const { eventMedia } = data;
 
         return (

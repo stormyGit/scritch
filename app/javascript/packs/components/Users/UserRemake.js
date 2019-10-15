@@ -12,14 +12,13 @@ import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import PageTitle from "../Global/PageTitle";
 import MediaUser from "../Media/MediaUser";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import EditIcon from "@material-ui/icons/Edit";
 import BlockIcon from "@material-ui/icons/NotInterested";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
 import withCurrentSession from "../withCurrentSession";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import {
   CREATE_FOLLOW,
   DELETE_FOLLOW,
@@ -597,12 +596,10 @@ class User extends React.Component {
         <Query query={GET_USER} variables={{ id: match.params.id }}>
           {({ data, loading, error }) => {
             if (error) {
-              console.log(error);
               return null; //TODO something went wrong
             }
 
             if (loading || !data) {
-              console.log(loading);
               return null; //TODO circular progress
             }
 
@@ -639,6 +636,7 @@ class User extends React.Component {
                       className={classes.tabsCenterer}
                       value={this.state.tab}
                       onChange={(e, value) => this.setState({ tab: value })}
+                      textColor="textPrimary"
                     >
                       <Tab
                         value="pictures"

@@ -155,7 +155,7 @@ const Medium = withStyles(styles)(
 
 function MediaCardRework({ classes, medium }) {
   const [stateMedium, setStateMedium] = useState(null);
-  console.log(stateMedium);
+
   return (
     <React.Fragment>
       <Card className={classes.card} elevation={0}>

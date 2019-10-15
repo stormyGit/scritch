@@ -229,7 +229,6 @@ class RequestFursuitDialog extends React.Component {
                           }
                         }
                       }).then(updated => {
-                        console.log(updated);
                         this.props.onClose();
                         this.props.submitSnack();
                       });

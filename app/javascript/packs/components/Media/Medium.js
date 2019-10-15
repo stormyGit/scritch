@@ -234,7 +234,6 @@ class Medium extends React.Component {
   };
 
   renderCommentsCount(count) {
-    console.log(123);
     if (count === 0) {
       return `No comments`;
     }
