@@ -611,8 +611,10 @@ module Types
 
       if arguments[:fursuits].present? && arguments[:filter] == 'subscriptions_fursuits'
         media = media.joins(:fursuits).where(fursuits: {uuid: arguments[:fursuits]}).group("media.id").having('count(media.id) >= ?', arguments[:fursuits].size)
-      elsif arguments[:fursuits].present?
+      elsif arguments[:fursuits].present? && arguments[:faves]
         media = media.joins(:fursuits).where(fursuits: {uuid: arguments[:fursuits]}).group("media.id", "users.id, faves.id").having('count(media.id) >= ?', arguments[:fursuits].size)
+      elsif arguments[:fursuits].present?
+        media = media.joins(:fursuits).where(fursuits: {uuid: arguments[:fursuits]}).group("media.id", "users.id").having('count(media.id) >= ?', arguments[:fursuits].size)
       end
 
       if arguments[:tagging].present?

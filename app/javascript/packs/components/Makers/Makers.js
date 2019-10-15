@@ -227,6 +227,7 @@ class Makers extends React.Component {
         />
         <AssetRequestDialog
           open={this.state.assetRequestDialog}
+          keepAssetType="Maker"
           onClose={() => this.setState({ assetRequestDialog: false })}
           assetType="Maker"
           submitSnack={() => this.setState({ snack: true })}

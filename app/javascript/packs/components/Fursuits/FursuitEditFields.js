@@ -63,7 +63,10 @@ const styles = theme => {
     },
     link: {
       textDecoration: "none",
-      color: theme.palette.primary.main
+      color: theme.palette.primary.main,
+      fontWeight: 200,
+      cursor: "pointer",
+      paddingTop: theme.spacing.unit
     },
     root: {
       flexGrow: 1
@@ -104,7 +107,15 @@ const styles = theme => {
 };
 
 const MakerFilter = React.memo(
-  ({ classes, inRequest, onChange, maker }) => (
+  ({
+    classes,
+    inRequest,
+    onChange,
+    maker,
+    changeRequestState,
+    ownerMade,
+    onChangeOwnerMade
+  }) => (
     <Query query={LOAD_MAKERS_SELECT}>
       {({ data, loading, error }) => {
         if (error || !data) {
@@ -121,24 +132,55 @@ const MakerFilter = React.memo(
         return (
           <Grid item xs={12}>
             {inRequest && (
-              <Typography variant="h6" className={classes.label}>
-                Maker (If Maker is not present,{" "}
-                <Link to="/makers" className={classes.link}>
-                  Request a New Maker
-                </Link>{" "}
-                first)
-              </Typography>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center"
+                }}
+              >
+                <Typography variant="h6" className={classes.label}>
+                  Maker - If Maker is not present,&nbsp;
+                </Typography>
+                <Typography
+                  onClick={() => changeRequestState()}
+                  variant="h6"
+                  className={classes.link}
+                >
+                  Request a New Maker first
+                </Typography>
+              </div>
             )}
             {!inRequest && (
               <Typography variant="h6" className={classes.label}>
                 Maker
               </Typography>
             )}
+            <Grid item xs={12}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={ownerMade}
+                    onChange={e => {
+                      onChangeOwnerMade(e, {
+                        label: data.makersSelect.filter(
+                          x => x.name == "Owner Made"
+                        )[0].name,
+                        value: data.makersSelect.filter(
+                          x => x.name == "Owner Made"
+                        )[0].id
+                      });
+                    }}
+                  />
+                }
+                label="Owner Made"
+              />
+            </Grid>
             <Select
               fullWidth
               placeholder="Maker"
               isClearable
               isSearchable
+              isDisabled={ownerMade}
               value={maker}
               onChange={onChange}
               options={data.makersSelect.map(option => ({
@@ -687,10 +729,29 @@ class FursuitEditFields extends React.Component {
               });
             }}
           />
+          {console.log(this.state.maker)}
           <MakerFilter
             classes={classes}
             inRequest={inRequest}
             maker={this.state.maker}
+            ownerMade={
+              this.state.maker && this.state.maker.label === "Owner Made"
+            }
+            onChangeOwnerMade={(event, maker) => {
+              if (event.target.checked) {
+                this.setState({ maker: maker });
+                this.props.onChange({
+                  label: "maker",
+                  value: maker ? maker.value : null
+                });
+              } else {
+                this.setState({ maker: null });
+                this.props.onChange({
+                  label: "maker",
+                  value: null
+                });
+              }
+            }}
             onChange={maker => {
               this.setState({ maker: maker });
               this.props.onChange({
@@ -698,6 +759,7 @@ class FursuitEditFields extends React.Component {
                 value: maker ? maker.value : null
               });
             }}
+            changeRequestState={this.props.changeRequestState}
           />
           <BuildFilter
             classes={classes}

@@ -78,7 +78,7 @@ function MediaEvent({ classes, width, eventId, editionId }) {
         return (
           <React.Fragment>
             <div
-              style={{ height: "calc(100vh - 201px)" }}
+              style={{ height: "calc(100vh - 60px)" }}
               className={
                 width === "sm" || width == "xs"
                   ? classes.mobile_hide_sm

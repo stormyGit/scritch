@@ -624,7 +624,7 @@ class Event extends React.Component {
                     return (
                       <React.Fragment>
                         <div
-                          style={{ height: "calc(100vh - 201px)" }}
+                          style={{ height: "calc(100vh - 56px)" }}
                           className={
                             width === "sm" || width == "xs"
                               ? classes.mobile_hide_sm

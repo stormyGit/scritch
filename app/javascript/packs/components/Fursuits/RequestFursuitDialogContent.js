@@ -164,14 +164,6 @@ class RequestFursuitDialog extends React.Component {
             margin="dense"
             fullWidth
           />
-          <TextField
-            label="URL (Optional)"
-            name="url"
-            value={this.state.url}
-            onChange={e => this.setState({ url: e.target.value })}
-            margin="dense"
-            fullWidth
-          />
           <FursuitEditFields
             inRequest={true}
             onChange={value => {
@@ -179,6 +171,7 @@ class RequestFursuitDialog extends React.Component {
                 [value.label]: value.value
               });
             }}
+            changeRequestState={() => this.props.goToMaker()}
           />
           <TextField
             label="Additional Information (Optional)"

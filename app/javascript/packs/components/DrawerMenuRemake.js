@@ -640,6 +640,7 @@ class DrawerMenuRemake extends React.Component {
         />
         <AssetRequestDialog
           open={this.state.assetDialog}
+          keepAssetType={null}
           onClose={() => {
             this.setState({ assetDialog: false });
             if (this.props.onClose) {

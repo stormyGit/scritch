@@ -343,6 +343,7 @@ class Fursuits extends React.Component {
         <AssetRequestDialog
           assetType="Fursuit"
           open={this.state.assetRequestDialog}
+          keepAssetType="Fursuit"
           onClose={() => this.setState({ assetRequestDialog: false })}
           submitSnack={() => this.setState({ snack: true })}
         />

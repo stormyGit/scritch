@@ -662,49 +662,45 @@ const TagSection = ({ currentSession, classes, medium }) => {
         onClose={() => setTagReportOpen(false)}
         medium={medium}
       />
-      {medium.fursuits.length != 0 && (
-        <React.Fragment>
-          <Grid item xs={12} className={classes.flexSectionSpacedCentered}>
-            <div>
-              <Typography gutterBottom variant="h6" component="h2">
-                {"Fursuits"}
-              </Typography>
+      <Grid item xs={12} className={classes.flexSectionSpacedCentered}>
+        <div>
+          <Typography gutterBottom variant="h6" component="h2">
+            {"Fursuits"}
+          </Typography>
+        </div>
+        {medium.fursuits.length != 0 && (
+          <div>
+            <div className={classes.tagReportButton}>
+              <Button variant="outlined" onClick={() => setTagReportOpen(true)}>
+                Report Wrong Tags
+              </Button>
             </div>
-            <div>
-              <div className={classes.tagReportButton}>
-                <Button
-                  variant="outlined"
-                  onClick={() => setTagReportOpen(true)}
+          </div>
+        )}
+      </Grid>
+      <Grid item xs={12} className={classes.flexSection}>
+        <Grid container spacing={8} className={classes.flexSectionCentered}>
+          {medium.fursuits.length != 0 &&
+            medium.fursuits.map(fursuit => (
+              <Grid item xs={6} sm={3} md={4} key={fursuit.id}>
+                <Link
+                  target="_blank"
+                  to={`/fursuits/${fursuit.slug}`}
+                  className={classes.fursuitLink}
                 >
-                  Report Wrong Tags
-                </Button>
-              </div>
-            </div>
-          </Grid>
-          <Grid item xs={12} className={classes.flexSection}>
-            <Grid container spacing={8} className={classes.flexSectionCentered}>
-              {medium.fursuits.map(fursuit => (
-                <Grid item xs={6} sm={3} md={4} key={fursuit.id}>
-                  <Link
-                    target="_blank"
-                    to={`/fursuits/${fursuit.slug}`}
-                    className={classes.fursuitLink}
-                  >
-                    <FursuitMiniCard onClick={() => {}} fursuit={fursuit} />
-                  </Link>
-                </Grid>
-              ))}
-              <Grid item xs={6} sm={3} md={4}>
-                <MediumActionButton
-                  currentSession={currentSession}
-                  classes={classes}
-                  medium={medium}
-                />
+                  <FursuitMiniCard onClick={() => {}} fursuit={fursuit} />
+                </Link>
               </Grid>
-            </Grid>
+            ))}
+          <Grid item xs={6} sm={3} md={4}>
+            <MediumActionButton
+              currentSession={currentSession}
+              classes={classes}
+              medium={medium}
+            />
           </Grid>
-        </React.Fragment>
-      )}
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 };
@@ -941,16 +937,12 @@ class MediumDialog extends React.Component {
                         </Grid>
                         <DataSection classes={classes} medium={medium} />
                         <FatDivider />
-                        {medium.fursuits.length != 0 && (
-                          <React.Fragment>
-                            <TagSection
-                              currentSession={currentSession}
-                              classes={classes}
-                              medium={medium}
-                            />
-                            <FatDivider />
-                          </React.Fragment>
-                        )}
+                        <TagSection
+                          currentSession={currentSession}
+                          classes={classes}
+                          medium={medium}
+                        />
+                        <FatDivider />
                         <CommentSection
                           currentSession={currentSession}
                           classes={classes}

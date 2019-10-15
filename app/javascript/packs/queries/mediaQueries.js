@@ -101,6 +101,7 @@ export const GET_EVENT_MEDIA = gql`
       thumbnail
       completion
       createdAt
+      exif
       commentsCount
       likesCount
       favesCount
@@ -118,6 +119,7 @@ export const GET_USER_MEDIA = gql`
       title
       thumbnail
       completion
+      exif
       createdAt
       commentsCount
       likesCount
@@ -136,6 +138,7 @@ export const GET_FURSUIT_MEDIA = gql`
       thumbnail
       completion
       createdAt
+      exif
       commentsCount
       likesCount
       favesCount
@@ -153,6 +156,7 @@ export const GET_FRONT_MEDIA = gql`
       thumbnail
       completion
       createdAt
+      exif
       commentsCount
       likesCount
       favesCount

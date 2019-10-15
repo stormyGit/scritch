@@ -222,6 +222,7 @@ class Events extends React.Component {
         />
         <AssetRequestDialog
           open={this.state.assetRequestDialog}
+          keepAssetType="Event"
           onClose={() => this.setState({ assetRequestDialog: false })}
           assetType="Event"
           submitSnack={() => this.setState({ snack: true })}

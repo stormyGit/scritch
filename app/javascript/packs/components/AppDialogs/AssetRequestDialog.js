@@ -42,23 +42,18 @@ class AssetRequestDialog extends React.Component {
     assetType: null,
     assetName: "",
     body: "",
-    url: ""
+    url: "",
+    fromFursuitToMaker: false
   };
 
   componentDidMount() {
     if (this.props.currentSession) {
-      this.setState({ assetName: "", body: "", url: "" });
-    }
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.user !== nextProps.user) {
-      this.setState({ assetName: "", body: "", url: "" });
+      this.setState({ assetType: this.props.assetType, body: "", url: "" });
     }
   }
 
   render() {
-    const { classes, currentSession, user, assetType } = this.props;
+    const { classes, currentSession, assetType } = this.props;
     if (!currentSession) {
       return null;
     }
@@ -68,7 +63,7 @@ class AssetRequestDialog extends React.Component {
         open={this.props.open}
         onClose={() => {
           this.props.onClose();
-          this.setState({ assetType: null });
+          this.setState({ assetType: this.props.keepAssetType });
         }}
       >
         <GlobalProgress absolute />
@@ -115,21 +110,31 @@ class AssetRequestDialog extends React.Component {
             </div>
           </DialogContent>
         )}
-        {(assetType == "Fursuit" || this.state.assetType == "Fursuit") && (
+        {this.state.assetType == "Fursuit" && (
           <RequestFursuitDialogContent
             submitSnack={this.props.submitSnack}
             onClose={this.props.onClose}
+            goToMaker={() => {
+              this.setState({ assetType: "Maker", fromFursuitToMaker: true });
+            }}
           />
         )}
-        {(assetType == "Maker" || this.state.assetType == "Maker") && (
+        {this.state.assetType == "Maker" && (
           <EventMakerRequestDialogContent
             assetType="Maker"
             assetName="Maker"
             submitSnack={this.props.submitSnack}
-            onClose={this.props.onClose}
+            onClose={() => {
+              if (this.state.fromFursuitToMaker)
+                this.setState({
+                  fromFursuitToMaker: false,
+                  assetType: this.props.keepAssetType
+                });
+              this.props.onClose();
+            }}
           />
         )}
-        {(assetType == "Event" || this.state.assetType == "Event") && (
+        {this.state.assetType == "Event" && (
           <EventMakerRequestDialogContent
             assetType="Event"
             assetName="Event"
@@ -137,12 +142,15 @@ class AssetRequestDialog extends React.Component {
             onClose={this.props.onClose}
           />
         )}
-        {!this.state.assetType && assetType == "Asset" && (
+        {!this.state.assetType && (
           <DialogActions>
             <Button
               onClick={() => {
                 this.props.onClose();
-                this.setState({ assetType: null });
+                this.setState({
+                  fromFursuitToMaker: false,
+                  assetType: this.props.keepAssetType
+                });
               }}
             >
               Cancel
