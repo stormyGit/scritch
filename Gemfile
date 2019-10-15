@@ -101,3 +101,4 @@ gem 'prerender_rails'
 gem 'jquery-rails'
 gem 'stripe'
 gem 'redcarpet'
+gem 'solargraph', group: :development

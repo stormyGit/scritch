@@ -1,13 +1,12 @@
 import React from "react";
-import Media from "./Media/Media";
 import PageTitle from "./Global/PageTitle";
-import queryString from "query-string";
+import MediaFaved from "./Media/MediaFaved";
 
 export default props => {
   return (
     <React.Fragment>
-      <PageTitle>Favorites Gallery</PageTitle>
-      <Media faves={true} sort="latest" {...props} />
+      <PageTitle>Favorites</PageTitle>
+      <MediaFaved />
     </React.Fragment>
   );
 };

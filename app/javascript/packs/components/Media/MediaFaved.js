@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 
 import { Query } from "react-apollo";
-import { GET_MEDIA } from "../../queries/mediaQueries";
+import { GET_FAVED_MEDIA } from "../../queries/mediaQueries";
 
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
-import Fab from "@material-ui/core/Fab";
 
 import Media from "./Media";
 import MediaFiltersRework from "./MediaFiltersRework";
+import Fab from "@material-ui/core/Fab";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import PageTitle from "../Global/PageTitle";
 
 const styles = theme => ({
   root: {
@@ -70,9 +69,8 @@ const DEFAULT_FILTERS = {
   fursuits: []
 };
 
-function MediaAll({ classes, width }) {
+function MediaFaved({ classes, width }) {
   const [queryArg, setQueryArg] = useState({
-    ...DEFAULT_FILTERS,
     offset: 0,
     limit: 48
   });
@@ -81,12 +79,15 @@ function MediaAll({ classes, width }) {
 
   return (
     <React.Fragment>
-      <PageTitle>Media</PageTitle>
-      <Query query={GET_MEDIA} fetchPolicy="network-only" variables={queryArg}>
+      <Query
+        query={GET_FAVED_MEDIA}
+        fetchPolicy="network-only"
+        variables={queryArg}
+      >
         {({ data, loading, error, fetchMore }) => {
           if (loading || error || !data) return null;
 
-          const { media } = data;
+          const { favedMedia } = data;
 
           return (
             <React.Fragment>
@@ -99,24 +100,27 @@ function MediaAll({ classes, width }) {
                 }
               >
                 <Media
-                  media={media}
+                  media={favedMedia}
                   limit={queryArg.limit}
                   hasMore={hasMore}
                   fetchMore={() =>
                     fetchMore({
                       variables: {
-                        offset: media.length,
+                        offset: favedMedia.length,
                         limit: queryArg.limit
                       },
                       updateQuery: (prev, { fetchMoreResult }) => {
                         if (!fetchMoreResult) return prev;
 
-                        if (fetchMoreResult.media.length === 0) {
+                        if (fetchMoreResult.favedMedia.length === 0) {
                           setHasMore(false);
                         } else {
                           return {
                             ...prev,
-                            media: [...prev.media, ...fetchMoreResult.media]
+                            favedMedia: [
+                              ...prev.favedMedia,
+                              ...fetchMoreResult.favedMedia
+                            ]
                           };
                         }
                       }
@@ -167,4 +171,4 @@ function MediaAll({ classes, width }) {
   );
 }
 
-export default withStyles(styles)(withWidth()(MediaAll));
+export default withStyles(styles)(withWidth()(MediaFaved));
