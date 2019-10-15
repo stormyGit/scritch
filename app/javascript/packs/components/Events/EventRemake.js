@@ -1,5 +1,5 @@
 import React from "react";
-import { Query, Mutation } from "react-apollo";
+import { Query } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Select from "react-select";
@@ -10,35 +10,18 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
 
-import DefaultAvatar from "../Users/DefaultAvatar";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
 import IconButton from "@material-ui/core/IconButton";
-import Collapse from "@material-ui/core/Collapse";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import Tooltip from "@material-ui/core/Tooltip";
-import Divider from "@material-ui/core/Divider";
 import PageTitle from "../Global/PageTitle";
-import queryString from "query-string";
-import EmptyList from "../Global/EmptyList";
-import LoadMoreButton from "../Global/LoadMoreButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPaw,
-  faStar,
-  faUsers,
-  faTags
-} from "@fortawesome/free-solid-svg-icons";
 
-import { LOAD_EVENT, LOAD_EDITION } from "../../queries/eventQueries";
+import { LOAD_EVENT } from "../../queries/eventQueries";
 import { GET_EVENT_MEDIA } from "../../queries/mediaQueries";
 
 import withCurrentSession from "../withCurrentSession";
-import SocialButton from "../Global/SocialButton";
-import TwitterIcon from "../../icons/Twitter";
-import TelegramIcon from "../../icons/Telegram";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
   container: {

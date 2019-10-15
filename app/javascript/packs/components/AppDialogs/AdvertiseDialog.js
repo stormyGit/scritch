@@ -1,7 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
-import gql from "graphql-tag";
-import { Query, Mutation } from "react-apollo";
+import { Mutation } from "react-apollo";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -14,9 +12,7 @@ import CheckIcon from "@material-ui/icons/Check";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import Typography from "@material-ui/core/Typography";
-import uuidv4 from "uuid/v4";
 
 import withWidth from "@material-ui/core/withWidth";
 

@@ -1,10 +1,8 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import SearchBar from "material-ui-search-bar";
-import { grey } from "@material-ui/core/colors";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
-import Grid from "@material-ui/core/Grid";
 import withWidth from "@material-ui/core/withWidth";
 
 const styles = theme => ({

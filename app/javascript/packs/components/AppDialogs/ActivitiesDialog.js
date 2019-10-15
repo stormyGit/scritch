@@ -1,20 +1,12 @@
 import React from "react";
-import PropTypes from "prop-types";
-import gql from "graphql-tag";
 import { Query, Mutation, withApollo } from "react-apollo";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
 import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
@@ -26,7 +18,6 @@ import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
 import TruncatedText from "../Global/TruncatedText";
 import UserAvatar from "../Users/UserAvatar";
-import Avatar from "@material-ui/core/Avatar";
 import FursuitAvatar from "../Fursuits/FursuitAvatar";
 import MakerAvatar from "../Makers/MakerAvatar";
 
@@ -460,9 +451,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`Your Fursuit ${
-                  activity.trackable.fursuit.name
-                } has been Tagged in Media!`}
+                {`Your Fursuit ${activity.trackable.fursuit.name} has been Tagged in Media!`}
               </Typography>
             </React.Fragment>
           }
@@ -485,9 +474,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`Your request to add the Fursuit '${
-                  activity.trackable.name
-                }' has been approved!`}
+                {`Your request to add the Fursuit '${activity.trackable.name}' has been approved!`}
               </Typography>
             </React.Fragment>
           }
@@ -510,9 +497,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`Your request to add the Fursuit '${
-                  activity.trackable.name
-                }' has been rejected. Please contact Support if you think this is a mistake.`}
+                {`Your request to add the Fursuit '${activity.trackable.name}' has been rejected. Please contact Support if you think this is a mistake.`}
               </Typography>
             </React.Fragment>
           }
@@ -535,9 +520,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`Your request to add the ${activity.trackable.assetType} ${
-                  activity.trackable.assetName
-                } has been approved!`}
+                {`Your request to add the ${activity.trackable.assetType} ${activity.trackable.assetName} has been approved!`}
               </Typography>
             </React.Fragment>
           }
@@ -560,9 +543,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`Your request to add the ${activity.trackable.assetType} ${
-                  activity.trackable.assetName
-                } has been rejected. Please contact Support if you think this is a mistake.`}
+                {`Your request to add the ${activity.trackable.assetType} ${activity.trackable.assetName} has been rejected. Please contact Support if you think this is a mistake.`}
               </Typography>
             </React.Fragment>
           }
@@ -620,9 +601,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`Your Claim for ${
-                  activity.trackable.name
-                } has been rejected. Please contact Support if you think this is a mistake.`}
+                {`Your Claim for ${activity.trackable.name} has been rejected. Please contact Support if you think this is a mistake.`}
               </Typography>
             </React.Fragment>
           }
@@ -680,9 +659,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`Your Claim for ${
-                  activity.trackable.name
-                } has been rejected. Please contact Support if you think this is a mistake.`}
+                {`Your Claim for ${activity.trackable.name} has been rejected. Please contact Support if you think this is a mistake.`}
               </Typography>
             </React.Fragment>
           }
@@ -711,9 +688,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`The Studio ${
-                  activity.trackable.name
-                } has just opened for commissions!`}
+                {`The Studio ${activity.trackable.name} has just opened for commissions!`}
               </Typography>
             </React.Fragment>
           }

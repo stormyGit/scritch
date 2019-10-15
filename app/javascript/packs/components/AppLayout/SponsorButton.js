@@ -1,6 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
 import Typography from "@material-ui/core/Typography";
 

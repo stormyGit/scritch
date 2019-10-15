@@ -5,11 +5,10 @@ import withCurrentSession from "../withCurrentSession";
 import withWidth from "@material-ui/core/withWidth";
 import Button from "@material-ui/core/Button";
 import ButtonBase from "@material-ui/core/ButtonBase";
-import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { DELETE_SESSION } from "../../queries/globalQueries";
-import { Query, Mutation, withApollo } from "react-apollo";
+import { Mutation } from "react-apollo";
 
 import UserAvatar from "../Users/UserAvatar";
 

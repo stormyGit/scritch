@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Mutation } from "react-apollo";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";

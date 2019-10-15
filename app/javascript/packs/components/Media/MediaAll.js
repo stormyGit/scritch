@@ -1,22 +1,12 @@
 import React, { useState } from "react";
 
-import { Query, Mutation } from "react-apollo";
-import {
-  READ_MEDIA_NOTIFICATIONS,
-  READ_FURSUIT_NOTIFICATIONS
-} from "../../queries/subscriptionMutations";
+import { Query } from "react-apollo";
 import { GET_MEDIA } from "../../queries/mediaQueries";
 
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
-import Grid from "@material-ui/core/Grid";
 import Fab from "@material-ui/core/Fab";
 
-import { FixedSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
-import InfiniteLoader from "react-window-infinite-loader";
-
-import MediumCard from "./MediumCard";
 import Media from "./Media";
 import MediaFiltersRework from "./MediaFiltersRework";
 

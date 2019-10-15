@@ -4,7 +4,7 @@ import NoFavoriteIcon from "@material-ui/icons/StarBorder";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import { Query, Mutation } from "react-apollo";
+import { Mutation } from "react-apollo";
 
 import { withStyles } from "@material-ui/core/styles";
 

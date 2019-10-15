@@ -29,8 +29,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import ResponsiveDialog from "./Global/ResponsiveDialog";
 
-import TagDialog from "./TagDialog";
-
 const styles = theme => ({
   root: {
     width: "100%",

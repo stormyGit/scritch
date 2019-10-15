@@ -9,7 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import Select from "react-select";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
-import MenuItem from "@material-ui/core/MenuItem";
 import SearchBar from "material-ui-search-bar";
 import TextField from "@material-ui/core/TextField";
 import { Mutation, Query } from "react-apollo";

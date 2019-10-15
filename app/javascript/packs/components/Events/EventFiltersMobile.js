@@ -1,19 +1,15 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 
-import gql from "graphql-tag";
 import { Query } from "react-apollo";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
 import Select from "react-select";
-import MenuItem from "@material-ui/core/MenuItem";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
-import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
@@ -21,8 +17,6 @@ import {
   LOAD_EVENTS_COUNTRIES,
   LOAD_EVENTS_STATUSES
 } from "../../queries/eventQueries";
-
-import { Link, withRouter } from "react-router-dom";
 
 import SearchBar from "material-ui-search-bar";
 

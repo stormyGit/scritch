@@ -2,48 +2,28 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import CardMedia from "@material-ui/core/CardMedia";
-import Input from "@material-ui/core/Input";
-import Select from "react-select";
-import CheckIcon from "@material-ui/icons/Check";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
 import SearchBar from "material-ui-search-bar";
 import TextField from "@material-ui/core/TextField";
-import ScrollArea from "react-scrollbar";
-import createFilterOptions from "react-select-fast-filter-options";
 import { Mutation, Query } from "react-apollo";
 import { withRouter } from "react-router-dom";
 import withCurrentSession from "./withCurrentSession";
 
-import themeSelector from "../themeSelector";
-
 import ResponsiveDialog from "./Global/ResponsiveDialog";
 import EmptyList from "./Global/EmptyList";
 import LoadMoreButton from "./Global/LoadMoreButton";
-import Logo from "./Global/Logo";
 
 import ReportDialog from "./AppDialogs/ReportDialog";
 import TagReportDialog from "./AppDialogs/TagReportDialog";
 import FursuitMiniCard from "./Fursuits/FursuitMiniCard";
 import { UPDATE_MEDIUM } from "../queries/mediaMutations";
 import { GET_MEDIUM } from "../queries/mediaQueries";
-import { LOAD_CATEGORIES } from "../queries/categoryQueries";
 
 import { LOAD_FURSUITS } from "../queries/fursuitQueries";
 

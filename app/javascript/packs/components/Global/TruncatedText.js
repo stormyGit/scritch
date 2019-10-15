@@ -1,6 +1,3 @@
-import React from "react";
-import Typography from "@material-ui/core/Typography";
-
 function truncateText(text, limit) {
   if (text.length <= limit) {
     return text;

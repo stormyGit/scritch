@@ -15,11 +15,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import Grid from "@material-ui/core/Grid";
 import Snackbar from "@material-ui/core/Snackbar";
 import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
-import Typography from "@material-ui/core/Typography";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import PageTitle from "../Global/PageTitle";
 
 import EmptyList from "../Global/EmptyList";
@@ -27,9 +22,6 @@ import LoadMoreButton from "../Global/LoadMoreButton";
 import FursuitCard from "./FursuitCard";
 
 import { READ_MAKER_NOTIFICATIONS } from "../../queries/subscriptionMutations";
-import Background from "../../photo.jpg";
-
-import { Link, withRouter } from "react-router-dom";
 
 import FursuitFilters from "./FursuitFilters";
 import FursuitModal from "./FursuitModal";

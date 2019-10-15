@@ -1,21 +1,15 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
-import { Query, Mutation, withApollo } from "react-apollo";
+import { Query } from "react-apollo";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItemText from "@material-ui/core/ListItemText";
-import Typography from "@material-ui/core/Typography";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
 import EmptyFaveIcon from "@material-ui/icons/FavoriteBorder";
 
 import dayjs from "dayjs";
@@ -25,8 +19,6 @@ import EmptyList from "../Global/EmptyList";
 import UserAvatar from "../Users/UserAvatar";
 import withCurrentSession from "../withCurrentSession";
 import timeAgo from "../../timeAgo";
-
-import { combineUUIDs } from "../../utils";
 
 import { GET_FAVES } from "../../queries/mediaQueries";
 

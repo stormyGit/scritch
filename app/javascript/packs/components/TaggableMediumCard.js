@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Mutation, Query, withApollo } from "react-apollo";
+import { Mutation, withApollo } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Card from "@material-ui/core/Card";

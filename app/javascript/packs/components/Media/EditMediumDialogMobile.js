@@ -2,32 +2,19 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import CardMedia from "@material-ui/core/CardMedia";
-import Input from "@material-ui/core/Input";
 import Select from "react-select";
-import CheckIcon from "@material-ui/icons/Check";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
-import InputLabel from "@material-ui/core/InputLabel";
 import SearchBar from "material-ui-search-bar";
 import TextField from "@material-ui/core/TextField";
 import { Mutation, Query } from "react-apollo";
-import TelegramLoginButton from "react-telegram-login";
 import { withRouter } from "react-router-dom";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -36,7 +23,6 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
-import Logo from "../Global/Logo";
 
 import ReportDialog from "../AppDialogs/ReportDialog";
 import DeleteMediumDialog from "../AppDialogs/DeleteMediumDialog";
@@ -51,28 +37,6 @@ import {
   LOAD_SUB_EVENTS
 } from "../../queries/eventQueries";
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
-
-const Option = props => {
-  const handleClick = event => {
-    setTimeout(() => props.onSelect(props.option, event), 90);
-  };
-
-  const { children, isFocused, isSelected, onFocus, style } = props;
-
-  const { height, ...rest } = style;
-
-  return (
-    <MenuItem
-      key={props.key}
-      onFocus={onFocus}
-      selected={isFocused}
-      onClick={handleClick}
-      style={rest}
-    >
-      {props.option.name}
-    </MenuItem>
-  );
-};
 
 const styles = theme => ({
   brand: {

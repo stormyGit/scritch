@@ -2,7 +2,7 @@ import React from "react";
 import FavoriteIcon from "@material-ui/icons/Pets";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import { Query, Mutation } from "react-apollo";
+import { Mutation } from "react-apollo";
 import SvgIcon from "@material-ui/core/SvgIcon";
 
 import { withStyles } from "@material-ui/core/styles";

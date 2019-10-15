@@ -5,30 +5,15 @@ import withWidth from "@material-ui/core/withWidth";
 import FursuitCard from "../Fursuits/FursuitCard";
 import FursuitModal from "../Fursuits/FursuitModal";
 import DefaultAvatar from "../Users/DefaultAvatar";
-import InfoIcon from "@material-ui/icons/InfoOutlined";
-import IconButton from "@material-ui/core/IconButton";
-import Collapse from "@material-ui/core/Collapse";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Tooltip from "@material-ui/core/Tooltip";
-import Divider from "@material-ui/core/Divider";
 import PageTitle from "../Global/PageTitle";
-import queryString from "query-string";
-import EmptyList from "../Global/EmptyList";
-import LoadMoreButton from "../Global/LoadMoreButton";
 import MakerClaimDialog from "./MakerClaimDialog";
-import MakerAvatar from "./MakerAvatar";
 import EditMakerDialog from "./EditMakerDialog";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPaw,
-  faStar,
-  faUsers,
-  faTags
-} from "@fortawesome/free-solid-svg-icons";
 
 import { LOAD_MAKER, LOAD_MAKER_DATE } from "../../queries/makerQueries";
 import {
@@ -37,10 +22,7 @@ import {
 } from "../../queries/makerMutations";
 
 import withCurrentSession from "../withCurrentSession";
-import SocialButton from "../Global/SocialButton";
-import TwitterIcon from "../../icons/Twitter";
-import TelegramIcon from "../../icons/Telegram";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
   container: {

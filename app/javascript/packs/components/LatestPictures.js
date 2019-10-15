@@ -1,7 +1,6 @@
 import React from "react";
 import FrontMedia from "./Media/FrontMedia";
 import PageTitle from "./Global/PageTitle";
-import queryString from "query-string";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import withWidth from "@material-ui/core/withWidth";

@@ -1,35 +1,22 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import CheckIcon from "@material-ui/icons/Check";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import TextField from "@material-ui/core/TextField";
 
-import TelegramLoginButton from "react-telegram-login";
 import { withRouter } from "react-router-dom";
 
 import ResponsiveDialog from "../Global/ResponsiveDialog";
-import themeSelector from "../../themeSelector";
-
-import { Mutation, Query } from "react-apollo";
-
-import Logo from "../Global/Logo";
-import { CREATE_SESSION } from "../../queries/globalQueries";
 
 const styles = theme => ({
   brand: {
@@ -99,9 +86,7 @@ class SignUpAlternativeDialog extends React.Component {
                     <span>{`Start a conversation with our `}</span>
                     <a
                       className={classes.link}
-                      href={`https://t.me/${
-                        process.env.TELEGRAM_BOT_NAME
-                      }?start=start`}
+                      href={`https://t.me/${process.env.TELEGRAM_BOT_NAME}?start=start`}
                       target="_blank"
                     >
                       Telegram bot

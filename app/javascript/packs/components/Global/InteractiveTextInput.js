@@ -1,6 +1,6 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import { Query, withApollo } from "react-apollo";
+import { withApollo } from "react-apollo";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemText from "@material-ui/core/ListItemText";

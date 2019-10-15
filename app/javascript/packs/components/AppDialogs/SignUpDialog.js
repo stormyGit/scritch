@@ -2,14 +2,11 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import CheckIcon from "@material-ui/icons/Check";
@@ -25,11 +22,9 @@ import { withRouter } from "react-router-dom";
 
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import SignUpAlternativeDialog from "./SignUpAlternativeDialog";
-import themeSelector from "../../themeSelector";
 
-import { Mutation, Query } from "react-apollo";
+import { Mutation } from "react-apollo";
 
-import Logo from "../Global/Logo";
 import { CREATE_SESSION } from "../../queries/globalQueries";
 
 const styles = theme => ({

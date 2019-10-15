@@ -1,22 +1,10 @@
 import React from "react";
-import PropTypes from "prop-types";
-import gql from "graphql-tag";
-import { Query, Mutation, withApollo } from "react-apollo";
-import Dialog from "@material-ui/core/Dialog";
+import { withApollo } from "react-apollo";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import Typography from "@material-ui/core/Typography";
-import CheckIcon from "@material-ui/icons/Check";
 
 import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
@@ -24,8 +12,6 @@ import EventMakerRequestDialogContent from "./EventMakerRequestDialogContent";
 import GlobalProgress from "../Global/GlobalProgress";
 import RequestFursuitDialogContent from "../Fursuits/RequestFursuitDialogContent";
 import withCurrentSession from "../withCurrentSession";
-
-import { CREATE_ASSET_REQUEST } from "../../queries/reportMutations";
 
 const styles = theme => ({
   selected: {

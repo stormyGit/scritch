@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import ResponsiveDialog from "../Global//ResponsiveDialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -13,7 +12,6 @@ import { withStyles } from "@material-ui/core/styles";
 import GlobalProgress from "../Global/GlobalProgress";
 import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
 import { Query } from "react-apollo";
-import FursuitAvatar from "./FursuitAvatar";
 
 const styles = theme => ({
   link: {

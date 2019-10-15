@@ -12,7 +12,6 @@ import FursuitModal from "../Fursuits/FursuitModal";
 import EditMakerDialog from "./EditMakerDialog";
 import MakerClaimDialog from "./MakerClaimDialog";
 
-import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import { LOAD_MAKER, LOAD_MAKER_DATE } from "../../queries/makerQueries";
 import {
   CREATE_MAKER_SUBSCRIPTION,
@@ -20,10 +19,7 @@ import {
 } from "../../queries/makerMutations";
 
 import withCurrentSession from "../withCurrentSession";
-import SocialButton from "../Global/SocialButton";
-import TwitterIcon from "../../icons/Twitter";
-import TelegramIcon from "../../icons/Telegram";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const styles = theme => ({
   container: {

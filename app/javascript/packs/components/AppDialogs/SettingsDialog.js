@@ -1,6 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
-import gql from "graphql-tag";
 import { Query, Mutation, withApollo } from "react-apollo";
 import { withRouter } from "react-router-dom";
 
@@ -20,10 +18,8 @@ import Button from "@material-ui/core/Button";
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
 
 import { withStyles } from "@material-ui/core/styles";
-import PageTitle from "../Global/PageTitle";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import themeSelector from "../../themeSelector";
 import GlobalProgress from "../Global/GlobalProgress";
@@ -31,11 +27,7 @@ import withCurrentSession from "../withCurrentSession";
 
 import { DELETE_USER, UPDATE_USER } from "../../queries/userMutations";
 import { GET_BLOCKED_USERS } from "../../queries/userQueries";
-import {
-  GET_SESSION,
-  GET_THEME,
-  DELETE_SESSION
-} from "../../queries/globalQueries";
+import { GET_SESSION, DELETE_SESSION } from "../../queries/globalQueries";
 
 const styles = theme => ({
   dangerButton: {

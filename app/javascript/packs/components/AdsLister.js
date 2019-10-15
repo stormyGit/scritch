@@ -1,42 +1,20 @@
 import React from "react";
-import gql from "graphql-tag";
 import { Query } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import Gallery from "react-grid-gallery";
 import uuidv4 from "uuid/v4";
 
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
-import Button from "@material-ui/core/Button";
 
 import { GET_ADVERTS } from "../queries/advertQueries";
 
 import EmptyList from "./Global/EmptyList";
-import LoadMoreButton from "./Global/LoadMoreButton";
 import PageTitle from "./Global/PageTitle";
-import UserCard from "./Users/UserCard";
 
 import withCurrentSession from "./withCurrentSession";
 
 import Typography from "@material-ui/core/Typography";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import CheckIcon from "@material-ui/icons/Check";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import CloseIcon from "@material-ui/icons/Close";
-import IconButton from "@material-ui/core/IconButton";
-import ResponsiveDialog from "./Global/ResponsiveDialog";
-
-import TagDialog from "./TagDialog";
 
 const styles = theme => ({
   root: {

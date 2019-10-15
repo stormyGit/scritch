@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import ResponsiveDialog from "../Global//ResponsiveDialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -11,8 +10,6 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import GlobalProgress from "../Global/GlobalProgress";
-import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
-import { Query } from "react-apollo";
 
 const styles = theme => ({
   link: {
@@ -79,9 +76,7 @@ class MediumDataDialog extends React.Component {
                   noWrap
                 >
                   <Link
-                    to={`/events/${medium.edition.event.slug}?edition=${
-                      medium.edition.id
-                    }`}
+                    to={`/events/${medium.edition.event.slug}?edition=${medium.edition.id}`}
                     className={classes.link}
                   >
                     {medium.edition.event.name} ({medium.edition.name})

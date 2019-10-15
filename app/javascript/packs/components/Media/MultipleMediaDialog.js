@@ -1,41 +1,21 @@
 import React from "react";
-import PropTypes from "prop-types";
-import gql from "graphql-tag";
 import { Query, Mutation } from "react-apollo";
-import Divider from "@material-ui/core/Divider";
-import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import Grow from "@material-ui/core/Grow";
-import Popper from "@material-ui/core/Popper";
-import MenuItem from "@material-ui/core/MenuItem";
-import MenuList from "@material-ui/core/MenuList";
 import TextField from "@material-ui/core/TextField";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Checkbox from "@material-ui/core/Checkbox";
 import Typography from "@material-ui/core/Typography";
-import uuidv4 from "uuid/v4";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import CheckIcon from "@material-ui/icons/Check";
 import InputAdornment from "@material-ui/core/InputAdornment";
 
-import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import IconButton from "@material-ui/core/IconButton";
 
 import Select from "react-select";
 
@@ -43,19 +23,12 @@ import withWidth from "@material-ui/core/withWidth";
 
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import CloseIcon from "@material-ui/icons/Close";
-import Fade from "@material-ui/core/Fade";
-
-import ChipInput from "material-ui-chip-input";
 
 import { withRouter, Link } from "react-router-dom";
 import Dropzone from "react-dropzone";
 
-import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
-
 import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
-import GlobalProgress from "../Global/GlobalProgress";
 
 import { CREATE_MEDIUM } from "../../queries/mediaMutations";
 import { LOAD_CATEGORIES } from "../../queries/categoryQueries";

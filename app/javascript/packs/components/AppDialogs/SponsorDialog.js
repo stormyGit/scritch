@@ -1,21 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
-import gql from "graphql-tag";
-import { Query, Mutation, withApollo } from "react-apollo";
-import Dialog from "@material-ui/core/Dialog";
+import { withApollo } from "react-apollo";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { Link, withRouter } from "react-router-dom";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import CheckIcon from "@material-ui/icons/Check";
+import { withRouter } from "react-router-dom";
 
 import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";

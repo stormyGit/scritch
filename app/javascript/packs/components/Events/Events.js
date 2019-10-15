@@ -19,8 +19,6 @@ import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
 import EventCard from "./EventCard";
 
-import { Link, withRouter } from "react-router-dom";
-
 import EventFilters from "./EventFilters";
 import EventFiltersMobile from "./EventFiltersMobile";
 
