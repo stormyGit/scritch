@@ -20,19 +20,25 @@ import {
   faTags
 } from "@fortawesome/free-solid-svg-icons";
 
-import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
-import {
-  CREATE_SUBSCRIPTION,
-  DELETE_SUBSCRIPTION
-} from "../../queries/fursuitMutations";
-
 import EditIcon from "@material-ui/icons/Edit";
+import BlockIcon from "@material-ui/icons/NotInterested";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
 import withCurrentSession from "../withCurrentSession";
 import { Link, withRouter } from "react-router-dom";
-import { GET_USER } from "../../queries/userQueries";
-import { UNBLOCK_USER, BLOCK_USER } from "../../queries/userMutations";
+import {
+  CREATE_FOLLOW,
+  DELETE_FOLLOW,
+  BLOCK_USER,
+  UNBLOCK_USER
+} from "../../queries/userMutations";
+import { GET_SESSION } from "../../queries/globalQueries";
+import {
+  GET_USER,
+  GET_FOLLOWERS_BY_USER,
+  GET_FOLLOWINGS_BY_USER
+} from "../../queries/userQueries";
+
 import EditProfileDialog from "./EditProfileDialog";
 import ReportDialog from "../AppDialogs/ReportDialog";
 
@@ -271,23 +277,51 @@ class User extends React.Component {
     });
   }
 
-  renderFollowButton(fursuit) {
+  renderFollowButton(user) {
     const { width } = this.props;
 
-    return null;
-    if (fursuit.followed) {
+    if (user.followed) {
       return (
         <Mutation
-          mutation={DELETE_SUBSCRIPTION}
-          update={(cache, { data: { createFollow } }) => {
+          mutation={DELETE_FOLLOW}
+          update={(cache, { data: { deleteFollow } }) => {
             cache.writeQuery({
-              query: LOAD_FURSUIT,
-              variables: { id: fursuit.id },
+              query: GET_USER,
+              variables: { id: user.id },
               data: {
-                fursuit: {
-                  ...fursuit,
-                  followed: false
+                user: {
+                  ...user,
+                  followed: false,
+                  followersCount: user.followersCount - 1
                 }
+              }
+            });
+
+            const { session } = cache.readQuery({ query: GET_SESSION });
+            cache.writeQuery({
+              query: GET_SESSION,
+              data: {
+                session: {
+                  ...session,
+                  user: {
+                    ...session.user,
+                    followingCount: session.user.followingCount - 1
+                  }
+                }
+              }
+            });
+
+            const { followersByUser } = cache.readQuery({
+              query: GET_FOLLOWERS_BY_USER,
+              variables: { userId: user.id }
+            });
+            cache.writeQuery({
+              query: GET_FOLLOWERS_BY_USER,
+              variables: { userId: user.id },
+              data: {
+                followersByUser: followersByUser.filter(
+                  follower => follower.id != this.props.currentSession.user.id
+                )
               }
             });
           }}
@@ -306,7 +340,7 @@ class User extends React.Component {
               onMouseLeave={() => this.setState({ showUnfollow: false })}
               onClick={() => {
                 deleteFollow({
-                  variables: { input: { fursuitId: fursuit.id } }
+                  variables: { input: { followableId: user.id } }
                 });
               }}
             >
@@ -318,16 +352,46 @@ class User extends React.Component {
     } else {
       return (
         <Mutation
-          mutation={CREATE_SUBSCRIPTION}
+          mutation={CREATE_FOLLOW}
           update={(cache, { data: { createFollow } }) => {
             cache.writeQuery({
-              query: LOAD_FURSUIT,
-              variables: { id: fursuit.id },
+              query: GET_USER,
+              variables: { id: user.id },
               data: {
-                fursuit: {
-                  ...fursuit,
-                  followed: true
+                user: {
+                  ...user,
+                  followed: true,
+                  followersCount: user.followersCount + 1
                 }
+              }
+            });
+
+            const { session } = cache.readQuery({ query: GET_SESSION });
+            cache.writeQuery({
+              query: GET_SESSION,
+              data: {
+                session: {
+                  ...session,
+                  user: {
+                    ...session.user,
+                    followingCount: session.user.followingCount + 1
+                  }
+                }
+              }
+            });
+
+            const { followersByUser } = cache.readQuery({
+              query: GET_FOLLOWERS_BY_USER,
+              variables: { userId: user.id }
+            });
+            cache.writeQuery({
+              query: GET_FOLLOWERS_BY_USER,
+              variables: { userId: user.id },
+              data: {
+                followersByUser: [
+                  this.props.currentSession.user,
+                  ...followersByUser
+                ]
               }
             });
           }}
@@ -339,7 +403,7 @@ class User extends React.Component {
                 variant="outlined"
                 onClick={() => {
                   createFollow({
-                    variables: { input: { fursuitId: fursuit.id } }
+                    variables: { input: { followableId: user.id } }
                   });
                 }}
               >
@@ -362,42 +426,50 @@ class User extends React.Component {
             {user.blocked ? (
               <Mutation mutation={UNBLOCK_USER}>
                 {(unblockUser, { data }) => (
-                  <Button
-                    variant="outlined"
-                    className={classes.dangerButton}
-                    onClick={() => {
-                      unblockUser({
-                        variables: { input: { userId: user.id } }
-                      }).then(() => {
-                        location.reload();
-                      });
-                    }}
-                  >
-                    {`Unblock ${user.name}`}
-                  </Button>
+                  <Tooltip title={`Unblock ${user.name}`}>
+                    <IconButton
+                      variant="outlined"
+                      className={classes.dangerButton}
+                      size="small"
+                      onClick={() => {
+                        unblockUser({
+                          variables: { input: { userId: user.id } }
+                        }).then(() => {
+                          location.reload();
+                        });
+                      }}
+                    >
+                      <BlockIcon />
+                    </IconButton>
+                  </Tooltip>
                 )}
               </Mutation>
             ) : (
               <Mutation mutation={BLOCK_USER}>
                 {(blockUser, { data }) => (
-                  <Button
-                    color="primary"
-                    variant="outlined"
-                    onClick={() => {
-                      blockUser({
-                        variables: { input: { userId: user.id } }
-                      }).then(() => {
-                        document.location.href = "/";
-                      });
-                    }}
-                  >
-                    {`Block ${user.name}`}
-                  </Button>
+                  <Tooltip title={`Block ${user.name}`}>
+                    <IconButton
+                      size="small"
+                      variant="outlined"
+                      onClick={() => {
+                        blockUser({
+                          variables: { input: { userId: user.id } }
+                        }).then(() => {
+                          document.location.href = "/";
+                        });
+                      }}
+                    >
+                      <BlockIcon />
+                    </IconButton>
+                  </Tooltip>
                 )}
               </Mutation>
             )}
             <Tooltip title={`Report ${user.name}`}>
-              <IconButton onClick={() => this.setState({ reportDialog: true })}>
+              <IconButton
+                size="small"
+                onClick={() => this.setState({ reportDialog: true })}
+              >
                 <OutlinedFlag />
               </IconButton>
             </Tooltip>
@@ -589,9 +661,7 @@ class User extends React.Component {
                   <Grid item xs={false} lg={2} />
                   <Grid item xs={12} lg={8}>
                     <Tabs
-                      variant={
-                        width !== "xl" && width !== "lg" ? "fullWidth" : ""
-                      }
+                      variant={"fullWidth"}
                       className={classes.tabsCenterer}
                       value={this.state.tab}
                       onChange={(e, value) => this.setState({ tab: value })}
