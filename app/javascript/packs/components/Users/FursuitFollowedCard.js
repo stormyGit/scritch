@@ -4,17 +4,11 @@ import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
-import Button from "@material-ui/core/Button";
-import Avatar from "@material-ui/core/Avatar";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import { Link, withRouter } from "react-router-dom";
-import UserAvatar from "./UserAvatar";
-import TruncatedText from "../Global/TruncatedText";
+import { Link } from "react-router-dom";
 import countFormat from "../../countFormat";
 
 const styles = theme => ({
@@ -22,7 +16,7 @@ const styles = theme => ({
     width: "100%",
     borderRadius: 0
   },
-  userLink: {
+  fursuitLink: {
     color: theme.palette.text.primary,
     textDecoration: "none"
   },
@@ -37,35 +31,41 @@ const styles = theme => ({
   },
   padder: {
     padding: theme.spacing.unit
+  },
+  avatar: {
+    borderRadius: "20%",
+    width: 64
   }
 });
 
-class MediumCard extends React.Component {
+class FursuitFollowedCard extends React.Component {
   renderHeader() {
-    const { classes, user } = this.props;
+    const { classes, fursuit } = this.props;
 
     return (
       <CardHeader
         className={classes.padder}
-        avatar={<UserAvatar user={user} size={64} />}
-        title={<Typography variant="h6">{user.name}</Typography>}
+        avatar={<img src={fursuit.avatar} className={classes.avatar} />}
+        title={<Typography variant="h6">{fursuit.name}</Typography>}
       />
     );
   }
 
   render() {
-    const { classes, user } = this.props;
+    const { classes, fursuit } = this.props;
 
     return (
       <Card className={classes.card} elevation={0}>
         <CardActionArea
-          component={props => <Link to={`/${user.slug}`} {...props} />}
+          component={props => (
+            <Link to={`/fursuits/${fursuit.slug}`} {...props} />
+          )}
         >
           <Grid container spacing={0} justify="space-between" wrap="nowrap">
             <Grid item>{this.renderHeader()}</Grid>
             <Grid item className={classes.videoCount}>
               <Typography variant="button">
-                {countFormat(user.mediaCount, "picture", "pictures")}
+                {countFormat(fursuit.mediaCount, "picture", "pictures")}
               </Typography>
             </Grid>
           </Grid>
@@ -75,8 +75,8 @@ class MediumCard extends React.Component {
   }
 }
 
-MediumCard.propTypes = {
+FursuitFollowedCard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(withWidth()(MediumCard));
+export default withStyles(styles)(withWidth()(FursuitFollowedCard));

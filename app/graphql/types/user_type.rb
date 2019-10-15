@@ -33,6 +33,8 @@ module Types
     field :media_count, Integer, null: false
     field :followers_count, Integer, null: false
     field :following_count, Integer, null: false
+    field :following_makers_count, Integer, null: false
+    field :following_fursuits_count, Integer, null: false
     field :fursuits_count, Integer, null: false
     field :likes_count, Integer, null: false
 
@@ -101,6 +103,14 @@ module Types
 
     def following_count
       FollowPolicy::Scope.new(context[:current_user], Follow.where(follower_id: object)).resolve.count
+    end
+
+    def following_makers_count
+      object.followed_makers.count
+    end
+
+    def following_fursuits_count
+      object.subscriptions.count
     end
 
     def fursuits_count

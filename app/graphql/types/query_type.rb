@@ -133,7 +133,21 @@ module Types
       argument :limit, Integer, required: true
     end
 
-    field :followings_by_user, [UserType], null: false do
+    field :followings_profiles_by_user, [UserType], null: false do
+      description "List followings by user"
+      argument :user_id, ID, required: true
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
+    field :followings_makers_by_user, [MakerType], null: false do
+      description "List followings by user"
+      argument :user_id, ID, required: true
+      argument :offset, Integer, required: true
+      argument :limit, Integer, required: true
+    end
+
+    field :followings_fursuits_by_user, [FursuitType], null: false do
       description "List followings by user"
       argument :user_id, ID, required: true
       argument :offset, Integer, required: true
@@ -730,11 +744,24 @@ module Types
       User.joins("JOIN unnest('{#{follows.pluck(:follower_id).map { |uuid| sanitize_sql(uuid) }.join(",")}}'::uuid[]) WITH ORDINALITY t(uuid, ord) USING (uuid)").order("t.ord")
     end
 
-    def followings_by_user(arguments = {})
+    def followings_profiles_by_user(arguments = {})
       follows = FollowPolicy::Scope.new(context[:current_user], Follow.where(follower_id: User.find(arguments[:user_id]))).resolve.order(created_at: :desc)
 
       User.joins("JOIN unnest('{#{follows.pluck(:followable_id).map { |uuid| sanitize_sql(uuid) }.join(",")}}'::uuid[]) WITH ORDINALITY t(uuid, ord) USING (uuid)").order("t.ord")
     end
+
+    def followings_makers_by_user(arguments = {})
+      follows = User.find(arguments[:user_id]).followed_makers
+
+      follows
+    end
+
+    def followings_fursuits_by_user(arguments = {})
+      follows = User.find(arguments[:user_id]).subscriptions
+
+      follows
+    end
+
 
     def comments_by_medium(arguments = {})
       raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], Medium.find(arguments[:medium_id])).show?

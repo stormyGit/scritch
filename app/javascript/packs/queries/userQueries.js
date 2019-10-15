@@ -69,6 +69,8 @@ export const GET_USER = gql`
       }
       followersCount
       followingCount
+      followingMakersCount
+      followingFursuitsCount
       likesCount
       blocked
     }
@@ -130,16 +132,48 @@ export const GET_FOLLOWERS_BY_USER = gql`
   }
 `;
 
-export const GET_FOLLOWINGS_BY_USER = gql`
-  query GetFollowingsByUser($userId: ID!, $offset: Int!, $limit: Int!) {
-    followingsByUser(userId: $userId, offset: $offset, limit: $limit)
-      @connection(key: "followingsByUser", filter: ["userId"]) {
+export const GET_FOLLOWINGS_PROFILES_BY_USER = gql`
+  query GetFollowingsProfilesByUser($userId: ID!, $offset: Int!, $limit: Int!) {
+    followingsProfilesByUser(userId: $userId, offset: $offset, limit: $limit)
+      @connection(key: "followingsProfilesByUser", filter: ["userId"]) {
       id
       slug
       name
       avatar
       bio
       mediaCount
+    }
+  }
+`;
+
+export const GET_FOLLOWINGS_MAKERS_BY_USER = gql`
+  query GetFollowingsMakersByUser($userId: ID!, $offset: Int!, $limit: Int!) {
+    followingsMakersByUser(userId: $userId, offset: $offset, limit: $limit)
+      @connection(key: "followingsMakersByUser", filter: ["userId"]) {
+      id
+      slug
+      name
+      avatar
+      country
+      fursuitsNumber
+    }
+  }
+`;
+
+export const GET_FOLLOWINGS_FURSUITS_BY_USER = gql`
+  query GetFollowingsFursuitsByUser($userId: ID!, $offset: Int!, $limit: Int!) {
+    followingsFursuitsByUser(userId: $userId, offset: $offset, limit: $limit)
+      @connection(key: "followingsFursuitsByUser", filter: ["userId"]) {
+      id
+      slug
+      name
+      avatar
+      mediaCount
+      makers {
+        id
+        slug
+        name
+      }
     }
   }
 `;
