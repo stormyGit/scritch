@@ -47,6 +47,7 @@ class MakerFollowedCard extends React.Component {
         className={classes.padder}
         avatar={<img src={maker.avatar} className={classes.avatar} />}
         title={<Typography variant="h6">{maker.name}</Typography>}
+        subheader={maker.country}
       />
     );
   }

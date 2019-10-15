@@ -795,6 +795,7 @@ class User extends React.Component {
 
           return (
             <React.Fragment>
+              <div style={{ padding: 8 }} />
               <Grid container spacing={8}>
                 {data.followersByUser.map(follower => (
                   <Grid item xs={12} lg={4} key={follower.id}>
