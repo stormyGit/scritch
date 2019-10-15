@@ -85,14 +85,18 @@ function MediaUser({ classes, width, userId }) {
       variables={queryArg}
     >
       {({ data, loading, error, fetchMore }) => {
-        if (loading || error || !data) return null;
+        if (loading || error || !data) {
+          console.log(error, loading);
+          return null;
+        }
 
         const { userMedia } = data;
 
+        console.log(data);
         return (
           <React.Fragment>
             <div
-              style={{ height: "calc(100vh - 201px)" }}
+              style={{ height: "calc(100vh - 128px)" }}
               className={
                 width === "sm" || width == "xs"
                   ? classes.mobile_hide_sm

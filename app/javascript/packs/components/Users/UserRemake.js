@@ -11,14 +11,8 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Tooltip from "@material-ui/core/Tooltip";
 import PageTitle from "../Global/PageTitle";
-import MediaFursuit from "../Media/MediaFursuit";
+import MediaUser from "../Media/MediaUser";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPaw,
-  faStar,
-  faUsers,
-  faTags
-} from "@fortawesome/free-solid-svg-icons";
 
 import EditIcon from "@material-ui/icons/Edit";
 import BlockIcon from "@material-ui/icons/NotInterested";
@@ -41,6 +35,7 @@ import {
 
 import EditProfileDialog from "./EditProfileDialog";
 import ReportDialog from "../AppDialogs/ReportDialog";
+import FursuitUserCard from "../Fursuits/FursuitUserCard";
 
 const styles = theme => ({
   container: {
@@ -162,6 +157,11 @@ const styles = theme => ({
   userTitle: {
     fontWeight: 200
   },
+  userWebsite: {
+    fontWeight: 200,
+    textDecoration: "none",
+    cursor: "pointer"
+  },
   userTitlePadded: {
     fontWeight: 200,
     paddingLeft: theme.spacing.unit * 2
@@ -207,61 +207,22 @@ const Avatar = withStyles(styles)(({ avatar, classes, avatarClass }) => {
   );
 });
 
-const Metrics = withStyles(styles)(
-  withWidth()(({ fursuit, classes, width }) =>
-    width !== "lg" && width !== "xl" ? (
-      <div className={classes.headerTitlesLeft}>
-        <Tooltip title="Scritches">
-          <Typography variant="subtitle1">
-            <FontAwesomeIcon icon={faPaw} /> {fursuit.likesCount}
-          </Typography>
-        </Tooltip>
-        <Tooltip title="Favorites">
-          <Typography variant="subtitle1" className={classes.dataSpacer}>
-            <FontAwesomeIcon icon={faStar} /> {fursuit.favesCount}
-          </Typography>
-        </Tooltip>
-        <Tooltip title="Followers">
-          <Typography variant="subtitle1" className={classes.dataSpacer}>
-            <FontAwesomeIcon icon={faUsers} /> {fursuit.followersCount}
-          </Typography>
-        </Tooltip>
-        <Tooltip title="Pictures">
-          <Typography variant="subtitle1" className={classes.dataSpacer}>
-            <FontAwesomeIcon icon={faTags} /> {fursuit.mediaCount}
-          </Typography>
-        </Tooltip>
-      </div>
-    ) : (
-      <div className={classes.headerTitlesLeft}>
-        <Tooltip title="Scritches">
-          <Typography variant="subtitle1">
-            <strong>{fursuit.likesCount}</strong> scritches
-          </Typography>
-        </Tooltip>
-        <Tooltip title="Favorites">
-          <Typography variant="subtitle1" className={classes.dataSpacer}>
-            <strong>{fursuit.favesCount}</strong> faves
-          </Typography>
-        </Tooltip>
-        <Tooltip title="Followers">
-          <Typography variant="subtitle1" className={classes.dataSpacer}>
-            <strong>{fursuit.followersCount}</strong> followers
-          </Typography>
-        </Tooltip>
-        <Tooltip title="Pictures">
-          <Typography variant="subtitle1" className={classes.dataSpacer}>
-            <strong>{fursuit.mediaCount}</strong> media
-          </Typography>
-        </Tooltip>
-      </div>
-    )
-  )
-);
+const UserMedia = React.memo(({ userId }) => <MediaUser userId={userId} />);
 
-const FursuitMedia = React.memo(({ fursuitId }) => (
-  <MediaFursuit fursuitId={fursuitId} />
-));
+const UserFursuits = React.memo(({ user }) => {
+  return (
+    <React.Fragment>
+      <div style={{ padding: 8 }} />
+      <Grid container spacing={16}>
+        {user.fursuits.map(fursuit => (
+          <Grid item xs={12} lg={6} key={fursuit.id}>
+            <FursuitUserCard fursuit={fursuit} user={user} />
+          </Grid>
+        ))}
+      </Grid>
+    </React.Fragment>
+  );
+});
 
 class User extends React.Component {
   state = {
@@ -477,7 +438,6 @@ class User extends React.Component {
         )}
         {user.id == currentSession.user.id && (
           <IconButton
-            color="primary"
             size="small"
             variant="outlined"
             onClick={() => this.setState({ editProfileDialog: true })}
@@ -508,7 +468,6 @@ class User extends React.Component {
                 {user.isModerator && (
                   <Typography
                     variant="subtitle1"
-                    color="danger"
                     className={classes.userTitlePaddedAdmin}
                     noWrap
                   >
@@ -534,8 +493,19 @@ class User extends React.Component {
                   {this.renderActionButton(user)}
                 </div>
               </div>
-              {false && <Metrics fursuit={fursuit} />}
-              {false && <SubtitleRow fursuit={fursuit} />}{" "}
+              <div className={classes.headerTitles}>
+                {user.website && (
+                  <a
+                    href={user.website}
+                    target="_blank"
+                    className={classes.userWebsite}
+                  >
+                    <Typography variant="subtitle1" color="primary">
+                      Website
+                    </Typography>
+                  </a>
+                )}
+              </div>
               <div className={classes.headerTitles}>
                 <Typography variant="subtitle1" className={classes.userTitle}>
                   {user.bio}
@@ -570,7 +540,6 @@ class User extends React.Component {
                 {user.isModerator && (
                   <Typography
                     variant="subtitle1"
-                    color="danger"
                     className={classes.userTitlePaddedAdmin}
                     noWrap
                   >
@@ -589,22 +558,27 @@ class User extends React.Component {
                 )}
               </div>
               <div>
-                {user.id == currentSession.user.id &&
-                  this.renderActionButton(user)}
-                <div style={{ padding: 4 }} />
                 {user.id != currentSession.user.id &&
                   this.renderFollowButton(user)}
+                {this.renderActionButton(user)}
+              </div>
+              <div className={classes.headerTitles}>
+                {user.website && (
+                  <a
+                    href={user.website}
+                    target="_blank"
+                    className={classes.userWebsite}
+                  >
+                    <Typography variant="subtitle1" color="primary">
+                      Website
+                    </Typography>
+                  </a>
+                )}
               </div>
             </Grid>
             <Grid item xs={12}>
-              {false && <Metrics fursuit={fursuit} />}
-              {false && <SubtitleRow fursuit={fursuit} />}
               <div className={classes.headerTitles}>
-                <Typography
-                  variant="subtitle1"
-                  className={classes.userTitle}
-                  noWrap
-                >
+                <Typography variant="subtitle1" className={classes.userTitle}>
                   {user.bio}
                 </Typography>
               </div>
@@ -661,7 +635,7 @@ class User extends React.Component {
                   <Grid item xs={false} lg={2} />
                   <Grid item xs={12} lg={8}>
                     <Tabs
-                      variant={"fullWidth"}
+                      variant="fullWidth"
                       className={classes.tabsCenterer}
                       value={this.state.tab}
                       onChange={(e, value) => this.setState({ tab: value })}
@@ -697,10 +671,10 @@ class User extends React.Component {
                   </Grid>
                   <Grid item xs={false} lg={2} />
                 </Grid>
-
-                {this.state.tab === "media" && (
-                  <UserMedia userId={match.params.id} />
+                {this.state.tab === "pictures" && (
+                  <UserMedia userId={user.id} />
                 )}
+                {this.state.tab === "fursuits" && <UserFursuits user={user} />}
                 <EditProfileDialog
                   user={data.user}
                   open={this.state.editProfileDialog}

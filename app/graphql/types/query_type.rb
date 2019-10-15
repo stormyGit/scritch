@@ -626,7 +626,7 @@ module Types
     end
 
     def user_media(arguments = {})
-      media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
+      media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve
       media = media.where(user_id: arguments[:user_id])
 
       media.order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
