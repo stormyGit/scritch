@@ -281,7 +281,7 @@ class EditMediumDialog extends React.Component {
                           >
                             <Grid item>
                               <Typography variant="h6" noWrap color={"inherit"}>
-                                {`Picture #${medium.id.split("-")[0]}`}
+                                {`Picture #${data.medium.id.split("-")[0]}`}
                               </Typography>
                             </Grid>
                             <Grid item>
@@ -778,7 +778,6 @@ class EditMediumDialog extends React.Component {
                                       }
                                     }).then(() => {
                                       onClose();
-                                      location.reload();
                                     });
                                   }}
                                 >

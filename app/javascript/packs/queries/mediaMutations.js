@@ -48,23 +48,42 @@ export const UPDATE_MEDIUM = gql`
         slug
         title
         description
+        picture
+        thumbnail
+        width
+        height
+        exif
         commentsCount
+        completion
+        fursuitsCount
         likesCount
+        photographerSlug
+        photographerString
         liked
+        tagger
+        tagLocked
         favesCount
         faved
         viewsCount
         createdAt
-        picture
-        completion
-        fursuitsCount
-        thumbnail
-        width
-        height
-        width
-        height
+        resized
         commentsDisabled
         tagList
+        fursuits {
+          id
+          name
+          avatar
+          isHybrid
+          species {
+            id
+            name
+          }
+          slug
+        }
+        subEvent {
+          id
+          name
+        }
         category {
           id
           name
@@ -74,6 +93,7 @@ export const UPDATE_MEDIUM = gql`
           name
           event {
             id
+            slug
             name
           }
         }
@@ -83,11 +103,6 @@ export const UPDATE_MEDIUM = gql`
           name
           avatar
         }
-        fursuits {
-          id
-          name
-          slug
-        }
         relatedMedia {
           id
           slug
@@ -95,8 +110,6 @@ export const UPDATE_MEDIUM = gql`
           description
           picture
           thumbnail
-          width
-          height
           width
           height
           createdAt
