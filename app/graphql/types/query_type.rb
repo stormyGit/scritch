@@ -545,6 +545,10 @@ module Types
     def media(arguments = {})
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
 
+      if arguments[:faves]
+        media = media.joins(:faves).where("faves.user_id = ?", context[:current_user].uuid).order("faves.created_at DESC")
+      end
+
       media =
         case arguments[:sort]
         when 'latest'
@@ -637,13 +641,6 @@ module Types
     def fursuit_media(arguments = {})
       media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
       media = media.joins(:fursuits).where("fursuits.slug = ? AND fursuits.visible = ?", arguments[:fursuit_id], true)
-
-      media.order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
-    end
-
-    def faved_media(arguments = {})
-      media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
-      media = media.joins(:faves).where("faves.user_id = ?", context[:current_user].uuid)
 
       media.order(created_at: :desc).offset(arguments[:offset]).limit(arguments[:limit])
     end

@@ -87,23 +87,6 @@ export const GET_MEDIA = gql`
   }
 `;
 
-export const GET_FAVED_MEDIA = gql`
-  query FavedMedia($limit: Int!, $offset: Int!) {
-    favedMedia(limit: $limit, offset: $offset) {
-      id
-      slug
-      title
-      thumbnail
-      completion
-      createdAt
-      commentsCount
-      likesCount
-      favesCount
-      viewsCount
-    }
-  }
-`;
-
 export const GET_EVENT_MEDIA = gql`
   query EventMedia($eventId: ID!, $editionId: ID, $limit: Int!, $offset: Int!) {
     eventMedia(

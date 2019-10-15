@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Query } from "react-apollo";
-import { GET_FAVED_MEDIA } from "../../queries/mediaQueries";
+import { GET_MEDIA } from "../../queries/mediaQueries";
 
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
@@ -60,17 +60,18 @@ const styles = theme => ({
 });
 
 const DEFAULT_FILTERS = {
-  sort: "latest",
   eventId: null,
   editionId: null,
   categoryId: null,
   subEventId: null,
   gifs: false,
+  faves: true,
   fursuits: []
 };
 
 function MediaFaved({ classes, width }) {
   const [queryArg, setQueryArg] = useState({
+    ...DEFAULT_FILTERS,
     offset: 0,
     limit: 48
   });
@@ -79,15 +80,11 @@ function MediaFaved({ classes, width }) {
 
   return (
     <React.Fragment>
-      <Query
-        query={GET_FAVED_MEDIA}
-        fetchPolicy="network-only"
-        variables={queryArg}
-      >
+      <Query query={GET_MEDIA} fetchPolicy="network-only" variables={queryArg}>
         {({ data, loading, error, fetchMore }) => {
           if (loading || error || !data) return null;
 
-          const { favedMedia } = data;
+          const { media } = data;
 
           return (
             <React.Fragment>
@@ -100,27 +97,24 @@ function MediaFaved({ classes, width }) {
                 }
               >
                 <Media
-                  media={favedMedia}
+                  media={media}
                   limit={queryArg.limit}
                   hasMore={hasMore}
                   fetchMore={() =>
                     fetchMore({
                       variables: {
-                        offset: favedMedia.length,
+                        offset: media.length,
                         limit: queryArg.limit
                       },
                       updateQuery: (prev, { fetchMoreResult }) => {
                         if (!fetchMoreResult) return prev;
 
-                        if (fetchMoreResult.favedMedia.length === 0) {
+                        if (fetchMoreResult.media.length === 0) {
                           setHasMore(false);
                         } else {
                           return {
                             ...prev,
-                            favedMedia: [
-                              ...prev.favedMedia,
-                              ...fetchMoreResult.favedMedia
-                            ]
+                            media: [...prev.media, ...fetchMoreResult.media]
                           };
                         }
                       }
