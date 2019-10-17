@@ -58,46 +58,17 @@ class Subscriptions extends React.Component {
     return (
       <React.Fragment>
         <PageTitle>Subscriptions</PageTitle>
-        <Paper className={classes.root}>
-          <Grid container spacing={0}>
-            <Grid item xs lg />
-            <Grid item xs={12} lg={8}>
-              <Tabs
-                value={this.state.tab}
-                onChange={(e, value) => this.setState({ tab: value })}
-                indicatorColor="secondary"
-                textColor="secondary"
-                fullWidth
-              >
-                <Tab
-                  value="media"
-                  label={
-                    width === "xl" || width === "lg"
-                      ? "Photographer Uploads"
-                      : "Photographers"
-                  }
-                />
-                <Tab
-                  value="fursuits"
-                  label={
-                    width === "xl" || width === "lg"
-                      ? "Featuring Followed Fursuits"
-                      : "Fursuits"
-                  }
-                />
-                <Tab
-                  value="makers"
-                  label={
-                    width === "xl" || width === "lg"
-                      ? "New Fursuits by Followed Makers"
-                      : "Maker Suits"
-                  }
-                />
-              </Tabs>
-            </Grid>
-            <Grid item xs lg />
-          </Grid>
-        </Paper>
+        <Tabs
+          value={this.state.tab}
+          onChange={(e, value) => this.setState({ tab: value })}
+          centered
+          textColor="textPrimary"
+          variant={width === "xl" || width === "lg" ? "" : "fullWidth"}
+        >
+          <Tab value="media" label={"Profiles"} />
+          <Tab value="fursuits" label={"Fursuits"} />
+          <Tab value="makers" label={"Maker"} />
+        </Tabs>
         <Grid container className={classes.root} spacing={8} justify="center">
           <Grid item xs={12}>
             {this.state.tab === "media" && this.renderMedia()}

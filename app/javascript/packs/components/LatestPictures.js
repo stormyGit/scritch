@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import FrontMedia from "./Media/FrontMedia";
+import RandomFrontMedia from "./Media/RandomFrontMedia";
 import PageTitle from "./Global/PageTitle";
 import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import withWidth from "@material-ui/core/withWidth";
 import { withStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
 
 const styles = theme => ({
   font: {
-    fontWeight: 200
+    fontWeight: 200,
+    cursor: "pointer"
   },
   link: {
-    textDecoration: "none"
+    textDecoration: "none",
+    textAlign: "center"
   },
   linkTypo: {
     fontWeight: 200,
@@ -25,47 +26,89 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
     display: "flex",
     alignItems: "center"
+  },
+  rootMobile: {
+    padding: theme.spacing.unit
+  },
+  titlePadder: {
+    paddingLeft: theme.spacing.unit * 4,
+    paddingRight: theme.spacing.unit * 4
+  },
+  titlePadderMobile: {
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2
   }
 });
 
-const Padder = () => <div style={{ padding: 16 }} />;
+const Padder = () => <div style={{ padding: 8 }} />;
 
-class LatestPictures extends React.Component {
-  render() {
-    const { width, classes } = this.props;
-    let typoSize = width === "xs" || width === "sm" ? "h5" : "h4";
+function LatestPictures({ classes, width }) {
+  const [homeTab, setHomeTab] = useState("latest");
+  let typoSize = width === "xs" || width === "sm" ? "h5" : "h4";
 
-    return (
-      <React.Fragment>
-        <PageTitle>Home</PageTitle>
-        <div className={classes.root}>
-          <Grid container spacing={40} className={classes.centeredTitle}>
-            <Grid item xs={12} lg={6}>
-              <Typography variant={typoSize} className={classes.font}>
-                Latest
-              </Typography>
-              <Padder />
-              <FrontMedia filter="latest" />
-            </Grid>
-            <Grid item xs={12} lg={6}>
-              <Typography variant={typoSize} className={classes.font}>
-                Most Scritched (Last 30 Days)
-              </Typography>
-              <Padder />
-              <FrontMedia filter="scritched" />
-            </Grid>
-            <Grid item xs={12} lg={12}>
-              <Link to="/pictures" className={classes.link}>
-                <Typography variant={typoSize} className={classes.linkTypo}>
-                  Browse more Media...
-                </Typography>
-              </Link>
-            </Grid>
-          </Grid>
+  return (
+    <React.Fragment>
+      <PageTitle>Home</PageTitle>
+      <div
+        className={
+          width === "xs" || width === "sm" ? classes.rootMobile : classes.root
+        }
+      >
+        <div
+          onClick={() => setHomeTab("latest")}
+          className={
+            width === "xs" || width === "sm"
+              ? classes.titlePadderMobile
+              : classes.titlePadder
+          }
+        >
+          <Typography
+            variant={typoSize}
+            color={homeTab === "latest" ? "primary" : "textPrimary"}
+            className={classes.font}
+          >
+            Latest
+          </Typography>
         </div>
-      </React.Fragment>
-    );
-  }
+        <div
+          onClick={() => setHomeTab("scritched")}
+          className={
+            width === "xs" || width === "sm"
+              ? classes.titlePadderMobile
+              : classes.titlePadder
+          }
+        >
+          <Typography
+            variant={typoSize}
+            color={homeTab === "scritched" ? "primary" : "textPrimary"}
+            className={classes.font}
+          >
+            Most Scritched (Last 30 Days)
+          </Typography>
+        </div>
+        <div
+          onClick={() => setHomeTab("random")}
+          className={
+            width === "xs" || width === "sm"
+              ? classes.titlePadderMobile
+              : classes.titlePadder
+          }
+        >
+          <Typography
+            variant={typoSize}
+            color={homeTab === "random" ? "primary" : "textPrimary"}
+            className={classes.font}
+          >
+            Random
+          </Typography>
+        </div>
+      </div>
+      <Padder />
+      {homeTab === "latest" && <FrontMedia filter="latest" />}
+      {homeTab === "scritched" && <FrontMedia filter="scritched" />}
+      {homeTab === "random" && <RandomFrontMedia filter="random" />}
+    </React.Fragment>
+  );
 }
 
 export default withStyles(styles)(withWidth()(LatestPictures));

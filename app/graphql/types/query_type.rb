@@ -61,6 +61,7 @@ module Types
       description "List media"
       argument :filter, String, required: true
       argument :limit, Integer, required: true
+      argument :uuid, ID, required: false
     end
 
     field :faved_media, [MediumType], null: false do
@@ -625,17 +626,21 @@ module Types
     end
 
     def front_media(arguments = {})
-      media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
+      if arguments[:filter] == "random"
+        media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.order("RANDOM()")
+      else
+        media = MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.includes(:user)
 
-      media =
-        case arguments[:filter]
-        when 'latest'
-          media.order("media.created_at DESC, media.created_at DESC")
-        when 'scritches'
-          media.where("media.created_at > ?", 30.days.ago).order(["media.likes_count DESC, media.created_at DESC"])
-        else
-          media
-        end
+        media =
+          case arguments[:filter]
+          when 'latest'
+            media.order("media.created_at DESC, media.created_at DESC")
+          when 'scritched'
+            media.where("media.created_at > ?", 30.days.ago).order(["media.likes_count DESC, media.created_at DESC"])
+          else
+            media
+          end
+      end
 
       media.limit(arguments[:limit])
     end

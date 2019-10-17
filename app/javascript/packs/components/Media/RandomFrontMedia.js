@@ -3,7 +3,9 @@ import { Query } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import { withRouter, Link } from "react-router-dom";
+import uuidv4 from "uuid/v4";
 
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
@@ -23,10 +25,9 @@ const styles = theme => ({
     textAlign: "center",
     alignItems: "center"
   },
-  clearSubsButton: {
+  gridItem: {
     textAlign: "center",
-    alignItems: "center",
-    top: 0
+    alignItems: "center"
   },
   font: {
     fontWeight: 200,
@@ -41,6 +42,10 @@ const styles = theme => ({
 const Padder = () => <div style={{ padding: 8 }} />;
 
 class FrontMedia extends React.Component {
+  state = {
+    uuid: null
+  };
+
   renderResults({ media }) {
     if (media.length === 0) {
       const { location } = this.props;
@@ -81,7 +86,8 @@ class FrontMedia extends React.Component {
           fetchPolicy="network-only"
           variables={{
             filter,
-            limit
+            limit,
+            uuid: this.state.uuid
           }}
         >
           {({ data, loading, error }) => {
@@ -103,6 +109,16 @@ class FrontMedia extends React.Component {
             );
           }}
         </Query>
+        <Padder />
+        <Padder />
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <Button
+            variant="outlined"
+            onClick={() => this.setState({ uuid: uuidv4() })}
+          >
+            Refresh Random Media
+          </Button>
+        </div>
         <Padder />
         <Padder />
         <Link to="/pictures" className={classes.link}>

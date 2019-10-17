@@ -148,8 +148,8 @@ export const GET_FURSUIT_MEDIA = gql`
 `;
 
 export const GET_FRONT_MEDIA = gql`
-  query FrontMedia($filter: String!, $limit: Int!) {
-    frontMedia(filter: $filter, limit: $limit) {
+  query FrontMedia($filter: String!, $limit: Int!, $uuid: ID) {
+    frontMedia(filter: $filter, limit: $limit, uuid: $uuid) {
       id
       slug
       title
