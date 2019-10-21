@@ -114,22 +114,20 @@ class FrontMedia extends React.Component {
         <div style={{ width: "100%", textAlign: "center" }}>
           <Button
             variant="outlined"
+            size="small"
             onClick={() => this.setState({ uuid: uuidv4() })}
           >
             Refresh Random Media
           </Button>
         </div>
         <Padder />
-        <Padder />
-        <Link to="/pictures" className={classes.link}>
-          <Typography
-            variant={typoSize}
-            color="primary"
-            className={classes.font}
-          >
-            Browse more Media...
-          </Typography>
-        </Link>
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <Link to="/pictures" className={classes.link}>
+            <Button variant="outlined" size="large" className={classes.font}>
+              Browse more Media
+            </Button>
+          </Link>
+        </div>
       </React.Fragment>
     );
   }

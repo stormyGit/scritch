@@ -391,7 +391,6 @@ class User extends React.Component {
             return null;
           }
 
-          console.log(data);
           const following = data.followingsProfilesByUser;
 
           if (following.length === 0) {
@@ -451,7 +450,6 @@ class User extends React.Component {
             return null;
           }
 
-          console.log(data);
           const following = data.followingsFursuitsByUser;
 
           if (following.length === 0) {
@@ -513,7 +511,6 @@ class User extends React.Component {
             return null;
           }
 
-          console.log(data);
           const following = data.followingsMakersByUser;
 
           if (following.length === 0) {

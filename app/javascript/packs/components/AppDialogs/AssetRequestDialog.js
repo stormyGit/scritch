@@ -68,12 +68,12 @@ class AssetRequestDialog extends React.Component {
       >
         <GlobalProgress absolute />
 
-        <DialogTitle>{`Request Creation of a New: ${
+        <DialogTitle>{`Request Creation of a New ${
           this.state.assetType ? this.state.assetType : assetType
         }`}</DialogTitle>
         {assetType == "Asset" && (
           <DialogContent>
-            {!this.state.assetType && (
+            {(!this.state.assetType || this.state.assetType === "Asset") && (
               <React.Fragment>
                 <Typography variant="subtitle1">
                   Before clicking one of the buttons below, check that there

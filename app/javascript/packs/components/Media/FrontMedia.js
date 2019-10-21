@@ -3,6 +3,7 @@ import { Query } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import Button from "@material-ui/core/Button";
 import { withRouter, Link } from "react-router-dom";
 
 import queryString from "query-string";
@@ -105,15 +106,13 @@ class FrontMedia extends React.Component {
         </Query>
         <Padder />
         <Padder />
-        <Link to="/pictures" className={classes.link}>
-          <Typography
-            variant={typoSize}
-            color="primary"
-            className={classes.font}
-          >
-            Browse more Media...
-          </Typography>
-        </Link>
+        <div style={{ width: "100%", textAlign: "center" }}>
+          <Link to="/pictures" className={classes.link}>
+            <Button variant="outlined" size="large" className={classes.font}>
+              Browse more Media
+            </Button>
+          </Link>
+        </div>
       </React.Fragment>
     );
   }

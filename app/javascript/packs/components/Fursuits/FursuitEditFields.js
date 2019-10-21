@@ -10,8 +10,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import { Link } from "react-router-dom";
-
 import { fursuitColors } from "../../fursuitColors";
 import { fursuitEyes } from "../../fursuitEyes";
 
@@ -729,7 +727,6 @@ class FursuitEditFields extends React.Component {
               });
             }}
           />
-          {console.log(this.state.maker)}
           <MakerFilter
             classes={classes}
             inRequest={inRequest}
