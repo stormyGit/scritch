@@ -13,6 +13,7 @@ const styles = theme => {
     },
     drawerPaperWide: {
       width: 300,
+      overflowX: "hidden",
       position: "fixed",
       background:
         theme.palette.type === "dark"
@@ -23,6 +24,7 @@ const styles = theme => {
     drawerPaperShort: {
       width: 60,
       position: "fixed",
+      overflowX: "hidden",
       background: "rgba(0, 0, 0, 0)",
       borderRightWidth: 0
     },

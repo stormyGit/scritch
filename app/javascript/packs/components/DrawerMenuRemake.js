@@ -108,7 +108,10 @@ const DrawerItem = ({ classes, label, icon, path, onClick, type }) => {
           </ListItemIcon>
           <ListItemText
             primary={label}
-            primaryTypographyProps={{ className: classes.text }}
+            primaryTypographyProps={{
+              className: classes.text,
+              noWrap: true
+            }}
           />
         </ListItem>
       </Link>
@@ -121,7 +124,7 @@ const DrawerItem = ({ classes, label, icon, path, onClick, type }) => {
         </ListItemIcon>
         <ListItemText
           primary={label}
-          primaryTypographyProps={{ className: classes.text }}
+          primaryTypographyProps={{ className: classes.text, noWrap: true }}
         />
       </ListItem>
     );
@@ -319,28 +322,28 @@ class DrawerMenuRemake extends React.Component {
         <div
           className={classes.drawerSpacer}
           style={{
-            justifyContent:
-              width === "lg" || width === "xl"
-                ? "space-between"
-                : "space-between"
+            justifyContent: "space-between"
           }}
         >
           {itemsPack.map((block, index) => (
-            <div key={`block-${index}`}>
-              <List disablePadding={width !== "lg" && width !== "xl"}>
-                {block.map(item => (
-                  <DrawerItem
-                    classes={classes}
-                    onClick={item.onClick}
-                    label={item.label}
-                    path={item.path}
-                    icon={item.icon}
-                    type={item.type}
-                    key={`${index}-${item.label}`}
-                  />
-                ))}
-              </List>
-            </div>
+            <React.Fragment>
+              <div key={`block-${index}`}>
+                <List disablePadding={width !== "lg" && width !== "xl"}>
+                  {block.map(item => (
+                    <DrawerItem
+                      classes={classes}
+                      onClick={item.onClick}
+                      label={item.label}
+                      path={item.path}
+                      icon={item.icon}
+                      type={item.type}
+                      key={`${index}-${item.label}`}
+                    />
+                  ))}
+                </List>
+              </div>
+              {width !== "xl" && width !== "lg" && <Divider />}
+            </React.Fragment>
           ))}
           <SettingsDialog
             open={this.state.settingsDialog}
