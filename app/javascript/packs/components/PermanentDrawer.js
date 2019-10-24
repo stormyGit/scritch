@@ -6,7 +6,6 @@ import DrawerMenuRemake from "./DrawerMenuRemake";
 const wideDrawer = 60;
 
 const styles = theme => {
-  console.log(theme);
   return {
     drawerPadder: {
       height: "100%",
