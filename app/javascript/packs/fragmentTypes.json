@@ -1,0 +1,60 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "UNION",
+        "name": "ActivityTrackable",
+        "possibleTypes": [
+          {
+            "name": "User"
+          },
+          {
+            "name": "Like"
+          },
+          {
+            "name": "Follow"
+          },
+          {
+            "name": "Comment"
+          },
+          {
+            "name": "AssetRequest"
+          },
+          {
+            "name": "FursuitRequest"
+          },
+          {
+            "name": "FursuitMedium"
+          },
+          {
+            "name": "FursuitSubscription"
+          },
+          {
+            "name": "Fursuit"
+          },
+          {
+            "name": "Report"
+          },
+          {
+            "name": "CommentReport"
+          },
+          {
+            "name": "MediumReport"
+          },
+          {
+            "name": "TagReport"
+          },
+          {
+            "name": "Maker"
+          },
+          {
+            "name": "Advert"
+          },
+          {
+            "name": "Fave"
+          }
+        ]
+      }
+    ]
+  }
+}

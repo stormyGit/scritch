@@ -1,11 +1,22 @@
 import ApolloClient from "apollo-boost";
-
+import {
+  IntrospectionFragmentMatcher,
+  InMemoryCache
+} from "apollo-cache-inmemory";
+import introspectionQueryResultData from "./fragmentTypes.json";
 import Cookies from "universal-cookie";
+
+const fragmentMatcher = new IntrospectionFragmentMatcher({
+  introspectionQueryResultData
+});
+
+const cache = new InMemoryCache({ fragmentMatcher });
 
 const cookies = new Cookies();
 
 let loaderCount = 0;
 const apolloClient = new ApolloClient({
+  cache,
   uri: "/graphql",
   request: operation => {
     const token = localStorage.getItem("token");
