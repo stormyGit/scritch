@@ -246,7 +246,7 @@ class AppLayoutRemake extends React.Component {
           )}
           {width !== "xs" && width !== "sm" && (
             <React.Fragment>
-              <PermanentDrawer open={this.state.mainDrawer} />
+              <PermanentDrawer open={true} />
             </React.Fragment>
           )}
           <main className={classes.content}>
@@ -270,12 +270,10 @@ class AppLayoutRemake extends React.Component {
                   <img
                     onClick={() =>
                       this.setState({
-                        mainDrawer: !this.state.mainDrawer,
                         tempDrawer: !this.state.tempDrawer
                       })
                     }
                     src={logo}
-                    className={classes.pointer}
                   />
                   {(width === "sm" || width === "xs") && (
                     <Typography variant="subtitle1">Suspended</Typography>
@@ -327,12 +325,10 @@ class AppLayoutRemake extends React.Component {
                     <img
                       onClick={() =>
                         this.setState({
-                          mainDrawer: !this.state.mainDrawer,
                           tempDrawer: !this.state.tempDrawer
                         })
                       }
                       src={logo}
-                      className={classes.pointer}
                     />
                   )}
                   {currentSession &&
