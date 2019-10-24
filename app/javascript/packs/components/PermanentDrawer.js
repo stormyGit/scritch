@@ -3,20 +3,28 @@ import { withStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import DrawerMenuRemake from "./DrawerMenuRemake";
 
-const drawerWidth = 60;
+const wideDrawer = 60;
 
 const styles = theme => {
+  console.log(theme);
   return {
     drawerPadder: {
-      width: drawerWidth,
       height: "100%",
       flexShrink: 0
     },
-    drawerPaper: {
-      position: "relative",
-      width: drawerWidth,
+    drawerPaperWide: {
+      width: 300,
       position: "fixed",
-      backgroundColor: theme.palette.background.paper,
+      background:
+        theme.palette.type === "dark"
+          ? "rgba(0, 0, 0, 0.7)"
+          : "rgba(255, 255, 255, 0.7)",
+      borderRightWidth: 0
+    },
+    drawerPaperShort: {
+      width: 60,
+      position: "fixed",
+      background: "rgba(0, 0, 0, 0)",
       borderRightWidth: 0
     },
     text: {},
@@ -25,6 +33,9 @@ const styles = theme => {
 };
 
 class PermanentDrawer extends React.Component {
+  state = {
+    wideDrawer: false
+  };
   render() {
     const { classes } = this.props;
 
@@ -32,19 +43,31 @@ class PermanentDrawer extends React.Component {
 
     return (
       <React.Fragment>
-        <div className={classes.drawerPadder} />
+        <div
+          className={classes.drawerPadder}
+          style={{ maxWidth: this.state.wideDrawer }}
+        />
         <Drawer
+          onMouseEnter={() => this.setState({ wideDrawer: true })}
+          onMouseLeave={() => this.setState({ wideDrawer: false })}
           open={this.props.open}
           variant="permanent"
-          classes={{
-            paper: classes.drawerPaper
-          }}
+          classes={
+            this.state.wideDrawer === false
+              ? { paper: classes.drawerPaperShort }
+              : { paper: classes.drawerPaperWide }
+          }
           PaperProps={{
             elevation: 0
           }}
         >
           <div className={classes.toolbar} />
-          <DrawerMenuRemake disableProfile disableNotifications disableUpload />
+          <DrawerMenuRemake
+            disableProfile
+            disableNotifications
+            disableUpload
+            wide={this.state.drawerPaperWide}
+          />
         </Drawer>
       </React.Fragment>
     );

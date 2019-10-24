@@ -22,7 +22,7 @@ const makeTheme = type => {
         main: "#0c8cff"
       },
       secondary: {
-        main: "#00ffbb"
+        main: "#25E8AD"
       },
       danger: {
         main: "#ff6666"

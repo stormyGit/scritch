@@ -21,13 +21,35 @@ export const UPDATE_USER = gql`
         slug
         avatar
         banner
+        usedFreeTrial
+        globalScore
+        score
         bio
+        metricSpecies
         website
         theme
         showAds
         showTooltips
+        hasAdverts
+        suspendedUser {
+          id
+          limit
+          reason
+        }
+        sponsor {
+          id
+          limit
+          plan
+          status
+          createdAt
+        }
+        tagTutorial
         mediaCount
+        likedCount
+        favedCount
+        taggedCount
         followingCount
+        followersCount
         unreadAnnouncementsCount
       }
     }
