@@ -1,5 +1,6 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
+import uuidv4 from "uuid/v4";
 import { Query } from "react-apollo";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
@@ -93,6 +94,44 @@ const styles = theme => {
   };
 };
 
+const DrawerItem = ({ classes, label, icon, path, onClick, type }) => {
+  if (type === "Link") {
+    return (
+      <Link to={path} className={classes.link}>
+        <ListItem
+          button
+          selected={location.pathname === path}
+          onClick={onClick}
+        >
+          <ListItemIcon className={classes.text} color="secondary">
+            {icon}
+          </ListItemIcon>
+          <ListItemText
+            primary={label}
+            primaryTypographyProps={{ className: classes.text }}
+          />
+        </ListItem>
+      </Link>
+    );
+  } else if (type === "Dialog") {
+    return (
+      <ListItem button onClick={onClick}>
+        <ListItemIcon className={classes.text} color="secondary">
+          {icon}
+        </ListItemIcon>
+        <ListItemText
+          primary={label}
+          primaryTypographyProps={{ className: classes.text }}
+        />
+      </ListItem>
+    );
+  } else if (type === "Divider") {
+    return <Divider />;
+  } else {
+    return null;
+  }
+};
+
 class DrawerMenuRemake extends React.Component {
   state = {
     settingsDialog: false,
@@ -115,6 +154,166 @@ class DrawerMenuRemake extends React.Component {
     if (user && user.sponsor)
       var sponsorLimit = new Date(user.sponsor.limit * 1000);
 
+    const homeItem = {
+      label: "Home",
+      icon: <HomeIcon />,
+      onClick: null,
+      path: "/",
+      type: "Link"
+    };
+    const mediaItem = {
+      label: "Media",
+      icon: <MediaIcon />,
+      onClick: null,
+      path: "/pictures",
+      type: "Link"
+    };
+    const fursuitItem = {
+      label: "Fursuits",
+      icon: <FursuitIcon />,
+      onClick: null,
+      path: "/fursuits",
+      type: "Link"
+    };
+    const makerItem = {
+      label: "Makers",
+      icon: <MakerIcon />,
+      onClick: null,
+      path: "/makers",
+      type: "Link"
+    };
+    const eventItem = {
+      label: "Events",
+      icon: <EventIcon />,
+      onClick: null,
+      path: "/events",
+      type: "Link"
+    };
+    const createItem = {
+      label: "Create",
+      icon: <AddIcon />,
+      onClick: () => {
+        this.setState({ assetDialog: true });
+      },
+      path: null,
+      type: "Dialog"
+    };
+    const tagItem = {
+      label: "Tag Media",
+      icon: <TagIcon />,
+      onClick: null,
+      path: "/tag",
+      type: "Link"
+    };
+    const subsItem = {
+      label: "Subscriptions",
+      icon: <SubscriptionsIcon />,
+      onClick: null,
+      path: "/subscriptions",
+      type: "Link"
+    };
+    const favesItem = {
+      label: "Favorites",
+      icon: <FaveIcon />,
+      onClick: null,
+      path: "/favorites",
+      type: "Link"
+    };
+    const announcementsItem = {
+      label: "Announcements",
+      icon:
+        currentSession && currentSession.user.unreadAnnouncementsCount > 0 ? (
+          <Badge badgeContent={user.unreadAnnouncementsCount} color="primary">
+            <AnnouncementIcon />
+          </Badge>
+        ) : (
+          <AnnouncementIcon />
+        ),
+      onClick: null,
+      path: "/announcements",
+      type: "Link"
+    };
+    const dividerItem = {
+      type: "Divider"
+    };
+    const settingsItem = {
+      label: "Settings",
+      icon: <SettingsIcon />,
+      onClick: () => this.setState({ settingsDialog: true }),
+      path: null,
+      type: "Dialog"
+    };
+    const beginSponsorshipItem = {
+      label: "Become a Sponsor!",
+      icon: <PetsIcon />,
+      onClick: () => this.setState({ sponsorDialog: true }),
+      path: null,
+      type: "Dialog"
+    };
+    const sponsorshipItem = {
+      label: "Sponsorship",
+      icon: <PetsIcon />,
+      onClick: () => this.setState({ sponsorDashboardDialog: true }),
+      path: null,
+      type: "Dialog"
+    };
+    const advertiseItem = {
+      label: "Advertise with Scritch",
+      icon: <AdsIcon />,
+      onClick: () => this.setState({ adsDialog: true }),
+      path: null,
+      type: "Dialog"
+    };
+    const tipsItem = {
+      label: "Tip Jar",
+      icon: <TipsIcon />,
+      onClick: () => this.setState({ tipsDialog: true }),
+      path: null,
+      type: "Dialog"
+    };
+
+    let itemsPack = [];
+    let userType;
+    if (currentSession) {
+      if (currentSession.user.suspendedUser) userType = "Suspended";
+      else if (currentSession.user.sponsor) userType = "Sponsor";
+      else userType = "Basic";
+    } else {
+      userType = "Visitor";
+    }
+
+    console.log(userType);
+
+    switch (userType) {
+      case "Suspended":
+        itemsPack = [
+          [homeItem],
+          [announcementsItem, dividerItem, settingsItem]
+        ];
+        break;
+      case "Sponsor":
+        itemsPack = [
+          [homeItem, mediaItem, fursuitItem, makerItem, eventItem],
+          [createItem, tagItem, subsItem, favesItem],
+          [sponsorshipItem, advertiseItem, tipsItem],
+          [announcementsItem, dividerItem, settingsItem]
+        ];
+        break;
+      case "Basic":
+        itemsPack = [
+          [homeItem, mediaItem, fursuitItem, makerItem, eventItem],
+          [createItem, tagItem, subsItem, favesItem],
+          [beginSponsorshipItem, advertiseItem, tipsItem],
+          [announcementsItem, dividerItem, settingsItem]
+        ];
+        break;
+      case "Visitor":
+        itemsPack = [
+          [homeItem, mediaItem, fursuitItem, makerItem, eventItem],
+          [tipsItem],
+          [announcementsItem]
+        ];
+    }
     return (
       <React.Fragment>
         <div
@@ -126,532 +325,114 @@ class DrawerMenuRemake extends React.Component {
                 : "space-between"
           }}
         >
-          {currentSession && currentSession.user.suspendedUser && (
-            <div>
+          {itemsPack.map((block, index) => (
+            <div key={`block-${index}`}>
               <List disablePadding={width !== "lg" && width !== "xl"}>
-                <ListItem
-                  button
-                  selected={
-                    location.pathname === "/" ||
-                    location.pathname === "/pictures"
-                  }
-                  onClick={() => {
-                    this.props.history.push({
-                      pathname: "/"
-                    });
-                    if (this.props.onClose) {
-                      this.props.onClose();
-                    }
-                  }}
-                >
-                  <ListItemIcon className={classes.text} color="secondary">
-                    <HomeIcon />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Home"
-                    primaryTypographyProps={{ className: classes.text }}
+                {block.map(item => (
+                  <DrawerItem
+                    classes={classes}
+                    onClick={item.onClick}
+                    label={item.label}
+                    path={item.path}
+                    icon={item.icon}
+                    type={item.type}
+                    key={`${index}-${item.label}`}
                   />
-                </ListItem>
+                ))}
               </List>
-              <div>
-                <List disablePadding={width !== "lg" && width !== "xl"}>
-                  {currentSession && !this.props.disableSettings && (
-                    <React.Fragment>
-                      <ListItem
-                        button
-                        onClick={() => {
-                          this.props.history.push({
-                            pathname: "/announcements"
-                          });
-                          if (this.props.onClose) {
-                            this.props.onClose();
-                          }
-                        }}
-                      >
-                        <ListItemIcon className={classes.text}>
-                          {currentSession &&
-                          user.unreadAnnouncementsCount > 0 ? (
-                            <Badge
-                              badgeContent={user.unreadAnnouncementsCount}
-                              color="primary"
-                            >
-                              <AnnouncementIcon />
-                            </Badge>
-                          ) : (
-                            <AnnouncementIcon />
-                          )}
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Announcements"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                      <Divider />
-                      <ListItem
-                        button
-                        onClick={() => this.setState({ settingsDialog: true })}
-                      >
-                        <ListItemIcon>
-                          <SettingsIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Settings"
-                          primaryTypographyProps={{
-                            noWrap: true
-                          }}
-                        />
-                      </ListItem>
-                    </React.Fragment>
-                  )}
-                </List>
-              </div>
             </div>
-          )}
-          {(!currentSession ||
-            (currentSession && !currentSession.user.suspendedUser)) && (
-            <React.Fragment>
-              <div>
-                <List disablePadding={width !== "lg" && width !== "xl"}>
-                  <React.Fragment>
-                    <Link to="/" className={classes.link}>
-                      <ListItem button selected={location.pathname === "/"}>
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
-                        >
-                          <HomeIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Home"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                    </Link>
-                    <Link to="/pictures" className={classes.link}>
-                      <ListItem
-                        button
-                        selected={location.pathname === "/pictures"}
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
-                        >
-                          <MediaIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Media"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                    </Link>
-                    <Link to="/fursuits" className={classes.link}>
-                      <ListItem
-                        button
-                        selected={location.pathname === "/fursuits"}
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
-                        >
-                          <FursuitIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Fursuits"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                    </Link>
-                    <Link to="/makers" className={classes.link}>
-                      <ListItem
-                        button
-                        selected={location.pathname === "/makers"}
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
-                        >
-                          <MakerIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Makers"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                    </Link>
-                    <Link to="/events" className={classes.link}>
-                      <ListItem
-                        button
-                        selected={location.pathname === "/events"}
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
-                        >
-                          <EventIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Events"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                    </Link>
-                    {user && (
-                      <ListItem
-                        button
-                        onClick={() => {
-                          this.setState({ assetDialog: true });
-                        }}
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
-                        >
-                          <AddIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Create"
-                          primaryTypographyProps={{ className: classes.text }}
-                        />
-                      </ListItem>
-                    )}
-                    {currentSession && (
-                      <React.Fragment>
-                        <Link to="/tag" className={classes.link}>
-                          <ListItem
-                            button
-                            selected={location.pathname === "/tag"}
-                          >
-                            <ListItemIcon
-                              className={classes.text}
-                              color="secondary"
-                            >
-                              <TagIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                              primary="Tag Media"
-                              primaryTypographyProps={{
-                                className: classes.text
-                              }}
-                            />
-                          </ListItem>
-                        </Link>
-                        <Link to="/subscriptions" className={classes.link}>
-                          <ListItem
-                            button
-                            selected={location.pathname === "/subscriptions"}
-                          >
-                            <ListItemIcon
-                              className={classes.text}
-                              color="secondary"
-                            >
-                              <SubscriptionsIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                              primary="Subscriptions"
-                              primaryTypographyProps={{
-                                className: classes.text
-                              }}
-                            />
-                          </ListItem>
-                        </Link>
-                        <Link to="/favorites" className={classes.link}>
-                          <ListItem
-                            button
-                            selected={location.pathname === "/favorites"}
-                          >
-                            <ListItemIcon
-                              className={classes.text}
-                              color="secondary"
-                            >
-                              <FaveIcon />
-                            </ListItemIcon>
-                            <ListItemText
-                              primary="Favorites"
-                              primaryTypographyProps={{
-                                className: classes.text
-                              }}
-                            />
-                          </ListItem>
-                        </Link>
-                      </React.Fragment>
-                    )}
-                  </React.Fragment>
-                </List>
-              </div>
-
-              {false && (
-                <Query query={GET_RIBBON_ANNOUNCEMENT}>
-                  {({ loading, error, data }) => {
-                    if (loading || error || !data) return null;
-                    if (data && data.ribbonAnnouncement) {
-                      return (
-                        <div>
-                          <Paper className={classes.paper}>
-                            <Typography>
-                              {data.ribbonAnnouncement.body}
-                            </Typography>
-                          </Paper>
-                        </div>
-                      );
-                    }
-                    return null;
-                  }}
-                </Query>
-              )}
-              {false && width !== "xl" && (
-                <div>
-                  <MetricsBar
-                    openSpeciesDialog={() =>
-                      this.setState({ speciesDialog: true })
-                    }
-                  />
-                </div>
-              )}
-              {user && true && (
-                <div>
-                  {user && user.sponsor && (
-                    <ListItem
-                      button
-                      onClick={() =>
-                        this.setState({ sponsorDashboardDialog: true })
-                      }
-                    >
-                      <ListItemIcon className={classes.text} color="secondary">
-                        <PetsIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary="Sponsorship"
-                        primaryTypographyProps={{ className: classes.text }}
-                      />
-                    </ListItem>
-                  )}
-                  {user && !user.sponsor && (
-                    <div>
-                      <ListItem
-                        button
-                        onClick={() => {
-                          this.setState({
-                            sponsorDialog: !this.state.sponsorDialog
-                          });
-                        }}
-                      >
-                        <ListItemIcon
-                          className={classes.text}
-                          color="secondary"
-                        >
-                          <PetsIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Become a Sponsor!"
-                          primaryTypographyProps={{
-                            className: classes.text
-                          }}
-                        />
-                      </ListItem>
-                    </div>
-                  )}
-                  {user && (
-                    <ListItem
-                      button
-                      onClick={() => {
-                        this.setState({ adsDialog: true });
-                      }}
-                    >
-                      <ListItemIcon className={classes.text} color="secondary">
-                        <AdsIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary="Advertise with Scritch"
-                        primaryTypographyProps={{
-                          className: classes.text
-                        }}
-                      />
-                    </ListItem>
-                  )}
-                  {user && (
-                    <ListItem
-                      button
-                      onClick={() => {
-                        this.setState({ tipsDialog: true });
-                      }}
-                    >
-                      <ListItemIcon className={classes.text} color="secondary">
-                        <TipsIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        primary="Tip Jar"
-                        primaryTypographyProps={{
-                          className: classes.text
-                        }}
-                      />
-                    </ListItem>
-                  )}
-                </div>
-              )}
-              <div>
-                <List disablePadding={width !== "lg" && width !== "xl"}>
-                  {currentSession && !this.props.disableSettings && (
-                    <React.Fragment>
-                      <Link to="/announcements" className={classes.link}>
-                        <ListItem button>
-                          <ListItemIcon className={classes.text}>
-                            {currentSession &&
-                            user.unreadAnnouncementsCount > 0 ? (
-                              <Badge
-                                badgeContent={user.unreadAnnouncementsCount}
-                                color="primary"
-                              >
-                                <AnnouncementIcon />
-                              </Badge>
-                            ) : (
-                              <AnnouncementIcon />
-                            )}
-                          </ListItemIcon>
-                          <ListItemText
-                            primary="Annoucements"
-                            primaryTypographyProps={{
-                              className: classes.text
-                            }}
-                          />
-                        </ListItem>
-                      </Link>
-                      <Divider />
-                      <ListItem
-                        button
-                        onClick={() => this.setState({ settingsDialog: true })}
-                      >
-                        <ListItemIcon>
-                          <SettingsIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Settings"
-                          primaryTypographyProps={{
-                            className: classes.text
-                          }}
-                        />
-                      </ListItem>
-                    </React.Fragment>
-                  )}
-                  {!currentSession && !this.props.disableSettings && (
-                    <React.Fragment>
-                      <ListItem
-                        button
-                        onClick={() => {
-                          this.props.history.push({
-                            pathname: "/announcements"
-                          });
-                          if (this.props.onClose) {
-                            this.props.onClose();
-                          }
-                        }}
-                      >
-                        <ListItemIcon className={classes.text}>
-                          <AnnouncementIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary="Annoucements"
-                          primaryTypographyProps={{
-                            className: classes.text
-                          }}
-                        />
-                      </ListItem>
-                    </React.Fragment>
-                  )}
-                </List>
-              </div>
-            </React.Fragment>
-          )}
+          ))}
+          <SettingsDialog
+            open={this.state.settingsDialog}
+            onClose={() => {
+              this.setState({ settingsDialog: false });
+              if (this.props.onClose) {
+                this.props.onClose();
+              }
+            }}
+          />
+          <TipsDialog
+            open={this.state.tipsDialog}
+            onClose={() => {
+              this.setState({ tipsDialog: false });
+              if (this.props.onClose) {
+                this.props.onClose();
+              }
+            }}
+          />
+          <SponsorDialog
+            open={this.state.sponsorDialog}
+            onClose={() => {
+              this.setState({ sponsorDialog: false });
+              if (this.props.onClose) {
+                this.props.onClose();
+              }
+            }}
+          />
+          <SpeciesDialog
+            open={this.state.speciesDialog}
+            onClose={() => {
+              this.setState({ speciesDialog: false });
+              if (this.props.onClose) {
+                this.props.onClose();
+              }
+            }}
+          />
+          <AdvertiseDialog
+            open={this.state.adsDialog}
+            onClose={() => {
+              this.setState({ adsDialog: false });
+              if (this.props.onClose) {
+                this.props.onClose();
+              }
+            }}
+          />
+          <AssetRequestDialog
+            open={this.state.assetDialog}
+            keepAssetType={null}
+            onClose={() => {
+              this.setState({ assetDialog: false });
+              if (this.props.onClose) {
+                this.props.onClose();
+              }
+            }}
+            submitSnack={() => this.setState({ snack: true })}
+            assetType="Asset"
+          />
+          <SponsorDashboardDialog
+            open={this.state.sponsorDashboardDialog}
+            onClose={() => {
+              this.setState({ sponsorDashboardDialog: false });
+              if (this.props.onClose) {
+                this.props.onClose();
+              }
+            }}
+          />
+          <Snackbar
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "left"
+            }}
+            open={this.state.snack}
+            autoHideDuration={6000}
+            onClose={this.handleClose}
+            ContentProps={{
+              "aria-describedby": "message-id"
+            }}
+            message={<span id="message-id">Request Submitted!</span>}
+            action={[
+              <IconButton
+                key="close"
+                aria-label="Close"
+                color="inherit"
+                className={classes.close}
+                onClick={() => this.setState({ snack: false })}
+              >
+                <CloseIcon />
+              </IconButton>
+            ]}
+          />
         </div>
-        <SettingsDialog
-          open={this.state.settingsDialog}
-          onClose={() => {
-            this.setState({ settingsDialog: false });
-            if (this.props.onClose) {
-              this.props.onClose();
-            }
-          }}
-        />
-        <TipsDialog
-          open={this.state.tipsDialog}
-          onClose={() => {
-            this.setState({ tipsDialog: false });
-            if (this.props.onClose) {
-              this.props.onClose();
-            }
-          }}
-        />
-        <SponsorDialog
-          open={this.state.sponsorDialog}
-          onClose={() => {
-            this.setState({ sponsorDialog: false });
-            if (this.props.onClose) {
-              this.props.onClose();
-            }
-          }}
-        />
-        <SpeciesDialog
-          open={this.state.speciesDialog}
-          onClose={() => {
-            this.setState({ speciesDialog: false });
-            if (this.props.onClose) {
-              this.props.onClose();
-            }
-          }}
-        />
-        <AdvertiseDialog
-          open={this.state.adsDialog}
-          onClose={() => {
-            this.setState({ adsDialog: false });
-            if (this.props.onClose) {
-              this.props.onClose();
-            }
-          }}
-        />
-        <AssetRequestDialog
-          open={this.state.assetDialog}
-          keepAssetType={null}
-          onClose={() => {
-            this.setState({ assetDialog: false });
-            if (this.props.onClose) {
-              this.props.onClose();
-            }
-          }}
-          submitSnack={() => this.setState({ snack: true })}
-          assetType="Asset"
-        />
-        <SponsorDashboardDialog
-          open={this.state.sponsorDashboardDialog}
-          onClose={() => {
-            this.setState({ sponsorDashboardDialog: false });
-            if (this.props.onClose) {
-              this.props.onClose();
-            }
-          }}
-        />
-        <Snackbar
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left"
-          }}
-          open={this.state.snack}
-          autoHideDuration={6000}
-          onClose={this.handleClose}
-          ContentProps={{
-            "aria-describedby": "message-id"
-          }}
-          message={<span id="message-id">Request Submitted!</span>}
-          action={[
-            <IconButton
-              key="close"
-              aria-label="Close"
-              color="inherit"
-              className={classes.close}
-              onClick={() => this.setState({ snack: false })}
-            >
-              <CloseIcon />
-            </IconButton>
-          ]}
-        />
       </React.Fragment>
     );
   }
