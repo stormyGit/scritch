@@ -98,13 +98,13 @@ class ModerationAdverts extends React.Component {
 
             return (
               <React.Fragment>
-                {data.moderationAdverts.map(advert => (
-                  <Grid container spacing={24} key={advert.id}>
-                    <Grid item xs={12} md={6} lg={4}>
+                <Grid container spacing={24}>
+                  {data.moderationAdverts.map(advert => (
+                    <Grid item xs={12} md={6} lg={4} key={advert.id}>
                       <AdvertCard advert={advert} classes={classes} />
                     </Grid>
-                  </Grid>
-                ))}
+                  ))}
+                </Grid>
               </React.Fragment>
             );
           }}

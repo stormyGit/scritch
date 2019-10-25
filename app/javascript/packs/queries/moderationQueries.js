@@ -15,3 +15,15 @@ export const FETCH_ADVERTS = gql`
     }
   }
 `;
+
+export const FETCH_MODERATORS = gql`
+  query Moderators {
+    moderators {
+      id
+      name
+      telegramId
+      capabilities
+      createdAt
+    }
+  }
+`;

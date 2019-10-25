@@ -81,57 +81,68 @@ const moderationRouter = [
   {
     path: "/react_moderation/adverts",
     title: "Adverts",
-    subtitle: "Manage and review advertisement submissions"
+    subtitle: "Manage and review advertisement submissions",
+    capability: "adverts"
   },
   {
     path: "/react_moderation/analytics",
     title: "Analytics",
-    subtitle: "Access Scritch numbers data and analytics"
+    subtitle: "Access Scritch numbers data and analytics",
+    capability: "analytics"
   },
   {
     path: "/react_moderation/announcements",
     title: "Announcements",
-    subtitle: "Manage, edit, publish Scritch announcements"
+    subtitle: "Manage, edit, publish Scritch announcements",
+    capability: "announcements"
   },
   {
     path: "/react_moderation/assets",
     title: "Assets",
-    subtitle: "Manage, edit, create all types of Scritch Assets"
+    subtitle: "Manage, edit, create all types of Scritch Assets",
+    capability: "assets"
   },
   {
     path: "/react_moderation/claims",
     title: "Claims",
-    subtitle: "View and respond to Asset Claimed by Users"
+    subtitle: "View and respond to Asset Claimed by Users",
+    capability: "claims"
   },
   {
     path: "/react_moderation/moderators",
     title: "Moderators",
-    subtitle: "Create, manage and edit Moderators rights and access"
+    subtitle: "Create, manage and edit Moderators rights and access",
+    capability: "moderators"
   },
   {
     path: "/react_moderation/reports",
     title: "Reports",
-    subtitle: "View and respond to all report types on Scritch"
+    subtitle: "View and respond to all report types on Scritch",
+    capability: "reports"
   },
   {
     path: "/react_moderation/requests",
     title: "Requests",
-    subtitle: "View and respond to Asset Requests by Users"
+    subtitle: "View and respond to Asset Requests by Users",
+    capability: "assets"
   },
   {
     path: "/react_moderation/sponsors",
     title: "Sponsors",
-    subtitle: "Manage and review Scritch Sponsors data"
+    subtitle: "Manage and review Scritch Sponsors data",
+    capability: "sponsors"
   },
   {
     path: "/react_moderation/suspended_users",
     title: "Suspended Users",
-    subtitle: "Manage, edit, and view currently Suspended Users on Scritch"
+    subtitle: "Manage, edit, and view currently Suspended Users on Scritch",
+    capability: "suspended_users"
   },
   {
     path: "/react_moderation/tickets",
     title: "Tickets",
-    subtitle: "View and respond to Scritch ticket inquiries"
+    subtitle: "View and respond to Scritch ticket inquiries",
+    capability: "tickets"
   }
 ];
 
@@ -148,29 +159,32 @@ function ModerationHome({ classes, width, currentModerator }) {
       <Padder />
       <Padder />
       <Grid container spacing={width === "xl" || width === "lg" ? 24 : 8}>
-        {moderationRouter.map(route => (
-          <Grid
-            item
-            xs={12}
-            md={6}
-            lg={3}
-            className={classes.grid}
-            key={route.title}
-          >
-            <Link to={route.path} className={classes.cardLink}>
-              <Card className={classes.card}>
-                <CardContent>
-                  <Typography gutterBottom variant="h5">
-                    {route.title}
-                  </Typography>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    {route.subtitle}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Link>
-          </Grid>
-        ))}
+        {moderationRouter.map(route => {
+          if (currentModerator.capabilities.includes(route.capability))
+            return (
+              <Grid
+                item
+                xs={12}
+                md={6}
+                lg={3}
+                className={classes.grid}
+                key={route.title}
+              >
+                <Link to={route.path} className={classes.cardLink}>
+                  <Card className={classes.card}>
+                    <CardContent>
+                      <Typography gutterBottom variant="h5">
+                        {route.title}
+                      </Typography>
+                      <Typography variant="subtitle1" color="textSecondary">
+                        {route.subtitle}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </Grid>
+            );
+        })}
       </Grid>
     </React.Fragment>
   );
