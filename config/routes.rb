@@ -155,6 +155,8 @@ Rails.application.routes.draw do
   get "/faq", to: "media#index"
   get "/privacy_policy", to: "media#index"
   get "/announcements", to: "media#index"
+  get "/react_moderation", to: "media#react_moderation"
+  get "/react_moderation/:id", to: "media#react_moderation"
 
   get "/:id", to: "users#show"
   get "/:id/:filter", to: "users#show"

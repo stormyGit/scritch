@@ -29,6 +29,23 @@ export const CREATE_SESSION = gql`
   }
 `;
 
+export const GET_SESSION_MODERATOR = gql`
+  query Session {
+    session {
+      id
+      user {
+        id
+        moderator {
+          id
+          name
+          capabilities
+          telegramId
+        }
+      }
+    }
+  }
+`;
+
 export const GET_SESSION = gql`
   query Session {
     session {
@@ -71,6 +88,7 @@ export const GET_SESSION = gql`
         followingCount
         followersCount
         unreadAnnouncementsCount
+        isModerator
       }
     }
   }

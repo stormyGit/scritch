@@ -18,7 +18,7 @@ const styles = theme => {
       background:
         theme.palette.type === "dark"
           ? "rgba(0, 0, 0, 0.7)"
-          : "rgba(255, 255, 255, 0.7)",
+          : "rgba(255, 255, 255, 0.8)",
       borderRightWidth: 0
     },
     drawerPaperShort: {

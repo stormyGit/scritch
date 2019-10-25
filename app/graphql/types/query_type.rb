@@ -98,6 +98,11 @@ module Types
       argument :limit, Integer, required: true
     end
 
+    field :moderation_adverts, [AdvertType], null: false do
+      description "List media"
+      argument :filter, String, required: false
+    end
+
     field :tooltip, TooltipType, null: false do
       description "List media"
       argument :uuid, ID, required: false
@@ -353,6 +358,14 @@ module Types
         e.user.save!
       end
       advert
+    end
+
+    def moderation_adverts(args)
+      adverts = Advert.all.order(created_at: :desc)
+      if args[:filter].present?
+        adverts = adverts.where(status: args[:filter])
+      end
+      adverts
     end
 
     def tooltip(args)
@@ -849,11 +862,3 @@ module Types
     end
   end
 end
-
-  # Fursuit.select('* from (
-  #     select fursuits.*, array_agg(species.id) species_ids
-  #     from fursuits
-  #     inner join fursuit_species on fursuit_species.fursuit_id = fursuits.id
-  #     inner join species on species.id = fursuit_species.species_id
-  #   ) tmp_fursuits'
-  # ).where('tmp_fursuits.species_ids = (:species_ids)', SPECIES)

@@ -18,6 +18,22 @@ import Makers from "../Makers/Makers";
 import EventRemake from "../Events/EventRemake";
 import Events from "../Events/Events";
 
+import Unauthorized from "../Global/Unauthorized";
+import ModerationLayout from "../Global/ModerationLayout";
+
+import ModerationHome from "../Moderation/ModerationHome";
+import ModerationClaims from "../Moderation/ModerationClaims";
+import ModerationAssets from "../Moderation/ModerationAssets";
+import ModerationAnalytics from "../Moderation/ModerationAnalytics";
+import ModerationReports from "../Moderation/ModerationReports";
+import ModerationRequests from "../Moderation/ModerationRequests";
+import ModerationTickets from "../Moderation/ModerationTickets";
+import ModerationSponsors from "../Moderation/ModerationSponsors";
+import ModerationModerators from "../Moderation/ModerationModerators";
+import ModerationAdverts from "../Moderation/ModerationAdverts";
+import ModerationSuspendedUsers from "../Moderation/ModerationSuspendedUsers";
+import ModerationAnnouncements from "../Moderation/ModerationAnnouncements";
+
 import Announcements from "../PoliciesSupport/Announcements";
 import Terms from "../PoliciesSupport/Terms";
 import UserGuide from "../PoliciesSupport/UserGuide";
@@ -47,8 +63,94 @@ class AppRouter extends React.Component {
       <BrowserRouter>
         <Route
           render={({ location }) => {
-            //const withoutAdds = location.pathname === "/pictures";
-
+            if (location.pathname.match(/^\/react_moderation/)) {
+              if (currentSession.user.isModerator)
+                return (
+                  <React.Fragment>
+                    <ModerationLayout>
+                      {width === "xl" || width === "lg" ? (
+                        <Padder />
+                      ) : (
+                        <MicroPadder />
+                      )}
+                      <Switch location={location}>
+                        <Route
+                          exact
+                          path="/react_moderation"
+                          component={ModerationHome}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/analytics"
+                          component={ModerationAnalytics}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/assets"
+                          component={ModerationAssets}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/claims"
+                          component={ModerationClaims}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/requests"
+                          component={ModerationRequests}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/moderators"
+                          component={ModerationModerators}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/sponsors"
+                          component={ModerationSponsors}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/reports"
+                          component={ModerationReports}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/tickets"
+                          component={ModerationTickets}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/suspended_users"
+                          component={ModerationSuspendedUsers}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/adverts"
+                          component={ModerationAdverts}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/announcements"
+                          component={ModerationAnnouncements}
+                        />
+                      </Switch>
+                    </ModerationLayout>
+                  </React.Fragment>
+                );
+              else
+                return (
+                  <React.Fragment>
+                    <Switch location={location}>
+                      <Route
+                        exact
+                        path="/react_moderation"
+                        component={Unauthorized}
+                      />
+                    </Switch>
+                  </React.Fragment>
+                );
+            }
             return (
               <React.Fragment>
                 <AppLayoutRemake>
