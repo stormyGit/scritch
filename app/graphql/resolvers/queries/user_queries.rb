@@ -39,6 +39,20 @@ module Resolvers
                 end
             end
 
+            class GetUserActivities < GraphQL::Function
+                type types[Types::ActivityType]
+
+                argument :offset, !types.Int
+                argument :limit, !types.Int
+
+                def call(obj, args, ctx)
+                    ActivityPolicy::Scope.new(ctx[:current_user], Activity.all).resolve
+                        .order(created_at: :desc)
+                        .offset(args[:offset]).limit(args[:limit])
+                        .includes(:owner, :recipient, :trackable)
+                end
+            end
+
             class GetUserLikes < GraphQL::Function
                 type types[Types::LikeType]
 

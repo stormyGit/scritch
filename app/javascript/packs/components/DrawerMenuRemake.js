@@ -326,8 +326,8 @@ class DrawerMenuRemake extends React.Component {
           }}
         >
           {itemsPack.map((block, index) => (
-            <React.Fragment>
-              <div key={`block-${index}`}>
+            <React.Fragment key={`block-${index}`}>
+              <div>
                 <List disablePadding={width !== "lg" && width !== "xl"}>
                   {block.map(item => (
                     <DrawerItem

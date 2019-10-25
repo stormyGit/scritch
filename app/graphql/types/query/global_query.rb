@@ -6,6 +6,8 @@ module Types
       name 'GlobalQuery'
 
       field :session, function: GetSession.new
+      field :adverts, function: GetAdverts.new
+      field :announcements, function: GetAnnouncements.new
     end
   end
 end

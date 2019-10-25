@@ -7,6 +7,7 @@ module Types
 
       field :user, function: GetUser.new
       field :users, function: GetUsers.new
+      field :activities, function: GetUserActivities.new
       field :likesByUser, function: GetUserLikes.new
       field :favesByUser, function: GetUserFaves.new
       field :followersByUser, function: GetUserFollowers.new
