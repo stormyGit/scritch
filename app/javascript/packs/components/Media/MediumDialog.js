@@ -21,7 +21,7 @@ import TimerIcon from "@material-ui/icons/Timer";
 import IsoIcon from "@material-ui/icons/Iso";
 import DateIcon from "@material-ui/icons/DateRange";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRulerHorizontal } from "@fortawesome/free-solid-svg-icons";
+import { faRulerHorizontal, faEye } from "@fortawesome/free-solid-svg-icons";
 
 import CloseIcon from "@material-ui/icons/Close";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
@@ -50,7 +50,11 @@ import EditMediumDialog from "./EditMediumDialog";
 import TagDialog from "../TagDialog";
 import CommentForm from "./CommentForm";
 import Comments from "./Comments";
-import { withWidth } from "@material-ui/core";
+import { withWidth, CardHeader } from "@material-ui/core";
+import UserAvatar from "../Users/UserAvatar";
+import timeAgo from "../../timeAgo";
+import dayjs from "dayjs";
+import countContractor from "../../countContractor";
 
 const styles = theme => ({
   dialogTitleRoot: {
@@ -188,6 +192,17 @@ const styles = theme => ({
   },
   textGrid: {
     paddingLeft: theme.spacing.unit
+  },
+  userLink: {
+    color: theme.palette.text.primary,
+    textDecoration: "none"
+  },
+  userInfo: {
+    paddingLeft: 0,
+    paddingRight: 0
+  },
+  viewsCount: {
+    fontWeight: 200
   }
 });
 
@@ -532,6 +547,44 @@ const DataSection = ({ classes, medium }) => {
           </Tooltip>
         </div>
       </Grid>
+      <Grid
+        item
+        xs={12}
+        className={classes.flexSectionSpacedCentered}
+        style={{ paddingLeft: "5%", paddingRight: "5%" }}
+      >
+        <div>
+          <CardHeader
+            className={classes.userInfo}
+            avatar={
+              <Link to={`/${medium.user.slug}`} className={classes.userLink}>
+                <UserAvatar user={medium.user} size={48} />
+              </Link>
+            }
+            title={
+              <Typography variant="subtitle1">
+                <Link to={`/${medium.user.slug}`} className={classes.userLink}>
+                  {medium.user.name}
+                </Link>
+              </Typography>
+            }
+            subheader={
+              medium.createdAt
+                ? timeAgo.format(dayjs(medium.createdAt).toDate())
+                : "Under review"
+            }
+          />
+        </div>
+        <div>
+          <Tooltip title={`${countFormat(medium.viewsCount, "view", "views")}`}>
+            <Typography variant="h6" className={classes.viewsCount}>
+              <FontAwesomeIcon icon={faEye} />
+              &nbsp;&nbsp;
+              {countContractor(medium.viewsCount)}
+            </Typography>
+          </Tooltip>
+        </div>
+      </Grid>
     </React.Fragment>
   );
 };
@@ -682,7 +735,7 @@ const TagSection = ({ currentSession, classes, medium }) => {
         <Grid container spacing={8} className={classes.flexSectionCentered}>
           {medium.fursuits.length != 0 &&
             medium.fursuits.map(fursuit => (
-              <Grid item xs={6} sm={3} md={4} key={fursuit.id}>
+              <Grid item xs={4} sm={3} lg={4} key={fursuit.id}>
                 <Link
                   target="_blank"
                   to={`/fursuits/${fursuit.slug}`}
@@ -692,7 +745,7 @@ const TagSection = ({ currentSession, classes, medium }) => {
                 </Link>
               </Grid>
             ))}
-          <Grid item xs={6} sm={3} md={4}>
+          <Grid item xs={4} sm={3} lg={4}>
             <MediumActionButton
               currentSession={currentSession}
               classes={classes}

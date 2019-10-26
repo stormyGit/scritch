@@ -342,7 +342,9 @@ class DrawerMenuRemake extends React.Component {
                   ))}
                 </List>
               </div>
-              {width !== "xl" && width !== "lg" && <Divider />}
+              {width !== "xl" && width !== "lg" && width !== "md" && (
+                <Divider />
+              )}
             </React.Fragment>
           ))}
           <SettingsDialog
