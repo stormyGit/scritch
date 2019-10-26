@@ -521,7 +521,7 @@ class Medium extends React.Component {
                       medium={medium}
                     />
                     <Grid container spacing={8}>
-                      <Grid item lg={9} xs={12}>
+                      <Grid item lg={12} xs={12}>
                         <CardContent>
                           {currentSession && (
                             <div className={classes.pictureInfo}>
@@ -681,18 +681,6 @@ class Medium extends React.Component {
                             </Typography>
                           </div>
                         )}
-                      </Grid>
-                      <Grid item lg={3} xs={12}>
-                        <CardContent>
-                          {medium.relatedMedia.map(medium => (
-                            <div
-                              className={classes.relatedMedia}
-                              key={medium.id}
-                            >
-                              <RelatedMediumCard medium={medium} horizontal />
-                            </div>
-                          ))}
-                        </CardContent>
                       </Grid>
                     </Grid>
                   </Card>

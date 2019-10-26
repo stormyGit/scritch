@@ -7,7 +7,7 @@ import FursuitRemake from "../Fursuits/FursuitRemake";
 import Fursuits from "../Fursuits/Fursuits";
 
 import MediaAll from "../Media/MediaAll";
-import Medium from "../Media/Medium";
+import MediumRemake from "../Media/MediumRemake";
 import MediumMobile from "../Media/MediumMobile";
 
 import UserRemake from "../Users/UserRemake";
@@ -251,13 +251,7 @@ class AppRouter extends React.Component {
                     <Route
                       exact
                       path="/pictures/:id"
-                      component={
-                        currentSession && currentSession.user.suspendedUser
-                          ? MustLog
-                          : width === "xs" || width === "sm"
-                          ? MediumMobile
-                          : Medium
-                      }
+                      component={MediumRemake}
                     />
                     <Route
                       exact
