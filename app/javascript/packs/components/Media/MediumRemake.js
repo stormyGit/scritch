@@ -888,7 +888,7 @@ class MediumDialog extends React.Component {
                   style={{
                     maxHeight:
                       width === "xl" || width === "lg"
-                        ? "calc(100vh - 162px)"
+                        ? "calc(100vh - 56px)"
                         : "100%"
                   }}
                 >
