@@ -1,3 +1,5 @@
+include ActiveRecord::Sanitization::ClassMethods
+
 module Resolvers
     module Queries
         module UserQueries
@@ -118,7 +120,7 @@ module Resolvers
             end
 
             class GetUserFollowingFursuits < GraphQL::Function
-                type types[Types::MakerType]
+                type types[Types::FursuitType]
 
                 argument :userId, !types.ID
                 argument :offset, !types.Int

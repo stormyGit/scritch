@@ -1,5 +1,5 @@
 import React from "react";
-import Media from "./Media/Media";
+import MediaSubs from "./Media/MediaSubs";
 import PageTitle from "./Global/PageTitle";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
@@ -17,16 +17,29 @@ const styles = theme => ({
   }
 });
 
+const ProfileSubs = ({ classes }) => {
+  return null;
+};
+
 class Subscriptions extends React.Component {
   state = {
-    tab: "media"
+    tab: "media",
+    newProfilesOnly: true,
+    newFursuitsOnly: true
   };
 
   renderMedia() {
     return (
-      <Media
-        filter="subscriptions_users"
-        withSubsClear={true}
+      <MediaSubs
+        switchNewOnlyStatus={() => {
+          console.log(123);
+          this.setState({ newProfilesOnly: !this.state.newProfilesOnly });
+        }}
+        filter={
+          this.state.newProfilesOnly
+            ? "subscriptions_users"
+            : "subscriptions_users_all"
+        }
         {...this.props}
       />
     );
@@ -34,9 +47,15 @@ class Subscriptions extends React.Component {
 
   renderFursuits() {
     return (
-      <Media
-        filter="subscriptions_fursuits"
-        withSubsClear={true}
+      <MediaSubs
+        switchNewOnlyStatus={() =>
+          this.setState({ newFursuitsOnly: !this.state.newFursuitsOnly })
+        }
+        filter={
+          this.state.newFursuitsOnly
+            ? "subscriptions_fursuits"
+            : "subscriptions_fursuits_all"
+        }
         {...this.props}
       />
     );
@@ -67,7 +86,7 @@ class Subscriptions extends React.Component {
         >
           <Tab value="media" label={"Profiles"} />
           <Tab value="fursuits" label={"Fursuits"} />
-          <Tab value="makers" label={"Maker"} />
+          <Tab value="makers" label={"Makers"} />
         </Tabs>
         <Grid container className={classes.root} spacing={8} justify="center">
           <Grid item xs={12}>

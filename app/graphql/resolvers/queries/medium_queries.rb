@@ -75,6 +75,13 @@ module Resolvers
 
                     media =
                         case args[:filter]
+                        when 'subscriptions_users_all'
+                            media.where(user: ctx[:current_user].all_following)
+                                .order("media.created_at DESC, media.created_at DESC")
+                        when 'subscriptions_fursuits_all'
+                            Medium.joins(:fursuits)
+                                .where("fursuits.uuid IN (?)", ctx[:current_user].subscriptions.pluck(:uuid))
+                                .order(["media.created_at DESC, media.created_at DESC"])
                         when 'subscriptions_users'
                             media.where(user: ctx[:current_user].all_following)
                                 .where("media.created_at > ?", ctx[:current_user].last_seen_media)

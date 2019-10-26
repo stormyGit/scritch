@@ -153,18 +153,16 @@ class Fursuits extends React.Component {
             onCompleted={() => this.setState({ uuid: uuidv4() })}
           >
             {(readSubs, { data }) => (
-              <Tooltip title="Clears Subs">
-                <Button
-                  size="large"
-                  variant="outlined"
-                  className={classes.clearSubsButton}
-                  onClick={() => {
-                    readSubs({ variables: { input: {} } });
-                  }}
-                >
-                  Clear
-                </Button>
-              </Tooltip>
+              <Button
+                size="large"
+                variant="outlined"
+                className={classes.clearSubsButton}
+                onClick={() => {
+                  readSubs({ variables: { input: {} } });
+                }}
+              >
+                Clear New Fursuits
+              </Button>
             )}
           </Mutation>
         </Grid>
