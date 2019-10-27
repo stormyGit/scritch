@@ -15,6 +15,7 @@ module Types
       field :likes, function: GetLikes.new
       field :faves, function: GetFaves.new
       field :commentsByMedium, function: GetComments.new
+      field :categories, function: GetCategories.new
 
     end
   end

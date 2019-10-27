@@ -18,7 +18,7 @@ module Resolvers
                 argument :offset, !types.Int
                 argument :name, types.String
                 argument :country, types.String
-                argument :status, !types.String
+                argument :status, types.String
 
                 def call(obj, args, ctx)
                     events = Event.all

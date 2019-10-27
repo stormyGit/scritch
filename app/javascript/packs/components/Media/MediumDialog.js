@@ -905,6 +905,8 @@ class MediumDialog extends React.Component {
                         />
                       )}
                     </Grid>
+
+                    {console.log(medium.height, medium.width)}
                     <Grid
                       item
                       xs={12}
@@ -913,7 +915,9 @@ class MediumDialog extends React.Component {
                       style={{
                         maxHeight:
                           width === "xl" || width === "lg"
-                            ? medium.height / (medium.width / 960)
+                            ? medium.height < medium.width
+                              ? medium.height / (medium.width / 960)
+                              : 920
                             : "100%"
                       }}
                     >

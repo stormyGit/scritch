@@ -195,7 +195,7 @@ module Resolvers
 
                 def call(obj, args, ctx)
                     media = MediumPolicy::Scope.new(ctx[:current_user], Medium.all).resolve
-                    media = media.where(user_id: args[:user_id])
+                    media = media.where(user_id: args[:userId])
 
                     media.order(created_at: :desc).offset(args[:offset]).limit(args[:limit])
                 end
