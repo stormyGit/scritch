@@ -165,7 +165,7 @@ export const GET_FRONT_MEDIA = gql`
   }
 `;
 
-export const GET_MEDIA_WITH_FURSUITS = gql`
+export const GET_TAGGABLE_MEDIA = gql`
   query Media(
     $q: String
     $sort: String

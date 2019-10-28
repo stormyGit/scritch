@@ -1,5 +1,5 @@
 import React from "react";
-import TaggableMedia from "./TaggableMedia";
+import MediaTagging from "./Media/MediaTagging";
 import PageTitle from "./Global/PageTitle";
 import queryString from "query-string";
 
@@ -10,7 +10,7 @@ export default props => {
   return (
     <React.Fragment>
       <PageTitle>Tag</PageTitle>
-      <TaggableMedia {...props} />
+      <MediaTagging {...props} />
     </React.Fragment>
   );
 };
