@@ -454,7 +454,7 @@ class User extends React.Component {
 
           if (following.length === 0) {
             return (
-              <EmptyList label={`${user.name} doesn't follow any fursuit.`} />
+              <EmptyList label={`${user.name} doesn't follow any Fursuits.`} />
             );
           }
 
@@ -515,7 +515,7 @@ class User extends React.Component {
 
           if (following.length === 0) {
             return (
-              <EmptyList label={`${user.name} doesn't follow any maker.`} />
+              <EmptyList label={`${user.name} doesn't follow any Makers.`} />
             );
           }
 
@@ -786,7 +786,7 @@ class User extends React.Component {
 
           if (data.followersByUser.length === 0) {
             return (
-              <EmptyList label={`${user.name} doesn't have any followers.`} />
+              <EmptyList label={`${user.name} doesn't have any Followers.`} />
             );
           }
 
