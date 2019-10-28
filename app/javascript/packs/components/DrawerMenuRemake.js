@@ -285,8 +285,6 @@ class DrawerMenuRemake extends React.Component {
       userType = "Visitor";
     }
 
-    console.log(userType);
-
     switch (userType) {
       case "Suspended":
         itemsPack = [

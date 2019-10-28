@@ -42,7 +42,6 @@ const styles = theme => ({
 const Padder = <div style={{ padding: 8 }} />;
 
 const AdvertCard = ({ classes, advert }) => {
-  console.log(advert);
   return (
     <Card className={classes.card}>
       <CardMedia component="img" image={advert.file} title={`#${advert.id}`} />

@@ -32,7 +32,6 @@ class Subscriptions extends React.Component {
     return (
       <MediaSubs
         switchNewOnlyStatus={() => {
-          console.log(123);
           this.setState({ newProfilesOnly: !this.state.newProfilesOnly });
         }}
         filter={

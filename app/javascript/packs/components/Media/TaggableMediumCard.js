@@ -161,7 +161,6 @@ const Medium = withStyles(styles)(({ classes, medium }) => {
 function TaggableMediumCard({ classes, medium }) {
   const [tagDialog, setTagDialog] = useState(false);
 
-  console.log(medium);
   return (
     <React.Fragment>
       <Card className={classes.card} elevation={0}>

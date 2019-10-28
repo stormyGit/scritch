@@ -906,7 +906,6 @@ class MediumDialog extends React.Component {
                       )}
                     </Grid>
 
-                    {console.log(medium.height, medium.width)}
                     <Grid
                       item
                       xs={12}

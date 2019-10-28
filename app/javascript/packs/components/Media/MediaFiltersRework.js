@@ -231,7 +231,6 @@ class MediaFilters extends React.Component {
               );
             }
 
-            console.log(data);
             const eventsList = [];
             data.events.map(
               e => e && eventsList.push({ value: e.id, label: e.name })
