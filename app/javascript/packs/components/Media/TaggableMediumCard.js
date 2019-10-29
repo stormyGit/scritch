@@ -14,7 +14,7 @@ import {
   TAG_UNLOCK_MEDIUM,
   TAG_LOCK_MEDIUM
 } from "../../queries/mediaMutations";
-import TagDialog from "../TagDialog";
+import TagDialog from "./TagDialog";
 import { Mutation } from "react-apollo";
 import countFormat from "../../countFormat";
 
@@ -42,7 +42,7 @@ const styles = theme => ({
   insight: {
     listStyleType: "none",
     color: "white",
-    width: "70%",
+    width: "90%",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-evenly",
@@ -105,7 +105,9 @@ const Insight = withStyles(styles)(({ classes, medium, children }) => {
     <span>
       {children}
       <span className={classes.insight_stat}>
-        {medium.completion}%<br />
+        {medium.completion}%
+        <br />
+        <br />
         {medium.fursuitsCount == 0
           ? "(How many Suits?)"
           : `(${countFormat(

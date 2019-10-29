@@ -125,11 +125,12 @@ class TagDialog extends React.Component {
     if (this.state.fursuits.length > this.state.fursuitsCount) return false;
     return true;
   }
-
   handleSearch(val) {
-    if (this.state.query.length >= 1 && val.length < 1) {
+    if (this.state.nameInput.length >= 1 && val.length < 1) {
       this.reset = true;
     }
+
+    this.setState({ nameInput: val });
 
     if (this.loadEventTimer) {
       clearTimeout(this.loadEventTimer);
@@ -137,11 +138,11 @@ class TagDialog extends React.Component {
 
     if (val.length >= 1) {
       this.loadEventTimer = setTimeout(() => {
-        this.setState({ query: val });
+        this.setState({ name: val });
       }, 500);
     } else if (this.reset) {
       clearTimeout(this.loadEventTimer);
-      this.setState({ query: val });
+      this.setState({ name: val });
       this.reset = false;
     }
   }

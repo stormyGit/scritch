@@ -246,7 +246,9 @@ module Resolvers
                 argument :limit, !types.Int
   
                 def call(obj, args, ctx)
-                    LikePolicy::Scope.new(ctx[:current_user], Like.where(medium_id: args[:mediumId])).resolve.order("likes.created_at DESC")#.offset(args[:offset]).limit(args[:limit])
+                    LikePolicy::Scope.new(ctx[:current_user], Like.where(medium_id: args[:mediumId]))
+                        .resolve.order("likes.created_at DESC")
+                        #.offset(args[:offset]).limit(args[:limit])
                 end
             end
 
@@ -258,7 +260,9 @@ module Resolvers
                 argument :limit, !types.Int
   
                 def call(obj, args, ctx)
-                    FavePolicy::Scope.new(ctx[:current_user], Fave.where(medium_id: args[:mediumId])).resolve.order("faves.created_at DESC")#.offset(args[:offset]).limit(args[:limit])
+                    FavePolicy::Scope.new(ctx[:current_user], Fave.where(medium_id: args[:mediumId]))
+                        .resolve.order("faves.created_at DESC")
+                        #.offset(args[:offset]).limit(args[:limit])
                 end
             end
 

@@ -103,22 +103,6 @@ export const UPDATE_MEDIUM = gql`
           name
           avatar
         }
-        relatedMedia {
-          id
-          slug
-          title
-          description
-          picture
-          thumbnail
-          width
-          height
-          createdAt
-          user {
-            id
-            slug
-            name
-          }
-        }
       }
     }
   }
