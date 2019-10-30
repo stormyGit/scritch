@@ -22,22 +22,20 @@ class Mutations::CreateMedium < Mutations::BaseMutation
     raise Pundit::NotAuthorizedError unless MediumPolicy.new(context[:current_user], medium).create?
     medium.completion = medium.get_completion()
 
-    if arguments[:is_photographer]
+    if arguments[:is_photographer].present? && arguments[:is_photographer]
       medium.photographer_slug = medium.user.slug
     else
       if arguments[:photographer_slug].present?
         if User.where(slug: arguments[:photographer_slug]).count == 0
           medium.photographer_string = arguments[:photographer_slug]
+          medium.photographer_slug = nil
         else
           medium.photographer_slug = arguments[:photographer_slug]
+          medium.photographer_string = nil
         end
       elsif arguments[:photographer_string].present?
         medium.photographer_string = arguments[:photographer_string]
-      end
-      if arguments[:photographer_slug].blank?
         medium.photographer_slug = nil
-      elsif arguments[:photographer_string].blank?
-        medium.photographer_string = nil
       end
     end
 

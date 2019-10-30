@@ -29,11 +29,14 @@ class Mutations::UpdateMedium < Mutations::BaseMutation
       if arguments[:photographer_slug].present?
         if User.where(slug: arguments[:photographer_slug]).count == 0
           medium.photographer_string = arguments[:photographer_slug]
+          medium.photographer_slug = nil
         else
           medium.photographer_slug = arguments[:photographer_slug]
+          medium.photographer_string = nil
         end
       elsif arguments[:photographer_string].present?
         medium.photographer_string = arguments[:photographer_string]
+        medium.photographer_slug = nil
       end
     end
 

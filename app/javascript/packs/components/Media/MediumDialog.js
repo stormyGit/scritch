@@ -47,7 +47,7 @@ import LikeButton from "./LikeButton";
 import FaveButton from "./FaveButton";
 import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
 import EditMediumDialog from "./EditMediumDialog";
-import TagDialog from "../TagDialog";
+import TagDialog from "./TagDialog";
 import CommentForm from "./CommentForm";
 import Comments from "./Comments";
 import { withWidth, CardHeader } from "@material-ui/core";
@@ -605,7 +605,8 @@ const MediumActionButton = ({ currentSession, classes, medium }) => {
         }}
       >
         {(tagUnlockMedium, { data, error }) => (
-          <EditMediumDialog
+          <TagDialog
+            editMedium
             open={editDialogOpen}
             onClose={() => {
               tagUnlockMedium({
@@ -1038,7 +1039,8 @@ class MediumDialog extends React.Component {
                     }}
                   >
                     {(tagUnlockMedium, { data, error }) => (
-                      <EditMediumDialog
+                      <TagDialog
+                        editMedium
                         open={this.state.editMedium}
                         onClose={() => {
                           tagUnlockMedium({

@@ -1,62 +1,43 @@
-import React, { useState } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import React, { useState, memo } from "react";
+import { withRouter } from "react-router-dom";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import CameraIcon from "@material-ui/icons/CameraAlt";
-import FlashIcon from "@material-ui/icons/FlashOn";
-import TimerIcon from "@material-ui/icons/Timer";
-import IsoIcon from "@material-ui/icons/Iso";
-import DateIcon from "@material-ui/icons/DateRange";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRulerHorizontal, faEye } from "@fortawesome/free-solid-svg-icons";
-
 import CloseIcon from "@material-ui/icons/Close";
-import InfoIcon from "@material-ui/icons/InfoOutlined";
-import DownloadIcon from "@material-ui/icons/SaveAlt";
-import EditIcon from "@material-ui/icons/Edit";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
+import HelpIcon from "@material-ui/icons/HelpOutline";
 
 import withCurrentSession from "../withCurrentSession";
 import { withStyles } from "@material-ui/core/styles";
 import { GET_MEDIUM } from "../../queries/mediaQueries";
 import { Query, Mutation } from "react-apollo";
-import {
-  TAG_LOCK_MEDIUM,
-  TAG_UNLOCK_MEDIUM,
-  UPDATE_MEDIUM
-} from "../../queries/mediaMutations";
-import countFormat from "../../countFormat";
+import { UPDATE_MEDIUM } from "../../queries/mediaMutations";
 
 import ReportDialog from "../AppDialogs/ReportDialog";
 import TagReportDialog from "../AppDialogs/TagReportDialog";
-import ExifDialog from "../AppDialogs/ExifDialog";
-import DownloadDialog from "../AppDialogs/DownloadDialog";
-import LikeButton from "./LikeButton";
-import FaveButton from "./FaveButton";
 import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
-import EditMediumDialog from "./EditMediumDialog";
-import CommentForm from "./CommentForm";
-import Comments from "./Comments";
-import { withWidth, CardHeader, TextField } from "@material-ui/core";
-import UserAvatar from "../Users/UserAvatar";
-import timeAgo from "../../timeAgo";
-import dayjs from "dayjs";
-import countContractor from "../../countContractor";
-import { LOAD_FURSUIT, LOAD_FURSUITS } from "../../queries/fursuitQueries";
+import {
+  withWidth,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  InputAdornment
+} from "@material-ui/core";
+import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import SearchBar from "material-ui-search-bar";
+import {
+  LOAD_EVENTS_SELECT,
+  LOAD_SUB_EVENTS,
+  LOAD_EDITIONS
+} from "../../queries/eventQueries";
+import Select from "react-select";
+import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
 
 const styles = theme => ({
   dialogTitleRoot: {
@@ -189,7 +170,7 @@ const styles = theme => ({
   iconGridRoot: {
     alignItems: "center"
   },
-  iconGrid: {
+  centeredItem: {
     textAlign: "center"
   },
   textGrid: {
@@ -197,6 +178,25 @@ const styles = theme => ({
   },
   fursuitsCountField: {
     width: "100%"
+  },
+  selectInput: {
+    fontFamily: theme.typography.fontFamily
+  },
+  domain: {
+    marginRight: 1,
+    paddingBottom: 0,
+    fontSize: "1rem",
+    color:
+      theme.palette.type === "dark"
+        ? "rgba(255, 255, 255, 0.5)"
+        : "rgba(0, 0, 0, 0.5)"
+  },
+  listPadding: {
+    marginTop: 0,
+    marginBottom: 0
+  },
+  headTitle: {
+    paddingLeft: theme.spacing.unit * 2
   }
 });
 
@@ -204,6 +204,323 @@ const Spacer = () => <div style={{ padding: 8 }} />;
 
 const FatDivider = () => (
   <hr style={{ borderTop: "1px solid", width: "80%", color: "grey" }} />
+);
+
+const PhotographerSection = React.memo(
+  ({
+    classes,
+    photographerSlug,
+    setPhotographerSlug,
+    photographerString,
+    setPhotographerString,
+    isPhotographer,
+    setIsPhotographer
+  }) => {
+    return (
+      <React.Fragment>
+        <Grid item xs={12}>
+          <Typography
+            color="primary"
+            variant="h6"
+            className={classes.headTitle}
+          >
+            Photographer
+          </Typography>
+        </Grid>
+        <Grid item xs={12} style={{ paddingTop: 0 }}>
+          <FormControlLabel
+            className={classes.listPadding}
+            control={
+              <Checkbox
+                checked={isPhotographer}
+                onChange={e => setIsPhotographer(e.target.checked)}
+                color="primary"
+              />
+            }
+            label="I captured this media"
+          />
+        </Grid>
+        {!isPhotographer && (
+          <React.Fragment>
+            <Typography
+              variant="body2"
+              style={{ paddingLeft: 15, paddingBottom: 10 }}
+            >
+              Provide one:
+            </Typography>
+            <Grid item xs={12}>
+              <TextField
+                className={classes.listPadding}
+                label="Photographer's Scritch URL"
+                name="photographerSlug"
+                variant="outlined"
+                value={photographerSlug}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment
+                      position="start"
+                      className={classes.domain}
+                      disableTypography
+                    >
+                      {"http://scritch.es/"}
+                    </InputAdornment>
+                  )
+                }}
+                onChange={e => {
+                  setPhotographerSlug(e.target.value);
+                }}
+                margin="dense"
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                className={classes.listPadding}
+                label="Photographer's Name"
+                name="photographerString"
+                variant="outlined"
+                value={photographerString}
+                onChange={e => {
+                  setPhotographerString(e.target.value);
+                }}
+                margin="dense"
+                fullWidth
+              />
+            </Grid>
+          </React.Fragment>
+        )}
+      </React.Fragment>
+    );
+  },
+  (
+    {
+      photographerSlug: oldPhotographerSlug,
+      photographerString: oldPhotographerString,
+      isPhotographer: oldIsPhotographer
+    },
+    {
+      photographerSlug: newPhotographerSlug,
+      photographerString: newPhotographerString,
+      isPhotographer: newIsPhotographer
+    }
+  ) =>
+    oldPhotographerSlug == newPhotographerSlug &&
+    oldPhotographerString == newPhotographerString &&
+    oldIsPhotographer == newIsPhotographer
+);
+
+const EventSection = React.memo(
+  ({
+    classes,
+    mediaEvent,
+    setMediaEvent,
+    mediaEdition,
+    setMediaEdition,
+    mediaSubEvent,
+    setMediaSubEvent
+  }) => {
+    return (
+      <React.Fragment>
+        <Grid item xs={12}>
+          <Typography
+            color="primary"
+            variant="h6"
+            className={classes.headTitle}
+          >
+            Event
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Query
+            query={LOAD_EVENTS_SELECT}
+            variables={{
+              offset: 0,
+              limit: 1000
+            }}
+          >
+            {({ data, loading, error, fetchMore }) => {
+              if (loading || error) {
+                return <CircularProgress />;
+              }
+
+              const eventList = [];
+              data.events.map(e =>
+                eventList.push({ value: e.id, label: e.name })
+              );
+              return (
+                <Select
+                  fullWidth
+                  isClearable
+                  placeholder="Event"
+                  isSearchable
+                  value={mediaEvent}
+                  onChange={event => {
+                    let editionSwitch = mediaEvent && mediaEvent.value != event;
+                    setMediaEvent(event);
+                    if (editionSwitch) setMediaEdition(null);
+                  }}
+                  options={eventList}
+                  className={classes.selectInput}
+                />
+              );
+            }}
+          </Query>
+        </Grid>
+        {mediaEvent &&
+          Object.keys(mediaEvent).length != 0 &&
+          mediaEvent.value != null && (
+            <Grid item xs={12}>
+              <Query
+                query={LOAD_EDITIONS}
+                variables={{
+                  offset: 0,
+                  limit: 150,
+                  eventId: mediaEvent.value
+                }}
+              >
+                {({ data, loading, error, fetchMore }) => {
+                  if (loading || error) {
+                    return <CircularProgress />;
+                  }
+
+                  const editionList = [];
+                  data.editions.map(e =>
+                    editionList.push({
+                      value: e.id,
+                      label: e.name
+                    })
+                  );
+                  return (
+                    <Select
+                      fullWidth
+                      isClearable
+                      placeholder="Edition"
+                      isSearchable
+                      value={mediaEdition}
+                      onChange={edition => {
+                        setMediaEdition(edition);
+                      }}
+                      options={editionList}
+                      className={classes.selectInput}
+                    />
+                  );
+                }}
+              </Query>
+            </Grid>
+          )}
+        <Grid item xs={12}>
+          <Query
+            query={LOAD_SUB_EVENTS}
+            variables={{
+              sort: "latest",
+              offset: 0,
+              limit: 150
+            }}
+          >
+            {({ data, loading, error, fetchMore }) => {
+              if (loading || error) {
+                return <CircularProgress />;
+              }
+              const subEventList = [];
+              data.subEvents.map(e =>
+                subEventList.push({
+                  value: e.id,
+                  label: e.name
+                })
+              );
+              return (
+                <Select
+                  isClearable
+                  fullWidth
+                  clearable={true}
+                  placeholder="SubEvent"
+                  defaultValue={mediaSubEvent}
+                  isSearchable
+                  onChange={subEvent => {
+                    setMediaSubEvent(subEvent);
+                  }}
+                  options={subEventList}
+                  className={classes.selectInput}
+                />
+              );
+            }}
+          </Query>
+        </Grid>
+      </React.Fragment>
+    );
+  },
+  (
+    {
+      mediaEvent: oldMediaEvent,
+      mediaEdition: oldMediaEdition,
+      mediaSubEvent: oldMediaSubEvent
+    },
+    {
+      mediaEvent: newMediaEvent,
+      mediaEdition: newMediaEdition,
+      mediaSubEvent: newMediaSubEvent
+    }
+  ) =>
+    oldMediaEvent == newMediaEvent &&
+    oldMediaEdition == newMediaEdition &&
+    oldMediaSubEvent == newMediaSubEvent
+);
+
+const CategorySection = React.memo(
+  ({ classes, mediaCategory, setMediaCategory }) => {
+    return (
+      <React.Fragment>
+        <Grid item xs={12}>
+          <Typography
+            color="primary"
+            variant="h6"
+            className={classes.headTitle}
+          >
+            Category
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Query
+            query={LOAD_CATEGORIES}
+            variables={{
+              sort: "latest",
+              offset: 0,
+              limit: 150
+            }}
+          >
+            {({ data, loading, error, fetchMore }) => {
+              if (loading || error) {
+                return <CircularProgress />;
+              }
+              const categoryList = [];
+              data.categories.map(e =>
+                categoryList.push({
+                  value: e.id,
+                  label: e.name
+                })
+              );
+              return (
+                <Select
+                  fullWidth
+                  clearable={true}
+                  placeholder="Category"
+                  defaultValue={mediaCategory}
+                  isSearchable
+                  onChange={category => {
+                    setMediaCategory(category);
+                  }}
+                  options={categoryList}
+                  className={classes.selectInput}
+                />
+              );
+            }}
+          </Query>
+        </Grid>
+      </React.Fragment>
+    );
+  },
+  ({ mediaCategory: oldMediaCategory }, { mediaCategory: newMediaCategory }) =>
+    oldMediaCategory == newMediaCategory
 );
 
 function renderResults({
@@ -237,10 +554,6 @@ function renderResults({
               setQuery("");
               setNameInput("");
               setFursuits([...fursuits, payload]);
-              // this.setState(prevState => ({
-              //   query: "",
-              //   fursuits: [...prevState.fursuits, payload]
-              // }));
             }}
           />
         </Grid>
@@ -275,91 +588,90 @@ function handleSearch(val, query, setQuery, nameInput, setNameInput) {
   }
 }
 
-const FursuitsSearchSection = ({
-  classes,
-  fursuits,
-  setFursuits,
-  disabled
-}) => {
-  const [hasMore, setHasMore] = useState(false);
-  const [query, setQuery] = useState("");
-  const [nameInput, setNameInput] = useState("");
-  var limit = 12;
+const FursuitsSearchSection = React.memo(
+  ({ classes, fursuits, setFursuits, disabled }) => {
+    const [hasMore, setHasMore] = useState(false);
+    const [query, setQuery] = useState("");
+    const [nameInput, setNameInput] = useState("");
+    var limit = 12;
 
-  return (
-    <React.Fragment>
-      <Grid item xs={12}>
-        <SearchBar
-          className={classes.searchBar}
-          disabled={disabled}
-          onChange={value =>
-            handleSearch(value, query, setQuery, nameInput, setNameInput)
-          }
-          value={nameInput}
-          onCancelSearch={() =>
-            handleSearch("", query, setQuery, nameInput, setNameInput)
-          }
-          placeholder="Search fursuits..."
-        />
-      </Grid>
-      <Grid item xs={12} className={classes.flexSectionSpacedCentered}>
-        {query.length >= 1 && (
-          <Query
-            query={LOAD_FURSUITS}
-            variables={{
-              name: query,
-              limit,
-              offset: 0,
-              exclude: fursuits.map(a => a.id)
-            }}
-          >
-            {({ data, loading, error, fetchMore }) => (
-              <React.Fragment>
-                <Grid container className={classes.root} spacing={8}>
-                  {!loading &&
-                    !error &&
-                    renderResults({
-                      data,
-                      hasMore:
-                        data.fursuits.length % limit === 0 &&
-                        hasMore &&
-                        data.fursuits.length > 0,
-                      onLoadMore: () => {
-                        fetchMore({
-                          variables: {
-                            offset: data.fursuits.length,
-                            limit
-                          },
-                          updateQuery: (prev, { fetchMoreResult }) => {
-                            if (!fetchMoreResult) return prev;
+    return (
+      <React.Fragment>
+        <Grid item xs={12}>
+          <SearchBar
+            className={classes.searchBar}
+            disabled={disabled}
+            onChange={value =>
+              handleSearch(value, query, setQuery, nameInput, setNameInput)
+            }
+            value={nameInput}
+            onCancelSearch={() =>
+              handleSearch("", query, setQuery, nameInput, setNameInput)
+            }
+            placeholder="Search fursuits..."
+          />
+        </Grid>
+        <Grid item xs={12} className={classes.flexSectionSpacedCentered}>
+          {query.length >= 1 && (
+            <Query
+              query={LOAD_FURSUITS}
+              variables={{
+                name: query,
+                limit,
+                offset: 0,
+                exclude: fursuits.map(a => a.id)
+              }}
+            >
+              {({ data, loading, error, fetchMore }) => (
+                <React.Fragment>
+                  <Grid container className={classes.root} spacing={8}>
+                    {!loading &&
+                      !error &&
+                      renderResults({
+                        data,
+                        hasMore:
+                          data.fursuits.length % limit === 0 &&
+                          hasMore &&
+                          data.fursuits.length > 0,
+                        onLoadMore: () => {
+                          fetchMore({
+                            variables: {
+                              offset: data.fursuits.length,
+                              limit
+                            },
+                            updateQuery: (prev, { fetchMoreResult }) => {
+                              if (!fetchMoreResult) return prev;
 
-                            if (fetchMoreResult.fursuits.length === 0) {
-                              setHasMore(false);
-                            } else {
-                              return Object.assign({}, prev, {
-                                fursuits: [
-                                  ...prev.fursuits,
-                                  ...fetchMoreResult.fursuits
-                                ]
-                              });
+                              if (fetchMoreResult.fursuits.length === 0) {
+                                setHasMore(false);
+                              } else {
+                                return Object.assign({}, prev, {
+                                  fursuits: [
+                                    ...prev.fursuits,
+                                    ...fetchMoreResult.fursuits
+                                  ]
+                                });
+                              }
                             }
-                          }
-                        });
-                      },
-                      setQuery,
-                      setNameInput,
-                      fursuits,
-                      setFursuits
-                    })}
-                </Grid>
-              </React.Fragment>
-            )}
-          </Query>
-        )}
-      </Grid>
-    </React.Fragment>
-  );
-};
+                          });
+                        },
+                        setQuery,
+                        setNameInput,
+                        fursuits,
+                        setFursuits
+                      })}
+                  </Grid>
+                </React.Fragment>
+              )}
+            </Query>
+          )}
+        </Grid>
+      </React.Fragment>
+    );
+  },
+  ({ fursuits: oldFursuits }, { fursuits: newFursuits }) =>
+    oldFursuits == newFursuits
+);
 
 const FursuitsSection = ({ classes, fursuits, setFursuits, medium }) => {
   return (
@@ -383,18 +695,25 @@ const FursuitsSection = ({ classes, fursuits, setFursuits, medium }) => {
 
 const FursuitNumberSection = ({ classes, fursuitsCount, setFursuitsCount }) => {
   return (
-    <Grid item xs={12}>
-      <TextField
-        label="No. of Fursuits"
-        name="fursuitsCount"
-        variant="outlined"
-        className={classes.fursuitsCountField}
-        style={{ zIndex: 0 }}
-        value={fursuitsCount || ""}
-        onChange={e => setFursuitsCount(e.target.value)}
-        margin="dense"
-      />
-    </Grid>
+    <React.Fragment>
+      <Grid item xs={12}>
+        <Typography color="primary" variant="h6" className={classes.headTitle}>
+          Fursuits
+        </Typography>
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          label="Number of Fursuits"
+          name="fursuitsCount"
+          variant="outlined"
+          className={classes.fursuitsCountField}
+          style={{ zIndex: 0 }}
+          value={fursuitsCount || ""}
+          onChange={e => setFursuitsCount(e.target.value)}
+          margin="dense"
+        />
+      </Grid>
+    </React.Fragment>
   );
 };
 
@@ -404,14 +723,23 @@ function TagDialog({
   open,
   onClose,
   mediumId,
+  editMedium,
   currentSession
 }) {
   const [fursuitsCount, setFursuitsCount] = useState(null);
   const [fursuits, setFursuits] = useState(null);
   const [mediaCategory, setMediaCategory] = useState(null);
+  const [photographerSlug, setPhotographerSlug] = useState(null);
+  const [photographerString, setPhotographerString] = useState(null);
+  const [isPhotographer, setIsPhotographer] = useState(true);
+  const [mediaEvent, setMediaEvent] = useState(null);
+  const [mediaEdition, setMediaEdition] = useState(null);
+  const [mediaSubEvent, setMediaSubEvent] = useState(null);
   const [tagReportDialog, setTagReportDialog] = useState(false);
+  const [help, setHelp] = useState(false);
   const [initialValues, setInitialValues] = useState(false);
   const [reportDialog, setReportDialog] = useState(false);
+  const [showOwnerEditor, setShowOwnerEditor] = useState(true);
 
   return (
     <ResponsiveDialog open={open} onClose={onClose} size={1280}>
@@ -476,7 +804,41 @@ function TagDialog({
                 if (initialValues === false) {
                   setInitialValues(true);
                   setFursuitsCount(medium.fursuitsCount);
-                  setMediaCategory(medium.category);
+                  setPhotographerString(medium.photographerString);
+                  setPhotographerSlug(medium.photographerSlug);
+                  setIsPhotographer(
+                    medium.photographerSlug &&
+                      medium.photographerSlug == currentSession.user.slug
+                  );
+                  setMediaEvent(
+                    medium.edition
+                      ? {
+                          value: medium.edition.event.id,
+                          label: medium.edition.event.name
+                        }
+                      : null
+                  );
+                  setMediaEdition(
+                    medium.edition
+                      ? { value: medium.edition.id, label: medium.edition.name }
+                      : null
+                  );
+                  setMediaCategory(
+                    medium.category
+                      ? {
+                          value: medium.category.id,
+                          label: medium.category.name
+                        }
+                      : null
+                  );
+                  setMediaSubEvent(
+                    medium.subEvent
+                      ? {
+                          value: medium.subEvent.id,
+                          label: medium.subEvent.name
+                        }
+                      : null
+                  );
                   setFursuits(medium.fursuits ? medium.fursuits : []);
                 }
 
@@ -562,11 +924,23 @@ function TagDialog({
                                 </IconButton>
                               </Tooltip>
                             )}
+                            <Tooltip title="Completion Guide">
+                              <IconButton onClick={() => setHelp(!help)}>
+                                <HelpIcon />
+                              </IconButton>
+                            </Tooltip>
                             <Button
+                              color="primary"
                               disabled={
                                 !mediaCategory ||
                                 (fursuits && fursuitsCount < fursuits.length) ||
-                                (fursuitsCount && isNaN(fursuitsCount))
+                                (fursuitsCount && isNaN(fursuitsCount)) ||
+                                (mediaEvent &&
+                                  (!mediaEdition || !mediaSubEvent)) ||
+                                (mediaSubEvent && !mediaEdition) ||
+                                (!isPhotographer &&
+                                  !photographerSlug &&
+                                  !photographerString)
                               }
                               onClick={() => {
                                 updateMedium({
@@ -576,6 +950,15 @@ function TagDialog({
                                       title: medium.title,
                                       categoryId:
                                         mediaCategory && mediaCategory.value,
+                                      editionId: mediaEdition
+                                        ? mediaEdition.value
+                                        : null,
+                                      subEventId: mediaSubEvent
+                                        ? mediaSubEvent.value
+                                        : null,
+                                      isPhotographer: isPhotographer,
+                                      photographerSlug: photographerSlug,
+                                      photographerString: photographerString,
                                       fursuitsCount: parseInt(fursuitsCount),
                                       fursuits: fursuits.map(a => a.id)
                                     }
@@ -592,17 +975,72 @@ function TagDialog({
                               <CloseIcon />
                             </IconButton>
                           </Grid>
-                          <Grid item xs={12}>
-                            <Typography variant="subtitle1">
-                              The Category makes up 20% of Completion.
-                              <br />
-                              Entering No. of Fursuits in this media constitutes
-                              10% Completion.
-                              <br />
-                              The remaining 70% are equally split by the number
-                              of Fursuits declared when tagged.
-                            </Typography>
-                          </Grid>
+                          {help && (
+                            <Grid item xs={12}>
+                              <Typography variant="subtitle1">
+                                The Category makes up 20% of Completion.
+                                <br />
+                                Entering Number of Fursuits in this media
+                                constitutes 10% Completion.
+                                <br />
+                                The remaining 70% are equally split by the
+                                number of Fursuits declared when tagged.
+                              </Typography>
+                            </Grid>
+                          )}
+                          {editMedium && (
+                            <React.Fragment>
+                              <Grid
+                                item
+                                xs={12}
+                                className={classes.centeredItem}
+                              >
+                                <Button
+                                  variant="outlined"
+                                  onClick={() =>
+                                    setShowOwnerEditor(!showOwnerEditor)
+                                  }
+                                >
+                                  {showOwnerEditor
+                                    ? "Hide Data Section"
+                                    : "Show Data Section"}
+                                </Button>
+                              </Grid>
+                              {showOwnerEditor && (
+                                <React.Fragment>
+                                  <PhotographerSection
+                                    classes={classes}
+                                    photographerSlug={photographerSlug}
+                                    setPhotographerSlug={setPhotographerSlug}
+                                    photographerString={photographerString}
+                                    setPhotographerString={
+                                      setPhotographerString
+                                    }
+                                    isPhotographer={isPhotographer}
+                                    setIsPhotographer={setIsPhotographer}
+                                  />
+                                  <FatDivider />
+                                  <EventSection
+                                    classes={classes}
+                                    mediaEvent={mediaEvent}
+                                    setMediaEvent={setMediaEvent}
+                                    mediaEdition={mediaEdition}
+                                    setMediaEdition={setMediaEdition}
+                                    mediaSubEvent={mediaSubEvent}
+                                    setMediaSubEvent={setMediaSubEvent}
+                                  />
+                                  <FatDivider />
+                                  <CategorySection
+                                    classes={classes}
+                                    mediaCategory={mediaCategory}
+                                    setMediaCategory={setMediaCategory}
+                                  />
+                                  <FatDivider />
+                                </React.Fragment>
+                              )}
+                            </React.Fragment>
+                          )}
+
                           <FursuitNumberSection
                             classes={classes}
                             fursuitsCount={fursuitsCount}
@@ -632,6 +1070,12 @@ function TagDialog({
                         </Grid>
                       </Grid>
                     </Grid>
+                    <ReportDialog
+                      open={reportDialog}
+                      onClose={() => setReportDialog(false)}
+                      resource="medium"
+                      resourceId={medium.id}
+                    />
                   </React.Fragment>
                 );
               }}
