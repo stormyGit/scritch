@@ -102,7 +102,6 @@ function MediaSubs({ classes, width, filter, switchNewOnlyStatus }) {
 
   return (
     <React.Fragment>
-      <PageTitle>Media</PageTitle>
       <div className={classes.flexTopButtons}>
         {false && (
           <Button variant="outlined" onClick={switchNewOnlyStatus}>

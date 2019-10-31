@@ -82,7 +82,6 @@ function MediaTagging({ classes, width }) {
 
   return (
     <React.Fragment>
-      <PageTitle>Media</PageTitle>
       <Query
         query={GET_TAGGABLE_MEDIA}
         fetchPolicy="network-only"
