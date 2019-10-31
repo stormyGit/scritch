@@ -8,10 +8,11 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Badge from "@material-ui/core/Badge";
 import Button from "@material-ui/core/Button";
 
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
+import ChatIcon from "@material-ui/icons/Chat";
+import ChatNoneIcon from "@material-ui/icons/ChatBubbleOutline";
 
 import { GET_UNREAD_ACTIVITY_COUNT } from "../../queries/activityQueries";
+import { GET_UNREAD_CHATS_COUNT } from "../../queries/chatQueries";
 
 const styles = theme => ({
   rightButton: {
@@ -19,38 +20,44 @@ const styles = theme => ({
   }
 });
 
-class NotificationsButton extends React.Component {
+class ChatButton extends React.Component {
   state = {
     uploadDialog: true
   };
 
   render() {
-    const { classes, currentSession } = this.props;
+    const { classes, currentSession, disabled } = this.props;
 
     return (
       <React.Fragment>
         {currentSession && (
           <div className={classes.rightButton}>
             <Query
-              query={GET_UNREAD_ACTIVITY_COUNT}
+              query={GET_UNREAD_CHATS_COUNT}
               pollInterval={parseInt(
                 process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL
               )}
             >
               {({ loading, error, data }) => (
-                <Tooltip title="Notifications">
-                  <IconButton color="primary" onClick={this.props.onClick}>
-                    {loading || !data || data.unreadActivityCount <= 0 ? (
-                      <NotificationsNoneIcon />
-                    ) : (
-                      <Badge
-                        badgeContent={data.unreadActivityCount}
-                        color="secondary"
-                      >
-                        <NotificationsIcon />
-                      </Badge>
-                    )}
-                  </IconButton>
+                <Tooltip title="Coming Soon!">
+                  <div>
+                    <IconButton
+                      color="primary"
+                      disabled={disabled}
+                      onClick={this.props.onClick}
+                    >
+                      {loading || !data || data.unreadChatsCount <= 0 ? (
+                        <ChatNoneIcon />
+                      ) : (
+                        <Badge
+                          badgeContent={data.unreadChatsCount}
+                          color="secondary"
+                        >
+                          <ChatIcon />
+                        </Badge>
+                      )}
+                    </IconButton>
+                  </div>
                 </Tooltip>
               )}
             </Query>
@@ -68,14 +75,15 @@ class NotificationsButton extends React.Component {
               >
                 {({ loading, error, data }) => {
                   if (loading || error || !data) return null;
-                  if (data.unreadActivityCount <= 0)
+                  if (data.unreadChatsCount <= 0)
                     return (
                       <Button
+                        disabled={disabled}
                         onClick={this.props.onClick}
                         color="primary"
                         className={classes.buttonPad}
                       >
-                        Notifications
+                        Messages
                       </Button>
                     );
                   else
@@ -87,10 +95,10 @@ class NotificationsButton extends React.Component {
                       >
                         <Badge
                           className={classes.badge}
-                          badgeContent={data.unreadActivityCount}
+                          badgeContent={data.unreadChatsCount}
                           color="secondary"
                         >
-                          Notifications
+                          Messages
                         </Badge>
                       </Button>
                     );
@@ -103,6 +111,4 @@ class NotificationsButton extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withCurrentSession(withWidth()(NotificationsButton))
-);
+export default withStyles(styles)(withCurrentSession(withWidth()(ChatButton)));

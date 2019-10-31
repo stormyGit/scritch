@@ -27,6 +27,14 @@ import NotificationsButton from "../AppLayout/NotificationsButton";
 import AppDialogs from "../AppLayout/AppDialogs";
 import CookieConsent from "react-cookie-consent";
 import logo from "../../../../assets/images/logo.png";
+import {
+  Menu,
+  MenuItem,
+  TextField,
+  InputAdornment,
+  Tooltip
+} from "@material-ui/core";
+import ChatButton from "../AppLayout/ChatButton";
 
 const styles = theme => ({
   root: {
@@ -130,6 +138,9 @@ const styles = theme => ({
 
 class AppLayoutRemake extends React.Component {
   state = {
+    query: "",
+    nameInput: "",
+    anchorEl: null,
     uploadDialog: false,
     signUpDialog: false,
     mainDrawer: true,
@@ -144,16 +155,6 @@ class AppLayoutRemake extends React.Component {
     query: {}
   };
 
-  componentDidMount() {
-    this.handleQuery(this.props);
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.location.search !== nextProps.location.search) {
-      this.handleQuery(nextProps);
-    }
-  }
-
   componentDidUpdate(prevProps) {
     if (this.props.location !== prevProps.location) {
       window.scrollTo(0, 0);
@@ -161,23 +162,26 @@ class AppLayoutRemake extends React.Component {
     }
   }
 
-  handleQuery(props) {
-    const query = queryString.parse(props.location.search);
-    this.setState({
-      query,
-      searchEnabled:
-        props.width !== "xl" &&
-        props.width !== "lg" &&
-        query.q &&
-        query.q.length > 0
-    });
-  }
+  handleSearch(val, event) {
+    if (this.state.nameInput.length >= 1 && val.length < 1) {
+      this.reset = true;
+    }
 
-  handleRequestSearch(q) {
-    this.props.history.push({
-      pathname: "/search",
-      search: queryString.stringify({ q })
-    });
+    this.setState({ nameInput: val });
+
+    if (this.loadEventTimer) {
+      clearTimeout(this.loadEventTimer);
+    }
+
+    if (val.length >= 1) {
+      this.loadEventTimer = setTimeout(() => {
+        this.setState({ query: val });
+      }, 500);
+    } else if (this.reset) {
+      clearTimeout(this.loadEventTimer);
+      this.setState({ query: val });
+      this.reset = false;
+    }
   }
 
   render() {
@@ -344,20 +348,38 @@ class AppLayoutRemake extends React.Component {
                           marginRight: width === "lg" || width === "xl" ? 16 : 0
                         }}
                       >
-                        <SearchBar
-                          autoFocus={
-                            width !== "lg" && width !== "xl" && !query.q
-                          }
-                          cancelOnEscape
-                          value={query.q}
-                          onRequestSearch={q => {
-                            if (typeof q === "string") {
-                              this.handleRequestSearch(q);
-                            }
+                        <TextField
+                          clearable
+                          placeholder="Search..."
+                          onChange={e => {
+                            this.handleSearch(e.target.value, e);
                           }}
+                          value={this.state.nameInput}
+                          InputProps={
+                            this.state.nameInput !== ""
+                              ? {
+                                  endAdornment: (
+                                    <InputAdornment position="end">
+                                      <IconButton
+                                        onClick={e => this.handleSearch("", e)}
+                                      >
+                                        <CloseIcon />
+                                      </IconButton>
+                                    </InputAdornment>
+                                  )
+                                }
+                              : null
+                          }
                         />
                       </div>
                     )}
+
+                  {width === "xl" ||
+                    (width === "lg" && (
+                      <div className={classes.titleZone}>
+                        <DisplayPageTitle />
+                      </div>
+                    ))}
 
                   {!this.state.searchEnabled && (
                     <React.Fragment>
@@ -386,8 +408,7 @@ class AppLayoutRemake extends React.Component {
                     </IconButton>
                   )}
 
-                  {false &&
-                    !this.state.searchEnabled &&
+                  {!this.state.searchEnabled &&
                     width !== "lg" &&
                     width !== "xl" && (
                       <IconButton
@@ -401,12 +422,6 @@ class AppLayoutRemake extends React.Component {
                         <SearchIcon />
                       </IconButton>
                     )}
-
-                  {width === "xl" && (
-                    <div className={classes.titleZone}>
-                      <DisplayPageTitle />
-                    </div>
-                  )}
 
                   {!this.state.searchEnabled && (
                     <React.Fragment>
@@ -422,6 +437,7 @@ class AppLayoutRemake extends React.Component {
                           this.setState({ activitiesDialog: true })
                         }
                       />
+                      <ChatButton disabled={true} />
                       <UserButton
                         openSignUp={() => this.setState({ signUpDialog: true })}
                         openSettings={() =>

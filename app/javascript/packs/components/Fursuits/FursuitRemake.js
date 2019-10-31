@@ -170,34 +170,42 @@ const styles = theme => ({
   },
   textAligner: {
     textAlign: "center"
+  },
+  detailCircler: {
+    borderWidth: "1px",
+    borderStyle: "solid",
+    borderColor: theme.palette.text.primary
   }
 });
 
 const Padder = () => <div style={{ padding: 16 }} />;
 const MicroPadder = () => <div style={{ padding: 8 }} />;
 
-const DetailField = ({ data, dataShort, field }) => {
-  return (
-    <Tooltip title={dataShort ? dataShort : data ? data.name : "Unknown"}>
-      <div
-        style={{
-          textAlign: "center",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column"
-        }}
-      >
-        <DefaultAvatar
-          text={data ? data.name : dataShort ? "" : "?"}
-          key="avatar"
-          color={dataShort ? dataShort.toLowerCase() : "#0c8cff"}
-        />
-        <Typography variant="subtitle1">{field}</Typography>
-      </div>
-    </Tooltip>
-  );
-};
+const DetailField = withStyles(styles)(
+  ({ data, dataShort, field, classes }) => {
+    return (
+      <Tooltip title={dataShort ? dataShort : data ? data.name : "Unknown"}>
+        <div
+          style={{
+            textAlign: "center",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column"
+          }}
+        >
+          <DefaultAvatar
+            text={data ? data.name : dataShort ? "" : "?"}
+            key="avatar"
+            color={dataShort ? dataShort.toLowerCase() : "#0c8cff"}
+            className={classes.detailCircler}
+          />
+          <Typography variant="subtitle1">{field}</Typography>
+        </div>
+      </Tooltip>
+    );
+  }
+);
 
 const Avatar = withStyles(styles)(({ fursuit, classes, avatarClass }) => {
   return (
