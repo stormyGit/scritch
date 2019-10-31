@@ -30,39 +30,40 @@ class ChatButton extends React.Component {
 
     return (
       <React.Fragment>
-        {currentSession && (
-          <div className={classes.rightButton}>
-            <Query
-              query={GET_UNREAD_CHATS_COUNT}
-              pollInterval={parseInt(
-                process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL
-              )}
-            >
-              {({ loading, error, data }) => (
-                <Tooltip title="Coming Soon!">
-                  <div>
-                    <IconButton
-                      color="primary"
-                      disabled={disabled}
-                      onClick={this.props.onClick}
-                    >
-                      {loading || !data || data.unreadChatsCount <= 0 ? (
-                        <ChatNoneIcon />
-                      ) : (
-                        <Badge
-                          badgeContent={data.unreadChatsCount}
-                          color="secondary"
-                        >
-                          <ChatIcon />
-                        </Badge>
-                      )}
-                    </IconButton>
-                  </div>
-                </Tooltip>
-              )}
-            </Query>
-          </div>
-        )}
+        {currentSession &&
+          (this.props.width === "xl" || this.props.width === "lg") && (
+            <div className={classes.rightButton}>
+              <Query
+                query={GET_UNREAD_CHATS_COUNT}
+                pollInterval={parseInt(
+                  process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL
+                )}
+              >
+                {({ loading, error, data }) => (
+                  <Tooltip title="Coming Soon!">
+                    <div>
+                      <IconButton
+                        color="primary"
+                        disabled={disabled}
+                        onClick={this.props.onClick}
+                      >
+                        {loading || !data || data.unreadChatsCount <= 0 ? (
+                          <ChatNoneIcon />
+                        ) : (
+                          <Badge
+                            badgeContent={data.unreadChatsCount}
+                            color="secondary"
+                          >
+                            <ChatIcon />
+                          </Badge>
+                        )}
+                      </IconButton>
+                    </div>
+                  </Tooltip>
+                )}
+              </Query>
+            </div>
+          )}
         {false &&
           (this.props.width === "xl" || this.props.width === "lg") &&
           currentSession && (
