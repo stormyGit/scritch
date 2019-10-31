@@ -246,7 +246,6 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
             >
               <Link
                 to={`/${medium.photographerSlug}`}
-                target="_blank"
                 className={classes.dataLink}
               >
                 {" "}
@@ -294,7 +293,6 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
             >
               <Link
                 to={`/events/${medium.edition.event.slug}?edition_id=${medium.edition.id}&edition_name=${medium.edition.name}`}
-                target="_blank"
                 className={classes.dataLink}
               >
                 {medium.edition.event.name} ({medium.edition.name})
@@ -737,7 +735,6 @@ const TagSection = ({ currentSession, classes, medium }) => {
             medium.fursuits.map(fursuit => (
               <Grid item xs={4} sm={3} lg={4} key={fursuit.id}>
                 <Link
-                  target="_blank"
                   to={`/fursuits/${fursuit.slug}`}
                   className={classes.fursuitLink}
                 >

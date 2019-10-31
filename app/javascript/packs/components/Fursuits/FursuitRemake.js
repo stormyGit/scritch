@@ -282,7 +282,6 @@ const SubtitleRow = withStyles(styles)(
                 Made by{" "}
                 <Link
                   to={`/makers/${fursuit.makers[0].slug}`}
-                  target="_blank"
                   className={classes.link}
                 >
                   {fursuit.makers[0].name}
@@ -301,7 +300,6 @@ const SubtitleRow = withStyles(styles)(
                 {fursuit.users[0].public ? (
                   <Link
                     to={`/${fursuit.users[0].slug}`}
-                    target="_blank"
                     className={classes.link}
                   >
                     {fursuit.users[0].name}
@@ -332,7 +330,6 @@ const SubtitleRow = withStyles(styles)(
                   Made by{" "}
                   <Link
                     to={`/makers/${fursuit.makers[0].slug}`}
-                    target="_blank"
                     className={classes.link}
                   >
                     {fursuit.makers[0].name}

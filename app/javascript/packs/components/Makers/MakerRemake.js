@@ -3,7 +3,6 @@ import { Query, Mutation } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import FursuitCard from "../Fursuits/FursuitCard";
-import FursuitModal from "../Fursuits/FursuitModal";
 import DefaultAvatar from "../Users/DefaultAvatar";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
@@ -22,7 +21,7 @@ import {
 } from "../../queries/makerMutations";
 
 import withCurrentSession from "../withCurrentSession";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 const styles = theme => ({
   container: {
@@ -158,6 +157,10 @@ const styles = theme => ({
     color: theme.palette.primary.main
   },
   link: {
+    textDecoration: "none",
+    color: theme.palette.primary.main
+  },
+  iconLink: {
     textDecoration: "none",
     color: theme.palette.primary.main
   },
@@ -535,16 +538,21 @@ class Maker extends React.Component {
           maker.fursuits.map(fursuit => {
             return (
               <Grid item xs={6} md={4} lg={2} key={fursuit.id}>
-                <FursuitCard
-                  openFursuit={fursuit => {
-                    this.setState({
-                      openFursuit: true,
-                      fursuit: fursuit
-                    });
-                  }}
-                  key={fursuit.id}
-                  fursuit={fursuit}
-                />
+                <Link
+                  to={`/fursuits/${fursuit.slug}`}
+                  className={classes.iconLink}
+                >
+                  <FursuitCard
+                    openFursuit={fursuit => {
+                      this.setState({
+                        openFursuit: true,
+                        fursuit: fursuit
+                      });
+                    }}
+                    key={fursuit.id}
+                    fursuit={fursuit}
+                  />
+                </Link>
               </Grid>
             );
           })}
@@ -552,16 +560,21 @@ class Maker extends React.Component {
           maker.fursuitsByDate.map(fursuit => {
             return (
               <Grid item xs={6} md={4} lg={2} key={fursuit.id}>
-                <FursuitCard
-                  openFursuit={fursuit => {
-                    this.setState({
-                      openFursuit: true,
-                      fursuit: fursuit
-                    });
-                  }}
-                  key={fursuit.id}
-                  fursuit={fursuit}
-                />
+                <Link
+                  to={`/fursuits/${fursuit.slug}`}
+                  className={classes.iconLink}
+                >
+                  <FursuitCard
+                    openFursuit={fursuit => {
+                      this.setState({
+                        openFursuit: true,
+                        fursuit: fursuit
+                      });
+                    }}
+                    key={fursuit.id}
+                    fursuit={fursuit}
+                  />
+                </Link>
               </Grid>
             );
           })}
@@ -616,17 +629,6 @@ class Maker extends React.Component {
                   open={this.state.editMaker}
                   onClose={() => this.setState({ editMaker: false })}
                 />
-                {this.state.openFursuit && this.state.fursuit && (
-                  <React.Fragment>
-                    <FursuitModal
-                      open={this.state.openFursuit}
-                      onClose={() =>
-                        this.setState({ openFursuit: false, fursuit: null })
-                      }
-                      fursuit={this.state.fursuit}
-                    />
-                  </React.Fragment>
-                )}
               </React.Fragment>
             );
           }}

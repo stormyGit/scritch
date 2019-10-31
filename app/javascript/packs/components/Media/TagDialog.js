@@ -799,7 +799,6 @@ function TagDialog({
                     </Grid>
                   );
                 }
-                console.log(medium);
 
                 if (initialValues === false) {
                   setInitialValues(true);
@@ -1046,7 +1045,14 @@ function TagDialog({
                             fursuitsCount={fursuitsCount}
                             setFursuitsCount={setFursuitsCount}
                           />
-                          {console.log(fursuitsCount)}
+                          <Grid item xs={12} className={classes.centeredItem}>
+                            <Button
+                              variant="outlined"
+                              onClick={() => setTagReportDialog(true)}
+                            >
+                              Wrong Tags?
+                            </Button>
+                          </Grid>
                           {fursuitsCount != null && fursuitsCount > 0 && (
                             <FursuitsSearchSection
                               classes={classes}
@@ -1070,6 +1076,11 @@ function TagDialog({
                         </Grid>
                       </Grid>
                     </Grid>
+                    <TagReportDialog
+                      open={tagReportDialog}
+                      onClose={() => setTagReportDialog(false)}
+                      medium={medium}
+                    />
                     <ReportDialog
                       open={reportDialog}
                       onClose={() => setReportDialog(false)}

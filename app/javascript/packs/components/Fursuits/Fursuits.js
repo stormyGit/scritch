@@ -23,9 +23,9 @@ import FursuitCard from "./FursuitCard";
 
 import { READ_MAKER_NOTIFICATIONS } from "../../queries/subscriptionMutations";
 
+import { Link } from "react-router-dom";
+
 import FursuitFilters from "./FursuitFilters";
-import FursuitModal from "./FursuitModal";
-import FursuitModalMobile from "./FursuitModalMobile";
 
 const styles = theme => ({
   root: {
@@ -41,6 +41,9 @@ const styles = theme => ({
     textAlign: "center",
     alignItems: "center",
     top: 0
+  },
+  link: {
+    textDecoration: "none"
   }
 });
 
@@ -105,13 +108,15 @@ class Fursuits extends React.Component {
       <React.Fragment>
         {data.fursuits.map(fursuit => (
           <Grid item xs={6} sm={4} md={3} lg={2} key={fursuit.id}>
-            <FursuitCard
-              withMaker={true}
-              fursuit={fursuit}
-              openFursuit={fursuit => {
-                this.setState({ openFursuit: true, fursuit: fursuit });
-              }}
-            />
+            <Link to={`/fursuits/${fursuit.slug}`} className={classes.link}>
+              <FursuitCard
+                withMaker={true}
+                fursuit={fursuit}
+                openFursuit={fursuit => {
+                  this.setState({ openFursuit: true, fursuit: fursuit });
+                }}
+              />
+            </Link>
           </Grid>
         ))}
         {hasMore && <LoadMoreButton onClick={() => onLoadMore()} />}
@@ -222,29 +227,6 @@ class Fursuits extends React.Component {
         {!searching && !withSubsClear && <PageTitle>Fursuits</PageTitle>}
         {!searching && !withSubsClear && this.renderFilters()}
         {!searching && withSubsClear && this.renderFiltersWithSubsClear()}
-        {this.state.openFursuit &&
-          this.state.fursuit &&
-          (width === "xs" || width === "sm") && (
-            <FursuitModalMobile
-              open={this.state.openFursuit}
-              onClose={() =>
-                this.setState({ openFursuit: false, fursuit: null })
-              }
-              fursuit={this.state.fursuit}
-            />
-          )}
-        {this.state.openFursuit &&
-          this.state.fursuit &&
-          width !== "xs" &&
-          width !== "sm" && (
-            <FursuitModal
-              open={this.state.openFursuit}
-              onClose={() =>
-                this.setState({ openFursuit: false, fursuit: null })
-              }
-              fursuit={this.state.fursuit}
-            />
-          )}
         <Query
           query={LOAD_FURSUITS}
           variables={{
@@ -274,7 +256,7 @@ class Fursuits extends React.Component {
                 <Grid
                   container
                   className={classes.root}
-                  spacing={8}
+                  spacing={24}
                   style={{
                     marginTop: width === "lg" || width === "xl" ? 4 : -4
                   }}
