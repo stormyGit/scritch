@@ -283,9 +283,9 @@ class AppRouter extends React.Component {
                       exact
                       path="/:id"
                       component={
-                        currentSession && !currentSession.user.suspendedUser
-                          ? UserRemake
-                          : MustLog
+                        currentSession && currentSession.user.suspendedUser
+                          ? MustLog
+                          : UserRemake
                       }
                     />
                     <Route

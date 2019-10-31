@@ -163,7 +163,7 @@ class Makers extends React.Component {
               <Grid
                 container
                 className={classes.root}
-                spacing={8}
+                spacing={24}
                 style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
               >
                 {!loading &&
