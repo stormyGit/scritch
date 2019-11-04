@@ -18,6 +18,7 @@ import FursuitAvatar from "./FursuitAvatar";
 import FursuitEditFields from "./FursuitEditFields";
 
 import { UPDATE_FURSUIT } from "../../queries/fursuitMutations";
+import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
 
 const AVATAR_SIZE = 96;
 
@@ -278,7 +279,16 @@ class EditFursuitDialog extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.props.onClose}>Cancel</Button>
-            <Mutation mutation={UPDATE_FURSUIT}>
+            <Mutation
+              mutation={UPDATE_FURSUIT}
+              update={(cache, { data: { updateFursuit } }) => {
+                cache.writeQuery({
+                  query: LOAD_FURSUIT,
+                  variables: { id: fursuit.id },
+                  data: { fursuit: { fursuit, ...updateFursuit.fursuit } }
+                });
+              }}
+            >
               {(updateFursuit, { data }) => (
                 <Button
                   disabled={!this.state.name || /^\s*$/.test(this.state.name)}
@@ -317,7 +327,6 @@ class EditFursuitDialog extends React.Component {
                       }
                     }).then(updated => {
                       this.props.onClose();
-                      location.reload();
                     });
                   }}
                 >

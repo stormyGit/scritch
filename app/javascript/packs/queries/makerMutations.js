@@ -6,6 +6,21 @@ export const UPDATE_MAKER = gql`
       maker {
         id
         name
+        bio
+        slug
+        web
+        country
+        region
+        avatar
+        claimed
+        claimRejected
+        commissionStatus {
+          id
+          name
+        }
+        followed
+        fursuitsNumber
+        possessed
       }
     }
   }

@@ -26,7 +26,10 @@ import ImageCropper from "../Global/ImageCropper";
 import MakerAvatar from "./MakerAvatar";
 
 import { UPDATE_MAKER } from "../../queries/makerMutations";
-import { LOAD_COMMISSION_STATUSES } from "../../queries/makerQueries";
+import {
+  LOAD_COMMISSION_STATUSES,
+  LOAD_MAKER
+} from "../../queries/makerQueries";
 
 const AVATAR_SIZE = 96;
 
@@ -341,7 +344,16 @@ class EditMakerDialog extends React.Component {
           </DialogContent>
           <DialogActions>
             <Button onClick={this.props.onClose}>Cancel</Button>
-            <Mutation mutation={UPDATE_MAKER}>
+            <Mutation
+              mutation={UPDATE_MAKER}
+              update={(cache, { data: { updateMaker } }) => {
+                cache.writeQuery({
+                  query: LOAD_MAKER,
+                  variables: { id: maker.id },
+                  data: { maker: { maker, ...updateMaker.maker } }
+                });
+              }}
+            >
               {(updateMaker, { data }) => (
                 <Button
                   disabled={!this.state.name || /^\s*$/.test(this.state.name)}
@@ -365,7 +377,6 @@ class EditMakerDialog extends React.Component {
                       }
                     }).then(updated => {
                       this.props.onClose();
-                      location.reload();
                     });
                   }}
                 >

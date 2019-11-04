@@ -6,6 +6,60 @@ export const UPDATE_FURSUIT = gql`
       fursuit {
         id
         name
+        slug
+        mediaCount
+        followersCount
+        likesCount
+        favesCount
+        claimed
+        claimRejected
+        possessed
+        followed
+        bio
+        avatar
+        creationYear
+        fursuitLegType {
+          id
+          name
+        }
+        species {
+          id
+          name
+        }
+        isHybrid
+        fursuitBuild {
+          id
+          name
+        }
+        fursuitGender {
+          id
+          name
+        }
+        fursuitPadding {
+          id
+          name
+        }
+        fursuitFinger {
+          id
+          name
+        }
+        fursuitStyle {
+          id
+          name
+        }
+        baseColor
+        eyesColor
+        makers {
+          id
+          name
+          slug
+        }
+        users {
+          id
+          public
+          slug
+          name
+        }
       }
     }
   }

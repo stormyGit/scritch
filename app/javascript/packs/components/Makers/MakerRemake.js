@@ -626,8 +626,8 @@ class Maker extends React.Component {
                 />
                 <EditMakerDialog
                   maker={maker}
-                  open={this.state.editMaker}
-                  onClose={() => this.setState({ editMaker: false })}
+                  open={this.state.editMakerDialog}
+                  onClose={() => this.setState({ editMakerDialog: false })}
                 />
               </React.Fragment>
             );
