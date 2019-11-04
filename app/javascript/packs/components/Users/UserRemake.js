@@ -41,11 +41,17 @@ import ReportDialog from "../AppDialogs/ReportDialog";
 import FursuitUserCard from "../Fursuits/FursuitUserCard";
 import FursuitFollowedCard from "./FursuitFollowedCard";
 import MakerFollowedCard from "./MakerFollowedCard";
+import { Link } from "react-router-dom";
 
 const styles = theme => ({
   container: {
     display: "flex",
     minHeight: "calc(100vh - 56px)"
+  },
+  makerLink: {
+    textDecoration: "none",
+    color: theme.palette.primary.main,
+    cursor: "pointer"
   },
   UnderReview: {
     height: "40vw",
@@ -686,6 +692,27 @@ class User extends React.Component {
                   </a>
                 )}
               </div>
+              {user.makers && user.makers.length > 0 && (
+                <div className={classes.headerTitles}>
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.infoText}
+                    color={"inherit"}
+                  >
+                    Owner of{" "}
+                    {user.makers.map((maker, index) => (
+                      <Link
+                        key={maker.id}
+                        className={classes.makerLink}
+                        to={`/makers/${maker.slug}`}
+                      >
+                        {maker.name}
+                        {index < user.makers.length - 1 ? ", " : ""}
+                      </Link>
+                    ))}
+                  </Typography>
+                </div>
+              )}
               <div className={classes.headerTitles}>
                 <Typography variant="subtitle1" className={classes.userTitle}>
                   {user.bio}
@@ -742,6 +769,27 @@ class User extends React.Component {
                   this.renderFollowButton(user)}
                 {this.renderActionButton(user)}
               </div>
+              {user.makers && user.makers.length > 0 && (
+                <div className={classes.headerTitles}>
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.infoText}
+                    color={"inherit"}
+                  >
+                    Owner of{" "}
+                    {user.makers.map((maker, index) => (
+                      <Link
+                        key={maker.id}
+                        className={classes.makerLink}
+                        to={`/makers/${maker.slug}`}
+                      >
+                        {maker.name}
+                        {index < user.makers.length - 1 ? ", " : ""}
+                      </Link>
+                    ))}
+                  </Typography>
+                </div>
+              )}
               <div className={classes.headerTitles}>
                 {user.website && (
                   <a
