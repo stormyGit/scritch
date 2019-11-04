@@ -374,12 +374,11 @@ class AppLayoutRemake extends React.Component {
                       </div>
                     )}
 
-                  {width === "xl" ||
-                    (width === "lg" && (
-                      <div className={classes.titleZone}>
-                        <DisplayPageTitle />
-                      </div>
-                    ))}
+                  {(width === "xl" || width === "lg") && (
+                    <div className={classes.titleZone}>
+                      <DisplayPageTitle />
+                    </div>
+                  )}
 
                   {!this.state.searchEnabled && (
                     <React.Fragment>

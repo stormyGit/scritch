@@ -43,7 +43,7 @@ module Resolvers
                 argument :eventId, types.ID
 
                 def call(obj, args, ctx)
-                    media = MediumPolicy::Scope.new(ctx[:current_user], Medium.all).resolve.includes(:user)
+                    media = MediumPolicy::Scope.new(ctx[:current_user], Medium.all).resolve
 
                     if args[:faves]
                         media = media.joins(:faves).where("faves.user_id = ?", ctx[:current_user].uuid).order("faves.created_at DESC")
@@ -143,7 +143,7 @@ module Resolvers
                     if args[:filter] == "random"
                         media = MediumPolicy::Scope.new(ctx[:current_user], Medium.all).resolve.order("RANDOM()")
                     else
-                        media = MediumPolicy::Scope.new(ctx[:current_user], Medium.all).resolve.includes(:user)
+                        media = MediumPolicy::Scope.new(ctx[:current_user], Medium.all).resolve
 
                         media =
                         case args[:filter]
