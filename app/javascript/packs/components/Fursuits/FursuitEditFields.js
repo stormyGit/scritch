@@ -6,7 +6,7 @@ import { Query } from "react-apollo";
 import Grid from "@material-ui/core/Grid";
 import Select from "react-select";
 import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CustomProgress from "../Global/CustomProgress";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
@@ -105,15 +105,7 @@ const styles = theme => {
 };
 
 const MakerFilter = React.memo(
-  ({
-    classes,
-    inRequest,
-    onChange,
-    maker,
-    changeRequestState,
-    ownerMade,
-    onChangeOwnerMade
-  }) => (
+  ({ classes, inRequest, onChange, maker, changeRequestState, ownerMade, onChangeOwnerMade }) => (
     <Query query={LOAD_MAKERS_SELECT}>
       {({ data, loading, error }) => {
         if (error || !data) {
@@ -122,7 +114,7 @@ const MakerFilter = React.memo(
         if (loading) {
           return (
             <Grid item xs={8}>
-              <CircularProgress />
+              <CustomProgress size={48} />
             </Grid>
           );
         }
@@ -160,12 +152,8 @@ const MakerFilter = React.memo(
                     checked={ownerMade}
                     onChange={e => {
                       onChangeOwnerMade(e, {
-                        label: data.makersSelect.filter(
-                          x => x.name == "Owner Made"
-                        )[0].name,
-                        value: data.makersSelect.filter(
-                          x => x.name == "Owner Made"
-                        )[0].id
+                        label: data.makersSelect.filter(x => x.name == "Owner Made")[0].name,
+                        value: data.makersSelect.filter(x => x.name == "Owner Made")[0].id
                       });
                     }}
                   />
@@ -209,7 +197,7 @@ const GenderFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CircularProgress />
+                <CustomProgress size={48} />
               </Grid>
             );
           }
@@ -252,7 +240,7 @@ const PaddingFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CircularProgress />
+                <CustomProgress size={48} />
               </Grid>
             );
           }
@@ -295,7 +283,7 @@ const FingersFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CircularProgress />
+                <CustomProgress size={48} />
               </Grid>
             );
           }
@@ -338,7 +326,7 @@ const LegFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CircularProgress />
+                <CustomProgress size={48} />
               </Grid>
             );
           }
@@ -381,7 +369,7 @@ const BuildFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CircularProgress />
+                <CustomProgress size={48} />
               </Grid>
             );
           }
@@ -424,7 +412,7 @@ const StyleFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CircularProgress />
+                <CustomProgress size={48} />
               </Grid>
             );
           }
@@ -522,7 +510,7 @@ const FursuitSpeciesFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CircularProgress />
+                <CustomProgress size={48} />
               </Grid>
             );
           }
@@ -548,8 +536,7 @@ const FursuitSpeciesFilter = React.memo(
       </Query>
     </React.Fragment>
   ),
-  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) =>
-    oldSpeciesIds == newSpeciesIds
+  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) => oldSpeciesIds == newSpeciesIds
 );
 
 const HybridSpeciesFilter = React.memo(
@@ -566,7 +553,7 @@ const HybridSpeciesFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CircularProgress />
+                <CustomProgress size={48} />
               </Grid>
             );
           }
@@ -593,8 +580,7 @@ const HybridSpeciesFilter = React.memo(
       </Query>
     </React.Fragment>
   ),
-  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) =>
-    oldSpeciesIds == newSpeciesIds
+  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) => oldSpeciesIds == newSpeciesIds
 );
 
 class FursuitEditFields extends React.Component {
@@ -731,9 +717,7 @@ class FursuitEditFields extends React.Component {
             classes={classes}
             inRequest={inRequest}
             maker={this.state.maker}
-            ownerMade={
-              this.state.maker && this.state.maker.label === "Owner Made"
-            }
+            ownerMade={this.state.maker && this.state.maker.label === "Owner Made"}
             onChangeOwnerMade={(event, maker) => {
               if (event.target.checked) {
                 this.setState({ maker: maker });

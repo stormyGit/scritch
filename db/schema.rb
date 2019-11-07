@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_10_150202) do
+ActiveRecord::Schema.define(version: 2019_11_07_092008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -296,6 +296,7 @@ ActiveRecord::Schema.define(version: 2019_09_10_150202) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "picture"
   end
 
   create_table "fursuit_fingers", force: :cascade do |t|
@@ -310,6 +311,7 @@ ActiveRecord::Schema.define(version: 2019_09_10_150202) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "picture"
   end
 
   create_table "fursuit_leg_types", force: :cascade do |t|
@@ -317,6 +319,7 @@ ActiveRecord::Schema.define(version: 2019_09_10_150202) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.string "picture"
   end
 
   create_table "fursuit_makers", force: :cascade do |t|
@@ -344,6 +347,7 @@ ActiveRecord::Schema.define(version: 2019_09_10_150202) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "picture"
   end
 
   create_table "fursuit_requests", force: :cascade do |t|
@@ -386,6 +390,7 @@ ActiveRecord::Schema.define(version: 2019_09_10_150202) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "uuid", default: -> { "uuid_generate_v4()" }, null: false
+    t.string "picture"
   end
 
   create_table "fursuit_subscriptions", force: :cascade do |t|

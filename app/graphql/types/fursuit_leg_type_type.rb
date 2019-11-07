@@ -3,10 +3,10 @@ module Types
     description "Fursuit object"
     field :id, ID, null: false
     field :name, String, null: false
-    field :fursuits, [FursuitType], null: true
-  end
+    field :picture, String, null: true
 
-  def fursuits
-    object.fursuits.order(:name)
+    def picture
+      object.picture_url
+    end
   end
 end

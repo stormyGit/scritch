@@ -15,21 +15,14 @@ import FursuitClaimDialog from "./FursuitClaimDialog";
 import EditFursuitDialog from "./EditFursuitDialog";
 import MediaFursuit from "../Media/MediaFursuit";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPaw,
-  faStar,
-  faUsers,
-  faTags
-} from "@fortawesome/free-solid-svg-icons";
+import { faPaw, faStar, faUsers, faTags } from "@fortawesome/free-solid-svg-icons";
 
 import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
-import {
-  CREATE_SUBSCRIPTION,
-  DELETE_SUBSCRIPTION
-} from "../../queries/fursuitMutations";
+import { CREATE_SUBSCRIPTION, DELETE_SUBSCRIPTION } from "../../queries/fursuitMutations";
 
 import withCurrentSession from "../withCurrentSession";
 import { Link, withRouter } from "react-router-dom";
+import { Avatar } from "@material-ui/core";
 
 const styles = theme => ({
   container: {
@@ -181,33 +174,41 @@ const styles = theme => ({
 const Padder = () => <div style={{ padding: 16 }} />;
 const MicroPadder = () => <div style={{ padding: 8 }} />;
 
-const DetailField = withStyles(styles)(
-  ({ data, dataShort, field, classes }) => {
-    return (
-      <Tooltip title={dataShort ? dataShort : data ? data.name : "Unknown"}>
-        <div
-          style={{
-            textAlign: "center",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column"
-          }}
-        >
+const DetailField = withStyles(styles)(({ data, dataShort, field, classes }) => {
+  console.log(data);
+  return (
+    <Tooltip title={dataShort ? dataShort : data ? data.name : "Unknown"}>
+      <div
+        style={{
+          textAlign: "center",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column"
+        }}
+      >
+        {dataShort ? (
           <DefaultAvatar
             text={data ? data.name : dataShort ? "" : "?"}
             key="avatar"
             color={dataShort ? dataShort.toLowerCase() : "#0c8cff"}
             className={classes.detailCircler}
+            size={96}
           />
-          <Typography variant="subtitle1">{field}</Typography>
-        </div>
-      </Tooltip>
-    );
-  }
-);
+        ) : (
+          <Avatar
+            style={{ width: 96, height: 96 }}
+            src={data.picture}
+            className={classes.detailCircler}
+          />
+        )}
+        <Typography variant="subtitle1">{field}</Typography>
+      </div>
+    </Tooltip>
+  );
+});
 
-const Avatar = withStyles(styles)(({ fursuit, classes, avatarClass }) => {
+const FursuitAvatar = withStyles(styles)(({ fursuit, classes, avatarClass }) => {
   return (
     <div className={classes.avatarContainer}>
       <img className={avatarClass} src={fursuit.avatar} />
@@ -276,8 +277,7 @@ const SubtitleRow = withStyles(styles)(
             (fursuit.species.length > 0
               ? `Hybrid (${fursuit.species.map(e => e.name).join(", ")})`
               : "Hybrid (Undefined)")}
-          {!fursuit.isHybrid &&
-            (fursuit.species[0] ? fursuit.species[0].name : "Unknown")}
+          {!fursuit.isHybrid && (fursuit.species[0] ? fursuit.species[0].name : "Unknown")}
         </Typography>
         {(width === "xl" || width === "lg") && fursuit.makers && (
           <div className={classes.dataSpacerLarge}>
@@ -288,10 +288,7 @@ const SubtitleRow = withStyles(styles)(
             ) : (
               <Typography variant="subtitle1" className={classes.fursuitTitle}>
                 Made by{" "}
-                <Link
-                  to={`/makers/${fursuit.makers[0].slug}`}
-                  className={classes.link}
-                >
+                <Link to={`/makers/${fursuit.makers[0].slug}`} className={classes.link}>
                   {fursuit.makers[0].name}
                 </Link>{" "}
                 {fursuit.creationYear && `in ${fursuit.creationYear}`}
@@ -299,47 +296,33 @@ const SubtitleRow = withStyles(styles)(
             )}
           </div>
         )}
-        {(width === "xl" || width === "lg") &&
-          fursuit.users &&
-          fursuit.users.length > 0 && (
-            <div className={classes.dataSpacerLarge}>
-              <Typography variant="subtitle1" className={classes.fursuitTitle}>
-                Owned by{" "}
-                {fursuit.users[0].public ? (
-                  <Link
-                    to={`/${fursuit.users[0].slug}`}
-                    className={classes.link}
-                  >
-                    {fursuit.users[0].name}
-                  </Link>
-                ) : (
-                  <em>Private</em>
-                )}
-              </Typography>
-            </div>
-          )}
+        {(width === "xl" || width === "lg") && fursuit.users && fursuit.users.length > 0 && (
+          <div className={classes.dataSpacerLarge}>
+            <Typography variant="subtitle1" className={classes.fursuitTitle}>
+              Owned by{" "}
+              {fursuit.users[0].public ? (
+                <Link to={`/${fursuit.users[0].slug}`} className={classes.link}>
+                  {fursuit.users[0].name}
+                </Link>
+              ) : (
+                <em>Private</em>
+              )}
+            </Typography>
+          </div>
+        )}
       </div>
       {width !== "xl" && width !== "lg" && fursuit.makers && (
         <React.Fragment>
           <div>
             <React.Fragment>
               {fursuit.makers.length == 0 ? (
-                <Typography
-                  variant="subtitle1"
-                  className={classes.fursuitTitle}
-                >
+                <Typography variant="subtitle1" className={classes.fursuitTitle}>
                   Made by <em>Redacted</em>
                 </Typography>
               ) : (
-                <Typography
-                  variant="subtitle1"
-                  className={classes.fursuitTitle}
-                >
+                <Typography variant="subtitle1" className={classes.fursuitTitle}>
                   Made by{" "}
-                  <Link
-                    to={`/makers/${fursuit.makers[0].slug}`}
-                    className={classes.link}
-                  >
+                  <Link to={`/makers/${fursuit.makers[0].slug}`} className={classes.link}>
                     {fursuit.makers[0].name}
                   </Link>
                   {fursuit.creationYear && `in ${fursuit.creationYear}`}
@@ -352,10 +335,7 @@ const SubtitleRow = withStyles(styles)(
               <Typography variant="subtitle1" className={classes.fursuitTitle}>
                 Owned by{" "}
                 {fursuit.users[0].public ? (
-                  <Link
-                    to={`/${fursuit.users[0].slug}`}
-                    className={classes.link}
-                  >
+                  <Link to={`/${fursuit.users[0].slug}`} className={classes.link}>
                     {fursuit.users[0].name}
                   </Link>
                 ) : (
@@ -369,6 +349,8 @@ const SubtitleRow = withStyles(styles)(
     </React.Fragment>
   ))
 );
+
+// const FursuitDetail = () => null;
 
 const FursuitDetail = withStyles(styles)(
   withWidth()(({ fursuit, classes, width }) =>
@@ -416,9 +398,7 @@ const FursuitDetail = withStyles(styles)(
   )
 );
 
-const FursuitMedia = React.memo(({ fursuitId }) => (
-  <MediaFursuit fursuitId={fursuitId} />
-));
+const FursuitMedia = React.memo(({ fursuitId }) => <MediaFursuit fursuitId={fursuitId} />);
 
 class Fursuit extends React.Component {
   state = {
@@ -452,9 +432,7 @@ class Fursuit extends React.Component {
               size={"small"}
               variant="outlined"
               className={
-                width === "lg" || width === "xl"
-                  ? this.props.classes.followButtonSpacer
-                  : null
+                width === "lg" || width === "xl" ? this.props.classes.followButtonSpacer : null
               }
               color={this.state.showUnfollow ? "secondary" : "primary"}
               onMouseEnter={() => this.setState({ showUnfollow: true })}
@@ -565,22 +543,14 @@ class Fursuit extends React.Component {
           <Grid container spacing={40} className={classes.centerAlign}>
             <Grid item xs={false} lg={2} />
             <Grid item xs={2} lg={2} className={classes.avatarContainer}>
-              <Avatar fursuit={fursuit} avatarClass={classes.fursuitAvatar} />
+              <FursuitAvatar fursuit={fursuit} avatarClass={classes.fursuitAvatar} />
             </Grid>
             <Grid item xs={10} lg={6}>
               <div className={classes.headerTitles}>
-                <Typography
-                  variant="h5"
-                  className={classes.fursuitTitle}
-                  noWrap
-                >
+                <Typography variant="h5" className={classes.fursuitTitle} noWrap>
                   {fursuit.name}
                 </Typography>
-                <Typography
-                  variant="subtitle1"
-                  className={classes.fursuitTitlePadded}
-                  noWrap
-                >
+                <Typography variant="subtitle1" className={classes.fursuitTitlePadded} noWrap>
                   {fursuit.fursuitFinger ? fursuit.fursuitFinger.name : ""}
                 </Typography>
                 <div className={classes.actionButtonPadding}>
@@ -607,11 +577,7 @@ class Fursuit extends React.Component {
               <Metrics fursuit={fursuit} />
               <SubtitleRow fursuit={fursuit} />
               <div className={classes.headerTitles}>
-                <Typography
-                  variant="subtitle1"
-                  className={classes.fursuitTitle}
-                  noWrap
-                >
+                <Typography variant="subtitle1" className={classes.fursuitTitle} noWrap>
                   {fursuit.bio}
                 </Typography>
               </div>
@@ -643,34 +609,21 @@ class Fursuit extends React.Component {
         <div className={classes.infoHeader}>
           <Grid container spacing={24} className={classes.centerAlign}>
             <Grid item xs={3} className={classes.avatarContainer}>
-              <Avatar
-                fursuit={fursuit}
-                avatarClass={classes.fursuitAvatarMobile}
-              />
+              <Avatar fursuit={fursuit} avatarClass={classes.fursuitAvatarMobile} />
             </Grid>
             <Grid item xs={9}>
               <div className={classes.headerTitles}>
-                <Typography
-                  variant="h5"
-                  className={classes.fursuitTitle}
-                  noWrap
-                >
+                <Typography variant="h5" className={classes.fursuitTitle} noWrap>
                   {fursuit.name}
                 </Typography>
-                <Typography
-                  variant="subtitle1"
-                  className={classes.fursuitTitlePadded}
-                  noWrap
-                >
+                <Typography variant="subtitle1" className={classes.fursuitTitlePadded} noWrap>
                   {fursuit.fursuitFinger ? fursuit.fursuitFinger.name : ""}
                 </Typography>
               </div>
               <div>
                 {this.renderActionButton(fursuit)}
                 <div style={{ padding: 4 }} />
-                {!fursuit.claimed &&
-                  !fursuit.possessed &&
-                  this.renderFollowButton(fursuit)}
+                {!fursuit.claimed && !fursuit.possessed && this.renderFollowButton(fursuit)}
 
                 <IconButton
                   className={classes.actionButtonPadding}
@@ -689,11 +642,7 @@ class Fursuit extends React.Component {
               <Metrics fursuit={fursuit} />
               <SubtitleRow fursuit={fursuit} />
               <div className={classes.headerTitles}>
-                <Typography
-                  variant="subtitle1"
-                  className={classes.fursuitTitle}
-                  noWrap
-                >
+                <Typography variant="subtitle1" className={classes.fursuitTitle} noWrap>
                   {fursuit.bio}
                 </Typography>
               </div>
@@ -736,17 +685,14 @@ class Fursuit extends React.Component {
 
             const fursuit = data ? data.fursuit : null;
 
+            console.log(fursuit);
             return (
               <React.Fragment>
                 <PageTitle>{fursuit ? fursuit.name : null}</PageTitle>
                 {width === "sm" || width === "xs"
                   ? this.renderFursuitHeaderMobile(fursuit)
                   : this.renderFursuitHeader(fursuit)}
-                {width === "xl" || width === "lg" ? (
-                  <Padder />
-                ) : (
-                  <MicroPadder />
-                )}
+                {width === "xl" || width === "lg" ? <Padder /> : <MicroPadder />}
                 <FursuitMedia fursuitId={match.params.id} />
                 <FursuitClaimDialog
                   fursuit={fursuit.id}
@@ -767,6 +713,4 @@ class Fursuit extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withRouter(withWidth()(withCurrentSession(Fursuit)))
-);
+export default withStyles(styles)(withRouter(withWidth()(withCurrentSession(Fursuit))));

@@ -3,6 +3,8 @@ class FursuitLegType < ApplicationRecord
 
   has_many :fursuits
 
+  mount_base64_uploader :picture, IconUploader
+
   def self.as_options_for_react_select
     distinct.order(:name).pluck(:name)
   end

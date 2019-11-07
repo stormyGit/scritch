@@ -13,7 +13,9 @@ import { GET_FRONT_MEDIA } from "../../queries/mediaQueries";
 
 import MediumCard from "./MediumCard";
 import EmptyList from "../Global/EmptyList";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import Lottie from "react-lottie";
+
+const loaderJSON = require("../../loaderJSON.json");
 
 const styles = theme => ({
   root: {
@@ -48,11 +50,7 @@ class FrontMedia extends React.Component {
       const query = location.search ? queryString.parse(location.search) : null;
 
       if (query && query.q) {
-        return (
-          <EmptyList
-            label={`No results were found for your search term: ${query.q}`}
-          />
-        );
+        return <EmptyList label={`No results were found for your search term: ${query.q}`} />;
       } else {
         return <EmptyList label={`No results`} />;
       }
@@ -86,9 +84,22 @@ class FrontMedia extends React.Component {
           }}
         >
           {({ data, loading, error }) => {
-            if (loading) return <CircularProgress />;
-            if (error || !data)
-              return <Typography>Something went wrong :/</Typography>;
+            if (loading)
+              return (
+                <Lottie
+                  options={{
+                    loop: true,
+                    autoplay: true,
+                    animationData: loaderJSON,
+                    rendererSettings: {
+                      preserveAspectRatio: ""
+                    }
+                  }}
+                  height={64}
+                  width={64}
+                />
+              );
+            if (error || !data) return <Typography>Something went wrong :/</Typography>;
 
             const media = data.frontMedia;
             if (!media) return null;

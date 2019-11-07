@@ -78,6 +78,7 @@ export const LOAD_FURSUIT = gql`
       fursuitLegType {
         id
         name
+        picture
       }
       species {
         id
@@ -87,14 +88,17 @@ export const LOAD_FURSUIT = gql`
       fursuitBuild {
         id
         name
+        picture
       }
       fursuitGender {
         id
         name
+        picture
       }
       fursuitPadding {
         id
         name
+        picture
       }
       fursuitFinger {
         id
@@ -103,6 +107,7 @@ export const LOAD_FURSUIT = gql`
       fursuitStyle {
         id
         name
+        picture
       }
       baseColor
       eyesColor
