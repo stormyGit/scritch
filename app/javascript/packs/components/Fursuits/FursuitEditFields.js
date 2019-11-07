@@ -594,8 +594,8 @@ class FursuitEditFields extends React.Component {
       fursuitBuild: null,
       fursuitPadding: null,
       fursuitFingers: null,
-      fursuitColor: "",
-      fursuitEyes: "",
+      baseColor: "",
+      eyesColor: "",
       maker: null
     };
   }
@@ -768,7 +768,7 @@ class FursuitEditFields extends React.Component {
             classes={classes}
             color={this.state.baseColor}
             onChange={color => {
-              this.setState({ fursuitColor: color });
+              this.setState({ baseColor: color });
               this.props.onChange({
                 label: "baseColor",
                 value: color ? color.value : null
@@ -779,7 +779,7 @@ class FursuitEditFields extends React.Component {
             classes={classes}
             color={this.state.eyesColor}
             onChange={color => {
-              this.setState({ fursuitEyes: color });
+              this.setState({ eyesColor: color });
               this.props.onChange({
                 label: "eyesColor",
                 value: color ? color.value : null

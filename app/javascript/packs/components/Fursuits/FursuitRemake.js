@@ -171,11 +171,45 @@ const styles = theme => ({
   }
 });
 
+function getColorCode(color) {
+  switch (color) {
+    case "Brown":
+      return "#81450E";
+    case "Blue":
+      return "#266BFF";
+    case "Orange":
+      return "#FF7A00";
+    case "Yellow":
+      return "#F0FA1C";
+    case "Red":
+      return "#F02828";
+    case "Green":
+      return "#2BF028";
+    case "Grey":
+      return "#9C9C9C";
+    case "Pink":
+      return "#E765C8";
+    case "Black":
+      return "#000000";
+    case "Purple":
+      return "#9F1CFA";
+    case "White":
+      return "#FFFFFF";
+    case "Cyan":
+      return "#2BE5DD";
+    case "Multi":
+      return "#222222";
+    case "Rainbow":
+      return "#dddddd";
+  }
+  return "grey";
+}
+
 const Padder = () => <div style={{ padding: 16 }} />;
 const MicroPadder = () => <div style={{ padding: 8 }} />;
 
 const DetailField = withStyles(styles)(({ data, dataShort, field, classes }) => {
-  console.log(data);
+  if (!data && !dataShort) return null;
   return (
     <Tooltip title={dataShort ? dataShort : data ? data.name : "Unknown"}>
       <div
@@ -191,7 +225,7 @@ const DetailField = withStyles(styles)(({ data, dataShort, field, classes }) => 
           <DefaultAvatar
             text={data ? data.name : dataShort ? "" : "?"}
             key="avatar"
-            color={dataShort ? dataShort.toLowerCase() : "#0c8cff"}
+            color={getColorCode(dataShort)}
             className={classes.detailCircler}
             size={96}
           />
@@ -685,7 +719,6 @@ class Fursuit extends React.Component {
 
             const fursuit = data ? data.fursuit : null;
 
-            console.log(fursuit);
             return (
               <React.Fragment>
                 <PageTitle>{fursuit ? fursuit.name : null}</PageTitle>
