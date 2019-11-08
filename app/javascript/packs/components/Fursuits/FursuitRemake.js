@@ -208,7 +208,7 @@ function getColorCode(color) {
 const Padder = () => <div style={{ padding: 16 }} />;
 const MicroPadder = () => <div style={{ padding: 8 }} />;
 
-const DetailField = withStyles(styles)(({ data, dataShort, field, classes }) => {
+const DetailField = withStyles(styles)(({ data, dataShort, field, classes, mobile }) => {
   if (!data && !dataShort) return null;
   return (
     <Tooltip title={dataShort ? dataShort : data ? data.name : "Unknown"}>
@@ -237,6 +237,7 @@ const DetailField = withStyles(styles)(({ data, dataShort, field, classes }) => 
           />
         )}
         <Typography variant="subtitle1">{field}</Typography>
+        {mobile && <Typography variant="subtitle1">{dataShort ? dataShort : data.name}</Typography>}
       </div>
     </Tooltip>
   );
@@ -407,25 +408,25 @@ const FursuitDetail = withStyles(styles)(
     ) : (
       <Grid container spacing={16} className={classes.detailsHeader}>
         <Grid item xs={4}>
-          <DetailField field="Build" data={fursuit.fursuitBuild} />
+          <DetailField field="Build" data={fursuit.fursuitBuild} mobile={true} />
         </Grid>
         <Grid item xs={4}>
-          <DetailField field="Style" data={fursuit.fursuitStyle} />
+          <DetailField field="Style" data={fursuit.fursuitStyle} mobile={true} />
         </Grid>
         <Grid item xs={4}>
-          <DetailField field="Base" dataShort={fursuit.baseColor} />
+          <DetailField field="Base" dataShort={fursuit.baseColor} mobile={true} />
         </Grid>
         <Grid item xs={4}>
-          <DetailField field="Eyes" dataShort={fursuit.eyesColor} />
+          <DetailField field="Eyes" dataShort={fursuit.eyesColor} mobile={true} />
         </Grid>
         <Grid item xs={4}>
-          <DetailField field="Appearance" data={fursuit.fursuitGender} />
+          <DetailField field="Appearance" data={fursuit.fursuitGender} mobile={true} />
         </Grid>
         <Grid item xs={4}>
-          <DetailField field="Padding" data={fursuit.fursuitPadding} />
+          <DetailField field="Padding" data={fursuit.fursuitPadding} mobile={true} />
         </Grid>
         <Grid item xs={4}>
-          <DetailField field="Leg Type" data={fursuit.fursuitLegType} />
+          <DetailField field="Leg Type" data={fursuit.fursuitLegType} mobile={true} />
         </Grid>
       </Grid>
     )
@@ -643,7 +644,7 @@ class Fursuit extends React.Component {
         <div className={classes.infoHeader}>
           <Grid container spacing={24} className={classes.centerAlign}>
             <Grid item xs={3} className={classes.avatarContainer}>
-              <Avatar fursuit={fursuit} avatarClass={classes.fursuitAvatarMobile} />
+              <FursuitAvatar fursuit={fursuit} avatarClass={classes.fursuitAvatarMobile} />
             </Grid>
             <Grid item xs={9}>
               <div className={classes.headerTitles}>

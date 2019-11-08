@@ -30,10 +30,7 @@ const styles = theme => ({
     marginRight: 1,
     paddingBottom: 4,
     fontSize: "1rem",
-    color:
-      theme.palette.type === "dark"
-        ? "rgba(255, 255, 255, 0.5)"
-        : "rgba(0, 0, 0, 0.5)"
+    color: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"
   }
 });
 
@@ -76,10 +73,9 @@ class AssetRequestDialog extends React.Component {
             {(!this.state.assetType || this.state.assetType === "Asset") && (
               <React.Fragment>
                 <Typography variant="subtitle1">
-                  Before clicking one of the buttons below, check that there
-                  isn't one already in existence (through the Browse Side Bar
-                  Menu). Scritch is always growing and another User may have
-                  already requested what you are looking to add, even your own
+                  Before clicking one of the buttons below, check that there isn't one already in
+                  existence (through the Browse Side Bar Menu). Scritch is always growing and
+                  another User may have already requested what you are looking to add, even your own
                   Fursuit!
                 </Typography>
                 <div style={{ padding: 8 }} />
@@ -142,7 +138,7 @@ class AssetRequestDialog extends React.Component {
             onClose={this.props.onClose}
           />
         )}
-        {!this.state.assetType && (
+        {(!this.state.assetType || this.state.assetType === "Asset") && (
           <DialogActions>
             <Button
               onClick={() => {
@@ -162,6 +158,4 @@ class AssetRequestDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withApollo(withCurrentSession(AssetRequestDialog))
-);
+export default withStyles(styles)(withApollo(withCurrentSession(AssetRequestDialog)));
