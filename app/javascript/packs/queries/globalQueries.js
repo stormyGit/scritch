@@ -29,6 +29,19 @@ export const CREATE_SESSION = gql`
   }
 `;
 
+export const CREATE_FACEBOOK_SESSION = gql`
+  mutation createFacebookSession($input: CreateFacebookSessionInput!) {
+    createFacebookSession(input: $input) {
+      session {
+        id
+        user {
+          id
+        }
+      }
+    }
+  }
+`;
+
 export const GET_SESSION_MODERATOR = gql`
   query Session {
     session {

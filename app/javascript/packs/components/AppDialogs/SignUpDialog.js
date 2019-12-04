@@ -2,11 +2,14 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Button from "@material-ui/core/Button";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
+import ListSubheader from "@material-ui/core/ListSubheader";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import CheckIcon from "@material-ui/icons/Check";
@@ -22,9 +25,13 @@ import { withRouter } from "react-router-dom";
 
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import SignUpAlternativeDialog from "./SignUpAlternativeDialog";
+import TelegramLogin from "./TelegramLogin";
+import FacebookLoginScreen from "./FacebookLoginScreen";
+import themeSelector from "../../themeSelector";
 
-import { Mutation } from "react-apollo";
+import { Mutation, Query } from "react-apollo";
 
+import Logo from "../Global/Logo";
 import { CREATE_SESSION } from "../../queries/globalQueries";
 
 const styles = theme => ({
@@ -63,6 +70,10 @@ const styles = theme => ({
   blurb: {
     fontWeight: 200
   },
+  title: {
+    fontWeight: 200,
+    textAlign: "center"
+  },
   warning: {
     color: theme.palette.danger.main
   }
@@ -70,192 +81,111 @@ const styles = theme => ({
 
 class SignUpDialog extends React.Component {
   state = {
-    submiting: false,
-    alternativeLogin: false
+    loginScreen: "all"
   };
-
-  handleTelegramResponse(response) {
-    this.setState({ submiting: true });
-    this.props.onSubmit({
-      telegramId: response.id,
-      telegramFirstName: response.first_name,
-      telegramLastName: response.last_name,
-      telegramUsername: response.username,
-      telegramAuthDate: response.auth_date,
-      telegramPhotoUrl: response.photo_url,
-      telegramHash: response.hash
-    });
-  }
 
   render() {
     const { classes, open, onClose, loading, width } = this.props;
 
     return (
       <React.Fragment>
-        <ResponsiveDialog open={open} onClose={onClose}>
-          {((width !== "lg" && width !== "xl") || true) && (
-            <DialogTitle className={classes.titleBarContainer}>
-              <Grid
-                container
-                spacing={0}
-                alignItems="center"
-                justify="space-between"
-              >
-                <Grid item>
-                  <Typography variant="h6" noWrap color={"inherit"}>
-                    Login with Telegram
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <IconButton
-                    color="inherit"
-                    onClick={onClose}
-                    aria-label="Close"
-                  >
-                    <CloseIcon />
-                  </IconButton>
-                </Grid>
-              </Grid>
-            </DialogTitle>
-          )}
-          <DialogContent>
-            <DialogContentText>
-              <Typography variant="h6" className={classes.blurb}>
-                {`Scritch utilises `}
-                <a
-                  href="https://telegram.org/blog/login"
-                  target="_blank"
-                  rel="noopener"
-                  className={classes.link}
-                >
-                  Telegram Login for Websites
-                </a>
-                {` to allow users to easily sign-in without having to provide an email address and password.`}
-              </Typography>
-              <Typography variant="h6" className={classes.blurb}>
-                Please note that:
-              </Typography>
-            </DialogContentText>
-            <List>
-              <ListItem>
-                <ListItemIcon>
-                  <CheckIcon />
-                </ListItemIcon>
-                <ListItemText
-                  inset
-                  primary="Telegram will share your username, handle, avatar, bio and ID."
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <CheckIcon />
-                </ListItemIcon>
-                <ListItemText
-                  inset
-                  primary="Telegram will not share your phone number, contacts and messages."
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <CheckIcon />
-                </ListItemIcon>
-                <ListItemText
-                  inset
-                  primary="A unique session identifier will be stored in your browser to keep you connected."
-                />
-              </ListItem>
-              <ListItem>
-                <ListItemIcon classes={{ root: classes.warning }}>
-                  <WarningIcon />
-                </ListItemIcon>
-                <ListItemText
-                  inset
-                  classes={{ primary: classes.warning }}
-                  primary="Telegram uses Cookies to log you in. Please make sure that Third-Party Cookies are not blocked on your browser."
-                />
-              </ListItem>
-            </List>
-            {
-              <div className={classes.loginButtonContainer}>
-                <div className={classes.loginButton}>
-                  {!this.state.submiting &&
-                    (process.env.NODE_ENV === "production" ? (
-                      <TelegramLoginButton
-                        dataOnauth={response =>
-                          this.handleTelegramResponse(response)
-                        }
-                        botName={`${process.env.TELEGRAM_BOT_NAME}`}
-                      />
-                    ) : (
-                      <Button
-                        onClick={() => {
-                          this.handleTelegramResponse({
-                            auth_date: 1537829184,
-                            first_name: "Test",
-                            hash:
-                              "1c7bc6a02407b952d8c521f151b07a338834e62394e78ea5e5a1863e13c63993",
-                            id: 124845744,
-                            photo_url:
-                              "https://t.me/i/userpic/320/Coontail.jpg",
-                            username: "Test"
-                          });
-                        }}
-                        variant="contained"
-                      >
-                        Login test
-                      </Button>
-                    ))}
-                </div>
-                <CircularProgress
-                  className={classes.telegramLoader}
-                  size={32}
-                />
-              </div>
-            }
-            {false && (
-              <Typography
-                variant="caption"
-                className={classes.troubleLink}
-                onClick={() => this.setState({ alternativeLogin: true })}
-              >
-                Having trouble signing in?
-              </Typography>
-            )}
-          </DialogContent>
-        </ResponsiveDialog>
-        <SignUpAlternativeDialog
-          open={this.state.alternativeLogin}
+        <ResponsiveDialog
+          open={open}
           onClose={() => {
-            this.setState({ alternativeLogin: false });
+            this.setState({ loginScreen: "all" });
+            onClose();
           }}
-        />
+        >
+          {this.state.loginScreen == "all" && (
+            <React.Fragment>
+              <DialogTitle className={classes.titleBarContainer}>
+                <Grid container spacing={0} alignItems="center" justify="space-between">
+                  <Grid item>
+                    <Typography variant="h6" noWrap color={"inherit"}>
+                      Sign Up or Sign In
+                    </Typography>
+                  </Grid>
+                  <Grid item>
+                    <IconButton color="inherit" onClick={onClose} aria-label="Close">
+                      <CloseIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </DialogTitle>
+              <DialogContent>
+                <Grid container spacing={24}>
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    style={{ borderRight: "1px solid black", height: "50%" }}
+                  >
+                    <Typography className={classes.title} variant="h5">
+                      Use Social Media
+                    </Typography>
+                    <div className={classes.loginButtonContainer}>
+                      <div className={classes.loginButton}>
+                        <Button
+                          onClick={() => {
+                            this.setState({ loginScreen: "telegram" });
+                          }}
+                          variant="outlined"
+                        >
+                          Telegram
+                        </Button>
+                      </div>
+                      <div className={classes.loginButton}>
+                        <Button
+                          onClick={() => {
+                            this.setState({ loginScreen: "facebook" });
+                          }}
+                          variant="outlined"
+                        >
+                          Facebook
+                        </Button>
+                      </div>
+                      <div className={classes.loginButton}>
+                        <Button
+                          onClick={() => {
+                            this.setState({ loginScreen: "all" });
+                          }}
+                          variant="outlined"
+                        >
+                          Twitter
+                        </Button>
+                      </div>
+                      <div className={classes.loginButton}>
+                        <Button
+                          onClick={() => {
+                            this.setState({ loginScreen: "all" });
+                          }}
+                          variant="outlined"
+                        >
+                          Google
+                        </Button>
+                      </div>
+                    </div>
+                  </Grid>
+                  <div />
+                  <Grid item xs={12} md={6}>
+                    <Typography className={classes.title} variant="h5">
+                      Use Email
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </DialogContent>
+            </React.Fragment>
+          )}
+          {this.state.loginScreen == "telegram" && (
+            <TelegramLogin onGoBack={() => this.setState({ loginScreen: "all" })} />
+          )}
+          {this.state.loginScreen == "facebook" && (
+            <FacebookLoginScreen onGoBack={() => this.setState({ loginScreen: "all" })} />
+          )}
+        </ResponsiveDialog>
       </React.Fragment>
     );
   }
 }
 
-const FormWithMutation = props => (
-  <Mutation mutation={CREATE_SESSION}>
-    {(createSession, { data, loading, called }) => {
-      return (
-        <SignUpDialog
-          loading={loading}
-          onSubmit={input => {
-            createSession({ variables: { input } }).then(
-              ({
-                data: {
-                  createSession: { session }
-                }
-              }) => {
-                location.reload();
-              }
-            );
-          }}
-          {...props}
-        />
-      );
-    }}
-  </Mutation>
-);
-
-export default withStyles(styles)(withRouter(withWidth()(FormWithMutation)));
+export default withStyles(styles)(withRouter(withWidth()(SignUpDialog)));

@@ -34,7 +34,7 @@ class UserButton extends React.Component {
             variant="outlined"
             size={width === "xl" || width === "lg" ? "large" : "small"}
           >
-            Login with Telegram
+            Sign Up/In
           </Button>
         )}
         {currentSession && (
@@ -58,9 +58,7 @@ class UserButton extends React.Component {
               transformOrigin={{ vertical: "top", horizontal: "center" }}
             >
               <MenuItem
-                component={props => (
-                  <Link to={`/${currentSession.user.slug}`} {...props} />
-                )}
+                component={props => <Link to={`/${currentSession.user.slug}`} {...props} />}
                 onClick={() => {
                   this.setState({ userMenuAnchor: null });
                 }}
@@ -102,6 +100,4 @@ class UserButton extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withRouter(withCurrentSession(withWidth()(UserButton)))
-);
+export default withStyles(styles)(withRouter(withCurrentSession(withWidth()(UserButton))));
