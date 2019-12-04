@@ -62,9 +62,11 @@ const styles = theme => ({
     paddingTop: "100%"
   },
   verticalMedia: {
-    transform: "rotate(90deg)"
+    transform: "rotate(90deg)",
+    objectFit: "cover"
   },
   verticalMediaR: {
+    objectFit: "cover",
     transform: "rotate(-90deg)"
   },
   horizontalMedia: {
@@ -119,10 +121,7 @@ const Overlay = withStyles(styles)(
               <FontAwesomeIcon className={classes.insight_icon} icon={faPaw} />
             </Insight>
             <Insight count={commentsCount}>
-              <FontAwesomeIcon
-                className={classes.insight_icon}
-                icon={faCommentAlt}
-              />
+              <FontAwesomeIcon className={classes.insight_icon} icon={faCommentAlt} />
             </Insight>
           </div>
         ) : null}
@@ -132,10 +131,7 @@ const Overlay = withStyles(styles)(
 );
 
 const Medium = withStyles(styles)(
-  ({
-    classes,
-    medium: { exif, thumbnail, title, likesCount, commentsCount }
-  }) => {
+  ({ classes, medium: { exif, thumbnail, title, likesCount, commentsCount } }) => {
     const orientationCSS = getMediumOrientation(exif, classes);
     const isMP4 = thumbnail.substr(thumbnail.lastIndexOf(".") + 1) === "mp4";
 
