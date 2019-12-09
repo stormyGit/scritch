@@ -29,6 +29,19 @@ export const CREATE_SESSION = gql`
   }
 `;
 
+export const EMAIL_SIGN_IN = gql`
+  mutation emailSignIn($input: EmailSignInInput!) {
+    emailSignIn(input: $input) {
+      session {
+        id
+        user {
+          id
+        }
+      }
+    }
+  }
+`;
+
 export const CREATE_FACEBOOK_SESSION = gql`
   mutation createFacebookSession($input: CreateFacebookSessionInput!) {
     createFacebookSession(input: $input) {

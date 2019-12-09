@@ -180,7 +180,7 @@ class FacebookLoginScreen extends React.Component {
               variant="caption"
               className={classes.troubleLink}
               onClick={() => this.setState({ alternativeLogin: true })}
-            >
+            >   
               Having trouble signing in?
             </Typography>
           )}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_07_092008) do
+ActiveRecord::Schema.define(version: 2019_12_09_144733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -792,6 +792,11 @@ ActiveRecord::Schema.define(version: 2019_11_07_092008) do
     t.datetime "last_seen_fursuits", default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "last_seen_makers", default: -> { "CURRENT_TIMESTAMP" }
     t.integer "bought_impressions", default: 0
+    t.string "service", default: "telegram"
+    t.string "facebook_id"
+    t.string "facebook_email"
+    t.string "email"
+    t.string "password"
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["slug"], name: "index_users_on_slug", unique: true
   end

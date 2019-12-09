@@ -32,7 +32,8 @@ import themeSelector from "../../themeSelector";
 import { Mutation, Query } from "react-apollo";
 
 import Logo from "../Global/Logo";
-import { CREATE_SESSION } from "../../queries/globalQueries";
+import { EMAIL_SIGN_IN } from "../../queries/globalQueries";
+import { TextField } from "@material-ui/core";
 
 const styles = theme => ({
   brand: {
@@ -76,12 +77,23 @@ const styles = theme => ({
   },
   warning: {
     color: theme.palette.danger.main
+  },
+  danger: {
+    color: theme.palette.danger.main
   }
 });
 
+const Spacer = <div style={{ padding: 8 }} />;
+
 class SignUpDialog extends React.Component {
   state = {
-    loginScreen: "all"
+    loginScreen: "all",
+    name: "",
+    email: "",
+    password: "",
+    passwordConfirm: "",
+    invalidPass: false,
+    invalidMail: false
   };
 
   render() {
@@ -114,12 +126,7 @@ class SignUpDialog extends React.Component {
               </DialogTitle>
               <DialogContent>
                 <Grid container spacing={24}>
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                    style={{ borderRight: "1px solid black", height: "50%" }}
-                  >
+                  <Grid item xs={12} md={6}>
                     <Typography className={classes.title} variant="h5">
                       Use Social Media
                     </Typography>
@@ -130,6 +137,7 @@ class SignUpDialog extends React.Component {
                             this.setState({ loginScreen: "telegram" });
                           }}
                           variant="outlined"
+                          style={{ width: "75%" }}
                         >
                           Telegram
                         </Button>
@@ -140,6 +148,7 @@ class SignUpDialog extends React.Component {
                             this.setState({ loginScreen: "facebook" });
                           }}
                           variant="outlined"
+                          style={{ width: "75%" }}
                         >
                           Facebook
                         </Button>
@@ -150,6 +159,8 @@ class SignUpDialog extends React.Component {
                             this.setState({ loginScreen: "all" });
                           }}
                           variant="outlined"
+                          disabled
+                          style={{ width: "75%" }}
                         >
                           Twitter
                         </Button>
@@ -160,6 +171,8 @@ class SignUpDialog extends React.Component {
                             this.setState({ loginScreen: "all" });
                           }}
                           variant="outlined"
+                          disabled
+                          style={{ width: "75%" }}
                         >
                           Google
                         </Button>
@@ -167,10 +180,79 @@ class SignUpDialog extends React.Component {
                     </div>
                   </Grid>
                   <div />
-                  <Grid item xs={12} md={6}>
+                  <Grid item xs={12} md={6} style={{ borderLeft: "1px solid black" }}>
                     <Typography className={classes.title} variant="h5">
                       Use Email
                     </Typography>
+                    <div className={classes.loginButtonContainer}>
+                      <TextField
+                        label="Email"
+                        name="email"
+                        value={this.state.email}
+                        onChange={e => this.setState({ email: e.target.value })}
+                        margin="dense"
+                        variant="outlined"
+                        fullWidth
+                      />
+                      <TextField
+                        label="Password"
+                        name="password"
+                        value={this.state.password}
+                        type="password"
+                        onChange={e => this.setState({ password: e.target.value })}
+                        margin="dense"
+                        variant="outlined"
+                        fullWidth
+                      />
+                      {this.state.invalidPass && (
+                        <Typography className={classes.danger} variant="subtitle1">
+                          Invalid Password
+                        </Typography>
+                      )}
+                      {this.state.invalidMail && (
+                        <Typography className={classes.danger} variant="subtitle1">
+                          Email not found
+                        </Typography>
+                      )}
+                      {Spacer}
+                      <Mutation
+                        mutation={EMAIL_SIGN_IN}
+                        onError={e => {
+                          if (e.message == "GraphQL error: wrong_pwd")
+                            this.setState({ invalidPass: true });
+                          if (e.message == "GraphQL error: unknown_email")
+                            this.setState({ invalidMail: true });
+                        }}
+                        onCompleted={() => location.reload()}
+                      >
+                        {(emailSignIn, { data }) => (
+                          <Button
+                            variant="outlined"
+                            fullWidth
+                            color="primary"
+                            disabled={!this.state.email || !this.state.password}
+                            onClick={() => {
+                              this.setState({ invalidMail: false, invalidPass: false });
+                              emailSignIn({
+                                variables: {
+                                  input: {
+                                    email: this.state.email,
+                                    password: this.state.password
+                                  }
+                                }
+                              });
+                            }}
+                          >
+                            Login
+                          </Button>
+                        )}
+                      </Mutation>
+                      {Spacer}
+                      <Typography variant="subtitle2">Don't have an account yet?</Typography>
+                      <Button color="primary" onClick={() => console.log("cliked")}>
+                        Sign up!
+                      </Button>
+                    </div>
                   </Grid>
                 </Grid>
               </DialogContent>
