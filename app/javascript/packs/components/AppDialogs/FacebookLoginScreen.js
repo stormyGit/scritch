@@ -161,7 +161,7 @@ class FacebookLoginScreen extends React.Component {
                   (process.env.NODE_ENV === "production" ? (
                     <FacebookLogin
                       appId={process.env.FACEBOOK_KEY}
-                      fields="name,email,picture,user_link"
+                      fields="name,email,picture"
                       callback={response => this.responseFacebook(response)}
                     />
                   ) : (
