@@ -1,0 +1,508 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20191211.170617.2863.0.001.json",
+    "dumpEventTime": "2019-12-11T17:06:17Z",
+    "dumpEventTimeStamp": "1576080377912",
+    "processId": 2863,
+    "cwd": "/home/stormy/Work/scritch",
+    "commandLine": [
+      "node",
+      "/home/stormy/Work/scritch/node_modules/.bin/webpack-dev-server",
+      "--config",
+      "/home/stormy/Work/scritch/config/webpack/development.js"
+    ],
+    "nodejsVersion": "v12.13.0",
+    "glibcVersionRuntime": "2.27",
+    "glibcVersionCompiler": "2.17",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "linux",
+    "componentVersions": {
+      "node": "12.13.0",
+      "v8": "7.7.299.13-node.12",
+      "uv": "1.32.0",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.39.2",
+      "napi": "5",
+      "llhttp": "1.1.4",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1d",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019a",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "lts": "Erbium",
+      "headersUrl": "https://nodejs.org/download/release/v12.13.0/node-v12.13.0-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.13.0/node-v12.13.0.tar.gz"
+    },
+    "osName": "Linux",
+    "osRelease": "5.0.0-36-generic",
+    "osVersion": "#39~18.04.1-Ubuntu SMP Tue Nov 12 11:09:50 UTC 2019",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "AMD Ryzen 5 2400G with Radeon Vega Graphics",
+        "speed": 3854,
+        "user": 66403000,
+        "nice": 148000,
+        "sys": 24345300,
+        "idle": 9391725500,
+        "irq": 0
+      },
+      {
+        "model": "AMD Ryzen 5 2400G with Radeon Vega Graphics",
+        "speed": 3677,
+        "user": 47580700,
+        "nice": 214100,
+        "sys": 12224300,
+        "idle": 9435635800,
+        "irq": 0
+      },
+      {
+        "model": "AMD Ryzen 5 2400G with Radeon Vega Graphics",
+        "speed": 1556,
+        "user": 68673400,
+        "nice": 191200,
+        "sys": 25289100,
+        "idle": 9391146600,
+        "irq": 0
+      },
+      {
+        "model": "AMD Ryzen 5 2400G with Radeon Vega Graphics",
+        "speed": 1556,
+        "user": 46861800,
+        "nice": 159800,
+        "sys": 12978600,
+        "idle": 9435640500,
+        "irq": 0
+      },
+      {
+        "model": "AMD Ryzen 5 2400G with Radeon Vega Graphics",
+        "speed": 1557,
+        "user": 72402700,
+        "nice": 172100,
+        "sys": 25672300,
+        "idle": 9387490500,
+        "irq": 0
+      },
+      {
+        "model": "AMD Ryzen 5 2400G with Radeon Vega Graphics",
+        "speed": 1556,
+        "user": 38856400,
+        "nice": 220800,
+        "sys": 12425200,
+        "idle": 9406372900,
+        "irq": 0
+      },
+      {
+        "model": "AMD Ryzen 5 2400G with Radeon Vega Graphics",
+        "speed": 2686,
+        "user": 69841600,
+        "nice": 158000,
+        "sys": 25017400,
+        "idle": 9384307000,
+        "irq": 0
+      },
+      {
+        "model": "AMD Ryzen 5 2400G with Radeon Vega Graphics",
+        "speed": 2246,
+        "user": 49135900,
+        "nice": 237500,
+        "sys": 12175700,
+        "idle": 9433118800,
+        "irq": 0
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "lo",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "enp46s0",
+        "internal": false,
+        "mac": "10:62:e5:13:86:02",
+        "address": "192.168.1.82",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "lo",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "enp46s0",
+        "internal": false,
+        "mac": "10:62:e5:13:86:02",
+        "address": "fe80::6978:b34b:db50:19a1",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 2
+      }
+    ],
+    "host": "stormy-Main"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x0000000000b027f5",
+      "symbol": "report::TriggerNodeReport(v8::Isolate*, node::Environment*, char const*, char const*, std::string const&, v8::Local<v8::String>) [node]"
+    },
+    {
+      "pc": "0x00000000009d9fc3",
+      "symbol": "node::OnFatalError(char const*, char const*) [node]"
+    },
+    {
+      "pc": "0x0000000000b37dbe",
+      "symbol": "v8::Utils::ReportOOMFailure(v8::internal::Isolate*, char const*, bool) [node]"
+    },
+    {
+      "pc": "0x0000000000b38139",
+      "symbol": "v8::internal::V8::FatalProcessOutOfMemory(v8::internal::Isolate*, char const*, bool) [node]"
+    },
+    {
+      "pc": "0x0000000000ce34f5",
+      "symbol": " [node]"
+    },
+    {
+      "pc": "0x0000000000ce3b86",
+      "symbol": "v8::internal::Heap::RecomputeLimits(v8::internal::GarbageCollector) [node]"
+    },
+    {
+      "pc": "0x0000000000cefa1a",
+      "symbol": "v8::internal::Heap::PerformGarbageCollection(v8::internal::GarbageCollector, v8::GCCallbackFlags) [node]"
+    },
+    {
+      "pc": "0x0000000000cf0925",
+      "symbol": "v8::internal::Heap::CollectGarbage(v8::internal::AllocationSpace, v8::internal::GarbageCollectionReason, v8::GCCallbackFlags) [node]"
+    },
+    {
+      "pc": "0x0000000000cf3338",
+      "symbol": "v8::internal::Heap::AllocateRawWithRetryOrFail(int, v8::internal::AllocationType, v8::internal::AllocationAlignment) [node]"
+    },
+    {
+      "pc": "0x0000000000cb9c67",
+      "symbol": "v8::internal::Factory::NewFillerObject(int, bool, v8::internal::AllocationType) [node]"
+    },
+    {
+      "pc": "0x0000000000fefb9b",
+      "symbol": "v8::internal::Runtime_AllocateInYoungGeneration(int, unsigned long*, v8::internal::Isolate*) [node]"
+    },
+    {
+      "pc": "0x00000000013725d9",
+      "symbol": " [node]"
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 4304883712,
+    "totalCommittedMemory": 4266032672,
+    "usedMemory": 4242518320,
+    "availableMemory": 47325864,
+    "memoryLimit": 4345298944,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 32568,
+        "capacity": 261872,
+        "used": 32296,
+        "available": 229576
+      },
+      "new_space": {
+        "memorySize": 5242880,
+        "committedMemory": 1358272,
+        "capacity": 2618720,
+        "used": 140632,
+        "available": 2478088
+      },
+      "old_space": {
+        "memorySize": 1152757760,
+        "committedMemory": 1118398072,
+        "capacity": 1104273920,
+        "used": 1102689672,
+        "available": 1584248
+      },
+      "code_space": {
+        "memorySize": 1212416,
+        "committedMemory": 1087776,
+        "capacity": 939744,
+        "used": 939744,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 5771264,
+        "committedMemory": 5518736,
+        "capacity": 1827280,
+        "used": 1827280,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 3139014656,
+        "committedMemory": 3139014656,
+        "capacity": 3136338040,
+        "used": 3136338040,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 622592,
+        "committedMemory": 622592,
+        "capacity": 550656,
+        "used": 550656,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 2618720,
+        "used": 0,
+        "available": 2618720
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 113.544,
+    "kernelCpuSeconds": 6.58586,
+    "cpuConsumptionPercent": 107.259,
+    "maxRss": 5447741440,
+    "pageFaults": {
+      "IORequired": 13,
+      "IONotRequired": 3146054
+    },
+    "fsActivity": {
+      "reads": 92504,
+      "writes": 136
+    }
+  },
+  "uvthreadResourceUsage": {
+    "userCpuSeconds": 71.5417,
+    "kernelCpuSeconds": 3.35514,
+    "cpuConsumptionPercent": 66.8721,
+    "fsActivity": {
+      "reads": 39368,
+      "writes": 104
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "LC_ADDRESS": "fr_FR.UTF-8",
+    "XDG_CONFIG_DIRS": "/etc/xdg/xdg-ubuntu:/etc/xdg",
+    "LC_TELEPHONE": "fr_FR.UTF-8",
+    "LANG": "en_US.UTF-8",
+    "DISPLAY": ":0",
+    "SHLVL": "1",
+    "LOGNAME": "stormy",
+    "XDG_VTNR": "2",
+    "MANDATORY_PATH": "/usr/share/gconf/ubuntu.mandatory.path",
+    "LC_NAME": "fr_FR.UTF-8",
+    "PWD": "/home/stormy/Work/scritch",
+    "XDG_SEAT": "seat0",
+    "XAUTHORITY": "/run/user/1000/gdm/Xauthority",
+    "DESKTOP_AUTOSTART_ID": "10e2516e871307bffb157513240391270500000019030007",
+    "GTK_IM_MODULE": "ibus",
+    "USER": "stormy",
+    "XDG_SESSION_ID": "7",
+    "COLORTERM": "truecolor",
+    "GNOME_TERMINAL_SCREEN": "/org/gnome/Terminal/screen/2c057729_2301_4e8e_9414_3f6876aabd2e",
+    "DESKTOP_SESSION": "ubuntu",
+    "XDG_SESSION_DESKTOP": "ubuntu",
+    "GDMSESSION": "ubuntu",
+    "TEXTDOMAINDIR": "/usr/share/locale/",
+    "DEFAULTS_PATH": "/usr/share/gconf/ubuntu.default.path",
+    "GNOME_DESKTOP_SESSION_ID": "this-is-deprecated",
+    "LC_MEASUREMENT": "fr_FR.UTF-8",
+    "LC_PAPER": "fr_FR.UTF-8",
+    "WINDOWPATH": "2",
+    "LC_MONETARY": "fr_FR.UTF-8",
+    "IM_CONFIG_PHASE": "2",
+    "DBUS_SESSION_BUS_ADDRESS": "unix:path=/run/user/1000/bus",
+    "VTE_VERSION": "5202",
+    "USERNAME": "stormy",
+    "CLUTTER_IM_MODULE": "xim",
+    "LC_NUMERIC": "fr_FR.UTF-8",
+    "TEXTDOMAIN": "im-config",
+    "QT4_IM_MODULE": "xim",
+    "XDG_MENU_PREFIX": "gnome-",
+    "LC_IDENTIFICATION": "fr_FR.UTF-8",
+    "S_COLORS": "auto",
+    "SHELL": "/usr/bin/zsh",
+    "GNOME_SHELL_SESSION_MODE": "ubuntu",
+    "XDG_DATA_DIRS": "/usr/share/ubuntu:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop",
+    "LC_TIME": "fr_FR.UTF-8",
+    "TERM": "xterm-256color",
+    "SESSION_MANAGER": "local/stormy-Main:@/tmp/.ICE-unix/1903,unix/stormy-Main:/tmp/.ICE-unix/1903",
+    "GTK_MODULES": "gail:atk-bridge",
+    "XDG_SESSION_TYPE": "x11",
+    "GNOME_TERMINAL_SERVICE": ":1.59",
+    "XDG_CURRENT_DESKTOP": "ubuntu:GNOME",
+    "SSH_AGENT_PID": "1999",
+    "PATH": "/home/stormy/.gem/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+    "SSH_AUTH_SOCK": "/run/user/1000/keyring/ssh",
+    "XMODIFIERS": "@im=ibus",
+    "QT_IM_MODULE": "ibus",
+    "XDG_RUNTIME_DIR": "/run/user/1000",
+    "GPG_AGENT_INFO": "/run/user/1000/gnupg/S.gpg-agent:0:1",
+    "HOME": "/home/stormy",
+    "QT_ACCESSIBILITY": "1",
+    "OLDPWD": "/home/stormy",
+    "ZSH": "/home/stormy/.oh-my-zsh",
+    "GEM_HOME": "/home/stormy/.gem",
+    "GEM_PATH": "/home/stormy/.gem",
+    "PAGER": "less",
+    "LESS": "-R",
+    "LSCOLORS": "Gxfxcxdxbxegedabagacad",
+    "LS_COLORS": "rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:",
+    "_": "/home/stormy/Work/scritch/./bin/webpack-dev-server",
+    "RAILS_ENV": "development",
+    "NODE_ENV": "development",
+    "NODE_OPTIONS": "--max-old-space-size=4096",
+    "BUNDLE_GEMFILE": "/home/stormy/Work/scritch/Gemfile",
+    "BUNDLER_ORIG_BUNDLE_BIN_PATH": "BUNDLER_ENVIRONMENT_PRESERVER_INTENTIONALLY_NIL",
+    "BUNDLER_ORIG_BUNDLE_GEMFILE": "/home/stormy/Work/scritch/Gemfile",
+    "BUNDLER_ORIG_BUNDLER_ORIG_MANPATH": "BUNDLER_ENVIRONMENT_PRESERVER_INTENTIONALLY_NIL",
+    "BUNDLER_ORIG_BUNDLER_VERSION": "BUNDLER_ENVIRONMENT_PRESERVER_INTENTIONALLY_NIL",
+    "BUNDLER_ORIG_GEM_HOME": "/home/stormy/.gem",
+    "BUNDLER_ORIG_GEM_PATH": "/home/stormy/.gem",
+    "BUNDLER_ORIG_MANPATH": "BUNDLER_ENVIRONMENT_PRESERVER_INTENTIONALLY_NIL",
+    "BUNDLER_ORIG_PATH": "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+    "BUNDLER_ORIG_RB_USER_INSTALL": "BUNDLER_ENVIRONMENT_PRESERVER_INTENTIONALLY_NIL",
+    "BUNDLER_ORIG_RUBYLIB": "BUNDLER_ENVIRONMENT_PRESERVER_INTENTIONALLY_NIL",
+    "BUNDLER_ORIG_RUBYOPT": "BUNDLER_ENVIRONMENT_PRESERVER_INTENTIONALLY_NIL",
+    "BUNDLE_BIN_PATH": "/home/stormy/.gem/gems/bundler-2.0.1/exe/bundle",
+    "BUNDLER_VERSION": "2.0.1",
+    "RUBYOPT": "-rbundler/setup",
+    "RUBYLIB": "/home/stormy/.gem/gems/bundler-2.0.1/lib",
+    "ACTIVITIES_PAGE_SIZE": "20",
+    "ADMIN_ACCOUNT_TELEGRAM_ID": "lol",
+    "COMMENTS_PAGE_SIZE": "20",
+    "DEFAULT_THEME": "light",
+    "DOMAIN": "localhot:3000",
+    "FACEBOOK_KEY": "368589313855428",
+    "FACEBOOK_SECRET": "78823aee9083c8b521ba424cf7703a95",
+    "FOLLOWERS_PAGE_SIZE": "30",
+    "FOLLOWINGS_PAGE_SIZE": "30",
+    "GOD_MODE_PWD": "24wWeCp4A4jZWBhh",
+    "GOD_MODE_TOKEN": "k7v8XbS7drLCKKNL",
+    "LIKES_PAGE_SIZE": "10",
+    "MEDIA_PAGE_SIZE": "48",
+    "MODERATOR_TELEGRAM_ID": "1234",
+    "MONTH_SUB_ID": "4327t8y0fg9huwer",
+    "PAYPAL_URL": "https://paypal.me/ScritchMe",
+    "S3_ACCESS_KEY_ID": "v9Cqt7Z8n3EYRfLYqY0Y",
+    "S3_BUCKET": "scritch-dev",
+    "S3_ENDPOINT": "https://storage.scritch.es",
+    "S3_HOST": "localhost",
+    "S3_REGION": "eu-west-1",
+    "S3_SECRET_ACCESS_KEY": "CRZX76fRpgoWQNg4gaMh4ecpuzF2/MI3",
+    "SCRITCH_HOST": "https://localhost:3000",
+    "SECONDARY_COLOR": "#25E8AD",
+    "SECURE_UPLOADER_KEY": "4a1d6ed69c1c5539c26a1edf54e5c2b05b8f0578fb567ac08ba28f40f7fe8e375a22a7d4bd1f8013a1cdf5449f8dbb9a209a8c9696a058adb780c58176787967",
+    "STRIPE_API_KEY": "pk_test_OPwirpl7QiyViiDKk6YRfpNt",
+    "SEMESTER_SUB_ID": "wdv809uj24op3208",
+    "SITE_NAME": "Scritch",
+    "SITE_URL": "https://localhost:3000",
+    "SITE_VERSION": "0.12.3-beta",
+    "SMTP_DOMAIN": "scritch.es",
+    "SMTP_LOGIN": "AKIATCA5UHO7A6NP3C73",
+    "SMTP_PASSWORD": "BOSL0iWoy6rbIkkZQwtJzDM9oOyq+PRFQVXJkGq5kRQc",
+    "SMTP_PORT": "587",
+    "SMTP_SERVER": "email-smtp.us-east-1.amazonaws.com",
+    "STRIPE_SECRET_KEY": "sk_test_8GQ0gRaL3ZScw2ZLVL2qtVBo00NB2UvWcZ",
+    "TECH_SWITCH_CODE": "3vD6tWsnBpKa8y6P",
+    "TELEGRAM_ADMIN_BOT_NAME": "ScritchTestBot",
+    "TELEGRAM_ADMIN_BOT_TOKEN": "704532904:AAEPPZoQdv10yyp1_ySd4cBozVe861HjLTY",
+    "TELEGRAM_BOT_NAME": "ScritchLoginBot",
+    "TELEGRAM_CLAIM_GROUP_ID": "-1001217972600",
+    "TELEGRAM_CONTACT": "ScritchHelp",
+    "TELEGRAM_LOGIN_BOT_NAME": "ScritchLoginBot",
+    "TELEGRAM_LOGIN_BOT_TOKEN": "694687096:AAGfDkuAOkidH14amE1Gpp9rqlZR_GEdXLk",
+    "TEMPORARY_S3_ACCESS_KEY_ID": "AKIAJEQ63LVRGCOTSWIA",
+    "TEMPORARY_S3_BUCKET": "scritch-temporary-storage",
+    "TEMPORARY_S3_REGION": "us-east-1",
+    "TEMPORARY_S3_SECRET_ACCESS_KEY": "ATiobsz7wQvgJ3M/aWfnqT6vuIl7ip5B7JUd7Ax5",
+    "TWITTER_ACCESS_TOKEN": "XXX1056261219810754560-nH19Q4apjWBvOlu4RHQoa9nQqfTIT2",
+    "TWITTER_ACCOUNT": "XXXmurrtube",
+    "TWITTER_CONSUMER_API_KEY": "XXXvNnoYS9l5Q8FOjRCkOta6kAE4",
+    "TWITTER_CONSUMER_API_SECRET": "XXXaDof6v2r5PF8DctlLqPf4q7zXxzk2U9ZJZyDsmsHWK38IjzsET",
+    "TWITTER_DEFAULT_TAGS": "murrsuit,murrsuits",
+    "TWITTER_SECRET_TOKEN": "XXXDoG1Ea4JHZDm4cAezCfOtEsLEDiKPxuI6H8STQBA9D9GD",
+    "USER_MEDIA_PAGE_SIZE": "96",
+    "YEAR_SUB_ID": "249807ythtf3rwe1"
+  },
+  "userLimits": {
+    "core_file_size_blocks": {
+      "soft": 0,
+      "hard": "unlimited"
+    },
+    "data_seg_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "file_size_blocks": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_locked_memory_bytes": {
+      "soft": 16777216,
+      "hard": 16777216
+    },
+    "max_memory_size_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "open_files": {
+      "soft": 4096,
+      "hard": 4096
+    },
+    "stack_size_bytes": {
+      "soft": 8388608,
+      "hard": "unlimited"
+    },
+    "cpu_time_seconds": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    },
+    "max_user_processes": {
+      "soft": 120056,
+      "hard": 120056
+    },
+    "virtual_memory_kbytes": {
+      "soft": "unlimited",
+      "hard": "unlimited"
+    }
+  },
+  "sharedObjects": [
+    "linux-vdso.so.1",
+    "/lib/x86_64-linux-gnu/libdl.so.2",
+    "/usr/lib/x86_64-linux-gnu/libstdc++.so.6",
+    "/lib/x86_64-linux-gnu/libm.so.6",
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+    "/lib/x86_64-linux-gnu/libpthread.so.0",
+    "/lib/x86_64-linux-gnu/libc.so.6",
+    "/lib64/ld-linux-x86-64.so.2",
+    "/lib/x86_64-linux-gnu/libnss_files.so.2"
+  ]
+}

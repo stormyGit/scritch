@@ -29,6 +29,14 @@ export const CREATE_SESSION = gql`
   }
 `;
 
+export const REGISTER_USER = gql`
+  mutation registerUser($input: RegisterUserInput!) {
+    registerUser(input: $input) {
+      errors
+    }
+  }
+`;
+
 export const EMAIL_SIGN_IN = gql`
   mutation emailSignIn($input: EmailSignInInput!) {
     emailSignIn(input: $input) {

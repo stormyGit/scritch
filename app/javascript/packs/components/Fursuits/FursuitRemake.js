@@ -325,7 +325,8 @@ const SubtitleRow = withStyles(styles)(
                 Made by{" "}
                 <Link to={`/makers/${fursuit.makers[0].slug}`} className={classes.link}>
                   {fursuit.makers[0].name}
-                </Link>{" "}
+                </Link>
+                &nbsp;
                 {fursuit.creationYear && `in ${fursuit.creationYear}`}
               </Typography>
             )}
@@ -358,7 +359,7 @@ const SubtitleRow = withStyles(styles)(
                 <Typography variant="subtitle1" className={classes.fursuitTitle}>
                   Made by{" "}
                   <Link to={`/makers/${fursuit.makers[0].slug}`} className={classes.link}>
-                    {fursuit.makers[0].name}
+                    {fursuit.makers[0].name}&nbsp;
                   </Link>
                   {fursuit.creationYear && `in ${fursuit.creationYear}`}
                 </Typography>
@@ -659,7 +660,6 @@ class Fursuit extends React.Component {
                 {this.renderActionButton(fursuit)}
                 <div style={{ padding: 4 }} />
                 {!fursuit.claimed && !fursuit.possessed && this.renderFollowButton(fursuit)}
-
                 <IconButton
                   className={classes.actionButtonPadding}
                   color="primary"

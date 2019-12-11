@@ -25,8 +25,7 @@ class ApplicationController < ActionController::Base
     if App.first.staging && (cookies.signed["staging-token"].blank? || cookies.signed["staging-token"] != ENV["STAGING_TOKEN"])
       return "staging"
     end
-    if devise_controller? && resource_name != "moderator"
-      puts "HERE"
+    if devise_controller? && resource_name != :user
       "moderation" 
     elsif controller_name == "sponsors"
       "sponsors"

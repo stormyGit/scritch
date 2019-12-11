@@ -13,9 +13,14 @@ class Mutations::EmailSignIn < Mutations::BaseMutation
       puts error
       return GraphQL::ExecutionError.new('unknown_email')
     end
+    if user.blank?
+      return GraphQL::ExecutionError.new('unknown_email')
+    end
     if !user.valid_password?(params[:password])
       return GraphQL::ExecutionError.new('wrong_pwd')
-
+    end
+    if user.confirmed_at.blank?
+      return GraphQL::ExecutionError.new('no_confirm')
     end
 
     session = Session.new(user: user)
