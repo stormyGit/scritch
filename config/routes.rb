@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   require 'sidekiq/web'
   mount Sidekiq::Web => '/sidekiq'
 
+  devise_for :users, :controllers => { :confirmations => :devise_confirms }
+
   get 'sponsors/cancel', :to => "sponsors#cancel"
   put 'sponsors/end_sponsorship', :to => "sponsors#end_sponsorship"
   get 'sponsors/free_trial', :to => "sponsors#free_trial"

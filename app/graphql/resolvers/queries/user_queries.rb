@@ -10,8 +10,9 @@ module Resolvers
 
                 def call(obj, args, ctx)
                     user = User.find(args[:id])
-                    raise Pundit::NotAuthorizedError unless UserPolicy.new(ctx[:current_user], user).show?
-              
+
+                    raise Pundit::NotAuthorizedError unless UserPolicy.new(ctx[:current_user] || nil, user).show?
+                    
                     user
                 end
             end

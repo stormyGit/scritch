@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   self.primary_key = :uuid
 
+  devise :database_authenticatable, :rememberable, :trackable, :recoverable, :rememberable, :confirmable
+
   include PublicActivity::Model
   acts_as_followable
   acts_as_follower

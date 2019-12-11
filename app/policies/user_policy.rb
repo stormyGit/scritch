@@ -12,7 +12,12 @@ class UserPolicy < ApplicationPolicy
   end
 
   def show?
-    !record.blocked_users_ids.include?(user.uuid)
+    puts "\n" * 30
+    puts record.blocked_users_ids
+    puts user
+    puts "\n" * 30
+
+    user && user.present? ? !record.blocked_users_ids.include?(user.uuid) : true
   end
 
   def update?

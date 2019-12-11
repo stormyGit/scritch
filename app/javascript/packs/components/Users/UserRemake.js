@@ -550,7 +550,7 @@ class User extends React.Component {
 
     return (
       <React.Fragment>
-        {user.id != currentSession.user.id && (
+        {currentSession && user.id != currentSession.user.id && (
           <React.Fragment>
             {user.blocked ? (
               <Mutation mutation={UNBLOCK_USER}>
@@ -601,7 +601,7 @@ class User extends React.Component {
             </Tooltip>
           </React.Fragment>
         )}
-        {user.id == currentSession.user.id && (
+        {currentSession && user.id == currentSession.user.id && (
           <IconButton
             size="small"
             variant="outlined"
@@ -645,7 +645,7 @@ class User extends React.Component {
                     SCRITCH SPONSOR
                   </Typography>
                 )}
-                {user.id != currentSession.user.id && (
+                {currentSession && user.id != currentSession.user.id && (
                   <div className={classes.actionButtonPadding}>{this.renderFollowButton(user)}</div>
                 )}
                 <div className={classes.actionButtonPadding}>{this.renderActionButton(user)}</div>
@@ -725,7 +725,9 @@ class User extends React.Component {
                 )}
               </div>
               <div>
-                {user.id != currentSession.user.id && this.renderFollowButton(user)}
+                {currentSession &&
+                  user.id != currentSession.user.id &&
+                  this.renderFollowButton(user)}
                 {this.renderActionButton(user)}
               </div>
               {user.makers && user.makers.length > 0 && (

@@ -1,21 +1,17 @@
-class Mutations::EmailSignIn < Mutations::BaseMutation
+class Mutations::RegisterUser < Mutations::BaseMutation
   argument :email, String, required: true
   argument :password, String, required: true
+  argument :name, String, required: true
 
   field :session, Types::SessionType, null: true
   field :errors, [String], null: false
 
   def resolve(params)
     begin
-      user = User.find_for_database_authentication(email: params[:email], service: "email")
+      user = User.create!(email: params[:email], password: params[:password], name: params[:name], telegram_id: params[:email], service: "email")
+      user.send_confirmation_instructions
     rescue => error
-      puts "HERE"
-      puts error
-      return GraphQL::ExecutionError.new('unknown_email')
-    end
-    if !user.valid_password?(params[:password])
-      return GraphQL::ExecutionError.new('wrong_pwd')
-
+      return GraphQL::ExecutionError.new(error)
     end
 
     session = Session.new(user: user)
