@@ -15,11 +15,8 @@ import "es7-shim";
 import "whatwg-fetch";
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/App";
+import App from "../src/components/App";
 
 document.addEventListener("DOMContentLoaded", () => {
-  ReactDOM.render(
-    <App />,
-    document.body.appendChild(document.getElementById("application"))
-  );
+  ReactDOM.render(<App />, document.body.appendChild(document.getElementById("application")));
 });

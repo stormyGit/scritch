@@ -37,6 +37,14 @@ export const REGISTER_USER = gql`
   }
 `;
 
+export const RESET_PASSWORD = gql`
+  mutation resetPassword($input: ResetPasswordInput!) {
+    resetPassword(input: $input) {
+      errors
+    }
+  }
+`;
+
 export const EMAIL_SIGN_IN = gql`
   mutation emailSignIn($input: EmailSignInInput!) {
     emailSignIn(input: $input) {

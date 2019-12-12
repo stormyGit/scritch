@@ -32,7 +32,7 @@ import themeSelector from "../../themeSelector";
 import { Mutation, Query } from "react-apollo";
 
 import Logo from "../Global/Logo";
-import { EMAIL_SIGN_IN, REGISTER_USER } from "../../queries/globalQueries";
+import { EMAIL_SIGN_IN, REGISTER_USER, RESET_PASSWORD } from "../../queries/globalQueries";
 import { TextField } from "@material-ui/core";
 
 const styles = theme => ({
@@ -68,6 +68,9 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 2,
     cursor: "pointer"
   },
+  blueLink: {
+    color: theme.palette.primary.main
+  },
   blurb: {
     fontWeight: 200
   },
@@ -90,6 +93,7 @@ class SignUpDialog extends React.Component {
     loginScreen: "all",
     signUpName: "",
     signUpEmail: "",
+    forgotEmail: "",
     signUpPassword: "",
     signUpPasswordConfirm: "",
     email: "",
@@ -211,6 +215,14 @@ class SignUpDialog extends React.Component {
                           variant="outlined"
                           fullWidth
                         />
+                        <div
+                          onClick={() => this.setState({ emailDisplay: "forgot_pass" })}
+                          style={{ cursor: "pointer", textAlign: "left" }}
+                        >
+                          <Typography variant="subtitle1" className={classes.blueLink}>
+                            I forgot my password
+                          </Typography>
+                        </div>
                         {this.state.invalidPass && (
                           <Typography className={classes.danger} variant="subtitle1">
                             Invalid Password
@@ -315,6 +327,7 @@ class SignUpDialog extends React.Component {
                           variant="outlined"
                           fullWidth
                         />
+
                         {this.state.invalidPass && (
                           <Typography className={classes.danger} variant="subtitle1">
                             Password must contain at least 8 characters
@@ -386,6 +399,70 @@ class SignUpDialog extends React.Component {
                         </Mutation>
                         {Spacer}
                         <Typography variant="subtitle2">Already have an account?</Typography>
+                        <Button
+                          color="primary"
+                          onClick={() => this.setState({ emailDisplay: "sign_in" })}
+                        >
+                          Sign in!
+                        </Button>
+                      </div>
+                    )}
+                    {this.state.emailDisplay === "forgot_pass" && (
+                      <div className={classes.loginButtonContainer}>
+                        <TextField
+                          label="Email"
+                          name="forgotEmail"
+                          value={this.state.forgotEmail}
+                          onChange={e => this.setState({ forgotEmail: e.target.value })}
+                          margin="dense"
+                          variant="outlined"
+                          fullWidth
+                        />
+                        {this.state.invalidMail && (
+                          <Typography className={classes.danger} variant="subtitle1">
+                            Email not found
+                          </Typography>
+                        )}
+                        {Spacer}
+                        <Mutation
+                          mutation={RESET_PASSWORD}
+                          onError={e => {
+                            console.log(e);
+                            if (e.message == "GraphQL error: unknown_email")
+                              this.setState({ invalidMail: true });
+                          }}
+                          onCompleted={() => location.reload()}
+                        >
+                          {(resetPassword, { data }) => {
+                            console.log("HERE");
+                            return (
+                              <Button
+                                variant="outlined"
+                                fullWidth
+                                color="primary"
+                                disabled={!this.state.forgotEmail}
+                                onClick={() => {
+                                  this.setState({
+                                    invalidMail: false
+                                  });
+                                  resetPassword({
+                                    variables: {
+                                      input: {
+                                        email: this.state.forgotEmail
+                                      }
+                                    }
+                                  });
+                                }}
+                              >
+                                Send Reset Email
+                              </Button>
+                            );
+                          }}
+                        </Mutation>
+                        {Spacer}
+                        <Typography variant="subtitle2">
+                          Nevermind I remember my password
+                        </Typography>
                         <Button
                           color="primary"
                           onClick={() => this.setState({ emailDisplay: "sign_in" })}

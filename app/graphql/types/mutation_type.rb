@@ -2,6 +2,7 @@ module Types
   class MutationType < Types::BaseObject
     field :create_session, mutation: Mutations::CreateSession
     field :register_user, mutation: Mutations::RegisterUser
+    field :reset_password, mutation: Mutations::ResetPassword
     field :email_sign_in, mutation: Mutations::EmailSignIn
     field :create_facebook_session, mutation: Mutations::CreateFacebookSession
     field :create_medium, mutation: Mutations::CreateMedium
