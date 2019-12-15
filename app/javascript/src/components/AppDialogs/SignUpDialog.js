@@ -19,6 +19,7 @@ import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import TelegramLoginButton from "react-telegram-login";
 import { withRouter } from "react-router-dom";
@@ -474,6 +475,10 @@ class SignUpDialog extends React.Component {
                           margin="dense"
                           variant="outlined"
                           fullWidth
+                        />
+                        <ReCAPTCHA
+                          sitekey={process.env.CAPTCHA_ACCESS_KEY}
+                          onChange={value => console.log(value)}
                         />
                         {this.state.success && (
                           <Typography className={classes.success} variant="subtitle1">
