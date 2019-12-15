@@ -307,6 +307,7 @@ class SignUpDialog extends React.Component {
                                   emailSignIn({
                                     variables: {
                                       input: {
+                                        captcha: this.state.captcha,
                                         email: this.state.email,
                                         password: this.state.password
                                       }
@@ -525,6 +526,7 @@ class SignUpDialog extends React.Component {
                                   resetPassword({
                                     variables: {
                                       input: {
+                                        captcha: this.state.captcha,
                                         email: this.state.forgotEmail
                                       }
                                     }
