@@ -2,6 +2,7 @@ module Types
   class MutationType < Types::BaseObject
     field :create_session, mutation: Mutations::CreateSession
     field :register_user, mutation: Mutations::RegisterUser
+    field :send_new_confirm_mail, mutation: Mutations::SendNewConfirmMail
     field :update_password, mutation: Mutations::UpdatePassword
     field :reset_password, mutation: Mutations::ResetPassword
     field :email_sign_in, mutation: Mutations::EmailSignIn

@@ -34,7 +34,12 @@ import themeSelector from "../../themeSelector";
 import { Mutation, Query } from "react-apollo";
 
 import Logo from "../Global/Logo";
-import { EMAIL_SIGN_IN, REGISTER_USER, RESET_PASSWORD } from "../../queries/globalQueries";
+import {
+  EMAIL_SIGN_IN,
+  REGISTER_USER,
+  RESET_PASSWORD,
+  SEND_NEW_CONFIRM_MAIL
+} from "../../queries/globalQueries";
 import { TextField } from "@material-ui/core";
 
 const styles = theme => ({
@@ -268,9 +273,43 @@ class SignUpDialog extends React.Component {
                           </Typography>
                         )}
                         {this.state.noConfirm && (
-                          <Typography className={classes.danger} variant="subtitle1">
-                            Please confirm your registered Email address to access your account
-                          </Typography>
+                          <React.Fragment>
+                            <Typography className={classes.danger} variant="subtitle1">
+                              Please confirm your registered Email address to access your account.
+                              Didn't receive it?
+                            </Typography>
+                            <Mutation mutation={SEND_NEW_CONFIRM_MAIL}>
+                              {(sendNewConfirmMail, { data, loading }) => {
+                                if (loading) {
+                                  return <CustomProgress size={32} />;
+                                }
+                                return (
+                                  <Button
+                                    variant="outlined"
+                                    fullWidth
+                                    type="submit"
+                                    color="primary"
+                                    onClick={() => {
+                                      this.setState({
+                                        invalidMail: false,
+                                        invalidPass: false,
+                                        noConfirm: false
+                                      });
+                                      sendNewConfirmMail({
+                                        variables: {
+                                          input: {
+                                            email: this.state.email
+                                          }
+                                        }
+                                      });
+                                    }}
+                                  >
+                                    Send me a new confirmation email
+                                  </Button>
+                                );
+                              }}
+                            </Mutation>
+                          </React.Fragment>
                         )}
                         {Spacer}
                         <Mutation

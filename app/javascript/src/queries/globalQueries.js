@@ -24,6 +24,14 @@ export const UPDATE_PASSWORD = gql`
   }
 `;
 
+export const SEND_NEW_CONFIRM_MAIL = gql`
+  mutation sendNewConfirmMail($input: SendNewConfirmMailInput!) {
+    sendNewConfirmMail(input: $input) {
+      errors
+    }
+  }
+`;
+
 export const CREATE_SESSION = gql`
   mutation createSession($input: CreateSessionInput!) {
     createSession(input: $input) {

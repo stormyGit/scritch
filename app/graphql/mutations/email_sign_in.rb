@@ -17,8 +17,6 @@ class Mutations::EmailSignIn < Mutations::BaseMutation
     begin
       user = User.find_for_database_authentication(email: params[:email], service: "email")
     rescue => error
-      puts "HERE"
-      puts error
       return GraphQL::ExecutionError.new('unknown_email')
     end
     if user.blank?

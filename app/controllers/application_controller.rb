@@ -14,6 +14,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def dirty_fix
+    byebug
+    redirect_to root_path
+  end
+
   layout :layout_by_resource
 
   private
