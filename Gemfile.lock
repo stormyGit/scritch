@@ -709,6 +709,7 @@ DEPENDENCIES
   rails (~> 5.2.3)
   rails_autolink
   redcarpet
+  rest-client
   ruby-hmac
   sass-rails (~> 5.0)
   selenium-webdriver

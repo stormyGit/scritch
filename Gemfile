@@ -102,3 +102,4 @@ gem 'jquery-rails'
 gem 'stripe'
 gem 'redcarpet'
 gem 'solargraph', group: :development
+gem 'rest-client'
