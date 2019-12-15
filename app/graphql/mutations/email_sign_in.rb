@@ -1,11 +1,19 @@
 class Mutations::EmailSignIn < Mutations::BaseMutation
   argument :email, String, required: true
   argument :password, String, required: true
+  argument :captcha, String, required: true
 
   field :session, Types::SessionType, null: true
   field :errors, [String], null: false
 
   def resolve(params)
+    response = RestClient::Request.execute(
+      method: :post,
+      url: "https://www.google.com/recaptcha/api/siteverify?secret=#{ENV["CAPTCHA_SECRET_KEY"]}&response=#{params[:captcha]}",
+    )
+    if response["success"] == false
+      return GraphQL::ExecutionError.new("captcha_failed")
+    end
     begin
       user = User.find_for_database_authentication(email: params[:email], service: "email")
     rescue => error

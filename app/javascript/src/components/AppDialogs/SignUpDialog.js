@@ -109,7 +109,8 @@ class SignUpDialog extends React.Component {
     invalidMail: false,
     invalidConfirmPass: false,
     emailDisplay: "sign_in",
-    success: false
+    success: false,
+    captcha: null
   };
 
   resetStates() {
@@ -126,7 +127,8 @@ class SignUpDialog extends React.Component {
       invalidMail: false,
       invalidMail: false,
       invalidConfirmPass: false,
-      success: false
+      success: false,
+      captcha: null
     });
   }
 
@@ -251,6 +253,10 @@ class SignUpDialog extends React.Component {
                             I forgot my password
                           </Typography>
                         </div>
+                        <ReCAPTCHA
+                          sitekey={process.env.CAPTCHA_ACCESS_KEY}
+                          onChange={value => this.setState({ captcha: value })}
+                        />
                         {this.state.invalidPass && (
                           <Typography className={classes.danger} variant="subtitle1">
                             Invalid Password
@@ -289,7 +295,9 @@ class SignUpDialog extends React.Component {
                                 fullWidth
                                 type="submit"
                                 color="primary"
-                                disabled={!this.state.email || !this.state.password}
+                                disabled={
+                                  !this.state.email || !this.state.password || !this.state.captcha
+                                }
                                 onClick={() => {
                                   this.setState({
                                     invalidMail: false,
@@ -478,7 +486,7 @@ class SignUpDialog extends React.Component {
                         />
                         <ReCAPTCHA
                           sitekey={process.env.CAPTCHA_ACCESS_KEY}
-                          onChange={value => console.log(value)}
+                          onChange={value => this.setState({ captcha: value })}
                         />
                         {this.state.success && (
                           <Typography className={classes.success} variant="subtitle1">
@@ -509,7 +517,7 @@ class SignUpDialog extends React.Component {
                                 variant="outlined"
                                 fullWidth
                                 color="primary"
-                                disabled={!this.state.forgotEmail}
+                                disabled={!this.state.forgotEmail || !this.state.captcha}
                                 onClick={() => {
                                   this.setState({
                                     invalidMail: false
