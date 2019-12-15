@@ -16,6 +16,14 @@ export const DELETE_SESSION = gql`
   }
 `;
 
+export const UPDATE_PASSWORD = gql`
+  mutation updatePassword($input: UpdatePasswordInput!) {
+    updatePassword(input: $input) {
+      errors
+    }
+  }
+`;
+
 export const CREATE_SESSION = gql`
   mutation createSession($input: CreateSessionInput!) {
     createSession(input: $input) {
@@ -94,6 +102,7 @@ export const GET_SESSION = gql`
       id
       user {
         id
+        service
         name
         public
         chatEnabled

@@ -10,5 +10,7 @@ class Mutations::ResetPassword < Mutations::BaseMutation
     rescue => error
       return GraphQL::ExecutionError.new("unknown_email")
     end
+
+    return { errors: [] }
   end
 end

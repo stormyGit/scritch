@@ -2,6 +2,7 @@ module Types
   class UserType < Types::BaseObject
     description "User object"
     field :id, ID, null: false
+    field :service, ID, null: false
     field :slug, ID, null: false
     field :public, Boolean, null: false
     field :chat_enabled, Boolean, null: false

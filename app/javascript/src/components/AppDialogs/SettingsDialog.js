@@ -27,17 +27,35 @@ import withCurrentSession from "../withCurrentSession";
 
 import { DELETE_USER, UPDATE_USER } from "../../queries/userMutations";
 import { GET_BLOCKED_USERS } from "../../queries/userQueries";
-import { GET_SESSION, DELETE_SESSION } from "../../queries/globalQueries";
+import { GET_SESSION, DELETE_SESSION, UPDATE_PASSWORD } from "../../queries/globalQueries";
+import { Typography, TextField } from "@material-ui/core";
+import CustomProgress from "../Global/CustomProgress";
 
 const styles = theme => ({
   dangerButton: {
     color: theme.palette.danger.main
+  },
+  danger: {
+    color: theme.palette.danger.main
+  },
+  success: {
+    color: theme.palette.primary.main
+  },
+  passwordContainer: {
+    width: "50%"
+  },
+  title: {
+    fontWeight: 200
   }
 });
 
 class Settings extends React.Component {
   state = {
-    accountSuppressionAlertOpen: false
+    accountSuppressionAlertOpen: false,
+    updateCurrentPassword: "",
+    updatePassword: "",
+    updatePasswordConfirm: "",
+    success: false
   };
 
   render() {
@@ -206,26 +224,134 @@ class Settings extends React.Component {
                 )}
               </Mutation>
             )}
+            {currentSession && currentSession.user.service === "email" && (
+              <div className={classes.passwordContainer}>
+                <Typography variant="h6" className={classes.title}>
+                  Change Password
+                </Typography>
+                <TextField
+                  label="Current Password"
+                  name="updateCurrentPassword"
+                  value={this.state.updateCurrentPassword}
+                  type="password"
+                  onChange={e => this.setState({ updateCurrentPassword: e.target.value })}
+                  margin="dense"
+                  variant="outlined"
+                  fullWidth
+                />
+                <TextField
+                  label="New Password (at least 8 characters)"
+                  name="updatePassword"
+                  value={this.state.updatePassword}
+                  type="password"
+                  onChange={e => this.setState({ updatePassword: e.target.value })}
+                  margin="dense"
+                  variant="outlined"
+                  fullWidth
+                />
+                <TextField
+                  label="Confirm Password"
+                  name="updatePasswordConfirm"
+                  value={this.state.updatePasswordConfirm}
+                  type="password"
+                  onChange={e => this.setState({ updatePasswordConfirm: e.target.value })}
+                  margin="dense"
+                  variant="outlined"
+                  fullWidth
+                />
+                {this.state.invalidPass && (
+                  <Typography className={classes.danger} variant="subtitle1">
+                    Wrong current password
+                  </Typography>
+                )}
+                {this.state.invalidNewPass && (
+                  <Typography className={classes.danger} variant="subtitle1">
+                    Password must contain at least 8 characters
+                  </Typography>
+                )}
+                {this.state.invalidConfirmPass && (
+                  <Typography className={classes.danger} variant="subtitle1">
+                    Passwords don't match
+                  </Typography>
+                )}
+                {this.state.success && (
+                  <Typography className={classes.success} variant="subtitle1">
+                    Password succesfully updated!
+                  </Typography>
+                )}
+                <Mutation
+                  mutation={UPDATE_PASSWORD}
+                  onCompleted={() =>
+                    this.setState({
+                      success: true,
+                      updatePassword: "",
+                      updatePasswordConfirm: "",
+                      updateCurrentPassword: ""
+                    })
+                  }
+                  onError={e => {
+                    console.log(e);
+                    if (e.message == "GraphQL error: wrong_pwd")
+                      this.setState({ invalidPass: true });
+                  }}
+                >
+                  {(registerUser, { data, loading }) => {
+                    if (loading) {
+                      return <CustomProgress size={64} />;
+                    }
+                    return (
+                      <Button
+                        variant="outlined"
+                        fullWidth
+                        color="primary"
+                        disabled={
+                          !this.state.updateCurrentPassword ||
+                          !this.state.updatePassword ||
+                          !this.state.updatePasswordConfirm
+                        }
+                        onClick={() => {
+                          this.setState({
+                            invalidPass: false,
+                            invalidConfirmPass: false,
+                            invalidNewPass: false,
+                            success: false
+                          });
+                          if (this.state.updatePassword.length < 8)
+                            this.setState({ invalidNewPass: true });
+                          else if (this.state.updatePassword !== this.state.updatePasswordConfirm)
+                            this.setState({ invalidConfirmPass: true });
+                          else {
+                            registerUser({
+                              variables: {
+                                input: {
+                                  currentPassword: this.state.updateCurrentPassword,
+                                  newPassword: this.state.updatePassword
+                                }
+                              }
+                            });
+                          }
+                        }}
+                      >
+                        Update Password
+                      </Button>
+                    );
+                  }}
+                </Mutation>
+              </div>
+            )}
             <Dialog
               open={this.state.accountSuppressionAlertOpen}
-              onClose={() =>
-                this.setState({ accountSuppressionAlertOpen: false })
-              }
+              onClose={() => this.setState({ accountSuppressionAlertOpen: false })}
             >
-              <DialogTitle>
-                {"Are you sure you want to delete your account?"}
-              </DialogTitle>
+              <DialogTitle>{"Are you sure you want to delete your account?"}</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  All your data will be permanently deleted, this operation
-                  cannot be undone.
+                  All your data will be permanently deleted, this operation cannot be undone.
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button
-                  onClick={() =>
-                    this.setState({ accountSuppressionAlertOpen: false })
-                  }
+                  onClick={() => this.setState({ accountSuppressionAlertOpen: false })}
                   autoFocus
                 >
                   Cancel
@@ -259,13 +385,7 @@ class Settings extends React.Component {
               return (
                 <React.Fragment>
                   <Divider />
-                  <List
-                    subheader={
-                      <ListSubheader component="div">
-                        Blocked users
-                      </ListSubheader>
-                    }
-                  >
+                  <List subheader={<ListSubheader component="div">Blocked users</ListSubheader>}>
                     {data.blockedUsers.map(user => (
                       <ListItem
                         key={user.id}
@@ -324,6 +444,4 @@ class Settings extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withApollo(withCurrentSession(withRouter(Settings)))
-);
+export default withStyles(styles)(withApollo(withCurrentSession(withRouter(Settings))));

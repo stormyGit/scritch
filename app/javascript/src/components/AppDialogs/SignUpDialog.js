@@ -25,6 +25,7 @@ import { withRouter } from "react-router-dom";
 
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import SignUpAlternativeDialog from "./SignUpAlternativeDialog";
+import CustomProgress from "../Global/CustomProgress";
 import TelegramLogin from "./TelegramLogin";
 import FacebookLoginScreen from "./FacebookLoginScreen";
 import themeSelector from "../../themeSelector";
@@ -83,6 +84,9 @@ const styles = theme => ({
   },
   danger: {
     color: theme.palette.danger.main
+  },
+  success: {
+    color: theme.palette.primary.main
   }
 });
 
@@ -103,8 +107,27 @@ class SignUpDialog extends React.Component {
     invalidMail: false,
     invalidMail: false,
     invalidConfirmPass: false,
-    emailDisplay: "sign_in"
+    emailDisplay: "sign_in",
+    success: false
   };
+
+  resetStates() {
+    this.setState({
+      signUpName: "",
+      signUpEmail: "",
+      forgotEmail: "",
+      signUpPassword: "",
+      signUpPasswordConfirm: "",
+      email: "",
+      password: "",
+      passwordConfirm: "",
+      invalidPass: false,
+      invalidMail: false,
+      invalidMail: false,
+      invalidConfirmPass: false,
+      success: false
+    });
+  }
 
   render() {
     const { classes, open, onClose, loading, width } = this.props;
@@ -192,7 +215,11 @@ class SignUpDialog extends React.Component {
                   <div />
                   <Grid item xs={12} md={6} style={{ borderLeft: "1px solid black" }}>
                     <Typography className={classes.title} variant="h5">
-                      Use Email
+                      {this.state.emailDisplay === "sign_in"
+                        ? "Log In via Email"
+                        : this.state.emailDisplay === "sign_up"
+                        ? "Create an Account"
+                        : "Retrieve Password"}
                     </Typography>
                     {this.state.emailDisplay === "sign_in" && (
                       <div className={classes.loginButtonContainer}>
@@ -251,37 +278,46 @@ class SignUpDialog extends React.Component {
                           }}
                           onCompleted={() => location.reload()}
                         >
-                          {(emailSignIn, { data }) => (
-                            <Button
-                              variant="outlined"
-                              fullWidth
-                              color="primary"
-                              disabled={!this.state.email || !this.state.password}
-                              onClick={() => {
-                                this.setState({
-                                  invalidMail: false,
-                                  invalidPass: false,
-                                  noConfirm: false
-                                });
-                                emailSignIn({
-                                  variables: {
-                                    input: {
-                                      email: this.state.email,
-                                      password: this.state.password
+                          {(emailSignIn, { data, loading }) => {
+                            if (loading) {
+                              return <CustomProgress size={64} />;
+                            }
+                            return (
+                              <Button
+                                variant="outlined"
+                                fullWidth
+                                type="submit"
+                                color="primary"
+                                disabled={!this.state.email || !this.state.password}
+                                onClick={() => {
+                                  this.setState({
+                                    invalidMail: false,
+                                    invalidPass: false,
+                                    noConfirm: false
+                                  });
+                                  emailSignIn({
+                                    variables: {
+                                      input: {
+                                        email: this.state.email,
+                                        password: this.state.password
+                                      }
                                     }
-                                  }
-                                });
-                              }}
-                            >
-                              Log in
-                            </Button>
-                          )}
+                                  });
+                                }}
+                              >
+                                Log in
+                              </Button>
+                            );
+                          }}
                         </Mutation>
                         {Spacer}
                         <Typography variant="subtitle2">Don't have an account yet?</Typography>
                         <Button
                           color="primary"
-                          onClick={() => this.setState({ emailDisplay: "sign_up" })}
+                          onClick={() => {
+                            this.resetStates();
+                            this.setState({ emailDisplay: "sign_up" });
+                          }}
                         >
                           Sign up!
                         </Button>
@@ -327,7 +363,12 @@ class SignUpDialog extends React.Component {
                           variant="outlined"
                           fullWidth
                         />
-
+                        {this.state.success && (
+                          <Typography className={classes.success} variant="subtitle1">
+                            Account succesfully created! Please validate your registration by
+                            clicking the link sent to your email.
+                          </Typography>
+                        )}
                         {this.state.invalidPass && (
                           <Typography className={classes.danger} variant="subtitle1">
                             Password must contain at least 8 characters
@@ -355,53 +396,69 @@ class SignUpDialog extends React.Component {
                             if (e.message == "GraphQL error: no_confirm")
                               this.setState({ noConfirm: true });
                           }}
-                          onCompleted={() => location.reload()}
+                          onCompleted={() =>
+                            this.setState({
+                              success: true,
+                              signUpEmail: "",
+                              signUpPassword: "",
+                              signUpPasswordConfirm: "",
+                              signUpName: ""
+                            })
+                          }
                         >
-                          {(registerUser, { data }) => (
-                            <Button
-                              variant="outlined"
-                              fullWidth
-                              color="primary"
-                              disabled={
-                                !this.state.signUpEmail ||
-                                !this.state.signUpPassword ||
-                                !this.state.signUpPasswordConfirm ||
-                                !this.state.signUpName
-                              }
-                              onClick={() => {
-                                this.setState({
-                                  invalidMail: false,
-                                  invalidPass: false,
-                                  invalidConfirmPass: false
-                                });
-                                if (this.state.signUpPassword.length < 8)
-                                  this.setState({ invalidPass: true });
-                                else if (
-                                  this.state.signUpPassword !== this.state.signUpPasswordConfirm
-                                )
-                                  this.setState({ invalidConfirmPass: true });
-                                else {
-                                  registerUser({
-                                    variables: {
-                                      input: {
-                                        email: this.state.signUpEmail,
-                                        password: this.state.signUpPassword,
-                                        name: this.state.signUpName
-                                      }
-                                    }
-                                  });
+                          {(registerUser, { data, loading }) => {
+                            if (loading) {
+                              return <CustomProgress size={64} />;
+                            }
+                            return (
+                              <Button
+                                variant="outlined"
+                                fullWidth
+                                color="primary"
+                                disabled={
+                                  !this.state.signUpEmail ||
+                                  !this.state.signUpPassword ||
+                                  !this.state.signUpPasswordConfirm ||
+                                  !this.state.signUpName
                                 }
-                              }}
-                            >
-                              Sign Up!
-                            </Button>
-                          )}
+                                onClick={() => {
+                                  this.setState({
+                                    invalidMail: false,
+                                    invalidPass: false,
+                                    invalidConfirmPass: false
+                                  });
+                                  if (this.state.signUpPassword.length < 8)
+                                    this.setState({ invalidPass: true });
+                                  else if (
+                                    this.state.signUpPassword !== this.state.signUpPasswordConfirm
+                                  )
+                                    this.setState({ invalidConfirmPass: true });
+                                  else {
+                                    registerUser({
+                                      variables: {
+                                        input: {
+                                          email: this.state.signUpEmail,
+                                          password: this.state.signUpPassword,
+                                          name: this.state.signUpName
+                                        }
+                                      }
+                                    });
+                                  }
+                                }}
+                              >
+                                Sign Up!
+                              </Button>
+                            );
+                          }}
                         </Mutation>
                         {Spacer}
                         <Typography variant="subtitle2">Already have an account?</Typography>
                         <Button
                           color="primary"
-                          onClick={() => this.setState({ emailDisplay: "sign_in" })}
+                          onClick={() => {
+                            this.resetStates();
+                            this.setState({ emailDisplay: "sign_in" });
+                          }}
                         >
                           Sign in!
                         </Button>
@@ -418,6 +475,11 @@ class SignUpDialog extends React.Component {
                           variant="outlined"
                           fullWidth
                         />
+                        {this.state.success && (
+                          <Typography className={classes.success} variant="subtitle1">
+                            An email with a password reset link has been sent to you.
+                          </Typography>
+                        )}
                         {this.state.invalidMail && (
                           <Typography className={classes.danger} variant="subtitle1">
                             Email not found
@@ -431,10 +493,12 @@ class SignUpDialog extends React.Component {
                             if (e.message == "GraphQL error: unknown_email")
                               this.setState({ invalidMail: true });
                           }}
-                          onCompleted={() => location.reload()}
+                          onCompleted={() => this.setState({ success: true, forgotEmail: "" })}
                         >
-                          {(resetPassword, { data }) => {
-                            console.log("HERE");
+                          {(resetPassword, { data, loading }) => {
+                            if (loading) {
+                              return <CustomProgress size={64} />;
+                            }
                             return (
                               <Button
                                 variant="outlined"
@@ -465,7 +529,10 @@ class SignUpDialog extends React.Component {
                         </Typography>
                         <Button
                           color="primary"
-                          onClick={() => this.setState({ emailDisplay: "sign_in" })}
+                          onClick={() => {
+                            this.resetStates();
+                            this.setState({ emailDisplay: "sign_in" });
+                          }}
                         >
                           Sign in!
                         </Button>
