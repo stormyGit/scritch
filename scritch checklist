@@ -1,0 +1,4 @@
+set CAPTCHA_KEYS
+set FACEBOOK_KEYS
+migration
+

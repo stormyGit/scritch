@@ -147,7 +147,7 @@ class SponsorsController < ApplicationController
   private
 
   def get_session
-    @current_session ||= Session.find_by(uuid: cookies.signed[:token])
+    @current_session = Session.find_by(uuid: cookies.signed[:token])
   end
 
   def set_cache_headers

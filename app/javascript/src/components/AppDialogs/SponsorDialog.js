@@ -84,10 +84,9 @@ class SponsorDialog extends React.Component {
             />
           )}
           <Typography variant="h6" className={classes.textTitle}>
-            We value each and every one that supports the website. So much so,
-            that rather than create a fundraising account and have a percentage
-            eaten up by another entity, Scritch allows support direct from the
-            website in the form of a Sponsorship.
+            We value each and every one that supports the website. So much so, that rather than
+            create a fundraising account and have a percentage eaten up by another entity, Scritch
+            allows support direct from the website in the form of a Sponsorship.
           </Typography>
 
           <Typography variant="h6" className={classes.text}>
@@ -107,10 +106,7 @@ class SponsorDialog extends React.Component {
               <React.Fragment>
                 <br />
                 <br />
-                <a
-                  href={`${process.env.SITE_URL}/sponsors/free_trial`}
-                  className={classes.link}
-                >
+                <a href={`${process.env.SITE_URL}/sponsors/free_trial`} className={classes.link}>
                   <Button variant="outlined" color="primary" size="large">
                     Start your 14 day Free Trial!
                   </Button>
@@ -133,6 +129,4 @@ class SponsorDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withApollo(withRouter(withCurrentSession(SponsorDialog)))
-);
+export default withStyles(styles)(withApollo(withRouter(withCurrentSession(SponsorDialog))));
