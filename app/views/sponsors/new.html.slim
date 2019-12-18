@@ -35,8 +35,10 @@
                       p
                         | Give it a try!
                   br
-                  = form_tag sponsors_path(sub: ENV["MONTH_SUB_ID"]) do
-                    script.stripe-button data-label="Monthly Sponsorship" data-currency="gbp" data-zip-code="true" data-amount="100" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("Monthly Sponsorship") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
+                  button#checkout-button-month
+                    | sub
+                    / = form_tag sponsors_path(sub: ENV["MONTH_SUB_ID"]) do
+                    /   script.stripe-button data-label="Monthly Sponsorship" data-currency="gbp" data-zip-code="true" data-amount="100" data-image="#{image_url("stripe_logo.jpg")}" data-allow-remember-me="false" data-description=("Monthly Sponsorship") data-name="Scritch" data-key="#{ENV["STRIPE_API_KEY"]}" data-locale="auto" src="https://checkout.stripe.com/checkout.js"
 
                 .column.is-4
                   p
@@ -55,3 +57,22 @@
 
 
           div style="height: 24px;"
+
+
+javascript:
+  console.log(123);
+  var stripe = Stripe("pk_test_sLMNzzOK6N8WwKRKf3IWbz2J");
+
+  var checkoutButtonMonth = document.querySelector("#checkout-button-month");
+  checkoutButtonMonth.addEventListener("click", function() {
+    stripe.redirectToCheckout({
+      items: [
+        {
+          plan: "monthly",
+          quantity: 1
+        }
+      ],
+      successUrl: "https://google.com",
+      cancelUrl: "https://bing.com"
+    });
+  });

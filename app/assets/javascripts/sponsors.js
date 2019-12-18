@@ -15,9 +15,12 @@
 //= require turbolinks
 //= require_tree .
 
-var stripe = Stripe(ENV["STRIPE_PUBLIC_KEY"]);
+console.log(123);
+var stripe = Stripe("pk_test_sLMNzzOK6N8WwKRKf3IWbz2J");
 
-$("#checkout-button-month").on("click", function() {
+var checkoutButtonMonth = document.querySelector("#checkout-button-month");
+checkoutButtonMonth.addEventListener("click", function() {
+  alert(123);
   stripe.redirectToCheckout({
     items: [
       {
