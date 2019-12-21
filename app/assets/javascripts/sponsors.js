@@ -14,21 +14,3 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
-
-console.log(123);
-var stripe = Stripe("pk_test_sLMNzzOK6N8WwKRKf3IWbz2J");
-
-var checkoutButtonMonth = document.querySelector("#checkout-button-month");
-checkoutButtonMonth.addEventListener("click", function() {
-  alert(123);
-  stripe.redirectToCheckout({
-    items: [
-      {
-        plan: "monthly",
-        quantity: 1
-      }
-    ],
-    successUrl: "https://google.com",
-    cancelUrl: "https://bing.com"
-  });
-});

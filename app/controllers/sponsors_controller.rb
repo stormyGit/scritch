@@ -7,9 +7,14 @@ class SponsorsController < ApplicationController
 
   def new
     render body: nil, status: 404 unless @current_session.present?
+
     if @current_session.present?
       raise Pundit::NotAuthorizedError unless SponsorPolicy.new(@current_session.user, nil).new?
     end
+  end
+
+  def success
+
   end
 
   def charge
