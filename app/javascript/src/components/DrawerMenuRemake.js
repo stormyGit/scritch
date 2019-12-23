@@ -150,7 +150,7 @@ class DrawerMenuRemake extends React.Component {
   };
 
   render() {
-    const { classes, location, currentSession, width } = this.props;
+    const { classes, location, currentSession, width, onClose } = this.props;
     const user =
       currentSession && currentSession.user ? currentSession.user : null;
 
@@ -330,7 +330,12 @@ class DrawerMenuRemake extends React.Component {
                   {block.map(item => (
                     <DrawerItem
                       classes={classes}
-                      onClick={item.onClick}
+                      onClick={() => {
+                        if (item.type === "Link") {
+                          onClose();
+                          item.onClick();
+                        } else item.onClick();
+                      }}
                       label={item.label}
                       path={item.path}
                       icon={item.icon}
