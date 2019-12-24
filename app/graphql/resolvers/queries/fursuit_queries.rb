@@ -43,59 +43,60 @@ module Resolvers
                             .where("fursuits.created_at > ?", ctx[:current_user].last_seen_makers)
                             .order("fursuits.created_at DESC")
                     end
-            
+
                     if args[:userId].present?
                         fursuits = fursuits.joins(:users).where("users.uuid = ?", args[:userId])
                     end
-            
+
                     if args[:speciesIds].present? && args[:hybridSearch].present? && args[:hybridSearch] == true
                         fursuits = fursuits.where(is_hybrid: true).joins(:species).where(species: {uuid: args[:speciesIds]}).group("fursuits.id").having('count(fursuits.id) >= ?', args[:speciesIds].size)
                     end
-            
+
                     if args[:speciesIds].present? && (args[:hybridSearch].blank? || args[:hybridSearch] == false)
                         fursuits = fursuits.where(is_hybrid: false).joins(:species).where(species: {uuid: args[:speciesIds]}).group("fursuits.id").having('count(fursuits.id) >= ?', args[:speciesIds].size)
                     end
-            
+
                     if args[:fursuitStyle].present?
                         fursuits = fursuits.where(fursuit_style_id: FursuitStyle.find(args[:fursuitStyle]))
                     end
-            
+
                     if args[:fursuitLegType].present?
                         fursuits = fursuits.where(fursuit_leg_type_id: FursuitLegType.find(args[:fursuitLegType]))
                     end
-            
+
                     if args[:fursuitBuild].present?
                         fursuits = fursuits.where(fursuit_build_id: FursuitBuild.find(args[:fursuitBuild]))
                     end
-            
+
                     if args[:fursuitGenders].present?
+                        byebug
                         fursuits = fursuits.where(fursuit_gender_id: FursuitGender.find(args[:fursuitGenders]))
                     end
-            
+
                     if args[:fursuitFingers].present?
                         fursuits = fursuits.where(fursuit_finger_id: FursuitFinger.find(args[:fursuitFingers]))
                     end
-            
+
                     if args[:fursuitPadding].present?
                         fursuits = fursuits.where(fursuit_padding_id: FursuitPadding.find(args[:fursuitPadding]))
                     end
-            
+
                     if args[:fursuitColor].present?
                         fursuits = fursuits.where(base_color: args[:fursuitColor])
                     end
-            
+
                     if args[:fursuitEyes].present?
                         fursuits = fursuits.where(eyes_color: args[:fursuitEyes])
                     end
-            
+
                     if args[:maker].present?
                         fursuits = fursuits.joins(:makers).where("makers.uuid = ?", args[:maker])
                     end
-            
+
                     if args[:name].present?
                         fursuits = fursuits.where("fursuits.name @@ ? or fursuits.name ilike ?", args[:name], "%#{args[:name]}%")
                     end
-            
+
                     if args[:exclude].present?
                         fursuits = fursuits.where.not("uuid IN (?)", args[:exclude])
                     end
@@ -112,7 +113,7 @@ module Resolvers
                     FursuitLegType.all.order(:name)
                 end
             end
-            
+
             class GetFursuitStyles < GraphQL::Function
                 description "fursuit attributes"
                 type types[Types::FursuitStyleType]
@@ -121,7 +122,7 @@ module Resolvers
                     FursuitStyle.all.order(:name)
                 end
             end
-            
+
             class GetFursuitGenders < GraphQL::Function
                 description "fursuit attributes"
                 type types[Types::FursuitGenderType]
@@ -130,7 +131,7 @@ module Resolvers
                     FursuitGender.all.order(:name)
                 end
             end
-            
+
             class GetFursuitFingers < GraphQL::Function
                 description "fursuit attributes"
                 type types[Types::FursuitFingerType]
@@ -139,7 +140,7 @@ module Resolvers
                     FursuitFinger.all.order(:name)
                 end
             end
-            
+
             class GetFursuitBuilds < GraphQL::Function
                 description "fursuit attributes"
                 type types[Types::FursuitBuildType]
@@ -148,7 +149,7 @@ module Resolvers
                     FursuitBuild.all.order(:name)
                 end
             end
-            
+
             class GetFursuitPaddings < GraphQL::Function
                 description "fursuit attributes"
                 type types[Types::FursuitPaddingType]
@@ -166,11 +167,11 @@ module Resolvers
                     Specy.all.order(:name)
                 end
             end
-            
+
             class GetHybridSpecies < GraphQL::Function
                 description "fursuit attributes"
                 type types[Types::SpecyType]
-            
+
                 argument :species, types[types.String]
 
                 def call(obj, args, ctx)

@@ -331,7 +331,10 @@ class DrawerMenuRemake extends React.Component {
                     <DrawerItem
                       classes={classes}
                       onClick={() => {
-                        if (item.type === "Link") {
+                        if (
+                          (width === "sm" || width === "xs") &&
+                          item.type === "Link"
+                        ) {
                           onClose();
                           item.onClick();
                         } else item.onClick();

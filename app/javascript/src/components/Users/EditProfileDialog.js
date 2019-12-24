@@ -372,7 +372,10 @@ class EditProfileDialog extends React.Component {
               label="URL"
               name="slug"
               value={this.state.slug}
-              onChange={e => this.setState({ slug: e.target.value })}
+              onChange={e => {
+                e.target.value.length <= 140 &&
+                  this.setState({ slug: e.target.value });
+              }}
               margin="dense"
               variant="outlined"
               fullWidth
@@ -427,7 +430,7 @@ class EditProfileDialog extends React.Component {
                         input: {
                           id: user.id,
                           name: this.state.name,
-                          slug: this.state.slug,
+                          slug: this.state.slug.replace(/\//g, "-"),
                           bio: this.state.bio,
                           website: this.state.website,
                           ...(this.state.banner !== user.banner
