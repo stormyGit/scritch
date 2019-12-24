@@ -12,7 +12,7 @@ export const LOAD_FURSUITS = gql`
     $fursuitBuild: ID
     $fursuitPadding: ID
     $fursuitFingers: ID
-    $fursuitGenders: ID
+    $fursuitGender: ID
     $fursuitColor: String
     $fursuitEyes: String
     $exclude: [ID!]
@@ -32,7 +32,7 @@ export const LOAD_FURSUITS = gql`
       fursuitBuild: $fursuitBuild
       fursuitPadding: $fursuitPadding
       fursuitFingers: $fursuitFingers
-      fursuitGenders: $fursuitGenders
+      fursuitGender: $fursuitGender
       fursuitColor: $fursuitColor
       fursuitEyes: $fursuitEyes
       maker: $maker
