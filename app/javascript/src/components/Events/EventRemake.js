@@ -282,6 +282,47 @@ const EventDetail = withStyles(styles)(
           {", "}
           {edition.country}
         </Typography>
+        <Grid container spacing={0}>
+          <Grid item xs={6}>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="h2"
+              color="primary"
+              className={classes.eventTitle}
+            >
+              From
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="h2"
+              className={classes.eventTitle}
+            >
+              {edition.startDate.split(" ")[0]}
+            </Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography
+              gutterBottom
+              variant="h6"
+              component="h2"
+              color="primary"
+              className={classes.eventTitle}
+            >
+              To
+            </Typography>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="h2"
+              className={classes.eventTitle}
+            >
+              {edition.endDate.split(" ")[0]}
+            </Typography>
+          </Grid>
+        </Grid>
+
         {edition.venue && (
           <React.Fragment>
             <div style={{ padding: 5 }} />
@@ -519,6 +560,17 @@ class Event extends React.Component {
                 >
                   {event.eventFinger ? event.eventFinger.name : ""}
                 </Typography>
+              </div>
+              <div>
+                <Select
+                  className={classes.selectInput}
+                  options={editionsOptions}
+                  defaultValue={{ label: "All Editions", value: null }}
+                  onChange={edition => {
+                    this.setState({ edition: edition });
+                  }}
+                  placeholder="Select Edition..."
+                />
               </div>
               {this.state.edition && this.state.edition.value && (
                 <div>

@@ -166,6 +166,14 @@ class AppRouter extends React.Component {
                       path="/announcements"
                       component={Announcements}
                     />
+                    <Route
+                      path="/search"
+                      component={
+                        currentSession && currentSession.user.suspendedUser
+                          ? MustLog
+                          : SearchPage
+                      }
+                    />
                     <Route exact path="/terms_of_use" component={Terms} />
                     <Route exact path="/user_guide" component={UserGuide} />
                     <Route exact path="/faq" component={Faq} />

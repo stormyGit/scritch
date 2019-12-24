@@ -138,6 +138,7 @@ Rails.application.routes.draw do
 
   get '/s3/sign', to: "s3#sign"
 
+  get "/search", to: "media#index"
   get "/pictures/:id", to: "media#show", as: 'video'
   get "/pictures", to: "media#index"
   get "/fursuits/:id", to: "fursuits#index"
@@ -149,7 +150,6 @@ Rails.application.routes.draw do
   get "/ads", to: "events#index"
   get "/favorites", to: "media#index"
   get "/tag", to: "media#index"
-  get "/search", to: "media#index"
   get "/subscriptions", to: "media#index"
 
   get "/terms_of_use", to: "media#index"

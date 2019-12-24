@@ -1,4 +1,6 @@
 set CAPTCHA_KEYS
-set FACEBOOK_KEYS
 migration
+
+check email sending
+check telegram and facebook login
 

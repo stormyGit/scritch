@@ -335,7 +335,8 @@ class AppLayoutRemake extends React.Component {
                       src={logo}
                     />
                   )}
-                  {currentSession &&
+                  {false &&
+                    currentSession &&
                     (this.state.searchEnabled ||
                       width === "lg" ||
                       width === "xl") && (
@@ -396,7 +397,7 @@ class AppLayoutRemake extends React.Component {
                     </React.Fragment>
                   )}
 
-                  {this.state.searchEnabled && (
+                  {false && this.state.searchEnabled && (
                     <IconButton
                       className={classes.closeIcon}
                       onClick={() => {

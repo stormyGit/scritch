@@ -1,7 +1,7 @@
 module Resolvers
     module Queries
         module MediumQueries
-           
+
             class GetMedium < GraphQL::Function
                 type Types::MediumType
 
@@ -11,13 +11,13 @@ module Resolvers
                 def call(obj, args, ctx)
                     medium = Medium.includes(comments: [:user]).find(args[:id])
                     raise Pundit::NotAuthorizedError unless MediumPolicy.new(ctx[:current_user], medium).show?
-            
+
                     if (args[:tagging].present? && args[:tagging] == true)
                         raise Pundit::NotAuthorizedError unless MediumPolicy.new(ctx[:current_user], medium).unlock?
                     end
 
                     View.add(args[:id], ctx[:current_user_references])
-            
+
                     medium
                 end
             end
@@ -165,7 +165,7 @@ module Resolvers
 
                 argument :offset, !types.Int
                 argument :limit, !types.Int
-                
+
                 def call(obj, args, ctx)
 
                 end
@@ -177,7 +177,7 @@ module Resolvers
                 argument :fursuitId, !types.ID
                 argument :offset, !types.Int
                 argument :limit, !types.Int
-            
+
                 def call(obj, args, ctx)
                     media = MediumPolicy::Scope.new(ctx[:current_user], Medium.all).resolve.includes(:user)
                     media = media.joins(:fursuits).where("fursuits.slug = ? AND fursuits.visible = ?", args[:fursuitId], true)
@@ -244,7 +244,7 @@ module Resolvers
                 argument :mediumId, types.ID
                 argument :offset, !types.Int
                 argument :limit, !types.Int
-  
+
                 def call(obj, args, ctx)
                     LikePolicy::Scope.new(ctx[:current_user], Like.where(medium_id: args[:mediumId]))
                         .resolve.order("likes.created_at DESC")
@@ -258,7 +258,7 @@ module Resolvers
                 argument :mediumId, types.ID
                 argument :offset, !types.Int
                 argument :limit, !types.Int
-  
+
                 def call(obj, args, ctx)
                     FavePolicy::Scope.new(ctx[:current_user], Fave.where(medium_id: args[:mediumId]))
                         .resolve.order("faves.created_at DESC")
@@ -273,7 +273,7 @@ module Resolvers
                 argument :parentId, types.ID
                 argument :offset, !types.Int
                 argument :limit, !types.Int
-  
+
                 def call(obj, args, ctx)
                     raise Pundit::NotAuthorizedError unless MediumPolicy.new(ctx[:current_user], Medium.find(args[:mediumId])).show?
 

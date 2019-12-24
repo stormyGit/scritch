@@ -86,6 +86,7 @@ function MediaAll({ classes, width }) {
         {({ data, loading, error, fetchMore }) => {
           if (loading || error || !data) return null;
 
+          console.log(data);
           const { media } = data;
 
           return (

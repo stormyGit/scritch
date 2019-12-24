@@ -5,14 +5,12 @@ module Resolvers
                 description 'Get Moderators'
                 type types[Types::ModeratorType]
 
-
                 def call(obj, args, ctx)
                     Moderator.all.order(:name)
                 end
             end
 
             class FetchModerationAdverts < GraphQL::Function
-                description 'fetch les tasks du user en cours'
                 type types[Types::AdvertType]
 
                 argument :filter, types.String
