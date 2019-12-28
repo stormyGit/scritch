@@ -1,4 +1,6 @@
+backup
 set CAPTCHA_KEYS
+set light theme env
 migration
 
 check email sending
