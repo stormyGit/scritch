@@ -116,16 +116,15 @@ class DropZoneField extends React.Component {
               Great!
             </Typography>
             <Typography variant="h6" color="inherit">
-              Following approval you can manage this advert from your Advertiser
-              Dashboard in the Ads & Social tab!
+              Following approval you can manage this advert from your Advertiser Dashboard in the
+              Ads & Social tab!
             </Typography>
           </div>
         )}
-        {this.state.uploaded && (width !== "lg" && width !== "xl") && (
+        {this.state.uploaded && width !== "lg" && width !== "xl" && (
           <div>
             <Typography variant="h6" color="inherit">
-              Great! Following approval can manage this advert from your
-              Advertiser Dashboard!
+              Great! Following approval can manage this advert from your Advertiser Dashboard!
             </Typography>
           </div>
         )}
@@ -149,31 +148,27 @@ class DropZoneField extends React.Component {
             </Typography>
           </div>
         )}
-        {!this.state.uploaded &&
-          !this.state.uploading &&
-          !this.props.dropzoneDisabled && (
-            <div>
-              <CloudUploadIcon
-                className={classes.uploadIcon}
-                style={{
-                  marginBottom: width === "lg" || width === "xl" ? 16 : 0
-                }}
-              />
-              <Typography variant="h6" color="inherit" noWrap>
-                {width === "lg" || width === "xl"
-                  ? "Select or drag your ad file here to upload"
-                  : "Select your ad file to upload"}
-              </Typography>
-            </div>
-          )}
+        {!this.state.uploaded && !this.state.uploading && !this.props.dropzoneDisabled && (
+          <div>
+            <CloudUploadIcon
+              className={classes.uploadIcon}
+              style={{
+                marginBottom: width === "lg" || width === "xl" ? 16 : 0
+              }}
+            />
+            <Typography variant="h6" color="inherit" noWrap>
+              {width === "lg" || width === "xl"
+                ? "Select or drag your ad file here to upload"
+                : "Select your ad file to upload"}
+            </Typography>
+          </div>
+        )}
       </Dropzone>
     );
   }
 }
 
-const DropZoneFieldWithStyle = withStyles(dropZoneStyles)(
-  withWidth()(DropZoneField)
-);
+const DropZoneFieldWithStyle = withStyles(dropZoneStyles)(withWidth()(DropZoneField));
 
 const styles = theme => ({
   moderationExplanation: {
@@ -197,10 +192,7 @@ const styles = theme => ({
     marginRight: 1,
     paddingBottom: 3,
     fontSize: "1rem",
-    color:
-      theme.palette.type === "dark"
-        ? "rgba(255, 255, 255, 0.5)"
-        : "rgba(0, 0, 0, 0.5)"
+    color: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"
   },
   blurb: {
     fontWeight: 200
@@ -250,22 +242,16 @@ class AdvertiseDialog extends React.Component {
             <Grid container spacing={8}>
               <Grid item xs={12} lg={9} xl={9}>
                 <Typography variant="h6" className={classes.blurb}>
-                  All media uploaded must abide by the Content Restrictions
-                  detailed in the{" "}
-                  <Link
-                    target="_blank"
-                    to="/user_guide"
-                    className={classes.link}
-                  >
+                  All media uploaded must abide by the Content Restrictions detailed in the{" "}
+                  <Link target="_blank" to="/user_guide" className={classes.link}>
                     Website User Guide
                   </Link>
                   .
                 </Typography>
                 <div style={{ padding: 10 }} />
                 <Typography variant="h6" className={classes.blurb}>
-                  Have an advert that relates to a product or service in the
-                  fandom? Upload it here and then select an impressions bundle
-                  you have complete control over!
+                  Have an advert that relates to a product or service in the fandom? Upload it here
+                  and then select an impressions bundle you have complete control over!
                 </Typography>
               </Grid>
               {(width === "xl" || width === "lg") && (
@@ -280,9 +266,8 @@ class AdvertiseDialog extends React.Component {
 
             <div style={{ padding: 10 }} />
             <Typography variant="h6" className={classes.blurb}>
-              Scritch supports 4 randomised advertisement slots on every page of
-              the website (2 at the top and 2 at the bottom). Already have a
-              300x90 advertisement from a previous campaign? You're good to go!
+              Scritch supports 3 randomised advertisement slots on every page of the website.
+              Already have a 300x90 advertisement from a previous campaign? You're good to go!
             </Typography>
             <List>
               <ListItem>
@@ -304,10 +289,7 @@ class AdvertiseDialog extends React.Component {
                 <ListItemIcon>
                   <CheckIcon />
                 </ListItemIcon>
-                <ListItemText
-                  inset
-                  primary="Image type should be JPEG, PNG, or GIF"
-                />
+                <ListItemText inset primary="Image type should be JPEG, PNG, or GIF" />
               </ListItem>
             </List>
 
