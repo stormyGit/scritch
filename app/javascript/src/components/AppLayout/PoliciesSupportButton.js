@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import withCurrentSession from "../withCurrentSession";
 
 import SupportIcon from "@material-ui/icons/ContactSupport";
+import { Typography } from "@material-ui/core";
 
 const styles = theme => ({
   menuButton: {
@@ -98,7 +99,7 @@ class PoliciesSupportButton extends React.Component {
               Contact Support
             </MenuItem>
           )}
-          <MenuItem>&copy; Scritch 2019 - v1.0.0</MenuItem>
+          <MenuItem disabled>&copy; Scritch 2019 - v1.0.0</MenuItem>
         </Menu>
       </React.Fragment>
     );
