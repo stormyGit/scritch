@@ -290,7 +290,6 @@ class Settings extends React.Component {
                     })
                   }
                   onError={e => {
-                    console.log(e);
                     if (e.message == "GraphQL error: wrong_pwd")
                       this.setState({ invalidPass: true });
                   }}

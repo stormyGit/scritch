@@ -86,18 +86,13 @@ function MediaAll({ classes, width }) {
         {({ data, loading, error, fetchMore }) => {
           if (loading || error || !data) return null;
 
-          console.log(data);
           const { media } = data;
 
           return (
             <React.Fragment>
               <div
                 style={{ height: "calc(100vh - 178px)" }}
-                className={
-                  width === "sm" || width == "xs"
-                    ? classes.mobile_hide_sm
-                    : undefined
-                }
+                className={width === "sm" || width == "xs" ? classes.mobile_hide_sm : undefined}
               >
                 <Media
                   media={media}
@@ -132,10 +127,7 @@ function MediaAll({ classes, width }) {
                   className={classes.fab}
                   onClick={() => setFilters(true)}
                 >
-                  <FontAwesomeIcon
-                    icon={faFilter}
-                    className={classes.extendedIcon}
-                  />
+                  <FontAwesomeIcon icon={faFilter} className={classes.extendedIcon} />
                   Filters
                 </Fab>
               </div>

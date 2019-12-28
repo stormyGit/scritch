@@ -15,7 +15,6 @@ class ApplicationController < ActionController::Base
   end
 
   def dirty_fix
-    byebug
     redirect_to root_path
   end
 

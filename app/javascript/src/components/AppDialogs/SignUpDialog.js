@@ -437,7 +437,6 @@ class SignUpDialog extends React.Component {
                         <Mutation
                           mutation={REGISTER_USER}
                           onError={e => {
-                            console.log(e);
                             if (e.message == "GraphQL error: wrong_pwd")
                               this.setState({ invalidPass: true });
                             if (e.message == "GraphQL error: email_exists")
@@ -542,7 +541,6 @@ class SignUpDialog extends React.Component {
                         <Mutation
                           mutation={RESET_PASSWORD}
                           onError={e => {
-                            console.log(e);
                             if (e.message == "GraphQL error: unknown_email")
                               this.setState({ invalidMail: true });
                           }}

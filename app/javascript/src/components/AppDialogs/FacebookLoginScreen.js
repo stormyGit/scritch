@@ -82,7 +82,6 @@ class FacebookLoginScreen extends React.Component {
   responseFacebook(response) {
     if (!response.accessToken) return;
     this.setState({ submiting: true });
-    console.log(response);
     debugger;
     this.props.onSubmit({
       service: "facebook",
