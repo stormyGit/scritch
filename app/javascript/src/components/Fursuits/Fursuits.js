@@ -60,7 +60,7 @@ class Fursuits extends React.Component {
     fursuitBuild: "",
     fursuitPadding: "",
     fursuitGender: "",
-    fursuitFingers: "",
+    fursuitFinger: "",
     fursuitColor: "",
     fursuitEyes: "",
     maker: "",
@@ -79,7 +79,7 @@ class Fursuits extends React.Component {
       fursuitBuild: "",
       fursuitPadding: "",
       fursuitGender: "",
-      fursuitFingers: "",
+      fursuitFinger: "",
       hybridSearch: false,
       fursuitColor: "",
       fursuitEyes: "",
@@ -95,11 +95,7 @@ class Fursuits extends React.Component {
       const query = queryString.parse(location.search);
 
       if (query.q) {
-        return (
-          <EmptyList
-            label={`No results were found for your search term: ${query.q}`}
-          />
-        );
+        return <EmptyList label={`No results were found for your search term: ${query.q}`} />;
       } else {
         return <EmptyList label={`No results`} />;
       }
@@ -127,12 +123,7 @@ class Fursuits extends React.Component {
   renderFiltersWithSubsClear() {
     const { classes, location, width } = this.props;
     return (
-      <Grid
-        spacing={8}
-        container
-        className={classes.filters}
-        alignItems="center"
-      >
+      <Grid spacing={8} container className={classes.filters} alignItems="center">
         {(width === "xl" || width === "lg") && (
           <Grid item lg={2}>
             <img
@@ -178,12 +169,7 @@ class Fursuits extends React.Component {
   renderFilters() {
     const { classes, location, width } = this.props;
     return (
-      <Grid
-        spacing={8}
-        container
-        className={classes.filters}
-        alignItems="center"
-      >
+      <Grid spacing={8} container className={classes.filters} alignItems="center">
         {(width === "xl" || width === "lg") && (
           <Grid item lg={2}>
             <img
@@ -235,12 +221,11 @@ class Fursuits extends React.Component {
             fursuitStyle: this.state.fursuitStyle,
             filter: this.props.filter,
             uuid: this.state.uuid,
-            speciesIds:
-              this.state.speciesIds && this.state.speciesIds.map(e => e.value),
+            speciesIds: this.state.speciesIds && this.state.speciesIds.map(e => e.value),
             fursuitBuild: this.state.fursuitBuild,
             fursuitPadding: this.state.fursuitPadding,
             fursuitGender: this.state.fursuitGender,
-            fursuitFingers: this.state.fursuitFingers,
+            fursuitFinger: this.state.fursuitFinger,
             fursuitColor: this.state.fursuitColor,
             fursuitEyes: this.state.fursuitEyes,
             hybridSearch: this.state.hybridSearch,
@@ -281,10 +266,7 @@ class Fursuits extends React.Component {
                             this.setState({ hasMore: false });
                           } else {
                             return Object.assign({}, prev, {
-                              fursuits: [
-                                ...prev.fursuits,
-                                ...fetchMoreResult.fursuits
-                              ]
+                              fursuits: [...prev.fursuits, ...fetchMoreResult.fursuits]
                             });
                           }
                         }

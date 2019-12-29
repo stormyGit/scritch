@@ -11,7 +11,7 @@ export const LOAD_FURSUITS = gql`
     $fursuitStyle: ID
     $fursuitBuild: ID
     $fursuitPadding: ID
-    $fursuitFingers: ID
+    $fursuitFinger: ID
     $fursuitGender: ID
     $fursuitColor: String
     $fursuitEyes: String
@@ -31,7 +31,7 @@ export const LOAD_FURSUITS = gql`
       fursuitStyle: $fursuitStyle
       fursuitBuild: $fursuitBuild
       fursuitPadding: $fursuitPadding
-      fursuitFingers: $fursuitFingers
+      fursuitFinger: $fursuitFinger
       fursuitGender: $fursuitGender
       fursuitColor: $fursuitColor
       fursuitEyes: $fursuitEyes

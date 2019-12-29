@@ -28,7 +28,7 @@ module Resolvers
                 argument :fursuitLegType, types.ID
                 argument :fursuitBuild, types.ID
                 argument :fursuitPadding, types.ID
-                argument :fursuitFingers, types.ID
+                argument :fursuitFinger, types.ID
                 argument :fursuitGender, types.ID
                 argument :fursuitColor, types.String
                 argument :fursuitEyes, types.String
@@ -72,8 +72,8 @@ module Resolvers
                         fursuits = fursuits.where(fursuit_gender_id: FursuitGender.find(args[:fursuitGender]))
                     end
 
-                    if args[:fursuitFingers].present?
-                        fursuits = fursuits.where(fursuit_finger_id: FursuitFinger.find(args[:fursuitFingers]))
+                    if args[:fursuitFinger].present?
+                        fursuits = fursuits.where(fursuit_finger_id: FursuitFinger.find(args[:fursuitFinger]))
                     end
 
                     if args[:fursuitPadding].present?
