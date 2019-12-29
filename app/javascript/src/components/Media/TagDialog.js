@@ -31,11 +31,7 @@ import {
 } from "@material-ui/core";
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import SearchBar from "material-ui-search-bar";
-import {
-  LOAD_EVENTS_SELECT,
-  LOAD_SUB_EVENTS,
-  LOAD_EDITIONS
-} from "../../queries/eventQueries";
+import { LOAD_EVENTS_SELECT, LOAD_SUB_EVENTS, LOAD_EDITIONS } from "../../queries/eventQueries";
 import Select from "react-select";
 import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
 
@@ -186,10 +182,7 @@ const styles = theme => ({
     marginRight: 1,
     paddingBottom: 0,
     fontSize: "1rem",
-    color:
-      theme.palette.type === "dark"
-        ? "rgba(255, 255, 255, 0.5)"
-        : "rgba(0, 0, 0, 0.5)"
+    color: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"
   },
   listPadding: {
     marginTop: 0,
@@ -202,9 +195,7 @@ const styles = theme => ({
 
 const Spacer = () => <div style={{ padding: 8 }} />;
 
-const FatDivider = () => (
-  <hr style={{ borderTop: "1px solid", width: "80%", color: "grey" }} />
-);
+const FatDivider = () => <hr style={{ borderTop: "1px solid", width: "80%", color: "grey" }} />;
 
 const PhotographerSection = React.memo(
   ({
@@ -219,11 +210,7 @@ const PhotographerSection = React.memo(
     return (
       <React.Fragment>
         <Grid item xs={12}>
-          <Typography
-            color="primary"
-            variant="h6"
-            className={classes.headTitle}
-          >
+          <Typography color="primary" variant="h6" className={classes.headTitle}>
             Photographer
           </Typography>
         </Grid>
@@ -242,10 +229,7 @@ const PhotographerSection = React.memo(
         </Grid>
         {!isPhotographer && (
           <React.Fragment>
-            <Typography
-              variant="body2"
-              style={{ paddingLeft: 15, paddingBottom: 10 }}
-            >
+            <Typography variant="body2" style={{ paddingLeft: 15, paddingBottom: 10 }}>
               Provide one:
             </Typography>
             <Grid item xs={12}>
@@ -257,11 +241,7 @@ const PhotographerSection = React.memo(
                 value={photographerSlug}
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment
-                      position="start"
-                      className={classes.domain}
-                      disableTypography
-                    >
+                    <InputAdornment position="start" className={classes.domain} disableTypography>
                       {"http://scritch.es/"}
                     </InputAdornment>
                   )
@@ -322,11 +302,7 @@ const EventSection = React.memo(
     return (
       <React.Fragment>
         <Grid item xs={12}>
-          <Typography
-            color="primary"
-            variant="h6"
-            className={classes.headTitle}
-          >
+          <Typography color="primary" variant="h6" className={classes.headTitle}>
             Event
           </Typography>
         </Grid>
@@ -344,9 +320,7 @@ const EventSection = React.memo(
               }
 
               const eventList = [];
-              data.events.map(e =>
-                eventList.push({ value: e.id, label: e.name })
-              );
+              data.events.map(e => eventList.push({ value: e.id, label: e.name }));
               return (
                 <Select
                   fullWidth
@@ -366,48 +340,46 @@ const EventSection = React.memo(
             }}
           </Query>
         </Grid>
-        {mediaEvent &&
-          Object.keys(mediaEvent).length != 0 &&
-          mediaEvent.value != null && (
-            <Grid item xs={12}>
-              <Query
-                query={LOAD_EDITIONS}
-                variables={{
-                  offset: 0,
-                  limit: 150,
-                  eventId: mediaEvent.value
-                }}
-              >
-                {({ data, loading, error, fetchMore }) => {
-                  if (loading || error) {
-                    return <CircularProgress />;
-                  }
+        {mediaEvent && Object.keys(mediaEvent).length != 0 && mediaEvent.value != null && (
+          <Grid item xs={12}>
+            <Query
+              query={LOAD_EDITIONS}
+              variables={{
+                offset: 0,
+                limit: 150,
+                eventId: mediaEvent.value
+              }}
+            >
+              {({ data, loading, error, fetchMore }) => {
+                if (loading || error) {
+                  return <CircularProgress />;
+                }
 
-                  const editionList = [];
-                  data.editions.map(e =>
-                    editionList.push({
-                      value: e.id,
-                      label: e.name
-                    })
-                  );
-                  return (
-                    <Select
-                      fullWidth
-                      isClearable
-                      placeholder="Edition"
-                      isSearchable
-                      value={mediaEdition}
-                      onChange={edition => {
-                        setMediaEdition(edition);
-                      }}
-                      options={editionList}
-                      className={classes.selectInput}
-                    />
-                  );
-                }}
-              </Query>
-            </Grid>
-          )}
+                const editionList = [];
+                data.editions.map(e =>
+                  editionList.push({
+                    value: e.id,
+                    label: e.name
+                  })
+                );
+                return (
+                  <Select
+                    fullWidth
+                    isClearable
+                    placeholder="Edition"
+                    isSearchable
+                    value={mediaEdition}
+                    onChange={edition => {
+                      setMediaEdition(edition);
+                    }}
+                    options={editionList}
+                    className={classes.selectInput}
+                  />
+                );
+              }}
+            </Query>
+          </Grid>
+        )}
         <Grid item xs={12}>
           <Query
             query={LOAD_SUB_EVENTS}
@@ -450,16 +422,8 @@ const EventSection = React.memo(
     );
   },
   (
-    {
-      mediaEvent: oldMediaEvent,
-      mediaEdition: oldMediaEdition,
-      mediaSubEvent: oldMediaSubEvent
-    },
-    {
-      mediaEvent: newMediaEvent,
-      mediaEdition: newMediaEdition,
-      mediaSubEvent: newMediaSubEvent
-    }
+    { mediaEvent: oldMediaEvent, mediaEdition: oldMediaEdition, mediaSubEvent: oldMediaSubEvent },
+    { mediaEvent: newMediaEvent, mediaEdition: newMediaEdition, mediaSubEvent: newMediaSubEvent }
   ) =>
     oldMediaEvent == newMediaEvent &&
     oldMediaEdition == newMediaEdition &&
@@ -471,11 +435,7 @@ const CategorySection = React.memo(
     return (
       <React.Fragment>
         <Grid item xs={12}>
-          <Typography
-            color="primary"
-            variant="h6"
-            className={classes.headTitle}
-          >
+          <Typography color="primary" variant="h6" className={classes.headTitle}>
             Category
           </Typography>
         </Grid>
@@ -534,11 +494,7 @@ function renderResults({
 }) {
   if (data.length === 0) {
     if (query.q) {
-      return (
-        <EmptyList
-          label={`No results were found for your search term: ${query.q}`}
-        />
-      );
+      return <EmptyList label={`No results were found for your search term: ${query.q}`} />;
     } else {
       return <EmptyList label={`No results`} />;
     }
@@ -547,7 +503,7 @@ function renderResults({
   return (
     <React.Fragment>
       {data.fursuits.map(fursuit => (
-        <Grid item xs={3} key={fursuit.id}>
+        <Grid item xs={4} key={fursuit.id}>
           <FursuitMiniCard
             fursuit={fursuit}
             onClick={payload => {
@@ -590,7 +546,7 @@ function handleSearch(val, query, setQuery, nameInput, setNameInput) {
 
 const FursuitsSearchSection = React.memo(
   ({ classes, fursuits, setFursuits, disabled }) => {
-    const [hasMore, setHasMore] = useState(false);
+    const [hasMore, setHasMore] = useState(true);
     const [query, setQuery] = useState("");
     const [nameInput, setNameInput] = useState("");
     var limit = 12;
@@ -601,13 +557,9 @@ const FursuitsSearchSection = React.memo(
           <SearchBar
             className={classes.searchBar}
             disabled={disabled}
-            onChange={value =>
-              handleSearch(value, query, setQuery, nameInput, setNameInput)
-            }
+            onChange={value => handleSearch(value, query, setQuery, nameInput, setNameInput)}
             value={nameInput}
-            onCancelSearch={() =>
-              handleSearch("", query, setQuery, nameInput, setNameInput)
-            }
+            onCancelSearch={() => handleSearch("", query, setQuery, nameInput, setNameInput)}
             placeholder="Search fursuits..."
           />
         </Grid>
@@ -630,9 +582,7 @@ const FursuitsSearchSection = React.memo(
                       renderResults({
                         data,
                         hasMore:
-                          data.fursuits.length % limit === 0 &&
-                          hasMore &&
-                          data.fursuits.length > 0,
+                          data.fursuits.length % limit === 0 && hasMore && data.fursuits.length > 0,
                         onLoadMore: () => {
                           fetchMore({
                             variables: {
@@ -646,10 +596,7 @@ const FursuitsSearchSection = React.memo(
                                 setHasMore(false);
                               } else {
                                 return Object.assign({}, prev, {
-                                  fursuits: [
-                                    ...prev.fursuits,
-                                    ...fetchMoreResult.fursuits
-                                  ]
+                                  fursuits: [...prev.fursuits, ...fetchMoreResult.fursuits]
                                 });
                               }
                             }
@@ -669,8 +616,7 @@ const FursuitsSearchSection = React.memo(
       </React.Fragment>
     );
   },
-  ({ fursuits: oldFursuits }, { fursuits: newFursuits }) =>
-    oldFursuits == newFursuits
+  ({ fursuits: oldFursuits }, { fursuits: newFursuits }) => oldFursuits == newFursuits
 );
 
 const FursuitsSection = ({ classes, fursuits, setFursuits, medium }) => {
@@ -681,8 +627,7 @@ const FursuitsSection = ({ classes, fursuits, setFursuits, medium }) => {
           <FursuitMiniCard
             fursuit={fursuit}
             onClick={payload => {
-              if (medium.fursuits.map(e => e.id).includes(payload.id))
-                return null;
+              if (medium.fursuits.map(e => e.id).includes(payload.id)) return null;
               let index = fursuits.indexOf(payload);
               setFursuits(fursuits.filter((_, i) => i !== index));
             }}
@@ -717,15 +662,7 @@ const FursuitNumberSection = ({ classes, fursuitsCount, setFursuitsCount }) => {
   );
 };
 
-function TagDialog({
-  classes,
-  width,
-  open,
-  onClose,
-  mediumId,
-  editMedium,
-  currentSession
-}) {
+function TagDialog({ classes, width, open, onClose, mediumId, editMedium, currentSession }) {
   const [fursuitsCount, setFursuitsCount] = useState(null);
   const [fursuits, setFursuits] = useState(null);
   const [mediaCategory, setMediaCategory] = useState(null);
@@ -767,20 +704,10 @@ function TagDialog({
                 if (error || loading) {
                   return (
                     <Grid container spacing={24}>
-                      <Grid
-                        item
-                        xs={12}
-                        lg={9}
-                        className={classes.masterGridOnLoad}
-                      >
+                      <Grid item xs={12} lg={9} className={classes.masterGridOnLoad}>
                         <CircularProgress />
                       </Grid>
-                      <Grid
-                        item
-                        xs={12}
-                        lg={3}
-                        className={classes.masterGridOnLoad}
-                      >
+                      <Grid item xs={12} lg={3} className={classes.masterGridOnLoad}>
                         <CircularProgress />
                       </Grid>
                     </Grid>
@@ -792,9 +719,7 @@ function TagDialog({
                   return (
                     <Grid container spacing={8}>
                       <Grid item xs={12} className={classes.masterGridOnLoad}>
-                        <Typography variant="h6">
-                          Something went wrong :(
-                        </Typography>
+                        <Typography variant="h6">Something went wrong :(</Typography>
                       </Grid>
                     </Grid>
                   );
@@ -806,8 +731,7 @@ function TagDialog({
                   setPhotographerString(medium.photographerString);
                   setPhotographerSlug(medium.photographerSlug);
                   setIsPhotographer(
-                    medium.photographerSlug &&
-                      medium.photographerSlug == currentSession.user.slug
+                    medium.photographerSlug && medium.photographerSlug == currentSession.user.slug
                   );
                   setMediaEvent(
                     medium.edition
@@ -818,9 +742,7 @@ function TagDialog({
                       : null
                   );
                   setMediaEdition(
-                    medium.edition
-                      ? { value: medium.edition.id, label: medium.edition.name }
-                      : null
+                    medium.edition ? { value: medium.edition.id, label: medium.edition.name } : null
                   );
                   setMediaCategory(
                     medium.category
@@ -843,20 +765,11 @@ function TagDialog({
 
                 var orientation;
                 if (medium) {
-                  if (
-                    medium.exif &&
-                    JSON.parse(medium.exif).Orientation === "6"
-                  )
+                  if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
                     orientation = classes.mediaVleft;
-                  else if (
-                    medium.exif &&
-                    JSON.parse(medium.exif).Orientation === "8"
-                  )
+                  else if (medium.exif && JSON.parse(medium.exif).Orientation === "8")
                     orientation = classes.mediaVright;
-                  else if (
-                    medium.exif &&
-                    JSON.parse(medium.exif).Orientation === "3"
-                  )
+                  else if (medium.exif && JSON.parse(medium.exif).Orientation === "3")
                     orientation = classes.mediaHflip;
                   else orientation = classes.mediaH;
                 } else orientation = classes.mediaH;
@@ -864,15 +777,8 @@ function TagDialog({
                 return (
                   <React.Fragment>
                     <Grid container spacing={0}>
-                      <Grid
-                        item
-                        xs={12}
-                        lg={9}
-                        className={classes.masterGridBackdrop}
-                      >
-                        {medium.resized.substr(
-                          medium.resized.lastIndexOf(".") + 1
-                        ) === "mp4" && (
+                      <Grid item xs={12} lg={9} className={classes.masterGridBackdrop}>
+                        {medium.resized.substr(medium.resized.lastIndexOf(".") + 1) === "mp4" && (
                           <video
                             loop="loop"
                             autoplay="autoplay"
@@ -883,9 +789,7 @@ function TagDialog({
                             src={medium.resized}
                           />
                         )}
-                        {medium.resized.substr(
-                          medium.resized.lastIndexOf(".") + 1
-                        ) !== "mp4" && (
+                        {medium.resized.substr(medium.resized.lastIndexOf(".") + 1) !== "mp4" && (
                           <img
                             onClick={() => {}}
                             onContextMenu={e => {
@@ -916,9 +820,7 @@ function TagDialog({
                           <Grid item xs={12} className={classes.flexSection}>
                             {currentSession && (
                               <Tooltip title="Report Media">
-                                <IconButton
-                                  onClick={() => setReportDialog(true)}
-                                >
+                                <IconButton onClick={() => setReportDialog(true)}>
                                   <OutlinedFlag />
                                 </IconButton>
                               </Tooltip>
@@ -934,12 +836,9 @@ function TagDialog({
                                 !mediaCategory ||
                                 (fursuits && fursuitsCount < fursuits.length) ||
                                 (fursuitsCount && isNaN(fursuitsCount)) ||
-                                (mediaEvent &&
-                                  (!mediaEdition || !mediaSubEvent)) ||
+                                (mediaEvent && (!mediaEdition || !mediaSubEvent)) ||
                                 (mediaSubEvent && !mediaEdition) ||
-                                (!isPhotographer &&
-                                  !photographerSlug &&
-                                  !photographerString)
+                                (!isPhotographer && !photographerSlug && !photographerString)
                               }
                               onClick={() => {
                                 updateMedium({
@@ -947,14 +846,9 @@ function TagDialog({
                                     input: {
                                       id: medium.id,
                                       title: medium.title,
-                                      categoryId:
-                                        mediaCategory && mediaCategory.value,
-                                      editionId: mediaEdition
-                                        ? mediaEdition.value
-                                        : null,
-                                      subEventId: mediaSubEvent
-                                        ? mediaSubEvent.value
-                                        : null,
+                                      categoryId: mediaCategory && mediaCategory.value,
+                                      editionId: mediaEdition ? mediaEdition.value : null,
+                                      subEventId: mediaSubEvent ? mediaSubEvent.value : null,
                                       isPhotographer: isPhotographer,
                                       photographerSlug: photographerSlug,
                                       photographerString: photographerString,
@@ -979,30 +873,22 @@ function TagDialog({
                               <Typography variant="subtitle1">
                                 The Category makes up 20% of Completion.
                                 <br />
-                                Entering Number of Fursuits in this media
-                                constitutes 10% Completion.
+                                Entering Number of Fursuits in this media constitutes 10%
+                                Completion.
                                 <br />
-                                The remaining 70% are equally split by the
-                                number of Fursuits declared when tagged.
+                                The remaining 70% are equally split by the number of Fursuits
+                                declared when tagged.
                               </Typography>
                             </Grid>
                           )}
                           {editMedium && (
                             <React.Fragment>
-                              <Grid
-                                item
-                                xs={12}
-                                className={classes.centeredItem}
-                              >
+                              <Grid item xs={12} className={classes.centeredItem}>
                                 <Button
                                   variant="outlined"
-                                  onClick={() =>
-                                    setShowOwnerEditor(!showOwnerEditor)
-                                  }
+                                  onClick={() => setShowOwnerEditor(!showOwnerEditor)}
                                 >
-                                  {showOwnerEditor
-                                    ? "Hide Data Section"
-                                    : "Show Data Section"}
+                                  {showOwnerEditor ? "Hide Data Section" : "Show Data Section"}
                                 </Button>
                               </Grid>
                               {showOwnerEditor && (
@@ -1012,9 +898,7 @@ function TagDialog({
                                     photographerSlug={photographerSlug}
                                     setPhotographerSlug={setPhotographerSlug}
                                     photographerString={photographerString}
-                                    setPhotographerString={
-                                      setPhotographerString
-                                    }
+                                    setPhotographerString={setPhotographerString}
                                     isPhotographer={isPhotographer}
                                     setIsPhotographer={setIsPhotographer}
                                   />
@@ -1046,10 +930,7 @@ function TagDialog({
                             setFursuitsCount={setFursuitsCount}
                           />
                           <Grid item xs={12} className={classes.centeredItem}>
-                            <Button
-                              variant="outlined"
-                              onClick={() => setTagReportDialog(true)}
-                            >
+                            <Button variant="outlined" onClick={() => setTagReportDialog(true)}>
                               Wrong Tags?
                             </Button>
                           </Grid>
@@ -1058,11 +939,7 @@ function TagDialog({
                               classes={classes}
                               fursuits={fursuits}
                               setFursuits={setFursuits}
-                              disabled={
-                                fursuitsCount
-                                  ? fursuits.length >= fursuitsCount
-                                  : true
-                              }
+                              disabled={fursuitsCount ? fursuits.length >= fursuitsCount : true}
                             />
                           )}
                           {fursuits && fursuits.length > 0 && (
@@ -1203,6 +1080,4 @@ function TagDialog({
 //   }
 // }
 
-export default withStyles(styles)(
-  withRouter(withCurrentSession(withWidth()(TagDialog)))
-);
+export default withStyles(styles)(withRouter(withCurrentSession(withWidth()(TagDialog))));

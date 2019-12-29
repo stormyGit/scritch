@@ -107,8 +107,8 @@ class FursuitMiniCard extends React.Component {
           <Tooltip
             title={
               !fursuit.creationYear || fursuit.creationYear == 0
-                ? `${species}`
-                : `${fursuit.creationYear} - ${species}`
+                ? `${fursuit.name} - ${species}`
+                : `${fursuit.name} - ${fursuit.creationYear} - ${species}`
             }
             placement="top"
           >
@@ -123,21 +123,11 @@ class FursuitMiniCard extends React.Component {
           </Tooltip>
         </Grid>
         <Grid item lg={12} xs={12} className={classes.content}>
-          <Typography
-            gutterBottom
-            variant="subtitle1"
-            className={classes.fursuitText}
-            noWrap
-          >
+          <Typography gutterBottom variant="subtitle1" className={classes.fursuitText} noWrap>
             {fursuit.name}
           </Typography>
           {fursuit.makers && (
-            <Typography
-              gutterBottom
-              variant="subtitle2"
-              className={classes.text}
-              noWrap
-            >
+            <Typography gutterBottom variant="subtitle2" className={classes.text} noWrap>
               {fursuit.makers[0] ? fursuit.makers[0].name : "Unknown Maker"}
             </Typography>
           )}
