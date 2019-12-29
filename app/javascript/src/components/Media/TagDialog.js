@@ -34,6 +34,7 @@ import SearchBar from "material-ui-search-bar";
 import { LOAD_EVENTS_SELECT, LOAD_SUB_EVENTS, LOAD_EDITIONS } from "../../queries/eventQueries";
 import Select from "react-select";
 import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
+import LoadMoreButton from "../Global/LoadMoreButton";
 
 const styles = theme => ({
   dialogTitleRoot: {
