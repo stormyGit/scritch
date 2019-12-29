@@ -1,11 +1,20 @@
-head
-  = stylesheet_link_tag 'application', media: 'all'
+.columns.is-centered
+  .column.is-narrow
+    .box
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        .content
+          = devise_error_messages!
+          .field
+            = f.label :email, class: "label"
+            .control
+              = f.email_field :email, autofocus: true, class: "input", required: true
 
-div style="background-color: #111111; padding-top: 5vh; height: 100vh;"
-  .columns
-    .column.is-6.is-offset-3
-      .card
-        .card-header-title
-          | Password succesfully changed!
-        .card-content style="text-align: center"
-          = button_to "Go back to Scritch", "/", class: "button", method: "get"
+          .field
+            = f.label :password, class: "label"
+            .control
+              = f.password_field :password, autocomplete: "off", class: "input", required: true
+
+        /= link_to "Forgot your password?", new_moderator_password_path
+        .field.is-grouped
+          .control
+            = f.submit "Sign in", class: "button is-info"
