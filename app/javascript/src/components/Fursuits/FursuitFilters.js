@@ -446,6 +446,7 @@ const FursuitSpeciesFilter = React.memo(
             );
           }
 
+          console.log(speciesIds);
           return (
             <Grid item xs={12} md={12} lg={7}>
               <Select
@@ -453,7 +454,7 @@ const FursuitSpeciesFilter = React.memo(
                 placeholder="Species"
                 isClearable
                 isSearchable
-                value={speciesIds}
+                value={speciesIds ? speciesIds[0] : null}
                 onChange={onChange}
                 options={data.species.map(option => ({
                   label: option.name,
@@ -629,15 +630,15 @@ class FursuitFilters extends React.Component {
                     }
                   }}
                 />
-
                 {!this.state.hybridSearch ? (
                   <FursuitSpeciesFilter
                     classes={classes}
                     speciesIds={
-                      this.state.speciesIds && this.state.speciesIds[0]
+                      this.state.speciesIds ? this.state.speciesIds[0] : null
                     }
                     onChange={specy => {
-                      this.setState({ speciesIds: specy });
+                      this.setState({ speciesIds: [specy] });
+                      console.log(specy);
                       this.props.onChange({
                         label: "speciesIds",
                         value: specy ? [specy] : null
