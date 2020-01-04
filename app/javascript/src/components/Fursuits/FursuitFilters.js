@@ -704,22 +704,22 @@ class FursuitFilters extends React.Component {
                 />
                 <ColorFilter
                   classes={classes}
-                  color={this.state.baseColor}
+                  color={this.state.fursuitColor}
                   onChange={color => {
                     this.setState({ fursuitColor: color });
                     this.props.onChange({
-                      label: "baseColor",
+                      label: "fursuitColor",
                       value: color ? color.value : null
                     });
                   }}
                 />
                 <EyesFilter
                   classes={classes}
-                  color={this.state.eyesColor}
+                  color={this.state.fursuitEyes}
                   onChange={color => {
                     this.setState({ fursuitEyes: color });
                     this.props.onChange({
-                      label: "eyesColor",
+                      label: "fursuitEyes",
                       value: color ? color.value : null
                     });
                   }}

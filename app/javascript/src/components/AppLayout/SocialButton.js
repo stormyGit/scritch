@@ -90,13 +90,6 @@ class SocialButton extends React.Component {
           >
             <MenuItem onClick={() => this.handleClose()}>Twitter</MenuItem>
           </a>
-          <a
-            href={"https://facebook.com"}
-            target="_blank"
-            className={classes.link}
-          >
-            <MenuItem onClick={() => this.handleClose()}>Facebook</MenuItem>
-          </a>
           {currentSession && (
             <MenuItem
               onClick={() => {
