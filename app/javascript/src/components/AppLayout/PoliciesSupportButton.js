@@ -75,10 +75,14 @@ class PoliciesSupportButton extends React.Component {
           onClose={() => this.handleClose()}
         >
           <Link to={"/announcements"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>Announcements</MenuItem>
+            <MenuItem onClick={() => this.handleClose()}>
+              Announcements
+            </MenuItem>
           </Link>
           <Link to={"/user_guide"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>Website User Guide</MenuItem>
+            <MenuItem onClick={() => this.handleClose()}>
+              Website User Guide
+            </MenuItem>
           </Link>
           <Link to={"/faq"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>FAQ</MenuItem>
@@ -87,7 +91,9 @@ class PoliciesSupportButton extends React.Component {
             <MenuItem onClick={() => this.handleClose()}>Terms of Use</MenuItem>
           </Link>
           <Link to={"/privacy_policy"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>Privacy Policy</MenuItem>
+            <MenuItem onClick={() => this.handleClose()}>
+              Privacy Policy
+            </MenuItem>
           </Link>
           {currentSession && (
             <MenuItem
@@ -99,7 +105,7 @@ class PoliciesSupportButton extends React.Component {
               Contact Support
             </MenuItem>
           )}
-          <MenuItem disabled>&copy; Scritch 2019 - v1.0.0</MenuItem>
+          <MenuItem disabled>&copy; Scritch 2020 - v1.0.12</MenuItem>
         </Menu>
       </React.Fragment>
     );
