@@ -7,6 +7,7 @@ module Types
 
       field :moderators, function: FetchModerators.new
       field :moderationAdverts, function: FetchModerationAdverts.new
+      field :moderationAnalytics, function: FetchModerationAnalytics.new
 
 
     end

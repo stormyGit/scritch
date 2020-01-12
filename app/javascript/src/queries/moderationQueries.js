@@ -27,3 +27,29 @@ export const FETCH_MODERATORS = gql`
     }
   }
 `;
+
+export const FETCH_ANALYTICS = gql`
+  query moderationAnalytics {
+    moderationAnalytics {
+      users
+      suspended
+      moderators
+      media
+      tags
+      adverts
+      impressions
+      makers
+      claimedMakers
+      fursuits
+      claimedFursuits
+      reportsOpen
+      averageCompletion
+      scritches
+      faves
+      sponsors
+      events
+      editions
+      storageDiskUsage
+    }
+  }
+`;
