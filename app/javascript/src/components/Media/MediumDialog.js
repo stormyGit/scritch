@@ -507,7 +507,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
   );
 };
 
-const DataSection = ({ classes, medium }) => {
+const DataSection = ({ classes, medium, currentSession }) => {
   const [dataOpen, setDataOpen] = useState(false);
   const [downloadOpen, setDownloadOpen] = useState(false);
 
@@ -536,13 +536,18 @@ const DataSection = ({ classes, medium }) => {
             </IconButton>
           </Tooltip>
         </div>
-        <div>
-          <Tooltip title="Download Media">
-            <IconButton onClick={() => setDownloadOpen(true)} color="secondary">
-              <DownloadIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
+        {currentSession && (
+          <div>
+            <Tooltip title="Download Media">
+              <IconButton
+                onClick={() => setDownloadOpen(true)}
+                color="secondary"
+              >
+                <DownloadIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
+        )}
       </Grid>
       <Grid
         item
@@ -988,7 +993,11 @@ class MediumDialog extends React.Component {
                             <CloseIcon />
                           </IconButton>
                         </Grid>
-                        <DataSection classes={classes} medium={medium} />
+                        <DataSection
+                          classes={classes}
+                          medium={medium}
+                          currentSession={currentSession}
+                        />
                         <FatDivider />
                         <TagSection
                           currentSession={currentSession}
