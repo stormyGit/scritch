@@ -8,6 +8,11 @@ export default component => props => (
       if (loading) {
         return null;
       }
+      if (error) {
+        return React.createElement(component, {
+          ...props
+        });
+      }
       return React.createElement(component, {
         ...props,
         currentModerator: data.session.user.moderator
