@@ -10,6 +10,15 @@ module Resolvers
                 end
             end
 
+            class FetchModerationModerators < GraphQL::Function
+                type types[Types::ModeratorType]
+
+                def call(obj, args, ctx)
+                    moderators = Moderator.all.order(created_at: :desc)
+                    moderators
+                end
+            end
+
             class FetchModerationAdverts < GraphQL::Function
                 type types[Types::AdvertType]
 

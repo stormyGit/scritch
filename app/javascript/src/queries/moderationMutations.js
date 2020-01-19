@@ -5,6 +5,17 @@ export const UPDATE_MODERATOR = gql`
     updateModerator(input: $input) {
       moderator {
         id
+        capabilities
+      }
+    }
+  }
+`;
+
+export const DELETE_MODERATOR = gql`
+  mutation deleteModerator($input: DeleteModeratorInput!) {
+    deleteModerator(input: $input) {
+      moderator {
+        id
       }
     }
   }
