@@ -30,11 +30,7 @@ import timeAgo from "../../timeAgo";
 
 import { combineUUIDs } from "../../utils";
 
-import {
-  GET_CHATS,
-  GET_MESSAGES,
-  GET_UNREAD_CHATS_COUNT
-} from "../../queries/chatQueries";
+import { GET_CHATS, GET_MESSAGES, GET_UNREAD_CHATS_COUNT } from "../../queries/chatQueries";
 import { CREATE_MESSAGE, READ_CHAT } from "../../queries/chatMutations";
 
 const styles = theme => ({
@@ -42,10 +38,7 @@ const styles = theme => ({
     padding: theme.spacing.unit * 1
   },
   unreadIcon: {
-    color:
-      theme.palette.type === "dark"
-        ? "rgba(255, 255, 255, 0.8)"
-        : "rgba(0, 0, 0, 0.8)"
+    color: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0.8)"
   },
   userLink: {
     color: theme.palette.text.primary,
@@ -80,10 +73,7 @@ const styles = theme => ({
   messageBox: {
     flexGrow: 1,
     // padding: theme.spacing.unit * 2,
-    background:
-      theme.palette.type === "dark"
-        ? "rgba(255, 255, 255, 0.09)"
-        : "rgba(0, 0, 0, 0.09)",
+    background: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.09)" : "rgba(0, 0, 0, 0.09)",
     borderRadius: 3,
     alignItems: "center"
   },
@@ -118,10 +108,7 @@ const styles = theme => ({
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: theme.spacing.unit,
-    color:
-      theme.palette.type === "dark"
-        ? "rgba(255, 255, 255, 0.3)"
-        : "rgba(0, 0, 0, 0.3)"
+    color: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.3)"
   }
 });
 
@@ -281,10 +268,7 @@ class ChatDialog extends React.Component {
             }
           });
 
-          const chatId = combineUUIDs(
-            user.id,
-            this.props.currentSession.user.id
-          );
+          const chatId = combineUUIDs(user.id, this.props.currentSession.user.id);
           const { chats } = cache.readQuery({ query: GET_CHATS });
           cache.writeQuery({
             query: GET_CHATS,
@@ -321,11 +305,7 @@ class ChatDialog extends React.Component {
           wrap="nowrap"
           style={{ marginBottom: last ? 4 : 16 }}
         >
-          <Grid
-            item
-            className={classes.messageBox}
-            style={{ marginRight: 8, marginLeft: 56 }}
-          >
+          <Grid item className={classes.messageBox} style={{ marginRight: 8, marginLeft: 56 }}>
             <FormattedText
               text={message.body}
               className={classes.messageText}
@@ -365,11 +345,7 @@ class ChatDialog extends React.Component {
               <UserAvatar user={user} />
             </Link>
           </Grid>
-          <Grid
-            item
-            className={classes.messageBox}
-            style={{ marginLeft: 8, marginRight: 56 }}
-          >
+          <Grid item className={classes.messageBox} style={{ marginLeft: 8, marginRight: 56 }}>
             <FormattedText
               text={message.body}
               className={classes.messageText}
@@ -383,35 +359,14 @@ class ChatDialog extends React.Component {
   }
 
   render() {
-    const {
-      classes,
-      open,
-      onClose,
-      onBack,
-      user,
-      currentSession,
-      messages,
-      width
-    } = this.props;
+    const { classes, open, onClose, onBack, user, currentSession, messages, width } = this.props;
 
     return (
       <React.Fragment>
         <DialogTitle className={classes.title}>
-          <Grid
-            container
-            spacing={0}
-            alignItems="center"
-            justify="space-between"
-            wrap="nowrap"
-          >
+          <Grid container spacing={0} alignItems="center" justify="space-between" wrap="nowrap">
             <Grid item>
-              <Grid
-                container
-                spacing={0}
-                alignItems="center"
-                justify="flex-start"
-                wrap="nowrap"
-              >
+              <Grid container spacing={0} alignItems="center" justify="flex-start" wrap="nowrap">
                 <Grid item>
                   <IconButton color="inherit" onClick={onBack}>
                     <BackIcon />
@@ -433,10 +388,7 @@ class ChatDialog extends React.Component {
                       wrap="nowrap"
                     >
                       <Grid item>
-                        <UserAvatar
-                          user={user}
-                          className={classes.userAvatar}
-                        />
+                        <UserAvatar user={user} className={classes.userAvatar} />
                       </Grid>
                       <Grid item style={{ marginLeft: 8 }}>
                         {user.name}
@@ -472,11 +424,7 @@ class ChatDialog extends React.Component {
           </div>
         )}
         <DialogActions className={classes.messageActions}>
-          <MessageInput
-            currentSession={currentSession}
-            user={user}
-            classes={classes}
-          />
+          <MessageInput currentSession={currentSession} user={user} classes={classes} />
         </DialogActions>
       </React.Fragment>
     );
@@ -503,16 +451,9 @@ class ChatsDialog extends React.Component {
     const { currentSession, onUserSelected, classes } = this.props;
 
     return (
-      <ListItem
-        key={chat.id}
-        button
-        onClick={() => onUserSelected(chat.contact)}
-      >
+      <ListItem key={chat.id} button onClick={() => onUserSelected(chat.contact)}>
         <UserAvatar user={chat.contact} />
-        <ListItemText
-          primary={chat.contact.name}
-          secondary={this.renderLastMessage(chat)}
-        />
+        <ListItemText primary={chat.contact.name} secondary={this.renderLastMessage(chat)} />
         {chat.isUnread && <UnreadIcon className={classes.unreadIcon} />}
       </ListItem>
     );
@@ -540,7 +481,7 @@ class ChatsDialog extends React.Component {
             </DialogTitle>
             <DialogContent className={classes.emptyChatsContainer}>
               <EmptyChatIcon className={classes.emptyChatsIcon} />
-              <EmptyList label={`No contacts`} />
+              <EmptyList label={`No chats`} />
             </DialogContent>
           </React.Fragment>
         )}
@@ -573,7 +514,7 @@ class ChatDialogLoader extends React.Component {
     const { currentSession, open, onClose, ...props } = this.props;
 
     let offset = 0;
-    let limit = parseInt(process.env.MESSAGES_PAGE_SIZE);
+    let limit = 12;
 
     if (!currentSession) {
       return null;
@@ -588,10 +529,11 @@ class ChatDialogLoader extends React.Component {
             pollInterval={parseInt(process.env.MESSAGES_REFRESH_INTERVAL)}
           >
             {({ data, loading, error, fetchMore }) => {
-              if (loading || error) {
+              if (loading || error || !data.chats) {
                 return null;
               }
 
+              console.log(data);
               return (
                 <ChatsDialogWithWidth
                   {...props}
