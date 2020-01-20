@@ -31,3 +31,36 @@ export const DELETE_MODERATOR = gql`
     }
   }
 `;
+
+export const UPDATE_ANNOUNCEMENT = gql`
+  mutation updateAnnouncement($input: UpdateAnnouncementInput!) {
+    updateAnnouncement(input: $input) {
+      announcement {
+        id
+        title
+        body
+      }
+    }
+  }
+`;
+
+export const CREATE_ANNOUNCEMENT = gql`
+  mutation createAnnouncement($input: CreateAnnouncementInput!) {
+    createAnnouncement(input: $input) {
+      announcement {
+        title
+        body
+      }
+    }
+  }
+`;
+
+export const DELETE_ANNOUNCEMENT = gql`
+  mutation deleteAnnouncement($input: DeleteAnnouncementInput!) {
+    deleteAnnouncement(input: $input) {
+      announcement {
+        id
+      }
+    }
+  }
+`;

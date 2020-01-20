@@ -4,6 +4,10 @@ module Types
     field :delete_moderator, mutation: Mutations::DeleteModerator
     field :create_moderator, mutation: Mutations::CreateModerator
 
+    field :update_announcement, mutation: Mutations::UpdateAnnouncement
+    field :delete_announcement, mutation: Mutations::DeleteAnnouncement
+    field :create_announcement, mutation: Mutations::CreateAnnouncement
+
     field :create_session, mutation: Mutations::CreateSession
     field :register_user, mutation: Mutations::RegisterUser
     field :send_new_confirm_mail, mutation: Mutations::SendNewConfirmMail

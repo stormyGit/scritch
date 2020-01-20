@@ -286,7 +286,7 @@ const ModerationModerators = ({ width, classes }) => {
         {({ loading, error, data }) => {
           if (loading) return null; //TODO progress
           if (error) return null; //TODO error
-          if (!data || !data.moderators) {
+          if (!data || !data.moderationModerators) {
             return (
               <Typography variant="h4" gutterBottom className={classes.centeredText}>
                 No Moderators Found
@@ -303,7 +303,7 @@ const ModerationModerators = ({ width, classes }) => {
               </div>
               <div style={{ padding: 16 }} />
               <Grid container spacing={16}>
-                {data.moderators.map(moderator => (
+                {data.moderationModerators.map(moderator => (
                   <Moderator moderator={moderator} classes={classes} />
                 ))}
               </Grid>

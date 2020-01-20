@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 export const FETCH_ADVERTS = gql`
-  query ModerationAdverts($filter: String) {
+  query moderationAdverts($filter: String) {
     moderationAdverts(filter: $filter) {
       id
       status
@@ -17,12 +17,23 @@ export const FETCH_ADVERTS = gql`
 `;
 
 export const FETCH_MODERATORS = gql`
-  query Moderators {
-    moderators {
+  query moderationModerators {
+    moderationModerators {
       id
       name
       telegramId
       capabilities
+      createdAt
+    }
+  }
+`;
+
+export const FETCH_ANNOUNCEMENTS = gql`
+  query moderationAnnouncements {
+    moderationAnnouncements {
+      id
+      body
+      title
       createdAt
     }
   }
