@@ -11,6 +11,17 @@ export const UPDATE_MODERATOR = gql`
   }
 `;
 
+export const CREATE_MODERATOR = gql`
+  mutation createModerator($input: CreateModeratorInput!) {
+    createModerator(input: $input) {
+      moderator {
+        name
+        telegramId
+      }
+    }
+  }
+`;
+
 export const DELETE_MODERATOR = gql`
   mutation deleteModerator($input: DeleteModeratorInput!) {
     deleteModerator(input: $input) {

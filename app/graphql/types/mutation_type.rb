@@ -2,6 +2,7 @@ module Types
   class MutationType < Types::BaseObject
     field :update_moderator, mutation: Mutations::UpdateModerator
     field :delete_moderator, mutation: Mutations::DeleteModerator
+    field :create_moderator, mutation: Mutations::CreateModerator
 
     field :create_session, mutation: Mutations::CreateSession
     field :register_user, mutation: Mutations::RegisterUser
