@@ -405,7 +405,7 @@ class ChatDialog extends React.Component {
             </Grid>
           </Grid>
         </DialogTitle>
-        {messages.length === 0 ? (
+        {!messages || messages.length === 0 ? (
           <DialogContent className={classes.emptyChatsContainer}>
             <EmptyChatIcon className={classes.emptyChatsIcon} />
             <EmptyList label={`No messages`} />
@@ -549,7 +549,8 @@ class ChatDialogLoader extends React.Component {
             }}
           </Query>
         )}
-        {open && this.state.user && (
+        {console.log(this.state.user, currentSession)}
+        {open && this.state.user && currentSession.user && (
           <Query
             query={GET_MESSAGES}
             variables={{

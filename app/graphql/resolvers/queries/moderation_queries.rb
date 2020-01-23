@@ -9,6 +9,22 @@ module Resolvers
                 end
             end
 
+            class FetchModerationClaims < GraphQL::Function
+                type types[Types::ClaimType]
+
+                def call(obj, args, ctx)
+                    Claim.where(status: "open").order(:created_at)
+                end
+            end
+
+            class FetchModerationMakerClaims < GraphQL::Function
+                type types[Types::MakerClaimType]
+
+                def call(obj, args, ctx)
+                    MakerClaim.where(status: "open").order(:created_at)
+                end
+            end
+
             class FetchModerationModerators < GraphQL::Function
                 type types[Types::ModeratorType]
 

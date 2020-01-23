@@ -15,12 +15,12 @@ module Resolvers
             class GetMessages < GraphQL::Function
                 type types[Types::MessageType]
 
-                argument :chat_id, !types.ID
+                argument :chatId, types.ID
                 argument :offset, !types.Int
                 argument :limit, !types.Int
 
                 def call(obj, args, ctx)
-                    MessagePolicy::Scope.new(ctx[:current_user], Message.where(chat_id: args[:chat_id])).resolve.order("messages.created_at ASC")#.offset(args[:offset]).limit(args[:limit])
+                    MessagePolicy::Scope.new(ctx[:current_user], Message.where(chat_id: args[:chatId])).resolve.order("messages.created_at ASC")#.offset(args[:offset]).limit(args[:limit])
                 end
             end
             

@@ -16,6 +16,51 @@ export const FETCH_ADVERTS = gql`
   }
 `;
 
+export const FETCH_MAKER_CLAIMS = gql`
+  query moderationMakerClaims {
+    moderationMakerClaims {
+      id
+      maker {
+        id
+        name
+        slug
+      }
+      user {
+        id
+        name
+        slug
+      }
+      conflictual
+      status
+    }
+  }
+`;
+
+export const FETCH_CLAIMS = gql`
+  query moderationClaims {
+    moderationClaims {
+      id
+      fursuit {
+        id
+        name
+        slug
+        users {
+          id
+          name
+          slug
+        }
+      }
+      user {
+        id
+        name
+        slug
+      }
+      conflictual
+      status
+    }
+  }
+`;
+
 export const FETCH_MODERATORS = gql`
   query moderationModerators {
     moderationModerators {
