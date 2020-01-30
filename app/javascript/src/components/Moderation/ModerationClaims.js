@@ -18,7 +18,7 @@ import {
 } from "@material-ui/core";
 import { Query } from "react-apollo";
 import { FETCH_CLAIMS, FETCH_MAKER_CLAIMS } from "../../queries/moderationQueries";
-import ChatDialog from "../AppDialogs/ChatDialog";
+import ModerationChatDialog from "../Moderation/ModerationChatDialog";
 
 const styles = theme => ({
   root: {
@@ -112,7 +112,13 @@ const Claim = ({ classes, claim }) => {
           <Button onClick={() => setChatDialog(true)}>Contact Claimer</Button>
         </CardActions>
       </Card>
-      <ChatDialog user={claim.user} open={chatDialog} onClose={() => setChatDialog(false)} />
+      <ModerationChatDialog
+        user={claim.user}
+        open={chatDialog}
+        onClose={() => setChatDialog(false)}
+        caseId={claim.id}
+        caseType={"claim"}
+      />
     </React.Fragment>
   );
 };

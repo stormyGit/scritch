@@ -6,7 +6,8 @@ module Types
       name 'ChatQuery'
 
       field :chats, function: GetChats.new
-      field :messages, function: GetMessages.new
+      field :messages, function: GetModerationMessages.new
+      field :moderationMessages, function: GetModerationMessages.new
 
     end
   end
