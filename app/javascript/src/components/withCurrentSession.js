@@ -9,9 +9,7 @@ export default component => props => (
         return null;
       }
       if (error) {
-        return React.createElement(component, {
-          ...props
-        });
+        return null;
       }
       return React.createElement(component, {
         ...props,

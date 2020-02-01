@@ -551,6 +551,7 @@ class ChatDialogLoader extends React.Component {
         {open && !this.state.user && (
           <Query
             query={GET_CHATS}
+            fetchPolicy="network-only"
             variables={{ sort: "latest", offset, limit }}
             pollInterval={parseInt(process.env.MESSAGES_REFRESH_INTERVAL)}
           >
@@ -587,6 +588,7 @@ class ChatDialogLoader extends React.Component {
               chatId: this.state.chat,
               limit
             }}
+            fetchPolicy="network-only"
             pollInterval={parseInt(process.env.MESSAGES_REFRESH_INTERVAL)}
           >
             {({ data, loading, error, fetchMore }) => {

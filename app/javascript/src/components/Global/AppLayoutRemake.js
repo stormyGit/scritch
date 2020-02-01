@@ -394,10 +394,12 @@ class AppLayoutRemake extends React.Component {
                       <NotificationsButton
                         onClick={() => this.setState({ activitiesDialog: true })}
                       />
-                      <ChatButton
-                        disabled={false}
-                        onClick={() => this.setState({ chatDialog: true })}
-                      />
+                      {currentSession && !currentSession.user.isModerator && (
+                        <ChatButton
+                          disabled={false}
+                          onClick={() => this.setState({ chatDialog: true })}
+                        />
+                      )}
                       <UserButton
                         openSignUp={() => this.setState({ signUpDialog: true })}
                         openSettings={() => this.setState({ settingsDialog: true })}

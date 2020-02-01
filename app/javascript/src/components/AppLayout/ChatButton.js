@@ -30,83 +30,67 @@ class ChatButton extends React.Component {
 
     return (
       <React.Fragment>
-        {currentSession &&
-          (this.props.width === "xl" || this.props.width === "lg") && (
-            <div className={classes.rightButton}>
-              <Query
-                query={GET_UNREAD_CHATS_COUNT}
-                pollInterval={parseInt(
-                  process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL
-                )}
-              >
-                {({ loading, error, data }) => (
-                  <Tooltip title="Coming Soon!">
-                    <div>
-                      <IconButton
-                        color="primary"
-                        disabled={disabled}
-                        onClick={this.props.onClick}
-                      >
-                        {loading || !data || data.unreadChatsCount <= 0 ? (
-                          <ChatNoneIcon />
-                        ) : (
-                          <Badge
-                            badgeContent={data.unreadChatsCount}
-                            color="secondary"
-                          >
-                            <ChatIcon />
-                          </Badge>
-                        )}
-                      </IconButton>
-                    </div>
-                  </Tooltip>
-                )}
-              </Query>
-            </div>
-          )}
-        {false &&
-          (this.props.width === "xl" || this.props.width === "lg") &&
-          currentSession && (
-            <div className={classes.rightButton}>
-              <Query
-                query={GET_UNREAD_ACTIVITY_COUNT}
-                pollInterval={parseInt(
-                  process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL
-                )}
-              >
-                {({ loading, error, data }) => {
-                  if (loading || error || !data) return null;
-                  if (data.unreadChatsCount <= 0)
-                    return (
-                      <Button
-                        disabled={disabled}
-                        onClick={this.props.onClick}
-                        color="primary"
-                        className={classes.buttonPad}
+        {currentSession && (this.props.width === "xl" || this.props.width === "lg") && (
+          <div className={classes.rightButton}>
+            <Query
+              query={GET_UNREAD_CHATS_COUNT}
+              pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}
+            >
+              {({ loading, error, data }) => (
+                <div>
+                  <IconButton color="primary" disabled={disabled} onClick={this.props.onClick}>
+                    {loading || !data || data.unreadChatsCount <= 0 ? (
+                      <ChatNoneIcon />
+                    ) : (
+                      <Badge badgeContent={data.unreadChatsCount} color="secondary">
+                        <ChatIcon />
+                      </Badge>
+                    )}
+                  </IconButton>
+                </div>
+              )}
+            </Query>
+          </div>
+        )}
+        {false && (this.props.width === "xl" || this.props.width === "lg") && currentSession && (
+          <div className={classes.rightButton}>
+            <Query
+              query={GET_UNREAD_ACTIVITY_COUNT}
+              pollInterval={parseInt(process.env.UNREAD_ACTIVITY_COUNT_REFRESH_INTERVAL)}
+            >
+              {({ loading, error, data }) => {
+                if (loading || error || !data) return null;
+                if (data.unreadChatsCount <= 0)
+                  return (
+                    <Button
+                      disabled={disabled}
+                      onClick={this.props.onClick}
+                      color="primary"
+                      className={classes.buttonPad}
+                    >
+                      Messages
+                    </Button>
+                  );
+                else
+                  return (
+                    <Button
+                      onClick={this.props.onClick}
+                      color="primary"
+                      className={classes.buttonPad}
+                    >
+                      <Badge
+                        className={classes.badge}
+                        badgeContent={data.unreadChatsCount}
+                        color="secondary"
                       >
                         Messages
-                      </Button>
-                    );
-                  else
-                    return (
-                      <Button
-                        onClick={this.props.onClick}
-                        color="primary"
-                        className={classes.buttonPad}
-                      >
-                        <Badge
-                          className={classes.badge}
-                          badgeContent={data.unreadChatsCount}
-                          color="secondary"
-                        >
-                          Messages
-                        </Badge>
-                      </Button>
-                    );
-                }}
-              </Query>
-            </div>
-          )}
+                      </Badge>
+                    </Button>
+                  );
+              }}
+            </Query>
+          </div>
+        )}
       </React.Fragment>
     );
   }
