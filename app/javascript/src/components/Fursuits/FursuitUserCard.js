@@ -8,12 +8,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPaw,
-  faStar,
-  faUsers,
-  faTags
-} from "@fortawesome/free-solid-svg-icons";
+import { faPaw, faStar, faUsers, faTags } from "@fortawesome/free-solid-svg-icons";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -68,9 +63,7 @@ class FursuitUserCard extends React.Component {
         className={classes.padder}
         avatar={<FursuitAvatar avatar={fursuit.avatar} />}
         title={<Typography variant="h6">{fursuit.name}</Typography>}
-        subheader={
-          fursuit.makers && fursuit.makers[0] && fursuit.makers[0].name
-        }
+        subheader={fursuit.makers && fursuit.makers[0] && fursuit.makers[0].name}
       />
     );
   }
@@ -81,11 +74,7 @@ class FursuitUserCard extends React.Component {
     return (
       <React.Fragment>
         <Card className={classes.card} elevation={0}>
-          <CardActionArea
-            component={props => (
-              <Link to={`/fursuits/${fursuit.slug}`} {...props} />
-            )}
-          >
+          <CardActionArea component={props => <Link to={`/fursuits/${fursuit.slug}`} {...props} />}>
             <Grid container spacing={0} justify="space-between" wrap="nowrap">
               <Grid item>{this.renderHeader()}</Grid>
               <Grid item className={classes.videoCount}>
@@ -97,33 +86,23 @@ class FursuitUserCard extends React.Component {
                       </Typography>
                     </Tooltip>
                     <Tooltip title="Favorites">
-                      <Typography
-                        variant="subtitle1"
-                        className={classes.dataSpacer}
-                      >
+                      <Typography variant="subtitle1" className={classes.dataSpacer}>
                         <FontAwesomeIcon icon={faStar} /> {fursuit.favesCount}
                       </Typography>
                     </Tooltip>
                     <Tooltip title="Followers">
-                      <Typography
-                        variant="subtitle1"
-                        className={classes.dataSpacer}
-                      >
-                        <FontAwesomeIcon icon={faUsers} />{" "}
-                        {fursuit.followersCount}
+                      <Typography variant="subtitle1" className={classes.dataSpacer}>
+                        <FontAwesomeIcon icon={faUsers} /> {fursuit.followersCount}
                       </Typography>
                     </Tooltip>
                     <Tooltip title="Pictures">
-                      <Typography
-                        variant="subtitle1"
-                        className={classes.dataSpacer}
-                      >
+                      <Typography variant="subtitle1" className={classes.dataSpacer}>
                         <FontAwesomeIcon icon={faTags} /> {fursuit.mediaCount}
                       </Typography>
                     </Tooltip>
                   </div>
                 )}
-                {user.id == currentSession.user.id && (
+                {currentSession && user.id == currentSession.user.id && (
                   <Button
                     variant="outlined"
                     className={classes.dataSpacerPlus}
@@ -156,6 +135,4 @@ FursuitUserCard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(
-  withWidth()(withCurrentSession(FursuitUserCard))
-);
+export default withStyles(styles)(withWidth()(withCurrentSession(FursuitUserCard)));

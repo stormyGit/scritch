@@ -6,7 +6,9 @@ export default component => props => (
   <Query query={GET_SESSION}>
     {({ loading, error, data }) => {
       if (loading) {
-        return null;
+        return React.createElement(component, {
+          ...props
+        });
       }
       if (error) {
         return React.createElement(component, {
