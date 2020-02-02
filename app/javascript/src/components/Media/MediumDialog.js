@@ -874,7 +874,7 @@ class MediumDialog extends React.Component {
                                 )}
                               </Mutation>
                             )}
-                          {currentSession.user.id === medium.user.id && (
+                          {currentSession && currentSession.user.id === medium.user.id && (
                             <IconButton onClick={() => this.setState({ deleteDialog: true })}>
                               <DeleteIcon />
                             </IconButton>
