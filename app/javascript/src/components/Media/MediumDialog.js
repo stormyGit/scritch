@@ -874,9 +874,11 @@ class MediumDialog extends React.Component {
                                 )}
                               </Mutation>
                             )}
-                          <IconButton onClick={() => this.setState({ deleteDialog: true })}>
-                            <DeleteIcon />
-                          </IconButton>
+                          {currentSession.user.id === medium.user.id && (
+                            <IconButton onClick={() => this.setState({ deleteDialog: true })}>
+                              <DeleteIcon />
+                            </IconButton>
+                          )}
                           <IconButton onClick={onClose} autoFocus>
                             <CloseIcon />
                           </IconButton>
