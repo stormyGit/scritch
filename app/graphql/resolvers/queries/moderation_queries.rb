@@ -9,6 +9,14 @@ module Resolvers
                 end
             end
 
+            class FetchModerationSuspended < GraphQL::Function
+                type types[Types::SuspendedUserType]
+
+                def call(obj, args, ctx)
+                    SuspendedUser.all.order(created_at: :desc)
+                end
+            end
+
             class FetchModerationClaims < GraphQL::Function
                 type types[Types::ClaimType]
 

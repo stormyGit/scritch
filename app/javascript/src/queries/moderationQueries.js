@@ -109,3 +109,21 @@ export const FETCH_ANALYTICS = gql`
     }
   }
 `;
+
+export const FETCH_SUSPENDED_USERS = gql`
+  query moderationSuspended {
+    moderationSuspended {
+      id
+      user {
+        id
+        slug
+        name
+        telegramId
+        email
+        service
+      }
+      limit
+      reason
+    }
+  }
+`;

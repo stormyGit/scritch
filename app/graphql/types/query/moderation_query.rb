@@ -11,6 +11,7 @@ module Types
       field :moderationAnalytics, function: FetchModerationAnalytics.new
       field :moderationAnnouncements, function: FetchModerationAnnouncements.new
       field :moderationModerators, function: FetchModerationModerators.new
+      field :moderationSuspended, function: FetchModerationSuspended.new
 
 
     end

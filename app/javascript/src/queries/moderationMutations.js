@@ -64,3 +64,13 @@ export const DELETE_ANNOUNCEMENT = gql`
     }
   }
 `;
+
+export const REMOVE_SUSPENSION = gql`
+  mutation removeSuspension($input: RemoveSuspensionInput!) {
+    removeSuspension(input: $input) {
+      suspendedUser {
+        id
+      }
+    }
+  }
+`;

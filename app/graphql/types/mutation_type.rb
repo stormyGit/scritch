@@ -8,6 +8,8 @@ module Types
     field :delete_announcement, mutation: Mutations::DeleteAnnouncement
     field :create_announcement, mutation: Mutations::CreateAnnouncement
 
+    field :remove_suspension, mutation: Mutations::RemoveSuspension
+
     field :create_session, mutation: Mutations::CreateSession
     field :register_user, mutation: Mutations::RegisterUser
     field :send_new_confirm_mail, mutation: Mutations::SendNewConfirmMail
