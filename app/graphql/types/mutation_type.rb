@@ -10,6 +10,11 @@ module Types
 
     field :remove_suspension, mutation: Mutations::RemoveSuspension
 
+    field :accept_claim, mutation: Mutations::AcceptClaim
+    field :reject_claim, mutation: Mutations::RejectClaim
+    field :accept_maker_claim, mutation: Mutations::AcceptMakerClaim
+    field :reject_maker_claim, mutation: Mutations::RejectMakerClaim
+
     field :create_session, mutation: Mutations::CreateSession
     field :register_user, mutation: Mutations::RegisterUser
     field :send_new_confirm_mail, mutation: Mutations::SendNewConfirmMail

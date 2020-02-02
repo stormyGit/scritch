@@ -16,9 +16,15 @@ import {
   CardActionArea,
   Button
 } from "@material-ui/core";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 import { FETCH_CLAIMS, FETCH_MAKER_CLAIMS } from "../../queries/moderationQueries";
 import ModerationChatDialog from "../Moderation/ModerationChatDialog";
+import {
+  ACCEPT_MAKER_CLAIM,
+  ACCEPT_CLAIM,
+  REJECT_CLAIM,
+  REJECT_MAKER_CLAIM
+} from "../../queries/moderationMutations";
 
 const styles = theme => ({
   root: {
@@ -107,8 +113,36 @@ const Claim = ({ classes, claim }) => {
           )}
         </CardContent>
         <CardActions className={classes.flexActionArea}>
-          <Button>Accept Claim</Button>
-          <Button>Reject Claim</Button>
+          <Mutation mutation={ACCEPT_CLAIM}>
+            {(acceptClaim, { data }) => {
+              return (
+                <Button
+                  onClick={() =>
+                    acceptClaim({
+                      variables: { input: { id: claim.id } }
+                    }).then(() => location.reload())
+                  }
+                >
+                  Accept Claim
+                </Button>
+              );
+            }}
+          </Mutation>
+          <Mutation mutation={REJECT_CLAIM}>
+            {(rejectMakerClaim, { data }) => {
+              return (
+                <Button
+                  onClick={() =>
+                    rejectMakerClaim({
+                      variables: { input: { id: claim.id } }
+                    }).then(() => location.reload())
+                  }
+                >
+                  Reject Claim
+                </Button>
+              );
+            }}
+          </Mutation>
           <Button onClick={() => setChatDialog(true)}>Contact Claimer</Button>
         </CardActions>
       </Card>
@@ -118,6 +152,93 @@ const Claim = ({ classes, claim }) => {
         onClose={() => setChatDialog(false)}
         caseId={claim.id}
         caseType={"claim"}
+      />
+    </React.Fragment>
+  );
+};
+
+const MakerClaim = ({ classes, claim }) => {
+  const [chatDialog, setChatDialog] = useState(false);
+
+  return (
+    <React.Fragment>
+      <Card className={classes.card}>
+        <CardHeader title={`Maker Claim #${claim.id.split("-")[0]}`} />
+        <CardContent>
+          <Typography variant="h6">Claimed Maker</Typography>
+          <Typography variant="subtitle1">
+            {claim.maker.name}&nbsp;&nbsp;
+            <Link className={classes.link} to={`/makers/${claim.maker.slug}`} target="_blank">
+              View on Scritch
+            </Link>
+          </Typography>
+          <div style={{ padding: 8 }} />
+          <hr style={{ textAlign: "center", width: "50%" }} />
+          <div style={{ padding: 8 }} />
+          <Typography variant="h6">Claimed By</Typography>
+          <Typography variant="subtitle1">
+            {claim.user.name}&nbsp;&nbsp;
+            <Link className={classes.link} to={`/${claim.user.slug}`} target="_blank">
+              View on Scritch
+            </Link>
+          </Typography>
+          {claim.conflictual && (
+            <React.Fragment>
+              <div style={{ padding: 8 }} />
+              <hr style={{ textAlign: "center", width: "50%" }} />
+              <div style={{ padding: 8 }} />
+              <Typography variant="h6" className={classes.dangerText}>
+                This Maker already has an Owner!
+              </Typography>
+              <Typography variant="subtitle1">
+                {claim.maker.user.name}&nbsp;&nbsp;
+                <Link className={classes.link} to={`/${claim.maker.user.slug}`} target="_blank">
+                  View on Scritch
+                </Link>
+              </Typography>
+            </React.Fragment>
+          )}
+        </CardContent>
+        <CardActions className={classes.flexActionArea}>
+          <Mutation mutation={ACCEPT_MAKER_CLAIM}>
+            {(acceptMakerClaim, { data }) => {
+              return (
+                <Button
+                  onClick={() =>
+                    acceptMakerClaim({
+                      variables: { input: { id: claim.id } }
+                    }).then(() => location.reload())
+                  }
+                >
+                  Accept Claim
+                </Button>
+              );
+            }}
+          </Mutation>
+          <Mutation mutation={REJECT_MAKER_CLAIM}>
+            {(rejectMakerClaim, { data }) => {
+              return (
+                <Button
+                  onClick={() =>
+                    rejectMakerClaim({
+                      variables: { input: { id: claim.id } }
+                    }).then(() => location.reload())
+                  }
+                >
+                  Reject Claim
+                </Button>
+              );
+            }}
+          </Mutation>
+          <Button onClick={() => setChatDialog(true)}>Contact Claimer</Button>
+        </CardActions>
+      </Card>
+      <ModerationChatDialog
+        user={claim.user}
+        open={chatDialog}
+        onClose={() => setChatDialog(false)}
+        caseId={claim.id}
+        caseType={"maker_claim"}
       />
     </React.Fragment>
   );
