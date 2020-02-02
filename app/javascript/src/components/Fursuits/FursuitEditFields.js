@@ -466,7 +466,7 @@ const EyesFilter = React.memo(
   ({ classes, onChange, color }) => (
     <Grid item xs={12}>
       <Typography variant="h6" className={classes.label}>
-        Base Colour
+        Eyes Colour
       </Typography>
       <Select
         fullWidth
