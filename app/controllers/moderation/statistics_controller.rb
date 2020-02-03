@@ -81,5 +81,14 @@ class Moderation::StatisticsController < ModerationController
     @impressions_count.sort.each_with_index do |u, index|
       @impressions_per_day = @impressions_per_day + [[u[0], @impressions_count.sort[index][1].to_i - (index == 0 ? 0 : @impressions_count.sort[index - 1][1].to_i)]]
     end
+
+    pp @now_data
+    pp @users_count
+    pp @sponsors_count
+    pp @media_count
+    pp @average_completion
+    pp @users_per_day
+    pp @impressions_count
+    pp @impressions_per_day
   end
 end
