@@ -98,6 +98,7 @@ export const FETCH_ANALYTICS = gql`
       claimedMakers
       fursuits
       claimedFursuits
+      reports
       reportsOpen
       averageCompletion
       scritches
@@ -106,6 +107,34 @@ export const FETCH_ANALYTICS = gql`
       events
       editions
       storageDiskUsage
+      usersCount {
+        date
+        amount
+      }
+      usersPerDay {
+        date
+        amount
+      }
+      sponsorsCount {
+        date
+        amount
+      }
+      impressionsCount {
+        date
+        amount
+      }
+      mediaCount {
+        date
+        amount
+      }
+      impressionsPerDay {
+        date
+        amount
+      }
+      averageCompletionPerDay {
+        date
+        amount
+      }
     }
   }
 `;

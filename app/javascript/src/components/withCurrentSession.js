@@ -8,13 +8,7 @@ export default component => props => (
       if (loading) {
         return null;
       }
-      if (error) {
-        return null;
-      }
-      return React.createElement(component, {
-        ...props,
-        currentSession: data.session
-      });
+      return React.createElement(component, { ...props, currentSession: data.session });
     }}
   </Query>
 );

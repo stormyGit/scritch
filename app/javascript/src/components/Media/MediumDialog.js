@@ -27,16 +27,14 @@ import CloseIcon from "@material-ui/icons/Close";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
 import DownloadIcon from "@material-ui/icons/SaveAlt";
 import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
 import withCurrentSession from "../withCurrentSession";
 import { withStyles } from "@material-ui/core/styles";
 import { GET_MEDIUM } from "../../queries/mediaQueries";
 import { Query, Mutation } from "react-apollo";
-import {
-  TAG_LOCK_MEDIUM,
-  TAG_UNLOCK_MEDIUM
-} from "../../queries/mediaMutations";
+import { TAG_LOCK_MEDIUM, TAG_UNLOCK_MEDIUM, DELETE_MEDIUM } from "../../queries/mediaMutations";
 import countFormat from "../../countFormat";
 
 import ReportDialog from "../AppDialogs/ReportDialog";
@@ -202,14 +200,15 @@ const styles = theme => ({
   },
   viewsCount: {
     fontWeight: 200
+  },
+  dangerButton: {
+    color: theme.palette.danger.main
   }
 });
 
 const Spacer = () => <div style={{ padding: 8 }} />;
 
-const FatDivider = () => (
-  <hr style={{ borderTop: "1px solid", width: "80%", color: "grey" }} />
-);
+const FatDivider = () => <hr style={{ borderTop: "1px solid", width: "80%", color: "grey" }} />;
 
 const DataDialog = ({ classes, medium, open, onClose }) => {
   let exif = null;
@@ -219,35 +218,18 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
     <ResponsiveDialog open={open} onClose={onClose} size={600}>
       <DialogTitle className={classes.dialogTitleRoot}>
         <Typography variant="h6">Media Information</Typography>
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          className={classes.innerDialogCloseButton}
-        >
+        <IconButton aria-label="close" onClick={onClose} className={classes.innerDialogCloseButton}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
       <DialogContent>
         {medium.photographerSlug && (
           <Grid item>
-            <Typography
-              gutterBottom
-              variant="h6"
-              component="h2"
-              color="primary"
-            >
+            <Typography gutterBottom variant="h6" component="h2" color="primary">
               Captured by
             </Typography>
-            <Typography
-              gutterBottom
-              variant="h6"
-              component="h2"
-              className={classes.dataFieldTitle}
-            >
-              <Link
-                to={`/${medium.photographerSlug}`}
-                className={classes.dataLink}
-              >
+            <Typography gutterBottom variant="h6" component="h2" className={classes.dataFieldTitle}>
+              <Link to={`/${medium.photographerSlug}`} className={classes.dataLink}>
                 {" "}
                 {medium.photographerSlug}
               </Link>
@@ -257,40 +239,20 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
         <Spacer />
         {medium.photographerString && (
           <Grid item>
-            <Typography
-              gutterBottom
-              variant="h6"
-              component="h2"
-              color="primary"
-            >
+            <Typography gutterBottom variant="h6" component="h2" color="primary">
               Captured by
             </Typography>
-            <Typography
-              gutterBottom
-              variant="h6"
-              component="h2"
-              className={classes.dataFieldTitle}
-            >
+            <Typography gutterBottom variant="h6" component="h2" className={classes.dataFieldTitle}>
               {medium.photographerString}
             </Typography>
           </Grid>
         )}
         {medium.edition && (
           <Grid item>
-            <Typography
-              gutterBottom
-              variant="h6"
-              component="h2"
-              color="primary"
-            >
+            <Typography gutterBottom variant="h6" component="h2" color="primary">
               Event (Edition)
             </Typography>
-            <Typography
-              gutterBottom
-              variant="h6"
-              component="h2"
-              className={classes.dataFieldTitle}
-            >
+            <Typography gutterBottom variant="h6" component="h2" className={classes.dataFieldTitle}>
               <Link
                 to={`/events/${medium.edition.event.slug}?edition_id=${medium.edition.id}&edition_name=${medium.edition.name}`}
                 className={classes.dataLink}
@@ -303,20 +265,10 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
         <Spacer />
         {medium.subEvent && (
           <Grid item>
-            <Typography
-              gutterBottom
-              variant="h6"
-              component="h2"
-              color="primary"
-            >
+            <Typography gutterBottom variant="h6" component="h2" color="primary">
               Sub Event
             </Typography>
-            <Typography
-              gutterBottom
-              variant="h6"
-              component="h2"
-              className={classes.dataFieldTitle}
-            >
+            <Typography gutterBottom variant="h6" component="h2" className={classes.dataFieldTitle}>
               {medium.subEvent.name}
             </Typography>
           </Grid>
@@ -324,184 +276,139 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
         <Spacer />
         {medium.category && (
           <Grid item>
-            <Typography
-              gutterBottom
-              variant="h6"
-              component="h2"
-              color="primary"
-            >
+            <Typography gutterBottom variant="h6" component="h2" color="primary">
               Category
             </Typography>
-            <Typography
-              gutterBottom
-              variant="h6"
-              component="h2"
-              className={classes.dataFieldTitle}
-            >
+            <Typography gutterBottom variant="h6" component="h2" className={classes.dataFieldTitle}>
               {medium.category.name}
             </Typography>
           </Grid>
         )}
         <Spacer />
-        {exif &&
-          Object.keys(exif).length !== 0 &&
-          exif.DateTimeOriginal &&
-          exif.Model && (
-            <React.Fragment>
-              <FatDivider />
-              <List>
+        {exif && Object.keys(exif).length !== 0 && exif.DateTimeOriginal && exif.Model && (
+          <React.Fragment>
+            <FatDivider />
+            <List>
+              <ListItem>
+                <Grid container spacing={8} className={classes.iconGridRoot}>
+                  <Grid item xs={2} className={classes.iconGrid}>
+                    <ListItemIcon>
+                      <DateIcon className={classes.leftIcon} />
+                    </ListItemIcon>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <ListItemText
+                      className={classes.textGrid}
+                      primary={`Captured: ${exif.DateTimeOriginal}`}
+                    />
+                  </Grid>
+                </Grid>
+              </ListItem>
+              <ListItem>
+                <Grid container spacing={8} className={classes.iconGridRoot}>
+                  <Grid item xs={2} className={classes.iconGrid}>
+                    <ListItemIcon>
+                      <CameraIcon className={classes.leftIcon} />
+                    </ListItemIcon>
+                  </Grid>
+                  <Grid item xs={10}>
+                    <ListItemText className={classes.textGrid} primary={`Camera: ${exif.Model}`} />
+                  </Grid>
+                </Grid>
+              </ListItem>
+              {exif.FNumber && (
                 <ListItem>
                   <Grid container spacing={8} className={classes.iconGridRoot}>
                     <Grid item xs={2} className={classes.iconGrid}>
                       <ListItemIcon>
-                        <DateIcon className={classes.leftIcon} />
+                        <Typography className={classes.leftIcon}>ʄ</Typography>
                       </ListItemIcon>
                     </Grid>
                     <Grid item xs={10}>
                       <ListItemText
                         className={classes.textGrid}
-                        primary={`Captured: ${exif.DateTimeOriginal}`}
+                        primary={`F-Stop: f/${String(
+                          parseFloat(exif.FNumber.split("/")[0]) /
+                            parseFloat(exif.FNumber.split("/")[1])
+                        )}`}
                       />
                     </Grid>
                   </Grid>
                 </ListItem>
+              )}
+              {exif.ExposureTime && (
                 <ListItem>
                   <Grid container spacing={8} className={classes.iconGridRoot}>
                     <Grid item xs={2} className={classes.iconGrid}>
                       <ListItemIcon>
-                        <CameraIcon className={classes.leftIcon} />
+                        <TimerIcon className={classes.leftIcon} />
                       </ListItemIcon>
                     </Grid>
                     <Grid item xs={10}>
                       <ListItemText
                         className={classes.textGrid}
-                        primary={`Camera: ${exif.Model}`}
+                        primary={`Exposure Time: ${exif.ExposureTime}`}
                       />
                     </Grid>
                   </Grid>
                 </ListItem>
-                {exif.FNumber && (
-                  <ListItem>
-                    <Grid
-                      container
-                      spacing={8}
-                      className={classes.iconGridRoot}
-                    >
-                      <Grid item xs={2} className={classes.iconGrid}>
-                        <ListItemIcon>
-                          <Typography className={classes.leftIcon}>
-                            ʄ
-                          </Typography>
-                        </ListItemIcon>
-                      </Grid>
-                      <Grid item xs={10}>
-                        <ListItemText
-                          className={classes.textGrid}
-                          primary={`F-Stop: f/${String(
-                            parseFloat(exif.FNumber.split("/")[0]) /
-                              parseFloat(exif.FNumber.split("/")[1])
-                          )}`}
-                        />
-                      </Grid>
+              )}
+              {exif.FocalLength && (
+                <ListItem>
+                  <Grid container spacing={8} className={classes.iconGridRoot}>
+                    <Grid item xs={2} className={classes.iconGrid}>
+                      <ListItemIcon>
+                        <FontAwesomeIcon icon={faRulerHorizontal} className={classes.leftIcon} />
+                      </ListItemIcon>
                     </Grid>
-                  </ListItem>
-                )}
-                {exif.ExposureTime && (
-                  <ListItem>
-                    <Grid
-                      container
-                      spacing={8}
-                      className={classes.iconGridRoot}
-                    >
-                      <Grid item xs={2} className={classes.iconGrid}>
-                        <ListItemIcon>
-                          <TimerIcon className={classes.leftIcon} />
-                        </ListItemIcon>
-                      </Grid>
-                      <Grid item xs={10}>
-                        <ListItemText
-                          className={classes.textGrid}
-                          primary={`Exposure Time: ${exif.ExposureTime}`}
-                        />
-                      </Grid>
+                    <Grid item xs={10}>
+                      <ListItemText
+                        className={classes.textGrid}
+                        primary={`Focal Length: ${exif.FocalLength.split("/")[0]}.0mm`}
+                      />
                     </Grid>
-                  </ListItem>
-                )}
-                {exif.FocalLength && (
-                  <ListItem>
-                    <Grid
-                      container
-                      spacing={8}
-                      className={classes.iconGridRoot}
-                    >
-                      <Grid item xs={2} className={classes.iconGrid}>
-                        <ListItemIcon>
-                          <FontAwesomeIcon
-                            icon={faRulerHorizontal}
-                            className={classes.leftIcon}
-                          />
-                        </ListItemIcon>
-                      </Grid>
-                      <Grid item xs={10}>
-                        <ListItemText
-                          className={classes.textGrid}
-                          primary={`Focal Length: ${
-                            exif.FocalLength.split("/")[0]
-                          }.0mm`}
-                        />
-                      </Grid>
+                  </Grid>
+                </ListItem>
+              )}
+              {exif.ISOSpeedRatings && (
+                <ListItem>
+                  <Grid container spacing={8} className={classes.iconGridRoot}>
+                    <Grid item xs={2} className={classes.iconGrid}>
+                      <ListItemIcon>
+                        <IsoIcon className={classes.leftIcon} />
+                      </ListItemIcon>
                     </Grid>
-                  </ListItem>
-                )}
-                {exif.ISOSpeedRatings && (
-                  <ListItem>
-                    <Grid
-                      container
-                      spacing={8}
-                      className={classes.iconGridRoot}
-                    >
-                      <Grid item xs={2} className={classes.iconGrid}>
-                        <ListItemIcon>
-                          <IsoIcon className={classes.leftIcon} />
-                        </ListItemIcon>
-                      </Grid>
-                      <Grid item xs={10}>
-                        <ListItemText
-                          className={classes.textGrid}
-                          primary={`ISO: ${exif.ISOSpeedRatings}`}
-                        />
-                      </Grid>
+                    <Grid item xs={10}>
+                      <ListItemText
+                        className={classes.textGrid}
+                        primary={`ISO: ${exif.ISOSpeedRatings}`}
+                      />
                     </Grid>
-                  </ListItem>
-                )}
-                {exif.Flash && (
-                  <ListItem>
-                    <Grid
-                      container
-                      spacing={8}
-                      className={classes.iconGridRoot}
-                    >
-                      <Grid item xs={2} className={classes.iconGrid}>
-                        <ListItemIcon>
-                          <FlashIcon className={classes.leftIcon} />
-                        </ListItemIcon>
-                      </Grid>
-                      <Grid item xs={10}>
-                        <ListItemText
-                          className={classes.textGrid}
-                          primary={`Flash: ${
-                            parseInt(exif.Flash) % 2 == 0
-                              ? "Did not fire"
-                              : "Fired"
-                          }`}
-                        />
-                      </Grid>
+                  </Grid>
+                </ListItem>
+              )}
+              {exif.Flash && (
+                <ListItem>
+                  <Grid container spacing={8} className={classes.iconGridRoot}>
+                    <Grid item xs={2} className={classes.iconGrid}>
+                      <ListItemIcon>
+                        <FlashIcon className={classes.leftIcon} />
+                      </ListItemIcon>
                     </Grid>
-                  </ListItem>
-                )}
-              </List>
-            </React.Fragment>
-          )}
+                    <Grid item xs={10}>
+                      <ListItemText
+                        className={classes.textGrid}
+                        primary={`Flash: ${
+                          parseInt(exif.Flash) % 2 == 0 ? "Did not fire" : "Fired"
+                        }`}
+                      />
+                    </Grid>
+                  </Grid>
+                </ListItem>
+              )}
+            </List>
+          </React.Fragment>
+        )}
       </DialogContent>
     </ResponsiveDialog>
   );
@@ -519,11 +426,7 @@ const DataSection = ({ classes, medium, currentSession }) => {
         open={dataOpen}
         onClose={() => setDataOpen(false)}
       />
-      <DownloadDialog
-        open={downloadOpen}
-        onClose={() => setDownloadOpen(false)}
-        medium={medium}
-      />
+      <DownloadDialog open={downloadOpen} onClose={() => setDownloadOpen(false)} medium={medium} />
       <Grid item xs={12} className={classes.flexSectionSpacedCentered}>
         <div>
           <LikeButton medium={medium} />
@@ -539,10 +442,7 @@ const DataSection = ({ classes, medium, currentSession }) => {
         {currentSession && (
           <div>
             <Tooltip title="Download Media">
-              <IconButton
-                onClick={() => setDownloadOpen(true)}
-                color="secondary"
-              >
+              <IconButton onClick={() => setDownloadOpen(true)} color="secondary">
                 <DownloadIcon />
               </IconButton>
             </Tooltip>
@@ -571,9 +471,7 @@ const DataSection = ({ classes, medium, currentSession }) => {
               </Typography>
             }
             subheader={
-              medium.createdAt
-                ? timeAgo.format(dayjs(medium.createdAt).toDate())
-                : "Under review"
+              medium.createdAt ? timeAgo.format(dayjs(medium.createdAt).toDate()) : "Under review"
             }
           />
         </div>
@@ -655,14 +553,12 @@ const MediumActionButton = ({ currentSession, classes, medium }) => {
             mutation={TAG_LOCK_MEDIUM}
             update={cache => {}}
             onCompleted={() => {
-              medium.user.id === currentSession.user.id ||
-              currentSession.user.moderator
+              medium.user.id === currentSession.user.id || currentSession.user.moderator
                 ? setEditDialogOpen(true)
                 : setTagDialogOpen(true);
             }}
             onError={() => {
-              medium.user.id === currentSession.user.id ||
-              currentSession.user.moderator
+              medium.user.id === currentSession.user.id || currentSession.user.moderator
                 ? setEditDialogOpen(true)
                 : setTagDialogOpen(true);
             }}
@@ -739,24 +635,58 @@ const TagSection = ({ currentSession, classes, medium }) => {
           {medium.fursuits.length != 0 &&
             medium.fursuits.map(fursuit => (
               <Grid item xs={4} sm={3} lg={4} key={fursuit.id}>
-                <Link
-                  to={`/fursuits/${fursuit.slug}`}
-                  className={classes.fursuitLink}
-                >
+                <Link to={`/fursuits/${fursuit.slug}`} className={classes.fursuitLink}>
                   <FursuitMiniCard onClick={() => {}} fursuit={fursuit} />
                 </Link>
               </Grid>
             ))}
           <Grid item xs={4} sm={3} lg={4}>
-            <MediumActionButton
-              currentSession={currentSession}
-              classes={classes}
-              medium={medium}
-            />
+            <MediumActionButton currentSession={currentSession} classes={classes} medium={medium} />
           </Grid>
         </Grid>
       </Grid>
     </React.Fragment>
+  );
+};
+
+const DeleteDialog = ({ open, onClose, mediumId, classes }) => {
+  return (
+    <ResponsiveDialog open={open} size={400}>
+      <DialogTitle>Delete Media</DialogTitle>
+      <DialogContent>
+        <Typography variant="h6">Are you sure you want to do this?</Typography>
+        <Typography variant="h6">This action is irreversible.</Typography>
+        <div style={{ padding: 16 }} />
+        <Grid container spacing={48}>
+          <Grid item xs={6} style={{ textAlign: "center" }}>
+            <Mutation mutation={DELETE_MEDIUM}>
+              {(deleteMedium, { data }) => (
+                <Button
+                  variant="outlined"
+                  className={classes.dangerButton}
+                  onClick={() => {
+                    deleteMedium({
+                      variables: {
+                        input: {
+                          id: mediumId
+                        }
+                      }
+                    }).then(() => location.reload());
+                  }}
+                >
+                  Delete
+                </Button>
+              )}
+            </Mutation>
+          </Grid>
+          <Grid item xs={6} style={{ textAlign: "center" }}>
+            <Button onClick={onClose} variant="outlined">
+              Cancel
+            </Button>
+          </Grid>
+        </Grid>
+      </DialogContent>
+    </ResponsiveDialog>
   );
 };
 
@@ -776,11 +706,7 @@ const CommentSection = ({ currentSession, classes, medium }) => {
                 {"You must be connected to write a comment."}
               </Typography>
             )}
-            <Comments
-              medium={medium}
-              parent={null}
-              commentsCount={medium.commentsCount}
-            />
+            <Comments medium={medium} parent={null} commentsCount={medium.commentsCount} />
           </React.Fragment>
         )}
       </Grid>
@@ -794,18 +720,12 @@ class MediumDialog extends React.Component {
     reportDialog: false,
     editMedium: false,
     downloadDialog: false,
-    tagReportDialog: false
+    tagReportDialog: false,
+    deleteDialog: false
   };
 
   render() {
-    const {
-      classes,
-      width,
-      open,
-      onClose,
-      mediumId,
-      currentSession
-    } = this.props;
+    const { classes, width, open, onClose, mediumId, currentSession } = this.props;
     if (!mediumId) return null;
 
     return (
@@ -821,20 +741,10 @@ class MediumDialog extends React.Component {
               if (error || loading) {
                 return (
                   <Grid container spacing={24}>
-                    <Grid
-                      item
-                      xs={12}
-                      lg={9}
-                      className={classes.masterGridOnLoad}
-                    >
+                    <Grid item xs={12} lg={9} className={classes.masterGridOnLoad}>
                       <CircularProgress />
                     </Grid>
-                    <Grid
-                      item
-                      xs={12}
-                      lg={3}
-                      className={classes.masterGridOnLoad}
-                    >
+                    <Grid item xs={12} lg={3} className={classes.masterGridOnLoad}>
                       <CircularProgress />
                     </Grid>
                   </Grid>
@@ -846,9 +756,7 @@ class MediumDialog extends React.Component {
                 return (
                   <Grid container spacing={8}>
                     <Grid item xs={12} className={classes.masterGridOnLoad}>
-                      <Typography variant="h6">
-                        Something went wrong :(
-                      </Typography>
+                      <Typography variant="h6">Something went wrong :(</Typography>
                     </Grid>
                   </Grid>
                 );
@@ -858,15 +766,9 @@ class MediumDialog extends React.Component {
               if (medium) {
                 if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
                   orientation = classes.mediaVleft;
-                else if (
-                  medium.exif &&
-                  JSON.parse(medium.exif).Orientation === "8"
-                )
+                else if (medium.exif && JSON.parse(medium.exif).Orientation === "8")
                   orientation = classes.mediaVright;
-                else if (
-                  medium.exif &&
-                  JSON.parse(medium.exif).Orientation === "3"
-                )
+                else if (medium.exif && JSON.parse(medium.exif).Orientation === "3")
                   orientation = classes.mediaHflip;
                 else orientation = classes.mediaH;
               } else orientation = classes.mediaH;
@@ -874,15 +776,8 @@ class MediumDialog extends React.Component {
               return (
                 <React.Fragment>
                   <Grid container spacing={0}>
-                    <Grid
-                      item
-                      xs={12}
-                      lg={9}
-                      className={classes.masterGridBackdrop}
-                    >
-                      {medium.resized.substr(
-                        medium.resized.lastIndexOf(".") + 1
-                      ) === "mp4" && (
+                    <Grid item xs={12} lg={9} className={classes.masterGridBackdrop}>
+                      {medium.resized.substr(medium.resized.lastIndexOf(".") + 1) === "mp4" && (
                         <video
                           loop="loop"
                           autoplay="autoplay"
@@ -893,9 +788,7 @@ class MediumDialog extends React.Component {
                           src={medium.resized}
                         />
                       )}
-                      {medium.resized.substr(
-                        medium.resized.lastIndexOf(".") + 1
-                      ) !== "mp4" && (
+                      {medium.resized.substr(medium.resized.lastIndexOf(".") + 1) !== "mp4" && (
                         <img
                           onClick={() => {}}
                           onContextMenu={e => {
@@ -937,23 +830,15 @@ class MediumDialog extends React.Component {
                               <Button
                                 variant="outlined"
                                 size="small"
-                                className={
-                                  this.state.copied ? classes.copied : null
-                                }
+                                className={this.state.copied ? classes.copied : null}
                               >
-                                {this.state.copied
-                                  ? "Copied to Clipboard"
-                                  : "Get Link"}
+                                {this.state.copied ? "Copied to Clipboard" : "Get Link"}
                               </Button>
                             </CopyToClipboard>
                           )}
                           {currentSession && (
                             <Tooltip title="Report Media">
-                              <IconButton
-                                onClick={() =>
-                                  this.setState({ reportDialog: true })
-                                }
-                              >
+                              <IconButton onClick={() => this.setState({ reportDialog: true })}>
                                 <OutlinedFlag />
                               </IconButton>
                             </Tooltip>
@@ -989,6 +874,11 @@ class MediumDialog extends React.Component {
                                 )}
                               </Mutation>
                             )}
+                          {currentSession && currentSession.user.id === medium.user.id && (
+                            <IconButton onClick={() => this.setState({ deleteDialog: true })}>
+                              <DeleteIcon />
+                            </IconButton>
+                          )}
                           <IconButton onClick={onClose} autoFocus>
                             <CloseIcon />
                           </IconButton>
@@ -1013,6 +903,12 @@ class MediumDialog extends React.Component {
                       </Grid>
                     </Grid>
                   </Grid>
+                  <DeleteDialog
+                    mediumId={medium.id}
+                    classes={classes}
+                    open={this.state.deleteDialog}
+                    onClose={() => this.setState({ deleteDialog: false })}
+                  />
                   <ReportDialog
                     open={this.state.reportDialog}
                     onClose={() => this.setState({ reportDialog: false })}
@@ -1070,6 +966,4 @@ class MediumDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withRouter(withCurrentSession(withWidth()(MediumDialog)))
-);
+export default withStyles(styles)(withRouter(withCurrentSession(withWidth()(MediumDialog))));

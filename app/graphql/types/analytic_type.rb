@@ -13,6 +13,7 @@ module Types
     field :claimed_makers, Integer, null: false
     field :fursuits, Integer, null: false
     field :claimed_fursuits, Integer, null: false
+    field :reports, Integer, null: false
     field :reports_open, Integer, null: false
     field :average_completion, Integer, null: false
     field :scritches, Integer, null: false
@@ -21,6 +22,11 @@ module Types
     field :events, Integer, null: false
     field :editions, Integer, null: false
     field :storage_disk_usage, String, null: false
-
+    field :users_count, [ChartDataType], null: false
+    field :sponsors_count, [ChartDataType], null: false
+    field :media_count, [ChartDataType], null: false
+    field :impressions_count, [ChartDataType], null: false
+    field :impressions_per_day, [ChartDataType], null: false
+    field :average_completion_per_day, [ChartDataType], null: false
   end
 end

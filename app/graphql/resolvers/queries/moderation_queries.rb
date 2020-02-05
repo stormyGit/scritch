@@ -70,6 +70,56 @@ module Resolvers
                   end
                   impressions_now = total
 
+                  users_count = Statistic.pluck("date_trunc('day', created_at)", :users)
+                  users_count.each do |u|
+                    if u.present?
+                      tmp = u[0].to_s
+                      u[0] = tmp[0..tmp.index(':') - 4]
+                    end
+                  end  
+
+                  sponsors_count = Statistic.pluck("date_trunc('day', created_at)", :sponsors)
+                  sponsors_count.each do |u|
+                    if u.present?
+                      tmp = u[0].to_s
+                      u[0] = tmp[0..tmp.index(':') - 4]
+                    end
+                  end
+              
+                  media_count = Statistic.pluck("date_trunc('day', created_at)", :media)
+                  media_count.each do |u|
+                    if u.present?
+                      tmp = u[0].to_s
+                      u[0] = tmp[0..tmp.index(':') - 4]
+                    end
+                  end
+              
+                  average_completion_per_day = Statistic.pluck("date_trunc('day', created_at)", :average_completion)
+                  average_completion_per_day.each do |u|
+                    if u.present?
+                      tmp = u[0].to_s
+                      u[0] = tmp[0..tmp.index(':') - 4]
+                    end
+                  end
+              
+                  users_per_day = []
+                  users_count.sort.each_with_index do |u, index|
+                    users_per_day = users_per_day + [[u[0], users_count.sort[index][1].to_i - (index == 0 ? 0 : users_count.sort[index - 1][1].to_i)]]
+                  end
+              
+                  impressions_count = Statistic.pluck("date_trunc('day', created_at)", :impressions)
+                  impressions_count.each do |u|
+                    if u.present?
+                      tmp = u[0].to_s
+                      u[0] = tmp[0..tmp.index(':') - 4]
+                    end
+                  end
+              
+                  impressions_per_day = []
+                  impressions_count.sort.each_with_index do |u, index|
+                    impressions_per_day = impressions_per_day + [[u[0], impressions_count.sort[index][1].to_i - (index == 0 ? 0 : impressions_count.sort[index - 1][1].to_i)]]
+                  end
+
                   analytics = {
                     users: User.count,
                     suspended: SuspendedUser.count,
@@ -90,7 +140,14 @@ module Resolvers
                     sponsors: Sponsor.count,
                     events: Event.count,
                     editions: Edition.count,
-                    storage_disk_usage: "#{`df -m /`.split(/\b/)[24].to_i}%"
+                    storage_disk_usage: "#{`df -m /`.split(/\b/)[24].to_i}%",
+                    users_count: users_count,
+                    users_per_day: users_per_day,
+                    sponsors_count: sponsors_count,
+                    media_count: media_count,
+                    impressions_count: impressions_count,
+                    impressions_per_day: impressions_per_day,
+                    average_completion_per_day: average_completion_per_day,
                   }
                 end
             end

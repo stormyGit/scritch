@@ -102,7 +102,7 @@ class FursuitUserCard extends React.Component {
                     </Tooltip>
                   </div>
                 )}
-                {user.id == currentSession.user.id && (
+                {currentSession && user.id == currentSession.user.id && (
                   <Button
                     variant="outlined"
                     className={classes.dataSpacerPlus}
