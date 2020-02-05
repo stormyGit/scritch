@@ -468,8 +468,7 @@ const FursuitSpeciesFilter = React.memo(
       </Query>
     </React.Fragment>
   ),
-  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) =>
-    oldSpeciesIds == newSpeciesIds
+  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) => oldSpeciesIds == newSpeciesIds
 );
 
 const HybridSpeciesFilter = React.memo(
@@ -510,8 +509,7 @@ const HybridSpeciesFilter = React.memo(
       </Query>
     </React.Fragment>
   ),
-  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) =>
-    oldSpeciesIds == newSpeciesIds
+  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) => oldSpeciesIds == newSpeciesIds
 );
 
 class FursuitFilters extends React.Component {
@@ -585,16 +583,13 @@ class FursuitFilters extends React.Component {
           <ExpansionPanel
             expanded={this.state.expansion}
             onChange={() =>
-              this.state.expansion == false &&
-              this.setState({ expansion: !this.state.expansion })
+              this.state.expansion == false && this.setState({ expansion: !this.state.expansion })
             }
           >
             <ExpansionPanelSummary
               expandIcon={
                 <ExpandMoreIcon
-                  onClick={() =>
-                    this.setState({ expansion: !this.state.expansion })
-                  }
+                  onClick={() => this.setState({ expansion: !this.state.expansion })}
                 />
               }
             >
@@ -633,9 +628,7 @@ class FursuitFilters extends React.Component {
                 {!this.state.hybridSearch ? (
                   <FursuitSpeciesFilter
                     classes={classes}
-                    speciesIds={
-                      this.state.speciesIds ? this.state.speciesIds[0] : null
-                    }
+                    speciesIds={this.state.speciesIds ? this.state.speciesIds[0] : null}
                     onChange={specy => {
                       this.setState({ speciesIds: [specy] });
                       console.log(specy);
@@ -760,9 +753,7 @@ class FursuitFilters extends React.Component {
               </Grid>
             </ExpansionPanelDetails>
             <ExpansionPanelActions>
-              <Button onClick={value => this.clearFilters(value)}>
-                Clear Filters
-              </Button>
+              <Button onClick={value => this.clearFilters(value)}>Clear Filters</Button>
             </ExpansionPanelActions>
           </ExpansionPanel>
         </Grid>

@@ -1,4 +1,5 @@
 import React from "react";
+import uuidv4 from "uuid/v4";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import { Query, Mutation, withApollo } from "react-apollo";
@@ -127,7 +128,6 @@ class MessageInput extends React.Component {
         input: {
           recipientId: this.props.user.id,
           body: this.state.message,
-          chatId: this.props.chatId,
           caseId: this.props.caseId,
           caseType: this.props.caseType
         }
@@ -138,7 +138,7 @@ class MessageInput extends React.Component {
   }
 
   render() {
-    const { classes, currentSession, user, chatId } = this.props;
+    const { classes, currentSession, chatId, caseId, caseType } = this.props;
 
     return (
       <Mutation
@@ -146,28 +146,13 @@ class MessageInput extends React.Component {
         update={(cache, { data: { createMessage } }) => {
           const { messages } = cache.readQuery({
             query: GET_MESSAGES,
-            variables: { chatId }
+            variables: { caseType, caseId }
           });
           cache.writeQuery({
             query: GET_MESSAGES,
-            variables: { chatId },
+            variables: { caseType, caseId },
             data: { messages: [...messages, createMessage.message] }
           });
-
-          try {
-            const { chats } = cache.readQuery({ query: GET_CHATS });
-            cache.writeQuery({
-              query: GET_CHATS,
-              data: {
-                chats: chats.map(chat => {
-                  if (chat.id === chatId) {
-                    chat.lastMessage = createMessage.message;
-                  }
-                  return chat;
-                })
-              }
-            });
-          } catch (e) {}
         }}
       >
         {(createMessage, { data }) => (
@@ -242,20 +227,20 @@ class ChatDialog extends React.Component {
 
   componentDidMount() {
     this.scrollToBottom();
-    this.readChat(this.props.user, this.props.chatId);
+    this.readChat(this.props.user);
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.messages !== nextProps.messages) {
       this.scrollToBottom();
-      this.readChat(nextProps.user, this.props.chatId);
+      this.readChat(nextProps.user);
     }
   }
 
-  readChat(user, chatId) {
+  readChat(user) {
     this.props.client.mutate({
       mutation: READ_CHAT,
-      variables: { input: { chatId: chatId } },
+      variables: { input: { contactId: user.id } },
       update: cache => {
         // this may fell if we haven't loaded the chats before
         try {
@@ -269,6 +254,7 @@ class ChatDialog extends React.Component {
             }
           });
 
+          const chatId = combineUUIDs(user.id, this.props.currentSession.user.id);
           const { chats } = cache.readQuery({ query: GET_CHATS });
           cache.writeQuery({
             query: GET_CHATS,
@@ -286,90 +272,8 @@ class ChatDialog extends React.Component {
     });
   }
 
-  renderMessage(message, last) {
-    const { classes, user, currentSession, onClose } = this.props;
-
-    const Timestamp = () => (
-      <Typography variant="caption" className={classes.timestamp}>
-        {timeAgo.format(dayjs(message.createdAt).toDate())}
-      </Typography>
-    );
-
-    if (message.senderId === currentSession.user.id) {
-      return (
-        <Grid
-          container
-          spacing={8}
-          key={message.id}
-          alignItems="flex-end"
-          wrap="nowrap"
-          style={{ marginBottom: last ? 4 : 16 }}
-        >
-          <Grid item className={classes.messageBox} style={{ marginRight: 8, marginLeft: 56 }}>
-            <FormattedText
-              text={message.body}
-              className={classes.messageText}
-              onChangeLocation={onClose}
-            />
-            <Timestamp />
-          </Grid>
-          <Grid
-            item
-            onClick={() => {
-              onClose();
-            }}
-          >
-            <Link to={`/${currentSession.user.slug}`}>
-              <UserAvatar user={currentSession.user} />
-            </Link>
-          </Grid>
-        </Grid>
-      );
-    } else {
-      return (
-        <Grid
-          container
-          spacing={8}
-          key={message.id}
-          alignItems="flex-end"
-          wrap="nowrap"
-          style={{ marginBottom: last ? 4 : 16 }}
-        >
-          <Grid
-            item
-            onClick={() => {
-              onClose();
-            }}
-          >
-            <Link to={`/${user.slug}`}>
-              <UserAvatar user={user} />
-            </Link>
-          </Grid>
-          <Grid item className={classes.messageBox} style={{ marginLeft: 8, marginRight: 56 }}>
-            <FormattedText
-              text={message.body}
-              className={classes.messageText}
-              onChangeLocation={onClose}
-            />
-            <Timestamp />
-          </Grid>
-        </Grid>
-      );
-    }
-  }
-
   render() {
-    const {
-      classes,
-      open,
-      onClose,
-      onBack,
-      user,
-      currentSession,
-      messages,
-      width,
-      chatId
-    } = this.props;
+    const { classes, open, onClose, onBack, user, currentSession, messages, width } = this.props;
 
     return (
       <React.Fragment>
@@ -389,22 +293,20 @@ class ChatDialog extends React.Component {
                     onClose();
                   }}
                 >
-                  <Link to={`/${user.slug}`} className={classes.userLink}>
-                    <Grid
-                      container
-                      spacing={0}
-                      alignItems="center"
-                      className={classes.userTitle}
-                      wrap="nowrap"
-                    >
-                      <Grid item>
-                        <UserAvatar user={user} className={classes.userAvatar} />
-                      </Grid>
-                      <Grid item style={{ marginLeft: 8 }}>
-                        {user.name}
-                      </Grid>
+                  <Grid
+                    container
+                    spacing={0}
+                    alignItems="center"
+                    className={classes.userTitle}
+                    wrap="nowrap"
+                  >
+                    <Grid item>
+                      <UserAvatar user={user} className={classes.userAvatar} />
                     </Grid>
-                  </Link>
+                    <Grid item style={{ marginLeft: 8 }}>
+                      {user.name}
+                    </Grid>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
@@ -439,7 +341,6 @@ class ChatDialog extends React.Component {
             user={user}
             classes={classes}
             caseId={this.props.caseId}
-            chatId={chatId}
             caseType={this.props.caseType}
           />
         </DialogActions>
@@ -465,18 +366,10 @@ class ChatsDialog extends React.Component {
   }
 
   renderChat(chat) {
-    const { currentSession, onUserSelected, classes, onOpenChat } = this.props;
+    const { currentSession, onUserSelected, classes } = this.props;
 
-    console.log(chat.id);
     return (
-      <ListItem
-        key={chat.id}
-        button
-        onClick={() => {
-          onUserSelected(chat.contact);
-          onOpenChat(chat.id);
-        }}
-      >
+      <ListItem key={chat.id} button onClick={() => onUserSelected(chat.contact)}>
         <UserAvatar user={chat.contact} />
         <ListItemText primary={chat.contact.name} secondary={this.renderLastMessage(chat)} />
         {chat.isUnread && <UnreadIcon className={classes.unreadIcon} />}
@@ -520,102 +413,124 @@ class ChatsDialog extends React.Component {
   }
 }
 
-const ChatsDialogWithWidth = withWidth()(ChatsDialog);
+const Message = ({ message, last, classes, currentSession, user }) => {
+  const Timestamp = () => (
+    <Typography variant="caption" className={classes.timestamp}>
+      {timeAgo.format(dayjs(message.createdAt).toDate())}
+    </Typography>
+  );
 
-class ChatDialogLoader extends React.Component {
-  state = {
-    user: null,
-    chat: null
-  };
-
-  componentDidMount() {
-    this.setState({ user: this.props.user });
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    this.setState({ user: nextProps.user });
-  }
-
-  render() {
-    const { currentSession, open, onClose, ...props } = this.props;
-
-    let offset = 0;
-    let limit = 12;
-
-    if (!currentSession) {
-      return null;
-    }
-
+  if (message.senderId === currentSession.user.id) {
     return (
-      <ResponsiveDialog open={open} onClose={onClose}>
-        {open && !this.state.user && (
-          <Query
-            query={GET_CHATS}
-            fetchPolicy="network-only"
-            variables={{ sort: "latest", offset, limit }}
-            pollInterval={parseInt(process.env.MESSAGES_REFRESH_INTERVAL)}
-          >
-            {({ data, loading, error, fetchMore }) => {
-              if (loading || error || !data.chats) {
-                return null;
-              }
-
-              console.log(data);
-              return (
-                <ChatsDialogWithWidth
-                  {...props}
-                  currentSession={currentSession}
-                  open={open}
-                  chatId={this.state.chat}
-                  onClose={onClose}
-                  onOpenChat={e => this.setState({ chat: e })}
-                  chats={data.chats}
-                  onUserSelected={user => {
-                    this.setState({ user });
-                  }}
-                />
-              );
-            }}
-          </Query>
-        )}
-        {console.log(this.state.user, currentSession)}
-        {open && this.state.user && currentSession.user && this.state.chat && (
-          <Query
-            query={GET_MESSAGES}
-            variables={{
-              sort: "latest",
-              offset,
-              chatId: this.state.chat,
-              limit
-            }}
-            fetchPolicy="network-only"
-            pollInterval={parseInt(process.env.MESSAGES_REFRESH_INTERVAL)}
-          >
-            {({ data, loading, error, fetchMore }) => {
-              if (loading || error) {
-                return null;
-              }
-              return (
-                <ChatDialogWithApollo
-                  {...props}
-                  currentSession={currentSession}
-                  user={this.state.user}
-                  open={open}
-                  onClose={onClose}
-                  chatId={this.state.chat}
-                  onOpenChat={e => this.setState({ chat: e })}
-                  messages={data.messages}
-                  onBack={() => {
-                    this.setState({ user: null, chat: null });
-                  }}
-                />
-              );
-            }}
-          </Query>
-        )}
-      </ResponsiveDialog>
+      <Grid
+        container
+        spacing={8}
+        key={message.id}
+        alignItems="flex-end"
+        wrap="nowrap"
+        style={{ marginBottom: last ? 4 : 16 }}
+      >
+        <Grid item className={classes.messageBox} style={{ marginRight: 8, marginLeft: 56 }}>
+          <FormattedText text={message.body} className={classes.messageText} />
+          <Timestamp />
+        </Grid>
+        <Grid
+          item
+          onClick={() => {
+            onClose();
+          }}
+        >
+          <Link to={`/${currentSession.user.slug}`}>
+            <UserAvatar user={currentSession.user} />
+          </Link>
+        </Grid>
+      </Grid>
+    );
+  } else {
+    return (
+      <Grid
+        container
+        spacing={8}
+        key={message.id}
+        alignItems="flex-end"
+        wrap="nowrap"
+        style={{ marginBottom: last ? 4 : 16 }}
+      >
+        <Grid
+          item
+          onClick={() => {
+            onClose();
+          }}
+        >
+          <Link to={`/${user.slug}`}>
+            <UserAvatar user={user} />
+          </Link>
+        </Grid>
+        <Grid item className={classes.messageBox} style={{ marginLeft: 8, marginRight: 56 }}>
+          <FormattedText text={message.body} className={classes.messageText} />
+          <Timestamp />
+        </Grid>
+      </Grid>
     );
   }
-}
+};
 
-export default withCurrentSession(withStyles(styles)(ChatDialogLoader));
+const ModeratorChatDialog = ({
+  caseId,
+  caseType,
+  currentSession,
+  classes,
+  open,
+  onClose,
+  user
+}) => {
+  let offset = 0;
+  let limit = 12;
+
+  console.log(caseId, caseType);
+  return (
+    <ResponsiveDialog open={open} onClose={onClose}>
+      <Query
+        fetchPolicy="network-only"
+        query={GET_MESSAGES}
+        variables={{
+          sort: "latest",
+          caseId: caseId,
+          caseType: caseType,
+          offset,
+          limit
+        }}
+        pollInterval={parseInt(process.env.MESSAGES_REFRESH_INTERVAL)}
+      >
+        {({ data, loading, error, fetchMore }) => {
+          if (loading || error) {
+            return null;
+          }
+          return (
+            <Grid container>
+              {data.messages.map(message => {
+                return (
+                  <Message
+                    user={user}
+                    currentSession={currentSession}
+                    classes={classes}
+                    message={message}
+                  />
+                );
+              })}
+              <MessageInput
+                classes={classes}
+                caseId={caseId}
+                caseType={caseType}
+                currentSession={currentSession}
+                user={user}
+              />
+            </Grid>
+          );
+        }}
+      </Query>
+    </ResponsiveDialog>
+  );
+};
+
+export default withCurrentSession(withStyles(styles)(ModeratorChatDialog));

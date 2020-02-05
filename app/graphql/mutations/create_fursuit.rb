@@ -1,5 +1,4 @@
-class Mutations::UpdateFursuit < Mutations::BaseMutation
-  argument :id, ID, required: true
+class Mutations::CreateFursuit < Mutations::BaseMutation
   argument :visible, Boolean, required: true
   argument :name, String, required: true
   argument :bio, String, required: false
@@ -14,7 +13,6 @@ class Mutations::UpdateFursuit < Mutations::BaseMutation
   argument :fursuit_finger_id, ID, required: false
   argument :is_hybrid, Boolean, required: false
   argument :species_ids, [ID], required: false
-  argument :avatar, String, required: false
   argument :base_color, String, required: false
   argument :eyes_color, String, required: false
 
@@ -22,10 +20,16 @@ class Mutations::UpdateFursuit < Mutations::BaseMutation
   field :errors, [String], null: false
 
   def resolve(arguments)
-    fursuit = Fursuit.find(arguments[:id])
+    fursuit = Fursuit.new
     fursuit.assign_attributes(arguments)
 
-    raise Pundit::NotAuthorizedError unless FursuitPolicy.new(context[:current_user], fursuit).update?
+    begin
+      fursuit.avatar = File.open("app/assets/images/species/#{fursuit.is_hybrid ? "Hybrid" : fursuit.species[0].avatar_file}.png")
+    rescue
+      fursuit.avatar = File.open("app/assets/images/species/FAILED.png")
+    end
+
+    raise Pundit::NotAuthorizedError unless FursuitPolicy.new(context[:current_user], fursuit).create?
 
     if fursuit.save
       {

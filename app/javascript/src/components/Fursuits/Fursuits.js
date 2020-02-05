@@ -230,6 +230,7 @@ class Fursuits extends React.Component {
             fursuitEyes: this.state.fursuitEyes,
             hybridSearch: this.state.hybridSearch,
             maker: this.state.maker,
+            isModerator: false,
             limit,
             offset: 0
           }}

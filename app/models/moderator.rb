@@ -22,4 +22,5 @@ class Moderator < ApplicationRecord
 
   has_many :moderation_comments, class_name: "Moderation::Comment"
 
+  has_many :chats_as_sender, class_name: "Chat", foreign_key: :sender_id, dependent: :destroy, inverse_of: :sender
 end

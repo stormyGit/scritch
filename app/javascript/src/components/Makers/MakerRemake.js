@@ -15,10 +15,7 @@ import MakerClaimDialog from "./MakerClaimDialog";
 import EditMakerDialog from "./EditMakerDialog";
 
 import { LOAD_MAKER, LOAD_MAKER_DATE } from "../../queries/makerQueries";
-import {
-  CREATE_MAKER_SUBSCRIPTION,
-  DELETE_MAKER_SUBSCRIPTION
-} from "../../queries/makerMutations";
+import { CREATE_MAKER_SUBSCRIPTION, DELETE_MAKER_SUBSCRIPTION } from "../../queries/makerMutations";
 
 import withCurrentSession from "../withCurrentSession";
 import { withRouter, Link } from "react-router-dom";
@@ -296,9 +293,7 @@ class Maker extends React.Component {
               size={"small"}
               variant="outlined"
               className={
-                width === "lg" || width === "xl"
-                  ? this.props.classes.followButtonSpacer
-                  : null
+                width === "lg" || width === "xl" ? this.props.classes.followButtonSpacer : null
               }
               color={this.state.showUnfollow ? "secondary" : "primary"}
               onMouseEnter={() => this.setState({ showUnfollow: true })}
@@ -440,26 +435,16 @@ class Maker extends React.Component {
                 <Typography variant="h5" className={classes.makerTitle} noWrap>
                   {maker.name}
                 </Typography>
+                <div className={classes.actionButtonPadding}>{this.renderActionButton(maker)}</div>
                 <div className={classes.actionButtonPadding}>
-                  {this.renderActionButton(maker)}
+                  {!maker.claimed && !maker.possessed && this.renderFollowButton(maker)}
                 </div>
-                <div className={classes.actionButtonPadding}>
-                  {!maker.claimed &&
-                    !maker.possessed &&
-                    this.renderFollowButton(maker)}
-                </div>
-                <div className={classes.actionButtonPadding}>
-                  {this.renderSortButton(maker)}
-                </div>
+                <div className={classes.actionButtonPadding}>{this.renderSortButton(maker)}</div>
               </div>
               <Metrics maker={maker} />
               <SubtitleRow maker={maker} />
               <div className={classes.headerTitles}>
-                <Typography
-                  variant="subtitle1"
-                  className={classes.makerTitle}
-                  noWrap
-                >
+                <Typography variant="subtitle1" className={classes.makerTitle} noWrap>
                   {maker.bio}
                 </Typography>
               </div>
@@ -490,9 +475,7 @@ class Maker extends React.Component {
               <div>
                 {this.renderActionButton(maker)}
                 <div style={{ padding: 4 }} />
-                {!maker.claimed &&
-                  !maker.possessed &&
-                  this.renderFollowButton(maker)}
+                {!maker.claimed && !maker.possessed && this.renderFollowButton(maker)}
                 <div style={{ padding: 4 }} />
                 {this.renderSortButton(maker)}
               </div>
@@ -501,11 +484,7 @@ class Maker extends React.Component {
               <Metrics maker={maker} />
               <SubtitleRow maker={maker} />
               <div className={classes.headerTitles}>
-                <Typography
-                  variant="subtitle1"
-                  className={classes.makerTitle}
-                  noWrap
-                >
+                <Typography variant="subtitle1" className={classes.makerTitle} noWrap>
                   {maker.bio}
                 </Typography>
               </div>
@@ -521,8 +500,7 @@ class Maker extends React.Component {
 
     if (
       (!maker.fursuits || (maker.fursuits && maker.fursuits.length === 0)) &&
-      (!maker.fursuitsByDate ||
-        (maker.fursuitsByDate && maker.fursuitsByDate.length === 0))
+      (!maker.fursuitsByDate || (maker.fursuitsByDate && maker.fursuitsByDate.length === 0))
     )
       return (
         <div style={{ width: "100%", textAlign: "center", padding: 24 }}>
@@ -538,10 +516,7 @@ class Maker extends React.Component {
           maker.fursuits.map(fursuit => {
             return (
               <Grid item xs={6} md={4} lg={2} key={fursuit.id}>
-                <Link
-                  to={`/fursuits/${fursuit.slug}`}
-                  className={classes.iconLink}
-                >
+                <Link to={`/fursuits/${fursuit.slug}`} className={classes.iconLink}>
                   <FursuitCard
                     openFursuit={fursuit => {
                       this.setState({
@@ -560,10 +535,7 @@ class Maker extends React.Component {
           maker.fursuitsByDate.map(fursuit => {
             return (
               <Grid item xs={6} md={4} lg={2} key={fursuit.id}>
-                <Link
-                  to={`/fursuits/${fursuit.slug}`}
-                  className={classes.iconLink}
-                >
+                <Link to={`/fursuits/${fursuit.slug}`} className={classes.iconLink}>
                   <FursuitCard
                     openFursuit={fursuit => {
                       this.setState({
@@ -605,17 +577,14 @@ class Maker extends React.Component {
 
             const maker = data ? data.maker : null;
 
+            console.log(maker);
             return (
               <React.Fragment>
                 <PageTitle>{maker ? maker.name : null}</PageTitle>
                 {width === "sm" || width === "xs"
                   ? this.renderMakerHeaderMobile(maker)
                   : this.renderMakerHeader(maker)}
-                {width === "xl" || width === "lg" ? (
-                  <Padder />
-                ) : (
-                  <MicroPadder />
-                )}
+                {width === "xl" || width === "lg" ? <Padder /> : <MicroPadder />}
                 <Grid container spacing={8} style={{ padding: 4 }}>
                   {this.renderMakerFursuits(maker)}
                 </Grid>
@@ -638,6 +607,4 @@ class Maker extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withRouter(withWidth()(withCurrentSession(Maker)))
-);
+export default withStyles(styles)(withRouter(withWidth()(withCurrentSession(Maker))));

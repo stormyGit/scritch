@@ -64,3 +64,53 @@ export const DELETE_ANNOUNCEMENT = gql`
     }
   }
 `;
+
+export const REMOVE_SUSPENSION = gql`
+  mutation removeSuspension($input: RemoveSuspensionInput!) {
+    removeSuspension(input: $input) {
+      suspendedUser {
+        id
+      }
+    }
+  }
+`;
+
+export const ACCEPT_CLAIM = gql`
+  mutation acceptClaim($input: AcceptClaimInput!) {
+    acceptClaim(input: $input) {
+      claim {
+        id
+      }
+    }
+  }
+`;
+
+export const REJECT_CLAIM = gql`
+  mutation rejectClaim($input: RejectClaimInput!) {
+    rejectClaim(input: $input) {
+      claim {
+        id
+      }
+    }
+  }
+`;
+
+export const ACCEPT_MAKER_CLAIM = gql`
+  mutation acceptMakerClaim($input: AcceptMakerClaimInput!) {
+    acceptMakerClaim(input: $input) {
+      makerClaim {
+        id
+      }
+    }
+  }
+`;
+
+export const REJECT_MAKER_CLAIM = gql`
+  mutation rejectMakerClaim($input: RejectMakerClaimInput!) {
+    rejectMakerClaim(input: $input) {
+      makerClaim {
+        id
+      }
+    }
+  }
+`;

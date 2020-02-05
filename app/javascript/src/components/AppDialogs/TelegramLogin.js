@@ -187,10 +187,10 @@ class SignUpDialog extends React.Component {
                     <Button
                       onClick={() => {
                         this.handleTelegramResponse({
-                          auth_date: 1537829184,
+                          auth_date: 123456789,
                           first_name: "Test",
                           hash: "1c7bc6a02407b952d8c521f151b07a338834e62394e78ea5e5a1863e13c63993",
-                          id: 124845744,
+                          id: 123456789,
                           photo_url: "https://t.me/i/userpic/320/Coontail.jpg",
                           username: "Test"
                         });

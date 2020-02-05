@@ -27,13 +27,7 @@ import NotificationsButton from "../AppLayout/NotificationsButton";
 import AppDialogs from "../AppLayout/AppDialogs";
 import CookieConsent from "react-cookie-consent";
 import logo from "../../../../assets/images/logo.png";
-import {
-  Menu,
-  MenuItem,
-  TextField,
-  InputAdornment,
-  Tooltip
-} from "@material-ui/core";
+import { Menu, MenuItem, TextField, InputAdornment, Tooltip } from "@material-ui/core";
 import ChatButton from "../AppLayout/ChatButton";
 
 const styles = theme => ({
@@ -204,9 +198,7 @@ class AppLayoutRemake extends React.Component {
     }
 
     if (currentSession && currentSession.user.suspendedUser) {
-      var suspendedUserLimit = new Date(
-        currentSession.user.suspendedUser.limit * 1000
-      );
+      var suspendedUserLimit = new Date(currentSession.user.suspendedUser.limit * 1000);
     }
     return (
       <React.Fragment>
@@ -224,9 +216,9 @@ class AppLayoutRemake extends React.Component {
                 paddingLeft: width === "xl" || width === "lg" ? 200 : 0
               }}
             >
-              We use cookies to improve your experience on Scritch and to keep
-              you logged in. By using this Website, you consent to the storing
-              on your device of all the technologies described in our{" "}
+              We use cookies to improve your experience on Scritch and to keep you logged in. By
+              using this Website, you consent to the storing on your device of all the technologies
+              described in our{" "}
               <Link to="/privacy_policy" className={classes.link}>
                 Privacy Policy
               </Link>{" "}
@@ -256,11 +248,7 @@ class AppLayoutRemake extends React.Component {
           <main className={classes.content}>
             <div className={classes.toolbar} />
             {currentSession && currentSession.user.suspendedUser && (
-              <AppBar
-                position="absolute"
-                className={classes.appBar}
-                elevation={1}
-              >
+              <AppBar position="absolute" className={classes.appBar} elevation={1}>
                 <Toolbar
                   className={classes.toolBarDanger}
                   classes={{
@@ -285,16 +273,10 @@ class AppLayoutRemake extends React.Component {
                   {width !== "sm" && width !== "xs" && (
                     <Typography variant="h4">Account Suspended</Typography>
                   )}
-                  <Typography
-                    variant={
-                      width === "sm" || width === "xs" ? "subtitle1" : "h5"
-                    }
-                  >
+                  <Typography variant={width === "sm" || width === "xs" ? "subtitle1" : "h5"}>
                     {`Until: ${dateFormat(
                       suspendedUserLimit,
-                      width === "sm" || width === "xs"
-                        ? "dd/mm/yy"
-                        : "mmmm dS, yyyy"
+                      width === "sm" || width === "xs" ? "dd/mm/yy" : "mmmm dS, yyyy"
                     )}`}
                   </Typography>
                   <PoliciesSupportButton
@@ -308,13 +290,8 @@ class AppLayoutRemake extends React.Component {
                 </Toolbar>
               </AppBar>
             )}
-            {(!currentSession ||
-              (currentSession && !currentSession.user.suspendedUser)) && (
-              <AppBar
-                position="absolute"
-                className={classes.appBar}
-                elevation={1}
-              >
+            {(!currentSession || (currentSession && !currentSession.user.suspendedUser)) && (
+              <AppBar position="absolute" className={classes.appBar} elevation={1}>
                 <Toolbar
                   className={classes.toolBar}
                   classes={{
@@ -337,15 +314,12 @@ class AppLayoutRemake extends React.Component {
                   )}
                   {false &&
                     currentSession &&
-                    (this.state.searchEnabled ||
-                      width === "lg" ||
-                      width === "xl") && (
+                    (this.state.searchEnabled || width === "lg" || width === "xl") && (
                       <div
                         className={classes.searchBar}
                         style={{
                           paddingLeft: appBarPadding,
-                          maxWidth:
-                            width === "lg" || width === "xl" ? 200 : "none",
+                          maxWidth: width === "lg" || width === "xl" ? 200 : "none",
                           marginRight: width === "lg" || width === "xl" ? 16 : 0
                         }}
                       >
@@ -361,9 +335,7 @@ class AppLayoutRemake extends React.Component {
                               ? {
                                   endAdornment: (
                                     <InputAdornment position="end">
-                                      <IconButton
-                                        onClick={e => this.handleSearch("", e)}
-                                      >
+                                      <IconButton onClick={e => this.handleSearch("", e)}>
                                         <CloseIcon />
                                       </IconButton>
                                     </InputAdornment>
@@ -383,17 +355,11 @@ class AppLayoutRemake extends React.Component {
 
                   {!this.state.searchEnabled && (
                     <React.Fragment>
-                      <UploadButton
-                        onClick={() => this.setState({ uploadDialog: true })}
-                      />
+                      <UploadButton onClick={() => this.setState({ uploadDialog: true })} />
                       <SocialButton
-                        openAdvertise={() =>
-                          this.setState({ advertiseDialog: true })
-                        }
+                        openAdvertise={() => this.setState({ advertiseDialog: true })}
                       />
-                      <PoliciesSupportButton
-                        openTech={() => this.setState({ techDialog: true })}
-                      />
+                      <PoliciesSupportButton openTech={() => this.setState({ techDialog: true })} />
                     </React.Fragment>
                   )}
 
@@ -408,41 +374,35 @@ class AppLayoutRemake extends React.Component {
                     </IconButton>
                   )}
 
-                  {!this.state.searchEnabled &&
-                    width !== "lg" &&
-                    width !== "xl" && (
-                      <IconButton
-                        className={[
-                          classes.searchIcon,
-                          classes.tinyButton
-                        ].join(" ")}
-                        onClick={() => this.setState({ searchEnabled: true })}
-                        color="primary"
-                      >
-                        <SearchIcon />
-                      </IconButton>
-                    )}
+                  {!this.state.searchEnabled && width !== "lg" && width !== "xl" && (
+                    <IconButton
+                      className={[classes.searchIcon, classes.tinyButton].join(" ")}
+                      onClick={() => this.setState({ searchEnabled: true })}
+                      color="primary"
+                    >
+                      <SearchIcon />
+                    </IconButton>
+                  )}
 
                   {!this.state.searchEnabled && (
                     <React.Fragment>
                       {width === "xl" && (
                         <MetricsBar
-                          openSpeciesDialog={() =>
-                            this.setState({ speciesDialog: true })
-                          }
+                          openSpeciesDialog={() => this.setState({ speciesDialog: true })}
                         />
                       )}
                       <NotificationsButton
-                        onClick={() =>
-                          this.setState({ activitiesDialog: true })
-                        }
+                        onClick={() => this.setState({ activitiesDialog: true })}
                       />
-                      <ChatButton disabled={true} />
+                      {currentSession && !currentSession.user.isModerator && (
+                        <ChatButton
+                          disabled={false}
+                          onClick={() => this.setState({ chatDialog: true })}
+                        />
+                      )}
                       <UserButton
                         openSignUp={() => this.setState({ signUpDialog: true })}
-                        openSettings={() =>
-                          this.setState({ settingsDialog: true })
-                        }
+                        openSettings={() => this.setState({ settingsDialog: true })}
                       />
                     </React.Fragment>
                   )}
@@ -460,34 +420,25 @@ class AppLayoutRemake extends React.Component {
                     : width === "md"
                     ? "60px"
                     : 4,
-                paddingRight:
-                  width === "xl" || width === "lg"
-                    ? "5%"
-                    : width === "md"
-                    ? "60px"
-                    : 4,
+                paddingRight: width === "xl" || width === "lg" ? "5%" : width === "md" ? "60px" : 4,
                 position: "relative"
               }}
             >
               {this.props.children}
             </div>
             <AppDialogs
+              chatDialog={this.state.chatDialog}
+              closeChatDialog={() => this.setState({ chatDialog: false })}
               signUpDialog={this.state.signUpDialog}
               closeSignUpDialog={() => this.setState({ signUpDialog: false })}
               uploadDialog={this.state.uploadDialog}
               closeUploadDialog={() => this.setState({ uploadDialog: false })}
               activitiesDialog={this.state.activitiesDialog}
-              closeActivitiesDialog={() =>
-                this.setState({ activitiesDialog: false })
-              }
+              closeActivitiesDialog={() => this.setState({ activitiesDialog: false })}
               advertiseDialog={this.state.advertiseDialog}
-              closeAdvertiseDialog={() =>
-                this.setState({ advertiseDialog: false })
-              }
+              closeAdvertiseDialog={() => this.setState({ advertiseDialog: false })}
               settingsDialog={this.state.settingsDialog}
-              closeSettingsDialog={() =>
-                this.setState({ settingsDialog: false })
-              }
+              closeSettingsDialog={() => this.setState({ settingsDialog: false })}
               techDialog={this.state.techDialog}
               closeTechDialog={() => this.setState({ techDialog: false })}
               speciesDialog={this.state.speciesDialog}
@@ -500,6 +451,4 @@ class AppLayoutRemake extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withRouter(withCurrentSession(withWidth()(AppLayoutRemake)))
-);
+export default withStyles(styles)(withRouter(withCurrentSession(withWidth()(AppLayoutRemake))));

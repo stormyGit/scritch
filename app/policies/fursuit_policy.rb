@@ -10,15 +10,15 @@ class FursuitPolicy < ApplicationPolicy
   end
 
   def update?
-    record.present? && user.fursuits.include?(record)
+    record.present? && (user.fursuits.include?(record) || Moderator.find_by(telegram_id: user.telegram_id).present?)
   end
 
   def destroy?
-    create?
+    record.present? && Moderator.find_by(telegram_id: user.telegram_id).present?
   end
 
   def create?
-    false
+    Moderator.find_by(telegram_id: user.telegram_id).present?
   end
 
   def follow?

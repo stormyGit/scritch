@@ -7,6 +7,7 @@ module Types
 
     root_type.fields = Util::FieldCombiner.combine([
       Types::Query::GlobalQuery,
+      Types::Query::ChatQuery,
       Types::Query::ModerationQuery,
       Types::Query::FursuitQuery,
       Types::Query::MakerQuery,

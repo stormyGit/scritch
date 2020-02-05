@@ -6,9 +6,14 @@ module Resolvers
 
                 argument :id, !types.ID
                 argument :sort, !types.String
+                argument :isModerator, types.Boolean
 
                 def call(obj, args, ctx)
-                    Maker.where(visible: true).find(args[:id])
+                    if args[:isModerator].present? && args[:isModerator] == true
+                        Maker.find(args[:id])
+                    else
+                        Maker.where(visible: true).find(args[:id])
+                    end
                 end
             end
             
@@ -21,9 +26,14 @@ module Resolvers
                 argument :country, types.String
                 argument :commissionStatus, types.ID
                 argument :region, types.String
+                argument :isModerator, types.Boolean
 
                 def call(obj, args, ctx)
-                    makers = Maker.where(visible: true)
+                    makers = Maker.all
+                    
+                    if args[:isModerator].blank? || args[:isModerator] == false
+                        makers = Maker.where(visible: true)
+                    end
 
                     if args[:commissionStatus].present?
                         makers = makers.where(commission_status_id: args[:commissionStatus])

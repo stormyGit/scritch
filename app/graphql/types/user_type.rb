@@ -31,6 +31,9 @@ module Types
     field :global_score, Integer, null: false
     field :score, Integer, null: false
 
+    field :telegram_id, String, null: false
+    field :email, String, null: false
+
     field :media_count, Integer, null: false
     field :followers_count, Integer, null: false
     field :following_count, Integer, null: false

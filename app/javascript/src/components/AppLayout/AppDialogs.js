@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
 import MultipleMediaDialog from "../Media/MultipleMediaDialog";
+import ChatDialog from "../AppDialogs/ChatDialog";
 import ActivitiesDialog from "../AppDialogs/ActivitiesDialog";
 import SettingsDialog from "../AppDialogs/SettingsDialog";
 import AdvertiseDialog from "../AppDialogs/AdvertiseDialog";
@@ -37,16 +38,14 @@ class AppDialogs extends React.Component {
       techDialog,
       speciesDialog,
       activitiesDialog,
-      advertiseDialog
+      advertiseDialog,
+      chatDialog
     } = this.props;
 
     return (
       <React.Fragment>
         {!currentSession && (
-          <SignUpDialog
-            open={signUpDialog}
-            onClose={() => this.props.closeSignUpDialog()}
-          />
+          <SignUpDialog open={signUpDialog} onClose={() => this.props.closeSignUpDialog()} />
         )}
         {currentSession && (
           <MultipleMediaDialog
@@ -56,16 +55,16 @@ class AppDialogs extends React.Component {
           />
         )}
         {currentSession && (
+          <ChatDialog open={chatDialog} onClose={() => this.props.closeChatDialog()} />
+        )}
+        {currentSession && (
           <ActivitiesDialog
             open={activitiesDialog}
             onClose={() => this.props.closeActivitiesDialog()}
           />
         )}
         {currentSession && (
-          <SettingsDialog
-            open={settingsDialog}
-            onClose={() => this.props.closeSettingsDialog()}
-          />
+          <SettingsDialog open={settingsDialog} onClose={() => this.props.closeSettingsDialog()} />
         )}
         {currentSession && (
           <AdvertiseDialog
@@ -74,10 +73,7 @@ class AppDialogs extends React.Component {
           />
         )}
         {currentSession && (
-          <SpeciesDialog
-            open={speciesDialog}
-            onClose={() => this.props.closeSpeciesDialog()}
-          />
+          <SpeciesDialog open={speciesDialog} onClose={() => this.props.closeSpeciesDialog()} />
         )}
         <TechDialog
           open={techDialog}

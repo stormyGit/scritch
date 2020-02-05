@@ -10,10 +10,10 @@ class Message < ApplicationRecord
   mount_uploader :picture, PictureUploader
 
   def mark_recipient_as_unread
-    if sender == chat.sender
-      chat.update(is_recipient_unread: true)
-    elsif sender == chat.recipient
+    if sender == chat.recipient
       chat.update(is_sender_unread: true)
+    else
+      chat.update(is_recipient_unread: true)
     end
   end
 

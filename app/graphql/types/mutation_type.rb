@@ -8,6 +8,13 @@ module Types
     field :delete_announcement, mutation: Mutations::DeleteAnnouncement
     field :create_announcement, mutation: Mutations::CreateAnnouncement
 
+    field :remove_suspension, mutation: Mutations::RemoveSuspension
+
+    field :accept_claim, mutation: Mutations::AcceptClaim
+    field :reject_claim, mutation: Mutations::RejectClaim
+    field :accept_maker_claim, mutation: Mutations::AcceptMakerClaim
+    field :reject_maker_claim, mutation: Mutations::RejectMakerClaim
+
     field :create_session, mutation: Mutations::CreateSession
     field :register_user, mutation: Mutations::RegisterUser
     field :send_new_confirm_mail, mutation: Mutations::SendNewConfirmMail
@@ -53,9 +60,16 @@ module Types
     field :create_asset_request, mutation: Mutations::CreateAssetRequest
     field :create_claim, mutation: Mutations::CreateClaim
     field :create_maker_claim, mutation: Mutations::CreateMakerClaim
+    
     field :update_fursuit, mutation: Mutations::UpdateFursuit
-    field :create_fursuit_request, mutation: Mutations::CreateFursuitRequest
+    field :delete_fursuit, mutation: Mutations::DeleteFursuit
+    field :create_fursuit, mutation: Mutations::CreateFursuit
+
     field :update_maker, mutation: Mutations::UpdateMaker
+    field :delete_maker, mutation: Mutations::DeleteMaker
+    field :create_maker, mutation: Mutations::CreateMaker
+
+    field :create_fursuit_request, mutation: Mutations::CreateFursuitRequest
     field :tag_lock_medium, mutation: Mutations::TagLockMedium
     field :tag_unlock_medium, mutation: Mutations::TagUnlockMedium
   end

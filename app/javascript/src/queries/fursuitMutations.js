@@ -15,6 +15,7 @@ export const UPDATE_FURSUIT = gql`
         claimRejected
         possessed
         followed
+        visible
         bio
         avatar
         creationYear
@@ -71,6 +72,28 @@ export const CREATE_FURSUIT_REQUEST = gql`
       fursuitRequest {
         id
         name
+      }
+      errors
+    }
+  }
+`;
+
+export const CREATE_FURSUIT = gql`
+  mutation createFursuit($input: CreateFursuitInput!) {
+    createFursuit(input: $input) {
+      fursuit {
+        id
+      }
+      errors
+    }
+  }
+`;
+
+export const DELETE_FURSUIT = gql`
+  mutation deleteFursuit($input: DeleteFursuitInput!) {
+    deleteFursuit(input: $input) {
+      fursuit {
+        id
       }
       errors
     }

@@ -6,6 +6,8 @@ module Types
     field :contact, UserType, null: false
     field :created_at, String, null: false
     field :updated_at, String, null: false
+    field :case_type, String, null: false
+    field :case_id, ID, null: false
     field :is_unread, Boolean, null: false
     field :last_message, MessageType, null: true
     field :message, [MessageType], null: false

@@ -5,6 +5,7 @@ export const LOAD_FURSUITS = gql`
     $name: String
     $speciesIds: [ID]
     $hybridSearch: Boolean
+    $isModerator: Boolean
     $uuid: ID
     $filter: String
     $fursuitLegType: ID
@@ -25,6 +26,7 @@ export const LOAD_FURSUITS = gql`
       name: $name
       speciesIds: $speciesIds
       hybridSearch: $hybridSearch
+      isModerator: $isModerator
       uuid: $uuid
       filter: $filter
       fursuitLegType: $fursuitLegType
@@ -59,8 +61,8 @@ export const LOAD_FURSUITS = gql`
 `;
 
 export const LOAD_FURSUIT = gql`
-  query Fursuit($id: ID!) {
-    fursuit(id: $id) {
+  query Fursuit($id: ID!, $isModerator: Boolean) {
+    fursuit(id: $id, isModerator: $isModerator) {
       id
       name
       slug
@@ -72,6 +74,7 @@ export const LOAD_FURSUIT = gql`
       claimRejected
       possessed
       followed
+      visible
       bio
       avatar
       creationYear

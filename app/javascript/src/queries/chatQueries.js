@@ -24,8 +24,8 @@ export const GET_CHATS = gql`
 `;
 
 export const GET_MESSAGES = gql`
-  query Messages($chatId: ID, $offset: Int!, $limit: Int!) {
-    messages(chatId: $chatId, offset: $offset, limit: $limit)
+  query Messages($caseId: ID, $caseType: String, $chatId: ID, $offset: Int!, $limit: Int!) {
+    messages(caseId: $caseId, caseType: $caseType, chatId: $chatId, offset: $offset, limit: $limit)
       @connection(key: "messages", filter: ["chatId"]) {
       id
       body

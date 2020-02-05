@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_11_085005) do
+ActiveRecord::Schema.define(version: 2020_01_27_142059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -160,6 +160,8 @@ ActiveRecord::Schema.define(version: 2019_12_11_085005) do
     t.boolean "is_recipient_unread", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "case_id"
+    t.string "case_type"
     t.index ["recipient_id"], name: "index_chats_on_recipient_id"
     t.index ["sender_id"], name: "index_chats_on_sender_id"
     t.index ["uuid"], name: "index_chats_on_uuid", unique: true
@@ -811,6 +813,7 @@ ActiveRecord::Schema.define(version: 2019_12_11_085005) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["name"], name: "index_users_on_name", opclass: :gin_trgm_ops, using: :gin
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["slug"], name: "index_users_on_slug", unique: true

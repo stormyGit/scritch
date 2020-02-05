@@ -3,6 +3,7 @@ module Types
     description "Fursuit object"
     field :id, ID, null: false
     field :name, String, null: false
+    field :visible, Boolean, null: false
     field :bio, String, null: true
     field :slug, String, null: false
     field :creation_year, Integer, null: true

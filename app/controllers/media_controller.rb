@@ -4,7 +4,7 @@ class MediaController < ApplicationController
   end
 
   def react_moderation
-    if Moderator.where.not(telegram_id: nil).where(telegram_id: Session.find_by(uuid: cookies.signed[:token]).user&.telegram_id).count > 0
+    if Moderator.where.not(telegram_id: nil).where(telegram_id: Session.find_by(uuid: cookies.signed[:token])&.user&.telegram_id).count > 0
       render "application/index"
     else
       render "errors/403", status: 403
