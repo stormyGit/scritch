@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import InputAdornment from "@material-ui/core/InputAdornment";
-
+import withCurrentSession from "../withCurrentSession";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 
 import { withStyles } from "@material-ui/core/styles";
@@ -16,7 +16,8 @@ import GlobalProgress from "../Global/GlobalProgress";
 import ImageCropper from "../Global/ImageCropper";
 import FursuitAvatar from "./FursuitAvatar";
 import FursuitEditFields from "./FursuitEditFields";
-
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { UPDATE_FURSUIT } from "../../queries/fursuitMutations";
 import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
 
@@ -102,10 +103,7 @@ const styles = theme => ({
     marginRight: 1,
     paddingBottom: 4,
     fontSize: "1rem",
-    color:
-      theme.palette.type === "dark"
-        ? "rgba(255, 255, 255, 0.5)"
-        : "rgba(0, 0, 0, 0.5)"
+    color: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"
   }
 });
 
@@ -127,7 +125,8 @@ class EditFursuitDialog extends React.Component {
     fursuitColor: null,
     fursuitEyes: null,
     maker: null,
-    avatarMenu: false
+    avatarMenu: false,
+    visible: false
   };
 
   constructor(props) {
@@ -142,10 +141,7 @@ class EditFursuitDialog extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (
-      this.props.fursuit !== nextProps.fursuit ||
-      this.props.open !== nextProps.open
-    ) {
+    if (this.props.fursuit !== nextProps.fursuit || this.props.open !== nextProps.open) {
       this.setInitialValues(nextProps.fursuit);
     }
   }
@@ -156,14 +152,13 @@ class EditFursuitDialog extends React.Component {
       name: fursuit.name || "",
       bio: fursuit.bio || "",
       slug: fursuit.slug || "",
+      visible: fursuit.visible || true,
       creationYear: fursuit.creationYear,
       avatar: fursuit.avatar,
       fursuitLegType: fursuit.fursuitLegType && fursuit.fursuitLegType.id,
       fursuitStyle: fursuit.fursuitStyle && fursuit.fursuitStyle.id,
       speciesIds:
-        fursuit.species && fursuit.species.length > 0
-          ? fursuit.species.map(e => e.id)
-          : [],
+        fursuit.species && fursuit.species.length > 0 ? fursuit.species.map(e => e.id) : [],
       hybridSearch: fursuit.isHybrid,
       fursuitBuild: fursuit.fursuitBuild && fursuit.fursuitBuild.id,
       fursuitPadding: fursuit.fursuitPadding && fursuit.fursuitPadding.id,
@@ -207,7 +202,7 @@ class EditFursuitDialog extends React.Component {
   }
 
   render() {
-    const { classes, fursuit } = this.props;
+    const { classes, fursuit, currentSession } = this.props;
 
     return (
       <React.Fragment>
@@ -230,8 +225,7 @@ class EditFursuitDialog extends React.Component {
               name="bio"
               value={this.state.bio}
               onChange={e => {
-                e.target.value.length <= 280 &&
-                  this.setState({ bio: e.target.value });
+                e.target.value.length <= 280 && this.setState({ bio: e.target.value });
               }}
               margin="dense"
               fullWidth
@@ -248,15 +242,22 @@ class EditFursuitDialog extends React.Component {
                 fullWidth
                 InputProps={{
                   startAdornment: (
-                    <InputAdornment
-                      position="start"
-                      className={classes.domain}
-                      disableTypography
-                    >
+                    <InputAdornment position="start" className={classes.domain} disableTypography>
                       {`https://${process.env.DOMAIN}/`}
                     </InputAdornment>
                   )
                 }}
+              />
+            )}
+            {currentSession.user.isModerator && (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.visible}
+                    onChange={e => this.setState({ visible: e.target.checked })}
+                  />
+                }
+                label="Visible?"
               />
             )}
             <div style={{ padding: 8 }} />
@@ -300,22 +301,19 @@ class EditFursuitDialog extends React.Component {
                           name: this.state.name,
                           bio: this.state.bio,
                           slug: this.state.slug,
+                          visible: this.state.visible,
                           fursuitFingerId: this.state.fursuitFinger,
                           fursuitBuildId: this.state.fursuitBuild,
                           fursuitGenderId: this.state.fursuitGender,
                           fursuitPaddingId: this.state.fursuitPadding,
                           fursuitStyleId: this.state.fursuitStyle,
                           speciesIds: this.state.speciesIds
-                            ? this.state.speciesIds.map(e =>
-                                e.value ? e.value : e
-                              )
+                            ? this.state.speciesIds.map(e => (e.value ? e.value : e))
                             : null,
                           fursuitLegTypeId: this.state.fursuitLegType,
                           baseColor: this.state.baseColor,
                           eyesColor: this.state.eyesColor,
-                          isHybrid: this.state.hybridSearch
-                            ? this.state.hybridSearch
-                            : false,
+                          isHybrid: this.state.hybridSearch ? this.state.hybridSearch : false,
                           makerIds: this.state.maker,
                           creationYear: this.state.creationYear
                             ? parseInt(this.state.creationYear)
@@ -358,4 +356,4 @@ class EditFursuitDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(EditFursuitDialog));
+export default withStyles(styles)(withRouter(withCurrentSession(EditFursuitDialog)));

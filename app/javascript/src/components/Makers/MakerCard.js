@@ -80,9 +80,7 @@ class MakerCard extends React.Component {
     return (
       <div className={horizontal ? undefined : classes.cardMediaContainer}>
         <CardMedia
-          className={
-            horizontal ? classes.horizontalMedia : classes.verticalMedia
-          }
+          className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
           image={maker.avatar}
           title={maker.name}
         />
@@ -95,22 +93,10 @@ class MakerCard extends React.Component {
 
     return (
       <CardContent className={classes.content}>
-        <Typography
-          gutterBottom
-          variant="h6"
-          component="h4"
-          className={classes.text}
-          noWrap
-        >
+        <Typography gutterBottom variant="h6" component="h4" className={classes.text} noWrap>
           {maker.name}
         </Typography>
-        <Typography
-          gutterBottom
-          variant="h6"
-          component="h6"
-          className={classes.subtext}
-          noWrap
-        >
+        <Typography gutterBottom variant="h6" component="h6" className={classes.subtext} noWrap>
           {maker.country}
         </Typography>
       </CardContent>
@@ -118,16 +104,22 @@ class MakerCard extends React.Component {
   }
 
   renderVertical() {
-    const { classes, maker } = this.props;
+    const { classes, maker, onClick } = this.props;
 
     return (
       <Card className={classes.card} elevation={0}>
-        <CardActionArea
-          component={props => <Link to={`/makers/${maker.slug}`} {...props} />}
-        >
-          {this.renderMedia()}
-          {this.renderContent()}
-        </CardActionArea>
+        {!onClick && (
+          <CardActionArea component={props => <Link to={`/makers/${maker.slug}`} {...props} />}>
+            {this.renderMedia()}
+            {this.renderContent()}
+          </CardActionArea>
+        )}
+        {onClick && (
+          <CardActionArea onClick={onClick}>
+            {this.renderMedia()}
+            {this.renderContent()}
+          </CardActionArea>
+        )}
       </Card>
     );
   }

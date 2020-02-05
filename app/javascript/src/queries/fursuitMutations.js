@@ -15,6 +15,7 @@ export const UPDATE_FURSUIT = gql`
         claimRejected
         possessed
         followed
+        visible
         bio
         avatar
         creationYear

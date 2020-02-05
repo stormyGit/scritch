@@ -1,5 +1,6 @@
 class Mutations::UpdateFursuit < Mutations::BaseMutation
   argument :id, ID, required: true
+  argument :visible, Boolean, required: true
   argument :name, String, required: true
   argument :bio, String, required: false
   argument :slug, String, required: true

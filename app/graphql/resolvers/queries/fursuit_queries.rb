@@ -6,9 +6,15 @@ module Resolvers
                 type Types::FursuitType
 
                 argument :id, !types.ID
+                argument :isModerator, types.Boolean
 
                 def call(obj, args, ctx)
-                    Fursuit.where(visible: true).find(args[:id])
+                    if args[:isModerator].blank?
+                        return Fursuit.where(visible: true).find(args[:id])
+                    else
+                        return Fursuit.find(args[:id])
+                    end
+
                 end
             end
 
@@ -21,6 +27,7 @@ module Resolvers
                 argument :offset, !types.Int
                 argument :exclude, types[types.ID]
                 argument :hybridSearch, types.Boolean
+                argument :isModerator, types.Boolean
                 argument :speciesIds, types[types.ID]
                 argument :uuid, types.ID
                 argument :filter, types.String
@@ -36,7 +43,10 @@ module Resolvers
                 argument :userId, types.ID
 
                 def call(obj, args, ctx)
-                    fursuits = Fursuit.where(visible: true)
+                    fursuits = Fursuit.all
+                    if args[:isModerator].blank?
+                        fursuits = Fursuit.where(visible: true)
+                    end
 
                     if args[:filter].present? && args[:filter] == "subscriptions_fursuits"
                         fursuits = fursuits.joins(:makers).where("makers.uuid IN (?)", ctx[:current_user].followed_makers.pluck(:uuid))
