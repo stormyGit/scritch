@@ -9,7 +9,7 @@ module Resolvers
                 argument :isModerator, types.Boolean
 
                 def call(obj, args, ctx)
-                    if args[:isModerator].blank?
+                    if args[:isModerator].blank? || args[:isModerator] == false
                         return Fursuit.where(visible: true).find(args[:id])
                     else
                         return Fursuit.find(args[:id])
@@ -44,7 +44,8 @@ module Resolvers
 
                 def call(obj, args, ctx)
                     fursuits = Fursuit.all
-                    if args[:isModerator].blank?
+                    
+                    if args[:isModerator].blank? || args[:isModerator] == false
                         fursuits = Fursuit.where(visible: true)
                     end
 

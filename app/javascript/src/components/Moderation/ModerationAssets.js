@@ -18,6 +18,7 @@ import { LOAD_MAKERS } from "../../queries/makerQueries";
 import MakerCard from "../Makers/MakerCard";
 import ModerationMakerDialog from "./ModerationMakerDialog";
 import CreateFursuitDialog from "./CreateFursuitDialog";
+import CreateMakerDialog from "./CreateMakerDialog";
 
 const styles = theme => ({
   root: {
@@ -63,6 +64,7 @@ function renderMakerResults({ data, onLoadMore, hasMore, withMaker, classes, set
 const ModerationMakers = ({ classes, width }) => {
   const [activeMaker, setActiveMaker] = useState(null);
   const [name, setName] = useState("");
+  const [newMakerDialog, setNewMakerDialog] = useState(false);
   const [research, setResearch] = useState("");
   const [hasMore, setHasMore] = useState(true);
 
@@ -86,7 +88,11 @@ const ModerationMakers = ({ classes, width }) => {
             placeholder="Search..."
           />
         </Grid>
-        <Grid item xs={false} lg={3} />
+        <Grid item xs={12} lg={3} style={{ textAlign: "center" }}>
+          <Button variant="outlined" size="large" onClick={() => setNewMakerDialog(true)}>
+            New Maker
+          </Button>
+        </Grid>
       </Grid>
       <Query
         query={LOAD_MAKERS}
@@ -141,6 +147,9 @@ const ModerationMakers = ({ classes, width }) => {
           open={activeMaker != null}
           onClose={() => setActiveMaker(null)}
         />
+      )}
+      {newMakerDialog && (
+        <CreateMakerDialog open={newMakerDialog} onClose={() => setNewMakerDialog(false)} />
       )}
     </React.Fragment>
   );

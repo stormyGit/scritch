@@ -67,6 +67,7 @@ module Types
 
     field :update_maker, mutation: Mutations::UpdateMaker
     field :delete_maker, mutation: Mutations::DeleteMaker
+    field :create_maker, mutation: Mutations::CreateMaker
 
     field :create_fursuit_request, mutation: Mutations::CreateFursuitRequest
     field :tag_lock_medium, mutation: Mutations::TagLockMedium

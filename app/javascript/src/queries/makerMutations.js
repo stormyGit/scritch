@@ -56,3 +56,13 @@ export const DELETE_MAKER = gql`
     }
   }
 `;
+
+export const CREATE_MAKER = gql`
+  mutation createMaker($input: CreateMakerInput!) {
+    createMaker(input: $input) {
+      maker {
+        id
+      }
+    }
+  }
+`;
