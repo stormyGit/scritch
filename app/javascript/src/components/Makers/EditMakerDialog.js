@@ -349,7 +349,7 @@ class EditMakerDialog extends React.Component {
             </Query>
           </DialogContent>
           <DialogActions>
-            {currentSession.user.isModerator && (
+            {currentSession && currentSession.user.isModerator && (
               <Mutation mutation={DELETE_MAKER}>
                 {(deleteMaker, { data }) => (
                   <Button

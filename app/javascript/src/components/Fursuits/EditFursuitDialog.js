@@ -252,7 +252,7 @@ class EditFursuitDialog extends React.Component {
                 }}
               />
             )}
-            {currentSession.user.isModerator && (
+            {currentSession && currentSession.user.isModerator && (
               <FormControlLabel
                 control={
                   <Checkbox
