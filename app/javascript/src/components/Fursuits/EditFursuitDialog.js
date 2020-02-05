@@ -282,7 +282,7 @@ class EditFursuitDialog extends React.Component {
             />
           </DialogContent>
           <DialogActions>
-            {currentSession.user.isModerator && (
+            {currentSession && currentSession.user.isModerator && (
               <Mutation mutation={DELETE_FURSUIT}>
                 {(deleteFursuit, { data }) => (
                   <Button

@@ -268,7 +268,7 @@ class EditMakerDialog extends React.Component {
               fullWidth
             />
             <div style={{ padding: 5 }} />
-            {currentSession.user.isModerator && (
+            {currentSession && currentSession.user.isModerator && (
               <FormControlLabel
                 control={
                   <Checkbox
