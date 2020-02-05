@@ -8,17 +8,14 @@ import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import withCurrentSession from "../withCurrentSession";
-import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 
 import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
-import ImageCropper from "../Global/ImageCropper";
-import FursuitAvatar from "./FursuitAvatar";
-import FursuitEditFields from "./FursuitEditFields";
+import FursuitEditFields from "../Fursuits/FursuitEditFields";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { UPDATE_FURSUIT, DELETE_FURSUIT } from "../../queries/fursuitMutations";
+import { CREATE_FURSUIT } from "../../queries/fursuitMutations";
 import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
 
 const AVATAR_SIZE = 96;
@@ -110,13 +107,12 @@ const styles = theme => ({
   }
 });
 
-class EditFursuitDialog extends React.Component {
+class CreateFursuitDialog extends React.Component {
   state = {
     name: "",
     slug: "",
     bio: "",
     creationYear: 0,
-    avatar: null,
     fursuitLegType: null,
     fursuitStyle: null,
     fursuitGender: null,
@@ -132,78 +128,6 @@ class EditFursuitDialog extends React.Component {
     visible: false
   };
 
-  constructor(props) {
-    super(props);
-    this.bannerUploadInput = React.createRef();
-    this.avatarUploadInput = React.createRef();
-    this.bannerRef = React.createRef();
-  }
-
-  componentDidMount() {
-    this.setInitialValues(this.props.fursuit);
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.fursuit !== nextProps.fursuit || this.props.open !== nextProps.open) {
-      this.setInitialValues(nextProps.fursuit);
-    }
-  }
-
-  setInitialValues(fursuit) {
-    this.setState({
-      id: fursuit.id,
-      name: fursuit.name || "",
-      bio: fursuit.bio || "",
-      slug: fursuit.slug || "",
-      visible: fursuit.visible || true,
-      creationYear: fursuit.creationYear,
-      avatar: fursuit.avatar,
-      fursuitLegType: fursuit.fursuitLegType && fursuit.fursuitLegType.id,
-      fursuitStyle: fursuit.fursuitStyle && fursuit.fursuitStyle.id,
-      speciesIds:
-        fursuit.species && fursuit.species.length > 0 ? fursuit.species.map(e => e.id) : [],
-      hybridSearch: fursuit.isHybrid,
-      fursuitBuild: fursuit.fursuitBuild && fursuit.fursuitBuild.id,
-      fursuitPadding: fursuit.fursuitPadding && fursuit.fursuitPadding.id,
-      fursuitFinger: fursuit.fursuitFinger && fursuit.fursuitFinger.id,
-      fursuitGender: fursuit.fursuitGender && fursuit.fursuitGender.id,
-      baseColor: fursuit.baseColor,
-      eyesColor: fursuit.eyesColor,
-      maker: fursuit.makers.length > 0 ? [fursuit.makers[0].id] : null
-    });
-  }
-
-  renderAvatar() {
-    const { fursuit, classes } = this.props;
-
-    return (
-      <React.Fragment>
-        <Button
-          className={classes.editAvatarButton}
-          onClick={() => this.avatarUploadInput.current.click()}
-        >
-          <div id="uploadAvatarButton">
-            <InsertPhotoIcon />
-          </div>
-        </Button>
-        <input
-          accept="image/png,image/x-png,image/jpeg"
-          className={classes.uploadInput}
-          ref={this.avatarUploadInput}
-          type="file"
-          onChange={e => {
-            this.setState({ avatarToEdit: e.target.files[0] });
-          }}
-        />
-        <FursuitAvatar
-          avatar={this.state.avatar}
-          className={classes.fursuitAvatar}
-          size={AVATAR_SIZE}
-        />
-      </React.Fragment>
-    );
-  }
-
   render() {
     const { classes, fursuit, currentSession } = this.props;
 
@@ -211,9 +135,6 @@ class EditFursuitDialog extends React.Component {
       <React.Fragment>
         <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
           <GlobalProgress absolute />
-          <Grid container justify="center" className={classes.avatarContainer}>
-            <Grid item>{this.renderAvatar()}</Grid>
-          </Grid>
           <DialogContent className={classes.dialogContent}>
             <TextField
               label="Name"
@@ -246,7 +167,7 @@ class EditFursuitDialog extends React.Component {
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start" className={classes.domain} disableTypography>
-                      {`https://${process.env.DOMAIN}/`}
+                      {`https://${process.env.DOMAIN}/fursuits/`}
                     </InputAdornment>
                   )
                 }}
@@ -282,47 +203,14 @@ class EditFursuitDialog extends React.Component {
             />
           </DialogContent>
           <DialogActions>
-            {currentSession.user.isModerator && (
-              <Mutation mutation={DELETE_FURSUIT}>
-                {(deleteFursuit, { data }) => (
-                  <Button
-                    className={classes.dangerButton}
-                    onClick={() => {
-                      if (confirm("Are you sure"))
-                        deleteFursuit({
-                          variables: {
-                            input: {
-                              id: fursuit.id
-                            }
-                          }
-                        }).then(updated => {
-                          location.reload();
-                        });
-                    }}
-                  >
-                    DELETE
-                  </Button>
-                )}
-              </Mutation>
-            )}
-            <Mutation
-              mutation={UPDATE_FURSUIT}
-              update={(cache, { data: { updateFursuit } }) => {
-                cache.writeQuery({
-                  query: LOAD_FURSUIT,
-                  variables: { id: fursuit.id },
-                  data: { fursuit: { fursuit, ...updateFursuit.fursuit } }
-                });
-              }}
-            >
-              {(updateFursuit, { data }) => (
+            <Mutation mutation={CREATE_FURSUIT}>
+              {(createFursuit, { data }) => (
                 <Button
                   disabled={!this.state.name || /^\s*$/.test(this.state.name)}
                   onClick={() => {
-                    updateFursuit({
+                    createFursuit({
                       variables: {
                         input: {
-                          id: fursuit.id,
                           name: this.state.name,
                           bio: this.state.bio,
                           slug: this.state.slug,
@@ -342,44 +230,25 @@ class EditFursuitDialog extends React.Component {
                           makerIds: this.state.maker,
                           creationYear: this.state.creationYear
                             ? parseInt(this.state.creationYear)
-                            : null,
-                          ...(this.state.avatar !== fursuit.avatar
-                            ? { avatar: this.state.avatar }
-                            : {})
+                            : null
                         }
                       }
                     }).then(updated => {
                       this.props.onClose();
+                      locatiom.reload();
                     });
                   }}
                 >
-                  Save
+                  Create
                 </Button>
               )}
             </Mutation>
             <Button onClick={this.props.onClose}>Cancel</Button>
           </DialogActions>
         </ResponsiveDialog>
-        {this.state.avatarToEdit && (
-          <ImageCropper
-            image={this.state.avatarToEdit}
-            width={300}
-            height={300}
-            borderRadius={30}
-            onClose={() => {
-              this.setState({ avatarToEdit: null });
-            }}
-            onSubmit={canvas => {
-              this.setState({
-                avatar: canvas.toDataURL(),
-                removeAvatar: false
-              });
-            }}
-          />
-        )}
       </React.Fragment>
     );
   }
 }
 
-export default withStyles(styles)(withRouter(withCurrentSession(EditFursuitDialog)));
+export default withStyles(styles)(withRouter(withCurrentSession(CreateFursuitDialog)));

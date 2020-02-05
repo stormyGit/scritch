@@ -25,11 +25,10 @@ import GlobalProgress from "../Global/GlobalProgress";
 import ImageCropper from "../Global/ImageCropper";
 import MakerAvatar from "./MakerAvatar";
 
-import { UPDATE_MAKER } from "../../queries/makerMutations";
-import {
-  LOAD_COMMISSION_STATUSES,
-  LOAD_MAKER
-} from "../../queries/makerQueries";
+import { UPDATE_MAKER, DELETE_MAKER } from "../../queries/makerMutations";
+import { LOAD_COMMISSION_STATUSES, LOAD_MAKER } from "../../queries/makerQueries";
+import withCurrentSession from "../withCurrentSession";
+import { FormControlLabel, Checkbox } from "@material-ui/core";
 
 const AVATAR_SIZE = 96;
 
@@ -116,10 +115,10 @@ const styles = theme => ({
     marginRight: 1,
     paddingBottom: 4,
     fontSize: "1rem",
-    color:
-      theme.palette.type === "dark"
-        ? "rgba(255, 255, 255, 0.5)"
-        : "rgba(0, 0, 0, 0.5)"
+    color: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"
+  },
+  dangerButton: {
+    color: theme.palette.danger.main
   }
 });
 
@@ -131,6 +130,7 @@ class EditMakerDialog extends React.Component {
     commissionStatus: null,
     region: "",
     web: "",
+    avatarMenu: true,
     avatarMenu: false
   };
 
@@ -144,10 +144,7 @@ class EditMakerDialog extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (
-      this.props.maker !== nextProps.maker ||
-      this.props.open !== nextProps.open
-    ) {
+    if (this.props.maker !== nextProps.maker || this.props.open !== nextProps.open) {
       this.setInitialValues(nextProps.maker);
     }
   }
@@ -164,7 +161,8 @@ class EditMakerDialog extends React.Component {
       },
       region: maker.region,
       avatar: maker.avatar,
-      web: maker.web
+      web: maker.web,
+      visible: maker.visible
     });
   }
 
@@ -193,14 +191,11 @@ class EditMakerDialog extends React.Component {
               {...TransitionProps}
               id="menu-list-grow"
               style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
+                transformOrigin: placement === "bottom" ? "center top" : "center bottom"
               }}
             >
               <Paper>
-                <ClickAwayListener
-                  onClickAway={() => this.setState({ avatarMenu: false })}
-                >
+                <ClickAwayListener onClickAway={() => this.setState({ avatarMenu: false })}>
                   <MenuList disablePadding>
                     <MenuItem
                       className={classes.menuButton}
@@ -243,7 +238,7 @@ class EditMakerDialog extends React.Component {
   }
 
   render() {
-    const { classes, maker } = this.props;
+    const { classes, maker, currentSession } = this.props;
 
     return (
       <React.Fragment>
@@ -267,12 +262,23 @@ class EditMakerDialog extends React.Component {
               name="bio"
               value={this.state.bio}
               onChange={e => {
-                e.target.value.length <= 280 &&
-                  this.setState({ bio: e.target.value });
+                e.target.value.length <= 280 && this.setState({ bio: e.target.value });
               }}
               margin="dense"
               fullWidth
             />
+            <div style={{ padding: 5 }} />
+            {currentSession.user.isModerator && (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={this.state.visible}
+                    onChange={e => this.setState({ visible: e.target.checked })}
+                  />
+                }
+                label="Visible?"
+              />
+            )}
             <div style={{ padding: 5 }} />
             <Select
               fullWidth
@@ -343,31 +349,45 @@ class EditMakerDialog extends React.Component {
             </Query>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.onClose}>Cancel</Button>
-            <Mutation
-              mutation={UPDATE_MAKER}
-              update={(cache, { data: { updateMaker } }) => {
-                cache.writeQuery({
-                  query: LOAD_MAKER,
-                  variables: { id: maker.id },
-                  data: { maker: { maker, ...updateMaker.maker } }
-                });
-              }}
-            >
+            {currentSession.user.isModerator && (
+              <Mutation mutation={DELETE_MAKER}>
+                {(deleteMaker, { data }) => (
+                  <Button
+                    className={classes.dangerButton}
+                    onClick={() => {
+                      if (confirm("Are you sure"))
+                        deleteMaker({
+                          variables: {
+                            input: {
+                              id: maker.id
+                            }
+                          }
+                        }).then(updated => {
+                          location.reload();
+                        });
+                    }}
+                  >
+                    DELETE
+                  </Button>
+                )}
+              </Mutation>
+            )}
+            <Mutation mutation={UPDATE_MAKER}>
               {(updateMaker, { data }) => (
                 <Button
                   disabled={!this.state.name || /^\s*$/.test(this.state.name)}
                   onClick={() => {
+                    console.log(this.state.visible);
                     updateMaker({
                       variables: {
                         input: {
                           id: maker.id,
+                          visible: this.state.visible,
                           name: this.state.name,
                           bio: this.state.bio,
                           country: this.state.country.value,
                           commissionStatusId:
-                            this.state.commissionStatus &&
-                            this.state.commissionStatus.value,
+                            this.state.commissionStatus && this.state.commissionStatus.value,
                           region: this.state.region,
                           web: this.state.web,
                           ...(this.state.avatar !== maker.avatar
@@ -377,6 +397,7 @@ class EditMakerDialog extends React.Component {
                       }
                     }).then(updated => {
                       this.props.onClose();
+                      location.reload();
                     });
                   }}
                 >
@@ -384,6 +405,7 @@ class EditMakerDialog extends React.Component {
                 </Button>
               )}
             </Mutation>
+            <Button onClick={this.props.onClose}>Cancel</Button>
           </DialogActions>
         </ResponsiveDialog>
         {this.state.avatarToEdit && (
@@ -408,4 +430,4 @@ class EditMakerDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(EditMakerDialog));
+export default withStyles(styles)(withRouter(withCurrentSession(EditMakerDialog)));

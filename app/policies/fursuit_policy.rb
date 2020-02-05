@@ -14,11 +14,11 @@ class FursuitPolicy < ApplicationPolicy
   end
 
   def destroy?
-    create?
+    record.present? && Moderator.find_by(telegram_id: user.telegram_id).present?
   end
 
   def create?
-    false
+    Moderator.find_by(telegram_id: user.telegram_id).present?
   end
 
   def follow?

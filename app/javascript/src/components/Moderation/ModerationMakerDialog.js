@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import ResponsiveDialog from "../Global//ResponsiveDialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -12,6 +12,7 @@ import { withStyles } from "@material-ui/core/styles";
 import GlobalProgress from "../Global/GlobalProgress";
 import { LOAD_MAKER } from "../../queries/makerQueries";
 import { Query } from "react-apollo";
+import EditMakerDialog from "../Makers/EditMakerDialog";
 
 const styles = theme => ({
   link: {
@@ -23,24 +24,26 @@ const styles = theme => ({
   }
 });
 
-class ModerationMakerDialog extends React.Component {
-  render() {
-    const { classes, width, open, onClose, maker } = this.props;
-    if (!maker) return null;
+const ModerationMakerDialog = ({ classes, width, open, onClose, maker }) => {
+  const [editDialog, setEditDialog] = useState(false);
 
-    return (
-      <Query
-        query={LOAD_MAKER}
-        variables={{
-          id: maker,
-          sort: "alpha"
-        }}
-      >
-        {({ loading, error, data }) => {
-          if (loading || error || !data || !data.maker) return null;
-          let localMaker = data.maker;
+  if (!maker) return null;
 
-          return (
+  return (
+    <Query
+      query={LOAD_MAKER}
+      variables={{
+        id: maker,
+        sort: "alpha",
+        isModerator: true
+      }}
+    >
+      {({ loading, error, data }) => {
+        if (loading || error || !data || !data.maker) return null;
+        let localMaker = data.maker;
+
+        return (
+          <React.Fragment>
             <ResponsiveDialog open={open} onClose={onClose}>
               <GlobalProgress absolute />
               <DialogTitle>
@@ -119,21 +122,28 @@ class ModerationMakerDialog extends React.Component {
                 </Grid>
               </DialogContent>
               <DialogActions>
-                <Button onClick={onClose} autoFocus>
-                  Close
-                </Button>
-                <Link to={`/makers/${localMaker.slug}`} className={classes.link}>
-                  <Button onClick={onClose} autoFocus>
-                    View full page
+                <DialogActions>
+                  <Button onClick={() => setEditDialog(true)} autoFocus>
+                    Edit
                   </Button>
-                </Link>
+                  <Button onClick={onClose} autoFocus>
+                    Close
+                  </Button>
+                </DialogActions>
               </DialogActions>
             </ResponsiveDialog>
-          );
-        }}
-      </Query>
-    );
-  }
-}
+            {editDialog && (
+              <EditMakerDialog
+                maker={localMaker}
+                open={editDialog}
+                onClose={() => setEditDialog(false)}
+              />
+            )}
+          </React.Fragment>
+        );
+      }}
+    </Query>
+  );
+};
 
 export default withStyles(styles)(withRouter(ModerationMakerDialog));

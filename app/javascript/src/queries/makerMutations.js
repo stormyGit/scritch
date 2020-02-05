@@ -10,6 +10,7 @@ export const UPDATE_MAKER = gql`
         slug
         web
         country
+        visible
         region
         avatar
         claimed
@@ -40,6 +41,16 @@ export const DELETE_MAKER_SUBSCRIPTION = gql`
   mutation deleteMakerSubscription($input: DeleteMakerSubscriptionInput!) {
     deleteMakerSubscription(input: $input) {
       subscription {
+        id
+      }
+    }
+  }
+`;
+
+export const DELETE_MAKER = gql`
+  mutation deleteMaker($input: DeleteMakerInput!) {
+    deleteMaker(input: $input) {
+      maker {
         id
       }
     }

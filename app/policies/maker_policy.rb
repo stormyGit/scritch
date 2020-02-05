@@ -10,7 +10,7 @@ class MakerPolicy < ApplicationPolicy
   end
 
   def update?
-    record.present? && record.user == user
+    record.present? && (record.user == user || Moderator.find_by(telegram_id: user.telegram_id).present?)
   end
 
   def destroy?
@@ -18,7 +18,7 @@ class MakerPolicy < ApplicationPolicy
   end
 
   def create?
-    false
+    Moderator.find_by(telegram_id: user.telegram_id).present?
   end
 
   def follow?

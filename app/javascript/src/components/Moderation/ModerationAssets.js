@@ -6,7 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import withWidth from "@material-ui/core/withWidth";
 import { withStyles } from "@material-ui/core/styles";
 import Fursuits from "../Fursuits/Fursuits";
-import { Tabs, Tab } from "@material-ui/core";
+import { Tabs, Tab, Button } from "@material-ui/core";
 import { Query } from "react-apollo";
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import FursuitCard from "../Fursuits/FursuitCard";
@@ -17,6 +17,7 @@ import SearchBar from "material-ui-search-bar";
 import { LOAD_MAKERS } from "../../queries/makerQueries";
 import MakerCard from "../Makers/MakerCard";
 import ModerationMakerDialog from "./ModerationMakerDialog";
+import CreateFursuitDialog from "./CreateFursuitDialog";
 
 const styles = theme => ({
   root: {
@@ -91,6 +92,7 @@ const ModerationMakers = ({ classes, width }) => {
         query={LOAD_MAKERS}
         variables={{
           name: research,
+          isModerator: true,
           limit,
           offset: 0
         }}
@@ -174,6 +176,7 @@ function renderFursuitResults({ data, onLoadMore, hasMore, withMaker, classes, s
 const ModerationFursuits = ({ classes, width }) => {
   const [activeFursuit, setActiveFursuit] = useState(null);
   const [name, setName] = useState("");
+  const [newFursuitDialog, setNewFursuitDialog] = useState(false);
   const [research, setResearch] = useState("");
   const [hasMore, setHasMore] = useState(true);
 
@@ -197,7 +200,11 @@ const ModerationFursuits = ({ classes, width }) => {
             placeholder="Search..."
           />
         </Grid>
-        <Grid item xs={false} lg={3} />
+        <Grid item xs={12} lg={3} style={{ textAlign: "center" }}>
+          <Button variant="outlined" size="large" onClick={() => setNewFursuitDialog(true)}>
+            New Fursuit
+          </Button>
+        </Grid>
       </Grid>
       <Query
         query={LOAD_FURSUITS}
@@ -259,12 +266,15 @@ const ModerationFursuits = ({ classes, width }) => {
           onClose={() => setActiveFursuit(null)}
         />
       )}
+      {newFursuitDialog && (
+        <CreateFursuitDialog open={newFursuitDialog} onClose={() => setNewFursuitDialog(false)} />
+      )}
     </React.Fragment>
   );
 };
 
 const ModerationAssets = ({ classes, width }) => {
-  const [tab, setTab] = useState("fursuits");
+  const [tab, setTab] = useState("makers");
 
   return (
     <React.Fragment>

@@ -78,6 +78,28 @@ export const CREATE_FURSUIT_REQUEST = gql`
   }
 `;
 
+export const CREATE_FURSUIT = gql`
+  mutation createFursuit($input: CreateFursuitInput!) {
+    createFursuit(input: $input) {
+      fursuit {
+        id
+      }
+      errors
+    }
+  }
+`;
+
+export const DELETE_FURSUIT = gql`
+  mutation deleteFursuit($input: DeleteFursuitInput!) {
+    deleteFursuit(input: $input) {
+      fursuit {
+        id
+      }
+      errors
+    }
+  }
+`;
+
 export const CREATE_SUBSCRIPTION = gql`
   mutation createSubscription($input: CreateSubscriptionInput!) {
     createSubscription(input: $input) {

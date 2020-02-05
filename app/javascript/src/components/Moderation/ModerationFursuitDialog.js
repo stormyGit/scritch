@@ -16,7 +16,8 @@ import EditFursuitDialog from "../Fursuits/EditFursuitDialog";
 
 const styles = theme => ({
   link: {
-    textDecoration: "none"
+    textDecoration: "none",
+    color: theme.palette.primary.main
   },
   text: {
     fontWeight: 200
@@ -167,6 +168,37 @@ const FursuitModal = ({ classes, width, open, onClose, fursuit }) => {
                           {localFursuit.fursuitFinger ? localFursuit.fursuitFinger.name : "Unknown"}
                         </Typography>
                       </Grid>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <div style={{ padding: 5 }} />
+                      <hr />
+                      <div style={{ padding: 5 }} />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <DialogContentText>Owned by</DialogContentText>
+                      {localFursuit.users && localFursuit.users[0] ? (
+                        <Link to={`/${localFursuit.users[0].slug}`} className={classes.link}>
+                          <Typography
+                            gutterBottom
+                            variant="h6"
+                            component="h4"
+                            className={classes.link}
+                            noWrap
+                          >
+                            {localFursuit.users[0].name}
+                          </Typography>
+                        </Link>
+                      ) : (
+                        <Typography
+                          gutterBottom
+                          variant="h6"
+                          component="h4"
+                          className={classes.text}
+                          noWrap
+                        >
+                          Asset not Owned
+                        </Typography>
+                      )}
                     </Grid>
                   </Grid>
                   <Grid item xs={false} lg={1} />

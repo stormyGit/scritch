@@ -26,12 +26,14 @@ export const LOAD_MAKERS = gql`
     $commissionStatus: ID
     $limit: Int!
     $offset: Int!
+    $isModerator: Boolean
   ) {
     makers(
       name: $name
       country: $country
       region: $region
       commissionStatus: $commissionStatus
+      isModerator: $isModerator
       limit: $limit
       offset: $offset
     ) {
@@ -40,14 +42,15 @@ export const LOAD_MAKERS = gql`
       avatar
       country
       region
+      visible
       slug
     }
   }
 `;
 
 export const LOAD_MAKER = gql`
-  query Maker($id: ID!, $sort: String!) {
-    maker(id: $id, sort: $sort) {
+  query Maker($id: ID!, $sort: String!, $isModerator: Boolean) {
+    maker(id: $id, sort: $sort, isModerator: $isModerator) {
       id
       name
       bio
@@ -55,6 +58,7 @@ export const LOAD_MAKER = gql`
       web
       country
       region
+      visible
       avatar
       claimed
       claimRejected
@@ -93,6 +97,7 @@ export const LOAD_MAKER_DATE = gql`
       web
       country
       bio
+      visible
       region
       avatar
       claimed
