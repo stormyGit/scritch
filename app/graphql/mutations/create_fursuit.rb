@@ -2,6 +2,7 @@ class Mutations::CreateFursuit < Mutations::BaseMutation
   argument :visible, Boolean, required: true
   argument :name, String, required: true
   argument :bio, String, required: false
+  argument :request_id, ID, required: false
   argument :slug, String, required: true
   argument :maker_ids, [ID], required: false
   argument :creation_year, Integer, required: false
@@ -21,12 +22,18 @@ class Mutations::CreateFursuit < Mutations::BaseMutation
 
   def resolve(arguments)
     fursuit = Fursuit.new
-    fursuit.assign_attributes(arguments)
+    fursuit.assign_attributes(arguments.except(:request_id))
 
     begin
       fursuit.avatar = File.open("app/assets/images/species/#{fursuit.is_hybrid ? "Hybrid" : fursuit.species[0].avatar_file}.png")
     rescue
       fursuit.avatar = File.open("app/assets/images/species/FAILED.png")
+    end
+
+    if arguments[:request_id].present?
+      fursuit_request = FursuitRequest.find(arguments[:request_id])
+      fursuit_request.update(status: "accepted")
+      fursuit_request.create_activity :accepted, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: fursuit_request.user
     end
 
     raise Pundit::NotAuthorizedError unless FursuitPolicy.new(context[:current_user], fursuit).create?

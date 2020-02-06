@@ -283,7 +283,7 @@ const ModerationFursuits = ({ classes, width }) => {
 };
 
 const ModerationAssets = ({ classes, width }) => {
-  const [tab, setTab] = useState("makers");
+  const [tab, setTab] = useState("fursuits");
 
   return (
     <React.Fragment>

@@ -9,6 +9,14 @@ module Resolvers
                 end
             end
 
+            class FetchModerationFursuitRequests < GraphQL::Function
+              type types[Types::FursuitRequestType]
+
+              def call(obj, args, ctx)
+                  FursuitRequest.where(status: "new").order(created_at: :desc)
+              end
+            end
+
             class FetchModerationSuspended < GraphQL::Function
                 type types[Types::SuspendedUserType]
 

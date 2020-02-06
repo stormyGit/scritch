@@ -107,7 +107,7 @@ const styles = theme => ({
   }
 });
 
-class CreateFursuitDialog extends React.Component {
+class FursuitRequestDialog extends React.Component {
   state = {
     name: "",
     slug: "",
@@ -124,13 +124,46 @@ class CreateFursuitDialog extends React.Component {
     fursuitColor: null,
     fursuitEyes: null,
     maker: null,
-    avatarMenu: false,
     visible: false
   };
 
-  render() {
-    const { classes, fursuit, currentSession } = this.props;
+  componentDidMount() {
+    this.setInitialValues(this.props.request);
+  }
 
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (this.props.request !== nextProps.request || this.props.open !== nextProps.open) {
+      this.setInitialValues(nextProps.request);
+    }
+  }
+
+  setInitialValues(request) {
+    this.setState({
+      name: request.name || "",
+      bio: request.bio || "",
+      slug: request.slug || "",
+      visible: request.visible || true,
+      creationYear: request.creationYear,
+      fursuitLegType: request.fursuitLegType && request.fursuitLegType.id,
+      fursuitStyle: request.fursuitStyle && request.fursuitStyle.id,
+      speciesIds:
+        request.species && request.species.length > 0 ? request.species.map(e => e.id) : [],
+      hybridSearch: request.isHybrid,
+      fursuitBuild: request.fursuitBuild && request.fursuitBuild.id,
+      fursuitPadding: request.fursuitPadding && request.fursuitPadding.id,
+      fursuitFinger: request.fursuitFinger && request.fursuitFinger.id,
+      fursuitGender: request.fursuitGender && request.fursuitGender.id,
+      baseColor: request.baseColor,
+      eyesColor: request.eyesColor,
+      maker: request.makers.length > 0 ? [request.makers[0].id] : null
+    });
+  }
+
+  render() {
+    const { classes, request, currentSession } = this.props;
+
+    console.log(request);
+    var fursuit = request;
     return (
       <React.Fragment>
         <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
@@ -211,8 +244,8 @@ class CreateFursuitDialog extends React.Component {
                     createFursuit({
                       variables: {
                         input: {
+                          requestId: request.id,
                           name: this.state.name,
-                          bio: this.state.bio,
                           slug: this.state.slug,
                           visible: this.state.visible,
                           fursuitFingerId: this.state.fursuitFinger,
@@ -239,10 +272,11 @@ class CreateFursuitDialog extends React.Component {
                     });
                   }}
                 >
-                  Create
+                  Accept Request
                 </Button>
               )}
             </Mutation>
+            <Button onClick={() => console.log(123)}>Reject Request</Button>
             <Button onClick={this.props.onClose}>Cancel</Button>
           </DialogActions>
         </ResponsiveDialog>
@@ -251,4 +285,4 @@ class CreateFursuitDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withCurrentSession(CreateFursuitDialog)));
+export default withStyles(styles)(withRouter(withCurrentSession(FursuitRequestDialog)));

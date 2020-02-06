@@ -156,3 +156,65 @@ export const FETCH_SUSPENDED_USERS = gql`
     }
   }
 `;
+
+export const FETCH_FURSUIT_REQUESTS = gql`
+  query moderationFursuitRequests {
+    moderationFursuitRequests {
+      id
+      url
+      notes
+      user {
+        id
+        slug
+        name
+      }
+      name
+      makers {
+        id
+        slug
+        name
+      }
+      creationYear
+      fursuitLegType {
+        id
+        name
+        picture
+      }
+      species {
+        id
+        name
+      }
+      isHybrid
+      fursuitBuild {
+        id
+        name
+        picture
+      }
+      fursuitGender {
+        id
+        name
+        picture
+      }
+      fursuitPadding {
+        id
+        name
+        picture
+      }
+      fursuitFinger {
+        id
+        name
+      }
+      fursuitStyle {
+        id
+        name
+        picture
+      }
+      assignee {
+        id
+        name
+      }
+      baseColor
+      eyesColor
+    }
+  }
+`;
