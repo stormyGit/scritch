@@ -17,6 +17,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import { CREATE_FURSUIT } from "../../queries/fursuitMutations";
 import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
+import { REJECT_FURSUIT_REQUEST } from "../../queries/moderationMutations";
 
 const AVATAR_SIZE = 96;
 
@@ -276,7 +277,26 @@ class FursuitRequestDialog extends React.Component {
                 </Button>
               )}
             </Mutation>
-            <Button onClick={() => console.log(123)}>Reject Request</Button>
+            <Mutation mutation={REJECT_FURSUIT_REQUEST}>
+              {(rejectFursuitRequest, { data }) => (
+                <Button
+                  onClick={() => {
+                    rejectFursuitRequest({
+                      variables: {
+                        input: {
+                          id: request.id
+                        }
+                      }
+                    }).then(updated => {
+                      this.props.onClose();
+                      location.reload();
+                    });
+                  }}
+                >
+                  Reject Request
+                </Button>
+              )}
+            </Mutation>
             <Button onClick={this.props.onClose}>Cancel</Button>
           </DialogActions>
         </ResponsiveDialog>

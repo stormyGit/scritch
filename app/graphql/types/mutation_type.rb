@@ -70,6 +70,7 @@ module Types
     field :create_maker, mutation: Mutations::CreateMaker
 
     field :create_fursuit_request, mutation: Mutations::CreateFursuitRequest
+    field :reject_fursuit_request, mutation: Mutations::RejectFursuitRequest
     field :tag_lock_medium, mutation: Mutations::TagLockMedium
     field :tag_unlock_medium, mutation: Mutations::TagUnlockMedium
   end

@@ -114,3 +114,13 @@ export const REJECT_MAKER_CLAIM = gql`
     }
   }
 `;
+
+export const REJECT_FURSUIT_REQUEST = gql`
+  mutation rejectFursuitRequest($input: RejectFursuitRequestInput!) {
+    rejectFursuitRequest(input: $input) {
+      fursuitRequest {
+        id
+      }
+    }
+  }
+`;
