@@ -17,7 +17,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import Select from "react-select";
+import Select from "../Global/Select";
 
 import withWidth from "@material-ui/core/withWidth";
 

@@ -142,7 +142,7 @@ class CommentForm extends React.Component {
       >
         {(createComment, { data }) => (
           <div className={classes.root}>
-            <Grid container spacing={8} alignItems="flex-start">
+            <Grid container spacing={1} alignItems="flex-start">
               <Grid item>
                 <UserAvatar user={currentSession.user} />
               </Grid>

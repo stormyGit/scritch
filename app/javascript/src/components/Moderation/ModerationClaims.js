@@ -275,7 +275,7 @@ const ModerationClaims = ({ classes, width }) => {
 
             return (
               <React.Fragment>
-                <Grid container spacing={24}>
+                <Grid container spacing={3}>
                   {data.moderationClaims.map(claim => (
                     <Grid item xs={12} md={6} lg={4} key={claim.id}>
                       <Claim claim={claim} classes={classes} />
@@ -302,7 +302,7 @@ const ModerationClaims = ({ classes, width }) => {
 
             return (
               <React.Fragment>
-                <Grid container spacing={24}>
+                <Grid container spacing={3}>
                   {data.moderationMakerClaims.map(claim => (
                     <Grid item xs={12} md={6} lg={4} key={claim.id}>
                       <MakerClaim claim={claim} classes={classes} />

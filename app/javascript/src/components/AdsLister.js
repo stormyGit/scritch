@@ -68,8 +68,7 @@ class AdsLister extends React.Component {
         <div className={classes.root}>
           <PageTitle>Ads List</PageTitle>
           <Typography variant="h5" className={classes.text}>
-            Saw an Advertisment you liked? Here are all Adverts that are Live
-            right now!
+            Saw an Advertisment you liked? Here are all Adverts that are Live right now!
           </Typography>
           <Query query={GET_ADVERTS} variables={{ uuid: uuidv4(), limit }}>
             {({ data, loading, error, fetchMore }) => {
@@ -80,7 +79,7 @@ class AdsLister extends React.Component {
                   <Grid
                     container
                     className={classes.root}
-                    spacing={8}
+                    spacing={1}
                     style={{
                       marginTop: width === "lg" || width === "xl" ? 4 : -4
                     }}

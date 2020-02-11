@@ -308,7 +308,7 @@ class TagDialogMobile extends React.Component {
                         </DialogTitle>
                       )}
                       <DialogContent>
-                        <Grid container spacing={8}>
+                        <Grid container spacing={1}>
                           <Grid
                             item
                             xs={this.state.fursuits.length > 0 ? 9 : 12}
@@ -390,7 +390,7 @@ class TagDialogMobile extends React.Component {
                                     <Grid
                                       container
                                       className={classes.root}
-                                      spacing={8}
+                                      spacing={1}
                                       style={{
                                         marginTop:
                                           width === "lg" || width === "xl"
@@ -469,7 +469,7 @@ class TagDialogMobile extends React.Component {
                                     </Button>
                                   </div>
                                 )}
-                                <Grid container spacing={8}>
+                                <Grid container spacing={1}>
                                   {this.state.fursuits.map(fursuit => (
                                     <Grid item xs={12} lg={6} key={fursuit.id}>
                                       <FursuitMiniCard

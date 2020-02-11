@@ -59,7 +59,7 @@ class ReportDialog extends React.Component {
         <DialogTitle>{`Report ${resourceName}`}</DialogTitle>
 
         <DialogContent>
-          <Grid container spacing={8} alignItems="center">
+          <Grid container spacing={1} alignItems="center">
             <Grid item xs={12} lg={9}>
               <TextField
                 label="Please tell us more…"

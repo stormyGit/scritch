@@ -100,7 +100,7 @@ class FrontMedia extends React.Component {
 
             return (
               <React.Fragment>
-                <Grid container className={classes.root} spacing={8}>
+                <Grid container className={classes.root} spacing={1}>
                   {this.renderResults({
                     media
                   })}

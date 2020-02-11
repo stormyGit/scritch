@@ -66,7 +66,7 @@ class EventMedia extends React.Component {
               <Grid
                 container
                 className={classes.root}
-                spacing={8}
+                spacing={1}
                 style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
               >
                 {!loading &&

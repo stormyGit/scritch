@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { Query } from "react-apollo";
 
 import Grid from "@material-ui/core/Grid";
-import Select from "react-select";
+import Select from "../Global/Select";
 import Typography from "@material-ui/core/Typography";
 import CustomProgress from "../Global/CustomProgress";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -656,7 +656,7 @@ class FursuitEditFields extends React.Component {
   renderFilters() {
     const { classes, inRequest } = this.props;
     return (
-      <Grid container spacing={8}>
+      <Grid container spacing={1}>
         <Grid item xs={12}>
           <HybridCheckbox
             classes={classes}

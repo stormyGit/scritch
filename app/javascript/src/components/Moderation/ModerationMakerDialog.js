@@ -47,7 +47,7 @@ const ModerationMakerDialog = ({ classes, width, open, onClose, maker }) => {
             <ResponsiveDialog open={open} onClose={onClose}>
               <GlobalProgress absolute />
               <DialogTitle>
-                <Grid container spacing={8}>
+                <Grid container spacing={1}>
                   <Grid item xs={false} lg={1} />
                   <Grid item xs={12} lg={11}>
                     {localMaker.name}
@@ -55,10 +55,10 @@ const ModerationMakerDialog = ({ classes, width, open, onClose, maker }) => {
                 </Grid>
               </DialogTitle>
               <DialogContent style={{ paddingBottom: 5 }}>
-                <Grid container spacing={8}>
+                <Grid container spacing={1}>
                   <Grid item xs={false} lg={1} />
                   <Grid item xs={12} lg={10}>
-                    <Grid container spacing={8}>
+                    <Grid container spacing={1}>
                       <Grid item xs={4}>
                         <img src={localMaker.avatar} style={{ width: "100%" }} />
                       </Grid>

@@ -40,7 +40,7 @@ class SearchPage extends React.Component {
         <div className={classes.padderTitle}>
           <Grid
             container
-            spacing={8}
+            spacing={1}
             className={classes.flex}
             justifyContent="space-between"
           >
@@ -61,7 +61,7 @@ class SearchPage extends React.Component {
         <div className={classes.padderTitle}>
           <Grid
             container
-            spacing={8}
+            spacing={1}
             className={classes.flex}
             justifyContent="space-between"
           >
@@ -82,7 +82,7 @@ class SearchPage extends React.Component {
         <div className={classes.padderTitle}>
           <Grid
             container
-            spacing={8}
+            spacing={1}
             className={classes.flex}
             justifyContent="space-between"
           >

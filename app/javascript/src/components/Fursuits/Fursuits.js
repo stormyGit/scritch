@@ -123,7 +123,7 @@ class Fursuits extends React.Component {
   renderFiltersWithSubsClear() {
     const { classes, location, width } = this.props;
     return (
-      <Grid spacing={8} container className={classes.filters} alignItems="center">
+      <Grid spacing={1} container className={classes.filters} alignItems="center">
         {(width === "xl" || width === "lg") && (
           <Grid item lg={2}>
             <img
@@ -169,7 +169,7 @@ class Fursuits extends React.Component {
   renderFilters() {
     const { classes, location, width } = this.props;
     return (
-      <Grid spacing={8} container className={classes.filters} alignItems="center">
+      <Grid spacing={1} container className={classes.filters} alignItems="center">
         {(width === "xl" || width === "lg") && (
           <Grid item lg={2}>
             <img
@@ -242,7 +242,7 @@ class Fursuits extends React.Component {
                 <Grid
                   container
                   className={classes.root}
-                  spacing={24}
+                  spacing={3}
                   style={{
                     marginTop: width === "lg" || width === "xl" ? 4 : -4
                   }}

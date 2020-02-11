@@ -227,7 +227,7 @@ class Comment extends React.Component {
             </div>
           }
           title={
-            <Grid spacing={8} container alignItems="baseline">
+            <Grid spacing={1} container alignItems="baseline">
               <Grid item>
                 <Typography variant={"subtitle2"}>
                   <Link

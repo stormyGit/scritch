@@ -166,7 +166,7 @@ class SignUpDialog extends React.Component {
                 </Grid>
               </DialogTitle>
               <DialogContent>
-                <Grid container spacing={24}>
+                <Grid container spacing={3}>
                   <Grid item xs={12} md={6}>
                     <Typography className={classes.title} variant="h5">
                       Use Social Media

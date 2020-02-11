@@ -42,7 +42,7 @@ class FursuitModal extends React.Component {
             <ResponsiveDialog open={open} onClose={onClose}>
               <GlobalProgress absolute />
               <DialogTitle>
-                <Grid container spacing={8}>
+                <Grid container spacing={1}>
                   <Grid item xs={false} lg={1} />
                   <Grid item xs={12} lg={11}>
                     {localFursuit.name}
@@ -50,10 +50,10 @@ class FursuitModal extends React.Component {
                 </Grid>
               </DialogTitle>
               <DialogContent style={{ paddingBottom: 5 }}>
-                <Grid container spacing={8}>
+                <Grid container spacing={1}>
                   <Grid item xs={false} lg={1} />
                   <Grid item xs={12} lg={10}>
-                    <Grid container spacing={8}>
+                    <Grid container spacing={1}>
                       <Grid item xs={4}>
                         <img
                           src={localFursuit.avatar}
@@ -62,7 +62,7 @@ class FursuitModal extends React.Component {
                       </Grid>
                       <Grid item xs={2} />
                       <Grid item xs={6}>
-                        <Grid container spacing={8}>
+                        <Grid container spacing={1}>
                           <Grid item xs={12}>
                             <DialogContentText>Species</DialogContentText>
                             <Typography

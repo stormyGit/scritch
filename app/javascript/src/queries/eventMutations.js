@@ -39,7 +39,6 @@ export const UPDATE_EDITION = gql`
       edition {
         id
         name
-        web
         country
       }
     }

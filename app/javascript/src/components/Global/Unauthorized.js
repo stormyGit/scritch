@@ -30,7 +30,7 @@ const MustLog = ({ classes, className, currentSession, width }) => (
         width === "xs" || width === "sm" ? classes.padderSmall : classes.padder
       }
     />
-    <Grid container spacing={8} alignItems="center" justify="center">
+    <Grid container spacing={1} alignItems="center" justify="center">
       <Grid item xs={12} style={{ textAlign: "center", padding: 8, margin: 8 }}>
         {!currentSession && (
           <Typography variant="h4" align="center" className={classes.title}>

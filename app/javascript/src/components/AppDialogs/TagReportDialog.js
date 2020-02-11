@@ -65,7 +65,7 @@ class TagReportDialog extends React.Component {
           {medium.fursuits.length > 0 && (
             <React.Fragment>
               <div style={{ padding: 8 }} />
-              <Grid container spacing={8}>
+              <Grid container spacing={1}>
                 {medium.fursuits.map(fursuit => (
                   <Grid item lg={2} xs={2} key={fursuit.id}>
                     <FursuitMiniCard

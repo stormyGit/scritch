@@ -462,7 +462,7 @@ class Maker extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.infoHeader}>
-          <Grid container spacing={24} className={classes.centerAlign}>
+          <Grid container spacing={3} className={classes.centerAlign}>
             <Grid item xs={3} className={classes.avatarContainer}>
               <Avatar maker={maker} avatarClass={classes.makerAvatarMobile} />
             </Grid>
@@ -585,7 +585,7 @@ class Maker extends React.Component {
                   ? this.renderMakerHeaderMobile(maker)
                   : this.renderMakerHeader(maker)}
                 {width === "xl" || width === "lg" ? <Padder /> : <MicroPadder />}
-                <Grid container spacing={8} style={{ padding: 4 }}>
+                <Grid container spacing={1} style={{ padding: 4 }}>
                   {this.renderMakerFursuits(maker)}
                 </Grid>
                 <MakerClaimDialog

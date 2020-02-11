@@ -79,7 +79,7 @@ class Media extends React.Component {
       mutation = READ_FURSUIT_NOTIFICATIONS;
 
     return (
-      <Grid spacing={8} container className={classes.filters}>
+      <Grid spacing={1} container className={classes.filters}>
         <Grid item xs={false} lg={2} />
         <Grid item xs={12} lg={8}>
           {width === "xs" || width == "sm" ? (
@@ -245,7 +245,7 @@ class Media extends React.Component {
                   <Grid
                     container
                     className={classes.root}
-                    spacing={8}
+                    spacing={1}
                     style={{
                       marginTop: width === "lg" || width === "xl" ? 4 : -4
                     }}

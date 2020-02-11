@@ -156,7 +156,7 @@ class MessageInput extends React.Component {
         }}
       >
         {(createMessage, { data }) => (
-          <Grid spacing={8} container alignItems="flex-end" wrap="nowrap">
+          <Grid spacing={1} container alignItems="flex-end" wrap="nowrap">
             <Grid item>
               <div className={classes.inputAvatarContainer}>
                 <UserAvatar user={currentSession.user} />
@@ -424,7 +424,7 @@ const Message = ({ message, last, classes, currentSession, user }) => {
     return (
       <Grid
         container
-        spacing={8}
+        spacing={1}
         key={message.id}
         alignItems="flex-end"
         wrap="nowrap"
@@ -450,7 +450,7 @@ const Message = ({ message, last, classes, currentSession, user }) => {
     return (
       <Grid
         container
-        spacing={8}
+        spacing={1}
         key={message.id}
         alignItems="flex-end"
         wrap="nowrap"

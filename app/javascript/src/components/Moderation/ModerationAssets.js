@@ -78,7 +78,7 @@ const ModerationEvents = ({ classes, width }) => {
   return (
     <React.Fragment>
       <div style={{ padding: 16 }} />
-      <Grid container spacing={8}>
+      <Grid container spacing={1}>
         <Grid item xs={false} lg={3} />
         <Grid item xs={12} lg={6}>
           <SearchBar
@@ -113,7 +113,7 @@ const ModerationEvents = ({ classes, width }) => {
             <Grid
               container
               className={classes.root}
-              spacing={24}
+              spacing={3}
               style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
             >
               {!loading &&
@@ -195,7 +195,7 @@ const ModerationMakers = ({ classes, width }) => {
   return (
     <React.Fragment>
       <div style={{ padding: 16 }} />
-      <Grid container spacing={8}>
+      <Grid container spacing={1}>
         <Grid item xs={false} lg={3} />
         <Grid item xs={12} lg={6}>
           <SearchBar
@@ -230,7 +230,7 @@ const ModerationMakers = ({ classes, width }) => {
             <Grid
               container
               className={classes.root}
-              spacing={24}
+              spacing={3}
               style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
             >
               {!loading &&
@@ -309,7 +309,7 @@ const ModerationFursuits = ({ classes, width }) => {
   return (
     <React.Fragment>
       <div style={{ padding: 16 }} />
-      <Grid container spacing={8}>
+      <Grid container spacing={1}>
         <Grid item xs={false} lg={3} />
         <Grid item xs={12} lg={6}>
           <SearchBar
@@ -346,7 +346,7 @@ const ModerationFursuits = ({ classes, width }) => {
               <Grid
                 container
                 className={classes.root}
-                spacing={24}
+                spacing={3}
                 style={{
                   marginTop: width === "lg" || width === "xl" ? 4 : -4
                 }}
@@ -408,7 +408,7 @@ const ModerationAssets = ({ classes, width }) => {
         className={classes.tabsCenterer}
         value={tab}
         onChange={(e, value) => setTab(value)}
-        textColor="textPrimary"
+        textColor="secondary"
       >
         <Tab value="fursuits" icon={"Fursuits"} />
         <Tab value="makers" icon={"Makers"} />

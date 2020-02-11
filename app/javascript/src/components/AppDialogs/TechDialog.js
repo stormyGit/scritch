@@ -12,7 +12,7 @@ import { withStyles } from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 import withCurrentSession from "../withCurrentSession";
-import Select from "react-select";
+import Select from "../Global/Select";
 
 import { CREATE_TECH_REPORT } from "../../queries/reportMutations";
 

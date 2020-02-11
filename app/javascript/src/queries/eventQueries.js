@@ -18,6 +18,8 @@ export const LOAD_EVENT = gql`
         theme
         attendance
         charity
+        kind
+        year
         guestOfHonours
         city
         country
@@ -29,20 +31,8 @@ export const LOAD_EVENT = gql`
 `;
 
 export const LOAD_EVENTS = gql`
-  query Events(
-    $name: String
-    $country: String
-    $status: String
-    $limit: Int!
-    $offset: Int!
-  ) {
-    events(
-      name: $name
-      country: $country
-      status: $status
-      limit: $limit
-      offset: $offset
-    ) {
+  query Events($name: String, $country: String, $status: String, $limit: Int!, $offset: Int!) {
+    events(name: $name, country: $country, status: $status, limit: $limit, offset: $offset) {
       id
       name
       country

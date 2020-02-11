@@ -2,7 +2,7 @@ import React from "react";
 import { Query } from "react-apollo";
 import { withStyles } from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
-import Select from "react-select";
+import Select from "../Global/Select";
 import Media from "../Media/Media";
 
 import ResponsiveDialog from "../Global/ResponsiveDialog";
@@ -272,12 +272,7 @@ const EventDetail = withStyles(styles)(
         >
           Location
         </Typography>
-        <Typography
-          gutterBottom
-          variant="h5"
-          component="h2"
-          className={classes.eventTitle}
-        >
+        <Typography gutterBottom variant="h5" component="h2" className={classes.eventTitle}>
           {edition.city}
           {", "}
           {edition.country}
@@ -293,12 +288,7 @@ const EventDetail = withStyles(styles)(
             >
               From
             </Typography>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="h2"
-              className={classes.eventTitle}
-            >
+            <Typography gutterBottom variant="h5" component="h2" className={classes.eventTitle}>
               {edition.startDate.split(" ")[0]}
             </Typography>
           </Grid>
@@ -312,12 +302,7 @@ const EventDetail = withStyles(styles)(
             >
               To
             </Typography>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="h2"
-              className={classes.eventTitle}
-            >
+            <Typography gutterBottom variant="h5" component="h2" className={classes.eventTitle}>
               {edition.endDate.split(" ")[0]}
             </Typography>
           </Grid>
@@ -335,12 +320,7 @@ const EventDetail = withStyles(styles)(
             >
               Venue
             </Typography>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="h2"
-              className={classes.eventTitle}
-            >
+            <Typography gutterBottom variant="h5" component="h2" className={classes.eventTitle}>
               {edition.venue}
             </Typography>
           </React.Fragment>
@@ -357,12 +337,7 @@ const EventDetail = withStyles(styles)(
             >
               Theme
             </Typography>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="h2"
-              className={classes.eventTitle}
-            >
+            <Typography gutterBottom variant="h5" component="h2" className={classes.eventTitle}>
               {edition.theme}
             </Typography>
           </React.Fragment>
@@ -379,12 +354,7 @@ const EventDetail = withStyles(styles)(
             >
               Attendance
             </Typography>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="h2"
-              className={classes.eventTitle}
-            >
+            <Typography gutterBottom variant="h5" component="h2" className={classes.eventTitle}>
               {edition.attendance}
             </Typography>
           </React.Fragment>
@@ -402,12 +372,7 @@ const EventDetail = withStyles(styles)(
               Guests of Honour
             </Typography>
             {edition.guestOfHonours.map(guest => (
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="h2"
-                className={classes.eventTitle}
-              >
+              <Typography gutterBottom variant="h5" component="h2" className={classes.eventTitle}>
                 {guest}
               </Typography>
             ))}
@@ -425,12 +390,7 @@ const EventDetail = withStyles(styles)(
             >
               Charity
             </Typography>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="h2"
-              className={classes.eventTitle}
-            >
+            <Typography gutterBottom variant="h5" component="h2" className={classes.eventTitle}>
               {edition.charity}
             </Typography>
           </React.Fragment>
@@ -462,9 +422,7 @@ class Event extends React.Component {
 
     var selectedEdition = null;
     if (this.state.edition && this.state.edition.value) {
-      selectedEdition = event.editions.find(
-        e => e.id === this.state.edition.value
-      );
+      selectedEdition = event.editions.find(e => e.id === this.state.edition.value);
     }
 
     return (
@@ -480,11 +438,7 @@ class Event extends React.Component {
                 <Typography variant="h5" className={classes.eventTitle} noWrap>
                   {event.name}
                 </Typography>
-                <Typography
-                  variant="subtitle1"
-                  className={classes.eventTitlePadded}
-                  noWrap
-                >
+                <Typography variant="subtitle1" className={classes.eventTitlePadded} noWrap>
                   {event.eventFinger ? event.eventFinger.name : ""}
                 </Typography>
                 <div className={classes.actionButtonPaddingSelect}>
@@ -515,11 +469,7 @@ class Event extends React.Component {
               </div>
               <SubtitleRow event={event} selectedEdition={selectedEdition} />
               <div className={classes.headerTitles}>
-                <Typography
-                  variant="subtitle1"
-                  className={classes.eventTitle}
-                  noWrap
-                >
+                <Typography variant="subtitle1" className={classes.eventTitle} noWrap>
                   {event.bio}
                 </Typography>
               </div>
@@ -536,15 +486,13 @@ class Event extends React.Component {
 
     var selectedEdition = null;
     if (this.state.edition && this.state.edition.value) {
-      selectedEdition = event.editions.find(
-        e => e.id === this.state.edition.value
-      );
+      selectedEdition = event.editions.find(e => e.id === this.state.edition.value);
     }
 
     return (
       <React.Fragment>
         <div className={classes.infoHeader}>
-          <Grid container spacing={24} className={classes.centerAlign}>
+          <Grid container spacing={3} className={classes.centerAlign}>
             <Grid item xs={3} className={classes.avatarContainer}>
               <Avatar event={event} avatarClass={classes.eventAvatarMobile} />
             </Grid>
@@ -553,11 +501,7 @@ class Event extends React.Component {
                 <Typography variant="h5" className={classes.eventTitle} noWrap>
                   {event.name}
                 </Typography>
-                <Typography
-                  variant="subtitle1"
-                  className={classes.eventTitlePadded}
-                  noWrap
-                >
+                <Typography variant="subtitle1" className={classes.eventTitlePadded} noWrap>
                   {event.eventFinger ? event.eventFinger.name : ""}
                 </Typography>
               </div>
@@ -591,11 +535,7 @@ class Event extends React.Component {
             <Grid item xs={12}>
               <SubtitleRow event={event} selectedEdition={selectedEdition} />
               <div className={classes.headerTitles}>
-                <Typography
-                  variant="subtitle1"
-                  className={classes.eventTitle}
-                  noWrap
-                >
+                <Typography variant="subtitle1" className={classes.eventTitle} noWrap>
                   {event.bio}
                 </Typography>
               </div>
@@ -649,11 +589,7 @@ class Event extends React.Component {
                 {width === "sm" || width === "xs"
                   ? this.renderEventHeaderMobile(event, editionsOptions)
                   : this.renderEventHeader(event, editionsOptions)}
-                {width === "xl" || width === "lg" ? (
-                  <Padder />
-                ) : (
-                  <MicroPadder />
-                )}
+                {width === "xl" || width === "lg" ? <Padder /> : <MicroPadder />}
                 <Query
                   query={GET_EVENT_MEDIA}
                   fetchPolicy="network-only"
@@ -678,9 +614,7 @@ class Event extends React.Component {
                         <div
                           style={{ height: "calc(100vh - 56px)" }}
                           className={
-                            width === "sm" || width == "xs"
-                              ? classes.mobile_hide_sm
-                              : undefined
+                            width === "sm" || width == "xs" ? classes.mobile_hide_sm : undefined
                           }
                         >
                           <Media
@@ -720,9 +654,7 @@ class Event extends React.Component {
                   <EventDetail
                     open={this.state.eventDetail}
                     onClose={() => this.setState({ eventDetail: false })}
-                    edition={event.editions.find(
-                      e => e.id == this.state.edition.value
-                    )}
+                    edition={event.editions.find(e => e.id == this.state.edition.value)}
                     event={event.name}
                   />
                 )}
@@ -735,6 +667,4 @@ class Event extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withRouter(withWidth()(withCurrentSession(Event)))
-);
+export default withStyles(styles)(withRouter(withWidth()(withCurrentSession(Event))));

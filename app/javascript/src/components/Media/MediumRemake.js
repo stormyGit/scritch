@@ -351,7 +351,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
               <FatDivider />
               <List>
                 <ListItem>
-                  <Grid container spacing={8} className={classes.iconGridRoot}>
+                  <Grid container spacing={1} className={classes.iconGridRoot}>
                     <Grid item xs={2} className={classes.iconGrid}>
                       <ListItemIcon>
                         <DateIcon className={classes.leftIcon} />
@@ -366,7 +366,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
                   </Grid>
                 </ListItem>
                 <ListItem>
-                  <Grid container spacing={8} className={classes.iconGridRoot}>
+                  <Grid container spacing={1} className={classes.iconGridRoot}>
                     <Grid item xs={2} className={classes.iconGrid}>
                       <ListItemIcon>
                         <CameraIcon className={classes.leftIcon} />
@@ -384,7 +384,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
                   <ListItem>
                     <Grid
                       container
-                      spacing={8}
+                      spacing={1}
                       className={classes.iconGridRoot}
                     >
                       <Grid item xs={2} className={classes.iconGrid}>
@@ -410,7 +410,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
                   <ListItem>
                     <Grid
                       container
-                      spacing={8}
+                      spacing={1}
                       className={classes.iconGridRoot}
                     >
                       <Grid item xs={2} className={classes.iconGrid}>
@@ -431,7 +431,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
                   <ListItem>
                     <Grid
                       container
-                      spacing={8}
+                      spacing={1}
                       className={classes.iconGridRoot}
                     >
                       <Grid item xs={2} className={classes.iconGrid}>
@@ -457,7 +457,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
                   <ListItem>
                     <Grid
                       container
-                      spacing={8}
+                      spacing={1}
                       className={classes.iconGridRoot}
                     >
                       <Grid item xs={2} className={classes.iconGrid}>
@@ -478,7 +478,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
                   <ListItem>
                     <Grid
                       container
-                      spacing={8}
+                      spacing={1}
                       className={classes.iconGridRoot}
                     >
                       <Grid item xs={2} className={classes.iconGrid}>
@@ -663,7 +663,7 @@ const MediumActionButton = ({ currentSession, classes, medium }) => {
             }}
           >
             {(tagLockMedium, { data }) => (
-              <Grid container spacing={8} justify="center" alignItems="center">
+              <Grid container spacing={1} justify="center" alignItems="center">
                 <Grid item lg={12} xs={12}>
                   <Tooltip title="Tag Fursuits" placement="top">
                     <img
@@ -730,7 +730,7 @@ const TagSection = ({ currentSession, classes, medium }) => {
         )}
       </Grid>
       <Grid item xs={12} className={classes.flexSection}>
-        <Grid container spacing={8} className={classes.flexSectionCentered}>
+        <Grid container spacing={1} className={classes.flexSectionCentered}>
           {medium.fursuits.length != 0 &&
             medium.fursuits.map(fursuit => (
               <Grid item xs={4} sm={3} lg={4} key={fursuit.id}>
@@ -808,7 +808,7 @@ class MediumDialog extends React.Component {
         {({ error, loading, data }) => {
           if (error || loading) {
             return (
-              <Grid container spacing={24}>
+              <Grid container spacing={3}>
                 <Grid item xs={12} lg={9} className={classes.masterGridOnLoad}>
                   <CircularProgress />
                 </Grid>
@@ -822,7 +822,7 @@ class MediumDialog extends React.Component {
 
           if (!medium) {
             return (
-              <Grid container spacing={8}>
+              <Grid container spacing={1}>
                 <Grid item xs={12} className={classes.masterGridOnLoad}>
                   <Typography variant="h6">Something went wrong :(</Typography>
                 </Grid>
@@ -889,7 +889,7 @@ class MediumDialog extends React.Component {
                         : "100%"
                   }}
                 >
-                  <Grid container spacing={16}>
+                  <Grid container spacing={2}>
                     <Grid item xs={12} className={classes.flexSection}>
                       {true && (
                         <CopyToClipboard

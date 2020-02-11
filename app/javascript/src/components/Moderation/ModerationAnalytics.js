@@ -52,7 +52,7 @@ class ModerationAnalytics extends React.Component {
             console.log(data);
             return (
               <React.Fragment>
-                <Grid container spacing={24}>
+                <Grid container spacing={3}>
                   <Grid item xs={6}>
                     <Typography
                       variant="h4"

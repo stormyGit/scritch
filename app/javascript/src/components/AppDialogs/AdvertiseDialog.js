@@ -239,7 +239,7 @@ class AdvertiseDialog extends React.Component {
 
           <DialogTitle>Advertise with Scritch!</DialogTitle>
           <DialogContent>
-            <Grid container spacing={8}>
+            <Grid container spacing={1}>
               <Grid item xs={12} lg={9} xl={9}>
                 <Typography variant="h6" className={classes.blurb}>
                   All media uploaded must abide by the Content Restrictions detailed in the{" "}

@@ -14,7 +14,7 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Select from "react-select";
+import Select from "../Global/Select";
 
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 

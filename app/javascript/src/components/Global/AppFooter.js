@@ -87,7 +87,7 @@ class AppFooter extends React.Component {
                   <div className={classes.root}>
                     <Grid
                       container
-                      spacing={8}
+                      spacing={1}
                       className={classes.grid}
                       justify="center"
                       alignItems="center"
@@ -119,7 +119,7 @@ class AppFooter extends React.Component {
               <React.Fragment>
                 <Grid
                   container
-                  spacing={8}
+                  spacing={1}
                   className={classes.grid}
                   justify="center"
                   alignItems="center"
@@ -227,7 +227,7 @@ class AppFooter extends React.Component {
                 <div style={{ paddingTop: 10 }} />
               </React.Fragment>
             )}
-          <Grid container spacing={8} className={classes.grid}>
+          <Grid container spacing={1} className={classes.grid}>
             <Grid item xs={2} md={4} className={classes.socialLeft}>
               <Typography variant="h4" color="primary">
                 <Tooltip title="Follow us on Twitter!">

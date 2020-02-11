@@ -130,7 +130,7 @@ const Capabilities = React.memo(
   ({ capabilities, setCapabilities, classes }) => {
     const forceUpdate = useForceUpdate();
     return (
-      <Grid container spacing={8}>
+      <Grid container spacing={1}>
         {allCaps.map(cap => (
           <Grid item xs={6}>
             <FormControlLabel
@@ -175,7 +175,7 @@ const ConfirmDeleteDialog = ({ moderator, classes, onClose, open }) => {
         <Typography variant="h6">Are you sure you want to do this?</Typography>
         <Typography variant="h6">This action is irreversible.</Typography>
         <div style={{ padding: 16 }} />
-        <Grid container spacing={48}>
+        <Grid container spacing={6}>
           <Grid item xs={6} style={{ textAlign: "center" }}>
             <Mutation mutation={DELETE_MODERATOR}>
               {(deleteModerator, { data }) => (
@@ -228,7 +228,7 @@ const Moderator = ({ moderator, classes }) => {
               classes={classes}
             />
             <br />
-            <Grid container spacing={48}>
+            <Grid container spacing={6}>
               <Grid item xs={6} style={{ textAlign: "center" }}>
                 <Mutation mutation={UPDATE_MODERATOR}>
                   {(updateModerator, { data, loading }) =>
@@ -302,7 +302,7 @@ const ModerationModerators = ({ width, classes }) => {
                 </Button>
               </div>
               <div style={{ padding: 16 }} />
-              <Grid container spacing={16}>
+              <Grid container spacing={2}>
                 {data.moderationModerators.map(moderator => (
                   <Moderator moderator={moderator} classes={classes} />
                 ))}

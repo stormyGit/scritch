@@ -6,7 +6,7 @@ import { Query } from "react-apollo";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import Select from "react-select";
+import Select from "../Global/Select";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -519,7 +519,7 @@ class MediaFilters extends React.Component {
           >
             {({ data, loading, error, fetchMore }) => (
               <React.Fragment>
-                <Grid container className={classes.root} spacing={8}>
+                <Grid container className={classes.root} spacing={1}>
                   {!loading &&
                     !error &&
                     this.renderFursuitResults({
@@ -567,7 +567,7 @@ class MediaFilters extends React.Component {
       <ResponsiveDialog open={open} onClose={onClose}>
         <DialogTitle>Media Filters</DialogTitle>
         <DialogContent>
-          <Grid container spacing={24}>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
               <SearchBar
                 className={classes.searchBar}
@@ -579,7 +579,7 @@ class MediaFilters extends React.Component {
             </Grid>
           </Grid>
           <Padder />
-          <Grid container spacing={16}>
+          <Grid container spacing={2}>
             {this.state.name &&
               !this.props.isTagPage &&
               this.renderFursuitFilter()}
@@ -598,7 +598,7 @@ class MediaFilters extends React.Component {
           </div>
           {this.state.fursuits.length > 0 && (
             <Grid item xs={12} lg={12}>
-              <Grid container spacing={8}>
+              <Grid container spacing={1}>
                 {this.state.fursuits.map(fursuit => (
                   <Grid item xs={6} lg={2} key={fursuit.id}>
                     <FursuitMiniCard

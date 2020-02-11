@@ -11,10 +11,13 @@ import Button from "@material-ui/core/Button";
 import { withStyles } from "@material-ui/core/styles";
 import GlobalProgress from "../Global/GlobalProgress";
 import { LOAD_MAKER } from "../../queries/makerQueries";
-import { Query } from "react-apollo";
+import { Query, Mutation } from "react-apollo";
 // import EditEventDialog from "../Events/EditEventDialog";
 import { LOAD_EVENT } from "../../queries/eventQueries";
-import Select from "react-select";
+import Select from "../Global/Select";
+import CreateEditionDialog from "./CreateEditionDialog";
+import UpdateEditionDialog from "./UpdateEditionDialog";
+import { DELETE_EVENT, DELETE_EDITION } from "../../queries/eventMutations";
 
 const styles = theme => ({
   link: {
@@ -23,6 +26,13 @@ const styles = theme => ({
   },
   text: {
     fontWeight: 200
+  },
+  selectInput: {
+    fontFamily: theme.typography.fontFamily,
+    color: theme.palette.text.primary
+  },
+  dangerButton: {
+    color: theme.palette.danger.main
   }
 });
 
@@ -164,6 +174,7 @@ const EventDetail = withStyles(styles)(({ edition, event, classes, width, open, 
 ));
 
 const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
+  const [createEditionDialog, setCreateEditionDialog] = useState(false);
   const [editEventDialog, setEditEventDialog] = useState(false);
   const [editEditionDialog, setEditEditionDialog] = useState(false);
   const [edition, setEdition] = useState(null);
@@ -200,7 +211,7 @@ const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
             <ResponsiveDialog open={open} onClose={onClose}>
               <GlobalProgress absolute />
               <DialogTitle>
-                <Grid container spacing={8}>
+                <Grid container spacing={1}>
                   <Grid item xs={false} lg={1} />
                   <Grid item xs={12} lg={11}>
                     {event.name}
@@ -230,11 +241,32 @@ const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
               </DialogContent>
               <DialogActions>
                 <DialogActions>
+                  <Mutation mutation={DELETE_EVENT}>
+                    {(deleteEvent, { data }) => (
+                      <Button
+                        className={classes.dangerButton}
+                        onClick={() => {
+                          if (confirm("Are you sure"))
+                            deleteEvent({
+                              variables: {
+                                input: {
+                                  id: event.id
+                                }
+                              }
+                            }).then(updated => {
+                              location.reload();
+                            });
+                        }}
+                      >
+                        DELETE
+                      </Button>
+                    )}
+                  </Mutation>
+                  <Button onClick={() => setCreateEditionDialog(true)} autoFocus>
+                    Create Edition
+                  </Button>
                   <Button onClick={() => setEditEventDialog(true)} autoFocus>
                     Edit Event
-                  </Button>
-                  <Button onClick={onClose} autoFocus>
-                    Close
                   </Button>
                 </DialogActions>
               </DialogActions>
@@ -263,8 +295,29 @@ const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
                   />
                 )}
               </DialogContent>
-              <DialogActions>
+              {edition && edition.value && (
                 <DialogActions>
+                  <Mutation mutation={DELETE_EDITION}>
+                    {(deleteEdition, { data }) => (
+                      <Button
+                        className={classes.dangerButton}
+                        onClick={() => {
+                          if (confirm("Are you sure"))
+                            deleteEdition({
+                              variables: {
+                                input: {
+                                  id: edition.value
+                                }
+                              }
+                            }).then(updated => {
+                              location.reload();
+                            });
+                        }}
+                      >
+                        DELETE EDITION
+                      </Button>
+                    )}
+                  </Mutation>
                   <Button onClick={() => setEditEditionDialog(true)} autoFocus>
                     Edit Edition
                   </Button>
@@ -272,7 +325,7 @@ const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
                     Close
                   </Button>
                 </DialogActions>
-              </DialogActions>
+              )}
             </ResponsiveDialog>
             {editEventDialog && (
               <EditEventDialog
@@ -281,9 +334,16 @@ const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
                 onClose={() => setEditEventDialog(false)}
               />
             )}
+            {createEditionDialog && (
+              <CreateEditionDialog
+                event={event.id}
+                open={createEditionDialog}
+                onClose={() => setCreateEditionDialog(false)}
+              />
+            )}
             {editEditionDialog && edition && edition.value !== null && (
-              <EditEditionDialog
-                edition={edition}
+              <UpdateEditionDialog
+                edition={event.editions.find(e => e.id == edition.value)}
                 open={editEditionDialog}
                 onClose={() => setEditEditionDialog(false)}
               />

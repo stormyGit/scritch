@@ -49,7 +49,7 @@ const MakerRequests = ({ classes, width }) => {
           if (loading || error || !data || !data.moderationMakerRequests) return null;
           return (
             <React.Fragment>
-              <Grid container className={classes.root} spacing={24}>
+              <Grid container className={classes.root} spacing={3}>
                 {data.moderationMakerRequests.map(request => {
                   return (
                     <React.Fragment key={request.id}>
@@ -128,7 +128,7 @@ const FursuitRequests = ({ classes, width }) => {
           if (loading || error || !data || !data.moderationFursuitRequests) return null;
           return (
             <React.Fragment>
-              <Grid container className={classes.root} spacing={24}>
+              <Grid container className={classes.root} spacing={3}>
                 {data.moderationFursuitRequests.map(request => {
                   return (
                     <React.Fragment key={request.id}>

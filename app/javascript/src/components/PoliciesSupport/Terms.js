@@ -54,7 +54,7 @@ class Terms extends React.Component {
           className={
             width !== "lg" && width !== "xl" ? classes.root : classes.gridPadder
           }
-          spacing={8}
+          spacing={1}
           style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
         >
           <Grid item xs={12}>

@@ -87,7 +87,7 @@ class Subscriptions extends React.Component {
           <Tab value="fursuits" label={"Fursuits"} />
           <Tab value="makers" label={"Makers"} />
         </Tabs>
-        <Grid container className={classes.root} spacing={8} justify="center">
+        <Grid container className={classes.root} spacing={1} justify="center">
           <Grid item xs={12}>
             {this.state.tab === "media" && this.renderMedia()}
             {this.state.tab === "fursuits" && this.renderFursuits()}

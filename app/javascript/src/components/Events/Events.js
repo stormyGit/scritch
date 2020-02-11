@@ -111,7 +111,7 @@ class Events extends React.Component {
             <React.Fragment>
               {!searching && (
                 <Grid
-                  spacing={8}
+                  spacing={1}
                   container
                   className={classes.filters}
                   alignItems="center"
@@ -158,7 +158,7 @@ class Events extends React.Component {
               <Grid
                 container
                 className={classes.root}
-                spacing={24}
+                spacing={3}
                 style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
               >
                 {!loading &&

@@ -78,7 +78,7 @@ const EditAnnouncementDialog = ({ open, onClose, classes, announcement }) => {
       <GlobalProgress absolute />
       <DialogTitle>Edit Announcement</DialogTitle>
       <DialogContent>
-        <Grid container spacing={24}>
+        <Grid container spacing={3}>
           <Grid item xs={6}>
             <TextField
               label="Title"
@@ -148,7 +148,7 @@ const CreateAnnouncementDialog = ({ open, onClose, classes }) => {
       <GlobalProgress absolute />
       <DialogTitle>Create New Announcement</DialogTitle>
       <DialogContent>
-        <Grid container spacing={24}>
+        <Grid container spacing={3}>
           <Grid item xs={6}>
             <TextField
               label="Title"
@@ -217,7 +217,7 @@ const ConfirmDeleteDialog = ({ announcement, classes, onClose, open }) => {
         <Typography variant="h6">Are you sure you want to do this?</Typography>
         <Typography variant="h6">This action is irreversible.</Typography>
         <div style={{ padding: 16 }} />
-        <Grid container spacing={48}>
+        <Grid container spacing={6}>
           <Grid item xs={6} style={{ textAlign: "center" }}>
             <Mutation mutation={DELETE_ANNOUNCEMENT}>
               {(deleteAnnouncement, { data }) => (
@@ -270,7 +270,7 @@ const Announcement = ({ announcement, classes, width }) => {
           </Button>
         </div>
         <div style={{ padding: 16 }} />
-        <Grid container spacing={8}>
+        <Grid container spacing={1}>
           <Grid item xs={12} lg={10} xl={9}>
             <Typography variant="h3">{announcement.title}</Typography>
             <Typography variant="h6">
@@ -340,7 +340,7 @@ const ModerationAnnouncements = ({ classes, width }) => {
                 </Button>
               </div>
               <div style={{ padding: 16 }} />
-              <Grid container spacing={16}>
+              <Grid container spacing={2}>
                 {data.moderationAnnouncements.map(announcement => (
                   <Grid item xs={12} key={announcement.id}>
                     <Announcement announcement={announcement} classes={classes} width={width} />

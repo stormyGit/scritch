@@ -356,12 +356,12 @@ class Medium extends React.Component {
                       </Grid>
                       <Grid item lg={1} xs={12} />
                     </Grid>
-                    <Grid container spacing={8}>
+                    <Grid container spacing={1}>
                       <Grid item lg={9} xs={12}>
                         <CardContent>
                           {currentSession && (
                             <div className={classes.pictureInfo}>
-                              <Grid container spacing={8}>
+                              <Grid container spacing={1}>
                                 <Grid item xs={12}>
                                   <div className={classes.topRow}>
                                     <Typography
@@ -417,7 +417,7 @@ class Medium extends React.Component {
                               <div className={classes.padder} />
                               <Grid
                                 container
-                                spacing={8}
+                                spacing={1}
                                 className={classes.gridSpacer}
                               >
                                 <Grid item xs={12}>
@@ -450,7 +450,7 @@ class Medium extends React.Component {
                             </div>
                           )}
                           <div className={classes.tags}>
-                            <Grid container spacing={8}>
+                            <Grid container spacing={1}>
                               {medium.fursuits.length != 0 &&
                                 medium.fursuits.map(fursuit => (
                                   <Grid item lg={2} xs={2} key={fursuit.id}>

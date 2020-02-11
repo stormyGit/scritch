@@ -176,7 +176,7 @@ const Infos = ({ classes, medium, width, mouseOver }) => {
       <div className={classes.overlay}>
         <Grid
           container
-          spacing={8}
+          spacing={1}
           justify="space-around"
           className={classes.flex}
         >
@@ -212,13 +212,13 @@ const Infos = ({ classes, medium, width, mouseOver }) => {
     <div className={classes.overlayLarge}>
       <Grid
         container
-        spacing={8}
+        spacing={1}
         justify="space-between"
         className={classes.flexVertical}
       >
         <Grid
           container
-          spacing={8}
+          spacing={1}
           justify="space-around"
           className={classes.flex}
         >
@@ -233,7 +233,7 @@ const Infos = ({ classes, medium, width, mouseOver }) => {
         </Grid>
         <Grid
           container
-          spacing={8}
+          spacing={1}
           justify="space-around"
           className={classes.flex}
         >
@@ -248,7 +248,7 @@ const Infos = ({ classes, medium, width, mouseOver }) => {
         </Grid>
         <Grid
           container
-          spacing={8}
+          spacing={1}
           justify="space-around"
           className={classes.flex}
         >

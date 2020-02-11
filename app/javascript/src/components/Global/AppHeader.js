@@ -56,7 +56,7 @@ class AppHeader extends React.Component {
       <div className={classes.root}>
         <Grid
           container
-          spacing={8}
+          spacing={1}
           className={classes.grid}
           justify="center"
           alignItems="center"

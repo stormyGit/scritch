@@ -2,10 +2,12 @@ import React from "react";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ApolloProvider, withApollo, Query } from "react-apollo";
+import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 
 import apolloClient from "../apolloClient";
 import AppRouter from "./Global/AppRouter";
 import themeSelector from "../themeSelector";
+import DateFnsUtils from "@date-io/date-fns";
 
 import { GET_SESSION, GET_THEME } from "../queries/globalQueries";
 
@@ -87,7 +89,10 @@ export default class AppBootstrap extends React.Component {
         <Query query={GET_THEME}>
           {({ data, loading, error }) => (
             <MuiThemeProvider theme={makeTheme(data.theme)}>
-              <ConnectedApp />
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                {" "}
+                <ConnectedApp />
+              </MuiPickersUtilsProvider>
             </MuiThemeProvider>
           )}
         </Query>

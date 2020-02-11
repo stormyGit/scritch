@@ -20,7 +20,7 @@ import { LOAD_MAKER } from "../../queries/makerQueries";
 import { REJECT_MAKER_REQUEST } from "../../queries/moderationMutations";
 import { CREATE_MAKER } from "../../queries/makerMutations";
 import { countriesList } from "../../countriesList";
-import Select from "react-select";
+import Select from "../Global/Select";
 import { Paper } from "@material-ui/core";
 
 const AVATAR_SIZE = 96;

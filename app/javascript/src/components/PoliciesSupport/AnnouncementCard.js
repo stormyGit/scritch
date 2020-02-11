@@ -41,7 +41,7 @@ class AnnouncementCard extends React.Component {
 
     return (
       <React.Fragment>
-        <Grid container spacing={8}>
+        <Grid container spacing={1}>
           <Grid item xs={12} lg={10} xl={9}>
             <Typography variant="h3">{announcement.title}</Typography>
             <Typography variant="h6">

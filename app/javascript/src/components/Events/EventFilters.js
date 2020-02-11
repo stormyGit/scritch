@@ -5,7 +5,7 @@ import { Query } from "react-apollo";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import Select from "react-select";
+import Select from "../Global/Select";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -13,10 +13,7 @@ import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import {
-  LOAD_EVENTS_COUNTRIES,
-  LOAD_EVENTS_STATUSES
-} from "../../queries/eventQueries";
+import { LOAD_EVENTS_COUNTRIES, LOAD_EVENTS_STATUSES } from "../../queries/eventQueries";
 
 import SearchBar from "material-ui-search-bar";
 
@@ -151,9 +148,7 @@ class EventFilters extends React.Component {
           }
 
           const countriesList = [];
-          data.eventsCountry.map(e =>
-            countriesList.push({ value: e, label: e })
-          );
+          data.eventsCountry.map(e => countriesList.push({ value: e, label: e }));
 
           return (
             <Grid item xs={4}>
@@ -198,9 +193,7 @@ class EventFilters extends React.Component {
           }
 
           const statusesList = [];
-          data.eventsStatuses.map(e =>
-            statusesList.push({ value: e, label: e })
-          );
+          data.eventsStatuses.map(e => statusesList.push({ value: e, label: e }));
 
           return (
             <Grid item xs={4}>
@@ -231,26 +224,23 @@ class EventFilters extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Grid container spacing={8}>
+      <Grid container spacing={1}>
         <Grid item xs={false} lg={1} />
         <Grid item xs={12} lg={10}>
           <ExpansionPanel
             expanded={this.state.expansion}
             onChange={() =>
-              this.state.expansion == false &&
-              this.setState({ expansion: !this.state.expansion })
+              this.state.expansion == false && this.setState({ expansion: !this.state.expansion })
             }
           >
             <ExpansionPanelSummary
               expandIcon={
                 <ExpandMoreIcon
-                  onClick={() =>
-                    this.setState({ expansion: !this.state.expansion })
-                  }
+                  onClick={() => this.setState({ expansion: !this.state.expansion })}
                 />
               }
             >
-              <Grid container spacing={8}>
+              <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <SearchBar
                     className={classes.searchBar}
@@ -263,7 +253,7 @@ class EventFilters extends React.Component {
               </Grid>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Grid container spacing={8}>
+              <Grid container spacing={1}>
                 {this.renderCountryFilter()}
                 {false &&
                   filters.map(filter => (
@@ -275,9 +265,7 @@ class EventFilters extends React.Component {
               </Grid>
             </ExpansionPanelDetails>
             <ExpansionPanelActions>
-              <Button onClick={value => this.clearFilters(value)}>
-                Clear Filters
-              </Button>
+              <Button onClick={value => this.clearFilters(value)}>Clear Filters</Button>
             </ExpansionPanelActions>
           </ExpansionPanel>
         </Grid>

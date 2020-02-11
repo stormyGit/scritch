@@ -103,7 +103,7 @@ const MediumRow = withStyles(styles)(
       <Grid
         container
         className={classes.root}
-        spacing={8}
+        spacing={1}
         style={{ ...style, paddingTop: 4 }}
       >
         {items}

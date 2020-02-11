@@ -21,9 +21,10 @@ import { countriesList } from "../../countriesList";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 
-import { UPDATE_MAKER, DELETE_MAKER, CREATE_MAKER } from "../../queries/makerMutations";
 import withCurrentSession from "../withCurrentSession";
 import { FormControlLabel, Checkbox } from "@material-ui/core";
+import { CREATE_EVENT, CREATE_EDITION } from "../../queries/eventMutations";
+import { KeyboardDatePicker } from "@material-ui/pickers";
 
 const AVATAR_SIZE = 96;
 
@@ -117,13 +118,20 @@ const styles = theme => ({
   }
 });
 
-class CreateMakerDialog extends React.Component {
+class CreateEventDialog extends React.Component {
   state = {
     name: "",
-    bio: "",
+    city: "",
     country: "",
-    region: "",
-    web: "",
+    kind: "",
+    theme: "",
+    venue: "",
+    startDate: new Date(),
+    endDate: new Date(),
+    charity: "",
+    attendance: "",
+    year: "",
+    guests: "",
     visible: true
   };
 
@@ -145,74 +153,136 @@ class CreateMakerDialog extends React.Component {
             />
             <div style={{ padding: 5 }} />
             <TextField
-              label={`Info (characters: ${this.state.bio.length}/280)`}
-              name="bio"
-              value={this.state.bio}
-              onChange={e => {
-                e.target.value.length <= 280 && this.setState({ bio: e.target.value });
-              }}
-              margin="dense"
-              fullWidth
-            />
-            <div style={{ padding: 5 }} />
-            {currentSession.user.isModerator && (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.visible}
-                    onChange={e => this.setState({ visible: e.target.checked })}
-                  />
-                }
-                label="Visible?"
-              />
-            )}
-            <div style={{ padding: 5 }} />
-            <Select
-              fullWidth
-              placeholder="Country"
-              isClearable
-              isSearchable
+              label="Country"
+              name="country"
               value={this.state.country}
-              onChange={country => {
-                this.setState({ country: country });
+              onChange={e => this.setState({ country: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
+            <div style={{ padding: 5 }} />
+            <TextField
+              label="City"
+              name="city"
+              value={this.state.city}
+              onChange={e => this.setState({ city: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
+            <div style={{ padding: 5 }} />
+            <TextField
+              label="Type (Furmeet, FurDance, Convention)"
+              name="kind"
+              value={this.state.kind}
+              onChange={e => this.setState({ kind: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
+            <div style={{ padding: 5 }} />
+            <TextField
+              label="Theme"
+              name="theme"
+              value={this.state.theme}
+              onChange={e => this.setState({ theme: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
+            <div style={{ padding: 5 }} />
+            <TextField
+              label="Charity"
+              name="charity"
+              value={this.state.charity}
+              onChange={e => this.setState({ charity: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
+            <div style={{ padding: 5 }} />
+            <TextField
+              label="Venue"
+              name="venue"
+              value={this.state.venue}
+              onChange={e => this.setState({ venue: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
+            <div style={{ padding: 5 }} />
+            <TextField
+              label="Year"
+              name="year"
+              value={this.state.year}
+              onChange={e => this.setState({ year: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
+            <div style={{ padding: 5 }} />
+            <TextField
+              label="Attendance"
+              name="attendance"
+              value={this.state.attendance}
+              onChange={e => this.setState({ attendance: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
+            <div style={{ padding: 5 }} />
+            <TextField
+              label="Guests (separate with comma, no spaces)"
+              name="guests"
+              value={this.state.guests}
+              onChange={e => this.setState({ guests: e.target.value })}
+              margin="dense"
+              fullWidth
+            />
+            <div style={{ padding: 5 }} />
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="start-date"
+              label="Start Date"
+              value={this.state.startDate}
+              onChange={e => this.setState({ startDate: e })}
+              KeyboardButtonProps={{
+                "aria-label": "change date"
               }}
-              options={countriesList}
-              className={classes.selectInput}
             />
             <div style={{ padding: 5 }} />
-            <TextField
-              label="Region"
-              name="region"
-              value={this.state.region}
-              onChange={e => this.setState({ region: e.target.value })}
-              margin="dense"
-              fullWidth
-            />
-            <div style={{ padding: 5 }} />
-            <TextField
-              label="Website"
-              name="web"
-              value={this.state.web}
-              onChange={e => this.setState({ web: e.target.value })}
-              margin="dense"
-              fullWidth
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="end-date"
+              label="End Date"
+              value={this.state.endDate}
+              onChange={e => this.setState({ endDate: e })}
+              KeyboardButtonProps={{
+                "aria-label": "change date"
+              }}
             />
           </DialogContent>
           <DialogActions>
-            <Mutation mutation={CREATE_MAKER}>
-              {(updateMaker, { data }) => (
+            <Mutation mutation={CREATE_EDITION}>
+              {(createEdition, { data }) => (
                 <Button
                   disabled={!this.state.name || /^\s*$/.test(this.state.name)}
                   onClick={() => {
-                    updateMaker({
+                    createEdition({
                       variables: {
                         input: {
-                          visible: this.state.visible,
                           name: this.state.name,
-                          bio: this.state.bio,
-                          country: this.state.country.value,
-                          region: this.state.region,
-                          web: this.state.web
+                          eventId: this.props.event,
+                          country: this.state.country,
+                          city: this.state.city,
+                          theme: this.state.theme,
+                          charity: this.state.charity,
+                          venue: this.state.venue,
+                          attendance: parseInt(this.state.attendance),
+                          kind: this.state.kind,
+                          guestOfHonours: this.state.guests,
+                          startDate: this.state.startDate,
+                          endDate: this.state.endDate,
+                          year: parseInt(this.state.year)
                         }
                       }
                     }).then(updated => {
@@ -233,4 +303,4 @@ class CreateMakerDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withCurrentSession(CreateMakerDialog)));
+export default withStyles(styles)(withRouter(withCurrentSession(CreateEventDialog)));

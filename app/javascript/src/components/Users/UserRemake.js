@@ -224,7 +224,7 @@ const UserFursuits = React.memo(({ user }) => {
   return (
     <React.Fragment>
       <div style={{ padding: 8 }} />
-      <Grid container spacing={16}>
+      <Grid container spacing={2}>
         {user.fursuits.map(fursuit => (
           <Grid item xs={12} lg={6} key={fursuit.id}>
             <FursuitUserCard fursuit={fursuit} user={user} />
@@ -397,7 +397,7 @@ class User extends React.Component {
 
           return (
             <React.Fragment>
-              <Grid container spacing={8}>
+              <Grid container spacing={1}>
                 {following.map(following => (
                   <Grid item xs={12} lg={4} key={following.id}>
                     <UserCard user={following} />
@@ -453,7 +453,7 @@ class User extends React.Component {
 
           return (
             <React.Fragment>
-              <Grid container spacing={8}>
+              <Grid container spacing={1}>
                 {following.map(following => (
                   <Grid item xs={12} lg={4} key={following.id}>
                     <FursuitFollowedCard fursuit={following} />
@@ -509,7 +509,7 @@ class User extends React.Component {
 
           return (
             <React.Fragment>
-              <Grid container spacing={8}>
+              <Grid container spacing={1}>
                 {following.map(following => (
                   <Grid item xs={12} lg={4} key={following.id}>
                     <MakerFollowedCard maker={following} />
@@ -699,7 +699,7 @@ class User extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.infoHeader}>
-          <Grid container spacing={24} className={classes.centerAlign}>
+          <Grid container spacing={3} className={classes.centerAlign}>
             <Grid item xs={3} className={classes.avatarContainer}>
               <Avatar avatar={user.avatar} avatarClass={classes.userAvatarMobile} />
             </Grid>
@@ -789,7 +789,7 @@ class User extends React.Component {
           return (
             <React.Fragment>
               <div style={{ padding: 8 }} />
-              <Grid container spacing={8}>
+              <Grid container spacing={1}>
                 {data.followersByUser.map(follower => (
                   <Grid item xs={12} lg={4} key={follower.id}>
                     <UserCard user={follower} />

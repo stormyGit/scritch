@@ -82,7 +82,7 @@ class ExifDialog extends React.Component {
         <DialogContent>
           <List>
             <ListItem>
-              <Grid container spacing={8} className={classes.iconGridRoot}>
+              <Grid container spacing={1} className={classes.iconGridRoot}>
                 <Grid item xs={2} className={classes.iconGrid}>
                   <ListItemIcon>
                     <DateIcon className={classes.leftIcon} />
@@ -98,7 +98,7 @@ class ExifDialog extends React.Component {
             </ListItem>
             {SpacerWithHR}
             <ListItem>
-              <Grid container spacing={8} className={classes.iconGridRoot}>
+              <Grid container spacing={1} className={classes.iconGridRoot}>
                 <Grid item xs={2} className={classes.iconGrid}>
                   <ListItemIcon>
                     <CameraIcon className={classes.leftIcon} />
@@ -114,7 +114,7 @@ class ExifDialog extends React.Component {
             </ListItem>
             {exif.FNumber && (
               <ListItem>
-                <Grid container spacing={8} className={classes.iconGridRoot}>
+                <Grid container spacing={1} className={classes.iconGridRoot}>
                   <Grid item xs={2} className={classes.iconGrid}>
                     <ListItemIcon>
                       <Typography className={classes.leftIcon}>ʄ</Typography>
@@ -134,7 +134,7 @@ class ExifDialog extends React.Component {
             )}
             {exif.ExposureTime && (
               <ListItem>
-                <Grid container spacing={8} className={classes.iconGridRoot}>
+                <Grid container spacing={1} className={classes.iconGridRoot}>
                   <Grid item xs={2} className={classes.iconGrid}>
                     <ListItemIcon>
                       <TimerIcon className={classes.leftIcon} />
@@ -151,7 +151,7 @@ class ExifDialog extends React.Component {
             )}
             {exif.FocalLength && (
               <ListItem>
-                <Grid container spacing={8} className={classes.iconGridRoot}>
+                <Grid container spacing={1} className={classes.iconGridRoot}>
                   <Grid item xs={2} className={classes.iconGrid}>
                     <ListItemIcon>
                       <FontAwesomeIcon
@@ -173,7 +173,7 @@ class ExifDialog extends React.Component {
             )}
             {exif.ISOSpeedRatings && (
               <ListItem>
-                <Grid container spacing={8} className={classes.iconGridRoot}>
+                <Grid container spacing={1} className={classes.iconGridRoot}>
                   <Grid item xs={2} className={classes.iconGrid}>
                     <ListItemIcon>
                       <IsoIcon className={classes.leftIcon} />
@@ -190,7 +190,7 @@ class ExifDialog extends React.Component {
             )}
             {exif.Flash && (
               <ListItem>
-                <Grid container spacing={8} className={classes.iconGridRoot}>
+                <Grid container spacing={1} className={classes.iconGridRoot}>
                   <Grid item xs={2} className={classes.iconGrid}>
                     <ListItemIcon>
                       <FlashIcon className={classes.leftIcon} />

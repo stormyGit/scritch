@@ -5,7 +5,7 @@ import { Query } from "react-apollo";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import Select from "react-select";
+import Select from "../Global/Select";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -577,7 +577,7 @@ class FursuitFilters extends React.Component {
     const { classes } = this.props;
 
     return (
-      <Grid container spacing={8}>
+      <Grid container spacing={1}>
         <Grid item xs={false} lg={1} />
         <Grid item xs={12} lg={10}>
           <ExpansionPanel
@@ -593,7 +593,7 @@ class FursuitFilters extends React.Component {
                 />
               }
             >
-              <Grid container spacing={8}>
+              <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <SearchBar
                     className={classes.searchBar}
@@ -606,7 +606,7 @@ class FursuitFilters extends React.Component {
               </Grid>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-              <Grid container spacing={8}>
+              <Grid container spacing={1}>
                 <HybridCheckbox
                   classes={classes}
                   hybridSearch={this.state.hybridSearch}

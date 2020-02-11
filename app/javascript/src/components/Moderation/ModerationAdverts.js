@@ -97,7 +97,7 @@ class ModerationAdverts extends React.Component {
 
             return (
               <React.Fragment>
-                <Grid container spacing={24}>
+                <Grid container spacing={3}>
                   {data.moderationAdverts.map(advert => (
                     <Grid item xs={12} md={6} lg={4} key={advert.id}>
                       <AdvertCard advert={advert} classes={classes} />

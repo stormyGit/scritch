@@ -7,7 +7,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Select from "react-select";
+import Select from "../Global/Select";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
@@ -301,7 +301,7 @@ class EditMediumDialog extends React.Component {
                         </DialogTitle>
                       )}
                       <DialogContent>
-                        <Grid container spacing={8}>
+                        <Grid container spacing={1}>
                           <Grid
                             item
                             xs={this.state.fursuits.length > 0 ? 9 : 12}
@@ -626,7 +626,7 @@ class EditMediumDialog extends React.Component {
                                     <Grid
                                       container
                                       className={classes.root}
-                                      spacing={8}
+                                      spacing={1}
                                       style={{
                                         marginTop:
                                           width === "lg" || width === "xl"
@@ -706,7 +706,7 @@ class EditMediumDialog extends React.Component {
                                     <div style={{ padding: 5 }} />
                                   </div>
                                 )}
-                                <Grid container spacing={8}>
+                                <Grid container spacing={1}>
                                   {this.state.fursuits.map(fursuit => (
                                     <Grid item xs={12} lg={6} key={fursuit.id}>
                                       <FursuitMiniCard

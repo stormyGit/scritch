@@ -67,7 +67,7 @@ class Announcements extends React.Component {
                     ? classes.root
                     : classes.gridPadder
                 }
-                spacing={8}
+                spacing={1}
                 style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
               >
                 {!loading &&

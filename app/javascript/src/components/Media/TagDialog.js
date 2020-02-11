@@ -32,7 +32,7 @@ import {
 import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
 import SearchBar from "material-ui-search-bar";
 import { LOAD_EVENTS_SELECT, LOAD_SUB_EVENTS, LOAD_EDITIONS } from "../../queries/eventQueries";
-import Select from "react-select";
+import Select from "../Global/Select";
 import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
 import LoadMoreButton from "../Global/LoadMoreButton";
 
@@ -577,7 +577,7 @@ const FursuitsSearchSection = React.memo(
             >
               {({ data, loading, error, fetchMore }) => (
                 <React.Fragment>
-                  <Grid container className={classes.root} spacing={8}>
+                  <Grid container className={classes.root} spacing={1}>
                     {!loading &&
                       !error &&
                       renderResults({
@@ -704,7 +704,7 @@ function TagDialog({ classes, width, open, onClose, mediumId, editMedium, curren
               {({ error, loading, data }) => {
                 if (error || loading) {
                   return (
-                    <Grid container spacing={24}>
+                    <Grid container spacing={3}>
                       <Grid item xs={12} lg={9} className={classes.masterGridOnLoad}>
                         <CircularProgress />
                       </Grid>
@@ -718,7 +718,7 @@ function TagDialog({ classes, width, open, onClose, mediumId, editMedium, curren
 
                 if (!medium) {
                   return (
-                    <Grid container spacing={8}>
+                    <Grid container spacing={1}>
                       <Grid item xs={12} className={classes.masterGridOnLoad}>
                         <Typography variant="h6">Something went wrong :(</Typography>
                       </Grid>
@@ -817,7 +817,7 @@ function TagDialog({ classes, width, open, onClose, mediumId, editMedium, curren
                               : "100%"
                         }}
                       >
-                        <Grid container spacing={16}>
+                        <Grid container spacing={2}>
                           <Grid item xs={12} className={classes.flexSection}>
                             {currentSession && (
                               <Tooltip title="Report Media">

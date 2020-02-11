@@ -102,7 +102,7 @@ class FursuitMiniCard extends React.Component {
     }
 
     return (
-      <Grid container spacing={8} justify="center" alignItems="center">
+      <Grid container spacing={1} justify="center" alignItems="center">
         <Grid item lg={12} xs={12}>
           <Tooltip
             title={

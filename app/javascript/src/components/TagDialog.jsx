@@ -6,7 +6,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Select from "react-select";
+import Select from "../Global/Select";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import SearchBar from "material-ui-search-bar";
@@ -155,11 +155,7 @@ class TagDialog extends React.Component {
       const query = queryString.parse(location.search);
 
       if (query.q) {
-        return (
-          <EmptyList
-            label={`No results were found for your search term: ${query.q}`}
-          />
-        );
+        return <EmptyList label={`No results were found for your search term: ${query.q}`} />;
       } else {
         return <EmptyList label={`No results`} />;
       }
@@ -186,15 +182,7 @@ class TagDialog extends React.Component {
   }
 
   render() {
-    const {
-      classes,
-      open,
-      onClose,
-      loading,
-      width,
-      mediumId,
-      currentSession
-    } = this.props;
+    const { classes, open, onClose, loading, width, mediumId, currentSession } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
     if (!mediumId || open == false) return null;
 
@@ -212,23 +200,14 @@ class TagDialog extends React.Component {
               <ResponsiveDialog open={open} onClose={onClose}>
                 {((width !== "lg" && width !== "xl") || true) && (
                   <DialogTitle className={classes.titleBarContainer}>
-                    <Grid
-                      container
-                      spacing={0}
-                      alignItems="center"
-                      justify="space-between"
-                    >
+                    <Grid container spacing={0} alignItems="center" justify="space-between">
                       <Grid item>
                         <Typography variant="h6" noWrap color={"inherit"}>
                           {`Picture #${mediumId.split("-")[0]}`}
                         </Typography>
                       </Grid>
                       <Grid item>
-                        <IconButton
-                          color="inherit"
-                          onClick={onClose}
-                          aria-label="Close"
-                        >
+                        <IconButton color="inherit" onClick={onClose} aria-label="Close">
                           <CloseIcon />
                         </IconButton>
                       </Grid>
@@ -283,23 +262,14 @@ class TagDialog extends React.Component {
                     <ResponsiveDialog open={open} onClose={onClose} size={1200}>
                       {((width !== "lg" && width !== "xl") || true) && (
                         <DialogTitle className={classes.titleBarContainer}>
-                          <Grid
-                            container
-                            spacing={0}
-                            alignItems="center"
-                            justify="space-between"
-                          >
+                          <Grid container spacing={0} alignItems="center" justify="space-between">
                             <Grid item>
                               <Typography variant="h6" noWrap color={"inherit"}>
                                 {`Picture #${medium.id.split("-")[0]}`}
                               </Typography>
                             </Grid>
                             <Grid item>
-                              <IconButton
-                                color="inherit"
-                                onClick={onClose}
-                                aria-label="Close"
-                              >
+                              <IconButton color="inherit" onClick={onClose} aria-label="Close">
                                 <CloseIcon />
                               </IconButton>
                             </Grid>
@@ -307,11 +277,8 @@ class TagDialog extends React.Component {
                         </DialogTitle>
                       )}
                       <DialogContent>
-                        <Grid container spacing={8}>
-                          <Grid
-                            item
-                            xs={this.state.fursuits.length > 0 ? 9 : 12}
-                          >
+                        <Grid container spacing={1}>
+                          <Grid item xs={this.state.fursuits.length > 0 ? 9 : 12}>
                             <DialogContent style={{ textAlign: "center" }}>
                               <img
                                 src={`${medium.resized}`}
@@ -321,11 +288,9 @@ class TagDialog extends React.Component {
                             </DialogContent>
                             {
                               <Typography variant="subtitle1">
-                                The Category makes up 20% of Completion.
-                                Entering No. of Fursuits in this media
-                                constitutes 10% Completion, with the remaining
-                                70% equally split by the number of Fursuits
-                                declared when tagged.
+                                The Category makes up 20% of Completion. Entering No. of Fursuits in
+                                this media constitutes 10% Completion, with the remaining 70%
+                                equally split by the number of Fursuits declared when tagged.
                               </Typography>
                             }
 
@@ -391,8 +356,7 @@ class TagDialog extends React.Component {
                                 placeholder="Fursuit Search..."
                                 disabled={
                                   this.state.fursuitsCount
-                                    ? this.state.fursuits.length >=
-                                      this.state.fursuitsCount
+                                    ? this.state.fursuits.length >= this.state.fursuitsCount
                                     : true
                                 }
                                 onChange={value => this.handleSearch(value)}
@@ -416,12 +380,9 @@ class TagDialog extends React.Component {
                                     <Grid
                                       container
                                       className={classes.root}
-                                      spacing={8}
+                                      spacing={1}
                                       style={{
-                                        marginTop:
-                                          width === "lg" || width === "xl"
-                                            ? 4
-                                            : -4
+                                        marginTop: width === "lg" || width === "xl" ? 4 : -4
                                       }}
                                     >
                                       {!loading &&
@@ -429,8 +390,7 @@ class TagDialog extends React.Component {
                                         this.renderResults({
                                           data,
                                           hasMore:
-                                            data.fursuits.length % limit ===
-                                              0 &&
+                                            data.fursuits.length % limit === 0 &&
                                             this.state.hasMore &&
                                             data.fursuits.length > 0,
                                           onLoadMore: () => {
@@ -439,31 +399,20 @@ class TagDialog extends React.Component {
                                                 offset: data.fursuits.length,
                                                 limit
                                               },
-                                              updateQuery: (
-                                                prev,
-                                                { fetchMoreResult }
-                                              ) => {
-                                                if (!fetchMoreResult)
-                                                  return prev;
+                                              updateQuery: (prev, { fetchMoreResult }) => {
+                                                if (!fetchMoreResult) return prev;
 
-                                                if (
-                                                  fetchMoreResult.fursuits
-                                                    .length === 0
-                                                ) {
+                                                if (fetchMoreResult.fursuits.length === 0) {
                                                   this.setState({
                                                     hasMore: false
                                                   });
                                                 } else {
-                                                  return Object.assign(
-                                                    {},
-                                                    prev,
-                                                    {
-                                                      fursuits: [
-                                                        ...prev.fursuits,
-                                                        ...fetchMoreResult.fursuits
-                                                      ]
-                                                    }
-                                                  );
+                                                  return Object.assign({}, prev, {
+                                                    fursuits: [
+                                                      ...prev.fursuits,
+                                                      ...fetchMoreResult.fursuits
+                                                    ]
+                                                  });
                                                 }
                                               }
                                             });
@@ -495,30 +444,22 @@ class TagDialog extends React.Component {
                                   </div>
                                 )}
                                 <div style={{ padding: 8 }} />
-                                {this.state.fursuits.length -
-                                  medium.fursuits.length >
-                                  0 && (
+                                {this.state.fursuits.length - medium.fursuits.length > 0 && (
                                   <div className={classes.tagReportButton}>
                                     <Typography variant="subtitle1">
                                       Click on Fursuit icon to remove selection
                                     </Typography>
                                   </div>
                                 )}
-                                <Grid container spacing={8}>
+                                <Grid container spacing={1}>
                                   {this.state.fursuits.map(fursuit => (
                                     <Grid item xs={12} lg={6} key={fursuit.id}>
                                       <FursuitMiniCard
                                         fursuit={fursuit}
                                         onClick={payload => {
-                                          if (
-                                            medium.fursuits
-                                              .map(e => e.id)
-                                              .includes(payload.id)
-                                          )
+                                          if (medium.fursuits.map(e => e.id).includes(payload.id))
                                             return null;
-                                          let index = this.state.fursuits.indexOf(
-                                            payload
-                                          );
+                                          let index = this.state.fursuits.indexOf(payload);
                                           this.setState({
                                             fursuits: this.state.fursuits.filter(
                                               (_, i) => i !== index
@@ -548,12 +489,8 @@ class TagDialog extends React.Component {
                                           categoryId:
                                             this.state.mediaCategory &&
                                             this.state.mediaCategory.value,
-                                          fursuitsCount: parseInt(
-                                            this.state.fursuitsCount
-                                          ),
-                                          fursuits: this.state.fursuits.map(
-                                            a => a.id
-                                          )
+                                          fursuitsCount: parseInt(this.state.fursuitsCount),
+                                          fursuits: this.state.fursuits.map(a => a.id)
                                         }
                                       }
                                     }).then(() => {
@@ -572,9 +509,7 @@ class TagDialog extends React.Component {
                           <Typography
                             variant="caption"
                             className={classes.troubleLink}
-                            onClick={() =>
-                              this.setState({ reportDialog: true })
-                            }
+                            onClick={() => this.setState({ reportDialog: true })}
                           >
                             Report Picture
                           </Typography>
@@ -603,6 +538,4 @@ class TagDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withRouter(withWidth()(withCurrentSession(TagDialog)))
-);
+export default withStyles(styles)(withRouter(withWidth()(withCurrentSession(TagDialog))));

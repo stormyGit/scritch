@@ -56,7 +56,7 @@ class TermsOfUse extends React.Component {
 
     return (
       <React.Fragment>
-        <Grid container spacing={8}>
+        <Grid container spacing={1}>
           <Grid item xs={12} lg={10} xl={9}>
             <Typography variant="h2" id="website-user-guide1">
               Scritch Terms & Conditions of Use (“Terms of Use”)

@@ -85,14 +85,14 @@ class Faq extends React.Component {
           className={
             width !== "lg" && width !== "xl" ? classes.root : classes.gridPadder
           }
-          spacing={8}
+          spacing={1}
           style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
         >
           <Grid item xs={12}>
             <Card className={classes.card} elevation={0}>
               <CardContent className={classes.content} className={classes.text}>
                 <React.Fragment>
-                  <Grid container spacing={8}>
+                  <Grid container spacing={1}>
                     <Grid item xs={12} lg={10} xl={9}>
                       <Typography variant="h2" id="website-user-guide1">
                         Scritch FAQ

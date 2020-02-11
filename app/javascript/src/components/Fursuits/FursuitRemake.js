@@ -407,7 +407,7 @@ const FursuitDetail = withStyles(styles)(
         <DetailField field="Leg Type" data={fursuit.fursuitLegType} />
       </div>
     ) : (
-      <Grid container spacing={16} className={classes.detailsHeader}>
+      <Grid container spacing={2} className={classes.detailsHeader}>
         <Grid item xs={4}>
           <DetailField field="Build" data={fursuit.fursuitBuild} mobile={true} />
         </Grid>
@@ -643,7 +643,7 @@ class Fursuit extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.infoHeader}>
-          <Grid container spacing={24} className={classes.centerAlign}>
+          <Grid container spacing={3} className={classes.centerAlign}>
             <Grid item xs={3} className={classes.avatarContainer}>
               <FursuitAvatar fursuit={fursuit} avatarClass={classes.fursuitAvatarMobile} />
             </Grid>
@@ -687,7 +687,7 @@ class Fursuit extends React.Component {
         {this.state.fursuitDetail && (
           <React.Fragment>
             {width === "xl" || width === "lg" ? <Padder /> : <MicroPadder />}
-            <Grid container spacing={24} className={classes.centerAlign}>
+            <Grid container spacing={3} className={classes.centerAlign}>
               <Grid item xs={false} lg={2} />
               <FursuitDetail fursuit={fursuit} />
               <Grid item xs={false} lg={2} />

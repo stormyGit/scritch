@@ -31,7 +31,7 @@ class MediumDataDialog extends React.Component {
         <GlobalProgress absolute />
         <DialogTitle>Media Information</DialogTitle>
         <DialogContent style={{ paddingBottom: 5 }}>
-          <Grid container spacing={8}>
+          <Grid container spacing={1}>
             {medium.photographerSlug && (
               <Grid item xs={12}>
                 <DialogContentText>Captured By</DialogContentText>
