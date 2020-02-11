@@ -218,3 +218,20 @@ export const FETCH_FURSUIT_REQUESTS = gql`
     }
   }
 `;
+
+export const FETCH_MAKER_REQUESTS = gql`
+  query moderationMakerRequests {
+    moderationMakerRequests {
+      id
+      url
+      body
+      url
+      assetName
+      user {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;

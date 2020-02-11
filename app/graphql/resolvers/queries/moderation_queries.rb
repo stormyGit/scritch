@@ -17,6 +17,14 @@ module Resolvers
               end
             end
 
+            class FetchModerationMakerRequests < GraphQL::Function
+              type types[Types::AssetRequestType]
+
+              def call(obj, args, ctx)
+                  AssetRequest.where(status: "new").where(asset_type: "Maker").order(created_at: :desc)
+              end
+            end
+
             class FetchModerationSuspended < GraphQL::Function
                 type types[Types::SuspendedUserType]
 

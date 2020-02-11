@@ -124,3 +124,13 @@ export const REJECT_FURSUIT_REQUEST = gql`
     }
   }
 `;
+
+export const REJECT_MAKER_REQUEST = gql`
+  mutation rejectMakerRequest($input: RejectMakerRequestInput!) {
+    rejectMakerRequest(input: $input) {
+      makerRequest {
+        id
+      }
+    }
+  }
+`;

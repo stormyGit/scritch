@@ -69,8 +69,19 @@ module Types
     field :delete_maker, mutation: Mutations::DeleteMaker
     field :create_maker, mutation: Mutations::CreateMaker
 
+    field :update_event, mutation: Mutations::UpdateEvent
+    field :delete_event, mutation: Mutations::DeleteEvent
+    field :create_event, mutation: Mutations::CreateEvent
+
+    field :update_edition, mutation: Mutations::UpdateEdition
+    field :delete_edition, mutation: Mutations::DeleteEdition
+    field :create_edition, mutation: Mutations::CreateEdition
+
     field :create_fursuit_request, mutation: Mutations::CreateFursuitRequest
     field :reject_fursuit_request, mutation: Mutations::RejectFursuitRequest
+
+    field :reject_maker_request, mutation: Mutations::RejectMakerRequest
+
     field :tag_lock_medium, mutation: Mutations::TagLockMedium
     field :tag_unlock_medium, mutation: Mutations::TagUnlockMedium
   end

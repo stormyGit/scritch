@@ -6,6 +6,7 @@ module Types
     field :asset_type, String, null: false
     field :url, String, null: false
     field :body, String, null: true
+    field :user, UserType, null: true
 
   end
 end

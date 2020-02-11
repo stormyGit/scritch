@@ -9,6 +9,7 @@ module Types
       field :moderationMakerClaims, function: FetchModerationMakerClaims.new
       field :moderationAdverts, function: FetchModerationAdverts.new
       field :moderationFursuitRequests, function: FetchModerationFursuitRequests.new
+      field :moderationMakerRequests, function: FetchModerationMakerRequests.new
       field :moderationAnalytics, function: FetchModerationAnalytics.new
       field :moderationAnnouncements, function: FetchModerationAnnouncements.new
       field :moderationModerators, function: FetchModerationModerators.new

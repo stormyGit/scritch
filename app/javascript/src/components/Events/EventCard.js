@@ -80,9 +80,7 @@ class EventCard extends React.Component {
     return (
       <div className={horizontal ? undefined : classes.cardMediaContainer}>
         <CardMedia
-          className={
-            horizontal ? classes.horizontalMedia : classes.verticalMedia
-          }
+          className={horizontal ? classes.horizontalMedia : classes.verticalMedia}
           image={event.avatar}
           title={event.name}
         />
@@ -95,22 +93,10 @@ class EventCard extends React.Component {
 
     return (
       <CardContent className={classes.content}>
-        <Typography
-          gutterBottom
-          variant="h6"
-          component="h4"
-          className={classes.text}
-          noWrap
-        >
+        <Typography gutterBottom variant="h6" component="h4" className={classes.text} noWrap>
           {event.name}
         </Typography>
-        <Typography
-          gutterBottom
-          variant="h6"
-          component="h6"
-          className={classes.subtext}
-          noWrap
-        >
+        <Typography gutterBottom variant="h6" component="h6" className={classes.subtext} noWrap>
           {event.country}
         </Typography>
       </CardContent>
@@ -118,16 +104,22 @@ class EventCard extends React.Component {
   }
 
   renderVertical() {
-    const { classes, event } = this.props;
+    const { classes, event, onClick } = this.props;
 
     return (
       <Card className={classes.card} elevation={0}>
-        <CardActionArea
-          component={props => <Link to={`/events/${event.slug}`} {...props} />}
-        >
-          {this.renderMedia()}
-          {this.renderContent()}
-        </CardActionArea>
+        {!onClick && (
+          <CardActionArea component={props => <Link to={`/events/${event.slug}`} {...props} />}>
+            {this.renderMedia()}
+            {this.renderContent()}
+          </CardActionArea>
+        )}
+        {onClick && (
+          <CardActionArea onClick={onClick}>
+            {this.renderMedia()}
+            {this.renderContent()}
+          </CardActionArea>
+        )}
       </Card>
     );
   }

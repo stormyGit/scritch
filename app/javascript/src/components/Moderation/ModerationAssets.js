@@ -19,6 +19,11 @@ import MakerCard from "../Makers/MakerCard";
 import ModerationMakerDialog from "./ModerationMakerDialog";
 import CreateFursuitDialog from "./CreateFursuitDialog";
 import CreateMakerDialog from "./CreateMakerDialog";
+import EmptyList from "../Global/EmptyList";
+import { LOAD_EVENTS } from "../../queries/eventQueries";
+import EventCard from "../Events/EventCard";
+import ModerationEventDialog from "./ModerationEventDialog";
+import CreateEventDialog from "./CreateEventDialog";
 
 const styles = theme => ({
   root: {
@@ -37,6 +42,123 @@ const styles = theme => ({
     height: "128px"
   }
 });
+
+function renderEventResults({ data, onLoadMore, hasMore, withEvent, classes, setActiveEvent }) {
+  if (data.events.length === 0) {
+    const { location } = this.props;
+    const query = queryString.parse(location.search);
+
+    if (query.q) {
+      return <EmptyList label={`No results were found for your search term: ${query.q}`} />;
+    } else {
+      return <EmptyList label={`No results`} />;
+    }
+  }
+  return (
+    <React.Fragment>
+      {data.events.map(event => (
+        <Grid item xs={6} sm={4} md={3} lg={2} key={event.id}>
+          <EventCard event={event} onClick={() => setActiveEvent(event.id)} />
+        </Grid>
+      ))}
+      {hasMore && <LoadMoreButton onClick={() => onLoadMore()} />}
+    </React.Fragment>
+  );
+}
+
+const ModerationEvents = ({ classes, width }) => {
+  const [activeEvent, setActiveEvent] = useState(null);
+  const [name, setName] = useState("");
+  const [newEventDialog, setNewEventDialog] = useState(false);
+  const [research, setResearch] = useState("");
+  const [hasMore, setHasMore] = useState(true);
+
+  let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
+
+  return (
+    <React.Fragment>
+      <div style={{ padding: 16 }} />
+      <Grid container spacing={8}>
+        <Grid item xs={false} lg={3} />
+        <Grid item xs={12} lg={6}>
+          <SearchBar
+            className={classes.searchBar}
+            onChange={value => setName(value)}
+            onCancelSearch={() => {
+              setName("");
+              setResearch("");
+            }}
+            onRequestSearch={() => setResearch(name)}
+            value={name}
+            placeholder="Search..."
+          />
+        </Grid>
+        <Grid item xs={12} lg={3} style={{ textAlign: "center" }}>
+          <Button variant="outlined" size="large" onClick={() => setNewEventDialog(true)}>
+            New Event
+          </Button>
+        </Grid>
+      </Grid>
+      <Query
+        query={LOAD_EVENTS}
+        variables={{
+          name: research,
+          isModerator: true,
+          limit,
+          offset: 0
+        }}
+      >
+        {({ data, loading, error, fetchMore }) => (
+          <React.Fragment>
+            <Grid
+              container
+              className={classes.root}
+              spacing={24}
+              style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
+            >
+              {!loading &&
+                !error &&
+                renderEventResults({
+                  data,
+                  hasMore: data.events.length % limit === 0 && hasMore && data.events.length > 0,
+                  onLoadMore: () => {
+                    fetchMore({
+                      variables: {
+                        offset: data.events.length,
+                        limit
+                      },
+                      updateQuery: (prev, { fetchMoreResult }) => {
+                        if (!fetchMoreResult) return prev;
+
+                        if (fetchMoreResult.events.length === 0) {
+                          setHasMore(false);
+                        } else {
+                          return Object.assign({}, prev, {
+                            events: [...prev.events, ...fetchMoreResult.events]
+                          });
+                        }
+                      }
+                    });
+                  },
+                  setActiveEvent
+                })}
+            </Grid>
+          </React.Fragment>
+        )}
+      </Query>
+      {activeEvent && (
+        <ModerationEventDialog
+          event={activeEvent}
+          open={activeEvent != null}
+          onClose={() => setActiveEvent(null)}
+        />
+      )}
+      {newEventDialog && (
+        <CreateEventDialog open={newEventDialog} onClose={() => setNewEventDialog(false)} />
+      )}
+    </React.Fragment>
+  );
+};
 
 function renderMakerResults({ data, onLoadMore, hasMore, withMaker, classes, setActiveMaker }) {
   if (data.makers.length === 0) {
@@ -157,14 +279,7 @@ const ModerationMakers = ({ classes, width }) => {
 
 function renderFursuitResults({ data, onLoadMore, hasMore, withMaker, classes, setActiveFursuit }) {
   if (data.fursuits.length === 0) {
-    const { location } = this.props;
-    const query = queryString.parse(location.search);
-
-    if (query.q) {
-      return <EmptyList label={`No results were found for your search term: ${query.q}`} />;
-    } else {
-      return <EmptyList label={`No results`} />;
-    }
+    return <EmptyList label={`No results`} />;
   }
   return (
     <React.Fragment>
@@ -283,7 +398,7 @@ const ModerationFursuits = ({ classes, width }) => {
 };
 
 const ModerationAssets = ({ classes, width }) => {
-  const [tab, setTab] = useState("fursuits");
+  const [tab, setTab] = useState("events");
 
   return (
     <React.Fragment>

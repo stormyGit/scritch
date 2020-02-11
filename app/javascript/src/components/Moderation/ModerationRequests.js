@@ -6,10 +6,11 @@ import Grid from "@material-ui/core/Grid";
 import withWidth from "@material-ui/core/withWidth";
 import { withStyles } from "@material-ui/core/styles";
 import { Tabs, Tab, Card, CardHeader, CardContent, CardActions, Button } from "@material-ui/core";
-import { FETCH_FURSUIT_REQUESTS } from "../../queries/moderationQueries";
+import { FETCH_FURSUIT_REQUESTS, FETCH_MAKER_REQUESTS } from "../../queries/moderationQueries";
 import { Query } from "react-apollo";
 import { Link } from "react-router-dom";
 import FursuitRequestDialog from "./FursuitRequestDialog";
+import MakerRequestDialog from "./MakerRequestDialog";
 
 const styles = theme => ({
   root: {
@@ -37,6 +38,85 @@ const styles = theme => ({
   }
 });
 
+const MakerRequests = ({ classes, width }) => {
+  const [activeRequest, setActiveRequest] = useState(null);
+  return (
+    <React.Fragment>
+      <div style={{ padding: 16 }} />
+      <Query query={FETCH_MAKER_REQUESTS}>
+        {({ data, loading, error, fetchMore }) => {
+          console.log(data);
+          if (loading || error || !data || !data.moderationMakerRequests) return null;
+          return (
+            <React.Fragment>
+              <Grid container className={classes.root} spacing={24}>
+                {data.moderationMakerRequests.map(request => {
+                  return (
+                    <React.Fragment key={request.id}>
+                      <Grid item xs={12} md={6} lg={4}>
+                        <Card>
+                          <CardHeader title={`Maker Request #${request.id.split("-")[0]}`} />
+                          <CardContent>
+                            <Typography variant="h6" className={classes.text}>
+                              Requested by
+                            </Typography>
+                            <Link
+                              className={classes.link}
+                              target="_blank"
+                              to={`/${request.user.slug}`}
+                            >
+                              <Typography variant="h6" className={classes.link}>
+                                {request.user.name}
+                              </Typography>
+                            </Link>
+                            <div style={{ padding: 16 }} />
+                            <Typography variant="h6" className={classes.text}>
+                              Maker Name
+                            </Typography>
+                            <Typography variant="h6">{request.assetName}</Typography>
+                            <div style={{ padding: 16 }} />
+                            <Typography variant="h6" className={classes.text}>
+                              Requester Comments
+                            </Typography>
+                            <Typography variant="h6">{request.body}</Typography>
+                            <div style={{ padding: 16 }} />
+                            <Typography variant="h6" className={classes.text}>
+                              URL to asset
+                            </Typography>
+                            <a className={classes.link} target="_blank" href={`/${request.url}`}>
+                              <Typography variant="h6" className={classes.link}>
+                                {request.user.name}
+                              </Typography>
+                            </a>
+                          </CardContent>
+                          <CardActions style={{ textAlign: "center" }}>
+                            <Button size="large" onClick={() => setActiveRequest(request)}>
+                              View Request
+                            </Button>
+                          </CardActions>
+                        </Card>
+                      </Grid>
+                      {activeRequest !== null && (
+                        <MakerRequestDialog
+                          open={activeRequest !== null}
+                          onClose={() => setActiveRequest(null)}
+                          request={request}
+                          classes={classes}
+                          width={width}
+                        />
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </Grid>
+            </React.Fragment>
+          );
+        }}
+      </Query>
+    </React.Fragment>
+  );
+};
+
 const FursuitRequests = ({ classes, width }) => {
   const [activeRequest, setActiveRequest] = useState(null);
   return (
@@ -50,10 +130,9 @@ const FursuitRequests = ({ classes, width }) => {
             <React.Fragment>
               <Grid container className={classes.root} spacing={24}>
                 {data.moderationFursuitRequests.map(request => {
-                  console.log(request);
                   return (
-                    <React.Fragment>
-                      <Grid xs={12} md={6} lg={4} key={request.id}>
+                    <React.Fragment key={request.id}>
+                      <Grid item xs={12} md={6} lg={4}>
                         <Card>
                           <CardHeader title={`Fursuit Request #${request.id.split("-")[0]}`} />
                           <CardContent>
@@ -109,7 +188,7 @@ const FursuitRequests = ({ classes, width }) => {
 };
 
 const ModerationRequests = ({ width, classes }) => {
-  const [tab, setTab] = useState("fursuits");
+  const [tab, setTab] = useState("makers");
 
   return (
     <React.Fragment>
@@ -126,8 +205,8 @@ const ModerationRequests = ({ width, classes }) => {
         <Tab value="events" icon={"Events"} />
       </Tabs>
       {tab === "fursuits" && <FursuitRequests classes={classes} width={width} />}
-      {tab === "makers" && <MakersRequests classes={classes} width={width} />}
-      {tab === "events" && <EventsRequests classes={classes} width={width} />}
+      {tab === "makers" && <MakerRequests classes={classes} width={width} />}
+      {tab === "events" && <EventRequests classes={classes} width={width} />}
     </React.Fragment>
   );
 };
