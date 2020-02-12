@@ -23,8 +23,8 @@ const styles = theme => ({
     justifyContent: "center"
   },
   buttonPadder: {
-    marginLeft: theme.spacing.unit * 3,
-    marginRight: theme.spacing.unit * 3
+    marginLeft: theme.spacing(3),
+    marginRight: theme.spacing(3)
   },
   domain: {
     marginRight: 1,

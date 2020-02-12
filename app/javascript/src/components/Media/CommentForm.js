@@ -16,14 +16,14 @@ const styles = theme => ({
   },
   textFieldContainer: {
     flex: 1,
-    marginLeft: theme.spacing.unit
+    marginLeft: theme.spacing(1)
   },
   actions: {
     textAlign: "right",
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing(1)
   },
   cancelButton: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   }
 });
 

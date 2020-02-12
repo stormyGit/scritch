@@ -37,7 +37,7 @@ const styles = theme => {
       fontSize: "1em"
     },
     filtersPaper: {
-      padding: theme.spacing.unit * 2,
+      padding: theme.spacing(2),
       height: 100,
       borderRadius: 15,
       textAlign: "center",

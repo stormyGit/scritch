@@ -22,7 +22,7 @@ const styles = theme => ({
     width: "100%"
   },
   filters: {
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     textAlign: "center",
     alignItems: "center"
   },

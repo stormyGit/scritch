@@ -20,15 +20,15 @@ const styles = theme => ({
     cursor: "pointer"
   },
   metrics: {
-    paddingLeft: theme.spacing.unit * 1,
-    paddingRight: theme.spacing.unit * 1,
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center"
   },
   dataSpacer: {
-    marginLeft: theme.spacing.unit * 2
+    marginLeft: theme.spacing(2)
   }
 });
 

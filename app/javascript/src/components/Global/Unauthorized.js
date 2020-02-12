@@ -11,7 +11,7 @@ const styles = theme => ({
     width: "100%"
   },
   title: {
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
     width: "100%",
     fontWeight: 200
   },

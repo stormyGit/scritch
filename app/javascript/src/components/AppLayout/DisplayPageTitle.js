@@ -6,8 +6,8 @@ import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   separator: {
-    marginLeft: theme.spacing.unit * 4,
-    marginRight: theme.spacing.unit * 3,
+    marginLeft: theme.spacing(4),
+    marginRight: theme.spacing(3),
     height: 32,
     borderLeftColor:
       theme.palette.type === "dark"
@@ -18,7 +18,7 @@ const styles = theme => ({
     [theme.breakpoints.down("md")]: {
       borderLeftWidth: 0,
       marginLeft: 0,
-      marginRight: theme.spacing.unit * 2
+      marginRight: theme.spacing(2)
     }
   },
   pageTitle: {

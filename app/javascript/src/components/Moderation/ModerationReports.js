@@ -9,7 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = theme => ({
   root: {
     width: "100%",
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     paddingRight: 0
   },
   flex: {

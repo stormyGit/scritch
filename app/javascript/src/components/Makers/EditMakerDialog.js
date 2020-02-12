@@ -17,13 +17,13 @@ import Typography from "@material-ui/core/Typography";
 import Select from "../Global/Select";
 
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
+import ImageCropper from "../Global/ImageCropper";
+import MakerAvatar from "./MakerAvatar";
 
 import { withStyles } from "@material-ui/core/styles";
 import { countriesList } from "../../countriesList";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
-import ImageCropper from "../Global/ImageCropper";
-import MakerAvatar from "./MakerAvatar";
 
 import { UPDATE_MAKER, DELETE_MAKER } from "../../queries/makerMutations";
 import { LOAD_COMMISSION_STATUSES, LOAD_MAKER } from "../../queries/makerQueries";
@@ -37,7 +37,7 @@ const styles = theme => ({
     zIndex: 4
   },
   dialogContent: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing(2)
   },
   selectInput: {
     fontFamily: theme.typography.fontFamily
@@ -67,8 +67,8 @@ const styles = theme => ({
     color: "white"
   },
   menuButton: {
-    paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
     justifyContent: "center"
   },
   bannerIllustration: {
@@ -98,14 +98,14 @@ const styles = theme => ({
     top: 0
   },
   avatarContainer: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing(3)
   },
   editBannerIcon: {
     display: "block",
     fontSize: "4em",
     marginLeft: "auto",
     marginRight: "auto",
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
     color: "white"
   },
   infoText: {
@@ -131,7 +131,8 @@ class EditMakerDialog extends React.Component {
     region: "",
     web: "",
     avatarMenu: true,
-    avatarMenu: false
+    avatarMenu: false,
+    avatar: null
   };
 
   constructor(props) {

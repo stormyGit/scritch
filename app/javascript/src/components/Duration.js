@@ -5,11 +5,11 @@ import Typography from "@material-ui/core/Typography";
 const styles = theme => ({
   duration: {
     position: "absolute",
-    right: theme.spacing.unit,
-    bottom: theme.spacing.unit,
+    right: theme.spacing(1),
+    bottom: theme.spacing(1),
     backgroundColor: "rgba(0, 0, 0, 0.8)",
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
     borderRadius: 3,
     color: "white",
     height: 19

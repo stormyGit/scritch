@@ -55,7 +55,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background
   },
   pictureInfo: {
-    paddingBottom: theme.spacing.unit
+    paddingBottom: theme.spacing(1)
   },
   userInfo: {
     paddingLeft: 0,
@@ -67,30 +67,30 @@ const styles = theme => ({
     marginBottom: 0
   },
   relatedMedia: {
-    marginBottom: theme.spacing.unit
+    marginBottom: theme.spacing(1)
   },
   userLink: {
     color: theme.palette.text.primary,
     textDecoration: "none"
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   socialButton: {
     color: theme.palette.text.primary,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     minWidth: 36,
     borderRadius: 18
   },
   tags: {
-    marginTop: theme.spacing.unit * 1
+    marginTop: theme.spacing(1)
   },
   noTags: {
     fontStyle: "italic"
   },
   chip: {
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit
+    marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   },
   mediaH: {
     width: "100%",
@@ -129,7 +129,7 @@ const styles = theme => ({
     textDecoration: "none"
   },
   tagReportButton: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     paddingTop: 0
   },
   dataFieldTitle: {
@@ -147,20 +147,20 @@ const styles = theme => ({
     justifyContent: "space-between"
   },
   padder: {
-    padding: theme.spacing.unit * 0.5
+    padding: theme.spacing(0.5)
   },
   buttonPadder: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   topContainer: {
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
   },
   topSubContainer: {
-    paddingTop: theme.spacing.unit * 0.5,
-    paddingBottom: theme.spacing.unit * 0.5,
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2
+    paddingTop: theme.spacing(0.5),
+    paddingBottom: theme.spacing(0.5),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
   }
 });
 

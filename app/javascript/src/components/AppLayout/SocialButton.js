@@ -19,7 +19,7 @@ const styles = theme => ({
     textDecoration: "none"
   },
   buttonPad: {
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   }
 });
 

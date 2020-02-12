@@ -10,6 +10,7 @@ module Types
       field :moderationAdverts, function: FetchModerationAdverts.new
       field :moderationFursuitRequests, function: FetchModerationFursuitRequests.new
       field :moderationMakerRequests, function: FetchModerationMakerRequests.new
+      field :moderationEventRequests, function: FetchModerationEventRequests.new
       field :moderationAnalytics, function: FetchModerationAnalytics.new
       field :moderationAnnouncements, function: FetchModerationAnnouncements.new
       field :moderationModerators, function: FetchModerationModerators.new

@@ -15,13 +15,13 @@ import withCurrentSession from "../withCurrentSession";
 const styles = theme => ({
   text: {
     fontWeight: 200,
-    paddingLeft: theme.spacing.unit * 6,
-    paddingRight: theme.spacing.unit * 6,
-    paddingBottom: theme.spacing.unit,
-    paddingTop: theme.spacing.unit
+    paddingLeft: theme.spacing(6),
+    paddingRight: theme.spacing(6),
+    paddingBottom: theme.spacing(1),
+    paddingTop: theme.spacing(1)
   },
   buttonPadder: {
-    paddingTop: theme.spacing.unit * 2
+    paddingTop: theme.spacing(2)
   },
   link: {
     textDecoration: "none"

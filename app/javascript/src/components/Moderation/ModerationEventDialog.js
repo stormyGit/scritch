@@ -18,6 +18,8 @@ import Select from "../Global/Select";
 import CreateEditionDialog from "./CreateEditionDialog";
 import UpdateEditionDialog from "./UpdateEditionDialog";
 import { DELETE_EVENT, DELETE_EDITION } from "../../queries/eventMutations";
+import MakerAvatar from "../Makers/MakerAvatar";
+import UpdateEventDialog from "./UpdateEventDialog";
 
 const styles = theme => ({
   link: {
@@ -219,25 +221,32 @@ const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
                 </Grid>
               </DialogTitle>
               <DialogContent style={{ paddingBottom: 5 }}>
-                <React.Fragment>
-                  <div className={classes.headerTitlesLeft}>
-                    <Typography variant="subtitle1" className={classes.eventTitle}>
-                      {event.country}
-                    </Typography>
-                    <div className={classes.dataSpacerLarge}>
-                      <a href={event.web} target="_blank" className={classes.link}>
-                        <Typography variant="subtitle1" className={classes.link}>
-                          Website
+                <Grid container spacing={1}>
+                  <Grid item xs={6}>
+                    <MakerAvatar avatar={event.avatar} className={classes.makerAvatar} size={128} />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <React.Fragment>
+                      <div className={classes.headerTitlesLeft}>
+                        <Typography variant="subtitle1" className={classes.eventTitle}>
+                          {event.country}
                         </Typography>
-                      </a>
-                    </div>
-                    <div className={classes.dataSpacerLarge}>
-                      <Typography variant="subtitle1" className={classes.eventTitle}>
-                        Status: <strong>{event.status}</strong>
-                      </Typography>
-                    </div>
-                  </div>
-                </React.Fragment>
+                        <div className={classes.dataSpacerLarge}>
+                          <a href={event.web} target="_blank" className={classes.link}>
+                            <Typography variant="subtitle1" className={classes.link}>
+                              Website
+                            </Typography>
+                          </a>
+                        </div>
+                        <div className={classes.dataSpacerLarge}>
+                          <Typography variant="subtitle1" className={classes.eventTitle}>
+                            Status: <strong>{event.status}</strong>
+                          </Typography>
+                        </div>
+                      </div>
+                    </React.Fragment>
+                  </Grid>
+                </Grid>
               </DialogContent>
               <DialogActions>
                 <DialogActions>
@@ -328,7 +337,7 @@ const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
               )}
             </ResponsiveDialog>
             {editEventDialog && (
-              <EditEventDialog
+              <UpdateEventDialog
                 event={event}
                 open={editEventDialog}
                 onClose={() => setEditEventDialog(false)}

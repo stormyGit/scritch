@@ -63,7 +63,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background
   },
   pictureInfo: {
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   },
   userInfo: {
     paddingLeft: 0,
@@ -72,30 +72,30 @@ const styles = theme => ({
   text: {},
 
   relatedMedia: {
-    marginBottom: theme.spacing.unit
+    marginBottom: theme.spacing(1)
   },
   userLink: {
     color: theme.palette.text.primary,
     textDecoration: "none"
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   socialButton: {
     color: theme.palette.text.primary,
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     minWidth: 36,
     borderRadius: 18
   },
   tags: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing(3)
   },
   noTags: {
     fontStyle: "italic"
   },
   chip: {
-    marginRight: theme.spacing.unit,
-    marginBottom: theme.spacing.unit
+    marginRight: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   },
   media: {
     width: "100%",
@@ -113,7 +113,7 @@ const styles = theme => ({
     fontSize: "2em"
   },
   sideSpace: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   userAvatar: {
     width: "80%",
@@ -124,12 +124,12 @@ const styles = theme => ({
     borderRadius: "20%"
   },
   infoHeader: {
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     display: "flex",
     alignItems: "center"
   },
   detailsHeader: {
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     display: "flex",
     alignItems: "center",
     textAlign: "center",
@@ -143,22 +143,22 @@ const styles = theme => ({
   headerTitles: {
     display: "flex",
     alignItems: "center",
-    paddingBottom: theme.spacing.unit * 1
+    paddingBottom: theme.spacing(1)
   },
   headerTitlesSpaced: {
     display: "flex",
     justifyContent: "space-between",
-    paddingBottom: theme.spacing.unit * 1
+    paddingBottom: theme.spacing(1)
   },
   headerTitlesLeft: {
     display: "flex",
-    paddingBottom: theme.spacing.unit * 1
+    paddingBottom: theme.spacing(1)
   },
   dataSpacer: {
-    marginLeft: theme.spacing.unit * 4
+    marginLeft: theme.spacing(4)
   },
   dataSpacerLarge: {
-    marginLeft: theme.spacing.unit * 6
+    marginLeft: theme.spacing(6)
   },
   headerTitlesContent: {
     display: "flex",
@@ -175,15 +175,15 @@ const styles = theme => ({
   },
   userTitlePadded: {
     fontWeight: 200,
-    paddingLeft: theme.spacing.unit * 2
+    paddingLeft: theme.spacing(2)
   },
   userTitlePaddedAdmin: {
     fontWeight: 200,
-    paddingLeft: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing(2),
     color: theme.palette.danger.main
   },
   actionButtonPadding: {
-    paddingLeft: theme.spacing.unit * 2
+    paddingLeft: theme.spacing(2)
   },
   infoButton: {
     color: theme.palette.primary.main
@@ -620,7 +620,7 @@ class User extends React.Component {
     return (
       <React.Fragment>
         <div className={classes.infoHeader}>
-          <Grid container spacing={40} className={classes.centerAlign}>
+          <Grid container spacing={5} className={classes.centerAlign}>
             <Grid item xs={false} lg={2} />
             <Grid item xs={2} lg={2} className={classes.avatarContainer}>
               <Avatar avatar={user.avatar} avatarClass={classes.userAvatar} />
@@ -868,7 +868,7 @@ class User extends React.Component {
                       className={classes.tabsCenterer}
                       value={this.state.tab}
                       onChange={(e, value) => this.setState({ tab: value })}
-                      textColor="textPrimary"
+                      textColor="secondary"
                     >
                       <Tab value="pictures" icon={"Pictures"} label={user.mediaCount} />
                       <Tab
@@ -898,7 +898,7 @@ class User extends React.Component {
                           className={classes.tabsCenterer}
                           value={this.state.subTab}
                           onChange={(e, value) => this.setState({ subTab: value })}
-                          textColor="textPrimary"
+                          textColor="secondary"
                         >
                           <Tab
                             value="profiles_following"

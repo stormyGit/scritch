@@ -34,6 +34,7 @@ class Mutations::CreateEdition < Mutations::BaseMutation
       rescue
         edition.event.avatar = File.open("app/assets/images/events/FAILED.png")
       end
+      edition.event.save
     end
 
     if edition.save

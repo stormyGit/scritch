@@ -89,7 +89,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.danger.main
   },
   rightButton: {
-    marginLeft: theme.spacing.unit * 2,
+    marginLeft: theme.spacing(2),
     display: "inline-block"
   },
   rightActions: {
@@ -99,13 +99,13 @@ const styles = theme => ({
   searchIcon: {},
   tinyButton: {},
   buttonPad: {
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   },
   menuLeftPadding: {
-    paddingLeft: theme.spacing.unit
+    paddingLeft: theme.spacing(1)
   },
   menuRightPadding: {
-    paddingRight: theme.spacing.unit
+    paddingRight: theme.spacing(1)
   },
   pointer: {
     cursor: "pointer"

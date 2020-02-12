@@ -56,11 +56,11 @@ const styles = theme => ({
     textDecoration: "none"
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   content: {
     textAlign: "center",
-    padding: theme.spacing.unit * 1
+    padding: theme.spacing(1)
   },
   text: {
     fontWeight: 200

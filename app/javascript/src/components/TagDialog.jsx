@@ -33,15 +33,15 @@ const styles = theme => ({
     textAlign: "center"
   },
   titleBarContainer: {
-    padding: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 3
+    padding: theme.spacing(1),
+    paddingLeft: theme.spacing(3)
   },
   link: {
     color: theme.palette.text.primary
   },
   loginButtonContainer: {
     textAlign: "center",
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
     position: "relative"
   },
   loginButton: {
@@ -57,7 +57,7 @@ const styles = theme => ({
   troubleLink: {
     textAlign: "center",
     textDecoration: "underline",
-    marginTop: theme.spacing.unit * 2,
+    marginTop: theme.spacing(2),
     cursor: "pointer"
   },
   selectInput: {
@@ -95,7 +95,7 @@ const styles = theme => ({
     width: "100%"
   },
   tagReportButton: {
-    paddingBottom: theme.spacing.unit
+    paddingBottom: theme.spacing(1)
   }
 });
 

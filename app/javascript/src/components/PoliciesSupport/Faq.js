@@ -14,10 +14,10 @@ const styles = theme => ({
   card: {
     width: "100%",
     borderRadius: 0,
-    paddingBottom: theme.spacing.unit * 8
+    paddingBottom: theme.spacing(8)
   },
   content: {
-    padding: theme.spacing.unit * 4
+    padding: theme.spacing(4)
   },
   text: {
     fontWeight: 200,
@@ -26,22 +26,22 @@ const styles = theme => ({
   },
   root: {
     width: "100%",
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     paddingRight: 0,
-    paddingBottom: theme.spacing.unit * 8
+    paddingBottom: theme.spacing(8)
   },
   gridPadder: {
     width: "100%",
-    paddingLeft: theme.spacing.unit * 16,
-    paddingRight: theme.spacing.unit * 16
+    paddingLeft: theme.spacing(16),
+    paddingRight: theme.spacing(16)
   },
   tableRoot: {
     width: "100%",
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     overflowX: "auto"
   },
   paperQuote: {
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     overflowX: "auto"
   },
   link: {

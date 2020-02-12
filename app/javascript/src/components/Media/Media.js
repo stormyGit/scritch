@@ -14,11 +14,11 @@ import MediumCard from "./MediumCard";
 const styles = theme => ({
   root: {
     width: "100%",
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     paddingRight: 0
   },
   filters: {
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     textAlign: "center",
     alignItems: "center"
   },

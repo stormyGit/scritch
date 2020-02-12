@@ -19,13 +19,13 @@ import Typography from "@material-ui/core/Typography";
 const styles = theme => ({
   root: {
     width: "100%",
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     paddingRight: 0,
     textAlign: "center"
   },
   text: {
     fontWeight: 200,
-    padding: theme.spacing.unit * 2
+    padding: theme.spacing(2)
   },
   advert: {
     textAlign: "center",

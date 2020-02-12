@@ -1,7 +1,8 @@
 class Mutations::UpdateEvent < Mutations::BaseMutation
   argument :id, ID, required: true
   argument :name, String, required: true
-  argument :country, String, required: true
+  argument :avatar, String, required: false
+  argument :status, String, required: true
   argument :web, String, required: true
 
   field :event, Types::EventType, null: true

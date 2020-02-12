@@ -23,14 +23,14 @@ const styles = theme => ({
     textAlign: "center"
   },
   titleBarContainer: {
-    padding: theme.spacing.unit,
-    paddingLeft: theme.spacing.unit * 3
+    padding: theme.spacing(1),
+    paddingLeft: theme.spacing(3)
   },
   link: {
     color: theme.palette.text.primary
   },
   telegramLoader: {
-    marginTop: theme.spacing.unit * 4,
+    marginTop: theme.spacing(4),
     marginLeft: "auto",
     marginRight: "auto",
     display: "block"

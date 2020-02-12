@@ -41,8 +41,8 @@ import {
 const dropZoneStyles = theme => ({
   root: {
     width: "100%",
-    marginTop: theme.spacing.unit * 2,
-    padding: theme.spacing.unit * 4,
+    marginTop: theme.spacing(2),
+    padding: theme.spacing(4),
     borderRadius: 2,
     textAlign: "center",
     color: "white",
@@ -209,7 +209,7 @@ const DropZoneFieldWithStyle = withStyles(dropZoneStyles)(
 
 const styles = theme => ({
   moderationExplanation: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing(2)
   },
   bannerMenu: {
     zIndex: 2
@@ -221,7 +221,7 @@ const styles = theme => ({
     fontWeight: 400
   },
   chipInput: {
-    marginBottom: theme.spacing.unit * 2
+    marginBottom: theme.spacing(2)
   },
   selectInput: {
     fontFamily: theme.typography.fontFamily
@@ -239,14 +239,14 @@ const styles = theme => ({
         : "rgba(0, 0, 0, 0.5)"
   },
   listPadding: {
-    marginBottom: theme.spacing.unit,
-    marginTop: theme.spacing.unit
+    marginBottom: theme.spacing(1),
+    marginTop: theme.spacing(1)
   },
   uploadLine: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   }
 });
 

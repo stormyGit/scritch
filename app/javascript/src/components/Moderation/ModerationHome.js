@@ -26,20 +26,20 @@ const styles = theme => ({
     textAlign: "center"
   },
   root: {
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     display: "flex",
     alignItems: "center"
   },
   rootMobile: {
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   },
   titlePadder: {
-    paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 4
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4)
   },
   titlePadderMobile: {
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
   },
   cardLink: {
     textDecoration: "none"
@@ -158,18 +158,11 @@ function ModerationHome({ classes, width, currentModerator }) {
       </Typography>
       <Padder />
       <Padder />
-      <Grid container spacing={width === "xl" || width === "lg" ? 24 : 8}>
+      <Grid container spacing={width === "xl" || width === "lg" ? 3 : 1}>
         {moderationRouter.map(route => {
           if (currentModerator.capabilities.includes(route.capability))
             return (
-              <Grid
-                item
-                xs={12}
-                md={6}
-                lg={3}
-                className={classes.grid}
-                key={route.title}
-              >
+              <Grid item xs={12} md={6} lg={3} className={classes.grid} key={route.title}>
                 <Link to={route.path} className={classes.cardLink}>
                   <Card className={classes.card}>
                     <CardContent>
@@ -190,6 +183,4 @@ function ModerationHome({ classes, width, currentModerator }) {
   );
 }
 
-export default withStyles(styles)(
-  withWidth()(withCurrentModerator(ModerationHome))
-);
+export default withStyles(styles)(withWidth()(withCurrentModerator(ModerationHome)));

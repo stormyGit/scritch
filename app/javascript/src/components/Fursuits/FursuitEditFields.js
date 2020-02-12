@@ -44,7 +44,7 @@ const styles = theme => {
       fontSize: "1em"
     },
     filtersPaper: {
-      padding: theme.spacing.unit * 2,
+      padding: theme.spacing(2),
       height: 100,
       borderRadius: 15,
       textAlign: "center",
@@ -64,7 +64,7 @@ const styles = theme => {
       color: theme.palette.primary.main,
       fontWeight: 200,
       cursor: "pointer",
-      paddingTop: theme.spacing.unit
+      paddingTop: theme.spacing(1)
     },
     root: {
       flexGrow: 1
@@ -98,8 +98,8 @@ const styles = theme => {
     },
     label: {
       fontWeight: 200,
-      paddingLeft: theme.spacing.unit,
-      paddingTop: theme.spacing.unit
+      paddingLeft: theme.spacing(1),
+      paddingTop: theme.spacing(1)
     }
   };
 };

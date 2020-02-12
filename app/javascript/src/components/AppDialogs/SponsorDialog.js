@@ -15,23 +15,23 @@ import withCurrentSession from "../withCurrentSession";
 const styles = theme => ({
   textTitle: {
     fontWeight: 400,
-    paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 4,
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit * 2
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(2)
   },
   text: {
     fontWeight: 200,
-    paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 4,
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit * 2
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(2)
   },
   listPadder: {
-    paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 4,
-    paddingTop: theme.spacing.unit,
-    paddingBottom: theme.spacing.unit * 2
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(2)
   },
   link: {
     textDecoration: "none"

@@ -12,7 +12,7 @@ import AdvertiseDialog from "../AppDialogs/AdvertiseDialog";
 const styles = theme => ({
   root: {
     display: "flex",
-    padding: theme.spacing.unit * 2,
+    padding: theme.spacing(2),
     flexGrow: 1,
     maxHeight: 90
   },

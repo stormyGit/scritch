@@ -14,7 +14,7 @@ import UserAvatar from "../Users/UserAvatar";
 
 const styles = theme => ({
   dataSpacer: {
-    marginRight: theme.spacing.unit * 1
+    marginRight: theme.spacing(1)
   }
 });
 

@@ -5,34 +5,27 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   root: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   button: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2)
   },
   withMargin: {
-    marginTop: theme.spacing.unit,
-    marginBottom: theme.spacing.unit / 2,
-    marginLeft: theme.spacing.unit / 2,
-    marginRight: theme.spacing.unit / 2
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(0.5),
+    marginLeft: theme.spacing(0.5),
+    marginRight: theme.spacing(0.5)
   }
 });
 
 const LoadMoreButton = ({ classes, noMargin, spacing, ...props }) => (
-  <Grid
-    container
-    spacing={spacing || 0}
-    justify="center"
-    className={classes.root}
-  >
+  <Grid container spacing={spacing || 0} justify="center" className={classes.root}>
     <Grid item xs={12} lg={12}>
       <Button
         fullWidth
         size="large"
-        className={[classes.button, noMargin ? "" : classes.withMargin].join(
-          " "
-        )}
+        className={[classes.button, noMargin ? "" : classes.withMargin].join(" ")}
         {...props}
       >
         Load more

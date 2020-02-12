@@ -34,11 +34,7 @@ class Subscriptions extends React.Component {
         switchNewOnlyStatus={() => {
           this.setState({ newProfilesOnly: !this.state.newProfilesOnly });
         }}
-        filter={
-          this.state.newProfilesOnly
-            ? "subscriptions_users"
-            : "subscriptions_users_all"
-        }
+        filter={this.state.newProfilesOnly ? "subscriptions_users" : "subscriptions_users_all"}
         {...this.props}
       />
     );
@@ -47,13 +43,9 @@ class Subscriptions extends React.Component {
   renderFursuits() {
     return (
       <MediaSubs
-        switchNewOnlyStatus={() =>
-          this.setState({ newFursuitsOnly: !this.state.newFursuitsOnly })
-        }
+        switchNewOnlyStatus={() => this.setState({ newFursuitsOnly: !this.state.newFursuitsOnly })}
         filter={
-          this.state.newFursuitsOnly
-            ? "subscriptions_fursuits"
-            : "subscriptions_fursuits_all"
+          this.state.newFursuitsOnly ? "subscriptions_fursuits" : "subscriptions_fursuits_all"
         }
         {...this.props}
       />
@@ -61,13 +53,7 @@ class Subscriptions extends React.Component {
   }
 
   renderMakers() {
-    return (
-      <Fursuits
-        filter="subscriptions_fursuits"
-        withSubsClear={true}
-        {...this.props}
-      />
-    );
+    return <Fursuits filter="subscriptions_fursuits" withSubsClear={true} {...this.props} />;
   }
 
   render() {
@@ -80,7 +66,7 @@ class Subscriptions extends React.Component {
           value={this.state.tab}
           onChange={(e, value) => this.setState({ tab: value })}
           centered
-          textColor="textPrimary"
+          textColor="secondary"
           variant={width === "xl" || width === "lg" ? "" : "fullWidth"}
         >
           <Tab value="media" label={"Profiles"} />
@@ -99,6 +85,4 @@ class Subscriptions extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withRouter(withCurrentSession(withWidth()(Subscriptions)))
-);
+export default withStyles(styles)(withRouter(withCurrentSession(withWidth()(Subscriptions))));

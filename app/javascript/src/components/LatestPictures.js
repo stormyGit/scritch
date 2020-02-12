@@ -23,20 +23,20 @@ const styles = theme => ({
     textAlign: "center"
   },
   root: {
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     display: "flex",
     alignItems: "center"
   },
   rootMobile: {
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   },
   titlePadder: {
-    paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 4
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4)
   },
   titlePadderMobile: {
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
   }
 });
 

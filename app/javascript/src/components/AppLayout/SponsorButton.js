@@ -6,7 +6,7 @@ import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   dataSpacer: {
-    marginRight: theme.spacing.unit * 1
+    marginRight: theme.spacing(1)
   },
   link: {
     textDecoration: "none"

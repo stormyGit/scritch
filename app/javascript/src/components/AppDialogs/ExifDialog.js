@@ -27,7 +27,7 @@ import withCurrentSession from "../withCurrentSession";
 const styles = theme => ({
   text: {
     fontWeight: 200,
-    padding: theme.spacing.unit * 4
+    padding: theme.spacing(4)
   },
   link: {
     textDecoration: "none"
@@ -45,7 +45,7 @@ const styles = theme => ({
     textAlign: "center"
   },
   textGrid: {
-    paddingLeft: theme.spacing.unit
+    paddingLeft: theme.spacing(1)
   }
 });
 

@@ -39,7 +39,7 @@ const styles = theme => ({
     zIndex: 4
   },
   dialogContent: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing(2)
   },
   editBannerButton: {
     width: "100%",
@@ -66,8 +66,8 @@ const styles = theme => ({
     color: "white"
   },
   menuButton: {
-    paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
     justifyContent: "center"
   },
   bannerIllustration: {
@@ -97,14 +97,14 @@ const styles = theme => ({
     top: 0
   },
   avatarContainer: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing(3)
   },
   editBannerIcon: {
     display: "block",
     fontSize: "4em",
     marginLeft: "auto",
     marginRight: "auto",
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
     color: "white"
   },
   infoText: {

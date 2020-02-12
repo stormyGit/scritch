@@ -22,11 +22,11 @@ import {
 const styles = theme => ({
   root: {
     width: "100%",
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     paddingRight: 0
   },
   filters: {
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     textAlign: "center",
     alignItems: "center"
   },
@@ -66,13 +66,13 @@ const styles = theme => ({
   clearSubsButton: {
     textAlign: "center",
     alignItems: "center",
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     top: 0
   },
   flexTopButtons: {
     display: "flex",
     justifyContent: "center",
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   }
 });
 

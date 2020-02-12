@@ -30,16 +30,16 @@ import dayjs from "dayjs";
 const styles = theme => ({
   root: {
     width: "100%",
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     paddingRight: 0
   },
   card: {
     width: "100%",
     borderRadius: 0,
-    padding: theme.spacing.unit * 2
+    padding: theme.spacing(2)
   },
   content: {
-    padding: theme.spacing.unit * 4
+    padding: theme.spacing(4)
   },
   text: {
     fontWeight: 200,

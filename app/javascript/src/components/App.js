@@ -88,12 +88,11 @@ export default class AppBootstrap extends React.Component {
       <ApolloProvider client={apolloClient}>
         <Query query={GET_THEME}>
           {({ data, loading, error }) => (
-            <MuiThemeProvider theme={makeTheme(data.theme)}>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                {" "}
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <MuiThemeProvider theme={makeTheme(data.theme)}>
                 <ConnectedApp />
-              </MuiPickersUtilsProvider>
-            </MuiThemeProvider>
+              </MuiThemeProvider>
+            </MuiPickersUtilsProvider>
           )}
         </Query>
       </ApolloProvider>

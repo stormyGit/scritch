@@ -27,16 +27,16 @@ const styles = theme => ({
     textDecoration: "none"
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   videoCount: {
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
-    paddingRight: theme.spacing.unit * 3
+    paddingRight: theme.spacing(3)
   },
   padder: {
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   }
 });
 

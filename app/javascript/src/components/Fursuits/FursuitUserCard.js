@@ -28,10 +28,10 @@ const styles = theme => ({
     textDecoration: "none"
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   padder: {
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   },
   metrics: {
     display: "flex"
@@ -40,13 +40,13 @@ const styles = theme => ({
     flexShrink: 0,
     display: "flex",
     alignItems: "center",
-    paddingRight: theme.spacing.unit * 3
+    paddingRight: theme.spacing(3)
   },
   dataSpacer: {
-    marginLeft: theme.spacing.unit * 2
+    marginLeft: theme.spacing(2)
   },
   dataSpacerPlus: {
-    marginLeft: theme.spacing.unit * 8
+    marginLeft: theme.spacing(8)
   }
 });
 

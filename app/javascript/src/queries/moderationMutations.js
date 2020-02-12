@@ -134,3 +134,13 @@ export const REJECT_MAKER_REQUEST = gql`
     }
   }
 `;
+
+export const REJECT_EVENT_REQUEST = gql`
+  mutation rejectEventRequest($input: RejectEventRequestInput!) {
+    rejectEventRequest(input: $input) {
+      eventRequest {
+        id
+      }
+    }
+  }
+`;

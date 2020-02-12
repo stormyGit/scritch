@@ -33,8 +33,8 @@ import timeAgo from "../../timeAgo";
 
 const styles = theme => ({
   comment: {
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2)
   },
   commentHeader: {
     padding: 0,
@@ -46,8 +46,8 @@ const styles = theme => ({
     textDecoration: "none"
   },
   repliesPanel: {
-    marginTop: theme.spacing.unit,
-    // marginLeft: theme.spacing.unit * 7,
+    marginTop: theme.spacing(1),
+    // marginLeft: theme.spacing(7),
     // paddingLeft: 34,
     backgroundColor: theme.palette.type === "dark" ? "#333" : "#eee"
   },
@@ -61,7 +61,7 @@ const styles = theme => ({
   menuButton: {
     // position: 'absolute',
     // top: 0,
-    // right: -theme.spacing.unit * 8,
+    // right: -theme.spacing(8),
   }
 });
 

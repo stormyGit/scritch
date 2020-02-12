@@ -16,11 +16,11 @@ import Grid from "@material-ui/core/Grid";
 const styles = theme => ({
   tableRoot: {
     width: "100%",
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     overflowX: "auto"
   },
   paperQuote: {
-    padding: theme.spacing.unit * 3,
+    padding: theme.spacing(3),
     overflowX: "auto"
   },
   link: {

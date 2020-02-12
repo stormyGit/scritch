@@ -56,7 +56,7 @@ import countContractor from "../../countContractor";
 const styles = theme => ({
   dialogTitleRoot: {
     margin: 0,
-    padding: theme.spacing.unit * 2
+    padding: theme.spacing(2)
   },
   link: {
     textDecoration: "none",
@@ -70,7 +70,7 @@ const styles = theme => ({
     fontWeight: 200
   },
   masterGridOnLoad: {
-    padding: theme.spacing.unit * 4,
+    padding: theme.spacing(4),
     width: "100%",
     height: "100%",
     display: "flex",
@@ -98,7 +98,7 @@ const styles = theme => ({
     }
   },
   dataGrid: {
-    padding: theme.spacing.unit,
+    padding: theme.spacing(1),
     width: "100%",
     overflowY: "auto",
     height: "fit-content",
@@ -156,8 +156,8 @@ const styles = theme => ({
   },
   innerDialogCloseButton: {
     position: "absolute",
-    right: theme.spacing.unit * 1,
-    top: theme.spacing.unit * 1,
+    right: theme.spacing(1),
+    top: theme.spacing(1),
     color: theme.palette.grey[500]
   },
   masterGridBackdrop: {
@@ -188,7 +188,7 @@ const styles = theme => ({
     textAlign: "center"
   },
   textGrid: {
-    paddingLeft: theme.spacing.unit
+    paddingLeft: theme.spacing(1)
   },
   userLink: {
     color: theme.palette.text.primary,

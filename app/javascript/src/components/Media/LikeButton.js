@@ -34,7 +34,7 @@ const NoFavoriteIcon = props => (
 
 const styles = theme => ({
   root: {
-    marginLeft: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
     paddingBottom: 2,
     paddingLeft: 2,
     paddingRight: 2,
@@ -46,7 +46,7 @@ const styles = theme => ({
     alignItems: "center"
   },
   rootIcon: {
-    marginLeft: theme.spacing.unit,
+    marginLeft: theme.spacing(1),
     paddingBottom: 2,
     paddingLeft: 2,
     paddingRight: 2,
@@ -54,7 +54,7 @@ const styles = theme => ({
     alignItems: "center"
   },
   iconButton: {
-    padding: theme.spacing.unit - 2
+    padding: theme.spacing(1) - 2
   },
   button: {
     padding: "6px 3px",

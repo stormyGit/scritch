@@ -16,9 +16,9 @@ import GlobalProgress from "../Global/GlobalProgress";
 import FursuitEditFields from "../Fursuits/FursuitEditFields";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { LOAD_MAKER } from "../../queries/makerQueries";
-import { REJECT_MAKER_REQUEST } from "../../queries/moderationMutations";
-import { CREATE_MAKER } from "../../queries/makerMutations";
+import { LOAD_EVENT } from "../../queries/eventQueries";
+import { REJECT_EVENT_REQUEST } from "../../queries/moderationMutations";
+import { CREATE_EVENT } from "../../queries/eventMutations";
 import { countriesList } from "../../countriesList";
 import Select from "../Global/Select";
 import { Paper } from "@material-ui/core";
@@ -119,13 +119,11 @@ const styles = theme => ({
   }
 });
 
-class MakerRequestDialog extends React.Component {
+class EventRequestDialog extends React.Component {
   state = {
     name: "",
     web: "",
-    country: "",
-    region: "",
-    visible: true
+    status: ""
   };
 
   render() {
@@ -150,36 +148,11 @@ class MakerRequestDialog extends React.Component {
               fullWidth
             />
             <div style={{ padding: 5 }} />
-            {currentSession && currentSession.user.isModerator && (
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={this.state.visible}
-                    onChange={e => this.setState({ visible: e.target.checked })}
-                  />
-                }
-                label="Visible?"
-              />
-            )}
-            <div style={{ padding: 5 }} />
-            <Select
-              fullWidth
-              placeholder="Country"
-              isClearable
-              isSearchable
-              value={this.state.country}
-              onChange={country => {
-                this.setState({ country: country });
-              }}
-              options={countriesList}
-              className={classes.selectInput}
-            />
-            <div style={{ padding: 5 }} />
             <TextField
-              label="Region"
-              name="region"
-              value={this.state.region}
-              onChange={e => this.setState({ region: e.target.value })}
+              label="Status"
+              name="status"
+              value={this.state.status}
+              onChange={e => this.setState({ status: e.target.value })}
               margin="dense"
               fullWidth
             />
@@ -194,20 +167,18 @@ class MakerRequestDialog extends React.Component {
             />
           </DialogContent>
           <DialogActions>
-            <Mutation mutation={CREATE_MAKER}>
-              {(createMaker, { data }) => (
+            <Mutation mutation={CREATE_EVENT}>
+              {(createEvent, { data }) => (
                 <Button
                   disabled={!this.state.name || /^\s*$/.test(this.state.name)}
                   onClick={() => {
-                    createMaker({
+                    createEvent({
                       variables: {
                         input: {
                           requestId: request.id,
                           name: this.state.name,
-                          visible: this.state.visible,
                           web: this.state.web,
-                          country: this.state.country.value,
-                          region: this.state.region
+                          status: this.state.status.value
                         }
                       }
                     }).then(updated => {
@@ -220,11 +191,11 @@ class MakerRequestDialog extends React.Component {
                 </Button>
               )}
             </Mutation>
-            <Mutation mutation={REJECT_MAKER_REQUEST}>
-              {(rejectMakerRequest, { data }) => (
+            <Mutation mutation={REJECT_EVENT_REQUEST}>
+              {(rejectEventRequest, { data }) => (
                 <Button
                   onClick={() => {
-                    rejectMakerRequest({
+                    rejectEventRequest({
                       variables: {
                         input: {
                           id: request.id
@@ -248,4 +219,4 @@ class MakerRequestDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withCurrentSession(MakerRequestDialog)));
+export default withStyles(styles)(withRouter(withCurrentSession(EventRequestDialog)));

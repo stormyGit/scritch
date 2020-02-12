@@ -32,7 +32,7 @@ import ResponsiveDialog from "./Global/ResponsiveDialog";
 const styles = theme => ({
   root: {
     width: "100%",
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     paddingRight: 0
   },
   buttonRoot: {
@@ -40,7 +40,7 @@ const styles = theme => ({
     justifyContent: "center"
   },
   tagButton: {
-    padding: theme.spacing.unit * 2
+    padding: theme.spacing(2)
   }
 });
 

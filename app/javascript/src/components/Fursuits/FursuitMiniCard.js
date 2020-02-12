@@ -52,22 +52,22 @@ const styles = theme => ({
     textDecoration: "none"
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   content: {
     textAlign: "center",
-    padding: theme.spacing.unit * 1
+    padding: theme.spacing(1)
   },
   tags: {
     overflow: "hidden",
-    maxHeight: theme.spacing.unit * 6,
-    marginBottom: theme.spacing.unit * 2
+    maxHeight: theme.spacing(6),
+    marginBottom: theme.spacing(2)
   },
   noTags: {
     fontStyle: "italic"
   },
   chip: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   fursuitText: {
     fontWeight: 400,

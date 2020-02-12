@@ -1,6 +1,7 @@
 class Mutations::CreateEvent < Mutations::BaseMutation
   argument :name, String, required: true
   argument :web, String, required: false
+  argument :avatar, String, required: false
   argument :status, String, required: false
   argument :request_id, ID, required: false
 

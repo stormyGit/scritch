@@ -57,7 +57,7 @@ const styles = theme => {
       width: "100%",
       position: "relative",
       justifyContent: "flex-start",
-      padding: theme.spacing.unit * 2
+      padding: theme.spacing(2)
     },
     bannerPlaceholder: {
       position: "absolute",
@@ -73,10 +73,10 @@ const styles = theme => {
       alignItems: "center"
     },
     infoText: {
-      marginLeft: theme.spacing.unit * 2
+      marginLeft: theme.spacing(2)
     },
     nested: {
-      paddingLeft: theme.spacing.unit * 4
+      paddingLeft: theme.spacing(4)
     },
     text: {
       color: theme.palette.text.primary
@@ -85,8 +85,8 @@ const styles = theme => {
       textDecoration: "none"
     },
     paper: {
-      padding: theme.spacing.unit * 2,
-      margin: theme.spacing.unit * 2
+      padding: theme.spacing(2),
+      margin: theme.spacing(2)
     },
     oversizeTooltip: {
       fontSize: "1.5em"

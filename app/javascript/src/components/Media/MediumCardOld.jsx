@@ -114,11 +114,11 @@ const styles = theme => ({
     paddingTop: "100%"
   },
   leftIcon: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
     fontSize: "1.7rem"
   },
   leftIconSmall: {
-    marginRight: theme.spacing.unit,
+    marginRight: theme.spacing(1),
     fontSize: 17
   },
   flex: {

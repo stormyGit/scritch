@@ -36,8 +36,8 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    paddingTop: theme.spacing.unit * 8,
-    paddingBottom: theme.spacing.unit * 8
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8)
   },
   emptyNoficationIcon: {
     fontSize: 2,
@@ -45,7 +45,7 @@ const styles = theme => ({
     fontSize: "4em",
     marginLeft: "auto",
     marginRight: "auto",
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
     color:
       theme.palette.type === "dark"
         ? "rgba(255, 255, 255, 0.3)"
@@ -56,8 +56,8 @@ const styles = theme => ({
     paddingRight: 0
   },
   loadMoreContainer: {
-    paddingLeft: theme.spacing.unit * 2,
-    paddingRight: theme.spacing.unit * 2
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2)
   },
   commentBody: {
     fontStyle: "italic"

@@ -29,7 +29,7 @@ const styles = theme => ({
   },
   content: {
     textAlign: "center",
-    padding: theme.spacing.unit * 0.1
+    padding: theme.spacing(0.1)
   },
   text: {
     fontWeight: 200

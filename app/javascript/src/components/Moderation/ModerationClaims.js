@@ -29,7 +29,7 @@ import {
 const styles = theme => ({
   root: {
     width: "100%",
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     paddingRight: 0
   },
   flex: {
@@ -254,7 +254,7 @@ const ModerationClaims = ({ classes, width }) => {
         className={classes.tabsCenterer}
         value={tab}
         onChange={(e, value) => setTab(value)}
-        textColor="textPrimary"
+        textColor="secondary"
       >
         <Tab value="fursuits" icon={"Fursuits"} />
         <Tab value="makers" icon={"Makers"} />

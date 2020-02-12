@@ -235,3 +235,20 @@ export const FETCH_MAKER_REQUESTS = gql`
     }
   }
 `;
+
+export const FETCH_EVENT_REQUESTS = gql`
+  query moderationEventRequests {
+    moderationEventRequests {
+      id
+      url
+      body
+      url
+      assetName
+      user {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;

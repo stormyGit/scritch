@@ -28,7 +28,7 @@ import CreateEventDialog from "./CreateEventDialog";
 const styles = theme => ({
   root: {
     width: "100%",
-    padding: theme.spacing.unit * 1,
+    padding: theme.spacing(1),
     paddingRight: 0
   },
   flex: {
@@ -45,15 +45,10 @@ const styles = theme => ({
 
 function renderEventResults({ data, onLoadMore, hasMore, withEvent, classes, setActiveEvent }) {
   if (data.events.length === 0) {
-    const { location } = this.props;
-    const query = queryString.parse(location.search);
-
-    if (query.q) {
-      return <EmptyList label={`No results were found for your search term: ${query.q}`} />;
-    } else {
-      return <EmptyList label={`No results`} />;
-    }
+    return <EmptyList label={`No results`} />;
   }
+
+  console.log(data);
   return (
     <React.Fragment>
       {data.events.map(event => (

@@ -9,7 +9,7 @@ import UploadIcon from "@material-ui/icons/CloudUpload";
 
 const styles = theme => ({
   buttonPad: {
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   }
 });
 

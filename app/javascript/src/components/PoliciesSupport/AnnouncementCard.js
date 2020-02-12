@@ -14,10 +14,10 @@ const styles = theme => ({
   card: {
     width: "100%",
     borderRadius: 0,
-    padding: theme.spacing.unit * 2
+    padding: theme.spacing(2)
   },
   content: {
-    padding: theme.spacing.unit * 4
+    padding: theme.spacing(4)
   },
   text: {
     fontWeight: 200,

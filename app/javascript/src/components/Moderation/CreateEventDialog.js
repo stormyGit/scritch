@@ -16,6 +16,10 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Select from "../Global/Select";
 
+import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
+import ImageCropper from "../Global/ImageCropper";
+import MakerAvatar from "../Makers/MakerAvatar";
+
 import { withStyles } from "@material-ui/core/styles";
 import { countriesList } from "../../countriesList";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
@@ -32,7 +36,7 @@ const styles = theme => ({
     zIndex: 4
   },
   dialogContent: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing(2)
   },
   selectInput: {
     fontFamily: theme.typography.fontFamily
@@ -62,8 +66,8 @@ const styles = theme => ({
     color: "white"
   },
   menuButton: {
-    paddingLeft: theme.spacing.unit * 4,
-    paddingRight: theme.spacing.unit * 4,
+    paddingLeft: theme.spacing(4),
+    paddingRight: theme.spacing(4),
     justifyContent: "center"
   },
   bannerIllustration: {
@@ -93,14 +97,14 @@ const styles = theme => ({
     top: 0
   },
   avatarContainer: {
-    marginTop: theme.spacing.unit * 3
+    marginTop: theme.spacing(3)
   },
   editBannerIcon: {
     display: "block",
     fontSize: "4em",
     marginLeft: "auto",
     marginRight: "auto",
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
     color: "white"
   },
   infoText: {
@@ -125,8 +129,16 @@ class CreateEventDialog extends React.Component {
     status: "",
     region: "",
     web: "",
-    visible: true
+    visible: true,
+    avatarMenu: true,
+    avatarMenu: false,
+    avatar: null
   };
+
+  constructor(props) {
+    super(props);
+    this.avatarUploadInput = React.createRef();
+  }
 
   render() {
     const { classes, maker, currentSession } = this.props;
@@ -136,6 +148,68 @@ class CreateEventDialog extends React.Component {
         <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
           <GlobalProgress absolute />
           <DialogContent className={classes.dialogContent}>
+            <Button
+              className={classes.editAvatarButton}
+              onClick={() => this.setState({ avatarMenu: true })}
+            >
+              <div id="uploadAvatarButton">
+                <InsertPhotoIcon />
+              </div>
+            </Button>
+            <Popper
+              open={this.state.avatarMenu}
+              anchorEl={document.getElementById("uploadAvatarButton")}
+              transition
+              disablePortal
+              className={classes.bannerMenu}
+            >
+              {({ TransitionProps, placement }) => (
+                <Grow
+                  {...TransitionProps}
+                  id="menu-list-grow"
+                  style={{
+                    transformOrigin: placement === "bottom" ? "center top" : "center bottom"
+                  }}
+                >
+                  <Paper>
+                    <ClickAwayListener onClickAway={() => this.setState({ avatarMenu: false })}>
+                      <MenuList disablePadding>
+                        <MenuItem
+                          className={classes.menuButton}
+                          onClick={() => {
+                            this.avatarUploadInput.current.click();
+                            this.setState({ avatarMenu: false });
+                          }}
+                        >
+                          Upload picture
+                        </MenuItem>
+                        <Divider />
+                        <MenuItem
+                          className={classes.menuButton}
+                          onClick={() => this.setState({ avatarMenu: false })}
+                        >
+                          Cancel
+                        </MenuItem>
+                      </MenuList>
+                    </ClickAwayListener>
+                  </Paper>
+                </Grow>
+              )}
+            </Popper>
+            <input
+              accept="image/png,image/x-png,image/jpeg"
+              className={classes.uploadInput}
+              ref={this.avatarUploadInput}
+              type="file"
+              onChange={e => {
+                this.setState({ avatarToEdit: e.target.files[0] });
+              }}
+            />
+            <MakerAvatar
+              avatar={this.state.avatar}
+              className={classes.makerAvatar}
+              size={AVATAR_SIZE}
+            />
             <TextField
               label="Name"
               name="name"
@@ -165,14 +239,15 @@ class CreateEventDialog extends React.Component {
           </DialogContent>
           <DialogActions>
             <Mutation mutation={CREATE_EVENT}>
-              {(updateEvent, { data }) => (
+              {(createEvent, { data }) => (
                 <Button
                   disabled={!this.state.name || /^\s*$/.test(this.state.name)}
                   onClick={() => {
-                    updateEvent({
+                    createEvent({
                       variables: {
                         input: {
                           name: this.state.name,
+                          avatar: this.state.avatar,
                           web: this.state.web,
                           status: this.state.status
                         }
@@ -190,6 +265,23 @@ class CreateEventDialog extends React.Component {
             <Button onClick={this.props.onClose}>Cancel</Button>
           </DialogActions>
         </ResponsiveDialog>
+        {this.state.avatarToEdit && (
+          <ImageCropper
+            image={this.state.avatarToEdit}
+            width={300}
+            height={300}
+            borderRadius={30}
+            onClose={() => {
+              this.setState({ avatarToEdit: null });
+            }}
+            onSubmit={canvas => {
+              this.setState({
+                avatar: canvas.toDataURL(),
+                removeAvatar: false
+              });
+            }}
+          />
+        )}
       </React.Fragment>
     );
   }

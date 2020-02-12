@@ -36,7 +36,7 @@ import { CREATE_MESSAGE, READ_CHAT } from "../../queries/chatMutations";
 
 const styles = theme => ({
   title: {
-    padding: theme.spacing.unit * 1
+    padding: theme.spacing(1)
   },
   unreadIcon: {
     color: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.8)" : "rgba(0, 0, 0, 0.8)"
@@ -63,9 +63,9 @@ const styles = theme => ({
   },
   messages: {
     paddingBottom: 0,
-    paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit,
-    paddingTop: theme.spacing.unit,
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+    paddingTop: theme.spacing(1),
     flex: "1 1 auto",
     overflowY: "auto",
     overflowX: "hidden"
@@ -73,19 +73,19 @@ const styles = theme => ({
   },
   messageBox: {
     flexGrow: 1,
-    // padding: theme.spacing.unit * 2,
+    // padding: theme.spacing(2),
     background: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.09)" : "rgba(0, 0, 0, 0.09)",
     borderRadius: 3,
     alignItems: "center"
   },
   messageText: {
-    padding: theme.spacing.unit
+    padding: theme.spacing(1)
   },
   messageActions: {
-    paddingTop: theme.spacing.unit
+    paddingTop: theme.spacing(1)
   },
   leftIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   inputAvatarContainer: {
     paddingLeft: 4,
@@ -99,8 +99,8 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    paddingTop: theme.spacing.unit * 8,
-    paddingBottom: theme.spacing.unit * 8
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8)
   },
   emptyChatsIcon: {
     fontSize: 2,
@@ -108,7 +108,7 @@ const styles = theme => ({
     fontSize: "4em",
     marginLeft: "auto",
     marginRight: "auto",
-    marginBottom: theme.spacing.unit,
+    marginBottom: theme.spacing(1),
     color: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.3)"
   }
 });

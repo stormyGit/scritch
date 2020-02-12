@@ -81,6 +81,8 @@ module Types
     field :reject_fursuit_request, mutation: Mutations::RejectFursuitRequest
 
     field :reject_maker_request, mutation: Mutations::RejectMakerRequest
+   
+    field :reject_event_request, mutation: Mutations::RejectEventRequest
 
     field :tag_lock_medium, mutation: Mutations::TagLockMedium
     field :tag_unlock_medium, mutation: Mutations::TagUnlockMedium

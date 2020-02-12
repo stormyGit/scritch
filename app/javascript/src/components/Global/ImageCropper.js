@@ -9,7 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
   slider: {
-    marginTop: theme.spacing.unit * 2
+    marginTop: theme.spacing(2)
   }
 });
 

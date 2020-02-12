@@ -36,6 +36,7 @@ export const LOAD_EVENTS = gql`
       id
       name
       country
+      status
       avatar
       slug
     }
