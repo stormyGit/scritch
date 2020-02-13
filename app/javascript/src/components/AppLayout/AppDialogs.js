@@ -13,6 +13,7 @@ import AdvertiseDialog from "../AppDialogs/AdvertiseDialog";
 import SignUpDialog from "../AppDialogs/SignUpDialog";
 import TechDialog from "../AppDialogs/TechDialog";
 import SpeciesDialog from "../AppDialogs/SpeciesDialog";
+import GlobalSearchDialog from "../AppDialogs/GlobalSearchDialog";
 
 const styles = theme => ({
   close: {
@@ -39,7 +40,8 @@ class AppDialogs extends React.Component {
       speciesDialog,
       activitiesDialog,
       advertiseDialog,
-      chatDialog
+      chatDialog,
+      searchDialog
     } = this.props;
 
     return (
@@ -80,6 +82,7 @@ class AppDialogs extends React.Component {
           onClose={() => this.props.closeTechDialog()}
           submitSnack={() => this.setState({ snack: true })}
         />
+        <GlobalSearchDialog open={searchDialog} onClose={() => this.props.closeSearchDialog()} />
         <Snackbar
           anchorOrigin={{
             vertical: "bottom",

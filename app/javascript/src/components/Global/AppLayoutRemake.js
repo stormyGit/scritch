@@ -27,7 +27,7 @@ import NotificationsButton from "../AppLayout/NotificationsButton";
 import AppDialogs from "../AppLayout/AppDialogs";
 import CookieConsent from "react-cookie-consent";
 import logo from "../../../../assets/images/logo.png";
-import { Menu, MenuItem, TextField, InputAdornment, Tooltip } from "@material-ui/core";
+import { Menu, MenuItem, TextField, InputAdornment, Tooltip, Button } from "@material-ui/core";
 import ChatButton from "../AppLayout/ChatButton";
 
 const styles = theme => ({
@@ -312,40 +312,6 @@ class AppLayoutRemake extends React.Component {
                       src={logo}
                     />
                   )}
-                  {false &&
-                    currentSession &&
-                    (this.state.searchEnabled || width === "lg" || width === "xl") && (
-                      <div
-                        className={classes.searchBar}
-                        style={{
-                          paddingLeft: appBarPadding,
-                          maxWidth: width === "lg" || width === "xl" ? 200 : "none",
-                          marginRight: width === "lg" || width === "xl" ? 16 : 0
-                        }}
-                      >
-                        <TextField
-                          clearable
-                          placeholder="Search..."
-                          onChange={e => {
-                            this.handleSearch(e.target.value, e);
-                          }}
-                          value={this.state.nameInput}
-                          InputProps={
-                            this.state.nameInput !== ""
-                              ? {
-                                  endAdornment: (
-                                    <InputAdornment position="end">
-                                      <IconButton onClick={e => this.handleSearch("", e)}>
-                                        <CloseIcon />
-                                      </IconButton>
-                                    </InputAdornment>
-                                  )
-                                }
-                              : null
-                          }
-                        />
-                      </div>
-                    )}
 
                   {(width === "xl" || width === "lg") && (
                     <div className={classes.titleZone}>
@@ -353,6 +319,26 @@ class AppLayoutRemake extends React.Component {
                     </div>
                   )}
 
+                  {(width === "lg" || width === "xl") && (
+                    <Button
+                      className={[classes.searchIcon, classes.tinyButton].join(" ")}
+                      onClick={() => this.setState({ searchDialog: true })}
+                      color="primary"
+                    >
+                      <SearchIcon />
+                      Search
+                    </Button>
+                  )}
+
+                  {width !== "lg" && width !== "xl" && (
+                    <IconButton
+                      className={[classes.searchIcon, classes.tinyButton].join(" ")}
+                      onClick={() => this.setState({ searchDialog: true })}
+                      color="primary"
+                    >
+                      <SearchIcon />
+                    </IconButton>
+                  )}
                   {!this.state.searchEnabled && (
                     <React.Fragment>
                       <UploadButton onClick={() => this.setState({ uploadDialog: true })} />
@@ -361,27 +347,6 @@ class AppLayoutRemake extends React.Component {
                       />
                       <PoliciesSupportButton openTech={() => this.setState({ techDialog: true })} />
                     </React.Fragment>
-                  )}
-
-                  {false && this.state.searchEnabled && (
-                    <IconButton
-                      className={classes.closeIcon}
-                      onClick={() => {
-                        this.setState({ searchEnabled: false });
-                      }}
-                    >
-                      <CloseIcon />
-                    </IconButton>
-                  )}
-
-                  {!this.state.searchEnabled && width !== "lg" && width !== "xl" && (
-                    <IconButton
-                      className={[classes.searchIcon, classes.tinyButton].join(" ")}
-                      onClick={() => this.setState({ searchEnabled: true })}
-                      color="primary"
-                    >
-                      <SearchIcon />
-                    </IconButton>
                   )}
 
                   {!this.state.searchEnabled && (
@@ -427,6 +392,8 @@ class AppLayoutRemake extends React.Component {
               {this.props.children}
             </div>
             <AppDialogs
+              searchDialog={this.state.searchDialog}
+              closeSearchDialog={() => this.setState({ searchDialog: false })}
               chatDialog={this.state.chatDialog}
               closeChatDialog={() => this.setState({ chatDialog: false })}
               signUpDialog={this.state.signUpDialog}

@@ -26,6 +26,7 @@ import { READ_MAKER_NOTIFICATIONS } from "../../queries/subscriptionMutations";
 import { Link } from "react-router-dom";
 
 import FursuitFilters from "./FursuitFilters";
+import CustomProgress from "../Global/CustomProgress";
 
 const styles = theme => ({
   root: {
@@ -91,14 +92,7 @@ class Fursuits extends React.Component {
     const { classes } = this.props;
 
     if (data.fursuits.length === 0) {
-      const { location } = this.props;
-      const query = queryString.parse(location.search);
-
-      if (query.q) {
-        return <EmptyList label={`No results were found for your search term: ${query.q}`} />;
-      } else {
-        return <EmptyList label={`No results`} />;
-      }
+      return <EmptyList label={`No results`} />;
     }
     return (
       <React.Fragment>
@@ -205,8 +199,7 @@ class Fursuits extends React.Component {
 
   render() {
     const { classes, location, width, searching, withSubsClear } = this.props;
-    const query = searching ? queryString.parse(location.search) : null;
-    let limit = query ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
+    let limit = this.props.search ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
       <React.Fragment>
@@ -216,7 +209,7 @@ class Fursuits extends React.Component {
         <Query
           query={LOAD_FURSUITS}
           variables={{
-            name: searching ? query.q : this.state.name,
+            name: searching ? this.props.search : this.state.name,
             fursuitLegType: this.state.fursuitLegType,
             fursuitStyle: this.state.fursuitStyle,
             filter: this.props.filter,
@@ -236,7 +229,8 @@ class Fursuits extends React.Component {
           }}
         >
           {({ data, loading, error, fetchMore }) => {
-            if (loading || error || !data || !data.fursuits) return null;
+            if (loading) return <CustomProgress size={this.props.search ? 64 : 128} />;
+            if (error || !data || !data.fursuits) return null;
             return (
               <React.Fragment>
                 <Grid

@@ -24,6 +24,7 @@ import { Link, withRouter } from "react-router-dom";
 
 import MakerFilters from "./MakerFilters";
 import MakerFiltersMobile from "./MakerFiltersMobile";
+import CustomProgress from "../Global/CustomProgress";
 
 const styles = theme => ({
   root: {
@@ -67,18 +68,7 @@ class Makers extends React.Component {
     const { classes } = this.props;
 
     if (data.makers.length === 0) {
-      const { location } = this.props;
-      const query = queryString.parse(location.search);
-
-      if (query.q) {
-        return (
-          <EmptyList
-            label={`No results were found for your search term: ${query.q}`}
-          />
-        );
-      } else {
-        return <EmptyList label={`No results`} />;
-      }
+      return <EmptyList label={`No results`} />;
     }
 
     return (
@@ -95,8 +85,7 @@ class Makers extends React.Component {
 
   render() {
     const { classes, location, width, searching } = this.props;
-    const query = searching ? queryString.parse(location.search) : null;
-    let limit = query ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
+    let limit = this.props.search ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
 
     return (
       <React.Fragment>
@@ -104,7 +93,7 @@ class Makers extends React.Component {
         <Query
           query={LOAD_MAKERS}
           variables={{
-            name: searching ? query.q : this.state.name,
+            name: searching ? this.props.search : this.state.name,
             country: this.state.country,
             region: this.state.region,
             commissionStatus: this.state.commissionStatus,
@@ -112,94 +101,88 @@ class Makers extends React.Component {
             offset: 0
           }}
         >
-          {({ data, loading, error, fetchMore }) => (
-            <React.Fragment>
-              {!searching && (
-                <Grid
-                  spacing={1}
-                  container
-                  className={classes.filters}
-                  alignItems="center"
-                >
-                  {(width === "xl" || width === "lg") && (
-                    <Grid item lg={2}>
-                      <img
-                        style={{ width: "80%" }}
-                        src={require("images/pixel/Header - Search Maker Browse.png")}
-                      />
-                    </Grid>
-                  )}
-                  <Grid item xs={12} lg={8}>
-                    {width === "xs" || width === "sm" ? (
-                      <MakerFiltersMobile
-                        onChange={value => {
-                          this.setState({ [value.label]: value.value });
-                        }}
-                        clearFilters={() => this.clearFilters()}
-                      />
-                    ) : (
-                      <MakerFilters
-                        onChange={value => {
-                          this.setState({ [value.label]: value.value });
-                        }}
-                        clearFilters={() => this.clearFilters()}
-                      />
+          {({ data, loading, error, fetchMore }) => {
+            if (loading) return <CustomProgress size={this.props.search ? 64 : 128} />;
+            if (error || !data || !data.makers) return null;
+            return (
+              <React.Fragment>
+                {!searching && (
+                  <Grid spacing={1} container className={classes.filters} alignItems="center">
+                    {(width === "xl" || width === "lg") && (
+                      <Grid item lg={2}>
+                        <img
+                          style={{ width: "80%" }}
+                          src={require("images/pixel/Header - Search Maker Browse.png")}
+                        />
+                      </Grid>
                     )}
+                    <Grid item xs={12} lg={8}>
+                      {width === "xs" || width === "sm" ? (
+                        <MakerFiltersMobile
+                          onChange={value => {
+                            this.setState({ [value.label]: value.value });
+                          }}
+                          clearFilters={() => this.clearFilters()}
+                        />
+                      ) : (
+                        <MakerFilters
+                          onChange={value => {
+                            this.setState({ [value.label]: value.value });
+                          }}
+                          clearFilters={() => this.clearFilters()}
+                        />
+                      )}
+                    </Grid>
+                    <Grid item xs={12} lg={2}>
+                      <Button
+                        variant="outlined"
+                        size="large"
+                        className={classes.requestButton}
+                        onClick={() => this.setState({ assetRequestDialog: true })}
+                      >
+                        Request a new Maker
+                      </Button>
+                    </Grid>
                   </Grid>
-                  <Grid item xs={12} lg={2}>
-                    <Button
-                      variant="outlined"
-                      size="large"
-                      className={classes.requestButton}
-                      onClick={() =>
-                        this.setState({ assetRequestDialog: true })
-                      }
-                    >
-                      Request a new Maker
-                    </Button>
-                  </Grid>
-                </Grid>
-              )}
-              <Grid
-                container
-                className={classes.root}
-                spacing={3}
-                style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
-              >
-                {!loading &&
-                  !error &&
-                  this.renderResults({
-                    data,
-                    hasMore:
-                      data.makers.length % limit === 0 &&
-                      this.state.hasMore &&
-                      data.makers.length > 0,
-                    onLoadMore: () => {
-                      fetchMore({
-                        variables: {
-                          offset: data.makers.length,
-                          limit
-                        },
-                        updateQuery: (prev, { fetchMoreResult }) => {
-                          if (!fetchMoreResult) return prev;
+                )}
+                <Grid
+                  container
+                  className={classes.root}
+                  spacing={3}
+                  style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
+                >
+                  {!loading &&
+                    !error &&
+                    this.renderResults({
+                      data,
+                      hasMore:
+                        data.makers.length % limit === 0 &&
+                        this.state.hasMore &&
+                        data.makers.length > 0,
+                      onLoadMore: () => {
+                        fetchMore({
+                          variables: {
+                            offset: data.makers.length,
+                            limit
+                          },
+                          updateQuery: (prev, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) return prev;
 
-                          if (fetchMoreResult.makers.length === 0) {
-                            this.setState({ hasMore: false });
-                          } else {
-                            return Object.assign({}, prev, {
-                              makers: [
-                                ...prev.makers,
-                                ...fetchMoreResult.makers
-                              ]
-                            });
+                            if (fetchMoreResult.makers.length === 0) {
+                              this.setState({ hasMore: false });
+                            } else {
+                              return Object.assign({}, prev, {
+                                makers: [...prev.makers, ...fetchMoreResult.makers]
+                              });
+                            }
                           }
-                        }
-                      });
-                    }
-                  })}
-              </Grid>
-            </React.Fragment>
-          )}
+                        });
+                      }
+                    })}
+                </Grid>
+              </React.Fragment>
+            );
+          }}
         </Query>
         <Snackbar
           anchorOrigin={{
