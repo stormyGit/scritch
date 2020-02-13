@@ -114,10 +114,7 @@ const styles = theme => ({
     marginRight: 1,
     paddingBottom: 0,
     fontSize: "1rem",
-    color:
-      theme.palette.type === "dark"
-        ? "rgba(255, 255, 255, 0.5)"
-        : "rgba(0, 0, 0, 0.5)"
+    color: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.5)" : "rgba(0, 0, 0, 0.5)"
   }
 });
 
@@ -147,10 +144,7 @@ class EditProfileDialog extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if (
-      this.props.user !== nextProps.user ||
-      this.props.open !== nextProps.open
-    ) {
+    if (this.props.user !== nextProps.user || this.props.open !== nextProps.open) {
       this.setInitialValues(nextProps.user);
     }
   }
@@ -192,14 +186,11 @@ class EditProfileDialog extends React.Component {
               {...TransitionProps}
               id="menu-list-grow"
               style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
+                transformOrigin: placement === "bottom" ? "center top" : "center bottom"
               }}
             >
               <Paper>
-                <ClickAwayListener
-                  onClickAway={() => this.setState({ bannerMenu: false })}
-                >
+                <ClickAwayListener onClickAway={() => this.setState({ bannerMenu: false })}>
                   <MenuList disablePadding>
                     <MenuItem
                       className={classes.menuButton}
@@ -249,11 +240,7 @@ class EditProfileDialog extends React.Component {
             <img src={this.state.banner} className={classes.bannerImage} />
           </div>
         ) : (
-          <BannerPlaceholder
-            className={classes.bannerIllustration}
-            length={90}
-            slug={user.slug}
-          />
+          <BannerPlaceholder className={classes.bannerIllustration} length={90} slug={user.slug} />
         )}
       </div>
     );
@@ -284,14 +271,11 @@ class EditProfileDialog extends React.Component {
               {...TransitionProps}
               id="menu-list-grow"
               style={{
-                transformOrigin:
-                  placement === "bottom" ? "center top" : "center bottom"
+                transformOrigin: placement === "bottom" ? "center top" : "center bottom"
               }}
             >
               <Paper>
-                <ClickAwayListener
-                  onClickAway={() => this.setState({ avatarMenu: false })}
-                >
+                <ClickAwayListener onClickAway={() => this.setState({ avatarMenu: false })}>
                   <MenuList disablePadding>
                     <MenuItem
                       className={classes.menuButton}
@@ -373,8 +357,7 @@ class EditProfileDialog extends React.Component {
               name="slug"
               value={this.state.slug}
               onChange={e => {
-                e.target.value.length <= 140 &&
-                  this.setState({ slug: e.target.value });
+                e.target.value.length <= 140 && this.setState({ slug: e.target.value });
               }}
               margin="dense"
               variant="outlined"
@@ -387,8 +370,7 @@ class EditProfileDialog extends React.Component {
               value={this.state.bio}
               variant="outlined"
               onChange={e => {
-                e.target.value.length <= 280 &&
-                  this.setState({ bio: e.target.value });
+                e.target.value.length <= 280 && this.setState({ bio: e.target.value });
               }}
               margin="dense"
               fullWidth
@@ -430,7 +412,7 @@ class EditProfileDialog extends React.Component {
                         input: {
                           id: user.id,
                           name: this.state.name,
-                          slug: this.state.slug.replace(/\//g, "-"),
+                          slug: this.state.slug.replace(/\//g, "-").replace(/\./g, "-"),
                           bio: this.state.bio,
                           website: this.state.website,
                           ...(this.state.banner !== user.banner
