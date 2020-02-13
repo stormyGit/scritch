@@ -98,11 +98,7 @@ const DrawerItem = ({ classes, label, icon, path, onClick, type }) => {
   if (type === "Link") {
     return (
       <Link to={path} className={classes.link}>
-        <ListItem
-          button
-          selected={location.pathname === path}
-          onClick={onClick}
-        >
+        <ListItem button selected={location.pathname === path} onClick={onClick}>
           <ListItemIcon className={classes.text} color="secondary">
             {icon}
           </ListItemIcon>
@@ -151,11 +147,9 @@ class DrawerMenuRemake extends React.Component {
 
   render() {
     const { classes, location, currentSession, width, onClose } = this.props;
-    const user =
-      currentSession && currentSession.user ? currentSession.user : null;
+    const user = currentSession && currentSession.user ? currentSession.user : null;
 
-    if (user && user.sponsor)
-      var sponsorLimit = new Date(user.sponsor.limit * 1000);
+    if (user && user.sponsor) var sponsorLimit = new Date(user.sponsor.limit * 1000);
 
     const homeItem = {
       label: "Home",
@@ -287,10 +281,7 @@ class DrawerMenuRemake extends React.Component {
 
     switch (userType) {
       case "Suspended":
-        itemsPack = [
-          [homeItem],
-          [announcementsItem, dividerItem, settingsItem]
-        ];
+        itemsPack = [[homeItem], [announcementsItem, dividerItem, settingsItem]];
         break;
       case "Sponsor":
         itemsPack = [
@@ -331,12 +322,10 @@ class DrawerMenuRemake extends React.Component {
                     <DrawerItem
                       classes={classes}
                       onClick={() => {
-                        if (
-                          (width === "sm" || width === "xs") &&
-                          item.type === "Link"
-                        ) {
+                        console.log(item);
+                        if ((width === "sm" || width === "xs") && item.type === "Link") {
                           onClose();
-                          item.onClick();
+                          item.onClick;
                         } else item.onClick();
                       }}
                       label={item.label}
@@ -348,9 +337,7 @@ class DrawerMenuRemake extends React.Component {
                   ))}
                 </List>
               </div>
-              {width !== "xl" && width !== "lg" && width !== "md" && (
-                <Divider />
-              )}
+              {width !== "xl" && width !== "lg" && width !== "md" && <Divider />}
             </React.Fragment>
           ))}
           <SettingsDialog
@@ -449,6 +436,4 @@ class DrawerMenuRemake extends React.Component {
   }
 }
 
-export default withRouter(
-  withStyles(styles)(withCurrentSession(withWidth()(DrawerMenuRemake)))
-);
+export default withRouter(withStyles(styles)(withCurrentSession(withWidth()(DrawerMenuRemake))));
