@@ -7,7 +7,7 @@ class Message < ApplicationRecord
   after_create :mark_recipient_as_unread
   after_commit :notify_create, on: [:create]
 
-  mount_uploader :picture, PictureUploader
+  mount_base64_uploader :picture, ChatUploader
 
   def mark_recipient_as_unread
     if sender == chat.recipient

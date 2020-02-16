@@ -16,6 +16,7 @@ export const CREATE_MESSAGE = gql`
       message {
         id
         body
+        picture
         senderId
         createdAt
       }

@@ -413,7 +413,7 @@ class ChatsDialog extends React.Component {
   }
 }
 
-const Message = ({ message, last, classes, currentSession, user }) => {
+const Message = ({ message, last, classes, currentSession, user, onClose }) => {
   const Timestamp = () => (
     <Typography variant="caption" className={classes.timestamp}>
       {timeAgo.format(dayjs(message.createdAt).toDate())}
@@ -448,29 +448,67 @@ const Message = ({ message, last, classes, currentSession, user }) => {
     );
   } else {
     return (
-      <Grid
-        container
-        spacing={1}
-        key={message.id}
-        alignItems="flex-end"
-        wrap="nowrap"
-        style={{ marginBottom: last ? 4 : 16 }}
-      >
-        <Grid
-          item
-          onClick={() => {
-            onClose();
-          }}
-        >
-          <Link to={`/${user.slug}`}>
-            <UserAvatar user={user} />
-          </Link>
-        </Grid>
-        <Grid item className={classes.messageBox} style={{ marginLeft: 8, marginRight: 56 }}>
-          <FormattedText text={message.body} className={classes.messageText} />
-          <Timestamp />
-        </Grid>
-      </Grid>
+      <React.Fragment>
+        {message.picture && (
+          <Grid
+            container
+            spacing={1}
+            key={message.id}
+            alignItems="flex-end"
+            wrap="nowrap"
+            style={{ marginBottom: last ? 4 : 16, justifyContent: "right" }}
+          >
+            <Grid
+              item
+              onClick={() => {
+                onClose();
+              }}
+            >
+              <Link to={`/${user.slug}`}>
+                <UserAvatar user={user} />
+              </Link>
+            </Grid>
+            <Grid item style={{ marginRight: 8, marginLeft: 56 }}>
+              <a href={message.picture} target="_blank">
+                <img
+                  src={message.picture}
+                  className={classes.messageText}
+                  onChangeLocation={onClose}
+                />
+              </a>
+            </Grid>
+          </Grid>
+        )}
+        {message.body !== "" && (
+          <Grid
+            container
+            spacing={1}
+            key={message.id}
+            alignItems="flex-end"
+            wrap="nowrap"
+            style={{ marginBottom: last ? 4 : 16 }}
+          >
+            <Grid
+              item
+              onClick={() => {
+                onClose();
+              }}
+            >
+              <Link to={`/${user.slug}`}>
+                <UserAvatar user={user} />
+              </Link>
+            </Grid>
+            <Grid item className={classes.messageBox} style={{ marginRight: 8, marginLeft: 56 }}>
+              <FormattedText
+                text={message.body}
+                className={classes.messageText}
+                onChangeLocation={onClose}
+              />
+              <Timestamp />
+            </Grid>
+          </Grid>
+        )}
+      </React.Fragment>
     );
   }
 };
@@ -515,6 +553,7 @@ const ModeratorChatDialog = ({
                     currentSession={currentSession}
                     classes={classes}
                     message={message}
+                    onClose={onClose}
                   />
                 );
               })}

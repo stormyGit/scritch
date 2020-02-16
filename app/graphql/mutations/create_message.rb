@@ -1,5 +1,6 @@
 class Mutations::CreateMessage < Mutations::BaseMutation
   argument :body, String, required: true
+  argument :picture, String, required: false
   argument :recipient_id, ID, required: true
   argument :case_id, ID, required: false
   argument :chat_id, ID, required: false
@@ -12,7 +13,7 @@ class Mutations::CreateMessage < Mutations::BaseMutation
     raise Pundit::NotAuthorizedError unless UserPolicy.new(context[:current_user], User.find(arguments[:recipient_id])).message?
 
     pp arguments
-    message = Message.new(body: arguments[:body])
+    message = Message.new(body: arguments[:body], picture: arguments[:picture])
     message.sender = context[:current_user]
     
     if arguments[:chat_id].blank?

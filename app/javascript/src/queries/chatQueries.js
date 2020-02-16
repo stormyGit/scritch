@@ -29,6 +29,7 @@ export const GET_MESSAGES = gql`
       @connection(key: "messages", filter: ["chatId"]) {
       id
       body
+      picture
       senderId
       createdAt
     }

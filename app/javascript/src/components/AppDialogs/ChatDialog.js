@@ -27,11 +27,16 @@ import withCurrentSession from "../withCurrentSession";
 import FormattedText from "../Global/FormattedText";
 import InteractiveTextInput from "../Global/InteractiveTextInput";
 import timeAgo from "../../timeAgo";
-
+import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
+import Grow from "@material-ui/core/Grow";
+import Popper from "@material-ui/core/Popper";
 import { combineUUIDs } from "../../utils";
+import Divider from "@material-ui/core/Divider";
 
 import { GET_CHATS, GET_MESSAGES, GET_UNREAD_CHATS_COUNT } from "../../queries/chatQueries";
 import { CREATE_MESSAGE, READ_CHAT } from "../../queries/chatMutations";
+import { Paper, ClickAwayListener, MenuList, MenuItem } from "@material-ui/core";
+import ImageCropper from "../Global/ImageCropper";
 
 const styles = theme => ({
   title: {
@@ -109,31 +114,54 @@ const styles = theme => ({
     marginRight: "auto",
     marginBottom: theme.spacing(1),
     color: theme.palette.type === "dark" ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.3)"
+  },
+  uploadInput: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    left: 0,
+    bottom: 0,
+    margin: 0,
+    padding: 0,
+    opacity: 0,
+    width: 1,
+    height: 1
   }
 });
 
 class MessageInput extends React.Component {
   state = {
-    message: ""
+    message: "",
+    picture: null,
+    pictureLoaded: false,
+    pictureMenu: false,
+    pictureToEdit: null
   };
 
+  constructor(props) {
+    super(props);
+    this.pictureUploadInput = React.createRef();
+  }
+
   handleSend(createMessage) {
-    if (this.state.message.match(/^\s*$/)) {
+    console.log(this.state);
+    if (this.state.message.match(/^\s*$/) && !this.state.picture) {
       return;
     }
-    console.log(this.props);
+    console.log(this.state);
     createMessage({
       variables: {
         input: {
           recipientId: this.props.user.id,
           body: this.state.message,
+          picture: this.state.picture,
           chatId: this.props.chatId,
           caseId: this.props.caseId,
           caseType: this.props.caseType
         }
       }
     }).then(() => {
-      this.setState({ message: "" });
+      this.setState({ message: "", picture: "", pictureLoaded: false, pictureToEdit: null });
     });
   }
 
@@ -171,55 +199,98 @@ class MessageInput extends React.Component {
         }}
       >
         {(createMessage, { data }) => (
-          <Grid spacing={1} container alignItems="flex-end" wrap="nowrap">
-            <Grid item>
-              <div className={classes.inputAvatarContainer}>
-                <UserAvatar user={currentSession.user} />
-              </div>
-            </Grid>
-            <Grid item className={classes.messageGrid}>
-              <InteractiveTextInput
-                InputProps={{
-                  className: classes.messageInput
-                }}
-                placeholder="Write your message"
-                name="message"
-                value={this.state.message}
-                onChange={e => {
-                  this.setState({ message: e.target.value });
-                }}
-                onKeyPress={e => {
-                  const keyCode = e.keyCode || e.which;
-                  if (keyCode === 13) {
-                    if (e.ctrlKey) {
-                      this.setState({ message: `${this.state.message}\n` });
-                    } else {
-                      e.preventDefault();
-                      this.handleSend(createMessage);
+          <React.Fragment>
+            <Grid spacing={1} container alignItems="flex-end" wrap="nowrap">
+              <Grid item>
+                <div className={classes.inputAvatarContainer}>
+                  <UserAvatar user={currentSession.user} />
+                </div>
+              </Grid>
+              <Grid item className={classes.messageGrid}>
+                <InteractiveTextInput
+                  InputProps={{
+                    className: classes.messageInput
+                  }}
+                  placeholder="Write your message"
+                  name="message"
+                  value={this.state.message}
+                  onChange={e => {
+                    this.setState({ message: e.target.value });
+                  }}
+                  onKeyPress={e => {
+                    const keyCode = e.keyCode || e.which;
+                    if (keyCode === 13) {
+                      if (e.ctrlKey) {
+                        this.setState({ message: `${this.state.message}\n` });
+                      } else {
+                        e.preventDefault();
+                        this.handleSend(createMessage);
+                      }
                     }
-                  }
+                  }}
+                  variant="filled"
+                  fullWidth
+                  multiline
+                  rows={1}
+                  rowsMax={12}
+                  autoFocus
+                  required
+                />
+              </Grid>
+              <Grid item>
+                <IconButton
+                  variant="outlined"
+                  margin="none"
+                  onClick={() => {
+                    this.pictureUploadInput.current.click();
+                    this.setState({ pictureLoaded: false });
+                  }}
+                >
+                  <InsertPhotoIcon />
+                </IconButton>
+                <input
+                  accept="image/png,image/x-png,image/jpeg"
+                  className={classes.uploadInput}
+                  ref={this.pictureUploadInput}
+                  type="file"
+                  onChange={e => {
+                    this.setState({ pictureToEdit: e.target.files[0] });
+                  }}
+                />
+                <IconButton
+                  variant="outlined"
+                  margin="none"
+                  onClick={() => {
+                    this.handleSend(createMessage);
+                  }}
+                >
+                  <SendIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+            {this.state.pictureToEdit && (
+              <ImageCropper
+                image={this.state.pictureToEdit}
+                width={500}
+                height={500}
+                borderRadius={0}
+                onClose={() => {
+                  this.setState({ pictureToEdit: null });
                 }}
-                variant="filled"
-                fullWidth
-                multiline
-                rows={1}
-                rowsMax={12}
-                autoFocus
-                required
+                onSubmit={canvas => {
+                  console.log(canvas.toDataURL());
+                  this.setState(
+                    {
+                      picture: canvas.toDataURL(),
+                      removePicture: false,
+                      pictureLoaded: true
+                    },
+                    () => this.handleSend(createMessage)
+                  );
+                }}
               />
-            </Grid>
-            <Grid item>
-              <IconButton
-                variant="outlined"
-                margin="none"
-                onClick={() => {
-                  this.handleSend(createMessage);
-                }}
-              >
-                <SendIcon />
-              </IconButton>
-            </Grid>
-          </Grid>
+            )}
+          </React.Fragment>
         )}
       </Mutation>
     );
@@ -297,33 +368,65 @@ class ChatDialog extends React.Component {
 
     if (message.senderId === currentSession.user.id) {
       return (
-        <Grid
-          container
-          spacing={1}
-          key={message.id}
-          alignItems="flex-end"
-          wrap="nowrap"
-          style={{ marginBottom: last ? 4 : 16 }}
-        >
-          <Grid item className={classes.messageBox} style={{ marginRight: 8, marginLeft: 56 }}>
-            <FormattedText
-              text={message.body}
-              className={classes.messageText}
-              onChangeLocation={onClose}
-            />
-            <Timestamp />
-          </Grid>
-          <Grid
-            item
-            onClick={() => {
-              onClose();
-            }}
-          >
-            <Link to={`/${currentSession.user.slug}`}>
-              <UserAvatar user={currentSession.user} />
-            </Link>
-          </Grid>
-        </Grid>
+        <React.Fragment>
+          {message.picture && (
+            <Grid
+              container
+              spacing={1}
+              key={message.id}
+              alignItems="flex-end"
+              wrap="nowrap"
+              style={{ marginBottom: last ? 4 : 16, justifyContent: "right" }}
+            >
+              <Grid item style={{ marginRight: 8, marginLeft: 56 }}>
+                <img
+                  src={message.picture}
+                  className={classes.messageText}
+                  onChangeLocation={onClose}
+                />
+              </Grid>
+              <Grid
+                item
+                onClick={() => {
+                  onClose();
+                }}
+              >
+                <Link to={`/${currentSession.user.slug}`}>
+                  <UserAvatar user={currentSession.user} />
+                </Link>
+              </Grid>
+            </Grid>
+          )}
+          {message.body !== "" && (
+            <Grid
+              container
+              spacing={1}
+              key={message.id}
+              alignItems="flex-end"
+              wrap="nowrap"
+              style={{ marginBottom: last ? 4 : 16 }}
+            >
+              <Grid item className={classes.messageBox} style={{ marginRight: 8, marginLeft: 56 }}>
+                <FormattedText
+                  text={message.body}
+                  className={classes.messageText}
+                  onChangeLocation={onClose}
+                />
+                <Timestamp />
+              </Grid>
+              <Grid
+                item
+                onClick={() => {
+                  onClose();
+                }}
+              >
+                <Link to={`/${currentSession.user.slug}`}>
+                  <UserAvatar user={currentSession.user} />
+                </Link>
+              </Grid>
+            </Grid>
+          )}
+        </React.Fragment>
       );
     } else {
       return (
