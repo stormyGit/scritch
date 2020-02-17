@@ -61,6 +61,13 @@ module Types
     field :create_claim, mutation: Mutations::CreateClaim
     field :create_maker_claim, mutation: Mutations::CreateMakerClaim
     
+    # field :remove_user_avatar, mutation: Mutations::RemoveUserBio
+    # field :remove_user_bio, mutation: Mutations::RemoveUserAvatar
+    # field :remove_user_website, mutation: Mutations::RemoveUserWebsite
+    field :accept_serious_violation, mutation: Mutations::AcceptSeriousViolation
+    field :accept_minor_violation, mutation: Mutations::AcceptMinorViolation
+    # field :reject_not_worth_reporting, mutation: Mutations::RejectNotWorthReporting
+
     field :update_fursuit, mutation: Mutations::UpdateFursuit
     field :delete_fursuit, mutation: Mutations::DeleteFursuit
     field :create_fursuit, mutation: Mutations::CreateFursuit

@@ -144,3 +144,19 @@ export const REJECT_EVENT_REQUEST = gql`
     }
   }
 `;
+
+export const ACCEPT_SERIOUS_VIOLATION = gql`
+  mutation acceptSeriousViolation($input: AcceptSeriousViolationInput!) {
+    acceptSeriousViolation(input: $input) {
+      errors
+    }
+  }
+`;
+
+export const ACCEPT_MINOR_VIOLATION = gql`
+  mutation acceptMinorViolation($input: AcceptMinorViolationInput!) {
+    acceptMinorViolation(input: $input) {
+      errors
+    }
+  }
+`;

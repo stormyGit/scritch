@@ -5,6 +5,11 @@ module Types
     ModerationQuery = GraphQL::ObjectType.define do
       name 'ModerationQuery'
 
+      field :moderationReports, function: FetchModerationReports.new
+      # field :moderationClaims, function: FetchModerationClaims.new
+      # field :moderationClaims, function: FetchModerationClaims.new
+      # field :moderationClaims, function: FetchModerationClaims.new
+
       field :moderationClaims, function: FetchModerationClaims.new
       field :moderationMakerClaims, function: FetchModerationMakerClaims.new
       field :moderationAdverts, function: FetchModerationAdverts.new

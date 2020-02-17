@@ -21,7 +21,7 @@ class Mutations::RejectMakerClaim < Mutations::BaseMutation
       maker.create_activity :claim_reject, owner: Proc.new{ |_, model| User.find_by(telegram_id: ENV['MODERATOR_TELEGRAM_ID']) }, recipient: maker_claim.user
     end
 
-    if maker_claim.destroy
+    if maker_claim.save
       {
         maker_claim: maker_claim,
         errors: [],

@@ -1,5 +1,24 @@
 import gql from "graphql-tag";
 
+export const FETCH_REPORTS = gql`
+  query moderationReports {
+    moderationReports {
+      id
+      description
+      user {
+        id
+        name
+        slug
+      }
+      reporter {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
+
 export const FETCH_ADVERTS = gql`
   query moderationAdverts($filter: String) {
     moderationAdverts(filter: $filter) {

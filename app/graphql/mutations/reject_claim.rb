@@ -21,7 +21,7 @@ class Mutations::RejectClaim < Mutations::BaseMutation
     end
 
 
-    if claim.destroy
+    if claim.save
       {
         claim: claim,
         errors: [],

@@ -8,7 +8,7 @@ module Resolvers
                 argument :limit, !types.Int
 
                 def call(obj, args, ctx)
-                    Chat.where(recipient: ctx[:current_user]).includes(:last_message, :sender, :recipient)
+                    Chat.where(recipient: ctx[:current_user]).includes(:last_message, :sender, :recipient).order(created_at: :desc)
                 end
             end
             

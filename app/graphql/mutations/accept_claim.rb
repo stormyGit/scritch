@@ -25,7 +25,7 @@ class Mutations::AcceptClaim < Mutations::BaseMutation
         sub.destroy unless sub.blank?
     end
 
-    if claim.destroy
+    if claim.save
       {
         claim: claim,
         errors: [],
