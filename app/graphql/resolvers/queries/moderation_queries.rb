@@ -25,6 +25,14 @@ module Resolvers
               end
             end
 
+            class FetchModerationCommentReports < GraphQL::Function
+              type types[Types::CommentReportType]
+
+              def call(obj, args, ctx)
+                  CommentReport.where(status: "new").order(created_at: :desc)
+              end
+            end
+
             class FetchModerationFursuitRequests < GraphQL::Function
               type types[Types::FursuitRequestType]
 

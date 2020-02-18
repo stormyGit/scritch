@@ -15,7 +15,11 @@ import {
   Button,
   CardMedia
 } from "@material-ui/core";
-import { FETCH_REPORTS, FETCH_MEDIUM_REPORTS } from "../../queries/moderationQueries";
+import {
+  FETCH_REPORTS,
+  FETCH_MEDIUM_REPORTS,
+  FETCH_COMMENT_REPORTS
+} from "../../queries/moderationQueries";
 import { Query, Mutation } from "react-apollo";
 import CustomProgress from "../Global/CustomProgress";
 import ModerationChatDialog from "./ModerationChatDialog";
@@ -57,6 +61,104 @@ const styles = theme => ({
     cursor: "zoom-in"
   }
 });
+
+const CommentReport = ({ report, classes }) => {
+  const [chatDialog, setChatDialog] = useState(false);
+
+  return (
+    <React.Fragment>
+      <Card className={classes.card}>
+        <CardHeader title={`Media Report #${report.id.split("-")[0]}`} />
+        <CardContent>
+          <Typography variant="h6">Suspect Comment</Typography>
+          <Typography variant="subtitle2">{report.comment.body}</Typography>
+          <div style={{ padding: 8 }} />
+          <hr style={{ textAlign: "center", width: "50%" }} />
+          <div style={{ padding: 8 }} />
+          <Typography variant="h6">Posted by</Typography>
+          <Typography variant="subtitle1">
+            {report.medium.user.name}&nbsp;&nbsp;
+            <Link className={classes.link} to={`/${report.comment.user.slug}`} target="_blank">
+              View on Scritch
+            </Link>
+          </Typography>
+          <div style={{ padding: 8 }} />
+          <hr style={{ textAlign: "center", width: "50%" }} />
+          <div style={{ padding: 8 }} />
+          <Typography variant="h6">Reported By</Typography>
+          <Typography variant="subtitle1">
+            {report.reporter.name}&nbsp;&nbsp;
+            <Link className={classes.link} to={`/${report.reporter.slug}`} target="_blank">
+              View on Scritch
+            </Link>
+          </Typography>
+          <React.Fragment>
+            <div style={{ padding: 8 }} />
+            <hr style={{ textAlign: "center", width: "50%" }} />
+            <div style={{ padding: 8 }} />
+            <Typography variant="h6">Report Description</Typography>
+            <Typography variant="subtitle1">{report.description}</Typography>
+          </React.Fragment>
+        </CardContent>
+        <CardActions className={classes.flexActionArea}>
+          <Mutation mutation={ACCEPT_SERIOUS_VIOLATION}>
+            {(acceptSeriousViolation, { data }) => {
+              return (
+                <Button
+                  onClick={() =>
+                    acceptSeriousViolation({
+                      variables: { input: { id: report.id, kind: "comment" } }
+                    }).then(() => location.reload())
+                  }
+                >
+                  Serious Violation
+                </Button>
+              );
+            }}
+          </Mutation>
+          <Mutation mutation={ACCEPT_MINOR_VIOLATION}>
+            {(acceptMinorViolation, { data }) => {
+              return (
+                <Button
+                  onClick={() =>
+                    acceptMinorViolation({
+                      variables: { input: { id: report.id, kind: "comment" } }
+                    }).then(() => location.reload())
+                  }
+                >
+                  Minor Violation
+                </Button>
+              );
+            }}
+          </Mutation>
+          <Mutation mutation={REJECT_NOT_WORTH_REPORTING}>
+            {(rejectNotWorthReporting, { data }) => {
+              return (
+                <Button
+                  onClick={() =>
+                    rejectNotWorthReporting({
+                      variables: { input: { id: report.id, kind: "comment" } }
+                    }).then(() => location.reload())
+                  }
+                >
+                  Not Worth Reporting
+                </Button>
+              );
+            }}
+          </Mutation>
+          <Button onClick={() => setChatDialog(true)}>Contact Reporter</Button>
+        </CardActions>
+      </Card>
+      <ModerationChatDialog
+        user={report.reporter}
+        open={chatDialog}
+        onClose={() => setChatDialog(false)}
+        caseId={report.id}
+        caseType={"comment_report"}
+      />
+    </React.Fragment>
+  );
+};
 
 const MediumReport = ({ report, classes }) => {
   const [chatDialog, setChatDialog] = useState(false);
@@ -152,7 +254,7 @@ const MediumReport = ({ report, classes }) => {
         open={chatDialog}
         onClose={() => setChatDialog(false)}
         caseId={report.id}
-        caseType={"report"}
+        caseType={"medium_report"}
       />
     </React.Fragment>
   );
@@ -245,7 +347,7 @@ const Report = ({ report, classes }) => {
         open={chatDialog}
         onClose={() => setChatDialog(false)}
         caseId={report.id}
-        caseType={"report"}
+        caseType={"user_report"}
       />
     </React.Fragment>
   );
@@ -326,6 +428,41 @@ const ModerationReports = ({ width, classes }) => {
               <React.Fragment>
                 <Grid container spacing={3}>
                   {data.moderationMediumReports.map(report => (
+                    <Grid item xs={12} md={6} lg={6} key={report.id}>
+                      <MediumReport report={report} classes={classes} />
+                    </Grid>
+                  ))}
+                </Grid>
+              </React.Fragment>
+            );
+          }}
+        </Query>
+      )}
+      {tab === "comments" && (
+        <Query query={FETCH_COMMENT_REPORTS}>
+          {({ loading, error, data }) => {
+            if (loading) return <CustomProgress size={64} />; //TODO progress
+            if (error) {
+              console.log(error);
+              return null;
+            } //TODO error
+            console.log(data);
+            if (
+              !data ||
+              !data.moderationCommentReports ||
+              data.moderationCommentReports.length === 0
+            ) {
+              return (
+                <Typography variant="h4" gutterBottom className={classes.centeredText}>
+                  No Comment Reports Found
+                </Typography>
+              );
+            }
+
+            return (
+              <React.Fragment>
+                <Grid container spacing={3}>
+                  {data.moderationCommentReports.map(report => (
                     <Grid item xs={12} md={6} lg={6} key={report.id}>
                       <MediumReport report={report} classes={classes} />
                     </Grid>

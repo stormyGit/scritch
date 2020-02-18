@@ -42,6 +42,29 @@ export const FETCH_MEDIUM_REPORTS = gql`
   }
 `;
 
+export const FETCH_COMMENT_REPORTS = gql`
+  query moderationCommentReports {
+    moderationCommentReports {
+      id
+      description
+      comment {
+        id
+        body
+        user {
+          id
+          slug
+          name
+        }
+      }
+      reporter {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
+
 export const FETCH_ADVERTS = gql`
   query moderationAdverts($filter: String) {
     moderationAdverts(filter: $filter) {

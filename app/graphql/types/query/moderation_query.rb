@@ -7,7 +7,7 @@ module Types
 
       field :moderationReports, function: FetchModerationReports.new
       field :moderationMediumReports, function: FetchModerationMediumReports.new
-      # field :moderationClaims, function: FetchModerationClaims.new
+      field :moderationCommentReports, function: FetchModerationCommentReports.new
       # field :moderationClaims, function: FetchModerationClaims.new
 
       field :moderationClaims, function: FetchModerationClaims.new
