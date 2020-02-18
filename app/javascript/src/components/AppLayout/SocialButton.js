@@ -16,7 +16,8 @@ const styles = theme => ({
     marginRight: 20
   },
   link: {
-    textDecoration: "none"
+    textDecoration: "none",
+    color: "inherit"
   },
   buttonPad: {
     padding: theme.spacing(1)
@@ -74,20 +75,10 @@ class SocialButton extends React.Component {
           open={open}
           onClose={() => this.handleClose()}
         >
-          <a
-            href={"https://t.me/ScritchNews"}
-            target="_blank"
-            className={classes.link}
-          >
-            <MenuItem onClick={() => this.handleClose()}>
-              Scritch Telegram Channel
-            </MenuItem>
+          <a href={"https://t.me/ScritchNews"} target="_blank" className={classes.link}>
+            <MenuItem onClick={() => this.handleClose()}>Scritch Telegram Channel</MenuItem>
           </a>
-          <a
-            href={"https://twitter.com/PixelScritch"}
-            target="_blank"
-            className={classes.link}
-          >
+          <a href={"https://twitter.com/PixelScritch"} target="_blank" className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>Twitter</MenuItem>
           </a>
           {currentSession && (
@@ -101,13 +92,8 @@ class SocialButton extends React.Component {
             </MenuItem>
           )}
           {currentSession && currentSession.user.hasAdverts && (
-            <a
-              href={`${process.env.SITE_URL}/adverts`}
-              className={classes.link}
-            >
-              <MenuItem onClick={() => this.handleClose()}>
-                Advertiser Dashboard
-              </MenuItem>
+            <a href={`${process.env.SITE_URL}/adverts`} className={classes.link}>
+              <MenuItem onClick={() => this.handleClose()}>Advertiser Dashboard</MenuItem>
             </a>
           )}
           <Link to="/ads" className={classes.link}>
@@ -119,6 +105,4 @@ class SocialButton extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withCurrentSession(withRouter(withWidth()(SocialButton)))
-);
+export default withStyles(styles)(withCurrentSession(withRouter(withWidth()(SocialButton))));

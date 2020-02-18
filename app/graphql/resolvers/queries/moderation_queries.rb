@@ -9,6 +9,14 @@ module Resolvers
                 end
             end
 
+            class FetchModerationTechReports < GraphQL::Function
+              type types[Types::TechReportType]
+
+              def call(obj, args, ctx)
+                  TechReport.order(created_at: :desc)
+              end
+            end
+
             class FetchModerationReports < GraphQL::Function
               type types[Types::ReportType]
 

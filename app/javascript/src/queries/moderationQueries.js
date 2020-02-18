@@ -65,6 +65,22 @@ export const FETCH_COMMENT_REPORTS = gql`
   }
 `;
 
+export const FETCH_TICKETS = gql`
+  query moderationTechReports {
+    moderationTechReports {
+      id
+      description
+      kind
+      page
+      user {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
+
 export const FETCH_ADVERTS = gql`
   query moderationAdverts($filter: String) {
     moderationAdverts(filter: $filter) {

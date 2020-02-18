@@ -19,11 +19,7 @@ class TechButton extends React.Component {
 
     return (
       <React.Fragment>
-        <IconButton
-          title="Tech Issue"
-          color="inherit"
-          onClick={this.props.onClick}
-        >
+        <IconButton title="Tech Issue" color="inherit" onClick={this.props.onClick}>
           <FontAwesomeIcon icon={faTools} />
         </IconButton>
       </React.Fragment>

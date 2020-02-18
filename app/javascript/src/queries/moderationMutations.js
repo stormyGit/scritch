@@ -168,3 +168,11 @@ export const REJECT_NOT_WORTH_REPORTING = gql`
     }
   }
 `;
+
+export const DELETE_TICKET = gql`
+  mutation deleteTicket($input: DeleteTicketInput!) {
+    deleteTicket(input: $input) {
+      errors
+    }
+  }
+`;

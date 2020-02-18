@@ -17,7 +17,8 @@ const styles = theme => ({
     marginRight: 20
   },
   link: {
-    textDecoration: "none"
+    textDecoration: "none",
+    color: "inherit"
   },
   buttonPad: {
     padding: theme.spacing(1)
@@ -75,14 +76,10 @@ class PoliciesSupportButton extends React.Component {
           onClose={() => this.handleClose()}
         >
           <Link to={"/announcements"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>
-              Announcements
-            </MenuItem>
+            <MenuItem onClick={() => this.handleClose()}>Announcements</MenuItem>
           </Link>
           <Link to={"/user_guide"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>
-              Website User Guide
-            </MenuItem>
+            <MenuItem onClick={() => this.handleClose()}>Website User Guide</MenuItem>
           </Link>
           <Link to={"/faq"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>FAQ</MenuItem>
@@ -91,9 +88,7 @@ class PoliciesSupportButton extends React.Component {
             <MenuItem onClick={() => this.handleClose()}>Terms of Use</MenuItem>
           </Link>
           <Link to={"/privacy_policy"} className={classes.link}>
-            <MenuItem onClick={() => this.handleClose()}>
-              Privacy Policy
-            </MenuItem>
+            <MenuItem onClick={() => this.handleClose()}>Privacy Policy</MenuItem>
           </Link>
           {currentSession && (
             <MenuItem
