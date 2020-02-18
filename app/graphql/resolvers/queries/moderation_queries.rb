@@ -16,6 +16,14 @@ module Resolvers
                   Report.where(status: "new").order(created_at: :desc)
               end
             end
+            
+            class FetchModerationMediumReports < GraphQL::Function
+              type types[Types::MediumReportType]
+
+              def call(obj, args, ctx)
+                  MediumReport.where(status: "new").order(created_at: :desc)
+              end
+            end
 
             class FetchModerationFursuitRequests < GraphQL::Function
               type types[Types::FursuitRequestType]

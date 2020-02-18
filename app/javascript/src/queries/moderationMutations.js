@@ -160,3 +160,11 @@ export const ACCEPT_MINOR_VIOLATION = gql`
     }
   }
 `;
+
+export const REJECT_NOT_WORTH_REPORTING = gql`
+  mutation rejectNotWorthReporting($input: RejectNotWorthReportingInput!) {
+    rejectNotWorthReporting(input: $input) {
+      errors
+    }
+  }
+`;

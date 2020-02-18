@@ -6,7 +6,7 @@ module Types
       name 'ModerationQuery'
 
       field :moderationReports, function: FetchModerationReports.new
-      # field :moderationClaims, function: FetchModerationClaims.new
+      field :moderationMediumReports, function: FetchModerationMediumReports.new
       # field :moderationClaims, function: FetchModerationClaims.new
       # field :moderationClaims, function: FetchModerationClaims.new
 

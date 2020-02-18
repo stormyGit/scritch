@@ -66,7 +66,7 @@ module Types
     # field :remove_user_website, mutation: Mutations::RemoveUserWebsite
     field :accept_serious_violation, mutation: Mutations::AcceptSeriousViolation
     field :accept_minor_violation, mutation: Mutations::AcceptMinorViolation
-    # field :reject_not_worth_reporting, mutation: Mutations::RejectNotWorthReporting
+    field :reject_not_worth_reporting, mutation: Mutations::RejectNotWorthReporting
 
     field :update_fursuit, mutation: Mutations::UpdateFursuit
     field :delete_fursuit, mutation: Mutations::DeleteFursuit
