@@ -26,6 +26,9 @@ export const FETCH_REPORTS = gql`
         id
         name
         slug
+        avatar
+        bio
+        website
       }
       reporter {
         id

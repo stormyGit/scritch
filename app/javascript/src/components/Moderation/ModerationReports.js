@@ -13,7 +13,10 @@ import {
   CardContent,
   CardActions,
   Button,
-  CardMedia
+  CardMedia,
+  DialogContent,
+  DialogTitle,
+  DialogActions
 } from "@material-ui/core";
 import {
   FETCH_REPORTS,
@@ -27,8 +30,12 @@ import { Link } from "react-router-dom";
 import {
   ACCEPT_SERIOUS_VIOLATION,
   ACCEPT_MINOR_VIOLATION,
-  REJECT_NOT_WORTH_REPORTING
+  REJECT_NOT_WORTH_REPORTING,
+  REMOVE_USER_BIO,
+  REMOVE_USER_AVATAR,
+  REMOVE_USER_WEBSITE
 } from "../../queries/moderationMutations";
+import ResponsiveDialog from "../Global/ResponsiveDialog";
 
 const styles = theme => ({
   root: {
@@ -78,7 +85,11 @@ const CommentReport = ({ report, classes }) => {
           <Typography variant="h6">Posted by</Typography>
           <Typography variant="subtitle1">
             {report.medium.user.name}&nbsp;&nbsp;
-            <Link className={classes.link} to={`/${report.comment.user.slug}`} target="_blank">
+            <Link
+              className={classes.link}
+              to={`/${report.comment.user.slug}`}
+              target="_blank"
+            >
               View on Scritch
             </Link>
           </Typography>
@@ -88,7 +99,11 @@ const CommentReport = ({ report, classes }) => {
           <Typography variant="h6">Reported By</Typography>
           <Typography variant="subtitle1">
             {report.reporter.name}&nbsp;&nbsp;
-            <Link className={classes.link} to={`/${report.reporter.slug}`} target="_blank">
+            <Link
+              className={classes.link}
+              to={`/${report.reporter.slug}`}
+              target="_blank"
+            >
               View on Scritch
             </Link>
           </Typography>
@@ -167,7 +182,11 @@ const MediumReport = ({ report, classes }) => {
     <React.Fragment>
       <Card className={classes.card}>
         <CardHeader title={`Media Report #${report.id.split("-")[0]}`} />
-        <a className={classes.link} href={report.medium.picture} target="_blank">
+        <a
+          className={classes.link}
+          href={report.medium.picture}
+          target="_blank"
+        >
           <CardMedia
             image={report.medium.picture}
             className={classes.cardMedia}
@@ -178,7 +197,11 @@ const MediumReport = ({ report, classes }) => {
           <Typography variant="h6">Posted by</Typography>
           <Typography variant="subtitle1">
             {report.medium.user.name}&nbsp;&nbsp;
-            <Link className={classes.link} to={`/${report.medium.user.slug}`} target="_blank">
+            <Link
+              className={classes.link}
+              to={`/${report.medium.user.slug}`}
+              target="_blank"
+            >
               View on Scritch
             </Link>
           </Typography>
@@ -188,7 +211,11 @@ const MediumReport = ({ report, classes }) => {
           <Typography variant="h6">Reported By</Typography>
           <Typography variant="subtitle1">
             {report.reporter.name}&nbsp;&nbsp;
-            <Link className={classes.link} to={`/${report.reporter.slug}`} target="_blank">
+            <Link
+              className={classes.link}
+              to={`/${report.reporter.slug}`}
+              target="_blank"
+            >
               View on Scritch
             </Link>
           </Typography>
@@ -260,8 +287,98 @@ const MediumReport = ({ report, classes }) => {
   );
 };
 
+const ProfileDialog = ({ classes, user, open, onClose }) => {
+  return (
+    <ResponsiveDialog open={open} onClose={onClose} size={500}>
+      <DialogTitle>{`Moderating Profile of User ${user.name}`}</DialogTitle>
+      <DialogContent>
+        {user.avatar && (
+          <div style={{ textAlign: "center" }}>
+            <img src={user.avatar} />
+            <br />
+            <Mutation mutation={REMOVE_USER_AVATAR}>
+              {(removeUserAvatar, { data }) => {
+                return (
+                  <Button
+                    variant="outlined"
+                    onClick={() =>
+                      removeUserAvatar({
+                        variables: { input: { id: user.id } }
+                      }).then(() => location.reload())
+                    }
+                  >
+                    Remove Avatar
+                  </Button>
+                );
+              }}
+            </Mutation>
+          </div>
+        )}
+        <div style={{ padding: 16 }} />
+        {user.bio && (
+          <React.Fragment>
+            <Typography variant="h6">User Bio</Typography>
+            <Typography variant="subtitle1">{user.bio}</Typography>
+            <div style={{ textAlign: "center" }}>
+              <Mutation mutation={REMOVE_USER_BIO}>
+                {(removeUserBio, { data }) => {
+                  return (
+                    <Button
+                      variant="outlined"
+                      onClick={() =>
+                        removeUserBio({
+                          variables: { input: { id: user.id } }
+                        }).then(() => location.reload())
+                      }
+                    >
+                      Remove Bio
+                    </Button>
+                  );
+                }}
+              </Mutation>
+            </div>
+          </React.Fragment>
+        )}
+        <div style={{ padding: 16 }} />
+        {user.website && (
+          <React.Fragment>
+            <Typography variant="h6">User Website</Typography>
+            <Typography variant="subtitle1">
+              <a className={classes.link} href={user.web} target="_blank">
+                {user.website}
+              </a>
+            </Typography>
+            <div style={{ textAlign: "center" }}>
+              <Mutation mutation={REMOVE_USER_WEBSITE}>
+                {(removeUserWebsite, { data }) => {
+                  return (
+                    <Button
+                      variant="outlined"
+                      onClick={() =>
+                        removeUserWebsite({
+                          variables: { input: { id: user.id } }
+                        }).then(() => location.reload())
+                      }
+                    >
+                      Remove Website
+                    </Button>
+                  );
+                }}
+              </Mutation>
+            </div>
+          </React.Fragment>
+        )}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={onClose}>Close</Button>
+      </DialogActions>
+    </ResponsiveDialog>
+  );
+};
+
 const Report = ({ report, classes }) => {
   const [chatDialog, setChatDialog] = useState(false);
+  const [profileDialog, setProfileDialog] = useState(false);
 
   return (
     <React.Fragment>
@@ -271,7 +388,11 @@ const Report = ({ report, classes }) => {
           <Typography variant="h6">Reported User</Typography>
           <Typography variant="subtitle1">
             {report.user.name}&nbsp;&nbsp;
-            <Link className={classes.link} to={`/${report.user.slug}`} target="_blank">
+            <Link
+              className={classes.link}
+              to={`/${report.user.slug}`}
+              target="_blank"
+            >
               View on Scritch
             </Link>
           </Typography>
@@ -281,7 +402,11 @@ const Report = ({ report, classes }) => {
           <Typography variant="h6">Reported By</Typography>
           <Typography variant="subtitle1">
             {report.reporter.name}&nbsp;&nbsp;
-            <Link className={classes.link} to={`/${report.reporter.slug}`} target="_blank">
+            <Link
+              className={classes.link}
+              to={`/${report.reporter.slug}`}
+              target="_blank"
+            >
               View on Scritch
             </Link>
           </Typography>
@@ -339,16 +464,29 @@ const Report = ({ report, classes }) => {
               );
             }}
           </Mutation>
+          <Button onClick={() => setProfileDialog(true)}>
+            Moderate Profile
+          </Button>
           <Button onClick={() => setChatDialog(true)}>Contact Reporter</Button>
         </CardActions>
       </Card>
-      <ModerationChatDialog
-        user={report.reporter}
-        open={chatDialog}
-        onClose={() => setChatDialog(false)}
-        caseId={report.id}
-        caseType={"user_report"}
-      />
+      {chatDialog && (
+        <ModerationChatDialog
+          user={report.reporter}
+          open={chatDialog}
+          onClose={() => setChatDialog(false)}
+          caseId={report.id}
+          caseType={"user_report"}
+        />
+      )}
+      {profileDialog && (
+        <ProfileDialog
+          classes={classes}
+          user={report.user}
+          open={profileDialog}
+          onClose={() => setProfileDialog(false)}
+        />
+      )}
     </React.Fragment>
   );
 };
@@ -381,9 +519,17 @@ const ModerationReports = ({ width, classes }) => {
               return null;
             } //TODO error
             console.log(data);
-            if (!data || !data.moderationReports || data.moderationReports.length === 0) {
+            if (
+              !data ||
+              !data.moderationReports ||
+              data.moderationReports.length === 0
+            ) {
               return (
-                <Typography variant="h4" gutterBottom className={classes.centeredText}>
+                <Typography
+                  variant="h4"
+                  gutterBottom
+                  className={classes.centeredText}
+                >
                   No User Reports Found
                 </Typography>
               );
@@ -418,7 +564,11 @@ const ModerationReports = ({ width, classes }) => {
               data.moderationMediumReports.length === 0
             ) {
               return (
-                <Typography variant="h4" gutterBottom className={classes.centeredText}>
+                <Typography
+                  variant="h4"
+                  gutterBottom
+                  className={classes.centeredText}
+                >
                   No Medium Reports Found
                 </Typography>
               );
@@ -453,7 +603,11 @@ const ModerationReports = ({ width, classes }) => {
               data.moderationCommentReports.length === 0
             ) {
               return (
-                <Typography variant="h4" gutterBottom className={classes.centeredText}>
+                <Typography
+                  variant="h4"
+                  gutterBottom
+                  className={classes.centeredText}
+                >
                   No Comment Reports Found
                 </Typography>
               );

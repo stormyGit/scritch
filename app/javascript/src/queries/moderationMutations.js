@@ -169,6 +169,30 @@ export const REJECT_NOT_WORTH_REPORTING = gql`
   }
 `;
 
+export const REMOVE_USER_AVATAR = gql`
+  mutation removeUserAvatar($input: RemoveUserAvatarInput!) {
+    removeUserAvatar(input: $input) {
+      errors
+    }
+  }
+`;
+
+export const REMOVE_USER_BIO = gql`
+  mutation removeUserBio($input: RemoveUserBioInput!) {
+    removeUserBio(input: $input) {
+      errors
+    }
+  }
+`;
+
+export const REMOVE_USER_WEBSITE = gql`
+  mutation removeUserWebsite($input: RemoveUserWebsiteInput!) {
+    removeUserWebsite(input: $input) {
+      errors
+    }
+  }
+`;
+
 export const DELETE_TICKET = gql`
   mutation deleteTicket($input: DeleteTicketInput!) {
     deleteTicket(input: $input) {

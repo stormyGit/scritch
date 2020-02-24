@@ -21,7 +21,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    user.present? && user == record
+    user.present? && (user == record || Moderator.find_by(telegram_id: user.telegram_id).present?)
   end
 
   def destroy?
