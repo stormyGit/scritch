@@ -176,3 +176,35 @@ export const DELETE_TICKET = gql`
     }
   }
 `;
+
+export const ACCEPT_ADVERT = gql`
+  mutation acceptAdvert($input: AcceptAdvertInput!) {
+    acceptAdvert(input: $input) {
+      errors
+    }
+  }
+`;
+
+export const REJECT_ADVERT = gql`
+  mutation rejectAdvert($input: RejectAdvertInput!) {
+    rejectAdvert(input: $input) {
+      errors
+    }
+  }
+`;
+
+export const UPDATE_ADVERT = gql`
+  mutation updateAdvert($input: UpdateAdvertInput!) {
+    updateAdvert(input: $input) {
+      errors
+    }
+  }
+`;
+
+export const DELETE_ADVERT = gql`
+  mutation deleteAdvert($input: DeleteAdvertInput!) {
+    deleteAdvert(input: $input) {
+      errors
+    }
+  }
+`;

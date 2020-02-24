@@ -3,13 +3,22 @@ import PageTitle from "../Global/PageTitle";
 import queryString from "query-string";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
+import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import withWidth from "@material-ui/core/withWidth";
 import { withStyles } from "@material-ui/core/styles";
 import { Query, Mutation } from "react-apollo";
 import { FETCH_ADVERTS } from "../../queries/moderationQueries";
+import {
+  UPDATE_ADVERT,
+  DELETE_ADVERT,
+  ACCEPT_ADVERT,
+  REJECT_ADVERT
+} from "../../queries/moderationMutations";
+import CustomProgress from "../Global/CustomProgress";
 
 const styles = theme => ({
   root: {
@@ -36,6 +45,21 @@ const styles = theme => ({
   link: {
     color: theme.palette.primary.main,
     textDecoration: "none"
+  },
+  dangerButton: {
+    color: theme.palette.danger.main
+  },
+  pending: {
+    color: "#FFFF00"
+  },
+  rejected: {
+    color: "#DD0000"
+  },
+  ready: {
+    color: "#00DDDD"
+  },
+  live: {
+    color: "#00DD00"
   }
 });
 
@@ -49,7 +73,9 @@ const AdvertCard = ({ classes, advert }) => {
         <Typography variant="h5">Width: {advert.width}px</Typography>
         <Typography variant="h5">Height: {advert.height}px</Typography>
         <hr />
-        <Typography variant="h5">Status: {advert.status}</Typography>
+        <Typography variant="h5" className={classes[advert.status]}>
+          Status: {advert.status}
+        </Typography>
         <Typography variant="h5">Impressions: {advert.impressions}</Typography>
         <hr />
         <Typography variant="h5">Redirects to:</Typography>
@@ -59,6 +85,61 @@ const AdvertCard = ({ classes, advert }) => {
           </Typography>
         </a>
       </CardContent>
+      <CardActions>
+        {advert.status === "pending" && (
+          <React.Fragment>
+            <Mutation mutation={ACCEPT_ADVERT}>
+              {(acceptAdvert, { data }) => {
+                return (
+                  <Button
+                    onClick={() =>
+                      acceptAdvert({
+                        variables: { input: { id: advert.id } }
+                      }).then(() => location.reload())
+                    }
+                  >
+                    Approve
+                  </Button>
+                );
+              }}
+            </Mutation>
+            <Mutation mutation={REJECT_ADVERT}>
+              {(rejectAdvert, { data }) => {
+                return (
+                  <Button
+                    onClick={() =>
+                      rejectAdvert({
+                        variables: { input: { id: advert.id } }
+                      }).then(() => location.reload())
+                    }
+                  >
+                    Reject
+                  </Button>
+                );
+              }}
+            </Mutation>
+          </React.Fragment>
+        )}
+        {advert.status !== "pending" && (
+          <Mutation mutation={DELETE_ADVERT}>
+            {(advertAdvert, { data }) => {
+              return (
+                <Button
+                  className={classes.dangerButton}
+                  onClick={() => {
+                    if (confirm("Are you sure"))
+                      advertAdvert({
+                        variables: { input: { id: advert.id } }
+                      }).then(() => location.reload());
+                  }}
+                >
+                  Delete
+                </Button>
+              );
+            }}
+          </Mutation>
+        )}
+      </CardActions>
     </Card>
   );
 };
@@ -81,9 +162,13 @@ class ModerationAdverts extends React.Component {
           }}
         >
           {({ loading, error, data }) => {
-            if (loading) return null; //TODO progress
+            if (loading) return <CustomProgress size={128} />;
             if (error) return null; //TODO error
-            if (!data || !data.moderationAdverts) {
+            if (
+              !data ||
+              !data.moderationAdverts ||
+              data.moderationAdverts.length === 0
+            ) {
               return (
                 <Typography
                   variant="h4"

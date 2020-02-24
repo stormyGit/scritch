@@ -60,7 +60,7 @@ module Types
     field :create_asset_request, mutation: Mutations::CreateAssetRequest
     field :create_claim, mutation: Mutations::CreateClaim
     field :create_maker_claim, mutation: Mutations::CreateMakerClaim
-    
+
     # field :remove_user_avatar, mutation: Mutations::RemoveUserBio
     # field :remove_user_bio, mutation: Mutations::RemoveUserAvatar
     # field :remove_user_website, mutation: Mutations::RemoveUserWebsite
@@ -88,10 +88,15 @@ module Types
     field :reject_fursuit_request, mutation: Mutations::RejectFursuitRequest
 
     field :reject_maker_request, mutation: Mutations::RejectMakerRequest
-   
+
     field :reject_event_request, mutation: Mutations::RejectEventRequest
-    
+
     field :delete_ticket, mutation: Mutations::DeleteTicket
+
+    field :accept_advert, mutation: Mutations::AcceptAdvert
+    field :reject_advert, mutation: Mutations::RejectAdvert
+    field :update_advert, mutation: Mutations::UpdateAdvert
+    field :delete_advert, mutation: Mutations::DeleteAdvert
 
     field :tag_lock_medium, mutation: Mutations::TagLockMedium
     field :tag_unlock_medium, mutation: Mutations::TagUnlockMedium
