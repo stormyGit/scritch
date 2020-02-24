@@ -297,7 +297,9 @@ class User extends React.Component {
               size={"small"}
               variant="outlined"
               className={
-                width === "lg" || width === "xl" ? this.props.classes.followButtonSpacer : null
+                width === "lg" || width === "xl"
+                  ? this.props.classes.followButtonSpacer
+                  : null
               }
               color={this.state.showUnfollow ? "secondary" : "primary"}
               onMouseEnter={() => this.setState({ showUnfollow: true })}
@@ -352,7 +354,10 @@ class User extends React.Component {
               query: GET_FOLLOWERS_BY_USER,
               variables: { userId: user.id },
               data: {
-                followersByUser: [this.props.currentSession.user, ...followersByUser]
+                followersByUser: [
+                  this.props.currentSession.user,
+                  ...followersByUser
+                ]
               }
             });
           }}
@@ -383,7 +388,10 @@ class User extends React.Component {
     let limit = parseInt(process.env.FOLLOWINGS_PAGE_SIZE);
 
     return (
-      <Query query={GET_FOLLOWINGS_PROFILES_BY_USER} variables={{ userId: user.id, offset, limit }}>
+      <Query
+        query={GET_FOLLOWINGS_PROFILES_BY_USER}
+        variables={{ userId: user.id, offset, limit }}
+      >
         {({ data, loading, error, fetchMore }) => {
           if (loading || error || !data) {
             return null;
@@ -439,7 +447,10 @@ class User extends React.Component {
     let limit = parseInt(process.env.FOLLOWINGS_PAGE_SIZE);
 
     return (
-      <Query query={GET_FOLLOWINGS_FURSUITS_BY_USER} variables={{ userId: user.id, offset, limit }}>
+      <Query
+        query={GET_FOLLOWINGS_FURSUITS_BY_USER}
+        variables={{ userId: user.id, offset, limit }}
+      >
         {({ data, loading, error, fetchMore }) => {
           if (loading || error || !data) {
             return null;
@@ -448,7 +459,9 @@ class User extends React.Component {
           const following = data.followingsFursuitsByUser;
 
           if (following.length === 0) {
-            return <EmptyList label={`${user.name} doesn't follow any Fursuits.`} />;
+            return (
+              <EmptyList label={`${user.name} doesn't follow any Fursuits.`} />
+            );
           }
 
           return (
@@ -495,7 +508,10 @@ class User extends React.Component {
     let limit = parseInt(process.env.FOLLOWINGS_PAGE_SIZE);
 
     return (
-      <Query query={GET_FOLLOWINGS_MAKERS_BY_USER} variables={{ userId: user.id, offset, limit }}>
+      <Query
+        query={GET_FOLLOWINGS_MAKERS_BY_USER}
+        variables={{ userId: user.id, offset, limit }}
+      >
         {({ data, loading, error, fetchMore }) => {
           if (loading || error || !data) {
             return null;
@@ -504,7 +520,9 @@ class User extends React.Component {
           const following = data.followingsMakersByUser;
 
           if (following.length === 0) {
-            return <EmptyList label={`${user.name} doesn't follow any Makers.`} />;
+            return (
+              <EmptyList label={`${user.name} doesn't follow any Makers.`} />
+            );
           }
 
           return (
@@ -595,7 +613,10 @@ class User extends React.Component {
               </Mutation>
             )}
             <Tooltip title={`Report ${user.name}`}>
-              <IconButton size="small" onClick={() => this.setState({ reportDialog: true })}>
+              <IconButton
+                size="small"
+                onClick={() => this.setState({ reportDialog: true })}
+              >
                 <OutlinedFlag />
               </IconButton>
             </Tooltip>
@@ -631,7 +652,11 @@ class User extends React.Component {
                   {user.name}
                 </Typography>
                 {user.isModerator && (
-                  <Typography variant="subtitle1" className={classes.userTitlePaddedAdmin} noWrap>
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.userTitlePaddedAdmin}
+                    noWrap
+                  >
                     SCRITCH ADMIN
                   </Typography>
                 )}
@@ -646,13 +671,21 @@ class User extends React.Component {
                   </Typography>
                 )}
                 {currentSession && user.id != currentSession.user.id && (
-                  <div className={classes.actionButtonPadding}>{this.renderFollowButton(user)}</div>
+                  <div className={classes.actionButtonPadding}>
+                    {this.renderFollowButton(user)}
+                  </div>
                 )}
-                <div className={classes.actionButtonPadding}>{this.renderActionButton(user)}</div>
+                <div className={classes.actionButtonPadding}>
+                  {this.renderActionButton(user)}
+                </div>
               </div>
               <div className={classes.headerTitles}>
                 {user.website && (
-                  <a href={user.website} target="_blank" className={classes.userWebsite}>
+                  <a
+                    href={user.website}
+                    target="_blank"
+                    className={classes.userWebsite}
+                  >
                     <Typography variant="subtitle1" color="primary">
                       Website
                     </Typography>
@@ -701,7 +734,10 @@ class User extends React.Component {
         <div className={classes.infoHeader}>
           <Grid container spacing={3} className={classes.centerAlign}>
             <Grid item xs={3} className={classes.avatarContainer}>
-              <Avatar avatar={user.avatar} avatarClass={classes.userAvatarMobile} />
+              <Avatar
+                avatar={user.avatar}
+                avatarClass={classes.userAvatarMobile}
+              />
             </Grid>
             <Grid item xs={9}>
               <div className={classes.headerTitles}>
@@ -709,7 +745,11 @@ class User extends React.Component {
                   {user.name}
                 </Typography>
                 {user.isModerator && (
-                  <Typography variant="subtitle1" className={classes.userTitlePaddedAdmin} noWrap>
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.userTitlePaddedAdmin}
+                    noWrap
+                  >
                     SCRITCH ADMIN
                   </Typography>
                 )}
@@ -732,7 +772,11 @@ class User extends React.Component {
               </div>
               {user.makers && user.makers.length > 0 && (
                 <div className={classes.headerTitles}>
-                  <Typography variant="subtitle1" className={classes.infoText} color={"inherit"}>
+                  <Typography
+                    variant="subtitle1"
+                    className={classes.infoText}
+                    color={"inherit"}
+                  >
                     Owner of{" "}
                     {user.makers.map((maker, index) => (
                       <Link
@@ -749,7 +793,11 @@ class User extends React.Component {
               )}
               <div className={classes.headerTitles}>
                 {user.website && (
-                  <a href={user.website} target="_blank" className={classes.userWebsite}>
+                  <a
+                    href={user.website}
+                    target="_blank"
+                    className={classes.userWebsite}
+                  >
                     <Typography variant="subtitle1" color="primary">
                       Website
                     </Typography>
@@ -776,14 +824,19 @@ class User extends React.Component {
     let limit = parseInt(process.env.FOLLOWERS_PAGE_SIZE);
 
     return (
-      <Query query={GET_FOLLOWERS_BY_USER} variables={{ userId: user.id, offset, limit }}>
+      <Query
+        query={GET_FOLLOWERS_BY_USER}
+        variables={{ userId: user.id, offset, limit }}
+      >
         {({ data, loading, error, fetchMore }) => {
           if (loading || error) {
             return null;
           }
 
           if (data.followersByUser.length === 0) {
-            return <EmptyList label={`${user.name} doesn't have any Followers.`} />;
+            return (
+              <EmptyList label={`${user.name} doesn't have any Followers.`} />
+            );
           }
 
           return (
@@ -846,7 +899,8 @@ class User extends React.Component {
 
             if (
               data.user &&
-              (data.user.public || (currentSession && data.user.id === currentSession.user.id))
+              (data.user.public ||
+                (currentSession && data.user.id === currentSession.user.id))
             ) {
               isPrivate = false;
             } else {
@@ -859,7 +913,11 @@ class User extends React.Component {
                 {width === "sm" || width === "xs"
                   ? this.renderUserHeaderMobile(user)
                   : this.renderUserHeader(user)}
-                {width === "xl" || width === "lg" ? <Padder /> : <MicroPadder />}
+                {width === "xl" || width === "lg" ? (
+                  <Padder />
+                ) : (
+                  <MicroPadder />
+                )}
                 <Grid container spacing={0}>
                   <Grid item xs={false} lg={2} />
                   <Grid item xs={12} lg={8}>
@@ -868,22 +926,43 @@ class User extends React.Component {
                       className={classes.tabsCenterer}
                       value={this.state.tab}
                       onChange={(e, value) => this.setState({ tab: value })}
-                      textColor="secondary"
+                      textColor="primary"
+                      indicatorColor="primary"
                     >
-                      <Tab value="pictures" icon={"Pictures"} label={user.mediaCount} />
+                      <Tab
+                        value="pictures"
+                        icon={<Typography>Pictures</Typography>}
+                        label={user.mediaCount}
+                      />
                       <Tab
                         value="fursuits"
-                        icon={"Fursuits"}
+                        icon={<Typography>Fursuits</Typography>}
                         disabled={isPrivate}
-                        label={isPrivate ? "Private" : user.fursuits ? user.fursuits.length : 0}
+                        label={
+                          isPrivate
+                            ? "Private"
+                            : user.fursuits
+                            ? user.fursuits.length
+                            : 0
+                        }
                       />
-                      <Tab value="followers" icon={"Followers"} label={user.followersCount} />
-                      <Tab value="following" icon={"Following"} label="..." />
+                      <Tab
+                        value="followers"
+                        icon={<Typography>Followers</Typography>}
+                        label={user.followersCount}
+                      />
+                      <Tab
+                        value="following"
+                        icon={<Typography>Following</Typography>}
+                        label="..."
+                      />
                     </Tabs>
                   </Grid>
                   <Grid item xs={false} lg={2} />
                 </Grid>
-                {this.state.tab === "pictures" && <UserMedia userId={user.id} />}
+                {this.state.tab === "pictures" && (
+                  <UserMedia userId={user.id} />
+                )}
                 {this.state.tab === "fursuits" && <UserFursuits user={user} />}
                 {this.state.tab === "followers" && this.renderFollowers(user)}
                 {this.state.tab === "following" && (
@@ -894,25 +973,30 @@ class User extends React.Component {
                       <Grid item xs={12} lg={8}>
                         <Tabs
                           centered={width === "xl" || width === "lg"}
-                          variant={width !== "xl" && width !== "lg" ? "fullWidth" : ""}
+                          variant={
+                            width !== "xl" && width !== "lg" ? "fullWidth" : ""
+                          }
                           className={classes.tabsCenterer}
                           value={this.state.subTab}
-                          onChange={(e, value) => this.setState({ subTab: value })}
-                          textColor="secondary"
+                          onChange={(e, value) =>
+                            this.setState({ subTab: value })
+                          }
+                          textColor="primary"
+                          indicatorColor="primary"
                         >
                           <Tab
                             value="profiles_following"
-                            icon={"Profiles"}
+                            icon={<Typography>Profiles</Typography>}
                             label={user.followingCount}
                           />
                           <Tab
                             value="fursuits_following"
-                            icon={"Fursuits"}
+                            icon={<Typography>Fursuits</Typography>}
                             label={user.followingFursuitsCount}
                           />
                           <Tab
                             value="makers_following"
-                            icon={"Makers"}
+                            icon={<Typography>Makers</Typography>}
                             label={user.followingMakersCount}
                           />
                         </Tabs>
@@ -924,7 +1008,8 @@ class User extends React.Component {
                       this.renderProfilesFollowing(user)}
                     {this.state.subTab === "fursuits_following" &&
                       this.renderFursuitsFollowing(user)}
-                    {this.state.subTab === "makers_following" && this.renderMakersFollowing(user)}
+                    {this.state.subTab === "makers_following" &&
+                      this.renderMakersFollowing(user)}
                   </React.Fragment>
                 )}
                 <EditProfileDialog
@@ -936,7 +1021,9 @@ class User extends React.Component {
                   resource="user"
                   resourceId={data.user.id}
                   open={this.state.reportDialog}
-                  onClose={() => this.setState({ reportDialog: false, moreMenu: false })}
+                  onClose={() =>
+                    this.setState({ reportDialog: false, moreMenu: false })
+                  }
                 />
               </React.Fragment>
             );
@@ -947,4 +1034,6 @@ class User extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(withWidth()(withCurrentSession(User))));
+export default withStyles(styles)(
+  withRouter(withWidth()(withCurrentSession(User)))
+);

@@ -26,7 +26,8 @@ const styles = theme => ({
     marginBottom: 5,
     lineHeight: "36px",
     flexShrink: 0,
-    maxWidth: "calc(100vw - 256px)"
+    maxWidth: "calc(100vw - 256px)",
+    color: theme.palette.text.primary
   }
 });
 

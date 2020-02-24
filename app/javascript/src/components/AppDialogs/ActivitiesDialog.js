@@ -704,7 +704,7 @@ class ActivitiesDialog extends React.Component {
     return (
       <a
         href={`${process.env.SITE_URL}/adverts`}
-        style={{ textDecoration: "none" }}
+        style={{ textDecoration: "none", color: "inherit" }}
       >
         <ListItem key={activity.id} button>
           <MakerAvatar avatar={activity.trackable.file} />
@@ -731,7 +731,7 @@ class ActivitiesDialog extends React.Component {
     return (
       <a
         href={`${process.env.SITE_URL}/adverts`}
-        style={{ textDecoration: "none" }}
+        style={{ textDecoration: "none", color: "inherit" }}
       >
         <ListItem key={activity.id} button>
           <MakerAvatar avatar={activity.trackable.file} />

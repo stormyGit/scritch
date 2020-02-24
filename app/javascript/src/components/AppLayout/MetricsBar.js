@@ -25,7 +25,8 @@ const styles = theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    textAlign: "center"
+    textAlign: "center",
+    color: theme.palette.text.primary
   },
   dataSpacer: {
     marginLeft: theme.spacing(2)
