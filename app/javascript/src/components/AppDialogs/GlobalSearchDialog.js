@@ -43,6 +43,15 @@ class GlobalSearchDialog extends React.Component {
     kind: null
   };
 
+  constructor(props) {
+    super(props);
+
+    this.props.history.listen((location, action) => {
+      this.setState({ name: "", search: "" });
+      this.props.onClose();
+    });
+  }
+
   handleSearch(val) {
     if (this.state.name.length >= 1 && val.length < 1) {
       this.reset = true;
@@ -95,7 +104,9 @@ class GlobalSearchDialog extends React.Component {
           <div style={{ padding: 16 }} />
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              {this.state.name !== this.state.search && <CustomProgress size={128} />}
+              {this.state.name !== this.state.search && (
+                <CustomProgress size={128} />
+              )}
               {this.state.name === this.state.search && this.state.name !== "" && (
                 <React.Fragment>
                   <Typography variant="h5" className={classes.title}>
@@ -132,4 +143,6 @@ class GlobalSearchDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(withApollo(withRouter(withCurrentSession(GlobalSearchDialog))));
+export default withStyles(styles)(
+  withApollo(withRouter(withCurrentSession(GlobalSearchDialog)))
+);
