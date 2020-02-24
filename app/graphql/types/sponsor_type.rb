@@ -4,6 +4,7 @@ module Types
     field :id, ID, null: false
     field :user, UserType, null: false
     field :limit, Integer, null: true
+    field :customer_id, String, null: true
     field :plan, String, null: true
     field :status, String, null: false
     field :created_at, String, null: false

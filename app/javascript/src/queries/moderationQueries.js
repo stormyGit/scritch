@@ -1,5 +1,22 @@
 import gql from "graphql-tag";
 
+export const FETCH_SPONSORS = gql`
+  query moderationSponsors {
+    moderationSponsors {
+      id
+      status
+      limit
+      plan
+      customerId
+      user {
+        id
+        name
+        slug
+      }
+    }
+  }
+`;
+
 export const FETCH_REPORTS = gql`
   query moderationReports {
     moderationReports {

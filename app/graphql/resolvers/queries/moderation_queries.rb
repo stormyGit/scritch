@@ -9,6 +9,14 @@ module Resolvers
                 end
             end
 
+            class FetchModerationSponsors < GraphQL::Function
+              type types[Types::SponsorType]
+
+              def call(obj, args, ctx)
+                  Sponsor.order(created_at: :desc)
+              end
+            end
+
             class FetchModerationTechReports < GraphQL::Function
               type types[Types::TechReportType]
 
@@ -24,7 +32,7 @@ module Resolvers
                   Report.where(status: "new").order(created_at: :desc)
               end
             end
-            
+
             class FetchModerationMediumReports < GraphQL::Function
               type types[Types::MediumReportType]
 
@@ -132,7 +140,7 @@ module Resolvers
                       tmp = u[0].to_s
                       u[0] = tmp[0..tmp.index(':') - 4]
                     end
-                  end  
+                  end
 
                   sponsors_count = Statistic.pluck("date_trunc('day', created_at)", :sponsors)
                   sponsors_count.each do |u|
@@ -141,7 +149,7 @@ module Resolvers
                       u[0] = tmp[0..tmp.index(':') - 4]
                     end
                   end
-              
+
                   media_count = Statistic.pluck("date_trunc('day', created_at)", :media)
                   media_count.each do |u|
                     if u.present?
@@ -149,7 +157,7 @@ module Resolvers
                       u[0] = tmp[0..tmp.index(':') - 4]
                     end
                   end
-              
+
                   average_completion_per_day = Statistic.pluck("date_trunc('day', created_at)", :average_completion)
                   average_completion_per_day.each do |u|
                     if u.present?
@@ -157,12 +165,12 @@ module Resolvers
                       u[0] = tmp[0..tmp.index(':') - 4]
                     end
                   end
-              
+
                   users_per_day = []
                   users_count.sort.each_with_index do |u, index|
                     users_per_day = users_per_day + [[u[0], users_count.sort[index][1].to_i - (index == 0 ? 0 : users_count.sort[index - 1][1].to_i)]]
                   end
-              
+
                   impressions_count = Statistic.pluck("date_trunc('day', created_at)", :impressions)
                   impressions_count.each do |u|
                     if u.present?
@@ -170,7 +178,7 @@ module Resolvers
                       u[0] = tmp[0..tmp.index(':') - 4]
                     end
                   end
-              
+
                   impressions_per_day = []
                   impressions_count.sort.each_with_index do |u, index|
                     impressions_per_day = impressions_per_day + [[u[0], impressions_count.sort[index][1].to_i - (index == 0 ? 0 : impressions_count.sort[index - 1][1].to_i)]]

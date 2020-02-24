@@ -10,6 +10,8 @@ module Types
       field :moderationCommentReports, function: FetchModerationCommentReports.new
       # field :moderationClaims, function: FetchModerationClaims.new
 
+      field :moderationSponsors, function: FetchModerationSponsors.new
+
       field :moderationTechReports, function: FetchModerationTechReports.new
 
       field :moderationClaims, function: FetchModerationClaims.new
