@@ -264,7 +264,10 @@ const ModerationClaims = ({ classes, width }) => {
         <Query query={FETCH_CLAIMS}>
           {({ loading, error, data }) => {
             if (loading) return null; //TODO progress
-            if (error) return null; //TODO error
+            if (error) {
+              console.log(error);
+              return null;
+            } //TODO error
             if (!data || !data.moderationClaims) {
               return (
                 <Typography variant="h4" gutterBottom className={classes.centeredText}>
