@@ -85,11 +85,7 @@ const CommentReport = ({ report, classes }) => {
           <Typography variant="h6">Posted by</Typography>
           <Typography variant="subtitle1">
             {report.medium.user.name}&nbsp;&nbsp;
-            <Link
-              className={classes.link}
-              to={`/${report.comment.user.slug}`}
-              target="_blank"
-            >
+            <Link className={classes.link} to={`/${report.comment.user.slug}`} target="_blank">
               View on Scritch
             </Link>
           </Typography>
@@ -99,11 +95,7 @@ const CommentReport = ({ report, classes }) => {
           <Typography variant="h6">Reported By</Typography>
           <Typography variant="subtitle1">
             {report.reporter.name}&nbsp;&nbsp;
-            <Link
-              className={classes.link}
-              to={`/${report.reporter.slug}`}
-              target="_blank"
-            >
+            <Link className={classes.link} to={`/${report.reporter.slug}`} target="_blank">
               View on Scritch
             </Link>
           </Typography>
@@ -182,11 +174,7 @@ const MediumReport = ({ report, classes }) => {
     <React.Fragment>
       <Card className={classes.card}>
         <CardHeader title={`Media Report #${report.id.split("-")[0]}`} />
-        <a
-          className={classes.link}
-          href={report.medium.picture}
-          target="_blank"
-        >
+        <a className={classes.link} href={report.medium.picture} target="_blank">
           <CardMedia
             image={report.medium.picture}
             className={classes.cardMedia}
@@ -197,11 +185,7 @@ const MediumReport = ({ report, classes }) => {
           <Typography variant="h6">Posted by</Typography>
           <Typography variant="subtitle1">
             {report.medium.user.name}&nbsp;&nbsp;
-            <Link
-              className={classes.link}
-              to={`/${report.medium.user.slug}`}
-              target="_blank"
-            >
+            <Link className={classes.link} to={`/${report.medium.user.slug}`} target="_blank">
               View on Scritch
             </Link>
           </Typography>
@@ -211,11 +195,7 @@ const MediumReport = ({ report, classes }) => {
           <Typography variant="h6">Reported By</Typography>
           <Typography variant="subtitle1">
             {report.reporter.name}&nbsp;&nbsp;
-            <Link
-              className={classes.link}
-              to={`/${report.reporter.slug}`}
-              target="_blank"
-            >
+            <Link className={classes.link} to={`/${report.reporter.slug}`} target="_blank">
               View on Scritch
             </Link>
           </Typography>
@@ -388,11 +368,7 @@ const Report = ({ report, classes }) => {
           <Typography variant="h6">Reported User</Typography>
           <Typography variant="subtitle1">
             {report.user.name}&nbsp;&nbsp;
-            <Link
-              className={classes.link}
-              to={`/${report.user.slug}`}
-              target="_blank"
-            >
+            <Link className={classes.link} to={`/${report.user.slug}`} target="_blank">
               View on Scritch
             </Link>
           </Typography>
@@ -402,11 +378,7 @@ const Report = ({ report, classes }) => {
           <Typography variant="h6">Reported By</Typography>
           <Typography variant="subtitle1">
             {report.reporter.name}&nbsp;&nbsp;
-            <Link
-              className={classes.link}
-              to={`/${report.reporter.slug}`}
-              target="_blank"
-            >
+            <Link className={classes.link} to={`/${report.reporter.slug}`} target="_blank">
               View on Scritch
             </Link>
           </Typography>
@@ -464,9 +436,7 @@ const Report = ({ report, classes }) => {
               );
             }}
           </Mutation>
-          <Button onClick={() => setProfileDialog(true)}>
-            Moderate Profile
-          </Button>
+          <Button onClick={() => setProfileDialog(true)}>Moderate Profile</Button>
           <Button onClick={() => setChatDialog(true)}>Contact Reporter</Button>
         </CardActions>
       </Card>
@@ -504,7 +474,7 @@ const ModerationReports = ({ width, classes }) => {
         onChange={(e, value) => setTab(value)}
         textColor="secondary"
       >
-        <Tab value="tags" icon={"Tags"} />
+        {false && <Tab value="tags" icon={"Tags"} />}
         <Tab value="media" icon={"Media"} />
         <Tab value="users" icon={"Users"} />
         <Tab value="comments" icon={"Comments"} />
@@ -519,17 +489,9 @@ const ModerationReports = ({ width, classes }) => {
               return null;
             } //TODO error
             console.log(data);
-            if (
-              !data ||
-              !data.moderationReports ||
-              data.moderationReports.length === 0
-            ) {
+            if (!data || !data.moderationReports || data.moderationReports.length === 0) {
               return (
-                <Typography
-                  variant="h4"
-                  gutterBottom
-                  className={classes.centeredText}
-                >
+                <Typography variant="h4" gutterBottom className={classes.centeredText}>
                   No User Reports Found
                 </Typography>
               );
@@ -564,11 +526,7 @@ const ModerationReports = ({ width, classes }) => {
               data.moderationMediumReports.length === 0
             ) {
               return (
-                <Typography
-                  variant="h4"
-                  gutterBottom
-                  className={classes.centeredText}
-                >
+                <Typography variant="h4" gutterBottom className={classes.centeredText}>
                   No Medium Reports Found
                 </Typography>
               );
@@ -603,11 +561,7 @@ const ModerationReports = ({ width, classes }) => {
               data.moderationCommentReports.length === 0
             ) {
               return (
-                <Typography
-                  variant="h4"
-                  gutterBottom
-                  className={classes.centeredText}
-                >
+                <Typography variant="h4" gutterBottom className={classes.centeredText}>
                   No Comment Reports Found
                 </Typography>
               );

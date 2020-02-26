@@ -272,7 +272,7 @@ const FursuitRequests = ({ classes, width }) => {
 };
 
 const ModerationRequests = ({ width, classes }) => {
-  const [tab, setTab] = useState("events");
+  const [tab, setTab] = useState("fursuits");
 
   return (
     <React.Fragment>

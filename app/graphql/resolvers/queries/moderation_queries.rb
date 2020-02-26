@@ -85,7 +85,7 @@ module Resolvers
                 type types[Types::ClaimType]
 
                 def call(obj, args, ctx)
-                    Claim.where(status: "open").order(:created_at)
+                    Claim.where(status: "open").where.not(user: nil).order(:created_at)
                 end
             end
 
@@ -93,7 +93,7 @@ module Resolvers
                 type types[Types::MakerClaimType]
 
                 def call(obj, args, ctx)
-                    MakerClaim.where(status: "open").order(:created_at)
+                    MakerClaim.where(status: "open").where.not(user: nil).order(:created_at)
                 end
             end
 
