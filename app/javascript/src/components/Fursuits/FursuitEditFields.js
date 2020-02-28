@@ -466,11 +466,11 @@ const EyesFilter = React.memo(
   ({ classes, onChange, color }) => (
     <Grid item xs={12}>
       <Typography variant="h6" className={classes.label}>
-        Eyes Colour
+        Eye Colour
       </Typography>
       <Select
         fullWidth
-        placeholder="Eyes Colour"
+        placeholder="Eye Colour"
         isClearable
         isSearchable
         value={color}
