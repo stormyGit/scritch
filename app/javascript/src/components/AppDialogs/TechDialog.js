@@ -50,10 +50,6 @@ class TechDialog extends React.Component {
   render() {
     const { classes, currentSession, user } = this.props;
 
-    if (!currentSession) {
-      return null;
-    }
-
     return (
       <ResponsiveDialog
         open={this.props.open}
@@ -71,8 +67,7 @@ class TechDialog extends React.Component {
           </Typography>
           <div style={{ padding: 8 }} />
           <Typography variant="h6" className={classes.blurb}>
-            Have a suggestion for a new feature/development? Tell us your idea
-            below!
+            Have a suggestion for a new feature/development? Tell us your idea below!
           </Typography>
           <div style={{ padding: 8 }} />
           <Typography variant="h6" className={classes.blurb}>
@@ -124,7 +119,11 @@ class TechDialog extends React.Component {
           <Mutation mutation={CREATE_TECH_REPORT} update={cache => {}}>
             {(createReport, { data }) => (
               <Button
-                disabled={!!this.state.description.match(/^\s*$/)}
+                disabled={
+                  !!this.state.description.match(/^\s*$/) ||
+                  !this.state.kind ||
+                  !this.state.kind.value
+                }
                 onClick={() => {
                   createReport({
                     variables: {
@@ -151,6 +150,4 @@ class TechDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(
-  withApollo(withRouter(withCurrentSession(TechDialog)))
-);
+export default withStyles(styles)(withApollo(withRouter(withCurrentSession(TechDialog))));

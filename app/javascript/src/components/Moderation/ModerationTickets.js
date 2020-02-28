@@ -48,7 +48,12 @@ const Ticket = ({ ticket, classes }) => {
         <CardContent>
           <Typography variant="h6">Submitted by</Typography>
           <Typography variant="subtitle1">
-            {ticket.user ? ticket.user.name : "AUTO-SUBMITTED"}&nbsp;&nbsp;
+            {ticket.user
+              ? ticket.user.name
+              : ticket.kind === "exception"
+              ? "AUTO-SUBMITTED"
+              : "Non-Logged User"}
+            &nbsp;&nbsp;
             {ticket.user && (
               <Link className={classes.link} to={`/${ticket.user.slug}`} target="_blank">
                 View on Scritch

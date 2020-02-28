@@ -16,6 +16,7 @@ class Mutations::CreateTechReport < Mutations::BaseMutation
         errors: [],
       }
     else
+      puts report.errors.full_messages
       {
         report: nil,
         errors: report.errors.full_messages

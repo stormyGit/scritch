@@ -90,16 +90,14 @@ class PoliciesSupportButton extends React.Component {
           <Link to={"/privacy_policy"} className={classes.link}>
             <MenuItem onClick={() => this.handleClose()}>Privacy Policy</MenuItem>
           </Link>
-          {currentSession && (
-            <MenuItem
-              onClick={() => {
-                this.handleClose();
-                this.props.openTech();
-              }}
-            >
-              Contact Support
-            </MenuItem>
-          )}
+          <MenuItem
+            onClick={() => {
+              this.handleClose();
+              this.props.openTech();
+            }}
+          >
+            Contact Support
+          </MenuItem>
           <MenuItem disabled>&copy; Scritch 2020 - v1.0.12</MenuItem>
         </Menu>
       </React.Fragment>
