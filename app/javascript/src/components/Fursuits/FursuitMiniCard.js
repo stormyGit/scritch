@@ -56,7 +56,8 @@ const styles = theme => ({
   },
   content: {
     textAlign: "center",
-    padding: theme.spacing(1)
+    padding: theme.spacing(1),
+    color: theme.palette.text.primary
   },
   tags: {
     overflow: "hidden",
