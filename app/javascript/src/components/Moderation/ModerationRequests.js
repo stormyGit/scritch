@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import FursuitRequestDialog from "./FursuitRequestDialog";
 import MakerRequestDialog from "./MakerRequestDialog";
 import EventRequestDialog from "./EventRequestDialog";
+import ModerationChatDialog from "./ModerationChatDialog";
 
 const styles = theme => ({
   root: {
@@ -124,6 +125,8 @@ const EventRequests = ({ classes, width }) => {
 
 const MakerRequests = ({ classes, width }) => {
   const [activeRequest, setActiveRequest] = useState(null);
+  const [chatDialog, setChatDialog] = useState(false);
+
   return (
     <React.Fragment>
       <div style={{ padding: 16 }} />
@@ -177,6 +180,7 @@ const MakerRequests = ({ classes, width }) => {
                             <Button size="large" onClick={() => setActiveRequest(request)}>
                               View Request
                             </Button>
+                            <Button onClick={() => setChatDialog(true)}>Contact Claimer</Button>
                           </CardActions>
                         </Card>
                       </Grid>
@@ -189,6 +193,13 @@ const MakerRequests = ({ classes, width }) => {
                           width={width}
                         />
                       )}
+                      <ModerationChatDialog
+                        user={request.user}
+                        open={chatDialog}
+                        onClose={() => setChatDialog(false)}
+                        caseId={request.id}
+                        caseType={"fursuit_request"}
+                      />
                     </React.Fragment>
                   );
                 })}
@@ -203,6 +214,8 @@ const MakerRequests = ({ classes, width }) => {
 
 const FursuitRequests = ({ classes, width }) => {
   const [activeRequest, setActiveRequest] = useState(null);
+  const [chatDialog, setChatDialog] = useState(false);
+
   return (
     <React.Fragment>
       <div style={{ padding: 16 }} />
@@ -247,6 +260,7 @@ const FursuitRequests = ({ classes, width }) => {
                             <Button size="large" onClick={() => setActiveRequest(request)}>
                               View Request
                             </Button>
+                            <Button onClick={() => setChatDialog(true)}>Contact Claimer</Button>
                           </CardActions>
                         </Card>
                       </Grid>
@@ -259,6 +273,13 @@ const FursuitRequests = ({ classes, width }) => {
                           width={width}
                         />
                       )}
+                      <ModerationChatDialog
+                        user={request.user}
+                        open={chatDialog}
+                        onClose={() => setChatDialog(false)}
+                        caseId={request.id}
+                        caseType={"fursuit_request"}
+                      />
                     </React.Fragment>
                   );
                 })}
