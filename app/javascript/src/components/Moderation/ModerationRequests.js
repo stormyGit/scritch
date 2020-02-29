@@ -51,7 +51,6 @@ const EventRequests = ({ classes, width }) => {
       <div style={{ padding: 16 }} />
       <Query query={FETCH_EVENT_REQUESTS}>
         {({ data, loading, error, fetchMore }) => {
-          console.log(data);
           if (loading || error || !data || !data.moderationEventRequests) return null;
           return (
             <React.Fragment>
@@ -132,7 +131,6 @@ const MakerRequests = ({ classes, width }) => {
       <div style={{ padding: 16 }} />
       <Query query={FETCH_MAKER_REQUESTS}>
         {({ data, loading, error, fetchMore }) => {
-          console.log(data);
           if (loading || error || !data || !data.moderationMakerRequests) return null;
           return (
             <React.Fragment>
@@ -221,7 +219,6 @@ const FursuitRequests = ({ classes, width }) => {
       <div style={{ padding: 16 }} />
       <Query query={FETCH_FURSUIT_REQUESTS}>
         {({ data, loading, error, fetchMore }) => {
-          console.log(data);
           if (loading || error || !data || !data.moderationFursuitRequests) return null;
           return (
             <React.Fragment>

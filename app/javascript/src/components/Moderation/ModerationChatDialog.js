@@ -122,7 +122,6 @@ class MessageInput extends React.Component {
     if (this.state.message.match(/^\s*$/)) {
       return;
     }
-    console.log(this.props);
     createMessage({
       variables: {
         input: {
@@ -525,7 +524,6 @@ const ModeratorChatDialog = ({
   let offset = 0;
   let limit = 12;
 
-  console.log(caseId, caseType);
   return (
     <ResponsiveDialog open={open} onClose={onClose}>
       <Query

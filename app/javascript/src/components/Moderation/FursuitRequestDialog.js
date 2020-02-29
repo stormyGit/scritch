@@ -163,7 +163,6 @@ class FursuitRequestDialog extends React.Component {
   render() {
     const { classes, request, currentSession } = this.props;
 
-    console.log(request);
     var fursuit = request;
     return (
       <React.Fragment>

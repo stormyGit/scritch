@@ -446,7 +446,6 @@ const FursuitSpeciesFilter = React.memo(
             );
           }
 
-          console.log(speciesIds);
           return (
             <Grid item xs={12} md={12} lg={7}>
               <Select
@@ -631,7 +630,6 @@ class FursuitFilters extends React.Component {
                     speciesIds={this.state.speciesIds ? this.state.speciesIds[0] : null}
                     onChange={specy => {
                       this.setState({ speciesIds: [specy] });
-                      console.log(specy);
                       this.props.onChange({
                         label: "speciesIds",
                         value: specy ? [specy] : null

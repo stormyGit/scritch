@@ -207,7 +207,6 @@ const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
             editionsOptions.push({ label: e.name, value: e.id });
           });
 
-        console.log(editionsOptions);
         return (
           <React.Fragment>
             <ResponsiveDialog open={open} onClose={onClose}>

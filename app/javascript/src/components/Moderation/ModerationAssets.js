@@ -48,7 +48,6 @@ function renderEventResults({ data, onLoadMore, hasMore, withEvent, classes, set
     return <EmptyList label={`No results`} />;
   }
 
-  console.log(data);
   return (
     <React.Fragment>
       {data.events.map(event => (

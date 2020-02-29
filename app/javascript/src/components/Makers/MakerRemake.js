@@ -577,7 +577,6 @@ class Maker extends React.Component {
 
             const maker = data ? data.maker : null;
 
-            console.log(maker);
             return (
               <React.Fragment>
                 <PageTitle>{maker ? maker.name : null}</PageTitle>

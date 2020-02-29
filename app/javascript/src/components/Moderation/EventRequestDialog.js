@@ -129,8 +129,6 @@ class EventRequestDialog extends React.Component {
   render() {
     const { classes, request, currentSession } = this.props;
 
-    console.log(request);
-
     return (
       <React.Fragment>
         <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>

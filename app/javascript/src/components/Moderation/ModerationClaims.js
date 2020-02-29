@@ -265,7 +265,6 @@ const ModerationClaims = ({ classes, width }) => {
           {({ loading, error, data }) => {
             if (loading) return null; //TODO progress
             if (error) {
-              console.log(error);
               return null;
             } //TODO error
             if (!data || !data.moderationClaims) {

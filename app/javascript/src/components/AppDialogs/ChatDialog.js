@@ -144,11 +144,9 @@ class MessageInput extends React.Component {
   }
 
   handleSend(createMessage) {
-    console.log(this.state);
     if (this.state.message.match(/^\s*$/) && !this.state.picture) {
       return;
     }
-    console.log(this.state);
     createMessage({
       variables: {
         input: {
@@ -278,7 +276,6 @@ class MessageInput extends React.Component {
                   this.setState({ pictureToEdit: null });
                 }}
                 onSubmit={canvas => {
-                  console.log(canvas.toDataURL());
                   this.setState(
                     {
                       picture: canvas.toDataURL(),
@@ -570,7 +567,6 @@ class ChatsDialog extends React.Component {
   renderChat(chat) {
     const { currentSession, onUserSelected, classes, onOpenChat } = this.props;
 
-    console.log(chat.id);
     return (
       <ListItem
         key={chat.id}
@@ -663,7 +659,6 @@ class ChatDialogLoader extends React.Component {
                 return null;
               }
 
-              console.log(data);
               return (
                 <ChatsDialogWithWidth
                   {...props}
@@ -681,7 +676,6 @@ class ChatDialogLoader extends React.Component {
             }}
           </Query>
         )}
-        {console.log(this.state.user, currentSession)}
         {open && this.state.user && currentSession.user && this.state.chat && (
           <Query
             query={GET_MESSAGES}

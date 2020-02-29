@@ -169,7 +169,6 @@ const CommentReport = ({ report, classes }) => {
 
 const MediumReport = ({ report, classes }) => {
   const [chatDialog, setChatDialog] = useState(false);
-  console.log(report.medium.picture);
   return (
     <React.Fragment>
       <Card className={classes.card}>
@@ -485,10 +484,8 @@ const ModerationReports = ({ width, classes }) => {
           {({ loading, error, data }) => {
             if (loading) return <CustomProgress size={64} />; //TODO progress
             if (error) {
-              console.log(error);
               return null;
             } //TODO error
-            console.log(data);
             if (!data || !data.moderationReports || data.moderationReports.length === 0) {
               return (
                 <Typography variant="h4" gutterBottom className={classes.centeredText}>
@@ -516,10 +513,8 @@ const ModerationReports = ({ width, classes }) => {
           {({ loading, error, data }) => {
             if (loading) return <CustomProgress size={64} />; //TODO progress
             if (error) {
-              console.log(error);
               return null;
             } //TODO error
-            console.log(data);
             if (
               !data ||
               !data.moderationMediumReports ||
@@ -551,10 +546,8 @@ const ModerationReports = ({ width, classes }) => {
           {({ loading, error, data }) => {
             if (loading) return <CustomProgress size={64} />; //TODO progress
             if (error) {
-              console.log(error);
               return null;
             } //TODO error
-            console.log(data);
             if (
               !data ||
               !data.moderationCommentReports ||

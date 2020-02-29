@@ -151,7 +151,6 @@ class CreateEventDialog extends React.Component {
   }
 
   setInitialValues(edition) {
-    console.log(edition);
     this.setState({
       name: edition.name,
       city: edition.city,

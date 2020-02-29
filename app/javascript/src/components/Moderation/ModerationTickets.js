@@ -117,10 +117,8 @@ const ModerationTickets = ({ classes, width }) => {
         {({ loading, error, data }) => {
           if (loading) return <CustomProgress size={64} />; //TODO progress
           if (error) {
-            console.log(error);
             return null;
           } //TODO error
-          console.log(data);
           if (!data || !data.moderationTechReports || data.moderationTechReports.length === 0) {
             return (
               <Typography variant="h4" gutterBottom className={classes.centeredText}>

@@ -49,7 +49,6 @@ class ModerationAnalytics extends React.Component {
               );
             }
 
-            console.log(data);
             return (
               <React.Fragment>
                 <Grid container spacing={3}>
