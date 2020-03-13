@@ -834,7 +834,6 @@ function TagDialog({ classes, width, open, onClose, mediumId, editMedium, curren
                             <Button
                               color="primary"
                               disabled={
-                                !mediaCategory ||
                                 (fursuits && fursuitsCount < fursuits.length) ||
                                 (fursuitsCount && isNaN(fursuitsCount)) ||
                                 (mediaEvent && (!mediaEdition || !mediaSubEvent)) ||
