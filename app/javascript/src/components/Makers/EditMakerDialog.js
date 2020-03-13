@@ -336,7 +336,6 @@ class EditMakerDialog extends React.Component {
                   <Select
                     fullWidth
                     placeholder="Commission Status"
-                    isClearable
                     isSearchable
                     value={this.state.commissionStatus}
                     onChange={commissionStatus => {
