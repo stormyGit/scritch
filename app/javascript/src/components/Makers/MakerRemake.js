@@ -444,7 +444,7 @@ class Maker extends React.Component {
               <Metrics maker={maker} />
               <SubtitleRow maker={maker} />
               <div className={classes.headerTitles}>
-                <Typography variant="subtitle1" className={classes.makerTitle} noWrap>
+                <Typography variant="subtitle1" className={classes.makerTitle}>
                   {maker.bio}
                 </Typography>
               </div>
