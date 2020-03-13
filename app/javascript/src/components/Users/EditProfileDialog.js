@@ -362,6 +362,13 @@ class EditProfileDialog extends React.Component {
               margin="dense"
               variant="outlined"
               fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start" className={classes.domain} disableTypography>
+                    {`https://${process.env.DOMAIN}/`}
+                  </InputAdornment>
+                )
+              }}
             />
             <div style={{ padding: 5 }} />
             <TextField
@@ -374,13 +381,6 @@ class EditProfileDialog extends React.Component {
               }}
               margin="dense"
               fullWidth
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start" className={classes.domain} disableTypography>
-                    {`https://${process.env.DOMAIN}/`}
-                  </InputAdornment>
-                )
-              }}
             />
             <div style={{ padding: 5 }} />
             <TextField
