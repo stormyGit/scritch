@@ -1,4 +1,5 @@
-INSTALL and SETUP PostgresQL
+Install system packages (example: Ubuntu)
+---
 
 ```
 sudo apt install nodejs postgres ruby ruby-dev libcurl4-nss-dev libpq-dev libz-dev ffmpeg
@@ -8,7 +9,7 @@ put
 1. .env into root
 2. application.yml into app/config/
 
-get the files from stormy
+get the 2 files above from stormy
 
 
 postgres setup
@@ -42,7 +43,10 @@ bundle exec rails db:migrate
 init
 ---
 
-console: bundle exec rails c
+console: 
+```
+bundle exec rails c
+```
 inside the console:
 ```
 App.create!()
@@ -66,8 +70,10 @@ bundle exec rake fursuits:fetch  # only let a few run
 run server
 ---
 
+```
 bundle exec rails s (-p 3001) # ruby
 ./bin/webpack-dev-server  #for js
+```
 
 server runs on http://localhost:3000 
 
@@ -75,3 +81,11 @@ after running
 ---
 
 login with telegram creates a user on dev enviroment
+
+
+git push staging
+---
+```
+git remote add staging dokku@scritch-staging.com:scritch-staging
+git push staging dev
+```
