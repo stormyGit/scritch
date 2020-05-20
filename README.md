@@ -43,8 +43,11 @@ init
 ---
 
 console: bundle exec rails c
-inside the console App.create!()
+inside the console:
+```
+App.create!()
 Moderator.create!(name: "toto", email: "toto@toto.com", password: "12345678", capabilities: ["moderators"], telegram_username: "Test", telegram_id: "123456789")
+```
 
 populate the database
 ---
