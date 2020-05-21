@@ -6,10 +6,10 @@ const styles = theme => ({
   container: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   icon: {
-    height: 48,
+    height: 64,
     width: 64
   }
 });

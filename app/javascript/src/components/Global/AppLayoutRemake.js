@@ -1,18 +1,15 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import SearchIcon from "@material-ui/icons/Search";
-import CloseIcon from "@material-ui/icons/Close";
-import queryString from "query-string";
 import Typography from "@material-ui/core/Typography";
 import dateFormat from "dateformat";
 
-import { Link, withRouter } from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
-import SearchBar from "../Global/SearchBar";
 import GlobalProgress from "../Global/GlobalProgress";
 import PermanentDrawer from "../PermanentDrawer";
 import TemporaryDrawer from "../TemporaryDrawer";
@@ -27,8 +24,9 @@ import NotificationsButton from "../AppLayout/NotificationsButton";
 import AppDialogs from "../AppLayout/AppDialogs";
 import CookieConsent from "react-cookie-consent";
 import logo from "../../../../assets/images/logo_small.png";
-import { Menu, MenuItem, TextField, InputAdornment, Tooltip, Button } from "@material-ui/core";
+import {Button} from "@material-ui/core";
 import ChatButton from "../AppLayout/ChatButton";
+import Logo from "./Logo";
 
 const styles = theme => ({
   root: {
@@ -132,7 +130,6 @@ const styles = theme => ({
 
 class AppLayoutRemake extends React.Component {
   state = {
-    query: "",
     nameInput: "",
     anchorEl: null,
     uploadDialog: false,
@@ -259,13 +256,12 @@ class AppLayoutRemake extends React.Component {
                     paddingRight: appBarPadding
                   }}
                 >
-                  <img
+                  <Logo
                     onClick={() =>
                       this.setState({
                         tempDrawer: !this.state.tempDrawer
                       })
                     }
-                    src={logo}
                   />
                   {(width === "sm" || width === "xs") && (
                     <Typography variant="subtitle1">Suspended</Typography>
@@ -303,13 +299,12 @@ class AppLayoutRemake extends React.Component {
                   }}
                 >
                   {!this.state.searchEnabled && (
-                    <img
+                    <Logo
                       onClick={() =>
                         this.setState({
                           tempDrawer: !this.state.tempDrawer
                         })
                       }
-                      src={logo}
                     />
                   )}
 
