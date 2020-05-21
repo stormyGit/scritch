@@ -3,7 +3,7 @@ import PageTitle from "../Global/PageTitle";
 import queryString from "query-string";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import CustomProgress from "../Global/CustomProgress";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 import withWidth from "@material-ui/core/withWidth";
 import { withStyles } from "@material-ui/core/styles";
 import { Query, Mutation } from "react-apollo";
@@ -233,7 +233,7 @@ const Moderator = ({ moderator, classes }) => {
                 <Mutation mutation={UPDATE_MODERATOR}>
                   {(updateModerator, { data, loading }) =>
                     loading ? (
-                      <CustomProgress size={32} />
+                      <ScritchSpinner size={32} />
                     ) : (
                       <Button
                         variant="outlined"

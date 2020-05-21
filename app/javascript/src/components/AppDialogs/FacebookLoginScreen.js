@@ -29,7 +29,7 @@ import themeSelector from "../../themeSelector";
 
 import { Mutation, Query } from "react-apollo";
 
-import Logo from "../Global/Logo";
+import Logo from "../CustomComponents/ScritchLogo";
 import { CREATE_FACEBOOK_SESSION } from "../../queries/globalQueries";
 
 const styles = theme => ({

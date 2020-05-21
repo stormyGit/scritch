@@ -29,7 +29,7 @@ import { DELETE_USER, UPDATE_USER } from "../../queries/userMutations";
 import { GET_BLOCKED_USERS } from "../../queries/userQueries";
 import { GET_SESSION, DELETE_SESSION, UPDATE_PASSWORD } from "../../queries/globalQueries";
 import { Typography, TextField } from "@material-ui/core";
-import CustomProgress from "../Global/CustomProgress";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 
 const styles = theme => ({
   dangerButton: {
@@ -296,7 +296,7 @@ class Settings extends React.Component {
                 >
                   {(registerUser, { data, loading }) => {
                     if (loading) {
-                      return <CustomProgress size={64} />;
+                      return <ScritchSpinner size={64} />;
                     }
                     return (
                       <Button

@@ -14,7 +14,7 @@ const styles = theme => ({
   }
 });
 
-class Logo extends React.Component {
+class ScritchLogo extends React.Component {
   render() {
     const { classes, ...props } = this.props;
 
@@ -26,4 +26,4 @@ class Logo extends React.Component {
   }
 }
 
-export default withStyles(styles, { pureComponent: true })(Logo);
+export default withStyles(styles, { pureComponent: true })(ScritchLogo);

@@ -15,7 +15,7 @@ import withCurrentSession from "../withCurrentSession";
 import Select from "../Global/Select";
 import SearchBar from "material-ui-search-bar";
 import { Grid } from "@material-ui/core";
-import CustomProgress from "../Global/CustomProgress";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 import Fursuits from "../Fursuits/Fursuits";
 import Events from "../Events/Events";
 import Makers from "../Makers/Makers";
@@ -105,7 +105,7 @@ class GlobalSearchDialog extends React.Component {
           <Grid container spacing={1}>
             <Grid item xs={12}>
               {this.state.name !== this.state.search && (
-                <CustomProgress size={128} />
+                <ScritchSpinner size={128} />
               )}
               {this.state.name === this.state.search && this.state.name !== "" && (
                 <React.Fragment>

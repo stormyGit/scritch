@@ -21,7 +21,7 @@ import EventCard from "./EventCard";
 
 import EventFilters from "./EventFilters";
 import EventFiltersMobile from "./EventFiltersMobile";
-import CustomProgress from "../Global/CustomProgress";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 
 const styles = theme => ({
   root: {
@@ -96,7 +96,7 @@ class Events extends React.Component {
           }}
         >
           {({ data, loading, error, fetchMore }) => {
-            if (loading) return <CustomProgress size={this.props.search ? 64 : 128} />;
+            if (loading) return <ScritchSpinner size={this.props.search ? 64 : 128} />;
             if (error || !data || !data.events) return null;
             return (
               <React.Fragment>

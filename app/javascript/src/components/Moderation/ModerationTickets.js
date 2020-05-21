@@ -10,7 +10,7 @@ import { Card, CardHeader, CardContent, CardActions, Button } from "@material-ui
 import { Mutation, Query } from "react-apollo";
 import ModerationChatDialog from "./ModerationChatDialog";
 import { Link } from "react-router-dom";
-import CustomProgress from "../Global/CustomProgress";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 import { DELETE_TICKET } from "../../queries/moderationMutations";
 
 const styles = theme => ({
@@ -115,7 +115,7 @@ const ModerationTickets = ({ classes, width }) => {
       <PageTitle>{`Scritch Moderation - Tickets`}</PageTitle>
       <Query query={FETCH_TICKETS}>
         {({ loading, error, data }) => {
-          if (loading) return <CustomProgress size={64} />; //TODO progress
+          if (loading) return <ScritchSpinner size={64} />; //TODO progress
           if (error) {
             return null;
           } //TODO error

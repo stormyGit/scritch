@@ -6,7 +6,7 @@ import { Query } from "react-apollo";
 import Grid from "@material-ui/core/Grid";
 import Select from "../Global/Select";
 import Typography from "@material-ui/core/Typography";
-import CustomProgress from "../Global/CustomProgress";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
@@ -114,7 +114,7 @@ const MakerFilter = React.memo(
         if (loading) {
           return (
             <Grid item xs={8}>
-              <CustomProgress size={48} />
+              <ScritchSpinner size={48} />
             </Grid>
           );
         }
@@ -197,7 +197,7 @@ const GenderFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CustomProgress size={48} />
+                <ScritchSpinner size={48} />
               </Grid>
             );
           }
@@ -240,7 +240,7 @@ const PaddingFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CustomProgress size={48} />
+                <ScritchSpinner size={48} />
               </Grid>
             );
           }
@@ -283,7 +283,7 @@ const FingersFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CustomProgress size={48} />
+                <ScritchSpinner size={48} />
               </Grid>
             );
           }
@@ -326,7 +326,7 @@ const LegFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CustomProgress size={48} />
+                <ScritchSpinner size={48} />
               </Grid>
             );
           }
@@ -369,7 +369,7 @@ const BuildFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CustomProgress size={48} />
+                <ScritchSpinner size={48} />
               </Grid>
             );
           }
@@ -412,7 +412,7 @@ const StyleFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CustomProgress size={48} />
+                <ScritchSpinner size={48} />
               </Grid>
             );
           }
@@ -510,7 +510,7 @@ const FursuitSpeciesFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CustomProgress size={48} />
+                <ScritchSpinner size={48} />
               </Grid>
             );
           }
@@ -553,7 +553,7 @@ const HybridSpeciesFilter = React.memo(
           if (loading) {
             return (
               <Grid item xs={12}>
-                <CustomProgress size={48} />
+                <ScritchSpinner size={48} />
               </Grid>
             );
           }

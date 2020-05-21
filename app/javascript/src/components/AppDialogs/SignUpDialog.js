@@ -26,14 +26,14 @@ import { withRouter } from "react-router-dom";
 
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import SignUpAlternativeDialog from "./SignUpAlternativeDialog";
-import CustomProgress from "../Global/CustomProgress";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 import TelegramLogin from "./TelegramLogin";
 import FacebookLoginScreen from "./FacebookLoginScreen";
 import themeSelector from "../../themeSelector";
 
 import { Mutation, Query } from "react-apollo";
 
-import Logo from "../Global/Logo";
+import Logo from "../CustomComponents/ScritchLogo";
 import {
   EMAIL_SIGN_IN,
   REGISTER_USER,
@@ -281,7 +281,7 @@ class SignUpDialog extends React.Component {
                             <Mutation mutation={SEND_NEW_CONFIRM_MAIL}>
                               {(sendNewConfirmMail, { data, loading }) => {
                                 if (loading) {
-                                  return <CustomProgress size={32} />;
+                                  return <ScritchSpinner size={32} />;
                                 }
                                 return (
                                   <Button
@@ -326,7 +326,7 @@ class SignUpDialog extends React.Component {
                         >
                           {(emailSignIn, { data, loading }) => {
                             if (loading) {
-                              return <CustomProgress size={64} />;
+                              return <ScritchSpinner size={64} />;
                             }
                             return (
                               <Button
@@ -456,7 +456,7 @@ class SignUpDialog extends React.Component {
                         >
                           {(registerUser, { data, loading }) => {
                             if (loading) {
-                              return <CustomProgress size={64} />;
+                              return <ScritchSpinner size={64} />;
                             }
                             return (
                               <Button
@@ -548,7 +548,7 @@ class SignUpDialog extends React.Component {
                         >
                           {(resetPassword, { data, loading }) => {
                             if (loading) {
-                              return <CustomProgress size={64} />;
+                              return <ScritchSpinner size={64} />;
                             }
                             return (
                               <Button

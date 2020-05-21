@@ -26,7 +26,7 @@ import { READ_MAKER_NOTIFICATIONS } from "../../queries/subscriptionMutations";
 import { Link } from "react-router-dom";
 
 import FursuitFilters from "./FursuitFilters";
-import CustomProgress from "../Global/CustomProgress";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 
 const styles = theme => ({
   root: {
@@ -229,7 +229,7 @@ class Fursuits extends React.Component {
           }}
         >
           {({ data, loading, error, fetchMore }) => {
-            if (loading) return <CustomProgress size={this.props.search ? 64 : 128} />;
+            if (loading) return <ScritchSpinner size={this.props.search ? 64 : 128} />;
             if (error || !data || !data.fursuits) return null;
             return (
               <React.Fragment>

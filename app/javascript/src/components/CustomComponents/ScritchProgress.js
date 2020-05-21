@@ -3,7 +3,8 @@ import Lottie from "react-lottie";
 
 const loaderJSON = require("../../loaderJSON.json");
 
-const CustomProgress = ({ size }) => {
+//TODO: make Progressbar instead of Spinner
+const ScritchSpinner = ({ size }) => {
   return (
     <Lottie
       options={{
@@ -20,4 +21,4 @@ const CustomProgress = ({ size }) => {
   );
 };
 
-export default CustomProgress;
+export default ScritchSpinner;

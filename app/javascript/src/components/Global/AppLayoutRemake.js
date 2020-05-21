@@ -26,7 +26,7 @@ import CookieConsent from "react-cookie-consent";
 import logo from "../../../../assets/images/logo_small.png";
 import {Button} from "@material-ui/core";
 import ChatButton from "../AppLayout/ChatButton";
-import Logo from "./Logo";
+import Logo from "../CustomComponents/ScritchLogo";
 
 const styles = theme => ({
   root: {
