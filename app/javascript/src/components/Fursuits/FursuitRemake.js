@@ -711,11 +711,12 @@ class Fursuit extends React.Component {
         >
           {({ loading, error, data }) => {
             if (error) {
-              return null; //TODO ERROR
+              console.log(error)
+              return <Typography>Something went wrong</Typography>; //TODO ERROR
             }
 
             if (loading || !data) {
-              return null; //TODO LOADING
+              return <CustomProgress />; //TODO LOADING
             }
 
             const fursuit = data ? data.fursuit : null;
