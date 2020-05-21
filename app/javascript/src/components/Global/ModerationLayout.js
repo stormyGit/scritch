@@ -19,7 +19,7 @@ import UserButton from "../AppLayout/UserButton";
 import NotificationsButton from "../AppLayout/NotificationsButton";
 import AppDialogs from "../AppLayout/AppDialogs";
 import CookieConsent from "react-cookie-consent";
-import logo from "../../../../assets/images/logo.png";
+import logo from "../../../../assets/images/logo_small.png";
 
 const styles = theme => ({
   root: {
