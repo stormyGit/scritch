@@ -24,7 +24,7 @@ import {
   FETCH_COMMENT_REPORTS
 } from "../../queries/moderationQueries";
 import { Query, Mutation } from "react-apollo";
-import CustomProgress from "../Global/CustomProgress";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 import ModerationChatDialog from "./ModerationChatDialog";
 import { Link } from "react-router-dom";
 import {
@@ -482,7 +482,7 @@ const ModerationReports = ({ width, classes }) => {
       {tab === "users" && (
         <Query query={FETCH_REPORTS}>
           {({ loading, error, data }) => {
-            if (loading) return <CustomProgress size={64} />; //TODO progress
+            if (loading) return <ScritchSpinner size={64} />; //TODO progress
             if (error) {
               return null;
             } //TODO error
@@ -511,7 +511,7 @@ const ModerationReports = ({ width, classes }) => {
       {tab === "media" && (
         <Query query={FETCH_MEDIUM_REPORTS}>
           {({ loading, error, data }) => {
-            if (loading) return <CustomProgress size={64} />; //TODO progress
+            if (loading) return <ScritchSpinner size={64} />; //TODO progress
             if (error) {
               return null;
             } //TODO error
@@ -544,7 +544,7 @@ const ModerationReports = ({ width, classes }) => {
       {tab === "comments" && (
         <Query query={FETCH_COMMENT_REPORTS}>
           {({ loading, error, data }) => {
-            if (loading) return <CustomProgress size={64} />; //TODO progress
+            if (loading) return <ScritchSpinner size={64} />; //TODO progress
             if (error) {
               return null;
             } //TODO error

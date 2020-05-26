@@ -24,7 +24,7 @@ import { Link, withRouter } from "react-router-dom";
 
 import MakerFilters from "./MakerFilters";
 import MakerFiltersMobile from "./MakerFiltersMobile";
-import CustomProgress from "../Global/CustomProgress";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 
 const styles = theme => ({
   root: {
@@ -102,7 +102,7 @@ class Makers extends React.Component {
           }}
         >
           {({ data, loading, error, fetchMore }) => {
-            if (loading) return <CustomProgress size={this.props.search ? 64 : 128} />;
+            if (loading) return <ScritchSpinner size={this.props.search ? 64 : 128} />;
             if (error || !data || !data.makers) return null;
             return (
               <React.Fragment>

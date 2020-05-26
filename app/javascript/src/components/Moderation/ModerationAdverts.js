@@ -18,7 +18,7 @@ import {
   ACCEPT_ADVERT,
   REJECT_ADVERT
 } from "../../queries/moderationMutations";
-import CustomProgress from "../Global/CustomProgress";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 
 const styles = theme => ({
   root: {
@@ -162,7 +162,7 @@ class ModerationAdverts extends React.Component {
           }}
         >
           {({ loading, error, data }) => {
-            if (loading) return <CustomProgress size={128} />;
+            if (loading) return <ScritchSpinner size={128} />;
             if (error) return null; //TODO error
             if (
               !data ||

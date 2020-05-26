@@ -1,25 +1,19 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import HomeIcon from "@material-ui/icons/Home";
 import queryString from "query-string";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import dateFormat from "dateformat";
 import DisplayPageTitle from "../AppLayout/DisplayPageTitle";
 
-import { Link, withRouter } from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
 import GlobalProgress from "../Global/GlobalProgress";
 
 import UserButton from "../AppLayout/UserButton";
-import NotificationsButton from "../AppLayout/NotificationsButton";
-import AppDialogs from "../AppLayout/AppDialogs";
-import CookieConsent from "react-cookie-consent";
-import logo from "../../../../assets/images/logo.png";
 
 const styles = theme => ({
   root: {

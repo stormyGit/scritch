@@ -14,7 +14,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import { FETCH_SUSPENDED_USERS } from "../../queries/moderationQueries";
 
-import CustomProgress from "../Global/CustomProgress";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 import { Query, Mutation } from "react-apollo";
 import { REMOVE_SUSPENSION } from "../../queries/moderationMutations";
 import { Button } from "@material-ui/core";
@@ -47,7 +47,7 @@ class ModerationSuspendedUsers extends React.Component {
         <Query query={FETCH_SUSPENDED_USERS}>
           {({ data, loading, error }) => {
             if (error) return null;
-            if (loading) return <CustomProgress size={64} />;
+            if (loading) return <ScritchSpinner size={64} />;
             return (
               <Table className={classes.table} aria-label="simple table">
                 <TableHead>

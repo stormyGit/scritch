@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import withWidth from "@material-ui/core/withWidth";
 import { withStyles } from "@material-ui/core/styles";
 import { Query } from "react-apollo";
-import CustomProgress from "../Global/CustomProgress";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 import { FETCH_SPONSORS } from "../../queries/moderationQueries";
 
 const styles = theme => ({
@@ -75,7 +75,7 @@ const ModerationSponsors = ({ classes, width }) => {
       <PageTitle>{`Scritch Moderation - Sponsors`}</PageTitle>
       <Query query={FETCH_SPONSORS}>
         {({ loading, error, data }) => {
-          if (loading) return <CustomProgress size={128} />;
+          if (loading) return <ScritchSpinner size={128} />;
           if (error) return null; //TODO error
           if (
             !data ||
