@@ -87,5 +87,7 @@ git push staging
 ---
 ```
 git remote add staging dokku@scritch-staging.com:scritch-staging
-git push staging dev
+git push staging develop:master
+
+if stuck ```ssh dokku@scritch-staging.com``` and ```rm /home/dokku/scritch-staging/.deploy.lock```
 ```
