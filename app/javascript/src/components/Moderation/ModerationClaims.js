@@ -14,7 +14,7 @@ import {
   CardContent,
   CardActions,
   CardActionArea,
-  Button
+  Button,
 } from "@material-ui/core";
 import { Query, Mutation } from "react-apollo";
 import { FETCH_CLAIMS, FETCH_MAKER_CLAIMS } from "../../queries/moderationQueries";
@@ -23,47 +23,48 @@ import {
   ACCEPT_MAKER_CLAIM,
   ACCEPT_CLAIM,
   REJECT_CLAIM,
-  REJECT_MAKER_CLAIM
+  REJECT_MAKER_CLAIM,
 } from "../../queries/moderationMutations";
+import withCurrentModerator from "../withCurrentModerator";
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     width: "100%",
     padding: theme.spacing(1),
-    paddingRight: 0
+    paddingRight: 0,
   },
   flex: {
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "center"
+    alignItems: "center",
   },
   flexActionArea: {
     display: "flex",
     justifyContent: "space-around",
-    alignItems: "center"
+    alignItems: "center",
   },
   padderTitle: { paddingTop: 8, paddingLeft: 30, paddingRight: 8 },
   pixelImage: {
     width: "128px",
-    height: "128px"
+    height: "128px",
   },
   tabsCenterer: {
     width: "100%",
-    textAlign: "center"
+    textAlign: "center",
   },
   link: {
     color: theme.palette.primary.main,
-    textDecoration: "none"
+    textDecoration: "none",
   },
   card: {
-    width: "100%"
+    width: "100%",
   },
   centeredText: {
-    textAlign: "center"
+    textAlign: "center",
   },
   dangerText: {
-    color: theme.palette.danger.main
-  }
+    color: theme.palette.danger.main,
+  },
 });
 
 const Claim = ({ classes, claim }) => {
@@ -119,7 +120,7 @@ const Claim = ({ classes, claim }) => {
                 <Button
                   onClick={() =>
                     acceptClaim({
-                      variables: { input: { id: claim.id } }
+                      variables: { input: { id: claim.id } },
                     }).then(() => location.reload())
                   }
                 >
@@ -134,7 +135,7 @@ const Claim = ({ classes, claim }) => {
                 <Button
                   onClick={() =>
                     rejectMakerClaim({
-                      variables: { input: { id: claim.id } }
+                      variables: { input: { id: claim.id } },
                     }).then(() => location.reload())
                   }
                 >
@@ -206,7 +207,7 @@ const MakerClaim = ({ classes, claim }) => {
                 <Button
                   onClick={() =>
                     acceptMakerClaim({
-                      variables: { input: { id: claim.id } }
+                      variables: { input: { id: claim.id } },
                     }).then(() => location.reload())
                   }
                 >
@@ -221,7 +222,7 @@ const MakerClaim = ({ classes, claim }) => {
                 <Button
                   onClick={() =>
                     rejectMakerClaim({
-                      variables: { input: { id: claim.id } }
+                      variables: { input: { id: claim.id } },
                     }).then(() => location.reload())
                   }
                 >
@@ -244,7 +245,7 @@ const MakerClaim = ({ classes, claim }) => {
   );
 };
 
-const ModerationClaims = ({ classes, width }) => {
+const ModerationClaims = ({ classes, currentModerator }) => {
   const [tab, setTab] = useState("fursuits");
   return (
     <React.Fragment>
@@ -256,8 +257,12 @@ const ModerationClaims = ({ classes, width }) => {
         onChange={(e, value) => setTab(value)}
         textColor="secondary"
       >
-        <Tab value="fursuits" icon={"Fursuits"} />
-        <Tab value="makers" icon={"Makers"} />
+        {currentModerator.capabilities.includes("fursuit_claims") && (
+          <Tab value="fursuits" icon={"Fursuits"} />
+        )}
+        {currentModerator.capabilities.includes("maker_claims") && (
+          <Tab value="makers" icon={"Makers"} />
+        )}
       </Tabs>
       <div style={{ padding: 16 }} />
       {tab === "fursuits" && (
@@ -278,7 +283,7 @@ const ModerationClaims = ({ classes, width }) => {
             return (
               <React.Fragment>
                 <Grid container spacing={3}>
-                  {data.moderationClaims.map(claim => (
+                  {data.moderationClaims.map((claim) => (
                     <Grid item xs={12} md={6} lg={4} key={claim.id}>
                       <Claim claim={claim} classes={classes} />
                     </Grid>
@@ -305,7 +310,7 @@ const ModerationClaims = ({ classes, width }) => {
             return (
               <React.Fragment>
                 <Grid container spacing={3}>
-                  {data.moderationMakerClaims.map(claim => (
+                  {data.moderationMakerClaims.map((claim) => (
                     <Grid item xs={12} md={6} lg={4} key={claim.id}>
                       <MakerClaim claim={claim} classes={classes} />
                     </Grid>
@@ -320,4 +325,4 @@ const ModerationClaims = ({ classes, width }) => {
   );
 };
 
-export default withStyles(styles)(withWidth()(ModerationClaims));
+export default withStyles(styles)(withWidth()(withCurrentModerator(ModerationClaims)));

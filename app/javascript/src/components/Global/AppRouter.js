@@ -62,75 +62,35 @@ class AppRouter extends React.Component {
       <BrowserRouter>
         <Route
           render={({ location }) => {
-            if (location.pathname.match(/^\/react_moderation/)) {
+            if (location.pathname.match(/^\/moderation/)) {
               if (currentSession.user.isModerator)
                 return (
                   <React.Fragment>
                     <ModerationLayout>
-                      {width === "xl" || width === "lg" ? (
-                        <Padder />
-                      ) : (
-                        <MicroPadder />
-                      )}
+                      {width === "xl" || width === "lg" ? <Padder /> : <MicroPadder />}
                       <Switch location={location}>
+                        <Route exact path="/moderation" component={ModerationHome} />
+                        <Route exact path="/moderation/analytics" component={ModerationAnalytics} />
+                        <Route exact path="/moderation/assets" component={ModerationAssets} />
+                        <Route exact path="/moderation/claims" component={ModerationClaims} />
+                        <Route exact path="/moderation/requests" component={ModerationRequests} />
                         <Route
                           exact
-                          path="/react_moderation"
-                          component={ModerationHome}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/analytics"
-                          component={ModerationAnalytics}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/assets"
-                          component={ModerationAssets}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/claims"
-                          component={ModerationClaims}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/requests"
-                          component={ModerationRequests}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/moderators"
+                          path="/moderation/moderators"
                           component={ModerationModerators}
                         />
+                        <Route exact path="/moderation/sponsors" component={ModerationSponsors} />
+                        <Route exact path="/moderation/reports" component={ModerationReports} />
+                        <Route exact path="/moderation/tickets" component={ModerationTickets} />
                         <Route
                           exact
-                          path="/react_moderation/sponsors"
-                          component={ModerationSponsors}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/reports"
-                          component={ModerationReports}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/tickets"
-                          component={ModerationTickets}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/suspended_users"
+                          path="/moderation/suspended_users"
                           component={ModerationSuspendedUsers}
                         />
+                        <Route exact path="/moderation/adverts" component={ModerationAdverts} />
                         <Route
                           exact
-                          path="/react_moderation/adverts"
-                          component={ModerationAdverts}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/announcements"
+                          path="/moderation/announcements"
                           component={ModerationAnnouncements}
                         />
                       </Switch>
@@ -141,11 +101,7 @@ class AppRouter extends React.Component {
                 return (
                   <React.Fragment>
                     <Switch location={location}>
-                      <Route
-                        exact
-                        path="/react_moderation"
-                        component={Unauthorized}
-                      />
+                      <Route exact path="/moderation" component={Unauthorized} />
                     </Switch>
                   </React.Fragment>
                 );
@@ -154,77 +110,53 @@ class AppRouter extends React.Component {
               <React.Fragment>
                 <AppLayoutRemake>
                   <AppHeader />
-                  {width === "xl" || width === "lg" ? (
-                    <Padder />
-                  ) : (
-                    <MicroPadder />
-                  )}
+                  {width === "xl" || width === "lg" ? <Padder /> : <MicroPadder />}
                   <Switch location={location}>
                     <Route exact path="/" component={LatestPictures} />
-                    <Route
-                      exact
-                      path="/announcements"
-                      component={Announcements}
-                    />
+                    <Route exact path="/announcements" component={Announcements} />
                     <Route
                       path="/search"
                       component={
-                        currentSession && currentSession.user.suspendedUser
-                          ? MustLog
-                          : SearchPage
+                        currentSession && currentSession.user.suspendedUser ? MustLog : SearchPage
                       }
                     />
                     <Route exact path="/terms_of_use" component={Terms} />
                     <Route exact path="/user_guide" component={UserGuide} />
                     <Route exact path="/faq" component={Faq} />
-                    <Route
-                      exact
-                      path="/privacy_policy"
-                      component={PrivacyPolicy}
-                    />
+                    <Route exact path="/privacy_policy" component={PrivacyPolicy} />
                     <Route
                       exact
                       path="/fursuits"
                       component={
-                        currentSession && currentSession.user.suspendedUser
-                          ? MustLog
-                          : Fursuits
+                        currentSession && currentSession.user.suspendedUser ? MustLog : Fursuits
                       }
                     />
                     <Route
                       exact
                       path="/makers"
                       component={
-                        currentSession && currentSession.user.suspendedUser
-                          ? MustLog
-                          : Makers
+                        currentSession && currentSession.user.suspendedUser ? MustLog : Makers
                       }
                     />
                     <Route
                       exact
                       path="/events"
                       component={
-                        currentSession && currentSession.user.suspendedUser
-                          ? MustLog
-                          : Events
+                        currentSession && currentSession.user.suspendedUser ? MustLog : Events
                       }
                     />
                     <Route
                       exact
                       path="/tag"
                       component={
-                        currentSession && !currentSession.user.suspendedUser
-                          ? TagPage
-                          : MustLog
+                        currentSession && !currentSession.user.suspendedUser ? TagPage : MustLog
                       }
                     />
                     <Route
                       exact
                       path="/search"
                       component={
-                        currentSession && currentSession.user.suspendedUser
-                          ? MustLog
-                          : SearchPage
+                        currentSession && currentSession.user.suspendedUser ? MustLog : SearchPage
                       }
                     />
                     <Route
@@ -240,26 +172,18 @@ class AppRouter extends React.Component {
                       exact
                       path="/favorites"
                       component={
-                        currentSession && !currentSession.user.suspendedUser
-                          ? Favorites
-                          : MustLog
+                        currentSession && !currentSession.user.suspendedUser ? Favorites : MustLog
                       }
                     />
                     <Route
                       exact
                       path="/pictures"
                       component={
-                        currentSession && currentSession.user.suspendedUser
-                          ? MustLog
-                          : MediaAll
+                        currentSession && currentSession.user.suspendedUser ? MustLog : MediaAll
                       }
                     />
                     <Route exact path="/ads" component={AdsLister} />
-                    <Route
-                      exact
-                      path="/pictures/:id"
-                      component={MediumRemake}
-                    />
+                    <Route exact path="/pictures/:id" component={MediumRemake} />
                     <Route
                       exact
                       path="/fursuits/:id"
@@ -273,36 +197,28 @@ class AppRouter extends React.Component {
                       exact
                       path="/makers/:id"
                       component={
-                        currentSession && currentSession.user.suspendedUser
-                          ? MustLog
-                          : MakerRemake
+                        currentSession && currentSession.user.suspendedUser ? MustLog : MakerRemake
                       }
                     />
                     <Route
                       exact
                       path="/events/:id"
                       component={
-                        currentSession && currentSession.user.suspendedUser
-                          ? MustLog
-                          : EventRemake
+                        currentSession && currentSession.user.suspendedUser ? MustLog : EventRemake
                       }
                     />
                     <Route
                       exact
                       path="/:id"
                       component={
-                        currentSession && currentSession.user.suspendedUser
-                          ? MustLog
-                          : UserRemake
+                        currentSession && currentSession.user.suspendedUser ? MustLog : UserRemake
                       }
                     />
                     <Route
                       exact
                       path="/:id/:tab"
                       component={
-                        currentSession && currentSession.user.suspendedUser
-                          ? MustLog
-                          : UserRemake
+                        currentSession && currentSession.user.suspendedUser ? MustLog : UserRemake
                       }
                     />
                   </Switch>
