@@ -21,7 +21,7 @@ const makeTheme = type => {
     palette: {
       background,
       primary: {
-        main: "#0c8cff"
+        main: "#0cff24"
       },
       secondary: {
         main: "#fe94d0"
