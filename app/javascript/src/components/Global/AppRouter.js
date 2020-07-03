@@ -62,35 +62,59 @@ class AppRouter extends React.Component {
       <BrowserRouter>
         <Route
           render={({ location }) => {
-            if (location.pathname.match(/^\/moderation/)) {
+            if (location.pathname.match(/^\/react_moderation/)) {
               if (currentSession.user.isModerator)
                 return (
                   <React.Fragment>
                     <ModerationLayout>
                       {width === "xl" || width === "lg" ? <Padder /> : <MicroPadder />}
                       <Switch location={location}>
-                        <Route exact path="/moderation" component={ModerationHome} />
-                        <Route exact path="/moderation/analytics" component={ModerationAnalytics} />
-                        <Route exact path="/moderation/assets" component={ModerationAssets} />
-                        <Route exact path="/moderation/claims" component={ModerationClaims} />
-                        <Route exact path="/moderation/requests" component={ModerationRequests} />
+                        <Route exact path="/react_moderation" component={ModerationHome} />
                         <Route
                           exact
-                          path="/moderation/moderators"
+                          path="/react_moderation/analytics"
+                          component={ModerationAnalytics}
+                        />
+                        <Route exact path="/react_moderation/assets" component={ModerationAssets} />
+                        <Route exact path="/react_moderation/claims" component={ModerationClaims} />
+                        <Route
+                          exact
+                          path="/react_moderation/requests"
+                          component={ModerationRequests}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/moderators"
                           component={ModerationModerators}
                         />
-                        <Route exact path="/moderation/sponsors" component={ModerationSponsors} />
-                        <Route exact path="/moderation/reports" component={ModerationReports} />
-                        <Route exact path="/moderation/tickets" component={ModerationTickets} />
                         <Route
                           exact
-                          path="/moderation/suspended_users"
+                          path="/react_moderation/sponsors"
+                          component={ModerationSponsors}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/reports"
+                          component={ModerationReports}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/tickets"
+                          component={ModerationTickets}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/suspended_users"
                           component={ModerationSuspendedUsers}
                         />
-                        <Route exact path="/moderation/adverts" component={ModerationAdverts} />
                         <Route
                           exact
-                          path="/moderation/announcements"
+                          path="/react_moderation/adverts"
+                          component={ModerationAdverts}
+                        />
+                        <Route
+                          exact
+                          path="/react_moderation/announcements"
                           component={ModerationAnnouncements}
                         />
                       </Switch>
@@ -101,7 +125,7 @@ class AppRouter extends React.Component {
                 return (
                   <React.Fragment>
                     <Switch location={location}>
-                      <Route exact path="/moderation" component={Unauthorized} />
+                      <Route exact path="/react_moderation" component={Unauthorized} />
                     </Switch>
                   </React.Fragment>
                 );
