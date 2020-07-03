@@ -167,26 +167,7 @@ const styles = theme => ({
 var scroll = Scroll.animateScroll;
 
 const Image = ({ classes, orientation, medium }) => {
-  useEffect(() => {
-    let metas = document.getElementsByTagName("meta");
-    let oldPicture;
-
-    for (var meta in metas)
-      if (metas[meta].name === "og:image") {
-        oldPicture = metas[meta].content;
-        metas[meta].content = medium.resized;
-      }
-
-    return () => {
-      let metas = document.getElementsByTagName("meta");
-
-      for (var meta in metas)
-        if (metas[meta].name === "og:image") {
-          metas[meta].content = oldPicture;
-        }
-    };
-  }, [medium.resized]);
-
+  
   return (
     <Grid container className={classes.gridContainer}>
       <Grid item lg={1} xs={12} />
@@ -233,6 +214,7 @@ class Medium extends React.Component {
     tagReportDialog: false
   };
 
+  
   renderCommentsCount(count) {
     if (count === 0) {
       return `No comments`;
