@@ -23,6 +23,7 @@ import { CREATE_SUBSCRIPTION, DELETE_SUBSCRIPTION } from "../../queries/fursuitM
 import withCurrentSession from "../withCurrentSession";
 import { Link, withRouter } from "react-router-dom";
 import { Avatar } from "@material-ui/core";
+import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 
 const styles = theme => ({
   container: {
@@ -716,7 +717,7 @@ class Fursuit extends React.Component {
             }
 
             if (loading || !data) {
-              return <CustomProgress />; //TODO LOADING
+              return <ScritchSpinner />; //TODO LOADING
             }
 
             const fursuit = data ? data.fursuit : null;
