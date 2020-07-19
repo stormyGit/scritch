@@ -129,8 +129,6 @@ class UpdateEventDialog extends React.Component {
     avatar: "",
     web: "",
     avatarMenu: true,
-    avatarMenu: false,
-    avatar: null
   };
 
   constructor(props) {

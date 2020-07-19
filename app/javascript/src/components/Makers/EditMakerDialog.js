@@ -131,7 +131,6 @@ class EditMakerDialog extends React.Component {
     region: "",
     web: "",
     avatarMenu: true,
-    avatarMenu: false,
     avatar: null
   };
 

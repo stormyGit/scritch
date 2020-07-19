@@ -34,8 +34,6 @@ const styles = theme => ({
 });
 
 class AnnouncementCard extends React.Component {
-  state = {};
-
   renderHeader() {
     const { classes, announcement, width } = this.props;
 

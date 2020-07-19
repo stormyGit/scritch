@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withApollo } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
+import {withApollo} from "react-apollo";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 
 import Typography from "@material-ui/core/Typography";
@@ -85,57 +85,53 @@ const styles = theme => ({
   }
 });
 
-class FursuitMiniCard extends React.Component {
-  state = {};
+function FursuitMiniCard(props) {
+  const {classes, fursuit, onClick} = props;
 
-  render() {
-    const { classes, fursuit, onClick } = this.props;
-
-    var species;
-    if (fursuit.isHybrid) {
-      species = "Hybrid";
-      if (fursuit.species.length > 0) {
-        species = species + ` (${fursuit.species.map(e => e.name).join(", ")})`;
-      }
-    } else {
-      if (fursuit.species[0]) species = fursuit.species[0].name;
-      else species = "Unknown Species";
+  var species;
+  if (fursuit.isHybrid) {
+    species = "Hybrid";
+    if (fursuit.species.length > 0) {
+      species = species + ` (${fursuit.species.map(e => e.name).join(", ")})`;
     }
-
-    return (
-      <Grid container spacing={1} justify="center" alignItems="center">
-        <Grid item lg={12} xs={12}>
-          <Tooltip
-            title={
-              !fursuit.creationYear || fursuit.creationYear == 0
-                ? `${fursuit.name} - ${species}`
-                : `${fursuit.name} - ${fursuit.creationYear} - ${species}`
-            }
-            placement="top"
-          >
-            <img
-              src={fursuit.avatar}
-              onClick={() => {
-                onClick(fursuit);
-              }}
-              className={classes.avatar}
-              style={this.props.dark ? { opacity: 0.5 } : { opacity: 1 }}
-            />
-          </Tooltip>
-        </Grid>
-        <Grid item lg={12} xs={12} className={classes.content}>
-          <Typography gutterBottom variant="subtitle1" className={classes.fursuitText} noWrap>
-            {fursuit.name}
-          </Typography>
-          {fursuit.makers && (
-            <Typography gutterBottom variant="subtitle2" className={classes.text} noWrap>
-              {fursuit.makers[0] ? fursuit.makers[0].name : "Unknown Maker"}
-            </Typography>
-          )}
-        </Grid>
-      </Grid>
-    );
+  } else {
+    if (fursuit.species[0]) species = fursuit.species[0].name;
+    else species = "Unknown Species";
   }
+
+  return (
+    <Grid container spacing={1} justify="center" alignItems="center">
+      <Grid item lg={12} xs={12}>
+        <Tooltip
+          title={
+            !fursuit.creationYear || fursuit.creationYear == 0
+              ? `${fursuit.name} - ${species}`
+              : `${fursuit.name} - ${fursuit.creationYear} - ${species}`
+          }
+          placement="top"
+        >
+          <img
+            src={fursuit.avatar}
+            onClick={() => {
+              onClick(fursuit);
+            }}
+            className={classes.avatar}
+            style={props.dark ? {opacity: 0.5} : {opacity: 1}}
+          />
+        </Tooltip>
+      </Grid>
+      <Grid item lg={12} xs={12} className={classes.content}>
+        <Typography gutterBottom variant="subtitle1" className={classes.fursuitText} noWrap>
+          {fursuit.name}
+        </Typography>
+        {fursuit.makers && (
+          <Typography gutterBottom variant="subtitle2" className={classes.text} noWrap>
+            {fursuit.makers[0] ? fursuit.makers[0].name : "Unknown Maker"}
+          </Typography>
+        )}
+      </Grid>
+    </Grid>
+  );
 }
 
 FursuitMiniCard.propTypes = {

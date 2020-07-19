@@ -103,7 +103,6 @@ const styles = theme => ({
     paddingBottom: theme.spacing(8)
   },
   emptyChatsIcon: {
-    fontSize: 2,
     display: "block",
     fontSize: "4em",
     marginLeft: "auto",

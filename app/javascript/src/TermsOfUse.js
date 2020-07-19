@@ -1,16 +1,8 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 
 import Typography from "@material-ui/core/Typography";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
@@ -50,30 +42,29 @@ const SpacerWithHR = (
   </React.Fragment>
 );
 
-class TermsOfUse extends React.Component {
-  render() {
-    const { classes, width } = this.props;
+function TermsOfUse(props) {
+  const {classes, width} = props;
 
-    return (
+  return (
       <React.Fragment>
         <Grid container spacing={1}>
           <Grid item xs={12} lg={10} xl={9}>
             <Typography variant="h2" id="website-user-guide1">
               Scritch Terms & Conditions of Use (“Terms of Use”)
             </Typography>
-            <br />
+            <br/>
             <Typography variant="subtitle1">
               Date of last revision: <strong>01 May 2019</strong>
             </Typography>
           </Grid>
-          {width === "xl" && <Grid item xl={1} />}
+          {width === "xl" && <Grid item xl={1}/>}
           {(width === "xl" || width === "lg") && (
-            <Grid item lg={2}>
-              <img
-                style={{ width: "100%" }}
-                src={require("images/pixel/Header - Terms of Use.png")}
-              />
-            </Grid>
+              <Grid item lg={2}>
+                <img
+                    style={{width: "100%"}}
+                    src={require("images/pixel/Header - Terms of Use.png")}
+                />
+              </Grid>
           )}
         </Grid>
 
@@ -85,94 +76,94 @@ class TermsOfUse extends React.Component {
           <a href="#forward" className={classes.link}>
             1. FORWARD
           </a>
-          <br />
+          <br/>
           <a href="#general_terms" className={classes.link}>
             2. GENERAL TERMS
           </a>
-          <br />
+          <br/>
           {"> 2.1 Additional Policies"}
-          <br />
+          <br/>
           {"> 2.2 Scritch Community Guidelines"}
-          <br />
+          <br/>
           {"> 2.3 Copyright Policy"}
-          <br />
+          <br/>
           {"> 2.4 Mobile Applications"}
-          <br />
+          <br/>
           {"> 2.5 License"}
-          <br />
+          <br/>
           {"> 2.6 Marks"}
-          <br />
+          <br/>
           {"> 2.7 Restrictions"}
-          <br />
+          <br/>
           {"> 2.8 HyperLinks"}
-          <br />
+          <br/>
           {"> 2.9 User Content"}
-          <br />
+          <br/>
           {"> 2.10 Acceptable Use; Disclaimer"}
-          <br />
+          <br/>
           {"> 2.11 Your Account"}
-          <br />
+          <br/>
           {"> 2.12 Account Security"}
-          <br />
+          <br/>
           {"> 2.13 Third Party Services"}
-          <br />
+          <br/>
           {"> 2.14 Advertisements and Promotions"}
-          <br />
+          <br/>
           {"> 2.15 DISCLAIMER OF WARRANTIES"}
-          <br />
+          <br/>
           {"> 2.16 LIMITATION OF LIABILITY"}
-          <br />
+          <br/>
           {"> 2.17 Indemnity"}
-          <br />
+          <br/>
           {"> 2.18 Dispute Resolution"}
-          <br />
+          <br/>
           {"- > 2.18.1 Applicable Law"}
-          <br />
+          <br/>
           {
             "- > 2.18.2 Agreement to Arbitrate & Waiver of Representative Actions"
           }
-          <br />
+          <br/>
           {"> 2.19 Feedback"}
-          <br />
+          <br/>
           {"> 2.20 Assignment"}
-          <br />
+          <br/>
           {"> 2.21 International Users"}
-          <br />
+          <br/>
           {"> 2.22 Severability"}
-          <br />
+          <br/>
           {"> 2.23 Survival"}
-          <br />
+          <br/>
           {"> 2.24 Questions or Comments"}
-          <br />
+          <br/>
           <a href="#additional_terms" className={classes.link}>
             3. ADDITIONAL TERMS APPLICABLE TO SCRITCH SPONSOR SERVICES (“SPONSOR
             TERMS”)
           </a>
-          <br />
+          <br/>
           {"> 3.1 Sponsorships"}
-          <br />
+          <br/>
           {"> 3.2 Free Trials"}
-          <br />
+          <br/>
           {"> 3.3 Sponsorship Plans"}
-          <br />
+          <br/>
           {"> 3.4 Term and Automatic Renewal"}
-          <br />
+          <br/>
           {
             "> 3.5 Interruptions or Discontinuation of Scritch Sponsor Services; Changes to Scritch Sponsor Services and Terms of Use"
           }
-          <br />
+          <br/>
           {"> 3.6 Service Access on Expiry of Sponsorship Term"}
-          <br />
+          <br/>
           {"> 3.7 Termination of Services"}
-          <br />
+          <br/>
           <a href="#copyright" className={classes.link}>
             4. COPYRIGHT POLICY
           </a>
-          <br />
+          <br/>
           {"> 4.1 EUCD Notice of Alleged Infringement (“Notice”)"}
         </Typography>
         {SpacerWithHR}
-        <span id="forward" className={classes.sectionPadder} />
+        <span id="forward" className={classes.sectionPadder}/>
         <Typography variant="h4">1. FORWARD</Typography>
         <Typography variant="subtitle1">
           SCRITCH USERS: Scritch is owned and operated by Scritch Limited
@@ -187,19 +178,19 @@ class TermsOfUse extends React.Component {
           the Scritch services included currently in the Scritch website (the
           “Site”) and the future Scritch mobile application (collectively, the
           “Services”). The Services are owned and operated by Scritch Limited.
-          <br />
-          <br />
+          <br/>
+          <br/>
           PLEASE READ THESE TERMS OF USE CAREFULLY. BY ACCESSING OR USING THE
           SERVICE, YOU AGREE TO BE BOUND BY THESE TERMS OF USE.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Welcome to Scritch! The Services provide our users with online tools
           designed to facilitate and share our love of fursuit media to foster
           closeness in the furry community. These Terms of Use protect the legal
           interests of Scritch Limited, our users, and any future third party
           vendors.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Your use of the Services and your purchase of Products is expressly
           conditioned upon your agreement to these Terms of Use. If you do not
           consent to these Terms of Use, you are not permitted to use any
@@ -207,8 +198,8 @@ class TermsOfUse extends React.Component {
           entity, you warrant that you are an authorised representative of such
           company or entity with the right to bind such company or entity to
           these Terms of Use.
-          <br />
-          <br />
+          <br/>
+          <br/>
           These Terms of Use contain provisions that govern how claims that you
           and Scritch Limited have against each other are resolved (see{" "}
           <a href="#dispute_resolution" className={classes.link}>
@@ -218,8 +209,8 @@ class TermsOfUse extends React.Component {
           certain disputes or claims relating to your use of the Services by
           binding arbitration, rather than in court. If you do not consent to
           such terms, you are not permitted to use the Services.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Scritch Limited reserves the right to change, modify, revise or
           otherwise amend any provision of these Terms of Use, and any other
           terms, policies or guidelines governing your use of the Services, at
@@ -239,8 +230,8 @@ class TermsOfUse extends React.Component {
           whenever you access the Services and at least every thirty (30) days
           to make sure that you understand the terms and conditions that will
           apply to your use of the Services.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Our{" "}
           <a href="/privacy_policy" target="_blank" className={classes.link}>
             Privacy Policy
@@ -250,7 +241,7 @@ class TermsOfUse extends React.Component {
           through your purchase of Products through the Services.
         </Typography>
         {SpacerWithHR}
-        <span id="general_terms" className={classes.sectionPadder} />
+        <span id="general_terms" className={classes.sectionPadder}/>
         <Typography variant="h4">2. GENERAL TERMS</Typography>
         {Spacer}
         <Typography variant="h5">2.1 Additional Policies</Typography>
@@ -260,8 +251,8 @@ class TermsOfUse extends React.Component {
           between you and Scritch Limited. All such additional policies are
           incorporated into these Terms of Use as applicable and collectively
           govern your use of the Services and/or purchase of Products.
-          <br />
-          <br />
+          <br/>
+          <br/>
           The section headings and subheadings contained in this agreement are
           included for convenience only, and shall not limit or otherwise affect
           the terms of the Terms of Use. Any construction or interpretation to
@@ -309,16 +300,16 @@ class TermsOfUse extends React.Component {
           Materials”) are the property of Scritch Limited or its third party
           licensors and are protected by United Kingdom and international
           intellectual property laws.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Scritch Limited hereby grants you a limited, non-transferable,
           non-sublicensable, revocable license to access and use the Scritch
           Materials solely in accordance with these Terms of Use. Except for the
           limited licenses granted hereunder, Scritch Limited reserves all
           rights not expressly granted and no such additional rights may be
           implied. You acknowledge that:
-          <br />
-          <br />
+          <br/>
+          <br/>
           all right, title and interest in and to the Scritch Materials,
           including all patents, copyrights, trade secrets, trademarks and other
           proprietary rights embodied therein or associated therewith, are and
@@ -343,30 +334,30 @@ class TermsOfUse extends React.Component {
           Scritch Limited. All other trademarks, registered trademarks, product
           names and company names or logos mentioned in the Services are the
           property of their respective owners.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Scritch Limited may provide users with tools to download the Marks via
           the Services. If you download or otherwise obtain the Marks using such
           tools, Scritch Limited grants you a limited right to:
-          <br />
-          <br />
+          <br/>
+          <br/>
           use the Marks for the sole purpose of referencing the Services and; to
           use only those Marks that are made available to you by Scritch Limited
           through such tools.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Your use of any Marks must be consistent with the size, dimensions,
           color and other characteristics of the Marks and consistent with any
           other policies concerning the Marks that we may post on the Site or
           otherwise make available through the Services from time to time. You
           may not:
-          <br />
-          <br />
+          <br/>
+          <br/>
           alter or change the appearance of the Marks;
-          <br />
+          <br/>
           use the Marks in any manner that suggests Scritch Limited sponsors or
           endorses a product, service, promotion, contest, or;
-          <br />
+          <br/>
           use the Marks for any other purpose deemed by Scritch Limited to be
           inappropriate. Scritch Limited has the right to revoke your right to
           use the Marks at any time at our sole discretion.
@@ -375,48 +366,48 @@ class TermsOfUse extends React.Component {
         <Typography variant="h5">2.7 Restrictions</Typography>
         <Typography variant="subtitle1">
           You agree that you will not:
-          <br />
-          <br />
+          <br/>
+          <br/>
           modify or alter the Scritch Materials;
-          <br />
+          <br/>
           create derivative works of the Scritch Materials;
-          <br />
+          <br/>
           decompile, disassemble, decode or reverse engineer the Scritch
           Materials, translate the Scritch Materials or otherwise attempt to
           learn the source code, structure, algorithms or internal ideas
           underlying the Scritch Materials or reduce the Scritch Materials by
           any other means to a human-perceivable form; or;
-          <br />
+          <br/>
           bypass, delete or disable any copy protection mechanisms or any
           security mechanisms in the Scritch Materials.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Except as otherwise expressly permitted herein, you may not use the
           Services or the Scritch Materials to engage in any of the following
           prohibited activities:
-          <br />
-          <br />
+          <br/>
+          <br/>
           the collection, copying or distribution of any portion of the Scritch
           Materials;
-          <br />
+          <br/>
           any resale, commercial use, commercial exploitation, distribution,
           public performance or public display of the Services or the Scritch
           Materials;
-          <br />
+          <br/>
           modifying or otherwise making any derivative uses of the Services or
           the Scritch Materials;
-          <br />
+          <br/>
           scraping or otherwise using any data mining, robots or similar data
           gathering or extraction methods on or in connection with the Services;
-          <br />
+          <br/>
           with the exception of User Content made available by users for
           download, the downloading of any portion of the Scritch Materials or
           any information contained therein, or;
-          <br />
+          <br/>
           any use of the Services or the Scritch Materials other than for their
           intended purposes.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Any use of the Services or of any Scritch Materials other than as
           specifically authorised herein, without the express prior written
           permission of Scritch Limited, the applicable Scritch user or the
@@ -435,8 +426,8 @@ class TermsOfUse extends React.Component {
           enclose the Site, Scritch Materials, Scritch Marks or other
           proprietary information without Scritch Limited’s express prior
           written consent.
-          <br />
-          <br />
+          <br/>
+          <br/>
           As a part of the Services, Scritch may provide you with access to and
           use of certain personalised pages and corresponding web addresses
           (“URLs”) that you may customise. Scritch Limited does not guarantee
@@ -449,33 +440,33 @@ class TermsOfUse extends React.Component {
         <Typography variant="subtitle1">
           The Services may enable you to upload media to the Site or other
           portions of the Services (collectively, the “User Content”).
-          <br />
-          <br />
+          <br/>
+          <br/>
           You retain all held intellectual property rights in and to any User
           Content you post, upload or otherwise make available through the
           Services, including the copyright in and to your media. Scritch
           Limited does not claim any ownership, right, title or interest in and
           to your User Content.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Notwithstanding the foregoing, by uploading and/or posting any User
           Content to the Services, you grant Scritch Limited a perpetual and
           royalty-free right to use the User Content (and the user name that is
           submitted in connection with such User Content) as is reasonably
           necessary in order to enable Scritch Limited to provide the Services,
           including to display the User Content on the Services.
-          <br />
-          <br />
+          <br/>
+          <br/>
           You represent and warrant that:
-          <br />
-          <br />
+          <br/>
+          <br/>
           you own or otherwise control all of the rights to the User Content
           that you post or transmit, or you otherwise have the right to post,
           use, display, distribute and reproduce such User Content and to grant
           the rights granted herein;
-          <br />
+          <br/>
           the User Content you supply is accurate and not misleading; and;
-          <br />
+          <br/>
           the use and posting of the User Content you supply does not violate
           these Terms of Use and will not violate any rights of or cause injury
           to any person or entity.
@@ -486,49 +477,49 @@ class TermsOfUse extends React.Component {
           You are solely responsible for the User Content that you post or
           transmit using the Services and you agree not to post, transmit or
           otherwise publish through the Services any of the following:
-          <br />
-          <br />
+          <br/>
+          <br/>
           User Content that is unlawful, defamatory, hateful, harassing,
           threatening, invasive of privacy or publicity rights, abusive,
           inflammatory, fraudulent or otherwise objectionable or harmful;
-          <br />
+          <br/>
           User Content that is obscene, pornographic, indecent, lewd, sexually
           suggestive, including without limitation photos, videos or other User
           Content containing nudity;
-          <br />
+          <br/>
           User Content that would constitute, encourage or provide instructions
           for a criminal offense, violate the rights of any party, endanger
           national security, or that would otherwise create liability or violate
           any local, state, national or international law;
-          <br />
+          <br/>
           User Content that may infringe or violate any patent, trademark, trade
           secret, copyright or other intellectual or other proprietary right of
           any party; User Content that impersonates any person or entity or
           otherwise misrepresents your affiliation with a person or entity;
-          <br />
+          <br/>
           unsolicited messages containing promotions, political campaigning,
           advertising or solicitations;
-          <br />
+          <br/>
           private information of any third party, including, without limitation:
           addresses, phone numbers, email addresses, social security numbers and
           credit card numbers;
-          <br />
+          <br/>
           viruses, corrupted data or other harmful, disruptive or destructive
           files, and;
-          <br />
+          <br/>
           User Content that, in the sole judgment of Scritch, is objectionable,
           harmful or which restricts or inhibits any other person from using or
           enjoying the Services, or which may expose Scritch or its users to any
           harm or liability of any nature;
-          <br />
+          <br/>
           User Content that is not in line with the current Upload Guidelines
           found in the{" "}
           <a href="/user_guide" target="_blank" className={classes.link}>
             Website User Guide
           </a>
           .
-          <br />
-          <br />
+          <br/>
+          <br/>
           Although certain activities in these Terms of Use are prohibited,
           Scritch Limited does not make any representation or warranty that the
           User Content you may encounter through your use of the Services
@@ -538,17 +529,17 @@ class TermsOfUse extends React.Component {
           party or any reasonable expectation that the Services will not contain
           any content that is prohibited by these acceptable use provisions.
           Scritch Limited reserves the right (but is not obligated) to:
-          <br />
-          <br />
+          <br/>
+          <br/>
           review or screen any User Content submitted to the Site or otherwise
           submitted through the Services;
-          <br />
+          <br/>
           edit any User Content posted on the Services; and/or;
-          <br />
+          <br/>
           remove any User Content from the Services for any reason, at any time,
           without prior notice, at our sole discretion.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Scritch Limited will have no liability or responsibility to users of
           the Services or any other person or entity for performance or
           nonperformance of such activities. Scritch Limited’s enforcement of
@@ -583,8 +574,8 @@ class TermsOfUse extends React.Component {
           restricting access to your passwords (if applicable) and physical
           access to your computer while logged into the Services. You accept
           responsibility for all activities that occur under your user account.
-          <br />
-          <br />
+          <br/>
+          <br/>
           User Content that you post, upload or otherwise make available via the
           Services may be accessed, used and downloaded by other users of the
           Services. You understand and acknowledge that any User Content
@@ -593,8 +584,8 @@ class TermsOfUse extends React.Component {
           public and could be accessed, downloaded, indexed, archived, linked to
           and republished by others including, without limitation, appearing on
           other websites and in search engine results.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Scritch uses commercially reasonable security measures to protect user
           accounts and User Content consistent with their Account Settings. We
           cannot, however, guarantee absolute security of your account, your
@@ -619,8 +610,8 @@ class TermsOfUse extends React.Component {
           be aware that these Terms of Use and all other Scritch Limited
           policies no longer govern your use of such websites and services or
           any content contained thereon.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Scritch Limited does not imply affiliation, approval, or control of
           any Third Party Services by making such Third Party Services available
           via the Services. Scritch Limited makes no claim or representation
@@ -636,8 +627,8 @@ class TermsOfUse extends React.Component {
           The Services may contain third party advertisements and promotions
           generated or posted by other users of the Services, Scritch Vendors or
           other third party service providers.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Your business dealings or interactions with any third parties,
           including other users of the Services or Scritch Vendors, and any
           terms, conditions, warranties or representations associated with such
@@ -663,8 +654,8 @@ class TermsOfUse extends React.Component {
           MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE AND
           NON-INFRINGEMENT AS TO THE SITE, THE SERVICES, THE SCRITCH MATERIALS,
           AND THE PRODUCTS.
-          <br />
-          <br />
+          <br/>
+          <br/>
           SCRITCH LIMITED DOES NOT REPRESENT OR WARRANT THAT THE SCRITCH
           MATERIALS OR THE SERVICES ARE ACCURATE, COMPLETE, RELIABLE, CURRENT OR
           ERROR-FREE OR THAT THE SERVICES, ITS SERVERS OR MESSAGES SENT FROM
@@ -695,8 +686,8 @@ class TermsOfUse extends React.Component {
           PERFORMANCE, WHETHER OR NOT RESULTING FROM ACTS OF GOD, COMMUNICATIONS
           FAILURE, THEFT, DESTRUCTION OR UNAUTHORISED ACCESS TO SCRITCH’S
           RECORDS, PROGRAMS OR SERVICES.
-          <br />
-          <br />
+          <br/>
+          <br/>
           IN NO EVENT WILL THE AGGREGATE LIABILITY OF SCRITCH LIMITED, WHETHER
           IN CONTRACT, WARRANTY, TORT (INCLUDING NEGLIGENCE, WHETHER ACTIVE,
           PASSIVE OR IMPUTED), PRODUCT LIABILITY, STRICT LIABILITY OR OTHER
@@ -730,7 +721,7 @@ class TermsOfUse extends React.Component {
           third party.
         </Typography>
         {Spacer}
-        <span id="dispute_resolution" className={classes.sectionPadder} />
+        <span id="dispute_resolution" className={classes.sectionPadder}/>
         <Typography variant="h5">2.18 Dispute Resolution</Typography>
         {Spacer}
         <Typography variant="h6">2.18.1 Applicable Law</Typography>
@@ -751,27 +742,27 @@ class TermsOfUse extends React.Component {
           TO ARBITRATE DISPUTES WITH SCRITCH LIMITED AND IT LIMITS THE MANNER IN
           WHICH YOU CAN SEEK RELIEF. IF YOU DO NOT CONSENT TO THE TERMS OF THIS
           SECTION, YOU ARE NOT PERMITTED TO USE THE SERVICES.
-          <br />
-          <br />
+          <br/>
+          <br/>
           You and Scritch Limited agree to arbitrate any dispute arising from
           these Terms of Use or relating to the Services, Site or Scritch
           Materials. ARBITRATION PREVENTS YOU FROM SUING IN COURT OR FROM HAVING
           A JURY TRIAL. You and Scritch Limited agree:
-          <br />
-          <br />
+          <br/>
+          <br/>
           to notify each other of any dispute within thirty (30) days of when it
           arises;
-          <br />
+          <br/>
           to attempt informal resolution prior to any demand for arbitration;
-          <br />
+          <br/>
           that any arbitration will occur in the United Kingdom; and;
-          <br />
+          <br/>
           that arbitration will be conducted confidentially by a single
           arbitrator in accordance with the Rules of the Advisory, Conciliation
           and Arbitration Service (“ACAS”), including the ACAS’s Supplementary
           Procedures for Consumer-Related Disputes (as applicable).
-          <br />
-          <br />
+          <br/>
+          <br/>
           The ACAS’s rules are available at www.acas.org.uk. Other than class
           procedures and remedies described in these Terms of Use, the
           arbitrator has the authority to grant any remedy that would otherwise
@@ -779,8 +770,8 @@ class TermsOfUse extends React.Component {
           Limited are NOT required to arbitrate any dispute in which either
           party seeks equitable or other relief for the alleged unlawful use of
           copyrights, trademarks, trade names, logos, trade secrets or patents.
-          <br />
-          <br />
+          <br/>
+          <br/>
           The arbitrator will not be bound by rulings in prior arbitrations
           involving different Scritch Limited or Scritch users but is bound by
           rulings in prior arbitrations involving the same Scritch Limited or
@@ -799,8 +790,8 @@ class TermsOfUse extends React.Component {
           NECESSARY TO PROVIDE RELIEF NECESSITATED BY THAT PARTY’S INDIVIDUAL
           CLAIM(S). ANY RELIEF AWARDED CANNOT AFFECT OTHER SCRITCH LIMITED OR
           SCRITCH USERS.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Unless you and Scritch Limited agree otherwise, in the event that a
           court decides that any part of this Section is invalid or
           unenforceable, you agree that any claim or dispute that has arisen or
@@ -878,7 +869,7 @@ class TermsOfUse extends React.Component {
           .
         </Typography>
         {SpacerWithHR}
-        <span id="additional_terms" className={classes.sectionPadder} />
+        <span id="additional_terms" className={classes.sectionPadder}/>
         <Typography variant="h4">
           3. ADDITIONAL TERMS APPLICABLE TO SCRITCH SPONSOR SERVICES (“SPONSOR
           TERMS”)
@@ -893,15 +884,15 @@ class TermsOfUse extends React.Component {
         <Typography variant="h5">3.1 Sponsorships</Typography>
         <Typography variant="subtitle1">
           The Scritch Sponsor Services are available to users:
-          <br />
+          <br/>
           who register for a free trial (when available) or for a subscription
           to the Scritch Sponsor Services (“Sponsorship”) and;
-          <br />
+          <br/>
           who pay in full the subscription fees (“Sponsorship Fees”) applicable
           to the level of Sponsorship selected by such user (the “Sponsorship
           Plan”).
-          <br />
-          <br />
+          <br/>
+          <br/>
           If you wish to sponsor the Site, you will be required to provide
           certain information in order to facilitate such purchase, including
           your credit card number, billing address and any related payment
@@ -940,39 +931,39 @@ class TermsOfUse extends React.Component {
           Scritch offers a variety of Sponsorship Plans. A description of each
           Sponsorship Plan that is currently offered by Scritch is available at{" "}
           <a
-            href="https://scritch.es/sponsors/new"
-            className={classes.link}
-            target="_blank"
+              href="https://scritch.es/sponsors/new"
+              className={classes.link}
+              target="_blank"
           >
             scritch.es/sponsors
           </a>
           . By purchasing a Sponsorship:
-          <br />
-          <br />
+          <br/>
+          <br/>
           you agree to pay all applicable Sponsorship Fees and other charges in
           accordance with your selected Sponsorship Plan, pursuant to the
           renewal and termination provisions described below (including any
           applicable taxes, such as sales tax), and;
-          <br />
+          <br/>
           you agree that you are only entitled to the features and services
           applicable to the Sponsorship Plan that you select at the time you
           purchase a Sponsorship.
-          <br />
-          <br />
+          <br/>
+          <br/>
           A Sponsorship is intended to be used by Scritch users for the ability
           to access Scritch Sponsor Services as permitted under the user’s
           applicable Sponsorship Plan. Scritch, at its sole discretion, reserves
           the right to limit, suspend or terminate your use of the Sponsorship
           if Scritch determines that you have violated these Sponsor Terms or
           the Terms of Use.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Each Sponsorship is personal to the individual Scritch user. You may
           not transfer or assign your Sponsorship to another individual, entity
           or Scritch user unless such transfer or assignment is expressly
           permitted by the terms of your Sponsorship Plan.
-          <br />
-          <br />
+          <br/>
+          <br/>
           From time to time, Scritch may provide certain users with
           complimentary Sponsorships. Any user accessing the Services by using a
           free Sponsorship is bound by the Terms of Use and any applicable terms
@@ -987,8 +978,8 @@ class TermsOfUse extends React.Component {
           your valid Payment Information (the “Commencement Date”) and will last
           for the duration of the Sponsorship term that you select at the time
           of your registration for the Sponsorship (the “Sponsorship Term”).
-          <br />
-          <br />
+          <br/>
+          <br/>
           YOUR SPONSORSHIP WILL AUTOMATICALLY RENEW AT THE END OF EACH
           SPONSORSHIP TERM FOR SUCCESSIVE SPONSORSHIP TERMS OF THE SAME DURATION
           AS THE SPONSORSHIP TERM ORIGINALLY SELECTED UNLESS THE SPONSORSHIP IS
@@ -1002,20 +993,20 @@ class TermsOfUse extends React.Component {
           Sponsorship Fee for your Sponsorship Plan then in effect at the time
           of renewal. If you disagree with these automatic renewal provisions,
           your sole remedy is to cancel or terminate your Sponsorship.
-          <br />
-          <br />
+          <br/>
+          <br/>
           You acknowledge that the amount of the recurring charge at the time of
           Sponsorship renewal may differ from the Sponsorship Fees you
           originally paid for the Sponsorship if:
-          <br />
-          <br />
+          <br/>
+          <br/>
           the Sponsorship Fee for your Sponsorship Plan changes during your
           applicable Sponsorship Term, or;
-          <br />
+          <br/>
           if you change your Sponsorship Plan or Sponsorship Term during the
           previous Sponsorship Term.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Scritch will notify you of any changes to the Sponsorship Fee prior to
           the date on which your Sponsorship Term will renew. You hereby agree
           to any such revised Sponsorship Fees and your sole remedy if you
@@ -1039,8 +1030,8 @@ class TermsOfUse extends React.Component {
           Services may be interrupted from time to time, with or without notice,
           for maintenance, upgrades, system updates or in the event of equipment
           failure or for any other foreseeable or unforeseeable cause.
-          <br />
-          <br />
+          <br/>
+          <br/>
           SCRITCH LIMITED WILL HAVE NO LIABILITY TO YOU FOR ANY INTERRUPTION,
           SUSPENSION, DISCONTINUANCE OR UNAVAILABILITY OF THE SCRITCH SPONSOR
           SERVICES FOR ANY REASON, OR FOR ANY LOSS OR INABILITY TO ACCESS ANY
@@ -1079,20 +1070,20 @@ class TermsOfUse extends React.Component {
           one month remaining in your Sponsorship Term and you will have access
           to the Scritch Sponsor Services for the remaining one month of such
           Sponsorship.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Scritch may terminate a Sponsorship, or any user’s access to and use
           of the Scritch Sponsor Services, at any time for any reason at its
           sole discretion, which such termination will be effective immediately.
           If you violate the Terms of Use, Scritch at its sole discretion may:
-          <br />
-          <br />
+          <br/>
+          <br/>
           require you to remedy any violation thereof and/or;
-          <br />
+          <br/>
           take any other actions that Scritch deems appropriate to enforce its
           rights and pursue available remedies
-          <br />
-          <br />
+          <br/>
+          <br/>
           All Sponsorship Fees are non-refundable. Upon termination,
           cancellation or discontinuation of your Sponsorship for any reason,
           you will not be entitled to receive a refund for any Sponsorship Fees
@@ -1100,8 +1091,8 @@ class TermsOfUse extends React.Component {
           of any Sponsorship Fees if such termination, cancellation or
           discontinuation occurs prior to the expiration of the applicable
           Sponsorship Term.
-          <br />
-          <br />
+          <br/>
+          <br/>
           If the Payment Information for your account is invalid and cannot be
           billed for the renewal Sponsorship Fee at the time such Sponsorship
           Fee is payable and due, then Scritch may terminate your Sponsorship
@@ -1111,15 +1102,15 @@ class TermsOfUse extends React.Component {
           regarding your account, including notices regarding invoicing.
         </Typography>
         {SpacerWithHR}
-        <span id="copyright" className={classes.sectionPadder} />
+        <span id="copyright" className={classes.sectionPadder}/>
         <Typography variant="h4">4 COPYRIGHT POLICY</Typography>
         <Typography variant="subtitle1">
           In accordance with the EU copyright directive, the text of which may
           be found on the European Commission website at&nbsp;
           <a
-            href="https://ec.europa.eu/digital-single-market/en/eu-copyright-legislation"
-            target="_blank"
-            className={classes.link}
+              href="https://ec.europa.eu/digital-single-market/en/eu-copyright-legislation"
+              target="_blank"
+              className={classes.link}
           >
             https://ec.europa.eu/digital-single-market/en/eu-copyright-legislation
           </a>
@@ -1136,8 +1127,8 @@ class TermsOfUse extends React.Component {
             eucd@scritch.es
           </a>
           , identified in the sample notice below.
-          <br />
-          <br />
+          <br/>
+          <br/>
           If you knowingly misrepresent in your notification that the material
           or activity is infringing, you will be liable for any damages,
           including costs and attorneys’ fees, incurred by us or the alleged
@@ -1164,35 +1155,34 @@ class TermsOfUse extends React.Component {
           multiple copyrighted works are covered by this Notice you may provide
           a representative list of the copyrighted works that you claim have
           been infringed.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Identify the material that you claim is infringing (or to be the
           subject of infringing activity) and that is to be removed or access to
           which is to be disabled, and information reasonably sufficient to
           permit us to locate the material, including at a minimum, if
           applicable, the URL of the link shown on the Services where such
           material may be found.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Include both of the following statements in the body of the Notice:
-          <br />
-          <br />
+          <br/>
+          <br/>
           “I hereby state that I have a good faith belief that the disputed use
           of the copyrighted material is not authorized by the copyright owner,
           its agent, or the law (e.g., as a fair use)"; and;
-          <br />
+          <br/>
           “I hereby state that the information in this Notice is accurate and,
           under penalty of perjury, that I am the owner, or authorized to act on
           behalf of the owner, of the copyright or of an exclusive right under
           the copyright that is allegedly infringed.”
-          <br />
-          <br />
+          <br/>
+          <br/>
           Provide your full legal name and your electronic or physical
           signature. Deliver this Notice, with all items completed.
         </Typography>
       </React.Fragment>
-    );
-  }
+  );
 }
 
 export default withStyles(styles)(withWidth()(TermsOfUse));

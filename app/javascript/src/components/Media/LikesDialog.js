@@ -37,7 +37,6 @@ const styles = theme => ({
   emptyLikesIcon: {
     fontSize: 2,
     display: "block",
-    fontSize: "4em",
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: theme.spacing(1),

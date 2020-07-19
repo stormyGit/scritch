@@ -72,8 +72,6 @@ const styles = theme => ({
 });
 
 class MakerCard extends React.Component {
-  state = {};
-
   renderMedia() {
     const { classes, maker, horizontal, width, client } = this.props;
 

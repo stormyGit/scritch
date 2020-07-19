@@ -110,9 +110,6 @@ const styles = theme => ({
   dangerButton: {
     color: theme.palette.danger.main
   },
-  dialogContent: {
-    marginTop: theme.spacing(2)
-  },
   paperQuote: {
     padding: theme.spacing(3),
     overflowX: "auto"

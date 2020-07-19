@@ -56,8 +56,6 @@ const styles = theme => ({
 });
 
 class MediumCard extends React.Component {
-  state = {};
-
   renderMedia() {
     const { classes, medium, horizontal, width } = this.props;
 

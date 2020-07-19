@@ -1,6 +1,5 @@
 import React from "react";
-import ReactMarkdown from "react-markdown";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -40,34 +39,30 @@ const styles = theme => ({
   }
 });
 
-class UserGuide extends React.Component {
-  state = {};
+function UserGuide(props) {
+  const {classes, announcement, width} = props;
 
-  render() {
-    const { classes, announcement, width } = this.props;
-
-    return (
-      <React.Fragment>
-        <PageTitle>Website User Guide</PageTitle>
-        <Grid
-          container
-          className={
-            width !== "lg" && width !== "xl" ? classes.root : classes.gridPadder
-          }
-          spacing={1}
-          style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
-        >
-          <Grid item xs={12}>
-            <Card className={classes.card} elevation={0}>
-              <CardContent className={classes.content} className={classes.text}>
-                <WebsiteUserGuide />
-              </CardContent>
-            </Card>
-          </Grid>
+  return (
+    <React.Fragment>
+      <PageTitle>Website User Guide</PageTitle>
+      <Grid
+        container
+        className={
+          width !== "lg" && width !== "xl" ? classes.root : classes.gridPadder
+        }
+        spacing={1}
+        style={{marginTop: width === "lg" || width === "xl" ? 4 : -4}}
+      >
+        <Grid item xs={12}>
+          <Card className={classes.card} elevation={0}>
+            <CardContent className={classes.content} className={classes.text}>
+              <WebsiteUserGuide/>
+            </CardContent>
+          </Card>
         </Grid>
-      </React.Fragment>
-    );
-  }
+      </Grid>
+    </React.Fragment>
+  );
 }
 
 export default withStyles(styles)(withWidth()(UserGuide));

@@ -41,8 +41,6 @@ const styles = theme => ({
 });
 
 class FursuitCard extends React.Component {
-  state = {};
-
   renderMedia() {
     const { classes, fursuit, horizontal, width, client } = this.props;
     var image;

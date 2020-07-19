@@ -72,8 +72,6 @@ const styles = theme => ({
 });
 
 class EventCard extends React.Component {
-  state = {};
-
   renderMedia() {
     const { classes, event, horizontal, width, client } = this.props;
 

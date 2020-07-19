@@ -30,11 +30,6 @@ const styles = theme => ({
     textAlign: "center",
     alignItems: "center"
   },
-  clearSubsButton: {
-    textAlign: "center",
-    alignItems: "center",
-    top: 0
-  },
   fab: {
     position: "absolute",
     bottom: "3em",

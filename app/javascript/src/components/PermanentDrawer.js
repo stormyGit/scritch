@@ -1,5 +1,5 @@
-import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import React, {useState} from "react";
+import {withStyles} from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import DrawerMenuRemake from "./DrawerMenuRemake";
 
@@ -33,46 +33,41 @@ const styles = theme => {
   };
 };
 
-class PermanentDrawer extends React.Component {
-  state = {
-    wideDrawer: false
-  };
-  render() {
-    const { classes } = this.props;
+function PermanentDrawer(props) {
+  const {classes, open} = props;
+  const [wideDrawer, setWideDrawer] = useState(false);
 
-    if (!this.props.open) return null;
+  if (!open) return null;
 
-    return (
-      <React.Fragment>
-        <div
-          className={classes.drawerPadder}
-          style={{ maxWidth: this.state.wideDrawer }}
+  return (
+    <React.Fragment>
+      <div
+        className={classes.drawerPadder}
+        style={{maxWidth: wideDrawer}}
+      />
+      <Drawer
+        onMouseEnter={() => setWideDrawer(true)}
+        onMouseLeave={() => setWideDrawer(false)}
+        open={open}
+        variant="permanent"
+        classes={
+          wideDrawer === false
+            ? {paper: classes.drawerPaperShort}
+            : {paper: classes.drawerPaperWide}
+        }
+        PaperProps={{
+          elevation: 0
+        }}
+      >
+        <div className={classes.toolbar}/>
+        <DrawerMenuRemake
+          disableProfile
+          disableNotifications
+          disableUpload
         />
-        <Drawer
-          onMouseEnter={() => this.setState({ wideDrawer: true })}
-          onMouseLeave={() => this.setState({ wideDrawer: false })}
-          open={this.props.open}
-          variant="permanent"
-          classes={
-            this.state.wideDrawer === false
-              ? { paper: classes.drawerPaperShort }
-              : { paper: classes.drawerPaperWide }
-          }
-          PaperProps={{
-            elevation: 0
-          }}
-        >
-          <div className={classes.toolbar} />
-          <DrawerMenuRemake
-            disableProfile
-            disableNotifications
-            disableUpload
-            wide={this.state.drawerPaperWide}
-          />
-        </Drawer>
-      </React.Fragment>
-    );
-  }
+      </Drawer>
+    </React.Fragment>
+  );
 }
 
 export default withStyles(styles)(PermanentDrawer);

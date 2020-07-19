@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import SearchBar from "material-ui-search-bar";
 import ClearIcon from "@material-ui/icons/Clear";
 import SearchIcon from "@material-ui/icons/Search";
@@ -47,29 +47,27 @@ const styles = theme => ({
   }
 });
 
-class CustomSearchBar extends React.Component {
-  render() {
-    const { width, ...props } = this.props;
-    return (
-      <SearchBar
-        {...props}
-        searchIcon={
-          <SearchIcon
-            style={{
-              display: width !== "lg" && width !== "xl" ? "none" : "block"
-            }}
-          />
-        }
-        closeIcon={
-          <ClearIcon
-            style={{
-              display: width !== "lg" && width !== "xl" ? "none" : "block"
-            }}
-          />
-        }
-      />
-    );
-  }
+function CustomSearchBar(props) {
+  const {width, ...props} = props;
+  return (
+    <SearchBar
+      {...props}
+      searchIcon={
+        <SearchIcon
+          style={{
+            display: width !== "lg" && width !== "xl" ? "none" : "block"
+          }}
+        />
+      }
+      closeIcon={
+        <ClearIcon
+          style={{
+            display: width !== "lg" && width !== "xl" ? "none" : "block"
+          }}
+        />
+      }
+    />
+  );
 }
 
 export default withStyles(styles)(withWidth()(CustomSearchBar));

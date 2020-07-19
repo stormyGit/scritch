@@ -130,7 +130,6 @@ class CreateEventDialog extends React.Component {
     region: "",
     web: "",
     visible: true,
-    avatarMenu: true,
     avatarMenu: false,
     avatar: null
   };

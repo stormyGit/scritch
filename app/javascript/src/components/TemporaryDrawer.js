@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
 import DrawerMenuRemake from "./DrawerMenuRemake";
 
@@ -18,26 +18,24 @@ const styles = theme => {
   };
 };
 
-class TemporaryDrawer extends React.Component {
-  render() {
-    const { classes } = this.props;
-    const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
+function TemporaryDrawer(props) {
+  const {classes} = props;
+  const iOS = process.browser && /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-    return (
-      <SwipeableDrawer
-        variant="temporary"
-        classes={{
-          paper: classes.drawerPaper
-        }}
-        open={this.props.open}
-        onOpen={this.props.onOpen}
-        onClose={this.props.onClose}
-        disableDiscovery={iOS}
-      >
-        <DrawerMenuRemake onClose={this.props.onClose} />
-      </SwipeableDrawer>
-    );
-  }
+  return (
+    <SwipeableDrawer
+      variant="temporary"
+      classes={{
+        paper: classes.drawerPaper
+      }}
+      open={props.open}
+      onOpen={props.onOpen}
+      onClose={props.onClose}
+      disableDiscovery={iOS}
+    >
+      <DrawerMenuRemake onClose={props.onClose}/>
+    </SwipeableDrawer>
+  );
 }
 
 export default withStyles(styles)(TemporaryDrawer);
