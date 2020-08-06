@@ -1,30 +1,15 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import PageTitle from "../Global/PageTitle";
-import queryString from "query-string";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import withWidth from "@material-ui/core/withWidth";
-import { Link } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
-import {
-  Tabs,
-  Tab,
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  CardActionArea,
-  Button,
-} from "@material-ui/core";
-import { Query, Mutation } from "react-apollo";
-import { FETCH_CLAIMS, FETCH_MAKER_CLAIMS } from "../../queries/moderationQueries";
+import {Link} from "react-router-dom";
+import {withStyles} from "@material-ui/core/styles";
+import {Button, Card, CardActions, CardContent, CardHeader, Tab, Tabs,} from "@material-ui/core";
+import {Mutation, Query} from "react-apollo";
+import {FETCH_CLAIMS, FETCH_MAKER_CLAIMS} from "../../queries/moderationQueries";
 import ModerationChatDialog from "../Moderation/ModerationChatDialog";
-import {
-  ACCEPT_MAKER_CLAIM,
-  ACCEPT_CLAIM,
-  REJECT_CLAIM,
-  REJECT_MAKER_CLAIM,
-} from "../../queries/moderationMutations";
+import {ACCEPT_CLAIM, ACCEPT_MAKER_CLAIM, REJECT_CLAIM, REJECT_MAKER_CLAIM,} from "../../queries/moderationMutations";
 import withCurrentModerator from "../withCurrentModerator";
 
 const styles = (theme) => ({
@@ -101,10 +86,10 @@ const Claim = ({ classes, claim }) => {
                 This Fursuit already has an Owner!
               </Typography>
               <Typography variant="subtitle1">
-                {claim.fursuit.users[0].name}&nbsp;&nbsp;
+                {claim.fursuit.users[0]?.name || "unknown"}&nbsp;&nbsp;
                 <Link
                   className={classes.link}
-                  to={`/${claim.fursuit.users[0].slug}`}
+                  to={`/${claim.fursuit.users[0]?.slug || "Account probably was deleted."}`}
                   target="_blank"
                 >
                   View on Scritch
