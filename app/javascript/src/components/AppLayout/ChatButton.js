@@ -38,7 +38,7 @@ class ChatButton extends React.Component {
             >
               {({ loading, error, data }) => (
                 <div>
-                  <IconButton color="primary" disabled={disabled} onClick={this.props.onClick}>
+                  <IconButton color="white" disabled={disabled} onClick={this.props.onClick}>
                     {loading || !data || data.unreadChatsCount <= 0 ? (
                       <ChatNoneIcon />
                     ) : (
@@ -65,7 +65,7 @@ class ChatButton extends React.Component {
                     <Button
                       disabled={disabled}
                       onClick={this.props.onClick}
-                      color="primary"
+                      color="white"
                       className={classes.buttonPad}
                     >
                       Messages
@@ -75,7 +75,7 @@ class ChatButton extends React.Component {
                   return (
                     <Button
                       onClick={this.props.onClick}
-                      color="primary"
+                      color="white"
                       className={classes.buttonPad}
                     >
                       <Badge

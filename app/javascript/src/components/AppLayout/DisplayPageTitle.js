@@ -6,8 +6,6 @@ import Typography from "@material-ui/core/Typography";
 
 const styles = theme => ({
   separator: {
-    marginLeft: theme.spacing(4),
-    marginRight: theme.spacing(3),
     height: 32,
     borderLeftColor:
       theme.palette.type === "dark"
@@ -46,7 +44,6 @@ function DisplayPageTitle(props) {
         {({data}) =>
           data.pageTitle && (
             <React.Fragment>
-              <div className={classes.separator}/>
               <Typography
                 variant="h5"
                 className={classes.pageTitle}
@@ -55,7 +52,6 @@ function DisplayPageTitle(props) {
               >
                 {data.pageTitle}
               </Typography>
-              <div className={classes.separator}/>
             </React.Fragment>
           )
         }

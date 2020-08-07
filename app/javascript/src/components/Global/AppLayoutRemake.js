@@ -1,32 +1,16 @@
 import React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import SearchIcon from "@material-ui/icons/Search";
 import Typography from "@material-ui/core/Typography";
-import dateFormat from "dateformat";
 
 import {Link, withRouter} from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
 import GlobalProgress from "../Global/GlobalProgress";
 import PermanentDrawer from "../PermanentDrawer";
 import TemporaryDrawer from "../TemporaryDrawer";
-
-import UploadButton from "../AppLayout/UploadButton";
-import SocialButton from "../AppLayout/SocialButton";
-import PoliciesSupportButton from "../AppLayout/PoliciesSupportButton";
-import DisplayPageTitle from "../AppLayout/DisplayPageTitle";
-import MetricsBar from "../AppLayout/MetricsBar";
-import UserButton from "../AppLayout/UserButton";
-import NotificationsButton from "../AppLayout/NotificationsButton";
 import AppDialogs from "../AppLayout/AppDialogs";
 import CookieConsent from "react-cookie-consent";
-import logo from "../../../../assets/images/logo_small.png";
-import {Button} from "@material-ui/core";
-import ChatButton from "../AppLayout/ChatButton";
-import Logo from "../CustomComponents/ScritchLogo";
+import ScritchToolbar from "../ScritchToolbar";
 
 const styles = theme => ({
   root: {
@@ -83,7 +67,7 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    backgroundColor: theme.palette.background.paper
+    backgroundColor: theme.palette.primary
   },
   toolBarDanger: {
     display: "flex",
@@ -158,7 +142,7 @@ class AppLayoutRemake extends React.Component {
       this.reset = true;
     }
 
-    this.setState({ nameInput: val });
+    this.setState({nameInput: val});
 
     if (this.loadEventTimer) {
       clearTimeout(this.loadEventTimer);
@@ -166,11 +150,11 @@ class AppLayoutRemake extends React.Component {
 
     if (val.length >= 1) {
       this.loadEventTimer = setTimeout(() => {
-        this.setState({ query: val });
+        this.setState({query: val});
       }, 500);
     } else if (this.reset) {
       clearTimeout(this.loadEventTimer);
-      this.setState({ query: val });
+      this.setState({query: val});
       this.reset = false;
     }
   }
@@ -185,10 +169,16 @@ class AppLayoutRemake extends React.Component {
       client,
       width
     } = this.props;
-    const { query } = this.state;
+    const {query} = this.state;
 
+    let bigWidth = false;
+    let smallWidth = false;
     let appBarPadding;
+    if (width === "xs" || width === "sm") {
+      smallWidth = true;
+    }
     if (width === "xl" || width === "lg") {
+      bigWidth = true;
       appBarPadding = 16;
     } else {
       appBarPadding = 8;
@@ -199,18 +189,18 @@ class AppLayoutRemake extends React.Component {
     }
     return (
       <React.Fragment>
-        <GlobalProgress />
+        <GlobalProgress/>
         <div className={classes.root}>
           <CookieConsent
-            buttonStyle={{ backgroundColor: process.env.SECONDARY_COLOR }}
-            style={{ textAlign: "center" }}
+            buttonStyle={{backgroundColor: process.env.SECONDARY_COLOR}}
+            style={{textAlign: "center"}}
           >
             <Typography
               variant="h5"
               component="h3"
               className={classes.text}
               style={{
-                paddingLeft: width === "xl" || width === "lg" ? 200 : 0
+                paddingLeft: bigWidth ? 200 : 0
               }}
             >
               We use cookies to improve your experience on Scritch and to keep you logged in. By
@@ -226,161 +216,36 @@ class AppLayoutRemake extends React.Component {
               .
             </Typography>
           </CookieConsent>
-          {(width === "xs" || width === "sm") && (
+          {smallWidth && (
             <React.Fragment>
               <TemporaryDrawer
                 open={this.state.tempDrawer}
                 onOpen={() => {
-                  this.setState({ tempDrawer: true });
+                  this.setState({tempDrawer: true});
                 }}
-                onClose={() => this.setState({ tempDrawer: false })}
+                onClose={() => this.setState({tempDrawer: false})}
               />
             </React.Fragment>
           )}
-          {width !== "xs" && width !== "sm" && (
+          {!smallWidth && (
             <React.Fragment>
-              <PermanentDrawer open={true} />
+              <PermanentDrawer open={true}/>
             </React.Fragment>
           )}
           <main className={classes.content}>
-            <div className={classes.toolbar} />
-            {currentSession && currentSession.user.suspendedUser && (
-              <AppBar position="absolute" className={classes.appBar} elevation={1}>
-                <Toolbar
-                  className={classes.toolBarDanger}
-                  classes={{
-                    root: classes.toolBarRoot
-                  }}
-                  style={{
-                    paddingLeft: appBarPadding,
-                    paddingRight: appBarPadding
-                  }}
-                >
-                  <Logo
-                    onClick={() =>
-                      this.setState({
-                        tempDrawer: !this.state.tempDrawer
-                      })
-                    }
-                  />
-                  {(width === "sm" || width === "xs") && (
-                    <Typography variant="subtitle1">Suspended</Typography>
-                  )}
-                  {width !== "sm" && width !== "xs" && (
-                    <Typography variant="h4">Account Suspended</Typography>
-                  )}
-                  <Typography variant={width === "sm" || width === "xs" ? "subtitle1" : "h5"}>
-                    {`Until: ${dateFormat(
-                      suspendedUserLimit,
-                      width === "sm" || width === "xs" ? "dd/mm/yy" : "mmmm dS, yyyy"
-                    )}`}
-                  </Typography>
-                  <PoliciesSupportButton
-                    openTech={() => this.setState({ techDialog: true })}
-                    suspended={true}
-                  />
-                  <UserButton
-                    openSignUp={() => this.setState({ signUpDialog: true })}
-                    openSettings={() => this.setState({ settingsDialog: true })}
-                  />
-                </Toolbar>
-              </AppBar>
-            )}
-            {(!currentSession || (currentSession && !currentSession.user.suspendedUser)) && (
-              <AppBar position="absolute" className={classes.appBar} elevation={1}>
-                <Toolbar
-                  className={classes.toolBar}
-                  classes={{
-                    root: classes.toolBarRoot
-                  }}
-                  style={{
-                    paddingLeft: appBarPadding,
-                    paddingRight: appBarPadding
-                  }}
-                >
-                  {!this.state.searchEnabled && (
-                    <Logo
-                      onClick={() =>
-                        this.setState({
-                          tempDrawer: !this.state.tempDrawer
-                        })
-                      }
-                    />
-                  )}
-
-                  {(width === "xl" || width === "lg") && (
-                    <div className={classes.titleZone}>
-                      <DisplayPageTitle />
-                    </div>
-                  )}
-
-                  {(width === "lg" || width === "xl") && (
-                    <Button
-                      className={[classes.searchIcon, classes.tinyButton].join(" ")}
-                      onClick={() => this.setState({ searchDialog: true })}
-                      color="primary"
-                    >
-                      <SearchIcon />
-                      Search
-                    </Button>
-                  )}
-
-                  {width !== "lg" && width !== "xl" && (
-                    <IconButton
-                      className={[classes.searchIcon, classes.tinyButton].join(" ")}
-                      onClick={() => this.setState({ searchDialog: true })}
-                      color="primary"
-                    >
-                      <SearchIcon />
-                    </IconButton>
-                  )}
-                  {!this.state.searchEnabled && (
-                    <React.Fragment>
-                      <UploadButton onClick={() => this.setState({ uploadDialog: true })} />
-                      <SocialButton
-                        openAdvertise={() => this.setState({ advertiseDialog: true })}
-                      />
-                      <PoliciesSupportButton openTech={() => this.setState({ techDialog: true })} />
-                    </React.Fragment>
-                  )}
-
-                  {!this.state.searchEnabled && (
-                    <React.Fragment>
-                      {width === "xl" && (
-                        <MetricsBar
-                          openSpeciesDialog={() => this.setState({ speciesDialog: true })}
-                        />
-                      )}
-                      <NotificationsButton
-                        onClick={() => this.setState({ activitiesDialog: true })}
-                      />
-                      {currentSession && !currentSession.user.isModerator && (
-                        <ChatButton
-                          disabled={false}
-                          onClick={() => this.setState({ chatDialog: true })}
-                        />
-                      )}
-                      <UserButton
-                        openSignUp={() => this.setState({ signUpDialog: true })}
-                        openSettings={() => this.setState({ settingsDialog: true })}
-                      />
-                    </React.Fragment>
-                  )}
-                </Toolbar>
-              </AppBar>
-            )}
+            <ScritchToolbar/>
             <div
               style={{
                 overflowX: "hidden",
                 overflowY: "scroll",
                 height: "calc(100vh - 56px)",
                 paddingLeft:
-                  width === "xl" || width === "lg"
+                  bigWidth
                     ? "calc(5vw + 60px)"
                     : width === "md"
                     ? "60px"
                     : 4,
-                paddingRight: width === "xl" || width === "lg" ? "5%" : width === "md" ? "60px" : 4,
+                paddingRight: bigWidth ? "5%" : width === "md" ? "60px" : 4,
                 position: "relative"
               }}
             >
@@ -388,23 +253,23 @@ class AppLayoutRemake extends React.Component {
             </div>
             <AppDialogs
               searchDialog={this.state.searchDialog}
-              closeSearchDialog={() => this.setState({ searchDialog: false })}
+              closeSearchDialog={() => this.setState({searchDialog: false})}
               chatDialog={this.state.chatDialog}
-              closeChatDialog={() => this.setState({ chatDialog: false })}
+              closeChatDialog={() => this.setState({chatDialog: false})}
               signUpDialog={this.state.signUpDialog}
-              closeSignUpDialog={() => this.setState({ signUpDialog: false })}
+              closeSignUpDialog={() => this.setState({signUpDialog: false})}
               uploadDialog={this.state.uploadDialog}
-              closeUploadDialog={() => this.setState({ uploadDialog: false })}
+              closeUploadDialog={() => this.setState({uploadDialog: false})}
               activitiesDialog={this.state.activitiesDialog}
-              closeActivitiesDialog={() => this.setState({ activitiesDialog: false })}
+              closeActivitiesDialog={() => this.setState({activitiesDialog: false})}
               advertiseDialog={this.state.advertiseDialog}
-              closeAdvertiseDialog={() => this.setState({ advertiseDialog: false })}
+              closeAdvertiseDialog={() => this.setState({advertiseDialog: false})}
               settingsDialog={this.state.settingsDialog}
-              closeSettingsDialog={() => this.setState({ settingsDialog: false })}
+              closeSettingsDialog={() => this.setState({settingsDialog: false})}
               techDialog={this.state.techDialog}
-              closeTechDialog={() => this.setState({ techDialog: false })}
+              closeTechDialog={() => this.setState({techDialog: false})}
               speciesDialog={this.state.speciesDialog}
-              closeSpeciesDialog={() => this.setState({ speciesDialog: false })}
+              closeSpeciesDialog={() => this.setState({speciesDialog: false})}
             />
           </main>
         </div>

@@ -39,7 +39,7 @@ class NotificationsButton extends React.Component {
             >
               {({ loading, error, data }) => (
                 <Tooltip title="Notifications">
-                  <IconButton color="primary" onClick={this.props.onClick}>
+                  <IconButton color="white" onClick={this.props.onClick}>
                     {loading || !data || data.unreadActivityCount <= 0 ? (
                       <NotificationsNoneIcon />
                     ) : (
@@ -72,7 +72,7 @@ class NotificationsButton extends React.Component {
                     return (
                       <Button
                         onClick={this.props.onClick}
-                        color="primary"
+                        color="white"
                         className={classes.buttonPad}
                       >
                         Notifications
@@ -82,7 +82,7 @@ class NotificationsButton extends React.Component {
                     return (
                       <Button
                         onClick={this.props.onClick}
-                        color="primary"
+                        color="white"
                         className={classes.buttonPad}
                       >
                         <Badge

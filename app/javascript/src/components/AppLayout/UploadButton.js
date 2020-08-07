@@ -28,7 +28,7 @@ class UploadButton extends React.Component {
             <Button
               onClick={this.props.onClick}
               className={classes.buttonPad}
-              color="primary"
+              color="secondary"
             >
               Upload
             </Button>
@@ -38,7 +38,7 @@ class UploadButton extends React.Component {
           currentSession && (
             <IconButton
               title="Upload"
-              color="primary"
+              color="secondary"
               onClick={this.props.onClick}
             >
               <UploadIcon />

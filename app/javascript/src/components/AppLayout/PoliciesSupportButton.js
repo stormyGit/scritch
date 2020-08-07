@@ -51,7 +51,7 @@ class PoliciesSupportButton extends React.Component {
             aria-haspopup="true"
             title="Support"
             onClick={event => this.handleMenu(event)}
-            color={this.props.suspended ? "white" : "primary"}
+            color={this.props.suspended ? "white" : "secondary"}
           >
             <SupportIcon />
           </IconButton>
@@ -59,7 +59,7 @@ class PoliciesSupportButton extends React.Component {
         {(this.props.width === "xl" || this.props.width === "lg") && (
           <Button
             onClick={event => this.handleMenu(event)}
-            color={!this.props.suspended && "primary"}
+            color={!this.props.suspended && "secondary"}
             className={classes.buttonPad}
           >
             Support
