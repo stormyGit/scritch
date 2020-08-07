@@ -86,10 +86,10 @@ const Claim = ({ classes, claim }) => {
                 This Fursuit already has an Owner!
               </Typography>
               <Typography variant="subtitle1">
-                {claim.fursuit.users[0]?.name || "unknown"}&nbsp;&nbsp;
+                {claim.fursuit.users[0].name || "unknown"}&nbsp;&nbsp;
                 <Link
                   className={classes.link}
-                  to={`/${claim.fursuit.users[0]?.slug || "Account probably was deleted."}`}
+                  to={`/${claim.fursuit.users[0].slug || "Account probably was deleted."}`}
                   target="_blank"
                 >
                   View on Scritch
