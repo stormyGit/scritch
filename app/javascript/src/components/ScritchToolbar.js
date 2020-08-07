@@ -19,6 +19,7 @@ import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import PageTabs from "./Global/PageTabs";
 
 const drawerWidth = 240;
 
@@ -91,7 +92,7 @@ const useStyles = (theme) => ({
 
 function ScritchToolbar({classes}) {
   const {dispatch, isDrawerOpen} = useContext(NavigationContext);
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = useState(-1);
 
   return (
     <div>
@@ -136,12 +137,7 @@ function ScritchToolbar({classes}) {
             />
           </div>
           <div className={classes.grow}/>
-          <Tabs value={tabIndex} aria-label="simple tabs example">
-            <Tab label="Media"/>
-            <Tab label="Fursuits"/>
-            <Tab label="Makers"/>
-            <Tab label="Events"/>
-          </Tabs>
+          <PageTabs/>
           <div className={classes.grow}/>
           <React.Fragment>
             {/*<UploadButton onClick={() => this.setState({uploadDialog: true})}/>*/}
