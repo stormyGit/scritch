@@ -1,25 +1,31 @@
-import {AppBar, fade, IconButton, Theme, Toolbar, Typography, withStyles} from "@material-ui/core";
+import {AppBar, fade, Grid, IconButton, Paper, Toolbar, withStyles} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 import {NavigationContext} from "../context/NavigationContext";
-import {useContext, useState} from "react";
 import * as React from "react";
+import {useContext, useRef, useState} from "react";
 import ScritchLogo from "./CustomComponents/ScritchLogo";
-import {Link, withRouter} from "react-router-dom";
+import {Link} from "react-router-dom";
 import DisplayPageTitle from "./AppLayout/DisplayPageTitle";
-import Button from "@material-ui/core/Button";
-import UploadButton from "./AppLayout/UploadButton";
 import SocialButton from "./Global/SocialButton";
-import PoliciesSupportButton from "./AppLayout/PoliciesSupportButton";
 import MetricsBar from "./AppLayout/MetricsBar";
 import NotificationsButton from "./AppLayout/NotificationsButton";
 import ChatButton from "./AppLayout/ChatButton";
 import UserButton from "./AppLayout/UserButton";
 import SearchIcon from "@material-ui/icons/Search";
-import InputBase from "@material-ui/core/InputBase";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
 import PageTabs from "./Global/PageTabs";
+import InputBase from "@material-ui/core/InputBase";
+import GlobalProgress from "./Global/GlobalProgress";
+import ScritchSpinner from "./CustomComponents/ScritchSpinner";
+import Typography from "@material-ui/core/Typography";
+import Fursuits from "./Fursuits/Fursuits";
+import Makers from "./Makers/Makers";
+import Events from "./Events/Events";
+import Popper from "@material-ui/core/Popper";
+import {useSpring, animated} from 'react-spring/web.cjs';
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener"; // web.cjs is required for IE 11 support
 
 const drawerWidth = 240;
 
@@ -86,13 +92,159 @@ const useStyles = (theme) => ({
   },
   menuButton: {
     marginRight: 36,
+  },
+  popperRoot: {
+    flexGrow: 1
+  },
+  popperPopup: {
+    zIndex: 100,
+    minWidth: '50vw',
+    minHeight: '50vh',
+    maxWidth: '80vw',
+    maxHeight: '80vh'
   }
 });
 
 
+const Fade = React.forwardRef((props, ref) => {
+  const {in: open, children, onEnter, onExited, ...other} = props;
+  const style = useSpring({
+    from: {opacity: 0},
+    to: {opacity: open ? 1 : 0},
+    onStart: () => {
+      if (open && onEnter) {
+        onEnter();
+      }
+    },
+    onRest: () => {
+      if (!open && onExited) {
+        onExited();
+      }
+    },
+  });
+
+  return (
+    <animated.div ref={ref} style={style} {...other}>
+      {children}
+    </animated.div>
+  );
+});
+
+// Fade.propTypes = {
+//   children: PropTypes.element,
+//   in: PropTypes.bool,
+//   onEnter: PropTypes.func,
+//   onExited: PropTypes.func,
+// };
+
 function ScritchToolbar({classes}) {
   const {dispatch, isDrawerOpen} = useContext(NavigationContext);
   const [tabIndex, setTabIndex] = useState(-1);
+  const [name, setName] = useState("");
+  const [search, setSearch] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
+  let reset = false;
+  const open = Boolean(anchorEl);
+  const id = open ? 'spring-popper' : undefined;
+  let loadEventTimer = undefined;
+
+  function handleClickAway() {
+    clearTimeout(loadEventTimer);
+    setAnchorEl(null);
+    setName("");
+    setSearch("");
+    reset = false;
+  }
+
+  function handleSearch(ev) {
+    const target = ev.target;
+    const val = target.value;
+    if (name.length >= 1 && val.length < 1) {
+      reset = true;
+    }
+
+    setName(val);
+    if (loadEventTimer) {
+      clearTimeout(loadEventTimer);
+    }
+
+    if (val.length >= 1) {
+      loadEventTimer = setTimeout(() => {
+        setSearch(val);
+        setAnchorEl(anchorEl ? null : target);
+      }, 1000);
+    } else if (reset) {
+      handleClickAway();
+    }
+  }
+
+  function SearchInput() {
+    return (
+      <InputBase
+        value={name}
+        placeholder="Search…"
+        classes={{
+          root: classes.inputRoot,
+          input: classes.inputInput,
+        }}
+        onChange={value => handleSearch(value)}
+        inputProps={{'aria-label': 'search'}}
+      />
+    );
+  }
+
+  function SearchDialog() {
+    return (
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <Popper id={id} open={open} anchorEl={anchorEl} transition className={classes.popperPopup}>
+          {({TransitionProps}) => (
+            <Fade {...TransitionProps}>
+              <div className={classes.popperRoot}>
+                <Paper>
+                  <GlobalProgress absolute/>
+                  <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                      {name !== search && (
+                        <ScritchSpinner size={128}/>
+                      )}
+                      {name === search && name !== "" && (
+                        <React.Fragment>
+                          <Card>
+                            <CardContent>
+                              <Typography variant="h5" className={classes.title}>
+                                Fursuits
+                              </Typography>
+                              <Fursuits searching={true} search={search}/>
+                            </CardContent>
+                          </Card>
+                          <Card>
+                            <CardContent>
+                              <Typography variant="h5" className={classes.title}>
+                                Makers
+                              </Typography>
+                              <Makers searching={true} search={search}/>
+                            </CardContent>
+                          </Card>
+                          <Card>
+                            <CardContent>
+                              <Typography variant="h5" className={classes.title}>
+                                Events
+                              </Typography>
+                              <Events searching={true} search={search}/>
+                            </CardContent>
+                          </Card>
+                        </React.Fragment>
+                      )}
+                    </Grid>
+                  </Grid>
+                </Paper>
+              </div>
+            </Fade>
+          )}
+        </Popper>
+      </ClickAwayListener>
+    )
+  }
 
   return (
     <div>
@@ -113,13 +265,7 @@ function ScritchToolbar({classes}) {
             <MenuIcon/>
           </IconButton>
           <Link to="/">
-            <ScritchLogo
-              onClick={() =>
-                this.setState({
-                  tempDrawer: !this.state.tempDrawer
-                })
-              }
-            />
+            <ScritchLogo/>
           </Link>
           <DisplayPageTitle className={classes.title} variant="h6" noWrap/>
           <div className={classes.grow}/>
@@ -127,14 +273,8 @@ function ScritchToolbar({classes}) {
             <div className={classes.searchIcon}>
               <SearchIcon/>
             </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{'aria-label': 'search'}}
-            />
+            {SearchInput()}
+            {SearchDialog()}
           </div>
           <div className={classes.grow}/>
           <PageTabs/>
