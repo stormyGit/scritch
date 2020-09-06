@@ -2,7 +2,7 @@ import React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Typography from "@material-ui/core/Typography";
-
+import AddIcon from '@material-ui/icons/Add';
 import {Link, withRouter} from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
 import GlobalProgress from "../Global/GlobalProgress";
@@ -11,9 +11,12 @@ import TemporaryDrawer from "../TemporaryDrawer";
 import AppDialogs from "../AppLayout/AppDialogs";
 import CookieConsent from "react-cookie-consent";
 import ScritchToolbar from "../ScritchToolbar";
+import Fab from "@material-ui/core/Fab";
+import ScritchFab from "../CustomComponents/ScritchFab";
 
 const styles = theme => ({
   root: {
+    top: 56,
     flexGrow: 1,
     zIndex: 1,
     overflow: "hidden",
@@ -109,6 +112,11 @@ const styles = theme => ({
   link: {
     textDecoration: "none",
     color: theme.palette.primary.main
+  },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(2),
+    right: theme.spacing(2),
   }
 });
 
@@ -191,6 +199,7 @@ class AppLayoutRemake extends React.Component {
       <React.Fragment>
         <GlobalProgress/>
         <div className={classes.root}>
+          <ScritchFab/>
           <CookieConsent
             buttonStyle={{backgroundColor: process.env.SECONDARY_COLOR}}
             style={{textAlign: "center"}}

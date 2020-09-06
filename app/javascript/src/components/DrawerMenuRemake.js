@@ -1,7 +1,7 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import uuidv4 from "uuid/v4";
-import { Query } from "react-apollo";
+import {Query} from "react-apollo";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -28,7 +28,7 @@ import SponsorDashboardDialog from "./AppDialogs/SponsorDashboardDialog";
 import SponsorDialog from "./AppDialogs/SponsorDialog";
 import TipsDialog from "./AppDialogs/TipsDialog";
 import SpeciesDialog from "./AppDialogs/SpeciesDialog";
-import { GET_RIBBON_ANNOUNCEMENT } from "../queries/announcementQueries";
+import {GET_RIBBON_ANNOUNCEMENT} from "../queries/announcementQueries";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -41,7 +41,7 @@ import AddIcon from "@material-ui/icons/Add";
 import Zoom from "@material-ui/core/Zoom";
 import Tooltip from "@material-ui/core/Tooltip";
 
-import { Link, withRouter } from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 
 import withCurrentSession from "./withCurrentSession";
 
@@ -94,7 +94,7 @@ const styles = theme => {
   };
 };
 
-const DrawerItem = ({ classes, label, icon, path, onClick, type }) => {
+const DrawerItem = ({classes, label, icon, path, onClick, type}) => {
   if (type === "Link") {
     return (
       <Link to={path} className={classes.link}>
@@ -120,12 +120,12 @@ const DrawerItem = ({ classes, label, icon, path, onClick, type }) => {
         </ListItemIcon>
         <ListItemText
           primary={label}
-          primaryTypographyProps={{ className: classes.text, noWrap: true }}
+          primaryTypographyProps={{className: classes.text, noWrap: true}}
         />
       </ListItem>
     );
   } else if (type === "Divider") {
-    return <Divider />;
+    return <Divider/>;
   } else {
     return null;
   }
@@ -146,72 +146,72 @@ class DrawerMenuRemake extends React.Component {
   };
 
   render() {
-    const { classes, location, currentSession, width, onClose } = this.props;
+    const {classes, location, currentSession, width, onClose} = this.props;
     const user = currentSession && currentSession.user ? currentSession.user : null;
 
     if (user && user.sponsor) var sponsorLimit = new Date(user.sponsor.limit * 1000);
 
     const homeItem = {
       label: "Home",
-      icon: <HomeIcon />,
+      icon: <HomeIcon/>,
       onClick: null,
       path: "/",
       type: "Link"
     };
     const mediaItem = {
       label: "Media",
-      icon: <MediaIcon />,
+      icon: <MediaIcon/>,
       onClick: null,
       path: "/pictures",
       type: "Link"
     };
     const fursuitItem = {
       label: "Fursuits",
-      icon: <FursuitIcon />,
+      icon: <FursuitIcon/>,
       onClick: null,
       path: "/fursuits",
       type: "Link"
     };
     const makerItem = {
       label: "Makers",
-      icon: <MakerIcon />,
+      icon: <MakerIcon/>,
       onClick: null,
       path: "/makers",
       type: "Link"
     };
     const eventItem = {
       label: "Events",
-      icon: <EventIcon />,
+      icon: <EventIcon/>,
       onClick: null,
       path: "/events",
       type: "Link"
     };
     const createItem = {
       label: "Create",
-      icon: <AddIcon />,
+      icon: <AddIcon/>,
       onClick: () => {
-        this.setState({ assetDialog: true });
+        this.setState({assetDialog: true});
       },
       path: null,
       type: "Dialog"
     };
     const tagItem = {
       label: "Tag Media",
-      icon: <TagIcon />,
+      icon: <TagIcon/>,
       onClick: null,
       path: "/tag",
       type: "Link"
     };
     const subsItem = {
       label: "Subscriptions",
-      icon: <SubscriptionsIcon />,
+      icon: <SubscriptionsIcon/>,
       onClick: null,
       path: "/subscriptions",
       type: "Link"
     };
     const favesItem = {
       label: "Favorites",
-      icon: <FaveIcon />,
+      icon: <FaveIcon/>,
       onClick: null,
       path: "/favorites",
       type: "Link"
@@ -221,10 +221,10 @@ class DrawerMenuRemake extends React.Component {
       icon:
         currentSession && currentSession.user.unreadAnnouncementsCount > 0 ? (
           <Badge badgeContent={user.unreadAnnouncementsCount} color="primary">
-            <AnnouncementIcon />
+            <AnnouncementIcon/>
           </Badge>
         ) : (
-          <AnnouncementIcon />
+          <AnnouncementIcon/>
         ),
       onClick: null,
       path: "/announcements",
@@ -235,36 +235,36 @@ class DrawerMenuRemake extends React.Component {
     };
     const settingsItem = {
       label: "Settings",
-      icon: <SettingsIcon />,
-      onClick: () => this.setState({ settingsDialog: true }),
+      icon: <SettingsIcon/>,
+      onClick: () => this.setState({settingsDialog: true}),
       path: null,
       type: "Dialog"
     };
     const beginSponsorshipItem = {
       label: "Become a Sponsor!",
-      icon: <PetsIcon />,
-      onClick: () => this.setState({ sponsorDialog: true }),
+      icon: <PetsIcon/>,
+      onClick: () => this.setState({sponsorDialog: true}),
       path: null,
       type: "Dialog"
     };
     const sponsorshipItem = {
       label: "Sponsorship",
-      icon: <PetsIcon />,
-      onClick: () => this.setState({ sponsorDashboardDialog: true }),
+      icon: <PetsIcon/>,
+      onClick: () => this.setState({sponsorDashboardDialog: true}),
       path: null,
       type: "Dialog"
     };
     const advertiseItem = {
       label: "Advertise with Scritch",
-      icon: <AdsIcon />,
-      onClick: () => this.setState({ adsDialog: true }),
+      icon: <AdsIcon/>,
+      onClick: () => this.setState({adsDialog: true}),
       path: null,
       type: "Dialog"
     };
     const tipsItem = {
       label: "Tip Jar",
-      icon: <TipsIcon />,
-      onClick: () => this.setState({ tipsDialog: true }),
+      icon: <TipsIcon/>,
+      onClick: () => this.setState({tipsDialog: true}),
       path: null,
       type: "Dialog"
     };
@@ -286,7 +286,7 @@ class DrawerMenuRemake extends React.Component {
       case "Sponsor":
         itemsPack = [
           [homeItem, mediaItem, fursuitItem, makerItem, eventItem],
-          [createItem, tagItem, subsItem, favesItem],
+          [tagItem, subsItem, favesItem],
           [sponsorshipItem, advertiseItem, tipsItem],
           [announcementsItem, dividerItem, settingsItem]
         ];
@@ -294,7 +294,7 @@ class DrawerMenuRemake extends React.Component {
       case "Basic":
         itemsPack = [
           [homeItem, mediaItem, fursuitItem, makerItem, eventItem],
-          [createItem, tagItem, subsItem, favesItem],
+          [tagItem, subsItem, favesItem],
           [beginSponsorshipItem, advertiseItem, tipsItem],
           [announcementsItem, dividerItem, settingsItem]
         ];
@@ -336,13 +336,13 @@ class DrawerMenuRemake extends React.Component {
                   ))}
                 </List>
               </div>
-              {width !== "xl" && width !== "lg" && width !== "md" && <Divider />}
+              {width !== "xl" && width !== "lg" && width !== "md" && <Divider/>}
             </React.Fragment>
           ))}
           <SettingsDialog
             open={this.state.settingsDialog}
             onClose={() => {
-              this.setState({ settingsDialog: false });
+              this.setState({settingsDialog: false});
               if (this.props.onClose) {
                 this.props.onClose();
               }
@@ -351,7 +351,7 @@ class DrawerMenuRemake extends React.Component {
           <TipsDialog
             open={this.state.tipsDialog}
             onClose={() => {
-              this.setState({ tipsDialog: false });
+              this.setState({tipsDialog: false});
               if (this.props.onClose) {
                 this.props.onClose();
               }
@@ -360,7 +360,7 @@ class DrawerMenuRemake extends React.Component {
           <SponsorDialog
             open={this.state.sponsorDialog}
             onClose={() => {
-              this.setState({ sponsorDialog: false });
+              this.setState({sponsorDialog: false});
               if (this.props.onClose) {
                 this.props.onClose();
               }
@@ -369,7 +369,7 @@ class DrawerMenuRemake extends React.Component {
           <SpeciesDialog
             open={this.state.speciesDialog}
             onClose={() => {
-              this.setState({ speciesDialog: false });
+              this.setState({speciesDialog: false});
               if (this.props.onClose) {
                 this.props.onClose();
               }
@@ -378,7 +378,7 @@ class DrawerMenuRemake extends React.Component {
           <AdvertiseDialog
             open={this.state.adsDialog}
             onClose={() => {
-              this.setState({ adsDialog: false });
+              this.setState({adsDialog: false});
               if (this.props.onClose) {
                 this.props.onClose();
               }
@@ -388,18 +388,18 @@ class DrawerMenuRemake extends React.Component {
             open={this.state.assetDialog}
             keepAssetType={null}
             onClose={() => {
-              this.setState({ assetDialog: false });
+              this.setState({assetDialog: false});
               if (this.props.onClose) {
                 this.props.onClose();
               }
             }}
-            submitSnack={() => this.setState({ snack: true })}
+            submitSnack={() => this.setState({snack: true})}
             assetType="Asset"
           />
           <SponsorDashboardDialog
             open={this.state.sponsorDashboardDialog}
             onClose={() => {
-              this.setState({ sponsorDashboardDialog: false });
+              this.setState({sponsorDashboardDialog: false});
               if (this.props.onClose) {
                 this.props.onClose();
               }
@@ -423,9 +423,9 @@ class DrawerMenuRemake extends React.Component {
                 aria-label="Close"
                 color="inherit"
                 className={classes.close}
-                onClick={() => this.setState({ snack: false })}
+                onClick={() => this.setState({snack: false})}
               >
-                <CloseIcon />
+                <CloseIcon/>
               </IconButton>
             ]}
           />
