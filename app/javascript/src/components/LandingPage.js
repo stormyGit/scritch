@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import FrontMedia from "./Media/FrontMedia";
 import RandomFrontMedia from "./Media/RandomFrontMedia";
 import PageTitle from "./Global/PageTitle";
 import Typography from "@material-ui/core/Typography";
 import withWidth from "@material-ui/core/withWidth";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
+import AppFooter from "./Global/AppFooter";
 
 const styles = theme => ({
   font: {
@@ -42,7 +43,7 @@ const styles = theme => ({
 
 const Padder = () => <div style={{ padding: 8 }} />;
 
-function LatestPictures({ classes, width }) {
+function LandingPage({classes, width}) {
   const [homeTab, setHomeTab] = useState("latest");
   let typoSize = width === "xs" || width === "sm" ? "h5" : "h4";
 
@@ -106,9 +107,10 @@ function LatestPictures({ classes, width }) {
       <Padder />
       {homeTab === "latest" && <FrontMedia filter="latest" />}
       {homeTab === "scritched" && <FrontMedia filter="scritched" />}
-      {homeTab === "random" && <RandomFrontMedia filter="random" />}
+      {homeTab === "random" && <RandomFrontMedia filter="random"/>}
+      {false && <AppFooter/>}
     </React.Fragment>
   );
 }
 
-export default withStyles(styles)(withWidth()(LatestPictures));
+export default withStyles(styles)(withWidth()(LandingPage));
