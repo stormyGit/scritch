@@ -10,6 +10,7 @@ import themeSelector from "../themeSelector";
 import DateFnsUtils from "@date-io/date-fns";
 
 import {GET_SESSION, GET_THEME} from "../queries/globalQueries";
+import {NavigationContextProvider} from "../context/NavigationContext";
 
 const makeTheme = type => {
     const background = type === "dark" ? {paper: "#222", default: "#333"} : {};
@@ -84,11 +85,13 @@ export default function AppBootstrap() {
         <ApolloProvider client={apolloClient}>
             <Query query={GET_THEME}>
                 {({data, loading, error}) => (
+                  <NavigationContextProvider>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <MuiThemeProvider theme={makeTheme(data.theme)}>
                             <ConnectedApp/>
                         </MuiThemeProvider>
                     </MuiPickersUtilsProvider>
+                  </NavigationContextProvider>
                 )}
             </Query>
         </ApolloProvider>

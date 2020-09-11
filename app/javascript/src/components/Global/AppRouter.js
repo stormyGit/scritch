@@ -46,7 +46,7 @@ import Favorites from "../Favorites";
 import Subscriptions from "../Subscriptions";
 import SearchPage from "../SearchPage";
 
-import AppLayoutRemake from "./AppLayoutRemake";
+import AppLayoutRemake from "./AppLayout";
 import AppHeader from "./AppHeader";
 import MustLog from "./MustLog";
 

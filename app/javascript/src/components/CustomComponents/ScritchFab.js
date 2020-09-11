@@ -8,8 +8,9 @@ import MakerIcon from "@material-ui/icons/Build";
 import EventIcon from "@material-ui/icons/Business";
 import useTheme from "@material-ui/core/styles/useTheme";
 import Zoom from "@material-ui/core/Zoom";
+import ScritchIcon from "./ScritchIcon";
+import ScritchButton from "./ScritchButton";
 
-const fact = 1.75;
 const styles = theme => ({
   root: {
     position: 'absolute',
@@ -19,23 +20,31 @@ const styles = theme => ({
   },
   addMedia: {
     position: 'absolute',
-    bottom: 64 * fact,
-    right: 0,
+    width: 48,
+    transform: "rotate(-25deg) !important",
+    bottom: 100 + 20,
+    right: 100 - 70,
   },
   addSuit: {
     position: 'absolute',
-    bottom: 55.2 * fact,
-    right: 32 * fact,
+    transform: "rotate(-40deg) !important",
+    width: 48,
+    bottom: 100 + 18,
+    right: 100 - 18,
   },
   addMaker: {
     position: 'absolute',
-    bottom: 32 * fact,
-    right: 55.2 * fact,
+    transform: "rotate(-60deg) !important",
+    width: 48,
+    bottom: 100 - 18,
+    right: 100 + 18,
   },
   addConvention: {
     position: 'absolute',
-    bottom: 0,
-    right: 64 * fact,
+    transform: "rotate(-75deg) !important",
+    width: 48,
+    bottom: 100 - 68,
+    right: 100 + 30,
   },
 });
 
@@ -73,9 +82,10 @@ function ScritchFab(props) {
 
   return (
     <div className={classes.root}>
-      <Fab color="secondary" aria-label="add" onClick={() => setPawClicked(!pawClicked)}>
+      <ScritchButton size={56 * 2} color="secondary" aria-label="add" onClick={() => setPawClicked(!pawClicked)}/>
+      {/*<Fab color="secondary" aria-label="add" onClick={() => setPawClicked(!pawClicked)}>
         <AddIcon/>
-      </Fab>
+      </Fab>*/}
       {fabs.map((fab, index) => (
         <Zoom
           key={index}

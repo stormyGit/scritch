@@ -20,15 +20,15 @@ import AdsIcon from "@material-ui/icons/BusinessCenter";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
 
-import AssetRequestDialog from "./AppDialogs/AssetRequestDialog";
-import SettingsDialog from "./AppDialogs/SettingsDialog";
-import AdvertiseDialog from "./AppDialogs/AdvertiseDialog";
-import MetricsBar from "./AppLayout/MetricsBar";
-import SponsorDashboardDialog from "./AppDialogs/SponsorDashboardDialog";
-import SponsorDialog from "./AppDialogs/SponsorDialog";
-import TipsDialog from "./AppDialogs/TipsDialog";
-import SpeciesDialog from "./AppDialogs/SpeciesDialog";
-import {GET_RIBBON_ANNOUNCEMENT} from "../queries/announcementQueries";
+import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
+import SettingsDialog from "../AppDialogs/SettingsDialog";
+import AdvertiseDialog from "../AppDialogs/AdvertiseDialog";
+import MetricsBar from "../AppLayout/MetricsBar";
+import SponsorDashboardDialog from "../AppDialogs/SponsorDashboardDialog";
+import SponsorDialog from "../AppDialogs/SponsorDialog";
+import TipsDialog from "../AppDialogs/TipsDialog";
+import SpeciesDialog from "../AppDialogs/SpeciesDialog";
+import {GET_RIBBON_ANNOUNCEMENT} from "../../queries/announcementQueries";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -43,7 +43,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 
 import {Link, withRouter} from "react-router-dom";
 
-import withCurrentSession from "./withCurrentSession";
+import withCurrentSession from "../withCurrentSession";
 
 const styles = theme => {
   return {
@@ -131,7 +131,7 @@ const DrawerItem = ({classes, label, icon, path, onClick, type}) => {
   }
 };
 
-class DrawerMenuRemake extends React.Component {
+class DrawerMenuOld extends React.Component {
   state = {
     settingsDialog: false,
     sponsorDialog: false,
@@ -435,4 +435,4 @@ class DrawerMenuRemake extends React.Component {
   }
 }
 
-export default withRouter(withStyles(styles)(withCurrentSession(withWidth()(DrawerMenuRemake))));
+export default withRouter(withStyles(styles)(withCurrentSession(withWidth()(DrawerMenuOld))));

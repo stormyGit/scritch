@@ -25,7 +25,8 @@ import Popper from "@material-ui/core/Popper";
 import {useSpring, animated} from 'react-spring/web.cjs';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import ClickAwayListener from "@material-ui/core/ClickAwayListener"; // web.cjs is required for IE 11 support
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import {openDrawer} from "../reducers/Action"; // web.cjs is required for IE 11 support
 
 const drawerWidth = 240;
 
@@ -143,6 +144,7 @@ function ScritchToolbar({classes}) {
   const [name, setName] = useState("");
   const [search, setSearch] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
+  const [scroll, setScroll] = React.useState('paper');
   let reset = false;
   const open = Boolean(anchorEl);
   const id = open ? 'spring-popper' : undefined;
@@ -196,7 +198,15 @@ function ScritchToolbar({classes}) {
   function SearchDialog() {
     return (
       <ClickAwayListener onClickAway={handleClickAway}>
-        <Popper id={id} open={open} anchorEl={anchorEl} transition className={classes.popperPopup}>
+        <Popper
+          id={id}
+          open={open}
+          anchorEl={anchorEl}
+          transition
+          className={classes.popperPopup}
+          scroll={scroll}
+          placement="top-start"
+        >
           {({TransitionProps}) => (
             <Fade {...TransitionProps}>
               <div className={classes.popperRoot}>
@@ -261,6 +271,9 @@ function ScritchToolbar({classes}) {
             className={clsx(classes.menuButton, {
               [classes.hide]: isDrawerOpen,
             })}
+            onClick={() => {
+              dispatch(openDrawer());
+            }}
           >
             <MenuIcon/>
           </IconButton>
@@ -280,7 +293,7 @@ function ScritchToolbar({classes}) {
           <PageTabs/>
           <div className={classes.grow}/>
           <React.Fragment>
-            {/*<UploadButton onClick={() => this.setState({uploadDialog: true})}/>*/}
+            {/*<UploadButton onClick={() => this.setState({uploadDialog: true})}/>}
             <SocialButton
               openAdvertise={() => this.setState({advertiseDialog: true})}
             />

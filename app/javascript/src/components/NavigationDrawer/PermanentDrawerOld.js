@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {withStyles} from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
-import DrawerMenuRemake from "./DrawerMenuRemake";
+import DrawerMenuRemake from "./DrawerMenuOld";
 
 const wideDrawer = 60;
 
