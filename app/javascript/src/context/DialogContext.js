@@ -7,7 +7,7 @@ const DialogContextProvider = ({children}) => {
   const [state, dispatch] = useReducer(AppReducer, initialState)
 
   return (
-    <DialogContext.Provider value={{isLoggedIn: state.isLoggedIn, isDrawerOpen: state.isDrawerOpen, dispatch}}>
+    <DialogContext.Provider value={{isLoggedIn: state.isLoggedIn, isDrawerOpen: state.isDrawerOpen, dispatch: dispatchNavigation}}>
       {children}
     </DialogContext.Provider>
   )

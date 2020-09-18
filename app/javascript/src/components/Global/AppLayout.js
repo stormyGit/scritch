@@ -160,7 +160,7 @@ function usePrevious(value) {
 }
 
 function AppLayout({classes, settingsLayout, children, currentSession, location, client, width}) {
-  const {dispatch, isDrawerOpen} = useContext(NavigationContext);
+  const {dispatchNavigation, isDrawerOpen} = useContext(NavigationContext);
   const [nameInput, setNameInput] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [uploadDialog, setUploadDialog] = useState(false);
@@ -232,7 +232,7 @@ function AppLayout({classes, settingsLayout, children, currentSession, location,
           }}
         >
           <div className={classes.toolbar}>
-            <IconButton onClick={() => dispatch(closeDrawer())}>
+            <IconButton onClick={() => dispatchNavigation(closeDrawer())}>
               <ChevronLeftIcon/>
             </IconButton>
           </div>

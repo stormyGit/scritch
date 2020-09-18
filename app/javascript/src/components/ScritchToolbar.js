@@ -139,7 +139,7 @@ const Fade = React.forwardRef((props, ref) => {
 // };
 
 function ScritchToolbar({classes}) {
-  const {dispatch, isDrawerOpen} = useContext(NavigationContext);
+  const {dispatchNavigation, isDrawerOpen} = useContext(NavigationContext);
   const [tabIndex, setTabIndex] = useState(-1);
   const [name, setName] = useState("");
   const [search, setSearch] = useState("");
@@ -272,7 +272,7 @@ function ScritchToolbar({classes}) {
               [classes.hide]: isDrawerOpen,
             })}
             onClick={() => {
-              dispatch(openDrawer());
+              dispatchNavigation(openDrawer());
             }}
           >
             <MenuIcon/>
