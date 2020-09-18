@@ -26,7 +26,14 @@ import {useSpring, animated} from 'react-spring/web.cjs';
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
-import {openDrawer} from "../reducers/Action"; // web.cjs is required for IE 11 support
+import {
+  openDrawer,
+  setActivitiesDialogState,
+  setChatDialogState, setSettingsDialogState,
+  setSignupDialogState,
+  setSpeciesDialogState
+} from "../reducers/Action";
+import {DialogContext} from "../context/DialogContext"; // web.cjs is required for IE 11 support
 
 const drawerWidth = 240;
 
@@ -139,7 +146,8 @@ const Fade = React.forwardRef((props, ref) => {
 // };
 
 function ScritchToolbar({classes}) {
-  const nc = useContext(NavigationContext);
+  const navContext = useContext(NavigationContext);
+  const dialogContext = useContext(DialogContext);
   const [tabIndex, setTabIndex] = useState(-1);
   const [name, setName] = useState("");
   const [search, setSearch] = useState("");
@@ -261,7 +269,7 @@ function ScritchToolbar({classes}) {
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: nc.isDrawerOpen,
+          [classes.appBarShift]: navContext.isDrawerOpen,
         })}>
         <Toolbar>
           <IconButton
@@ -269,10 +277,10 @@ function ScritchToolbar({classes}) {
             color="inherit"
             aria-label="open drawer"
             className={clsx(classes.menuButton, {
-              [classes.hide]: nc.isDrawerOpen,
+              [classes.hide]: navContext.isDrawerOpen,
             })}
             onClick={() => {
-              nc.dispatch(openDrawer());
+              navContext.dispatchNavigationChange(openDrawer());
             }}
           >
             <MenuIcon/>
@@ -302,18 +310,18 @@ function ScritchToolbar({classes}) {
           <div className={classes.grow}/>
           <React.Fragment>
             <MetricsBar
-              openSpeciesDialog={() => this.setState({speciesDialog: true})}
+              openSpeciesDialog={() => dialogContext.dispatchDialogChange(setSpeciesDialogState(true))}
             />
             <NotificationsButton
-              onClick={() => this.setState({activitiesDialog: true})}
+              onClick={() => dialogContext.dispatchDialogChange(setActivitiesDialogState(true))}
             />
             <ChatButton
               disabled={false}
-              onClick={() => this.setState({chatDialog: true})}
+              onClick={() => dialogContext.dispatchDialogChange(setChatDialogState(true))}
             />
             <UserButton
-              openSignUp={() => this.setState({signUpDialog: true})}
-              openSettings={() => this.setState({settingsDialog: true})}
+              openSignUp={() => dialogContext.dispatchDialogChange(setSignupDialogState(true))}
+              openSettings={() => dialogContext.dispatchDialogChange(setSettingsDialogState(true))}
             />
           </React.Fragment>
         </Toolbar>

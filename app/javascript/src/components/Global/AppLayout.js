@@ -19,7 +19,13 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import {NavigationContext} from "../../context/NavigationContext";
-import {closeDrawer, setSearchPopupState} from "../../reducers/Action";
+import {
+  closeDrawer,
+  setActivitiesDialogState, setAdvertisementDialogState,
+  setChatDialogState,
+  setSearchDialogState, setSettingsDialogState,
+  setSignupDialogState, setSpeciesDialogState, setTechDialogState, setUploadDialogState
+} from "../../reducers/Action";
 import Drawer from "@material-ui/core/Drawer";
 import clsx from "clsx";
 import DrawerMenu from "../NavigationDrawer/DrawerMenu";
@@ -161,20 +167,13 @@ function usePrevious(value) {
 }
 
 function AppLayout({classes, settingsLayout, children, currentSession, location, client, width}) {
-  const {dispatch, isDrawerOpen} = useContext(NavigationContext);
+  const {dispatchNavigationChange, isDrawerOpen} = useContext(NavigationContext);
+  const {dispatchDialogChange, getUploadDialogState, getSignUpDialogState, getActivitiesDialogState, getChatDialogState, getSpeciesDialogState, getSettingsDialogState, getAdvertiseDialogState, getTechDialogState} = useContext(DialogContext);
   const [nameInput, setNameInput] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
-  const [uploadDialog, setUploadDialog] = useState(false);
-  const [signUpDialog, setSignUpDialog] = useState(false);
   const [mainDrawer, setMainDrawer] = useState(true);
   const [tempDrawer, setTempDrawer] = useState(false);
   const [searchEnabled, setSearchEnabled] = useState(false);
-  const [activitiesDialog, setActivitiesDialog] = useState(false);
-  const [chatDialog, setChatDialog] = useState(false);
-  const [speciesDialog, setSpeciesDialog] = useState(false);
-  const [settingsDialog, setSettingsDialog] = useState(false);
-  const [advertiseDialog, setAdvertiseDialog] = useState(false);
-  const [techDialog, setTechDialog] = useState(false);
   const [query, setQuery] = useState({});
   const prevLocation = usePrevious(location);
   useEffect(() => {
@@ -233,7 +232,7 @@ function AppLayout({classes, settingsLayout, children, currentSession, location,
           }}
         >
           <div className={classes.toolbar}>
-            <IconButton onClick={() => dispatch(closeDrawer())}>
+            <IconButton onClick={() => dispatchNavigationChange(closeDrawer())}>
               <ChevronLeftIcon/>
             </IconButton>
           </div>
@@ -265,23 +264,23 @@ function AppLayout({classes, settingsLayout, children, currentSession, location,
           </div>
           <AppDialogs
             searchDialog={false}
-            closeSearchDialog={() => setSearchPopupState(false)}
-            chatDialog={chatDialog}
-            closeChatDialog={() => setChatDialog(false)}
-            signUpDialog={signUpDialog}
-            closeSignUpDialog={() => setSignUpDialog(false)}
-            uploadDialog={uploadDialog}
-            closeUploadDialog={() => setUploadDialog(false)}
-            activitiesDialog={activitiesDialog}
-            closeActivitiesDialog={() => setActivitiesDialog(false)}
-            advertiseDialog={advertiseDialog}
-            closeAdvertiseDialog={() => setAdvertiseDialog(false)}
-            settingsDialog={settingsDialog}
-            closeSettingsDialog={() => setSettingsDialog(false)}
-            techDialog={techDialog}
-            closeTechDialog={() => setTechDialog(false)}
-            speciesDialog={speciesDialog}
-            closeSpeciesDialog={() => setSpeciesDialog(false)}
+            closeSearchDialog={() => dispatchDialogChange(setSearchDialogState(false))}
+            chatDialog={getChatDialogState}
+            closeChatDialog={() => dispatchDialogChange(setChatDialogState(false))}
+            signUpDialog={getSignUpDialogState}
+            closeSignUpDialog={() => dispatchDialogChange(setSignupDialogState(false))}
+            uploadDialog={getUploadDialogState}
+            closeUploadDialog={() => dispatchDialogChange(setUploadDialogState(false))}
+            activitiesDialog={getActivitiesDialogState}
+            closeActivitiesDialog={() => dispatchDialogChange(setActivitiesDialogState(false))}
+            advertiseDialog={getAdvertiseDialogState}
+            closeAdvertiseDialog={() => dispatchDialogChange(setAdvertisementDialogState(false))}
+            settingsDialog={getSettingsDialogState}
+            closeSettingsDialog={() => dispatchDialogChange(setSettingsDialogState(false))}
+            techDialog={getTechDialogState}
+            closeTechDialog={() => dispatchDialogChange(setTechDialogState(false))}
+            speciesDialog={getSpeciesDialogState}
+            closeSpeciesDialog={() => dispatchDialogChange(setSpeciesDialogState(false))}
           />
         </main>
       </div>

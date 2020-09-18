@@ -1,13 +1,13 @@
-import {AppReducer, initialState} from "../reducers/AppReducer";
+import {NavigationReducer, initialState} from "../reducers/NavigationReducer";
 import React, {createContext, useReducer} from "react";
 
-const NavigationContext = createContext({isLoggedIn: false, isDrawerOpen: false, dispatch: undefined});
+const NavigationContext = createContext({isLoggedIn: false, isDrawerOpen: false, dispatchNavigationChange: undefined});
 
 const NavigationContextProvider = ({children}) => {
-  const [state, dispatch] = useReducer(AppReducer, initialState)
+  const [state, dispatchNavigationChange] = useReducer(NavigationReducer, initialState)
 
   return (
-    <NavigationContext.Provider value={{isLoggedIn: state.isLoggedIn, isDrawerOpen: state.isDrawerOpen, dispatch}}>
+    <NavigationContext.Provider value={{isLoggedIn: state.isLoggedIn, isDrawerOpen: state.isDrawerOpen, dispatchNavigationChange}}>
       {children}
     </NavigationContext.Provider>
   )

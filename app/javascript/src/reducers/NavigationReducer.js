@@ -6,7 +6,7 @@ const initialState = {
   isLoggedIn: false
 };
 
-const AppReducer = (state = initialState, action) => {
+const NavigationReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.TOOLBAR_SET_DRAWER:
       return {
@@ -23,8 +23,11 @@ const AppReducer = (state = initialState, action) => {
         ...state,
         isDrawerOpen: true,
       };
-
+    default:
+      return {
+        ...state,
+      };
   }
 }
 
-export {initialState, AppReducer};
+export {initialState, NavigationReducer};

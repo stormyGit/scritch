@@ -12,7 +12,12 @@ export const ActionType = {
   SNACK_SET: 10,
   DIALOG_SET_ASSET: 11,
   DIALOG_SET_ADS: 12,
-  DIALOG_SET_SPECIES: 13
+  DIALOG_SET_SPECIES: 13,
+  DIALOG_SET_ACTIVITIES: 14,
+  DIALOG_SET_CHAT: 15,
+  DIALOG_SET_SIGNUP: 16,
+  DIALOG_SET_TECH: 17,
+  DIALOG_SET_UPLOAD: 18,
 }
 
 export class Action {
@@ -28,11 +33,58 @@ export class Action {
 // export const OPEN_DRAWER = `${TOOLBAR}.open_drawer`
 // export const SET_LOGIN = `${TOOLBAR}.set_login`
 
-export const setSearchPopupState = (open) => ({
+export const setSearchDialogState = (open) => ({
   type: ActionType.DIALOG_SET_SEARCH,
   payload: open,
 });
-
+export const setSettingsDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_SETTINGS,
+  payload: open,
+});
+export const setSponsorDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_SPONSOR,
+  payload: open,
+});
+export const setSponsorDashboardDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_SPONSOR_DASHBOARD,
+  payload: open,
+});
+export const setTipsDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_TIPS,
+  payload: open,
+});
+export const setAssetDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_ASSET,
+  payload: open,
+});
+export const setAdvertisementDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_ADS,
+  payload: open,
+});
+export const setSpeciesDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_SPECIES,
+  payload: open,
+});
+export const setActivitiesDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_ACTIVITIES,
+  payload: open,
+});
+export const setChatDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_CHAT,
+  payload: open,
+});
+export const setSignupDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_SIGNUP,
+  payload: open,
+});
+export const setTechDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_SIGNUP,
+  payload: open,
+});
+export const setUploadDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_SIGNUP,
+  payload: open,
+});
 export const setDrawer = (open) => ({
   type: ActionType.TOOLBAR_SET_DRAWER,
   payload: open,
