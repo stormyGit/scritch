@@ -32,8 +32,8 @@ function ScritchButton({color, size, onClick, children, classes}) {
   const theme = useTheme();
   const pawZoomFactor = 2.5;
   const c = theme.palette[color].main;
-  const [eleSize, setEleSize] = useState(size * 2.5);
-  const [pawOpen, setPawOpen] = useState(true);
+  const [eleSize, setEleSize] = useState(size);
+  const [pawOpen, setPawOpen] = useState(false);
   const [pawClicked, setPawClicked] = useState(false);
   const [count, setCount] = useState(0);
   const countRef = useRef(count);

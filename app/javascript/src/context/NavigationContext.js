@@ -1,7 +1,7 @@
 import {AppReducer, initialState} from "../reducers/AppReducer";
 import React, {createContext, useReducer} from "react";
 
-const NavigationContext = createContext({isLoggedIn: false, isDrawerOpen: false, dispatchNavigation: undefined});
+const NavigationContext = createContext({isLoggedIn: false, isDrawerOpen: false, dispatch: undefined});
 
 const NavigationContextProvider = ({children}) => {
   const [state, dispatch] = useReducer(AppReducer, initialState)

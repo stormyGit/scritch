@@ -45,7 +45,7 @@ const styles = theme => ({
 
 function ScritchFab(props) {
   const {classes} = props;
-  const [pawClicked, setPawClicked] = useState(true);
+  const [pawClicked, setPawClicked] = useState(false);
 
   const theme = useTheme();
   const transitionDuration = {

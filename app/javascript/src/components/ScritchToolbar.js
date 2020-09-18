@@ -139,7 +139,7 @@ const Fade = React.forwardRef((props, ref) => {
 // };
 
 function ScritchToolbar({classes}) {
-  const {dispatchNavigation, isDrawerOpen} = useContext(NavigationContext);
+  const nc = useContext(NavigationContext);
   const [tabIndex, setTabIndex] = useState(-1);
   const [name, setName] = useState("");
   const [search, setSearch] = useState("");
@@ -261,7 +261,7 @@ function ScritchToolbar({classes}) {
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: isDrawerOpen,
+          [classes.appBarShift]: nc.isDrawerOpen,
         })}>
         <Toolbar>
           <IconButton
@@ -269,10 +269,10 @@ function ScritchToolbar({classes}) {
             color="inherit"
             aria-label="open drawer"
             className={clsx(classes.menuButton, {
-              [classes.hide]: isDrawerOpen,
+              [classes.hide]: nc.isDrawerOpen,
             })}
             onClick={() => {
-              dispatchNavigation(openDrawer());
+              nc.dispatch(openDrawer());
             }}
           >
             <MenuIcon/>

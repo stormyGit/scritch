@@ -24,6 +24,7 @@ import Drawer from "@material-ui/core/Drawer";
 import clsx from "clsx";
 import DrawerMenu from "../NavigationDrawer/DrawerMenu";
 import DrawerMenuOld from "../NavigationDrawer/DrawerMenuOld";
+import {DialogContext} from "../../context/DialogContext";
 
 const drawerWidth = 240;
 
@@ -160,7 +161,7 @@ function usePrevious(value) {
 }
 
 function AppLayout({classes, settingsLayout, children, currentSession, location, client, width}) {
-  const {dispatchNavigation, isDrawerOpen} = useContext(NavigationContext);
+  const {dispatch, isDrawerOpen} = useContext(NavigationContext);
   const [nameInput, setNameInput] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [uploadDialog, setUploadDialog] = useState(false);
@@ -232,7 +233,7 @@ function AppLayout({classes, settingsLayout, children, currentSession, location,
           }}
         >
           <div className={classes.toolbar}>
-            <IconButton onClick={() => dispatchNavigation(closeDrawer())}>
+            <IconButton onClick={() => dispatch(closeDrawer())}>
               <ChevronLeftIcon/>
             </IconButton>
           </div>
