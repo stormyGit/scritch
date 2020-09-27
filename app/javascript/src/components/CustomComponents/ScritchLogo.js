@@ -7,6 +7,7 @@ const styles = theme => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    marginRight: ".5rem"
   },
   icon: {
     height: 64,
