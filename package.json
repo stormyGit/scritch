@@ -72,6 +72,7 @@
     "@graphql-codegen/typescript": "1.8.2",
     "@graphql-codegen/typescript-operations": "1.8.2",
     "@graphql-codegen/typescript-react-apollo": "1.8.2",
+    "images": "^3.2.3",
     "ts-loader": "^8.0.2",
     "typescript": "^3.9.7",
     "webpack-dev-server": "2.11.2"
