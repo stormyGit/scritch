@@ -40,22 +40,102 @@ import Faq from "../PoliciesSupport/Faq";
 import PrivacyPolicy from "../PoliciesSupport/PrivacyPolicy";
 
 import TagPage from "../TagPage";
-import LatestPictures from "../LatestPictures";
+import LatestPictures from "../LandingPage";
 import AdsLister from "../AdsLister";
 import Favorites from "../Favorites";
 import Subscriptions from "../Subscriptions";
 import SearchPage from "../SearchPage";
 
-import AppLayoutRemake from "./AppLayoutRemake";
-import AppFooter from "./AppFooter";
+import AppLayoutRemake from "./AppLayout";
 import AppHeader from "./AppHeader";
 import MustLog from "./MustLog";
 
-const Padder = () => <div style={{ padding: 16 }} />;
-const MicroPadder = () => <div style={{ padding: 8 }} />;
+const Padder = () => <div style={{padding: 16}}/>;
+const MicroPadder = () => <div style={{padding: 8}}/>;
 
 function AppRouter(props) {
   const {currentSession, width} = props;
+  const isSessionValid = currentSession && !currentSession.user.suspendedUser;
+
+  function LoadLatestPictures() {
+    return <LatestPictures/>;
+  }
+
+  function LoadAnnouncements() {
+    return <Announcements/>;
+  }
+
+  function LoadSearchPage() {
+    return isSessionValid ? <SearchPage/> : <MustLog/>;
+  }
+
+  function LoadTerms() {
+    return <Terms/>;
+  }
+
+  function LoadUserGuide() {
+    return <UserGuide/>;
+  }
+
+  function LoadFaq() {
+    return <Faq/>;
+  }
+
+  function LoadPrivacyPolicy() {
+    return <PrivacyPolicy/>;
+  }
+
+  function LoadFursuits() {
+    return isSessionValid ? <Fursuits/> : <MustLog/>;
+  }
+
+  function LoadMakers() {
+    return isSessionValid ? <Makers/> : <MustLog/>;
+  }
+
+  function LoadEvents() {
+    return isSessionValid ? <Events/> : <MustLog/>;
+  }
+
+  function LoadTagPage() {
+    return isSessionValid ? <TagPage/> : <MustLog/>;
+  }
+
+  function LoadSubscriptions() {
+    return isSessionValid ? <Subscriptions/> : <MustLog/>;
+  }
+
+  function LoadMediaAll() {
+    return isSessionValid ? <MediaAll/> : <MustLog/>;
+  }
+
+  function LoadFavorites() {
+    return isSessionValid ? <Favorites/> : <MustLog/>;
+  }
+
+  function LoadAdsLister() {
+    return <AdsLister/>;
+  }
+
+  function LoadMediumRemake() {
+    return <MediumRemake/>;
+  }
+
+  function LoadFursuitRemake() {
+    return isSessionValid ? <FursuitRemake/> : <MustLog/>;
+  }
+
+  function LoadMakerRemake() {
+    return isSessionValid ? <MakerRemake/> : <MustLog/>;
+  }
+
+  function LoadEventRemake() {
+    return isSessionValid ? <EventRemake/> : <MustLog/>;
+  }
+
+  function LoadUserRemake() {
+    return isSessionValid ? <UserRemake/> : <MustLog/>;
+  }
 
   return (
     <BrowserRouter>
@@ -135,124 +215,92 @@ function AppRouter(props) {
                 <AppHeader/>
                 {width === "xl" || width === "lg" ? <Padder/> : <MicroPadder/>}
                 <Switch location={location}>
-                  <Route exact path="/" component={LatestPictures}/>
-                  <Route exact path="/announcements" component={Announcements}/>
-                  <Route
-                    path="/search"
-                    component={
-                      currentSession && currentSession.user.suspendedUser ? MustLog : SearchPage
-                    }
-                  />
-                  <Route exact path="/terms_of_use" component={Terms}/>
-                  <Route exact path="/user_guide" component={UserGuide}/>
-                  <Route exact path="/faq" component={Faq}/>
-                  <Route exact path="/privacy_policy" component={PrivacyPolicy}/>
-                  <Route
-                    exact
-                    path="/fursuits"
-                    component={
-                      currentSession && currentSession.user.suspendedUser ? MustLog : Fursuits
-                    }
-                  />
-                  <Route
-                    exact
-                    path="/makers"
-                    component={
-                      currentSession && currentSession.user.suspendedUser ? MustLog : Makers
-                    }
-                  />
+                  <Route exact path="/">
+                    <LoadLatestPictures/>
+                  </Route>
+                  <Route exact path="/announcements">
+                    <LoadAnnouncements/>
+                  </Route>
+                  <Route path="/search">
+                    <LoadSearchPage/>
+                  </Route>
+                  <Route exact path="/terms_of_use">
+                    <LoadTerms/>
+                  </Route>
+                  <Route exact path="/user_guide">
+                    <LoadUserGuide/>
+                  </Route>
+                  <Route exact path="/faq">
+                    <LoadFaq/>
+                  </Route>
+                  <Route exact path="/privacy_policy">
+                    <LoadPrivacyPolicy/>
+                  </Route>
                   <Route
                     exact
-                    path="/events"
-                    component={
-                      currentSession && currentSession.user.suspendedUser ? MustLog : Events
-                    }
-                  />
+                    path="/fursuits">
+                    <LoadFursuits/>
+                  </Route>
                   <Route
                     exact
-                    path="/tag"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser ? TagPage : MustLog
-                    }
-                  />
+                    path="/makers">
+                    <LoadMakers/>
+                  </Route>
                   <Route
                     exact
-                    path="/search"
-                    component={
-                      currentSession && currentSession.user.suspendedUser ? MustLog : SearchPage
-                    }
-                  />
+                    path="/events">
+                    <LoadEvents/>
+                  </Route>
                   <Route
                     exact
-                    path="/subscriptions"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser
-                        ? Subscriptions
-                        : MustLog
-                    }
-                  />
+                    path="/tag">
+                    <LoadTagPage/>
+                  </Route>
                   <Route
                     exact
-                    path="/favorites"
-                    component={
-                      currentSession && !currentSession.user.suspendedUser ? Favorites : MustLog
-                    }
-                  />
+                    path="/subscriptions">
+                    <LoadSubscriptions/>
+                  </Route>
                   <Route
                     exact
-                    path="/pictures"
-                    component={
-                      currentSession && currentSession.user.suspendedUser ? MustLog : MediaAll
-                    }
-                  />
-                  <Route exact path="/ads" component={AdsLister}/>
-                  <Route exact path="/pictures/:id" component={MediumRemake}/>
+                    path="/pictures">
+                    <LoadMediaAll/>
+                  </Route>
                   <Route
                     exact
-                    path="/fursuits/:id"
-                    component={
-                      currentSession && currentSession.user.suspendedUser
-                        ? MustLog
-                        : FursuitRemake
-                    }
-                  />
+                    path="/favorites">
+                    <LoadFavorites/>
+                  </Route>
+                  <Route exact path="/ads">
+                    <LoadAdsLister/>
+                  </Route>
+                  <Route exact path="/pictures/:id">
+                    <LoadMediumRemake/>
+                  </Route>
                   <Route
                     exact
-                    path="/makers/:id"
-                    component={
-                      currentSession && currentSession.user.suspendedUser ? MustLog : MakerRemake
-                    }
-                  />
+                    path="/fursuits/:id"><LoadFursuitRemake/></Route>
                   <Route
                     exact
-                    path="/events/:id"
-                    component={
-                      currentSession && currentSession.user.suspendedUser ? MustLog : EventRemake
-                    }
-                  />
+                    path="/makers/:id"><LoadMakerRemake/></Route>
                   <Route
                     exact
-                    path="/:id"
-                    component={
-                      currentSession && currentSession.user.suspendedUser ? MustLog : UserRemake
-                    }
-                  />
+                    path="/events/:id"><LoadEventRemake/></Route>
                   <Route
                     exact
-                    path="/:id/:tab"
-                    component={
-                      currentSession && currentSession.user.suspendedUser ? MustLog : UserRemake
-                    }
-                  />
+                    path="/:id"><LoadUserRemake/></Route>
+                  <Route
+                    exact
+                    path="/:id/:tab"><LoadUserRemake/></Route>
                 </Switch>
-                {false && <AppFooter/>}
               </AppLayoutRemake>
             </React.Fragment>
           );
         }}
       />
     </BrowserRouter>
-  );
+  )
+    ;
 }
 
 export default withCurrentSession(withWidth()(AppRouter));

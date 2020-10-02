@@ -6,7 +6,8 @@ import withCurrentSession from "../withCurrentSession";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faPaw, faStar, faTags, faUsers} from "@fortawesome/free-solid-svg-icons";
+import {faArrowUp, faDove, faPaw, faStar, faTags, faUsers} from "@fortawesome/free-solid-svg-icons";
+import Badge from "@material-ui/core/Badge";
 
 const styles = theme => ({
   link: {
@@ -21,7 +22,7 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
-    color: theme.palette.text.primary
+    // color: theme.palette.text.primary
   },
   dataSpacer: {
     marginLeft: theme.spacing(2)
@@ -30,6 +31,23 @@ const styles = theme => ({
 
 function MetricsBar(props) {
   const {classes, currentSession, width} = props;
+
+  function BadgeFor(content, icon) {
+    return <Badge
+      badgeContent={content}
+      color="white"
+      showZero
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+    >
+      <FontAwesomeIcon
+        icon={icon}
+        className={classes.dataSpacer}
+      />
+    </Badge>;
+  }
 
   if (width === "xl") {
     return (
@@ -42,49 +60,32 @@ function MetricsBar(props) {
                 className={classes.link}
                 onClick={() => props.openSpeciesDialog()}
               >
-                {currentSession.user.metricSpecies}
+                {BadgeFor(currentSession.user.metricSpecies, faDove)}
               </Typography>
             </Tooltip>
             <Tooltip title="Scritch involvement Score">
               <Typography variant="subtitle1" className={classes.dataSpacer}>
-                {"Score: "}
-                {currentSession.user.score + currentSession.user.globalScore}
+                {BadgeFor(currentSession.user.score + currentSession.user.globalScore, faArrowUp)}
               </Typography>
             </Tooltip>
             <Tooltip title="Scritches">
               <Typography variant="subtitle1">
-                <FontAwesomeIcon
-                  icon={faPaw}
-                  className={classes.dataSpacer}
-                />{" "}
-                {currentSession.user.likedCount}
+                {BadgeFor(currentSession.user.likedCount, faPaw)}
               </Typography>
             </Tooltip>
             <Tooltip title="Favorites">
               <Typography variant="subtitle1">
-                <FontAwesomeIcon
-                  icon={faStar}
-                  className={classes.dataSpacer}
-                />{" "}
-                {currentSession.user.favedCount}
+                {BadgeFor(currentSession.user.favedCount, faStar)}
               </Typography>
             </Tooltip>
             <Tooltip title="Followers">
               <Typography variant="subtitle1">
-                <FontAwesomeIcon
-                  icon={faUsers}
-                  className={classes.dataSpacer}
-                />{" "}
-                {currentSession.user.followersCount}
+                {BadgeFor(currentSession.user.followersCount, faUsers)}
               </Typography>
             </Tooltip>
             <Tooltip title="Tagged in">
               <Typography variant="subtitle1">
-                <FontAwesomeIcon
-                  icon={faTags}
-                  className={classes.dataSpacer}
-                />{" "}
-                {currentSession.user.taggedCount}
+                {BadgeFor(currentSession.user.taggedCount, faTags)}
               </Typography>
             </Tooltip>
           </div>

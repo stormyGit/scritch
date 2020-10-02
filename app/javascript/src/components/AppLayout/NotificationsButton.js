@@ -16,6 +16,9 @@ import { GET_UNREAD_ACTIVITY_COUNT } from "../../queries/activityQueries";
 const styles = theme => ({
   rightButton: {
     display: "inline-block"
+  },
+  iconButton: {
+    color: "white"
   }
 });
 
@@ -39,9 +42,9 @@ class NotificationsButton extends React.Component {
             >
               {({ loading, error, data }) => (
                 <Tooltip title="Notifications">
-                  <IconButton color="primary" onClick={this.props.onClick}>
+                  <IconButton className={classes.iconButton} onClick={this.props.onClick}>
                     {loading || !data || data.unreadActivityCount <= 0 ? (
-                      <NotificationsNoneIcon />
+                      <NotificationsNoneIcon color="inherit" />
                     ) : (
                       <Badge
                         badgeContent={data.unreadActivityCount}
@@ -72,7 +75,7 @@ class NotificationsButton extends React.Component {
                     return (
                       <Button
                         onClick={this.props.onClick}
-                        color="primary"
+                        color="white"
                         className={classes.buttonPad}
                       >
                         Notifications
@@ -82,7 +85,7 @@ class NotificationsButton extends React.Component {
                     return (
                       <Button
                         onClick={this.props.onClick}
-                        color="primary"
+                        color="white"
                         className={classes.buttonPad}
                       >
                         <Badge

@@ -1,20 +1,18 @@
 import React from "react";
-import { Mutation, withApollo } from "react-apollo";
+import {withApollo} from "react-apollo";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 import withCurrentSession from "../withCurrentSession";
-import Select from "../Global/Select";
 import SearchBar from "material-ui-search-bar";
-import { Grid } from "@material-ui/core";
+import {Grid} from "@material-ui/core";
 import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 import Fursuits from "../Fursuits/Fursuits";
 import Events from "../Events/Events";
