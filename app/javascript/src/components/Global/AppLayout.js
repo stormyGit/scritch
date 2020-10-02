@@ -21,7 +21,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import {NavigationContext} from "../../context/NavigationContext";
 import {
   closeDrawer,
-  setActivitiesDialogState, setAdvertisementDialogState,
+  setActivitiesDialogState, setAdvertisementDialogState, setAssetDialogState, setAssetRequestEventDialogState, setAssetRequestFursuitDialogState, setAssetRequestMakerDialogState,
   setChatDialogState,
   setSearchDialogState, setSettingsDialogState,
   setSignupDialogState, setSpeciesDialogState, setTechDialogState, setUploadDialogState
@@ -168,7 +168,7 @@ function usePrevious(value) {
 
 function AppLayout({classes, settingsLayout, children, currentSession, location, client, width}) {
   const {dispatchNavigationChange, isDrawerOpen} = useContext(NavigationContext);
-  const {dispatchDialogChange, getUploadDialogState, getSignUpDialogState, getActivitiesDialogState, getChatDialogState, getSpeciesDialogState, getSettingsDialogState, getAdvertiseDialogState, getTechDialogState} = useContext(DialogContext);
+  const {dispatchDialogChange, getUploadDialogState, getSignUpDialogState, getActivitiesDialogState, getChatDialogState, getSpeciesDialogState, getSettingsDialogState, getAdvertiseDialogState, getTechDialogState, getAssetRequestEventDialogState, getAssetRequestMakerDialogState, getAssetRequestFursuitDialogState} = useContext(DialogContext);
   const [nameInput, setNameInput] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [mainDrawer, setMainDrawer] = useState(true);
@@ -281,6 +281,12 @@ function AppLayout({classes, settingsLayout, children, currentSession, location,
             closeTechDialog={() => dispatchDialogChange(setTechDialogState(false))}
             speciesDialog={getSpeciesDialogState}
             closeSpeciesDialog={() => dispatchDialogChange(setSpeciesDialogState(false))}
+            assetRequestEventDialog={getAssetRequestEventDialogState}
+            closeAssetRequestEventDialog={() => dispatchDialogChange(setAssetRequestEventDialogState(false))}
+            assetRequestMakerDialog={getAssetRequestMakerDialogState}
+            closeAssetRequestMakerDialog={() => dispatchDialogChange(setAssetRequestMakerDialogState(false))}
+            assetRequestFursuitDialog={getAssetRequestFursuitDialogState}
+            closeAssetRequestFursuitDialog={() => dispatchDialogChange(setAssetRequestFursuitDialogState(false))}
           />
         </main>
       </div>

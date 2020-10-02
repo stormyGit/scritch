@@ -10,6 +10,9 @@ const DialogContext = createContext({
   getSettingsDialogState: false,
   getAdvertiseDialogState: false,
   getTechDialogState: false,
+  getAssetRequestEventDialogState: false,
+  getAssetRequestMakerDialogState: false,
+  getAssetRequestFursuitDialogState: false,
   dispatchDialogChange: undefined
 });
 
@@ -26,6 +29,9 @@ const DialogContextProvider = ({children}) => {
         getSpeciesDialogState: state.getSpeciesDialogState,
         getSettingsDialogState: state.getSettingsDialogState,
         getAdvertiseDialogState: state.getAdvertiseDialogState,
+        getAssetRequestEventDialogState: state.getAssetRequestEventDialogState,
+        getAssetRequestMakerDialogState: state.getAssetRequestMakerDialogState,
+        getAssetRequestFursuitDialogState: state.getAssetRequestFursuitDialogState,
         getTechDialogState: state.getTechDialogState,
         dispatchDialogChange
       }}>

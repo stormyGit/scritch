@@ -33,7 +33,7 @@ import {
   setSignupDialogState,
   setSpeciesDialogState
 } from "../reducers/Action";
-import {DialogContext} from "../context/DialogContext"; // web.cjs is required for IE 11 support
+import {DialogContext} from "../context/DialogContext";
 
 const drawerWidth = 240;
 

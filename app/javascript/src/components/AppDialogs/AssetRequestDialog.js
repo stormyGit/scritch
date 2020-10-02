@@ -68,7 +68,7 @@ class AssetRequestDialog extends React.Component {
         <DialogTitle>{`Request Creation of a New ${
           this.state.assetType ? this.state.assetType : assetType
         }`}</DialogTitle>
-        {assetType == "Asset" && (
+        {assetType === "Asset" && (
           <DialogContent>
             {(!this.state.assetType || this.state.assetType === "Asset") && (
               <React.Fragment>
@@ -106,7 +106,7 @@ class AssetRequestDialog extends React.Component {
             </div>
           </DialogContent>
         )}
-        {this.state.assetType == "Fursuit" && (
+        {this.state.assetType === "Fursuit" && (
           <RequestFursuitDialogContent
             submitSnack={this.props.submitSnack}
             onClose={this.props.onClose}
@@ -115,7 +115,7 @@ class AssetRequestDialog extends React.Component {
             }}
           />
         )}
-        {this.state.assetType == "Maker" && (
+        {this.state.assetType === "Maker" && (
           <EventMakerRequestDialogContent
             assetType="Maker"
             assetName="Maker"
@@ -130,7 +130,7 @@ class AssetRequestDialog extends React.Component {
             }}
           />
         )}
-        {this.state.assetType == "Event" && (
+        {this.state.assetType === "Event" && (
           <EventMakerRequestDialogContent
             assetType="Event"
             assetName="Event"

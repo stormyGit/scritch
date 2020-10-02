@@ -30,8 +30,12 @@ const DialogReducer = (state = initialState, action) => {
       return {...state, getSponsorMenuSate: action.payload}
     case ActionType.SNACK_SET:
       return {...state, getSnackState: action.payload}
-    case ActionType.DIALOG_SET_ASSET:
-      return {...state, getAssetDialogState: action.payload}
+    case ActionType.DIALOG_SET_ASSET_REQUEST_EVENT:
+      return {...state, getAssetRequestEventDialogState: action.payload}
+    case ActionType.DIALOG_SET_ASSET_REQUEST_MAKER:
+      return {...state, getAssetRequestMakerDialogState: action.payload}
+    case ActionType.DIALOG_SET_ASSET_REQUEST_FURSUIT:
+      return {...state, getAssetRequestFursuitDialogState: action.payload}
     case ActionType.DIALOG_SET_ADS:
       return {...state, getAdvertisementDialogState: action.payload}
     case ActionType.DIALOG_SET_SPECIES:

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {withStyles} from "@material-ui/core/styles";
 import Fab from '@material-ui/core/Fab';
 import MediaIcon from "@material-ui/icons/Photo";
@@ -8,6 +8,9 @@ import EventIcon from "@material-ui/icons/Business";
 import useTheme from "@material-ui/core/styles/useTheme";
 import Zoom from '@material-ui/core/Zoom';
 import ScritchButton from "./ScritchButton";
+import {setActivitiesDialogState, setAssetDialogState, setAssetRequestEventDialogState, setAssetRequestFursuitDialogState, setAssetRequestMakerDialogState, setSearchDialogState, setSettingsDialogState, setSpeciesDialogState, setUploadDialogState} from "../../reducers/Action";
+import NotificationsButton from "../AppLayout/NotificationsButton";
+import {DialogContext} from "../../context/DialogContext";
 
 const styles = theme => ({
   root: {
@@ -46,6 +49,7 @@ const styles = theme => ({
 function ScritchFab(props) {
   const {classes} = props;
   const [pawClicked, setPawClicked] = useState(false);
+  const dialogContext = useContext(DialogContext);
 
   const theme = useTheme();
   const transitionDuration = {
@@ -56,22 +60,26 @@ function ScritchFab(props) {
     {
       icon: <MediaIcon/>,
       label: 'Media',
-      className: classes.addMedia
+      className: classes.addMedia,
+      dialogCallback: setUploadDialogState(true)
     },
     {
       icon: <FursuitIcon/>,
       label: 'Suit',
-      className: classes.addSuit
+      className: classes.addSuit,
+      dialogCallback: setAssetRequestFursuitDialogState(true)
     },
     {
       icon: <MakerIcon/>,
       label: 'Maker',
-      className: classes.addMaker
+      className: classes.addMaker,
+      dialogCallback: setAssetRequestMakerDialogState(true)
     },
     {
       icon: <EventIcon/>,
       label: 'Convention',
-      className: classes.addConvention
+      className: classes.addConvention,
+      dialogCallback: setAssetRequestEventDialogState(true)
     },
   ];
 
@@ -80,11 +88,13 @@ function ScritchFab(props) {
       <ScritchButton size={64} color="secondary" aria-label="add" onClick={() => setPawClicked(!pawClicked)}/>
       {/*<Fab color="secondary" aria-label="add" onClick={() => setPawClicked(!pawClicked)}>
         <AddIcon/>
+
       </Fab>*/}
 
       {fabs.map((fab, index) => (
         <Zoom in={pawClicked}>
-          <Fab aria-label={fab.label} className={fab.className} color={"secondary"}>
+          <Fab aria-label={fab.label} className={fab.className} color={"secondary"} onClick={() => dialogContext.dispatchDialogChange(fab.dialogCallback)}
+          >
             {fab.icon}
           </Fab>
         </Zoom>

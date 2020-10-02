@@ -5,7 +5,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
-import MultipleMediaDialog from "../Media/MultipleMediaDialog";
+import MultipleMediaDialog from "../Media/UploadMediaDialog";
 import ChatDialog from "../AppDialogs/ChatDialog";
 import ActivitiesDialog from "../AppDialogs/ActivitiesDialog";
 import SettingsDialog from "../AppDialogs/SettingsDialog";
@@ -14,6 +14,8 @@ import SignUpDialog from "../AppDialogs/SignUpDialog";
 import TechDialog from "../AppDialogs/TechDialog";
 import SpeciesDialog from "../AppDialogs/SpeciesDialog";
 import GlobalSearchDialog from "../AppDialogs/GlobalSearchDialog";
+import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
+import {setAssetDialogState} from "../../reducers/Action";
 
 const styles = theme => ({
   close: {
@@ -41,7 +43,10 @@ class AppDialogs extends React.Component {
       activitiesDialog,
       advertiseDialog,
       chatDialog,
-      searchDialog
+      searchDialog,
+      assetRequestFursuitDialog,
+      assetRequestMakerDialog,
+      assetRequestEventDialog
     } = this.props;
 
     return (
@@ -67,6 +72,33 @@ class AppDialogs extends React.Component {
         )}
         {currentSession && (
           <SettingsDialog open={settingsDialog} onClose={() => this.props.closeSettingsDialog()} />
+        )}
+        {currentSession && (
+          <AssetRequestDialog
+            open={assetRequestEventDialog}
+            keepAssetType="Event"
+            onClose={() => this.props.closeAssetRequestEventDialog()}
+            assetType="Event"
+            submitSnack={() => this.setState({ snack: true })}
+          />
+        )}
+        {currentSession && (
+          <AssetRequestDialog
+            open={assetRequestMakerDialog}
+            keepAssetType="Maker"
+            onClose={() => this.props.closeAssetRequestMakerDialog()}
+            assetType="Maker"
+            submitSnack={() => this.setState({ snack: true })}
+          />
+        )}
+        {currentSession && (
+          <AssetRequestDialog
+            open={assetRequestFursuitDialog}
+            keepAssetType="Fursuit"
+            onClose={() => this.props.closeAssetRequestFursuitDialog()}
+            assetType="Fursuit"
+            submitSnack={() => this.setState({ snack: true })}
+          />
         )}
         {currentSession && (
           <AdvertiseDialog

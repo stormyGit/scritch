@@ -250,7 +250,7 @@ const styles = theme => ({
   }
 });
 
-class MultipleMediaDialog extends React.Component {
+class UploadMediaDialog extends React.Component {
   state = {
     files: [],
     file: null,
@@ -705,4 +705,4 @@ class MultipleMediaDialog extends React.Component {
   }
 }
 
-export default withStyles(styles)(withRouter(MultipleMediaDialog));
+export default withStyles(styles)(withRouter(UploadMediaDialog));

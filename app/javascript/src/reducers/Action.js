@@ -10,14 +10,16 @@ export const ActionType = {
   LIST_SET_DATABASE: 8,
   MENU_SET_SPONSOR: 9,
   SNACK_SET: 10,
-  DIALOG_SET_ASSET: 11,
-  DIALOG_SET_ADS: 12,
-  DIALOG_SET_SPECIES: 13,
-  DIALOG_SET_ACTIVITIES: 14,
-  DIALOG_SET_CHAT: 15,
-  DIALOG_SET_SIGNUP: 16,
-  DIALOG_SET_TECH: 17,
-  DIALOG_SET_UPLOAD: 18,
+  DIALOG_SET_ASSET_REQUEST_EVENT: 11,
+  DIALOG_SET_ASSET_REQUEST_MAKER: 12,
+  DIALOG_SET_ASSET_REQUEST_FURSUIT : 13,
+  DIALOG_SET_ADS: 14,
+  DIALOG_SET_SPECIES: 15,
+  DIALOG_SET_ACTIVITIES: 16,
+  DIALOG_SET_CHAT: 17,
+  DIALOG_SET_SIGNUP: 18,
+  DIALOG_SET_TECH: 19,
+  DIALOG_SET_UPLOAD: 20,
 }
 
 export class Action {
@@ -53,8 +55,16 @@ export const setTipsDialogState = (open) => ({
   type: ActionType.DIALOG_SET_TIPS,
   payload: open,
 });
-export const setAssetDialogState = (open) => ({
-  type: ActionType.DIALOG_SET_ASSET,
+export const setAssetRequestEventDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_ASSET_REQUEST_EVENT,
+  payload: open,
+});
+export const setAssetRequestMakerDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_ASSET_REQUEST_MAKER,
+  payload: open,
+});
+export const setAssetRequestFursuitDialogState = (open) => ({
+  type: ActionType.DIALOG_SET_ASSET_REQUEST_FURSUIT,
   payload: open,
 });
 export const setAdvertisementDialogState = (open) => ({
@@ -78,11 +88,11 @@ export const setSignupDialogState = (open) => ({
   payload: open,
 });
 export const setTechDialogState = (open) => ({
-  type: ActionType.DIALOG_SET_SIGNUP,
+  type: ActionType.DIALOG_SET_TECH,
   payload: open,
 });
 export const setUploadDialogState = (open) => ({
-  type: ActionType.DIALOG_SET_SIGNUP,
+  type: ActionType.DIALOG_SET_UPLOAD,
   payload: open,
 });
 export const setDrawer = (open) => ({

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 
 import { LOAD_EVENTS } from "../../queries/eventQueries";
 import { Query } from "react-apollo";
@@ -22,6 +22,8 @@ import EventCard from "./EventCard";
 import EventFilters from "./EventFilters";
 import EventFiltersMobile from "./EventFiltersMobile";
 import ScritchSpinner from "../CustomComponents/ScritchSpinner";
+import {DialogContext} from "../../context/DialogContext";
+import {setAssetDialogState, setAssetRequestEventDialogState} from "../../reducers/Action";
 
 const styles = theme => ({
   root: {
@@ -41,7 +43,6 @@ const styles = theme => ({
 
 class Events extends React.Component {
   state = {
-    assetRequestDialog: false,
     hasMore: true,
     snack: false,
     criteria: {
@@ -81,6 +82,7 @@ class Events extends React.Component {
   render() {
     const { classes, location, width, searching } = this.props;
     let limit = this.props.search ? 12 : parseInt(process.env.MEDIA_PAGE_SIZE);
+    const {dispatchDialogChange, getAssetRequestEventDialogState} = useContext(DialogContext);
 
     return (
       <React.Fragment>
@@ -129,7 +131,7 @@ class Events extends React.Component {
                         variant="outlined"
                         className={classes.requestButton}
                         size="large"
-                        onClick={() => this.setState({ assetRequestDialog: true })}
+                        onClick={() => dispatchDialogChange(setAssetRequestEventDialogState(true))}
                       >
                         Request a new Event
                       </Button>
@@ -200,9 +202,9 @@ class Events extends React.Component {
           ]}
         />
         <AssetRequestDialog
-          open={this.state.assetRequestDialog}
+          open={getAssetRequestEventDialogState}
           keepAssetType="Event"
-          onClose={() => this.setState({ assetRequestDialog: false })}
+          onClose={() => dispatchDialogChange(setAssetRequestEventDialogState(false))}
           assetType="Event"
           submitSnack={() => this.setState({ snack: true })}
         />

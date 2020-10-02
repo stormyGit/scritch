@@ -10,7 +10,7 @@ const styles = theme => ({
     cursor: "pointer",
     filter: "drop-shadow(8px 8px 10px rgba(0,0,0,0.2))",
     "&:hover": {
-      fill: theme.palette["secondary"].dark
+      fill: theme.palette.secondary.dark
     },
   },
   pawAnim: {},
