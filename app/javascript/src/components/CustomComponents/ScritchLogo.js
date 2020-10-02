@@ -1,6 +1,7 @@
 import React from "react";
 import {withStyles} from "@material-ui/core/styles";
 import icon from "../../../../assets/images/logo_small.png";
+// import icon_bright from "../../../../assets/images/logo_small_bright.png";
 
 const styles = theme => ({
   container: {

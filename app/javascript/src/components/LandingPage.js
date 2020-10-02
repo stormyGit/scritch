@@ -81,13 +81,15 @@ function LandingPage({classes, width}) {
                 </Grid>
                 <Grid item xs className={classes.landingText}>
                   <Typography variant="body">
-                    Scritch is nothing short of a complete networked map of every maker to every suit, tagged in associated media depicting every convention and non-convention activity alike.
+                    Scritch is a brand new website dedicated to hosting Fursuit Convention Media, then providing tag notifications to Fursuit Owners through its comprehensive network of Makers, Suits, and Conventions past and present; bringing together Suiters, Photographers and Makers. It is THE place to go for everything Fursuit.
                   </Typography>
                 </Grid>
                 <Grid item container spacing={2} direction="row" justify="center" alignItems="center">
                   <Button variant="outlined">about</Button>
                   <Padder/>
                   <Padder/>
+                  <Button variant="outlined">intro video</Button>
+                  {/*https://www.youtube.com/watch?v=I1jMAoW-cmc*/}
                   <Padder/>
                   <Padder/>
                   <Button variant="outlined">faq</Button>

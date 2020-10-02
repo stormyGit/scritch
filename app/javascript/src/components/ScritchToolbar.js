@@ -84,12 +84,14 @@ const useStyles = (theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    // color: theme.palette.text.primary
   },
   inputRoot: {
     color: 'inherit',
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
+    // color: theme.palette.text.primary,
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create('width'),
@@ -100,6 +102,7 @@ const useStyles = (theme) => ({
   },
   menuButton: {
     marginRight: 36,
+    // color: theme.palette.text.primary
   },
   popperRoot: {
     flexGrow: 1

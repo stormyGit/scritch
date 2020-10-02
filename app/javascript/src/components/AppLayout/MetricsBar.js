@@ -22,7 +22,7 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
-    color: theme.palette.text.primary
+    // color: theme.palette.text.primary
   },
   dataSpacer: {
     marginLeft: theme.spacing(2)

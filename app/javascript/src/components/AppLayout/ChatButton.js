@@ -17,7 +17,11 @@ import { GET_UNREAD_CHATS_COUNT } from "../../queries/chatQueries";
 const styles = theme => ({
   rightButton: {
     display: "inline-block"
+  },
+  iconButton: {
+    color: "white"
   }
+
 });
 
 class ChatButton extends React.Component {
@@ -38,9 +42,9 @@ class ChatButton extends React.Component {
             >
               {({ loading, error, data }) => (
                 <div>
-                  <IconButton color="white" disabled={disabled} onClick={this.props.onClick}>
+                  <IconButton  className={classes.iconButton} disabled={disabled} onClick={this.props.onClick}>
                     {loading || !data || data.unreadChatsCount <= 0 ? (
-                      <ChatNoneIcon />
+                      <ChatNoneIcon color="inherit"/>
                     ) : (
                       <Badge badgeContent={data.unreadChatsCount} color="secondary">
                         <ChatIcon />

@@ -4,50 +4,43 @@ import * as React from "react";
 import {Query} from "react-apollo";
 import {withStyles} from "@material-ui/core/styles";
 import gql from "graphql-tag";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 
-const styles = theme => ({});
-
-const GET_PAGE_TITLE = gql`
-    {
-        pageTitle @client
-    }
-`;
+const styles = theme => ({
+  text: {
+    // color: theme.palette.text.primary
+  }
+});
 
 function PageTabs(props) {
-  const {classes} = props;
+  const {classes, location} = props;
+  const PageRoute = location.pathname;
 
   function toIndex(pageTitle) {
-    switch (pageTitle.toLowerCase()) {
-      case "media":
-        return 0;
-      case "fursuits":
-        return 1;
-      case "makers":
-        return 2;
-      case "events":
-        return 3;
+    let s = pageTitle.toLowerCase();
+    if (s.includes("pictures")) {
+      return 0;
+    } else if (s.includes("fursuits")) {
+      return 1;
+    } else if (s.includes("makers")) {
+      return 2;
+    } else if (s.includes("events")) {
+      return 3;
     }
     return false;
   }
 
   return (
     <React.Fragment>
-      <Query query={GET_PAGE_TITLE}>
-        {({data}) =>
-          data.pageTitle && (
-            <Tabs value={toIndex(data.pageTitle)}>
-              {/*<Tab to="/" label="" component={Link}/>*/}
-              <Tab to="/pictures" label="Media" component={Link}/>
-              <Tab to="/fursuits" label="Fursuits" component={Link}/>
-              <Tab to="/makers" label="Makers" component={Link}/>
-              <Tab to="/events" label="Events" component={Link}/>
-            </Tabs>
-          )
-        }
-      </Query>
+      <Tabs value={toIndex(PageRoute)}>
+        {/*<Tab to="/" label="" component={Link}/>*/}
+        <Tab className={classes.text} to="/pictures" label="Media" component={Link}/>
+        <Tab className={classes.text} to="/fursuits" label="Fursuits" component={Link}/>
+        <Tab className={classes.text} to="/makers" label="Makers" component={Link}/>
+        <Tab className={classes.text} to="/events" label="Events" component={Link}/>
+      </Tabs>
     </React.Fragment>
   );
 }
 
-export default withStyles(styles)(PageTabs);
+export default withRouter(withStyles(styles)(PageTabs));

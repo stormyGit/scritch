@@ -8,7 +8,7 @@ import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
 import AdvertiseDialog from "../AppDialogs/AdvertiseDialog";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter, faTelegram } from "@fortawesome/free-brands-svg-icons";
+import {faTwitter, faTelegram, faYoutube} from "@fortawesome/free-brands-svg-icons";
 
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
@@ -237,6 +237,19 @@ class AppFooter extends React.Component {
                     className={classes.link}
                   >
                     <FontAwesomeIcon icon={faTwitter} />
+                  </a>
+                </Tooltip>
+              </Typography>
+            </Grid>
+            <Grid item xs={2} md={4} className={classes.socialLeft}>
+              <Typography variant="h4" color="primary">
+                <Tooltip title="Follow us on Youtube!">
+                  <a
+                    href="https://www.youtube.com/channel/UC9haeD7w5jIH0q1wsLmDMmg"
+                    target="_blank"
+                    className={classes.link}
+                  >
+                    <FontAwesomeIcon icon={faYoutube} />
                   </a>
                 </Tooltip>
               </Typography>
