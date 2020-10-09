@@ -276,7 +276,7 @@ class Settings extends React.Component {
                 )}
                 {this.state.success && (
                   <Typography className={classes.success} variant="subtitle1">
-                    Password succesfully updated!
+                    Password successfully updated!
                   </Typography>
                 )}
                 <Mutation
