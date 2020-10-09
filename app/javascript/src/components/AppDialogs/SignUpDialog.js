@@ -390,7 +390,7 @@ class SignUpDialog extends React.Component {
                         />
                         {this.state.success && (
                           <Typography className={classes.success} variant="subtitle1">
-                            Account succesfully created! Please validate your registration by
+                            Account successfully created! Please validate your registration by
                             clicking the link sent to your email.
                           </Typography>
                         )}
