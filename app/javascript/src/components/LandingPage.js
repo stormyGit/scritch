@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import FrontMedia from "./Media/FrontMedia";
 import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -10,6 +10,9 @@ import withWidth from "@material-ui/core/withWidth";
 import AppFooter from "./Global/AppFooter";
 import {Button} from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
+import Box from "@material-ui/core/Box";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
 
 const styles = theme => ({
   font: {
@@ -28,14 +31,15 @@ const styles = theme => ({
     textAlign: "center"
   },
   root: {
-    height: "90%",
+    height: `calc(100% - 96px)`,
   },
   paper: {
     padding: theme.spacing(2),
     margin: 'auto',
     maxWidth: "60vw",
     backgroundColor: "rgba(0, 0, 0, 0.1)",
-    borderRadius: "15px"
+    borderRadius: "15px",
+    height: "auto"
   },
   img: {
     margin: 'auto',
@@ -59,13 +63,19 @@ const styles = theme => ({
   }
 });
 
-const Padder = () => <div style={{padding: 8}}/>;
-
-function LandingPage({classes, width}) {
+function LandingPage({classes}) {
+  const [height, setHeight] = useState(10)
+  const ref = useRef(null)
+  useEffect(() => {
+    function handleResize() {
+      setHeight(ref.current.clientHeight);
+    }
+    window.addEventListener('resize', handleResize);
+  });
 
   return (
-    <Grid className={classes.root} container direction="column" alignItems="stretch" justify="space-between">
-      <Grid item>
+    <GridList cellHeight={(height / 5) - 5} className={classes.root} cols={1} ref={ref}>
+      <GridListTile rows={2}>
         <PageTitle>Home</PageTitle>
         <Paper className={classes.paper}>
           <Grid container spacing={2} alignItems="stretch" justify="flex-start">
@@ -73,46 +83,31 @@ function LandingPage({classes, width}) {
               <img className={classes.img} alt="Scritch-Banner with pixel on it presenting the Website" src={require("images/pixel/Landing.png")}/>
             </Grid>
             <Grid item xs={12} sm container>
-              <Grid item xs container direction="column" spacing={2} alignItems="center">
-                <Grid item xs>
-                  <Typography variant="h2">
-                    Welcome to Scritch
-                  </Typography>
-                </Grid>
-                <Grid item xs className={classes.landingText}>
-                  <Typography variant="body">
-                    Scritch is a brand new website dedicated to hosting Fursuit Convention Media, then providing tag notifications to Fursuit Owners through its comprehensive network of Makers, Suits, and Conventions past and present; bringing together Suiters, Photographers and Makers. It is THE place to go for everything Fursuit.
-                  </Typography>
-                </Grid>
-                <Grid item container spacing={2} direction="row" justify="center" alignItems="center">
-                  <Button variant="outlined">about</Button>
-                  <Padder/>
-                  <Padder/>
-                  <Button variant="outlined">intro video</Button>
+              <Grid item xs container direction="column" justify="space-between" alignItems="center">
+                <Typography variant="h2">
+                  Welcome to Scritch
+                </Typography>
+                <Typography variant="body" style={{width: "60%"}}>
+                  Scritch is a brand new website dedicated to hosting Fursuit Convention Media, then providing tag notifications to Fursuit Owners through its comprehensive network of Makers, Suits, and Conventions past and present; bringing together Suiters, Photographers and Makers. It is THE place to go for everything Fursuit.
+                </Typography>
+                <Grid item container spacing={2} direction="row" justify="center" alignItems="stretch">
+                  <Button xs={3} style={{margin: "1rem"}} variant="outlined">about</Button>
+                  <Button xs={3} style={{margin: "1rem"}} variant="outlined">intro video</Button>
                   {/*https://www.youtube.com/watch?v=I1jMAoW-cmc*/}
-                  <Padder/>
-                  <Padder/>
-                  <Button variant="outlined">faq</Button>
+                  <Button xs={3} style={{margin: "1rem"}} variant="outlined">faq</Button>
                 </Grid>
               </Grid>
             </Grid>
           </Grid>
         </Paper>
-      </Grid>
-      <Grid item>
-        <Padder/>
-      </Grid>
-      <Grid item>
-        <FrontMedia filter="random"/>
-        {/*<FrontMedia filter="scritched"/>*/}
-      </Grid>
-      <Grid item>
-        <Padder/>
-      </Grid>
-      <Grid item>
+      </GridListTile>
+      <GridListTile rows={2}>
+        <FrontMedia filter="scritched"/>
+      </GridListTile>
+      <GridListTile rows={1}>
         <AppFooter/>
-      </Grid>
-    </Grid>
+      </GridListTile>
+    </GridList>
   );
 }
 
