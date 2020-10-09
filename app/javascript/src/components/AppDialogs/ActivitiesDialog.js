@@ -572,7 +572,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`You have succesfully Claimed ${activity.trackable.name}!`}
+                {`You have successfully Claimed ${activity.trackable.name}!`}
               </Typography>
             </React.Fragment>
           }
@@ -630,7 +630,7 @@ class ActivitiesDialog extends React.Component {
           primary={
             <React.Fragment>
               <Typography variant="body1">
-                {`You have succesfully Claimed ${activity.trackable.name}!`}
+                {`You have successfully Claimed ${activity.trackable.name}!`}
               </Typography>
             </React.Fragment>
           }

@@ -14,7 +14,8 @@ const styles = theme => ({
     overflow: "hidden"
   },
   avatar: {
-    fontSize: 30
+    fontSize: 30,
+    marginRight: "1rem"
   }
 });
 
