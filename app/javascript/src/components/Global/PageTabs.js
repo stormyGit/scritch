@@ -7,8 +7,9 @@ import gql from "graphql-tag";
 import {Link, withRouter} from "react-router-dom";
 
 const styles = theme => ({
-  text: {
-    // color: theme.palette.text.primary
+  tab: {
+    minWidth: "20%",
+    width: "25%",
   }
 });
 
@@ -31,15 +32,12 @@ function PageTabs(props) {
   }
 
   return (
-    <React.Fragment>
-      <Tabs value={toIndex(PageRoute)}>
-        {/*<Tab to="/" label="" component={Link}/>*/}
-        <Tab className={classes.text} to="/pictures" label="Media" component={Link}/>
-        <Tab className={classes.text} to="/fursuits" label="Fursuits" component={Link}/>
-        <Tab className={classes.text} to="/makers" label="Makers" component={Link}/>
-        <Tab className={classes.text} to="/events" label="Events" component={Link}/>
-      </Tabs>
-    </React.Fragment>
+    <Tabs value={toIndex(PageRoute)}>
+      <Tab classes={{root: classes.tab}} to="/pictures" label="Media" component={Link}/>
+      <Tab classes={{root: classes.tab}} to="/fursuits" label="Fursuits" component={Link}/>
+      <Tab classes={{root: classes.tab}} to="/makers" label="Makers" component={Link}/>
+      <Tab classes={{root: classes.tab}} to="/events" label="Events" component={Link}/>
+    </Tabs>
   );
 }
 

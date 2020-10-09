@@ -34,6 +34,7 @@ import {
   setSpeciesDialogState
 } from "../reducers/Action";
 import {DialogContext} from "../context/DialogContext";
+import Button from "@material-ui/core/Button";
 
 const drawerWidth = 240;
 
@@ -106,6 +107,10 @@ const useStyles = (theme) => ({
   },
   popperRoot: {
     flexGrow: 1
+  },
+  evenlyDist: {
+    minWidth: "33vw",
+    width: "33vw"
   },
   popperPopup: {
     zIndex: 100,
@@ -267,6 +272,49 @@ function ScritchToolbar({classes}) {
     )
   }
 
+  const UserSpecific = <React.Fragment className={classes.evenlyDist}>
+    <MetricsBar
+      openSpeciesDialog={() => dialogContext.dispatchDialogChange(setSpeciesDialogState(true))}
+    />
+    <NotificationsButton
+      onClick={() => dialogContext.dispatchDialogChange(setActivitiesDialogState(true))}
+    />
+    <ChatButton
+      disabled={false}
+      onClick={() => dialogContext.dispatchDialogChange(setChatDialogState(true))}
+    />
+    <UserButton
+      openSignUp={() => dialogContext.dispatchDialogChange(setSignupDialogState(true))}
+      openSettings={() => dialogContext.dispatchDialogChange(setSettingsDialogState(true))}
+    />
+  </React.Fragment>;
+  const NavAndSearch = <React.Fragment className={classes.evenlyDist}>
+    <IconButton
+      edge="start"
+      color="inherit"
+      aria-label="open drawer"
+      className={clsx(classes.menuButton, {
+        [classes.hide]: navContext.isDrawerOpen,
+      })}
+      onClick={() => {
+        navContext.dispatchNavigationChange(openDrawer());
+      }}
+    >
+      <MenuIcon/>
+    </IconButton>
+    <Link to="/">
+      <ScritchLogo/>
+    </Link>
+    <DisplayPageTitle className={classes.title} variant="h6" noWrap/>
+    <div className={classes.grow}/>
+    <div className={classes.search}>
+      <Button>
+        <SearchIcon/>
+      </Button>
+      {/*{SearchInput()}*/}
+      {SearchDialog()}
+    </div>
+  </React.Fragment>;
   return (
     <div>
       <AppBar
@@ -275,58 +323,11 @@ function ScritchToolbar({classes}) {
           [classes.appBarShift]: navContext.isDrawerOpen,
         })}>
         <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            className={clsx(classes.menuButton, {
-              [classes.hide]: navContext.isDrawerOpen,
-            })}
-            onClick={() => {
-              navContext.dispatchNavigationChange(openDrawer());
-            }}
-          >
-            <MenuIcon/>
-          </IconButton>
-          <Link to="/">
-            <ScritchLogo/>
-          </Link>
-          <DisplayPageTitle className={classes.title} variant="h6" noWrap/>
+          {NavAndSearch}
           <div className={classes.grow}/>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon/>
-            </div>
-            {SearchInput()}
-            {SearchDialog()}
-          </div>
+          <PageTabs className={classes.evenlyDist}/>
           <div className={classes.grow}/>
-          <PageTabs/>
-          <div className={classes.grow}/>
-          <React.Fragment>
-            {/*<UploadButton onClick={() => this.setState({uploadDialog: true})}/>}
-            <SocialButton
-              openAdvertise={() => this.setState({advertiseDialog: true})}
-            />
-            {/*<PoliciesSupportButton openTech={() => this.setState({techDialog: true})}/>*/}
-          </React.Fragment>
-          <div className={classes.grow}/>
-          <React.Fragment>
-            <MetricsBar
-              openSpeciesDialog={() => dialogContext.dispatchDialogChange(setSpeciesDialogState(true))}
-            />
-            <NotificationsButton
-              onClick={() => dialogContext.dispatchDialogChange(setActivitiesDialogState(true))}
-            />
-            <ChatButton
-              disabled={false}
-              onClick={() => dialogContext.dispatchDialogChange(setChatDialogState(true))}
-            />
-            <UserButton
-              openSignUp={() => dialogContext.dispatchDialogChange(setSignupDialogState(true))}
-              openSettings={() => dialogContext.dispatchDialogChange(setSettingsDialogState(true))}
-            />
-          </React.Fragment>
+          {UserSpecific}
         </Toolbar>
       </AppBar>
     </div>
