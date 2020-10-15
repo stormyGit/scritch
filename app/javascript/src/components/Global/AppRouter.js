@@ -40,7 +40,7 @@ import Faq from "../PoliciesSupport/Faq";
 import PrivacyPolicy from "../PoliciesSupport/PrivacyPolicy";
 
 import TagPage from "../TagPage";
-import LatestPictures from "../LandingPage";
+import LandingPage from "../LandingPage";
 import AdsLister from "../AdsLister";
 import Favorites from "../Favorites";
 import Subscriptions from "../Subscriptions";
@@ -57,8 +57,8 @@ function AppRouter(props) {
   const {currentSession, width} = props;
   const isSessionValid = currentSession && !currentSession.user.suspendedUser;
 
-  function LoadLatestPictures() {
-    return <LatestPictures/>;
+  function LoadLandingPage() {
+    return <LandingPage/>;
   }
 
   function LoadAnnouncements() {
@@ -216,7 +216,7 @@ function AppRouter(props) {
                 {width === "xl" || width === "lg" ? <Padder/> : <MicroPadder/>}
                 <Switch location={location}>
                   <Route exact path="/">
-                    <LoadLatestPictures/>
+                    <LoadLandingPage/>
                   </Route>
                   <Route exact path="/announcements">
                     <LoadAnnouncements/>

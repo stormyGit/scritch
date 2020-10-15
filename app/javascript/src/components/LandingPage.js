@@ -13,6 +13,7 @@ import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
+import {ToolBarHeight} from "./ScritchToolbar";
 
 const styles = theme => ({
   font: {
@@ -31,7 +32,7 @@ const styles = theme => ({
     textAlign: "center"
   },
   root: {
-    height: `calc(100% - 96px)`,
+    minHeight: `calc(100% - ${ToolBarHeight}px)`,
   },
   paper: {
     padding: theme.spacing(2),
@@ -71,6 +72,7 @@ function LandingPage({classes}) {
       setHeight(ref.current.clientHeight);
     }
     window.addEventListener('resize', handleResize);
+    setHeight(ref.current.clientHeight);
   });
 
   return (

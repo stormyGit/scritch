@@ -7,7 +7,7 @@ import withCurrentSession from "../withCurrentSession";
 import GlobalProgress from "../Global/GlobalProgress";
 import AppDialogs from "../AppLayout/AppDialogs";
 import CookieConsent from "react-cookie-consent";
-import ScritchToolbar from "../ScritchToolbar";
+import ScritchToolbar, {ToolBarHeight} from "../ScritchToolbar";
 import ScritchFab from "../CustomComponents/ScritchFab";
 import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
@@ -32,17 +32,17 @@ import DrawerMenu from "../NavigationDrawer/DrawerMenu";
 import DrawerMenuOld from "../NavigationDrawer/DrawerMenuOld";
 import {DialogContext} from "../../context/DialogContext";
 
-const drawerWidth = 240;
+export const DrawerWidth = 240;
 
 const styles = theme => ({
   root: {
-    top: 56,
+    top: ToolBarHeight,
     flexGrow: 1,
     zIndex: 1,
     overflow: "hidden",
     position: "relative",
     display: "flex",
-    minHeight: "calc(100vh - 56px)"
+    minHeight: `calc(100vh - ${ToolBarHeight}px)`
   },
   "@global": {
     "*::-webkit-scrollbar": {
@@ -63,13 +63,13 @@ const styles = theme => ({
   },
   toolbar: {
     ...theme.mixins.toolbar,
-    minHeight: "56px !important",
+    minHeight: `${ToolBarHeight}px !important`,
     "@media (min-width:0px) and (orientation: landscape)": {
-      minHeight: 56
+      minHeight: ToolBarHeight
     }
   },
   toolBarRoot: {
-    minHeight: "56px !important"
+    minHeight: `${ToolBarHeight}px !important`
   },
   rootLink: {
     color: theme.palette.text.primary,
@@ -138,8 +138,18 @@ const styles = theme => ({
     bottom: theme.spacing(2),
     right: theme.spacing(2),
   },
+  appBody: {
+    overflowX: "hidden",
+    overflowY: "scroll",
+    height: `calc(100vh - ${ToolBarHeight}px)`,
+    position: "relative",
+    paddingRight: theme.spacing(7) + 1,
+    [theme.breakpoints.up('sm')]: {
+      paddingRight: theme.spacing(8) + 1,
+    },
+  },
   drawerOpen: {
-    width: drawerWidth,
+    width: DrawerWidth,
     transition: theme.transitions.create('width', {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -190,10 +200,9 @@ function AppLayout({classes, settingsLayout, children, currentSession, location,
     <React.Fragment>
       <GlobalProgress/>
       <div className={classes.root}>
-        <ScritchFab/>
         <CookieConsent
           buttonStyle={{backgroundColor: process.env.SECONDARY_COLOR}}
-          style={{textAlign: "center"}}
+          style={{textAlign: "center", zIndex:100}}
         >
           <Typography
             variant="h5"
@@ -216,6 +225,7 @@ function AppLayout({classes, settingsLayout, children, currentSession, location,
             .
           </Typography>
         </CookieConsent>
+        <ScritchFab/>
         <Drawer
           variant="persistent"
           anchor="left"
@@ -245,21 +255,7 @@ function AppLayout({classes, settingsLayout, children, currentSession, location,
         </Drawer>
         <main className={classes.content}>
           <ScritchToolbar/>
-          <div
-            style={{
-              overflowX: "hidden",
-              overflowY: "scroll",
-              height: "calc(100vh - 56px)",
-              paddingLeft:
-                bigWidth
-                  ? "calc(5vw + 60px)"
-                  : width === "md"
-                  ? "60px"
-                  : 4,
-              paddingRight: bigWidth ? "5%" : width === "md" ? "60px" : 4,
-              position: "relative"
-            }}
-          >
+          <div className={classes.appBody}>
             {children}
           </div>
           <AppDialogs

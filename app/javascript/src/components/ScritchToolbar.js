@@ -35,8 +35,9 @@ import {
 } from "../reducers/Action";
 import {DialogContext} from "../context/DialogContext";
 import Button from "@material-ui/core/Button";
+import AppLayout, {DrawerWidth} from "./Global/AppLayout";
 
-const drawerWidth = 240;
+export const ToolBarHeight = 64;
 
 const useStyles = (theme) => ({
   title: {},
@@ -55,8 +56,8 @@ const useStyles = (theme) => ({
     display: 'none',
   },
   appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: DrawerWidth,
+    width: `calc(100% - ${DrawerWidth}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -109,8 +110,8 @@ const useStyles = (theme) => ({
     flexGrow: 1
   },
   evenlyDist: {
-    minWidth: "33vw",
-    width: "33vw"
+    // minWidth: "33vw",
+    // width: "33vw"
   },
   popperPopup: {
     zIndex: 100,
@@ -272,7 +273,7 @@ function ScritchToolbar({classes}) {
     )
   }
 
-  const UserSpecific = <React.Fragment className={classes.evenlyDist}>
+  const UserSpecific = <React.Fragment>
     <MetricsBar
       openSpeciesDialog={() => dialogContext.dispatchDialogChange(setSpeciesDialogState(true))}
     />
@@ -306,7 +307,6 @@ function ScritchToolbar({classes}) {
       <ScritchLogo/>
     </Link>
     <DisplayPageTitle className={classes.title} variant="h6" noWrap/>
-    <div className={classes.grow}/>
     <div className={classes.search}>
       <Button>
         <SearchIcon/>
@@ -314,6 +314,7 @@ function ScritchToolbar({classes}) {
       {/*{SearchInput()}*/}
       {SearchDialog()}
     </div>
+    {/*<div className={classes.grow}/>*/}
   </React.Fragment>;
   return (
     <div>
