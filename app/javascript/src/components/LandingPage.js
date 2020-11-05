@@ -15,6 +15,10 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import {ToolBarHeight} from "./ScritchToolbar";
 
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import useTheme from "@material-ui/core/styles/useTheme";
+import WelcomeCard from "./CustomComponents/WelcomeCard";
+
 const styles = theme => ({
   font: {
     fontWeight: 200,
@@ -32,21 +36,7 @@ const styles = theme => ({
     textAlign: "center"
   },
   root: {
-    minHeight: `calc(100% - ${ToolBarHeight}px)`,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    margin: 'auto',
-    maxWidth: "60vw",
-    backgroundColor: "rgba(0, 0, 0, 0.1)",
-    borderRadius: "15px",
-    height: "auto"
-  },
-  img: {
-    margin: 'auto',
-    display: 'block',
-    maxWidth: '20rem',
-    maxHeight: '20rem'
+    height: `100%`,
   },
   rootMobile: {
     padding: theme.spacing(1)
@@ -64,49 +54,32 @@ const styles = theme => ({
   }
 });
 
-function LandingPage({classes}) {
-  const [height, setHeight] = useState(10)
-  const ref = useRef(null)
+function LandingPage({classes, width}) {
+  const [height, setHeight] = useState(10);
+  const ref = useRef(null);
+  const theme = useTheme();
+  const smallToMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
+
   useEffect(() => {
     function handleResize() {
       setHeight(ref.current.clientHeight);
     }
+
     window.addEventListener('resize', handleResize);
     setHeight(ref.current.clientHeight);
   });
 
   return (
     <GridList cellHeight={(height / 5) - 5} className={classes.root} cols={1} ref={ref}>
-      <GridListTile rows={2}>
+      <GridListTile rows={smallToMediumScreen ? 3 : 2}>
         <PageTitle>Home</PageTitle>
-        <Paper className={classes.paper}>
-          <Grid container spacing={2} alignItems="stretch" justify="flex-start">
-            <Grid item>
-              <img className={classes.img} alt="Scritch-Banner with pixel on it presenting the Website" src={require("images/pixel/Landing.png")}/>
-            </Grid>
-            <Grid item xs={12} sm container>
-              <Grid item xs container direction="column" justify="space-between" alignItems="center">
-                <Typography variant="h2">
-                  Welcome to Scritch
-                </Typography>
-                <Typography variant="body" style={{width: "60%"}}>
-                  Scritch is a brand new website dedicated to hosting Fursuit Convention Media, then providing tag notifications to Fursuit Owners through its comprehensive network of Makers, Suits, and Conventions past and present; bringing together Suiters, Photographers and Makers. It is THE place to go for everything Fursuit.
-                </Typography>
-                <Grid item container spacing={2} direction="row" justify="center" alignItems="stretch">
-                  <Button xs={3} style={{margin: "1rem"}} variant="outlined">about</Button>
-                  <Button xs={3} style={{margin: "1rem"}} variant="outlined">intro video</Button>
-                  {/*https://www.youtube.com/watch?v=I1jMAoW-cmc*/}
-                  <Button xs={3} style={{margin: "1rem"}} variant="outlined">faq</Button>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Paper>
+        <WelcomeCard/>
       </GridListTile>
-      <GridListTile rows={2}>
+      {!smallToMediumScreen && <GridListTile rows={2}>
         <FrontMedia filter="scritched"/>
       </GridListTile>
-      <GridListTile rows={1}>
+      }
+      <GridListTile rows={smallToMediumScreen ? 2 : 1}>
         <AppFooter/>
       </GridListTile>
     </GridList>
