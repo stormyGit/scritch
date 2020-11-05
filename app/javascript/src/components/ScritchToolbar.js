@@ -29,7 +29,7 @@ import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import {
   openDrawer,
   setActivitiesDialogState,
-  setChatDialogState, setSettingsDialogState,
+  setChatDialogState, setSearchDialogState, setSettingsDialogState,
   setSignupDialogState,
   setSpeciesDialogState
 } from "../reducers/Action";
@@ -86,7 +86,7 @@ const useStyles = (theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    // color: theme.palette.text.primary
+    color: theme.palette.text.primary
   },
   inputRoot: {
     color: 'inherit',
@@ -289,7 +289,7 @@ function ScritchToolbar({classes}) {
       openSettings={() => dialogContext.dispatchDialogChange(setSettingsDialogState(true))}
     />
   </React.Fragment>;
-  const NavAndSearch = <React.Fragment className={classes.evenlyDist}>
+  const NavAndSearch = <React.Fragment>
     <IconButton
       edge="start"
       color="inherit"
@@ -307,13 +307,18 @@ function ScritchToolbar({classes}) {
       <ScritchLogo/>
     </Link>
     <DisplayPageTitle className={classes.title} variant="h6" noWrap/>
-    <div className={classes.search}>
-      <Button>
-        <SearchIcon/>
-      </Button>
-      {/*{SearchInput()}*/}
-      {SearchDialog()}
-    </div>
+    <Button
+      variant="outlined"
+      color="inherit"
+      style={{marginLeft:"2em"}}
+      onClick={() => {
+        dialogContext.dispatchDialogChange(setSearchDialogState(true));
+      }}
+    >
+      <SearchIcon/>
+    </Button>
+    {/*{SearchInput()}*/}
+    {SearchDialog()}
     {/*<div className={classes.grow}/>*/}
   </React.Fragment>;
   return (
