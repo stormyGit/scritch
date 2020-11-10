@@ -95,7 +95,7 @@ const AppFooter = ({classes, width, currentSession}) => {
                     <AdsIcon/>
                   </ListItemIcon>
                   <ListItemText
-                    primary="Your Advertisement on Scritch!"
+                    primary="Your Ads on Scritch!"
                   />
                 </ListItem>
                 <ListItem button href={`https://t.me/NafiTheBear`}>

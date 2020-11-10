@@ -213,7 +213,7 @@ function AppRouter(props) {
             <React.Fragment>
               <AppLayoutRemake>
                 <AppHeader/>
-                {width === "xl" || width === "lg" ? <Padder/> : <MicroPadder/>}
+                {/*{width === "xl" || width === "lg" ? <Padder/> : <MicroPadder/>}*/}
                 <Switch location={location}>
                   <Route exact path="/">
                     <LoadLandingPage/>

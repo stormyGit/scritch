@@ -35,19 +35,8 @@ const styles = theme => ({
   centeredTitle: {
     textAlign: "center"
   },
-  root: {
+  landingPage: {
     height: `100%`,
-  },
-  rootMobile: {
-    padding: theme.spacing(1)
-  },
-  titlePadder: {
-    paddingLeft: theme.spacing(4),
-    paddingRight: theme.spacing(4)
-  },
-  titlePadderMobile: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2)
   },
   landingText: {
     maxWidth: "25rem"
@@ -58,28 +47,30 @@ function LandingPage({classes, width}) {
   const [height, setHeight] = useState(10);
   const ref = useRef(null);
   const theme = useTheme();
-  const smallToMediumScreen = useMediaQuery(theme.breakpoints.up('md'));
+  const smallToMediumHeight = ((height) / 5) * 3 < 512;
 
   useEffect(() => {
     function handleResize() {
-      setHeight(ref.current.clientHeight);
+      if (ref.current !== null)
+        setHeight(ref.current.clientHeight);
     }
 
     window.addEventListener('resize', handleResize);
-    setHeight(ref.current.clientHeight);
+    if (ref.current !== null)
+      setHeight(ref.current.clientHeight);
   });
 
   return (
-    <GridList cellHeight={(height / 5) - 5} className={classes.root} cols={1} ref={ref}>
-      <GridListTile rows={smallToMediumScreen ? 3 : 2}>
+    <GridList cellHeight={(height / 5) - 5} className={classes.landingPage} cols={1} ref={ref}>
+      <GridListTile rows={smallToMediumHeight ? 3 : 2}>
         <PageTitle>Home</PageTitle>
         <WelcomeCard/>
       </GridListTile>
-      {!smallToMediumScreen && <GridListTile rows={2}>
+      {!smallToMediumHeight && <GridListTile rows={2}>
         <FrontMedia filter="scritched"/>
       </GridListTile>
       }
-      <GridListTile rows={smallToMediumScreen ? 2 : 1}>
+      <GridListTile rows={smallToMediumHeight ? 2 : 1}>
         <AppFooter/>
       </GridListTile>
     </GridList>

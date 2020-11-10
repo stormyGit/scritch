@@ -11,6 +11,7 @@ import ScritchButton from "./ScritchButton";
 import {setActivitiesDialogState, setAssetDialogState, setAssetRequestEventDialogState, setAssetRequestFursuitDialogState, setAssetRequestMakerDialogState, setSearchDialogState, setSettingsDialogState, setSpeciesDialogState, setUploadDialogState} from "../../reducers/Action";
 import NotificationsButton from "../AppLayout/NotificationsButton";
 import {DialogContext} from "../../context/DialogContext";
+import {pageTitleToIndex} from "../Global/PageTabs";
 
 const styles = theme => ({
   root: {
@@ -50,6 +51,7 @@ function ScritchFab(props) {
   const {classes} = props;
   const [pawClicked, setPawClicked] = useState(false);
   const dialogContext = useContext(DialogContext);
+  const pageIndex = pageTitleToIndex(location.pathname);
 
   const theme = useTheme();
   const transitionDuration = {
@@ -84,7 +86,7 @@ function ScritchFab(props) {
   ];
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} style={{bottom: pageIndex === false ? theme.spacing(2) : theme.spacing(8)}}>
       <ScritchButton size={64} color="secondary" aria-label="add" onClick={() => setPawClicked(!pawClicked)}/>
       {/*<Fab color="secondary" aria-label="add" onClick={() => setPawClicked(!pawClicked)}>
         <AddIcon/>

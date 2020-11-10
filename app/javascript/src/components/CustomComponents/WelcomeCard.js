@@ -15,6 +15,7 @@ const styles = theme => ({
   root: {
     display: 'flex',
     padding: theme.spacing(2),
+    marginTop: theme.spacing(2),
     margin: 'auto',
     maxWidth: "60vw",
     backgroundColor: "rgba(0, 0, 0, 0.1)",
@@ -30,10 +31,8 @@ const styles = theme => ({
   },
   img: {
     margin: 'auto',
-    minWidth: "19vw",
-    minHeight: "19vw",
-    maxWidth: '20rem',
-    maxHeight: '20rem'
+    minWidth: "25%",
+    paddingBottom: "25%"
   },
   controls: {
     display: 'flex',

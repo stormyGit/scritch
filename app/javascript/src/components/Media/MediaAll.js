@@ -32,8 +32,8 @@ const styles = theme => ({
   },
   fab: {
     position: "absolute",
-    bottom: "3em",
-    right: "2em",
+    bottom: theme.spacing(3),
+    right: theme.spacing(3),
     color: "white"
   },
   extendedIcon: {
