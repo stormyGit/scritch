@@ -43,7 +43,7 @@ const styles = theme => ({
   }
 });
 
-function LandingPage({classes, width}) {
+const LandingPage = ({classes, width}) => {
   const [height, setHeight] = useState(10);
   const ref = useRef(null);
   const theme = useTheme();
@@ -75,6 +75,6 @@ function LandingPage({classes, width}) {
       </GridListTile>
     </GridList>
   );
-}
+};
 
 export default withStyles(styles)(withWidth()(LandingPage));
