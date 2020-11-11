@@ -2,7 +2,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import {Button} from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
-import React from "react";
+import React, {useState} from "react";
 import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import useTheme from "@material-ui/core/styles/useTheme";
@@ -10,6 +10,11 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import IconButton from "@material-ui/core/IconButton";
 import CardMedia from "@material-ui/core/CardMedia";
+import Collapse from "@material-ui/core/Collapse";
+import Fade from "@material-ui/core/Fade";
+import clsx from "clsx";
+import Drawer from "@material-ui/core/Drawer";
+import Grow from "@material-ui/core/Grow";
 
 const styles = theme => ({
   root: {
@@ -25,17 +30,33 @@ const styles = theme => ({
   details: {
     display: 'flex',
     flexDirection: 'column',
+    alignItems: 'center',
   },
   content: {
     flex: '1 0 auto',
+    paddingLeft: theme.spacing(2)
   },
-  img: {
+  imgVisible: {
     margin: 'auto',
-    minWidth: "25%",
-    paddingBottom: "25%"
+    minWidth: "16vw",
+    paddingBottom: "16vw"
+  },
+  imgHidden: {
+    width: 0,
+    height: 0,
+  },
+  videoVisible: {
+    margin: 'auto',
+    minWidth: "28vw",
+    minHeight: "16vw",
+  },
+  videoHidden: {
+    width: 0,
+    height: 0,
   },
   controls: {
     display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: theme.spacing(1),
     paddingBottom: theme.spacing(1),
@@ -48,17 +69,37 @@ const styles = theme => ({
 
 function WelcomeCard({classes, width}) {
   const theme = useTheme();
+  const [videoOpen, setVideoOpen] = useState(false);
 
   return (
     <Card className={classes.root}>
-      <CardMedia
-        className={classes.img}
-        image={require("images/pixel/Landing.png")}
-        title="Scritch-Banner with pixel on it presenting the Website"
-      />
+      <Grow in={!videoOpen}>
+        <CardMedia
+          className={clsx(classes.drawer, {
+            [classes.imgVisible]: !videoOpen,
+            [classes.imgHidden]: videoOpen,
+          })}
+          classes={{
+            paper: clsx({
+              [classes.imgVisible]: !videoOpen,
+              [classes.imgHidden]: videoOpen,
+            }),
+          }}
+          image={require("images/pixel/Landing.png")}
+          title="Scritch-Banner with pixel on it presenting the Website"
+        />
+      </Grow>
+      <Grow in={videoOpen}>
+        <iframe
+          className={clsx(classes.drawer, {
+            [classes.videoHidden]: !videoOpen,
+            [classes.videoVisible]: videoOpen,
+          })}
+          src="https://www.youtube-nocookie.com/embed/I1jMAoW-cmc" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen/>
+      </Grow>
       <div className={classes.details}>
         <CardContent className={classes.content}>
-          <Typography component="h5" variant="h5">
+          <Typography component="h3" variant="h3">
             Welcome to Scritch
           </Typography>
           <Typography variant="body1">
@@ -67,7 +108,7 @@ function WelcomeCard({classes, width}) {
         </CardContent>
         <div className={classes.controls}>
           <Button xs={3} style={{marginRight: "1rem"}} variant="outlined">about</Button>
-          <Button xs={3} style={{marginRight: "1rem"}} variant="outlined">intro video</Button>
+          <Button xs={3} style={{marginRight: "1rem"}} variant="outlined" onClick={() => setVideoOpen(!videoOpen)}>intro video</Button>
           {/*https://www.youtube.com/watch?v=I1jMAoW-cmc*/}
           <Button xs={3} style={{marginRight: "1rem"}} variant="outlined">faq</Button>
         </div>

@@ -33,38 +33,22 @@ const styles = theme => ({
   },
   card: {
     backgroundColor: `rgba(0, 0, 0, 0)`,
-    borderStyle: "none"
+    borderStyle: "none",
+    padding: 0
+  },
+  cardContent: {
+    padding: theme.spacing(1),
+    '&:last-child': { paddingBottom: 0 },
   }
 });
 const AppFooter = ({classes, width, currentSession}) => {
   return (
     <React.Fragment>
-        <Divider/>
-        <Grid container direction="row" justify="center" alignItems="flex-start">
-          <Card className={classes.card} variant="outlined">
-            <CardContent>
-              <Typography component="h3"> Copyright </Typography>
-              <Typography> © 2020 Scritch Ltd.</Typography>
-            </CardContent>
-          </Card>
-          <Card className={classes.card} variant="outlined">
-            <CardContent>
-              <Typography component="h3"> Follow Us </Typography>
-            </CardContent>
-            <CardActions disableSpacing>
-              <IconButton aria-label="Follow us on Twitter!" href="https://twitter.com/PixelScritch">
-                <FontAwesomeIcon icon={faTwitter}/>
-              </IconButton>
-              <IconButton aria-label="Get the latest News on Telegram!" href="https://t.me/ScritchNews">
-                <FontAwesomeIcon icon={faTelegram}/>
-              </IconButton>
-              <IconButton aria-label="Follow us on Youtube!" href="https://www.youtube.com/channel/UC9haeD7w5jIH0q1wsLmDMmg">
-                <FontAwesomeIcon icon={faYoutube}/>
-              </IconButton>
-            </CardActions>
-          </Card>
-          <Card className={classes.card} variant="outlined">
-            <CardContent>
+      <Divider/>
+      <Grid container direction="column" justify="flex-start" alignItems="stretch">
+        <Grid container direction="row" justify="center" alignItems="flex-start" flexItem>
+          <Card className={classes.card} variant="outlined" flexItem>
+            <CardContent className={classes.cardContent}>
               <Typography component="h3"> Support Us </Typography>
               <List dense={true}>
                 <ListItem button href={`${process.env.SITE_URL}/sponsors/new`}>
@@ -86,8 +70,9 @@ const AppFooter = ({classes, width, currentSession}) => {
               </List>
             </CardContent>
           </Card>
-          <Card className={classes.card} variant="outlined">
-            <CardContent>
+          <Divider orientation="vertical" flexItem variant="inset"/>
+          <Card className={classes.card} variant="outlined" flexItem>
+            <CardContent className={classes.cardContent}>
               <Typography component="h3"> Work With Us </Typography>
               <List dense={true}>
                 <ListItem button href={`${process.env.SITE_URL}/sponsors/new`}>
@@ -109,34 +94,52 @@ const AppFooter = ({classes, width, currentSession}) => {
               </List>
             </CardContent>
           </Card>
-          <Card className={classes.card} variant="outlined">
-            <CardContent>
+          <Divider orientation="vertical" flexItem variant="inset"/>
+          <Card className={classes.card} variant="outlined" flexItem>
+            <CardContent className={classes.cardContent}>
               <Typography component="h3"> Resources & Links </Typography>
-              <List dense={true}>
-                <ListItem button>
-                  <ListItemText
-                    primary="Terms of Use"
-                  />
-                </ListItem>
-                <ListItem button>
-                  <ListItemText
-                    primary="Privacy Policy"
-                  />
-                </ListItem>
-                <ListItem button>
-                  <ListItemText
-                    primary="Website User Guide"
-                  />
-                </ListItem>
-                <ListItem button>
-                  <ListItemText
-                    primary="FAQ"
-                  />
-                </ListItem>
-              </List>
+              <Grid container>
+                <List dense={true} flexItem>
+                  <ListItem button>
+                    <ListItemText
+                      primary="Terms of Use"
+                    />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText
+                      primary="Privacy Policy"
+                    />
+                  </ListItem>
+                </List>
+                <List dense={true} flexItem>
+                  <ListItem button>
+                    <ListItemText
+                      primary="Website User Guide"
+                    />
+                  </ListItem>
+                  <ListItem button>
+                    <ListItemText
+                      primary="FAQ"
+                    />
+                  </ListItem>
+                </List>
+              </Grid>
             </CardContent>
           </Card>
         </Grid>
+        <Grid container flexItem direction="row" justify="center" alignItems="center">
+          <Typography component="h3"> Copyright © 2020 Scritch Ltd.</Typography>
+          <IconButton aria-label="Follow us on Twitter!" href="https://twitter.com/PixelScritch">
+            <FontAwesomeIcon icon={faTwitter}/>
+          </IconButton>
+          <IconButton aria-label="Get the latest News on Telegram!" href="https://t.me/ScritchNews">
+            <FontAwesomeIcon icon={faTelegram}/>
+          </IconButton>
+          <IconButton aria-label="Follow us on Youtube!" href="https://www.youtube.com/channel/UC9haeD7w5jIH0q1wsLmDMmg">
+            <FontAwesomeIcon icon={faYoutube}/>
+          </IconButton>
+        </Grid>
+      </Grid>
     </React.Fragment>
   );
 }
