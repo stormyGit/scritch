@@ -139,7 +139,7 @@ const AppFooter = ({classes, width, currentSession}) => {
               </List>
             </CardContent>
           </Card>
-          <Divider orientation="vertical" flexitem variant="inset"/>
+          <Divider orientation="vertical" variant="inset"/>
           <Card className={classes.card} variant="outlined" flexitem>
             <CardContent className={classes.cardContent}>
               <Typography component="h3"> Work With Us </Typography>
@@ -156,7 +156,7 @@ const AppFooter = ({classes, width, currentSession}) => {
               </List>
             </CardContent>
           </Card>
-          <Divider orientation="vertical" flexitem variant="inset"/>
+          <Divider orientation="vertical" variant="inset"/>
           <Card className={classes.card} variant="outlined" flexitem>
             <CardContent className={classes.cardContent}>
               <Typography component="h3"> Resources & Links </Typography>
@@ -189,7 +189,7 @@ const AppFooter = ({classes, width, currentSession}) => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid container flexitem direction="row" justify="center" alignItems="center">
+        <Grid container direction="row" justify="center" alignItems="center">
           <Typography component="h3"> Copyright © 2020 Scritch Ltd.</Typography>
           <IconButton aria-label="Follow us on Twitter!" target="_blank" rel="noreferrer" href="https://twitter.com/PixelScritch">
             <FontAwesomeIcon icon={faTwitter}/>

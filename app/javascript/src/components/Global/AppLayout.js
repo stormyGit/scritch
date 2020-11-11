@@ -130,7 +130,7 @@ const styles = theme => ({
     overflowY: "scroll",
     height: `calc(100vh - ${ToolBarHeight}px)`,
     position: "relative",
-    paddingRight: theme.spacing(7) + 1,
+    // paddingRight: theme.spacing(1) + 1,
     [theme.breakpoints.up('sm')]: {
       paddingRight: theme.spacing(8) + 1,
     },
@@ -148,7 +148,7 @@ const styles = theme => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: 'hidden',
-    width: theme.spacing(7) + 1,
+    // width: theme.spacing(1) + 1,
     [theme.breakpoints.up('sm')]: {
       width: theme.spacing(8) + 1,
     },

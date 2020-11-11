@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
 import withWidth from "@material-ui/core/withWidth";
@@ -38,7 +38,7 @@ import Terms from "../PoliciesSupport/Terms";
 import UserGuide from "../PoliciesSupport/UserGuide";
 import Faq from "../PoliciesSupport/Faq";
 import PrivacyPolicy from "../PoliciesSupport/PrivacyPolicy";
-import LandingPage from "../LandingPage";
+import {LandingPageMobile, LandingPageNormal} from "../LandingPage";
 import AdsLister from "../AdsLister";
 import Favorites from "../Favorites";
 import Subscriptions from "../Subscriptions";
@@ -48,6 +48,7 @@ import AppLayoutRemake from "./AppLayout";
 import AppHeader from "./AppHeader";
 import MustLog from "./MustLog";
 import MediaTagging from "../Media/MediaTagging";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const Padder = () => <div style={{padding: 16}}/>;
 const MicroPadder = () => <div style={{padding: 8}}/>;
@@ -55,9 +56,13 @@ const MicroPadder = () => <div style={{padding: 8}}/>;
 function AppRouter(props) {
   const {currentSession, width} = props;
   const isSessionValid = currentSession && !currentSession.user.suspendedUser;
+  const isLandscape = useMediaQuery('(orientation:landscape)');
 
   function LoadLandingPage() {
-    return <LandingPage/>;
+    if (isLandscape)
+      return <LandingPageNormal/>;
+    else
+      return <LandingPageMobile/>;
   }
 
   function LoadAnnouncements() {

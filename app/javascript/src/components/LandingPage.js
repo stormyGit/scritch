@@ -7,7 +7,7 @@ import AppFooter from "./Global/AppFooter";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import useTheme from "@material-ui/core/styles/useTheme";
-import WelcomeCard from "./CustomComponents/WelcomeCard";
+import {WelcomeCardNormal, WelcomeCardMobile} from "./CustomComponents/WelcomeCard";
 
 const styles = theme => ({
   font: {
@@ -54,7 +54,7 @@ const LandingPage = ({classes, width}) => {
     <GridList cellHeight={(height / 5) - 5} className={classes.landingPage} cols={1} ref={ref}>
       <GridListTile rows={smallToMediumHeight ? 3 : 2}>
         <PageTitle>Home</PageTitle>
-        <WelcomeCard/>
+        <WelcomeCardNormal/>
       </GridListTile>
       {!smallToMediumHeight && <GridListTile rows={2}>
         <FrontMedia filter="scritched"/>
@@ -67,4 +67,25 @@ const LandingPage = ({classes, width}) => {
   );
 };
 
-export default withStyles(styles)(withWidth()(LandingPage));
+const LandingPageNormal = withStyles(styles)(withWidth()(LandingPage));
+
+const LandingPageM = ({classes}) => {
+  return (
+    <GridList className={classes.landingPage} cols={1}>
+      <GridListTile rows={4}>
+        <PageTitle>Home</PageTitle>
+        <WelcomeCardMobile/>
+      </GridListTile>
+      <GridListTile rows={2}>
+        <FrontMedia filter="scritched"/>
+      </GridListTile>
+      <GridListTile rows={2}>
+        <AppFooter/>
+      </GridListTile>
+    </GridList>
+  );
+};
+
+const LandingPageMobile = withStyles(styles)(withWidth()(LandingPageM));
+
+export {LandingPageNormal, LandingPageMobile};
