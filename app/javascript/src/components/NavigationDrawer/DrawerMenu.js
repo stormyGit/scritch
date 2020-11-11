@@ -123,20 +123,20 @@ const DrawerItem = ({classes, label, icon, path, onClick, type}) => {
   }
 };
 
-function DrawerMenuRemakeOld(props) {
+function DrawerMenu(props) {
   const {classes, location, currentSession, width, onClose} = props;
   const user = currentSession && currentSession.user ? currentSession.user : null;
   const [settingsDialog, setSettingsDialog] = useState(false);
-  const [sponsorDialog, setSponsorDialog] = useState(false);
   const [sponsorDashboardDialog, setSponsorDashboardDialog] = useState(false);
-  const [tipsDialog, setTipsDialog] = useState(false);
-  const [databaseList, setDatabaseList] = useState(false);
   const [snack, setSnack] = useState(false);
-  const [assetDialog, setAssetDialog] = useState(false);
-  const [adsDialog, setAdsDialog] = useState(false);
-  const [speciesDialog, setSpeciesDialog] = useState(false);
 
   if (user && user.sponsor) var sponsorLimit = new Date(user.sponsor.limit * 1000);
+
+  const handleClose = () => {
+    if (props.onClose) {
+      props.onClose();
+    }
+  };
 
   const homeItem = {
     label: "Home",
@@ -144,43 +144,6 @@ function DrawerMenuRemakeOld(props) {
     onClick: null,
     path: "/",
     type: "Link"
-  };
-  const mediaItem = {
-    label: "Media",
-    icon: <MediaIcon/>,
-    onClick: null,
-    path: "/pictures",
-    type: "Link"
-  };
-  const fursuitItem = {
-    label: "Fursuits",
-    icon: <FursuitIcon/>,
-    onClick: null,
-    path: "/fursuits",
-    type: "Link"
-  };
-  const makerItem = {
-    label: "Makers",
-    icon: <MakerIcon/>,
-    onClick: null,
-    path: "/makers",
-    type: "Link"
-  };
-  const eventItem = {
-    label: "Events",
-    icon: <EventIcon/>,
-    onClick: null,
-    path: "/events",
-    type: "Link"
-  };
-  const createItem = {
-    label: "Create",
-    icon: <AddIcon/>,
-    onClick: () => {
-      setAssetDialog(true);
-    },
-    path: null,
-    type: "Dialog"
   };
   const tagItem = {
     label: "Tag Media",
@@ -202,6 +165,14 @@ function DrawerMenuRemakeOld(props) {
     onClick: null,
     path: "/favorites",
     type: "Link"
+  };
+
+  const sponsorshipItem = {
+    label: "Sponsorship",
+    icon: <PetsIcon/>,
+    onClick: () => setSponsorDashboardDialog(true),
+    path: null,
+    type: "Dialog"
   };
   const announcementsItem = {
     label: "Announcements",
@@ -227,34 +198,6 @@ function DrawerMenuRemakeOld(props) {
     path: null,
     type: "Dialog"
   };
-  const beginSponsorshipItem = {
-    label: "Become a Sponsor!",
-    icon: <PetsIcon/>,
-    onClick: () => setSponsorDialog(true),
-    path: null,
-    type: "Dialog"
-  };
-  const sponsorshipItem = {
-    label: "Sponsorship",
-    icon: <PetsIcon/>,
-    onClick: () => setSponsorDashboardDialog(true),
-    path: null,
-    type: "Dialog"
-  };
-  const advertiseItem = {
-    label: "Advertise with Scritch",
-    icon: <AdsIcon/>,
-    onClick: () => setAdsDialog(true),
-    path: null,
-    type: "Dialog"
-  };
-  const tipsItem = {
-    label: "Tip Jar",
-    icon: <TipsIcon/>,
-    onClick: () => setTipsDialog(true),
-    path: null,
-    type: "Dialog"
-  };
 
   let itemsPack = [];
   let userType;
@@ -268,31 +211,33 @@ function DrawerMenuRemakeOld(props) {
 
   switch (userType) {
     case "Suspended":
-      itemsPack = [[homeItem], [announcementsItem, dividerItem, settingsItem]];
+      itemsPack = [
+        [homeItem],
+        [announcementsItem, dividerItem, settingsItem]
+      ];
       break;
     case "Sponsor":
       itemsPack = [
-        [homeItem, mediaItem, fursuitItem, makerItem, eventItem],
-        [createItem, tagItem, subsItem, favesItem],
-        [sponsorshipItem, advertiseItem, tipsItem],
+        [homeItem],
+        [tagItem, subsItem, favesItem],
+        [sponsorshipItem],
         [announcementsItem, dividerItem, settingsItem]
       ];
       break;
     case "Basic":
       itemsPack = [
-        [homeItem, mediaItem, fursuitItem, makerItem, eventItem],
-        [createItem, tagItem, subsItem, favesItem],
-        [beginSponsorshipItem, advertiseItem, tipsItem],
+        [homeItem],
+        [tagItem, subsItem, favesItem],
         [announcementsItem, dividerItem, settingsItem]
       ];
       break;
     case "Visitor":
       itemsPack = [
-        [homeItem, mediaItem, fursuitItem, makerItem, eventItem],
-        [tipsItem],
-        [announcementsItem]
+        [homeItem],
+        [announcementsItem, dividerItem]
       ];
   }
+
   return (
     <React.Fragment>
       <div
@@ -330,66 +275,7 @@ function DrawerMenuRemakeOld(props) {
           open={settingsDialog}
           onClose={() => {
             setSettingsDialog(false);
-            if (props.onClose) {
-              props.onClose();
-            }
-          }}
-        />
-        <TipsDialog
-          open={tipsDialog}
-          onClose={() => {
-            setTipsDialog(false);
-            if (props.onClose) {
-              props.onClose();
-            }
-          }}
-        />
-        <SponsorDialog
-          open={sponsorDialog}
-          onClose={() => {
-            setSponsorDialog(false);
-            if (props.onClose) {
-              props.onClose();
-            }
-          }}
-        />
-        <SpeciesDialog
-          open={speciesDialog}
-          onClose={() => {
-            setSpeciesDialog(false);
-            if (props.onClose) {
-              props.onClose();
-            }
-          }}
-        />
-        <AdvertiseDialog
-          open={adsDialog}
-          onClose={() => {
-            setAdsDialog(false);
-            if (props.onClose) {
-              props.onClose();
-            }
-          }}
-        />
-        <AssetRequestDialog
-          open={assetDialog}
-          keepAssetType={null}
-          onClose={() => {
-            setAssetDialog(false);
-            if (props.onClose) {
-              props.onClose();
-            }
-          }}
-          submitSnack={() => setSnack(true)}
-          assetType="Asset"
-        />
-        <SponsorDashboardDialog
-          open={sponsorDashboardDialog}
-          onClose={() => {
-            setSponsorDashboardDialog(false);
-            if (props.onClose) {
-              props.onClose();
-            }
+            handleClose();
           }}
         />
         <Snackbar
@@ -421,4 +307,4 @@ function DrawerMenuRemakeOld(props) {
   );
 }
 
-export default withRouter(withStyles(styles)(withCurrentSession(withWidth()(DrawerMenuRemakeOld))));
+export default withRouter(withStyles(styles)(withCurrentSession(withWidth()(DrawerMenu))));

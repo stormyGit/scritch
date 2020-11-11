@@ -5,6 +5,7 @@ import {Query} from "react-apollo";
 import {withStyles} from "@material-ui/core/styles";
 import gql from "graphql-tag";
 import {Link, withRouter} from "react-router-dom";
+import {pageTitleToIndex} from "../../util/Converter";
 
 const styles = theme => ({
   tab: {
@@ -12,20 +13,6 @@ const styles = theme => ({
     width: "25%",
   }
 });
-
-export const pageTitleToIndex = pageTitle => {
-  let s = pageTitle.toLowerCase();
-  if (s.includes("pictures")) {
-    return 0;
-  } else if (s.includes("fursuits")) {
-    return 1;
-  } else if (s.includes("makers")) {
-    return 2;
-  } else if (s.includes("events")) {
-    return 3;
-  }
-  return false;
-};
 
 const PageTabs = props => {
   const {classes, location} = props;

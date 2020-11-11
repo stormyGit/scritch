@@ -11,25 +11,12 @@ import ScritchToolbar, {ToolBarHeight} from "../ScritchToolbar";
 import ScritchFab from "../CustomComponents/ScritchFab";
 import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
 import {NavigationContext} from "../../context/NavigationContext";
-import {
-  closeDrawer,
-  setActivitiesDialogState, setAdvertisementDialogState, setAssetDialogState, setAssetRequestEventDialogState, setAssetRequestFursuitDialogState, setAssetRequestMakerDialogState,
-  setChatDialogState,
-  setSearchDialogState, setSettingsDialogState,
-  setSignupDialogState, setSpeciesDialogState, setTechDialogState, setUploadDialogState
-} from "../../reducers/Action";
+import {closeDrawer, setActivitiesDialogState, setAdvertisementDialogState, setAssetRequestEventDialogState, setAssetRequestFursuitDialogState, setAssetRequestMakerDialogState, setChatDialogState, setSearchDialogState, setSettingsDialogState, setSignupDialogState, setSpeciesDialogState, setTechDialogState, setUploadDialogState} from "../../reducers/Action";
 import Drawer from "@material-ui/core/Drawer";
 import clsx from "clsx";
 import DrawerMenu from "../NavigationDrawer/DrawerMenu";
-import DrawerMenuOld from "../NavigationDrawer/DrawerMenuOld";
 import {DialogContext} from "../../context/DialogContext";
 
 export const DrawerWidth = 240;
@@ -178,7 +165,7 @@ function usePrevious(value) {
 
 function AppLayout({classes, settingsLayout, children, currentSession, location, client, width}) {
   const {dispatchNavigationChange, isDrawerOpen} = useContext(NavigationContext);
-  const {dispatchDialogChange, getUploadDialogState, getSignUpDialogState, getActivitiesDialogState, getChatDialogState, getSpeciesDialogState, getSettingsDialogState, getAdvertiseDialogState, getTechDialogState, getAssetRequestEventDialogState, getAssetRequestMakerDialogState, getAssetRequestFursuitDialogState} = useContext(DialogContext);
+  const {dispatchDialogChange, getUploadDialogState, getSignUpDialogState, getActivitiesDialogState, getChatDialogState, getSpeciesDialogState, getSettingsDialogState, getAdvertiseDialogState, getTechDialogState, getAssetRequestEventDialogState, getAssetRequestMakerDialogState, getAssetRequestFursuitDialogState, getSearchDialogState} = useContext(DialogContext);
   const [nameInput, setNameInput] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [mainDrawer, setMainDrawer] = useState(true);
@@ -247,7 +234,7 @@ function AppLayout({classes, settingsLayout, children, currentSession, location,
             </IconButton>
           </div>
           <Divider/>
-          <DrawerMenuOld
+          <DrawerMenu
             disableProfile
             disableNotifications
             disableUpload
@@ -259,7 +246,7 @@ function AppLayout({classes, settingsLayout, children, currentSession, location,
             {children}
           </div>
           <AppDialogs
-            searchDialog={false}
+            searchDialog={getSearchDialogState}
             closeSearchDialog={() => dispatchDialogChange(setSearchDialogState(false))}
             chatDialog={getChatDialogState}
             closeChatDialog={() => dispatchDialogChange(setChatDialogState(false))}

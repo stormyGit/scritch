@@ -8,10 +8,9 @@ import EventIcon from "@material-ui/icons/Business";
 import useTheme from "@material-ui/core/styles/useTheme";
 import Zoom from '@material-ui/core/Zoom';
 import ScritchButton from "./ScritchButton";
-import {setActivitiesDialogState, setAssetDialogState, setAssetRequestEventDialogState, setAssetRequestFursuitDialogState, setAssetRequestMakerDialogState, setSearchDialogState, setSettingsDialogState, setSpeciesDialogState, setUploadDialogState} from "../../reducers/Action";
-import NotificationsButton from "../AppLayout/NotificationsButton";
+import {setAssetRequestEventDialogState, setAssetRequestFursuitDialogState, setAssetRequestMakerDialogState, setUploadDialogState} from "../../reducers/Action";
 import {DialogContext} from "../../context/DialogContext";
-import {pageTitleToIndex} from "../Global/PageTabs";
+import {pageTitleToIndex} from "../../util/Converter";
 
 const styles = theme => ({
   root: {
@@ -54,10 +53,6 @@ function ScritchFab(props) {
   const pageIndex = pageTitleToIndex(location.pathname);
 
   const theme = useTheme();
-  const transitionDuration = {
-    enter: theme.transitions.duration.enteringScreen,
-    exit: theme.transitions.duration.leavingScreen,
-  };
   const fabs = [
     {
       icon: <MediaIcon/>,
@@ -88,12 +83,7 @@ function ScritchFab(props) {
   return (
     <div className={classes.root} style={{bottom: pageIndex === false ? theme.spacing(2) : theme.spacing(8)}}>
       <ScritchButton size={64} color="secondary" aria-label="add" onClick={() => setPawClicked(!pawClicked)}/>
-      {/*<Fab color="secondary" aria-label="add" onClick={() => setPawClicked(!pawClicked)}>
-        <AddIcon/>
-
-      </Fab>*/}
-
-      {fabs.map((fab, index) => (
+      {fabs.map((fab) => (
         <Zoom in={pawClicked}>
           <Fab aria-label={fab.label} className={fab.className} color={"secondary"} onClick={() => dialogContext.dispatchDialogChange(fab.dialogCallback)}
           >

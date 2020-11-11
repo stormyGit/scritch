@@ -38,8 +38,6 @@ import Terms from "../PoliciesSupport/Terms";
 import UserGuide from "../PoliciesSupport/UserGuide";
 import Faq from "../PoliciesSupport/Faq";
 import PrivacyPolicy from "../PoliciesSupport/PrivacyPolicy";
-
-import TagPage from "../TagPage";
 import LandingPage from "../LandingPage";
 import AdsLister from "../AdsLister";
 import Favorites from "../Favorites";
@@ -49,6 +47,7 @@ import SearchPage from "../SearchPage";
 import AppLayoutRemake from "./AppLayout";
 import AppHeader from "./AppHeader";
 import MustLog from "./MustLog";
+import MediaTagging from "../Media/MediaTagging";
 
 const Padder = () => <div style={{padding: 16}}/>;
 const MicroPadder = () => <div style={{padding: 8}}/>;
@@ -98,7 +97,7 @@ function AppRouter(props) {
   }
 
   function LoadTagPage() {
-    return isSessionValid ? <TagPage/> : <MustLog/>;
+    return isSessionValid ? <MediaTagging/> : <MustLog/>;
   }
 
   function LoadSubscriptions() {

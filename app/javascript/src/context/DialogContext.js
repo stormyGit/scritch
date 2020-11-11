@@ -33,6 +33,7 @@ const DialogContextProvider = ({children}) => {
         getAssetRequestMakerDialogState: state.getAssetRequestMakerDialogState,
         getAssetRequestFursuitDialogState: state.getAssetRequestFursuitDialogState,
         getTechDialogState: state.getTechDialogState,
+        getSearchDialogState: state.getSearchDialogState,
         dispatchDialogChange
       }}>
       {children}

@@ -1,20 +1,16 @@
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import {Button} from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
 import React, {useState} from "react";
 import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import useTheme from "@material-ui/core/styles/useTheme";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import IconButton from "@material-ui/core/IconButton";
 import CardMedia from "@material-ui/core/CardMedia";
-import Collapse from "@material-ui/core/Collapse";
-import Fade from "@material-ui/core/Fade";
 import clsx from "clsx";
-import Drawer from "@material-ui/core/Drawer";
 import Grow from "@material-ui/core/Grow";
+import {Link} from "react-router-dom";
+import ListItem from "@material-ui/core/ListItem";
 
 const styles = theme => ({
   root: {
@@ -79,12 +75,6 @@ function WelcomeCard({classes, width}) {
             [classes.imgVisible]: !videoOpen,
             [classes.imgHidden]: videoOpen,
           })}
-          classes={{
-            paper: clsx({
-              [classes.imgVisible]: !videoOpen,
-              [classes.imgHidden]: videoOpen,
-            }),
-          }}
           image={require("images/pixel/Landing.png")}
           title="Scritch-Banner with pixel on it presenting the Website"
         />
@@ -107,10 +97,9 @@ function WelcomeCard({classes, width}) {
           </Typography>
         </CardContent>
         <div className={classes.controls}>
-          <Button xs={3} style={{marginRight: "1rem"}} variant="outlined">about</Button>
-          <Button xs={3} style={{marginRight: "1rem"}} variant="outlined" onClick={() => setVideoOpen(!videoOpen)}>intro video</Button>
-          {/*https://www.youtube.com/watch?v=I1jMAoW-cmc*/}
-          <Button xs={3} style={{marginRight: "1rem"}} variant="outlined">faq</Button>
+          <Button xs={3} style={{marginRight: "1rem"}} variant="outlined" component={Link} to={"/announcements"}>News</Button>
+          <Button xs={3} style={{marginRight: "1rem"}} variant="outlined" onClick={() => setVideoOpen(!videoOpen)}>Video</Button>
+          <Button xs={3} style={{marginRight: "1rem"}} variant="outlined" component={Link} to={"/user_guide"}>About</Button>
         </div>
       </div>
     </Card>

@@ -1,7 +1,7 @@
 import WorkIcon from '@material-ui/icons/Work';
 import TipsIcon from "@material-ui/icons/AttachMoney";
 import AdsIcon from "@material-ui/icons/BusinessCenter";
-import React from "react";
+import React, {useState} from "react";
 import {withStyles} from "@material-ui/core/styles";
 import {withRouter, Link} from "react-router-dom";
 import {Query} from "react-apollo";
@@ -26,6 +26,12 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Divider from "@material-ui/core/Divider";
+import ButtonBase from "@material-ui/core/ButtonBase";
+import TipsDialog from "../AppDialogs/TipsDialog";
+import SponsorDialog from "../AppDialogs/SponsorDialog";
+import SpeciesDialog from "../AppDialogs/SpeciesDialog";
+import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
+import SponsorDashboardDialog from "../AppDialogs/SponsorDashboardDialog";
 
 const styles = theme => ({
   root: {
@@ -38,52 +44,108 @@ const styles = theme => ({
   },
   cardContent: {
     padding: theme.spacing(1),
-    '&:last-child': { paddingBottom: 0 },
+    '&:last-child': {paddingBottom: 0},
   }
 });
 const AppFooter = ({classes, width, currentSession}) => {
+  const [sponsorDialog, setSponsorDialog] = useState(false);
+  const [sponsorDashboardDialog, setSponsorDashboardDialog] = useState(false);
+  const [tipsDialog, setTipsDialog] = useState(false);
+  const [databaseList, setDatabaseList] = useState(false);
+  const [assetDialog, setAssetDialog] = useState(false);
+  const [adsDialog, setAdsDialog] = useState(false);
+  const [speciesDialog, setSpeciesDialog] = useState(false);
+
+  const handleClose = () => {
+    if (props.onClose) {
+      props.onClose();
+    }
+  };
+  const beginSponsorshipItem = {
+    label: "Become a Sponsor!",
+    icon: <PetsIcon/>,
+    onClick: () => setSponsorDialog(true),
+  };
+  const advertiseItem = {
+    label: "Advertise with Scritch",
+    icon: <AdsIcon/>,
+    onClick: () => setAdsDialog(true),
+  };
+  const tipsItem = {
+    label: "Tip Jar",
+    icon: <TipsIcon/>,
+    onClick: () => setTipsDialog(true),
+  };
+
+  const resolveItem = (itemTag) => {
+    return (
+      <ListItem button onClick={itemTag.onClick}>
+        <ListItemIcon>
+          {itemTag.icon}
+        </ListItemIcon>
+        <ListItemText
+          primary={itemTag.label}
+        />
+      </ListItem>
+    );
+  }
+
   return (
     <React.Fragment>
+      <TipsDialog
+        open={tipsDialog}
+        onClose={() => {
+          setTipsDialog(false);
+          handleClose();
+        }}
+      />
+      <SponsorDialog
+        open={sponsorDialog}
+        onClose={() => {
+          setSponsorDialog(false);
+          handleClose();
+        }}
+      />
+      <SpeciesDialog
+        open={speciesDialog}
+        onClose={() => {
+          setSpeciesDialog(false);
+          handleClose();
+        }}
+      />
+      <AdvertiseDialog
+        open={adsDialog}
+        onClose={() => {
+          setAdsDialog(false);
+          handleClose();
+        }}
+      />
+      <SponsorDashboardDialog
+        open={sponsorDashboardDialog}
+        onClose={() => {
+          setSponsorDashboardDialog(false);
+          handleClose();
+        }}
+      />
       <Divider/>
       <Grid container direction="column" justify="flex-start" alignItems="stretch">
-        <Grid container direction="row" justify="center" alignItems="flex-start" flexItem>
-          <Card className={classes.card} variant="outlined" flexItem>
+        <Grid container direction="row" justify="center" alignItems="flex-start" flexitem>
+          <Card className={classes.card} variant="outlined" flexitem>
             <CardContent className={classes.cardContent}>
               <Typography component="h3"> Support Us </Typography>
               <List dense={true}>
-                <ListItem button href={`${process.env.SITE_URL}/sponsors/new`}>
-                  <ListItemIcon>
-                    <PetsIcon/>
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Become a Sponsor!"
-                  />
-                </ListItem>
-                <ListItem button href={`${process.env.SITE_URL}/sponsors/new`}>
-                  <ListItemIcon>
-                    <TipsIcon/>
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Tip Us!"
-                  />
-                </ListItem>
+                {resolveItem(beginSponsorshipItem)}
+                {resolveItem(tipsItem)}
               </List>
             </CardContent>
           </Card>
-          <Divider orientation="vertical" flexItem variant="inset"/>
-          <Card className={classes.card} variant="outlined" flexItem>
+          <Divider orientation="vertical" flexitem variant="inset"/>
+          <Card className={classes.card} variant="outlined" flexitem>
             <CardContent className={classes.cardContent}>
               <Typography component="h3"> Work With Us </Typography>
               <List dense={true}>
-                <ListItem button href={`${process.env.SITE_URL}/sponsors/new`}>
-                  <ListItemIcon>
-                    <AdsIcon/>
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Your Ads on Scritch!"
-                  />
-                </ListItem>
-                <ListItem button href={`https://t.me/NafiTheBear`}>
+                {resolveItem(advertiseItem)}
+                <ListItem button component={ButtonBase} target="_blank" rel="noreferrer" href="https://t.me/NafiTheBear">
                   <ListItemIcon>
                     <WorkIcon/>
                   </ListItemIcon>
@@ -94,30 +156,30 @@ const AppFooter = ({classes, width, currentSession}) => {
               </List>
             </CardContent>
           </Card>
-          <Divider orientation="vertical" flexItem variant="inset"/>
-          <Card className={classes.card} variant="outlined" flexItem>
+          <Divider orientation="vertical" flexitem variant="inset"/>
+          <Card className={classes.card} variant="outlined" flexitem>
             <CardContent className={classes.cardContent}>
               <Typography component="h3"> Resources & Links </Typography>
               <Grid container>
-                <List dense={true} flexItem>
-                  <ListItem button>
+                <List dense={true} flexitem>
+                  <ListItem button component={Link} to={`/terms_of_use`}>
                     <ListItemText
                       primary="Terms of Use"
                     />
                   </ListItem>
-                  <ListItem button>
+                  <ListItem button component={Link} to={`/privacy_policy`}>
                     <ListItemText
                       primary="Privacy Policy"
                     />
                   </ListItem>
                 </List>
-                <List dense={true} flexItem>
-                  <ListItem button>
+                <List dense={true} flexitem>
+                  <ListItem button component={Link} to={`/user_guide`}>
                     <ListItemText
                       primary="Website User Guide"
                     />
                   </ListItem>
-                  <ListItem button>
+                  <ListItem button component={Link} to={`/faq`}>
                     <ListItemText
                       primary="FAQ"
                     />
@@ -127,15 +189,15 @@ const AppFooter = ({classes, width, currentSession}) => {
             </CardContent>
           </Card>
         </Grid>
-        <Grid container flexItem direction="row" justify="center" alignItems="center">
+        <Grid container flexitem direction="row" justify="center" alignItems="center">
           <Typography component="h3"> Copyright © 2020 Scritch Ltd.</Typography>
-          <IconButton aria-label="Follow us on Twitter!" href="https://twitter.com/PixelScritch">
+          <IconButton aria-label="Follow us on Twitter!" target="_blank" rel="noreferrer" href="https://twitter.com/PixelScritch">
             <FontAwesomeIcon icon={faTwitter}/>
           </IconButton>
-          <IconButton aria-label="Get the latest News on Telegram!" href="https://t.me/ScritchNews">
+          <IconButton aria-label="Get the latest News on Telegram!" target="_blank" rel="noreferrer" href="https://t.me/ScritchNews">
             <FontAwesomeIcon icon={faTelegram}/>
           </IconButton>
-          <IconButton aria-label="Follow us on Youtube!" href="https://www.youtube.com/channel/UC9haeD7w5jIH0q1wsLmDMmg">
+          <IconButton aria-label="Follow us on Youtube!" target="_blank" rel="noreferrer" href="https://www.youtube.com/channel/UC9haeD7w5jIH0q1wsLmDMmg">
             <FontAwesomeIcon icon={faYoutube}/>
           </IconButton>
         </Grid>
