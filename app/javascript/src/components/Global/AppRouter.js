@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useContext} from "react";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
 import withWidth from "@material-ui/core/withWidth";
@@ -49,9 +49,8 @@ import AppHeader from "./AppHeader";
 import MustLog from "./MustLog";
 import MediaTagging from "../Media/MediaTagging";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-
-const Padder = () => <div style={{padding: 16}}/>;
-const MicroPadder = () => <div style={{padding: 8}}/>;
+import {NavigationContext} from "../../context/NavigationContext";
+import {MicroPadder, Padder} from "../../util/padder";
 
 function AppRouter(props) {
   const {currentSession, width} = props;

@@ -18,6 +18,10 @@ import Drawer from "@material-ui/core/Drawer";
 import clsx from "clsx";
 import DrawerMenu from "../NavigationDrawer/DrawerMenu";
 import {DialogContext} from "../../context/DialogContext";
+import QuickAccessFooter from "../AppLayout/QuickAccessFooter";
+import {useMediaQuery} from "@material-ui/core";
+import useTheme from "@material-ui/core/styles/useTheme";
+
 
 export const DrawerWidth = 240;
 
@@ -164,6 +168,7 @@ function usePrevious(value) {
 }
 
 function AppLayout({classes, settingsLayout, children, currentSession, location, client, width}) {
+  const theme = useTheme();
   const {dispatchNavigationChange, isDrawerOpen} = useContext(NavigationContext);
   const {dispatchDialogChange, getUploadDialogState, getSignUpDialogState, getActivitiesDialogState, getChatDialogState, getSpeciesDialogState, getSettingsDialogState, getAdvertiseDialogState, getTechDialogState, getAssetRequestEventDialogState, getAssetRequestMakerDialogState, getAssetRequestFursuitDialogState, getSearchDialogState} = useContext(DialogContext);
   const [nameInput, setNameInput] = useState("");
@@ -173,23 +178,22 @@ function AppLayout({classes, settingsLayout, children, currentSession, location,
   const [searchEnabled, setSearchEnabled] = useState(false);
   const [query, setQuery] = useState({});
   const prevLocation = usePrevious(location);
+  const tinyWidth = useMediaQuery(theme.breakpoints.down("xs"));
+  const bigWidth = useMediaQuery(theme.breakpoints.up("lg"));
+
   useEffect(() => {
     if (location !== prevLocation) {
       window.scrollTo(0, 0);
       document.activeElement.blur();
     }
   }, []);
-  let bigWidth = false;
-  if (width === "xl" || width === "lg") {
-    bigWidth = true;
-  }
   return (
     <React.Fragment>
       <GlobalProgress/>
       <div className={classes.root}>
         <CookieConsent
           buttonStyle={{backgroundColor: process.env.SECONDARY_COLOR}}
-          style={{textAlign: "center", zIndex:100}}
+          style={{textAlign: "center", zIndex: 100}}
         >
           <Typography
             variant="h5"
@@ -245,6 +249,7 @@ function AppLayout({classes, settingsLayout, children, currentSession, location,
           <div className={classes.appBody}>
             {children}
           </div>
+          {tinyWidth && <QuickAccessFooter/>}
           <AppDialogs
             searchDialog={getSearchDialogState}
             closeSearchDialog={() => dispatchDialogChange(setSearchDialogState(false))}

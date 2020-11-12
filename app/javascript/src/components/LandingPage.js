@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import FrontMedia from "./Media/FrontMedia";
 import {withStyles} from '@material-ui/core/styles';
 import PageTitle from "./Global/PageTitle";
@@ -8,6 +8,9 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import useTheme from "@material-ui/core/styles/useTheme";
 import {WelcomeCardNormal, WelcomeCardMobile} from "./CustomComponents/WelcomeCard";
+import {NavigationContext} from "../context/NavigationContext";
+import {setScrolled, setSearchDialogState} from "../reducers/Action";
+import AppDialogs from "./AppLayout/AppDialogs";
 
 const styles = theme => ({
   font: {
@@ -54,7 +57,6 @@ const LandingPage = ({classes, width}) => {
     <GridList cellHeight={(height / 5) - 5} className={classes.landingPage} cols={1} ref={ref}>
       <GridListTile rows={smallToMediumHeight ? 3 : 2}>
         <PageTitle>Home</PageTitle>
-        <WelcomeCardNormal/>
       </GridListTile>
       {!smallToMediumHeight && <GridListTile rows={2}>
         <FrontMedia filter="scritched"/>
@@ -69,17 +71,35 @@ const LandingPage = ({classes, width}) => {
 
 const LandingPageNormal = withStyles(styles)(withWidth()(LandingPage));
 
+function getOffset(el, parent) {
+  const rect = el.getBoundingClientRect();
+  const parentRect = parent.getBoundingClientRect();
+  // console.log(JSON.stringify(rect), JSON.stringify(parentRect));
+  return {
+    left: rect.left - parentRect.left,
+    top: rect.top - parentRect.top
+  };
+}
+
 const LandingPageM = ({classes}) => {
+  const {dispatchNavigationChange} = useContext(NavigationContext);
+  const ref = useRef(null);
+
+  const onScroll = (event) => {
+    if (ref.current !== null)
+      dispatchNavigationChange(setScrolled(getOffset(ref.current, event.target).top));
+  }
+
   return (
-    <GridList className={classes.landingPage} cols={1}>
-      <GridListTile rows={4}>
+    <GridList className={classes.landingPage} cols={1} onScroll={onScroll}>
+      <GridListTile ref={ref} rows={4}>
         <PageTitle>Home</PageTitle>
         <WelcomeCardMobile/>
       </GridListTile>
-      <GridListTile rows={2}>
+      <GridListTile rows={3}>
         <FrontMedia filter="scritched"/>
       </GridListTile>
-      <GridListTile rows={2}>
+      <GridListTile rows={3}>
         <AppFooter/>
       </GridListTile>
     </GridList>

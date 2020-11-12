@@ -11,6 +11,7 @@ import ScritchButton from "./ScritchButton";
 import {setAssetRequestEventDialogState, setAssetRequestFursuitDialogState, setAssetRequestMakerDialogState, setUploadDialogState} from "../../reducers/Action";
 import {DialogContext} from "../../context/DialogContext";
 import {pageTitleToIndex} from "../../util/Converter";
+import {NavigationContext} from "../../context/NavigationContext";
 
 const styles = theme => ({
   root: {
@@ -46,13 +47,19 @@ const styles = theme => ({
   },
 });
 
-function ScritchFab(props) {
-  const {classes} = props;
+const ScritchFab = ({classes}) => {
+  const theme = useTheme();
   const [pawClicked, setPawClicked] = useState(false);
   const dialogContext = useContext(DialogContext);
   const pageIndex = pageTitleToIndex(location.pathname);
+  const {scrollAmount} = useContext(NavigationContext);
 
-  const theme = useTheme();
+  let bottomSpacing = 2;
+  if (pageIndex !== false)
+    bottomSpacing += 6;
+  if (scrollAmount >= 0)
+    bottomSpacing += 6;
+
   const fabs = [
     {
       icon: <MediaIcon/>,
@@ -81,7 +88,7 @@ function ScritchFab(props) {
   ];
 
   return (
-    <div className={classes.root} style={{bottom: pageIndex === false ? theme.spacing(2) : theme.spacing(8)}}>
+    <div className={classes.root} style={{bottom: theme.spacing(bottomSpacing)}}>
       <ScritchButton size={64} color="secondary" aria-label="add" onClick={() => setPawClicked(!pawClicked)}/>
       {fabs.map((fab) => (
         <Zoom in={pawClicked}>
@@ -94,6 +101,6 @@ function ScritchFab(props) {
 
     </div>
   );
-}
+};
 
 export default withStyles(styles)(ScritchFab);

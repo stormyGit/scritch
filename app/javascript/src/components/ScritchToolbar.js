@@ -1,4 +1,4 @@
-import {AppBar, fade, Grid, IconButton, Paper, Toolbar, withStyles} from "@material-ui/core";
+import {AppBar, fade, Grid, IconButton, Paper, Toolbar, useMediaQuery, withStyles} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
 import {NavigationContext} from "../context/NavigationContext";
@@ -36,6 +36,7 @@ import {
 import {DialogContext} from "../context/DialogContext";
 import Button from "@material-ui/core/Button";
 import AppLayout, {DrawerWidth} from "./Global/AppLayout";
+import useTheme from "@material-ui/core/styles/useTheme";
 
 export const ToolBarHeight = 64;
 
@@ -62,6 +63,11 @@ const useStyles = (theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
+  },
+  toolbar: {
+    [theme.breakpoints.down('sm')]: {
+      padding: 0,
+    },
   },
   search: {
     position: 'relative',
@@ -103,7 +109,9 @@ const useStyles = (theme) => ({
     },
   },
   menuButton: {
-    marginRight: 36,
+    [theme.breakpoints.up('md')]: {
+      marginRight: 36,
+    }
     // color: theme.palette.text.primary
   },
   popperRoot: {
@@ -112,6 +120,11 @@ const useStyles = (theme) => ({
   evenlyDist: {
     // minWidth: "33vw",
     // width: "33vw"
+  },
+  searchIconButton: {
+    [theme.breakpoints.up('md')]: {
+      marginLeft: "2em"
+    }
   },
   popperPopup: {
     zIndex: 100,
@@ -155,172 +168,88 @@ const Fade = React.forwardRef((props, ref) => {
 // };
 
 function ScritchToolbar({classes}) {
+  const theme = useTheme();
   const navContext = useContext(NavigationContext);
   const dialogContext = useContext(DialogContext);
   const [tabIndex, setTabIndex] = useState(-1);
   const [name, setName] = useState("");
   const [search, setSearch] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
-  const [scroll, setScroll] = React.useState('paper');
+  const [scroll, setScroll] = useState('paper');
+  const tiny = useMediaQuery(theme.breakpoints.down("xs"));
+  const small = useMediaQuery(theme.breakpoints.down("sm"));
   let reset = false;
   const open = Boolean(anchorEl);
   const id = open ? 'spring-popper' : undefined;
   let loadEventTimer = undefined;
 
-  function handleClickAway() {
+  const handleClickAway = () => {
     clearTimeout(loadEventTimer);
     setAnchorEl(null);
     setName("");
     setSearch("");
     reset = false;
-  }
+  };
 
-  function handleSearch(ev) {
-    const target = ev.target;
-    const val = target.value;
-    if (name.length >= 1 && val.length < 1) {
-      reset = true;
-    }
-
-    setName(val);
-    if (loadEventTimer) {
-      clearTimeout(loadEventTimer);
-    }
-
-    if (val.length >= 1) {
-      loadEventTimer = setTimeout(() => {
-        setSearch(val);
-        setAnchorEl(anchorEl ? null : target);
-      }, 1000);
-    } else if (reset) {
-      handleClickAway();
-    }
-  }
-
-  function SearchInput() {
-    return (
-      <InputBase
-        value={name}
-        placeholder="Search…"
-        classes={{
-          root: classes.inputRoot,
-          input: classes.inputInput,
-        }}
-        onChange={value => handleSearch(value)}
-        inputProps={{'aria-label': 'search'}}
-      />
-    );
-  }
-
-  function SearchDialog() {
-    return (
-      <ClickAwayListener onClickAway={handleClickAway}>
-        <Popper
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          transition
-          className={classes.popperPopup}
-          scroll={scroll}
-          placement="top-start"
-        >
-          {({TransitionProps}) => (
-            <Fade {...TransitionProps}>
-              <div className={classes.popperRoot}>
-                <Paper>
-                  <GlobalProgress absolute/>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                      {name !== search && (
-                        <ScritchSpinner size={128}/>
-                      )}
-                      {name === search && name !== "" && (
-                        <React.Fragment>
-                          <Card>
-                            <CardContent>
-                              <Typography variant="h5" className={classes.title}>
-                                Fursuits
-                              </Typography>
-                              <Fursuits searching={true} search={search}/>
-                            </CardContent>
-                          </Card>
-                          <Card>
-                            <CardContent>
-                              <Typography variant="h5" className={classes.title}>
-                                Makers
-                              </Typography>
-                              <Makers searching={true} search={search}/>
-                            </CardContent>
-                          </Card>
-                          <Card>
-                            <CardContent>
-                              <Typography variant="h5" className={classes.title}>
-                                Events
-                              </Typography>
-                              <Events searching={true} search={search}/>
-                            </CardContent>
-                          </Card>
-                        </React.Fragment>
-                      )}
-                    </Grid>
+  const SearchDialog = () => (
+    <ClickAwayListener onClickAway={handleClickAway}>
+      <Popper
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        transition
+        className={classes.popperPopup}
+        scroll={scroll}
+        placement="top-start"
+      >
+        {({TransitionProps}) => (
+          <Fade {...TransitionProps}>
+            <div className={classes.popperRoot}>
+              <Paper>
+                <GlobalProgress absolute/>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    {name !== search && (
+                      <ScritchSpinner size={128}/>
+                    )}
+                    {name === search && name !== "" && (
+                      <React.Fragment>
+                        <Card>
+                          <CardContent>
+                            <Typography variant="h5" className={classes.title}>
+                              Fursuits
+                            </Typography>
+                            <Fursuits searching={true} search={search}/>
+                          </CardContent>
+                        </Card>
+                        <Card>
+                          <CardContent>
+                            <Typography variant="h5" className={classes.title}>
+                              Makers
+                            </Typography>
+                            <Makers searching={true} search={search}/>
+                          </CardContent>
+                        </Card>
+                        <Card>
+                          <CardContent>
+                            <Typography variant="h5" className={classes.title}>
+                              Events
+                            </Typography>
+                            <Events searching={true} search={search}/>
+                          </CardContent>
+                        </Card>
+                      </React.Fragment>
+                    )}
                   </Grid>
-                </Paper>
-              </div>
-            </Fade>
-          )}
-        </Popper>
-      </ClickAwayListener>
-    )
-  }
+                </Grid>
+              </Paper>
+            </div>
+          </Fade>
+        )}
+      </Popper>
+    </ClickAwayListener>
+  );
 
-  const UserSpecific = <React.Fragment>
-    <MetricsBar
-      openSpeciesDialog={() => dialogContext.dispatchDialogChange(setSpeciesDialogState(true))}
-    />
-    <NotificationsButton
-      onClick={() => dialogContext.dispatchDialogChange(setActivitiesDialogState(true))}
-    />
-    <ChatButton
-      disabled={false}
-      onClick={() => dialogContext.dispatchDialogChange(setChatDialogState(true))}
-    />
-    <UserButton
-      openSignUp={() => dialogContext.dispatchDialogChange(setSignupDialogState(true))}
-      openSettings={() => dialogContext.dispatchDialogChange(setSettingsDialogState(true))}
-    />
-  </React.Fragment>;
-  const NavAndSearch = <React.Fragment>
-    <IconButton
-      edge="start"
-      color="inherit"
-      aria-label="open drawer"
-      className={clsx(classes.menuButton, {
-        [classes.hide]: navContext.isDrawerOpen,
-      })}
-      onClick={() => {
-        navContext.dispatchNavigationChange(openDrawer());
-      }}
-    >
-      <MenuIcon/>
-    </IconButton>
-    <Link to="/">
-      <ScritchLogo/>
-    </Link>
-    <DisplayPageTitle className={classes.title} variant="h6" noWrap/>
-    <Button
-      variant="outlined"
-      color="inherit"
-      style={{marginLeft:"2em"}}
-      onClick={() => {
-        dialogContext.dispatchDialogChange(setSearchDialogState(true));
-      }}
-    >
-      <SearchIcon/>
-    </Button>
-    {/*{SearchInput()}*/}
-    {SearchDialog()}
-    {/*<div className={classes.grow}/>*/}
-  </React.Fragment>;
   return (
     <div>
       <AppBar
@@ -328,12 +257,64 @@ function ScritchToolbar({classes}) {
         className={clsx(classes.appBar, {
           [classes.appBarShift]: navContext.isDrawerOpen,
         })}>
-        <Toolbar>
-          {NavAndSearch}
+        <Toolbar className={classes.toolBar}>
+          <React.Fragment>
+            <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              className={clsx(classes.menuButton, {
+                [classes.hide]: navContext.isDrawerOpen,
+              })}
+              onClick={() => {
+                navContext.dispatchNavigationChange(openDrawer());
+              }}
+            >
+              <MenuIcon/>
+            </IconButton>
+            <Link to="/">
+              <ScritchLogo/>
+            </Link>
+            {!small && <DisplayPageTitle className={classes.title} variant="h6" noWrap/>}
+            {small ? <IconButton
+              color="inherit"
+              onClick={() => {
+                dialogContext.dispatchDialogChange(setSearchDialogState(true));
+              }}
+            >
+              <SearchIcon/>
+            </IconButton> : <Button
+              variant="outlined"
+              color="inherit"
+              className={classes.searchIconButton}
+              onClick={() => {
+                dialogContext.dispatchDialogChange(setSearchDialogState(true));
+              }}
+            >
+              <SearchIcon/>
+            </Button>
+            }
+            {SearchDialog()}
+          </React.Fragment>
+          {!tiny && <div className={classes.grow}/>}
+          {!tiny && <PageTabs className={classes.evenlyDist}/>}
           <div className={classes.grow}/>
-          <PageTabs className={classes.evenlyDist}/>
-          <div className={classes.grow}/>
-          {UserSpecific}
+          <React.Fragment>
+            {!small && <MetricsBar
+              openSpeciesDialog={() => dialogContext.dispatchDialogChange(setSpeciesDialogState(true))}
+            />}
+            <NotificationsButton
+              onClick={() => dialogContext.dispatchDialogChange(setActivitiesDialogState(true))}
+            />
+            <ChatButton
+              disabled={false}
+              onClick={() => dialogContext.dispatchDialogChange(setChatDialogState(true))}
+            />
+            <UserButton
+              openSignUp={() => dialogContext.dispatchDialogChange(setSignupDialogState(true))}
+              openSettings={() => dialogContext.dispatchDialogChange(setSettingsDialogState(true))}
+            />
+          </React.Fragment>
         </Toolbar>
       </AppBar>
     </div>

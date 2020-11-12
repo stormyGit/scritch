@@ -129,8 +129,8 @@ const AppFooter = ({classes, width, currentSession}) => {
       />
       <Divider/>
       <Grid container direction="column" justify="flex-start" alignItems="stretch">
-        <Grid container direction="row" justify="center" alignItems="flex-start" flexitem>
-          <Card className={classes.card} variant="outlined" flexitem>
+        <Grid container direction="row" justify="center" alignItems="flex-start">
+          <Card className={classes.card} variant="outlined">
             <CardContent className={classes.cardContent}>
               <Typography component="h3"> Support Us </Typography>
               <List dense={true}>
@@ -140,7 +140,7 @@ const AppFooter = ({classes, width, currentSession}) => {
             </CardContent>
           </Card>
           <Divider orientation="vertical" variant="inset"/>
-          <Card className={classes.card} variant="outlined" flexitem>
+          <Card className={classes.card} variant="outlined">
             <CardContent className={classes.cardContent}>
               <Typography component="h3"> Work With Us </Typography>
               <List dense={true}>
@@ -157,11 +157,11 @@ const AppFooter = ({classes, width, currentSession}) => {
             </CardContent>
           </Card>
           <Divider orientation="vertical" variant="inset"/>
-          <Card className={classes.card} variant="outlined" flexitem>
+          <Card className={classes.card} variant="outlined">
             <CardContent className={classes.cardContent}>
               <Typography component="h3"> Resources & Links </Typography>
               <Grid container>
-                <List dense={true} flexitem>
+                <List dense={true}>
                   <ListItem button component={Link} to={`/terms_of_use`}>
                     <ListItemText
                       primary="Terms of Use"
@@ -173,7 +173,7 @@ const AppFooter = ({classes, width, currentSession}) => {
                     />
                   </ListItem>
                 </List>
-                <List dense={true} flexitem>
+                <List dense={true}>
                   <ListItem button component={Link} to={`/user_guide`}>
                     <ListItemText
                       primary="Website User Guide"

@@ -12,7 +12,7 @@ export const ActionType = {
   SNACK_SET: 10,
   DIALOG_SET_ASSET_REQUEST_EVENT: 11,
   DIALOG_SET_ASSET_REQUEST_MAKER: 12,
-  DIALOG_SET_ASSET_REQUEST_FURSUIT : 13,
+  DIALOG_SET_ASSET_REQUEST_FURSUIT: 13,
   DIALOG_SET_ADS: 14,
   DIALOG_SET_SPECIES: 15,
   DIALOG_SET_ACTIVITIES: 16,
@@ -20,6 +20,7 @@ export const ActionType = {
   DIALOG_SET_SIGNUP: 18,
   DIALOG_SET_TECH: 19,
   DIALOG_SET_UPLOAD: 20,
+  QUICKACCESSBAR_SCROLLED: 21,
 }
 
 export class Action {
@@ -108,4 +109,8 @@ export const closeDrawer = () => ({
 export const openDrawer = () => ({
   type: ActionType.TOOLBAR_OPEN_DRAWER,
   payload: true
+});
+export const setScrolled = (scrollAmount) => ({
+  type: ActionType.QUICKACCESSBAR_SCROLLED,
+  payload: scrollAmount
 });

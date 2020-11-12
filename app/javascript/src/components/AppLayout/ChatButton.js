@@ -34,7 +34,7 @@ class ChatButton extends React.Component {
 
     return (
       <React.Fragment>
-        {currentSession && (this.props.width === "xl" || this.props.width === "lg") && (
+        {currentSession && (
           <div className={classes.rightButton}>
             <Query
               query={GET_UNREAD_CHATS_COUNT}

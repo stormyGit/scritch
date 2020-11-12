@@ -14,6 +14,7 @@ import ListItem from "@material-ui/core/ListItem";
 import GridListTile from "@material-ui/core/GridListTile";
 import PageTitle from "../Global/PageTitle";
 import Box from "@material-ui/core/Box";
+import {MicroPadder} from "../../util/padder";
 
 const styles = theme => ({
   welcomeCard: {
@@ -125,9 +126,11 @@ function WelcomeCardM({classes}) {
 
   return (
     <Box className={classes.welcomeCardMobile}>
+      <MicroPadder/>
       <Typography component="h3" variant="h3" align="center">
         Welcome to Scritch
       </Typography>
+      <MicroPadder/>
       <iframe
         className={classes.videoMobile}
         src="https://www.youtube-nocookie.com/embed/I1jMAoW-cmc" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen/>
