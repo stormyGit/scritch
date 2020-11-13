@@ -25,7 +25,7 @@ import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { Link, withRouter } from "react-router-dom";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 import UserAvatar from "../Users/UserAvatar";
 import Gif from "./Gif";
 import countContractor from "../../countContractor";

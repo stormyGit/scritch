@@ -48,7 +48,7 @@ import CommentForm from "./CommentForm";
 import Comments from "./Comments";
 import { withWidth, CardHeader } from "@material-ui/core";
 import UserAvatar from "../Users/UserAvatar";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 import dayjs from "dayjs";
 import countContractor from "../../countContractor";
 

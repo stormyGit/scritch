@@ -18,7 +18,7 @@ import ResponsiveDialog from "../Global/ResponsiveDialog";
 import EmptyList from "../Global/EmptyList";
 import UserAvatar from "../Users/UserAvatar";
 import withCurrentSession from "../withCurrentSession";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 
 import { GET_LIKES } from "../../queries/mediaQueries";
 

@@ -10,7 +10,7 @@ import Zoom from '@material-ui/core/Zoom';
 import ScritchButton from "./ScritchButton";
 import {setAssetRequestEventDialogState, setAssetRequestFursuitDialogState, setAssetRequestMakerDialogState, setUploadDialogState} from "../../reducers/Action";
 import {DialogContext} from "../../context/DialogContext";
-import {pageTitleToIndex} from "../../util/Converter";
+import {pageTitleToIndex} from "../../util/converter";
 import {NavigationContext} from "../../context/NavigationContext";
 
 const styles = theme => ({

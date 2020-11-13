@@ -10,7 +10,7 @@ import Grid from "@material-ui/core/Grid";
 import CardHeader from "@material-ui/core/CardHeader";
 import Divider from "@material-ui/core/Divider";
 import { Link } from "react-router-dom";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 import UserAvatar from "../Users/UserAvatar";
 import PageTitle from "../Global/PageTitle";
 import FursuitMiniCard from "../Fursuits/FursuitMiniCard";

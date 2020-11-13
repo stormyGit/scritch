@@ -5,7 +5,7 @@ import {NavigationContext} from "../context/NavigationContext";
 import * as React from "react";
 import {useContext, useRef, useState} from "react";
 import ScritchLogo from "./CustomComponents/ScritchLogo";
-import {Link} from "react-router-dom";
+import {Link, Redirect, withRouter} from "react-router-dom";
 import DisplayPageTitle from "./AppLayout/DisplayPageTitle";
 import SocialButton from "./Global/SocialButton";
 import MetricsBar from "./AppLayout/MetricsBar";
@@ -167,7 +167,7 @@ const Fade = React.forwardRef((props, ref) => {
 //   onExited: PropTypes.func,
 // };
 
-function ScritchToolbar({classes}) {
+function ScritchToolbar({classes, history, location}) {
   const theme = useTheme();
   const navContext = useContext(NavigationContext);
   const dialogContext = useContext(DialogContext);
@@ -322,4 +322,4 @@ function ScritchToolbar({classes}) {
 }
 
 
-export default withStyles(useStyles)(ScritchToolbar);
+export default withRouter(withStyles(useStyles)(ScritchToolbar));

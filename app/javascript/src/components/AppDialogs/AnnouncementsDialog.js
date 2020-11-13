@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 import dayjs from "dayjs";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";

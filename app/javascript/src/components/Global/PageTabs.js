@@ -5,7 +5,7 @@ import {Query} from "react-apollo";
 import {withStyles} from "@material-ui/core/styles";
 import gql from "graphql-tag";
 import {Link, withRouter} from "react-router-dom";
-import {pageTitleToIndex} from "../../util/Converter";
+import {pageTitleToIndex} from "../../util/converter";
 
 const styles = theme => ({
   tab: {
@@ -14,8 +14,7 @@ const styles = theme => ({
   }
 });
 
-const PageTabs = props => {
-  const {classes, location} = props;
+const PageTabs = ({classes, location}) => {
   const PageRoute = location.pathname;
 
   return (

@@ -15,7 +15,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Typography from "@material-ui/core/Typography";
 import { Link, withRouter } from "react-router-dom";
 import dayjs from "dayjs";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 
 const styles = theme => ({
   card: {

@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React from "react";
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
 import withWidth from "@material-ui/core/withWidth";
@@ -44,12 +44,11 @@ import Favorites from "../Favorites";
 import Subscriptions from "../Subscriptions";
 import SearchPage from "../SearchPage";
 
-import AppLayoutRemake from "./AppLayout";
+import AppLayout from "./AppLayout";
 import AppHeader from "./AppHeader";
 import MustLog from "./MustLog";
 import MediaTagging from "../Media/MediaTagging";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import {NavigationContext} from "../../context/NavigationContext";
 import {MicroPadder, Padder} from "../../util/padder";
 
 function AppRouter(props) {
@@ -152,53 +151,17 @@ function AppRouter(props) {
                     {width === "xl" || width === "lg" ? <Padder/> : <MicroPadder/>}
                     <Switch location={location}>
                       <Route exact path="/react_moderation" component={ModerationHome}/>
-                      <Route
-                        exact
-                        path="/react_moderation/analytics"
-                        component={ModerationAnalytics}
-                      />
+                      <Route exact path="/react_moderation/analytics" component={ModerationAnalytics}/>
                       <Route exact path="/react_moderation/assets" component={ModerationAssets}/>
                       <Route exact path="/react_moderation/claims" component={ModerationClaims}/>
-                      <Route
-                        exact
-                        path="/react_moderation/requests"
-                        component={ModerationRequests}
-                      />
-                      <Route
-                        exact
-                        path="/react_moderation/moderators"
-                        component={ModerationModerators}
-                      />
-                      <Route
-                        exact
-                        path="/react_moderation/sponsors"
-                        component={ModerationSponsors}
-                      />
-                      <Route
-                        exact
-                        path="/react_moderation/reports"
-                        component={ModerationReports}
-                      />
-                      <Route
-                        exact
-                        path="/react_moderation/tickets"
-                        component={ModerationTickets}
-                      />
-                      <Route
-                        exact
-                        path="/react_moderation/suspended_users"
-                        component={ModerationSuspendedUsers}
-                      />
-                      <Route
-                        exact
-                        path="/react_moderation/adverts"
-                        component={ModerationAdverts}
-                      />
-                      <Route
-                        exact
-                        path="/react_moderation/announcements"
-                        component={ModerationAnnouncements}
-                      />
+                      <Route exact path="/react_moderation/requests" component={ModerationRequests}/>
+                      <Route exact path="/react_moderation/moderators" component={ModerationModerators}/>
+                      <Route exact path="/react_moderation/sponsors" component={ModerationSponsors}/>
+                      <Route exact path="/react_moderation/reports" component={ModerationReports}/>
+                      <Route exact path="/react_moderation/tickets" component={ModerationTickets}/>
+                      <Route exact path="/react_moderation/suspended_users" component={ModerationSuspendedUsers}/>
+                      <Route exact path="/react_moderation/adverts" component={ModerationAdverts}/>
+                      <Route exact path="/react_moderation/announcements" component={ModerationAnnouncements}/>
                     </Switch>
                   </ModerationLayout>
                 </React.Fragment>
@@ -214,7 +177,7 @@ function AppRouter(props) {
           }
           return (
             <React.Fragment>
-              <AppLayoutRemake>
+              <AppLayout>
                 <AppHeader/>
                 {/*{width === "xl" || width === "lg" ? <Padder/> : <MicroPadder/>}*/}
                 <Switch location={location}>
@@ -239,39 +202,25 @@ function AppRouter(props) {
                   <Route exact path="/privacy_policy">
                     <LoadPrivacyPolicy/>
                   </Route>
-                  <Route
-                    exact
-                    path="/fursuits">
+                  <Route exact path="/fursuits">
                     <LoadFursuits/>
                   </Route>
-                  <Route
-                    exact
-                    path="/makers">
+                  <Route exact path="/makers">
                     <LoadMakers/>
                   </Route>
-                  <Route
-                    exact
-                    path="/events">
+                  <Route exact path="/events">
                     <LoadEvents/>
                   </Route>
-                  <Route
-                    exact
-                    path="/tag">
+                  <Route exact path="/tag">
                     <LoadTagPage/>
                   </Route>
-                  <Route
-                    exact
-                    path="/subscriptions">
+                  <Route exact path="/subscriptions">
                     <LoadSubscriptions/>
                   </Route>
-                  <Route
-                    exact
-                    path="/pictures">
+                  <Route exact path="/pictures">
                     <LoadMediaAll/>
                   </Route>
-                  <Route
-                    exact
-                    path="/favorites">
+                  <Route exact path="/favorites">
                     <LoadFavorites/>
                   </Route>
                   <Route exact path="/ads">
@@ -280,23 +229,13 @@ function AppRouter(props) {
                   <Route exact path="/pictures/:id">
                     <LoadMediumRemake/>
                   </Route>
-                  <Route
-                    exact
-                    path="/fursuits/:id"><LoadFursuitRemake/></Route>
-                  <Route
-                    exact
-                    path="/makers/:id"><LoadMakerRemake/></Route>
-                  <Route
-                    exact
-                    path="/events/:id"><LoadEventRemake/></Route>
-                  <Route
-                    exact
-                    path="/:id"><LoadUserRemake/></Route>
-                  <Route
-                    exact
-                    path="/:id/:tab"><LoadUserRemake/></Route>
+                  <Route exact path="/fursuits/:id"><LoadFursuitRemake/></Route>
+                  <Route exact path="/makers/:id"><LoadMakerRemake/></Route>
+                  <Route exact path="/events/:id"><LoadEventRemake/></Route>
+                  <Route exact path="/:id"><LoadUserRemake/></Route>
+                  <Route exact path="/:id/:tab"><LoadUserRemake/></Route>
                 </Switch>
-              </AppLayoutRemake>
+              </AppLayout>
             </React.Fragment>
           );
         }}

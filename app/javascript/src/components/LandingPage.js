@@ -7,10 +7,9 @@ import AppFooter from "./Global/AppFooter";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import useTheme from "@material-ui/core/styles/useTheme";
-import {WelcomeCardNormal, WelcomeCardMobile} from "./CustomComponents/WelcomeCard";
+import {WelcomeCardMobile} from "./CustomComponents/WelcomeCard";
 import {NavigationContext} from "../context/NavigationContext";
-import {setScrolled, setSearchDialogState} from "../reducers/Action";
-import AppDialogs from "./AppLayout/AppDialogs";
+import {setScrolled} from "../reducers/Action";
 
 const styles = theme => ({
   font: {

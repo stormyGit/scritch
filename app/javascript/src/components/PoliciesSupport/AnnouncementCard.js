@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import dayjs from "dayjs";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 
 const styles = theme => ({
   card: {

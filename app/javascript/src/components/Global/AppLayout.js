@@ -21,6 +21,7 @@ import {DialogContext} from "../../context/DialogContext";
 import QuickAccessFooter from "../AppLayout/QuickAccessFooter";
 import {useMediaQuery} from "@material-ui/core";
 import useTheme from "@material-ui/core/styles/useTheme";
+import AppDialogWrapper from "../AppLayout/AppDialogWrapper";
 
 
 export const DrawerWidth = 240;
@@ -167,16 +168,9 @@ function usePrevious(value) {
   return ref.current;
 }
 
-function AppLayout({classes, settingsLayout, children, currentSession, location, client, width}) {
+function AppLayout({classes, children, location}) {
   const theme = useTheme();
   const {dispatchNavigationChange, isDrawerOpen} = useContext(NavigationContext);
-  const {dispatchDialogChange, getUploadDialogState, getSignUpDialogState, getActivitiesDialogState, getChatDialogState, getSpeciesDialogState, getSettingsDialogState, getAdvertiseDialogState, getTechDialogState, getAssetRequestEventDialogState, getAssetRequestMakerDialogState, getAssetRequestFursuitDialogState, getSearchDialogState} = useContext(DialogContext);
-  const [nameInput, setNameInput] = useState("");
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [mainDrawer, setMainDrawer] = useState(true);
-  const [tempDrawer, setTempDrawer] = useState(false);
-  const [searchEnabled, setSearchEnabled] = useState(false);
-  const [query, setQuery] = useState({});
   const prevLocation = usePrevious(location);
   const tinyWidth = useMediaQuery(theme.breakpoints.down("xs"));
   const bigWidth = useMediaQuery(theme.breakpoints.up("lg"));
@@ -250,32 +244,7 @@ function AppLayout({classes, settingsLayout, children, currentSession, location,
             {children}
           </div>
           {tinyWidth && <QuickAccessFooter/>}
-          <AppDialogs
-            searchDialog={getSearchDialogState}
-            closeSearchDialog={() => dispatchDialogChange(setSearchDialogState(false))}
-            chatDialog={getChatDialogState}
-            closeChatDialog={() => dispatchDialogChange(setChatDialogState(false))}
-            signUpDialog={getSignUpDialogState}
-            closeSignUpDialog={() => dispatchDialogChange(setSignupDialogState(false))}
-            uploadDialog={getUploadDialogState}
-            closeUploadDialog={() => dispatchDialogChange(setUploadDialogState(false))}
-            activitiesDialog={getActivitiesDialogState}
-            closeActivitiesDialog={() => dispatchDialogChange(setActivitiesDialogState(false))}
-            advertiseDialog={getAdvertiseDialogState}
-            closeAdvertiseDialog={() => dispatchDialogChange(setAdvertisementDialogState(false))}
-            settingsDialog={getSettingsDialogState}
-            closeSettingsDialog={() => dispatchDialogChange(setSettingsDialogState(false))}
-            techDialog={getTechDialogState}
-            closeTechDialog={() => dispatchDialogChange(setTechDialogState(false))}
-            speciesDialog={getSpeciesDialogState}
-            closeSpeciesDialog={() => dispatchDialogChange(setSpeciesDialogState(false))}
-            assetRequestEventDialog={getAssetRequestEventDialogState}
-            closeAssetRequestEventDialog={() => dispatchDialogChange(setAssetRequestEventDialogState(false))}
-            assetRequestMakerDialog={getAssetRequestMakerDialogState}
-            closeAssetRequestMakerDialog={() => dispatchDialogChange(setAssetRequestMakerDialogState(false))}
-            assetRequestFursuitDialog={getAssetRequestFursuitDialogState}
-            closeAssetRequestFursuitDialog={() => dispatchDialogChange(setAssetRequestFursuitDialogState(false))}
-          />
+          <AppDialogWrapper/>
         </main>
       </div>
     </React.Fragment>

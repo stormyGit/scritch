@@ -29,7 +29,7 @@ import countFormat from "../../countFormat";
 import { GET_MEDIUM, GET_COMMENTS_BY_MEDIUM } from "../../queries/mediaQueries";
 import { DELETE_COMMENT } from "../../queries/mediaMutations";
 
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 
 const styles = theme => ({
   comment: {

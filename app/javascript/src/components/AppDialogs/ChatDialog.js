@@ -26,11 +26,11 @@ import EmptyList from "../Global/EmptyList";
 import withCurrentSession from "../withCurrentSession";
 import FormattedText from "../Global/FormattedText";
 import InteractiveTextInput from "../Global/InteractiveTextInput";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import Grow from "@material-ui/core/Grow";
 import Popper from "@material-ui/core/Popper";
-import { combineUUIDs } from "../../utils";
+import { combineUUIDs } from "../../util/uuid";
 import Divider from "@material-ui/core/Divider";
 
 import { GET_CHATS, GET_MESSAGES, GET_UNREAD_CHATS_COUNT } from "../../queries/chatQueries";
