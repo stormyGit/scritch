@@ -7,7 +7,7 @@ import AppFooter from "./Global/AppFooter";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import useTheme from "@material-ui/core/styles/useTheme";
-import {WelcomeCardMobile} from "./CustomComponents/WelcomeCard";
+import {WelcomeCardMobile, WelcomeCardNormal} from "./CustomComponents/WelcomeCard";
 import {NavigationContext} from "../context/NavigationContext";
 import {setScrolled} from "../reducers/Action";
 
@@ -56,6 +56,7 @@ const LandingPage = ({classes, width}) => {
     <GridList cellHeight={(height / 5) - 5} className={classes.landingPage} cols={1} ref={ref}>
       <GridListTile rows={smallToMediumHeight ? 3 : 2}>
         <PageTitle>Home</PageTitle>
+        <WelcomeCardNormal/>
       </GridListTile>
       {!smallToMediumHeight && <GridListTile rows={2}>
         <FrontMedia filter="scritched"/>
