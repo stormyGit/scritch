@@ -62,10 +62,10 @@ const ScritchFab = ({classes}) => {
 
   const fabs = [
     {
-      icon: <MediaIcon/>,
-      label: 'Media',
-      className: classes.addMedia,
-      dialogCallback: setUploadDialogState(true)
+      icon: <EventIcon/>,
+      label: 'Convention',
+      className: classes.addConvention,
+      dialogCallback: setAssetRequestEventDialogState(true)
     },
     {
       icon: <FursuitIcon/>,
@@ -80,10 +80,10 @@ const ScritchFab = ({classes}) => {
       dialogCallback: setAssetRequestMakerDialogState(true)
     },
     {
-      icon: <EventIcon/>,
-      label: 'Convention',
-      className: classes.addConvention,
-      dialogCallback: setAssetRequestEventDialogState(true)
+      icon: <MediaIcon/>,
+      label: 'Media',
+      className: classes.addMedia,
+      dialogCallback: setUploadDialogState(true)
     },
   ];
 
