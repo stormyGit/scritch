@@ -313,6 +313,7 @@ function ScritchToolbar({classes, history, location}) {
             <UserButton
               openSignUp={() => dialogContext.dispatchDialogChange(setSignupDialogState(true))}
               openSettings={() => dialogContext.dispatchDialogChange(setSettingsDialogState(true))}
+              openSpeciesDialog={() => dialogContext.dispatchDialogChange(setSpeciesDialogState(true))}
             />
           </React.Fragment>
         </Toolbar>

@@ -11,9 +11,15 @@ import {DELETE_SESSION} from "../../queries/globalQueries";
 import {Mutation} from "react-apollo";
 
 import UserAvatar from "../Users/UserAvatar";
-import {IconButton} from "@material-ui/core";
+import {IconButton, useMediaQuery} from "@material-ui/core";
 import {DialogContext} from "../../context/DialogContext";
 import {setSettingsDialogState, setSignupDialogState} from "../../reducers/Action";
+import {faArrowUp, faDove, faPaw, faStar, faTags, faUsers} from "@fortawesome/free-solid-svg-icons";
+import Badge from "@material-ui/core/Badge";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import Typography from "@material-ui/core/Typography";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import useTheme from "@material-ui/core/styles/useTheme";
 
 const styles = theme => ({
   dataSpacer: {
@@ -21,9 +27,37 @@ const styles = theme => ({
   }
 });
 
-function UserButton({classes, currentSession, width}) {
+function UserButton(props) {
+  const theme = useTheme();
   const dialogContext = useContext(DialogContext);
   const [userMenuAnchor, setUserMenuAnchor] = useState(false);
+  const tinyWidth = useMediaQuery(theme.breakpoints.down("xs"));
+  const {classes, currentSession, width} = props;
+
+
+  function BadgeFor(content, icon, name, onClick) {
+    return <MenuItem
+      onClick={onClick}
+    >
+      <ListItemIcon>
+        <Badge
+          badgeContent={content}
+          color="white"
+          showZero
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+        >
+          <FontAwesomeIcon
+            icon={icon}
+            className={classes.dataSpacer}
+          />
+        </Badge>
+      </ListItemIcon>
+      <Typography variant="inherit">{name}</Typography>
+    </MenuItem>;
+  }
 
   return (
     <React.Fragment>
@@ -45,9 +79,7 @@ function UserButton({classes, currentSession, width}) {
           >
             <MenuItem
               component={props => <Link to={`/${currentSession.user.slug}`} {...props} />}
-              onClick={() => {
-                setUserMenuAnchor(false)
-              }}
+              onClick={() => setUserMenuAnchor(false)}
             >
               Profile
             </MenuItem>
@@ -59,7 +91,11 @@ function UserButton({classes, currentSession, width}) {
             >
               Settings and Security
             </MenuItem>
-
+            {tinyWidth && BadgeFor(currentSession.user.score + currentSession.user.globalScore, faArrowUp, currentSession.user.metricSpecies || "Species: none")}
+            {tinyWidth && BadgeFor(currentSession.user.likedCount, faPaw, "Scritches")}
+            {tinyWidth && BadgeFor(currentSession.user.favedCount, faStar, "Favorites")}
+            {tinyWidth && BadgeFor(currentSession.user.followersCount, faUsers, "Followers")}
+            {tinyWidth && BadgeFor(currentSession.user.taggedCount, faTags, "Tagged in")}
             <Mutation mutation={DELETE_SESSION}>
               {(deleteSession, {data}) => (
                 <MenuItem
@@ -81,7 +117,9 @@ function UserButton({classes, currentSession, width}) {
       ) : (
         <Button
           color="inherit"
-          onClick={() => {dialogContext.dispatchDialogChange(setSignupDialogState(true));}}
+          onClick={() => {
+            dialogContext.dispatchDialogChange(setSignupDialogState(true));
+          }}
           variant="outlined"
           // size={width === "xl" || width === "lg" ? "large" : "small"}
         >

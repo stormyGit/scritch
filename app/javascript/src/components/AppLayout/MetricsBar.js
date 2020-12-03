@@ -49,115 +49,48 @@ function MetricsBar(props) {
     </Badge>;
   }
 
-  if (width === "xl") {
-    return (
-      <React.Fragment>
-        {currentSession && (
-          <div className={classes.metrics}>
-            <Tooltip title="Involvement Species">
-              <Typography
-                variant="subtitle1"
-                className={classes.link}
-                onClick={() => props.openSpeciesDialog()}
-              >
-                {BadgeFor(currentSession.user.metricSpecies, faDove)}
-              </Typography>
-            </Tooltip>
-            <Tooltip title="Scritch involvement Score">
-              <Typography variant="subtitle1" className={classes.dataSpacer}>
-                {BadgeFor(currentSession.user.score + currentSession.user.globalScore, faArrowUp)}
-              </Typography>
-            </Tooltip>
-            <Tooltip title="Scritches">
-              <Typography variant="subtitle1">
-                {BadgeFor(currentSession.user.likedCount, faPaw)}
-              </Typography>
-            </Tooltip>
-            <Tooltip title="Favorites">
-              <Typography variant="subtitle1">
-                {BadgeFor(currentSession.user.favedCount, faStar)}
-              </Typography>
-            </Tooltip>
-            <Tooltip title="Followers">
-              <Typography variant="subtitle1">
-                {BadgeFor(currentSession.user.followersCount, faUsers)}
-              </Typography>
-            </Tooltip>
-            <Tooltip title="Tagged in">
-              <Typography variant="subtitle1">
-                {BadgeFor(currentSession.user.taggedCount, faTags)}
-              </Typography>
-            </Tooltip>
-          </div>
-        )}
-      </React.Fragment>
-    );
-  } else {
-    return (
-      <React.Fragment>
-        {currentSession && (
-          <React.Fragment>
-            <div className={classes.metrics}>
-              <Tooltip title="Involvement Species">
-                <Typography
-                  variant="subtitle1"
-                  className={classes.link}
-                  onClick={() => props.openSpeciesDialog()}
-                >
-                  {currentSession.user.metricSpecies}
-                </Typography>
-              </Tooltip>
-              <Tooltip title="Scritch involvement Score">
-                <Typography
-                  variant="subtitle1"
-                  className={classes.dataSpacer}
-                >
-                  {"Score: "}
-                  {currentSession.user.score +
-                  currentSession.user.globalScore}
-                </Typography>
-              </Tooltip>
-            </div>
-            <div className={classes.metrics}>
-              <Tooltip title="Scritches">
-                <Typography variant="subtitle1">
-                  <FontAwesomeIcon icon={faPaw}/>{" "}
-                  {currentSession.user.likedCount}
-                </Typography>
-              </Tooltip>
-              <Tooltip title="Favorites">
-                <Typography variant="subtitle1">
-                  <FontAwesomeIcon
-                    icon={faStar}
-                    className={classes.dataSpacer}
-                  />{" "}
-                  {currentSession.user.favedCount}
-                </Typography>
-              </Tooltip>
-              <Tooltip title="Followers">
-                <Typography variant="subtitle1">
-                  <FontAwesomeIcon
-                    icon={faUsers}
-                    className={classes.dataSpacer}
-                  />{" "}
-                  {currentSession.user.followersCount}
-                </Typography>
-              </Tooltip>
-              <Tooltip title="Tagged in">
-                <Typography variant="subtitle1">
-                  <FontAwesomeIcon
-                    icon={faTags}
-                    className={classes.dataSpacer}
-                  />{" "}
-                  {currentSession.user.taggedCount}
-                </Typography>
-              </Tooltip>
-            </div>
-          </React.Fragment>
-        )}
-      </React.Fragment>
-    );
-  }
+  return (
+    <React.Fragment>
+      {currentSession && (
+        <div className={classes.metrics}>
+          <Tooltip title="Involvement Species">
+            <Typography
+              variant="subtitle1"
+              className={classes.link}
+              onClick={() => props.openSpeciesDialog()}
+            >
+              {BadgeFor(currentSession.user.metricSpecies, faDove)}
+            </Typography>
+          </Tooltip>
+          <Tooltip title="Scritch involvement Score">
+            <Typography variant="subtitle1" className={classes.dataSpacer}>
+              {BadgeFor(currentSession.user.score + currentSession.user.globalScore, faArrowUp)}
+            </Typography>
+          </Tooltip>
+          <Tooltip title="Scritches">
+            <Typography variant="subtitle1">
+              {BadgeFor(currentSession.user.likedCount, faPaw)}
+            </Typography>
+          </Tooltip>
+          <Tooltip title="Favorites">
+            <Typography variant="subtitle1">
+              {BadgeFor(currentSession.user.favedCount, faStar)}
+            </Typography>
+          </Tooltip>
+          <Tooltip title="Followers">
+            <Typography variant="subtitle1">
+              {BadgeFor(currentSession.user.followersCount, faUsers)}
+            </Typography>
+          </Tooltip>
+          <Tooltip title="Tagged in">
+            <Typography variant="subtitle1">
+              {BadgeFor(currentSession.user.taggedCount, faTags)}
+            </Typography>
+          </Tooltip>
+        </div>
+      )}
+    </React.Fragment>
+  );
 }
 
 export default withStyles(styles)(
