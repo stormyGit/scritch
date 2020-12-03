@@ -30,7 +30,7 @@ const styles = theme => ({
 function UserButton(props) {
   const theme = useTheme();
   const dialogContext = useContext(DialogContext);
-  const [userMenuAnchor, setUserMenuAnchor] = useState(false);
+  const [userMenuAnchor, setUserMenuAnchor] = useState(null);
   const tinyWidth = useMediaQuery(theme.breakpoints.down("xs"));
   const {classes, currentSession, width} = props;
 
@@ -74,18 +74,18 @@ function UserButton(props) {
             id={`user-menu`}
             anchorEl={userMenuAnchor}
             open={Boolean(userMenuAnchor)}
-            onClose={() => setUserMenuAnchor(false)}
+            onClose={(e) => setUserMenuAnchor(null)}
             transformOrigin={{vertical: "top", horizontal: "center"}}
           >
             <MenuItem
               component={props => <Link to={`/${currentSession.user.slug}`} {...props} />}
-              onClick={() => setUserMenuAnchor(false)}
+              onClick={() => setUserMenuAnchor(null)}
             >
               Profile
             </MenuItem>
             <MenuItem
               onClick={() => {
-                setUserMenuAnchor(false);
+                setUserMenuAnchor(null);
                 dialogContext.dispatchDialogChange(setSettingsDialogState(true));
               }}
             >

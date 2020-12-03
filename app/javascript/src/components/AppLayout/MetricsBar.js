@@ -29,13 +29,12 @@ const styles = theme => ({
   }
 });
 
-function MetricsBar(props) {
-  const {classes, currentSession, width} = props;
+const MetricsBar = (props) => {
+  const {classes, currentSession} = props;
 
   function BadgeFor(content, icon) {
     return <Badge
       badgeContent={content}
-      color="white"
       showZero
       anchorOrigin={{
         vertical: 'bottom',
@@ -91,8 +90,6 @@ function MetricsBar(props) {
       )}
     </React.Fragment>
   );
-}
+};
 
-export default withStyles(styles)(
-  withCurrentSession(withRouter(withWidth()(MetricsBar)))
-);
+export default withStyles(styles)(withCurrentSession(withRouter(withWidth()(MetricsBar))));

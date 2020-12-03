@@ -8,11 +8,12 @@ const DialogContext = createContext({
   getChatDialogState: false,
   getSpeciesDialogState: false,
   getSettingsDialogState: false,
-  getAdvertiseDialogState: false,
+  getAdvertisementDialogState: false,
   getTechDialogState: false,
   getAssetRequestEventDialogState: false,
   getAssetRequestMakerDialogState: false,
   getAssetRequestFursuitDialogState: false,
+  getSearchDialogState:false,
   dispatchDialogChange: undefined
 });
 
@@ -28,7 +29,7 @@ const DialogContextProvider = ({children}) => {
         getChatDialogState: state.getChatDialogState,
         getSpeciesDialogState: state.getSpeciesDialogState,
         getSettingsDialogState: state.getSettingsDialogState,
-        getAdvertiseDialogState: state.getAdvertiseDialogState,
+        getAdvertisementDialogState: state.getAdvertisementDialogState,
         getAssetRequestEventDialogState: state.getAssetRequestEventDialogState,
         getAssetRequestMakerDialogState: state.getAssetRequestMakerDialogState,
         getAssetRequestFursuitDialogState: state.getAssetRequestFursuitDialogState,

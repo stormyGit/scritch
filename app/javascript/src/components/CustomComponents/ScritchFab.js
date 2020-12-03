@@ -90,8 +90,8 @@ const ScritchFab = ({classes}) => {
   return (
     <div className={classes.root} style={{bottom: theme.spacing(bottomSpacing)}}>
       <ScritchButton size={64} color="secondary" aria-label="add" onClick={() => setPawClicked(!pawClicked)}/>
-      {fabs.map((fab) => (
-        <Zoom in={pawClicked}>
+      {fabs.map((fab, index) => (
+        <Zoom key={index + ""} in={pawClicked}>
           <Fab aria-label={fab.label} className={fab.className} color={"secondary"} onClick={() => dialogContext.dispatchDialogChange(fab.dialogCallback)}
           >
             {fab.icon}

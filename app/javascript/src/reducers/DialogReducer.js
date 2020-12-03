@@ -8,8 +8,12 @@ const initialState = {
   getChatDialogState: false,
   getSpeciesDialogState: false,
   getSettingsDialogState: false,
-  getAdvertiseDialogState: false,
-  getTechDialogState: false
+  getAdvertisementDialogState: false,
+  getTechDialogState: false,
+  getAssetRequestEventDialogState: false,
+  getAssetRequestMakerDialogState: false,
+  getAssetRequestFursuitDialogState: false,
+  getSearchDialogState:false
 };
 
 const DialogReducer = (state = initialState, action) => {

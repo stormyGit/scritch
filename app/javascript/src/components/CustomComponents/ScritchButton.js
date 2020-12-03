@@ -20,8 +20,8 @@ const styles = theme => ({
 const lineProps = {
   strokeOpacity: 1,
   strokeWidth: 1,
-  strokeLineCap: "round",
-  strokeLineJoin: "round",
+  strokeLinecap: "round",
+  strokeLinejoin: "round",
 }
 
 function lerp(a, b, n) {

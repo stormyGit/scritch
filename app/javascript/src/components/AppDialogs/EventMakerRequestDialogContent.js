@@ -59,7 +59,7 @@ class AssetRequestDialog extends React.Component {
     return (
       <React.Fragment>
         <DialogContent>
-          {assetType == "Maker" && (
+          {assetType === "Maker" && (
             <React.Fragment>
               <Typography variant="subtitle1">
                 Please provide the following information:
@@ -80,7 +80,7 @@ class AssetRequestDialog extends React.Component {
               </List>
             </React.Fragment>
           )}
-          {assetType == "Event" && (
+          {assetType === "Event" && (
             <React.Fragment>
               <Typography variant="subtitle1">
                 Please provide the following information:
