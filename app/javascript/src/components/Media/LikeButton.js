@@ -2,18 +2,18 @@ import React from "react";
 import FavoriteIcon from "@material-ui/icons/Pets";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
-import { Mutation } from "react-apollo";
+import {Mutation} from "react-apollo";
 import SvgIcon from "@material-ui/core/SvgIcon";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 
-import { GET_MEDIUM } from "../../queries/mediaQueries";
-import { CREATE_LIKE, DELETE_LIKE } from "../../queries/mediaMutations";
+import {GET_MEDIUM} from "../../queries/mediaQueries";
+import {CREATE_LIKE, DELETE_LIKE} from "../../queries/mediaMutations";
 import countContractor from "../../countContractor";
 import withCurrentSession from "../withCurrentSession";
 import LikesDialog from "./LikesDialog";
-import { Tooltip } from "@material-ui/core";
+import {Tooltip} from "@material-ui/core";
 import countFormat from "../../countFormat";
 
 const NoFavoriteIcon = props => (

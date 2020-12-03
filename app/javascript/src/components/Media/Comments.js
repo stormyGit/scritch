@@ -1,6 +1,6 @@
 import React from "react";
-import { Query } from "react-apollo";
-import { GET_COMMENTS_BY_MEDIUM } from "../../queries/mediaQueries";
+import {Query} from "react-apollo";
+import {GET_COMMENTS_BY_MEDIUM} from "../../queries/mediaQueries";
 import Comment from "./Comment";
 import LoadMoreButton from "../Global/LoadMoreButton";
 

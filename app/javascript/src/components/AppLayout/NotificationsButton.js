@@ -1,8 +1,8 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
-import { Query } from "react-apollo";
+import {Query} from "react-apollo";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
 import Badge from "@material-ui/core/Badge";
@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 
-import { GET_UNREAD_ACTIVITY_COUNT } from "../../queries/activityQueries";
+import {GET_UNREAD_ACTIVITY_COUNT} from "../../queries/activityQueries";
 
 const styles = theme => ({
   rightButton: {

@@ -1,8 +1,8 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
-import { Query } from "react-apollo";
-import { Link } from "react-router-dom";
+import {Query} from "react-apollo";
+import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -20,7 +20,7 @@ import UserAvatar from "../Users/UserAvatar";
 import withCurrentSession from "../withCurrentSession";
 import timeAgo from "../../util/timeAgo";
 
-import { GET_FAVES } from "../../queries/mediaQueries";
+import {GET_FAVES} from "../../queries/mediaQueries";
 
 const styles = theme => ({
   favesContainer: {

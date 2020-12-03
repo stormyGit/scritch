@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import React, {useState} from "react";
+import {Link, withRouter} from "react-router-dom";
+import {CopyToClipboard} from "react-copy-to-clipboard";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -20,8 +20,8 @@ import FlashIcon from "@material-ui/icons/FlashOn";
 import TimerIcon from "@material-ui/icons/Timer";
 import IsoIcon from "@material-ui/icons/Iso";
 import DateIcon from "@material-ui/icons/DateRange";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRulerHorizontal, faEye } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEye, faRulerHorizontal} from "@fortawesome/free-solid-svg-icons";
 
 import CloseIcon from "@material-ui/icons/Close";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
@@ -30,10 +30,10 @@ import EditIcon from "@material-ui/icons/Edit";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
 import withCurrentSession from "../withCurrentSession";
-import { withStyles } from "@material-ui/core/styles";
-import { GET_MEDIUM } from "../../queries/mediaQueries";
-import { Query, Mutation } from "react-apollo";
-import { TAG_LOCK_MEDIUM, TAG_UNLOCK_MEDIUM } from "../../queries/mediaMutations";
+import {withStyles} from "@material-ui/core/styles";
+import {GET_MEDIUM} from "../../queries/mediaQueries";
+import {Mutation, Query} from "react-apollo";
+import {TAG_LOCK_MEDIUM, TAG_UNLOCK_MEDIUM} from "../../queries/mediaMutations";
 import countFormat from "../../countFormat";
 
 import ReportDialog from "../AppDialogs/ReportDialog";
@@ -46,7 +46,7 @@ import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
 import TagDialog from "./TagDialog";
 import CommentForm from "./CommentForm";
 import Comments from "./Comments";
-import { withWidth, CardHeader } from "@material-ui/core";
+import {CardHeader, withWidth} from "@material-ui/core";
 import UserAvatar from "../Users/UserAvatar";
 import timeAgo from "../../util/timeAgo";
 import dayjs from "dayjs";

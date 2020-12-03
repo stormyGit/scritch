@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Button from "@material-ui/core/Button";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -11,11 +11,10 @@ import Select from "../Global/Select";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
-import MenuItem from "@material-ui/core/MenuItem";
 import SearchBar from "material-ui-search-bar";
 import TextField from "@material-ui/core/TextField";
-import { Mutation, Query } from "react-apollo";
-import { withRouter } from "react-router-dom";
+import {Mutation, Query} from "react-apollo";
+import {withRouter} from "react-router-dom";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 import Checkbox from "@material-ui/core/Checkbox";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -28,15 +27,11 @@ import ReportDialog from "../AppDialogs/ReportDialog";
 import DeleteMediumDialog from "../AppDialogs/DeleteMediumDialog";
 import TagReportDialog from "../AppDialogs/TagReportDialog";
 import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
-import { GET_MEDIUM } from "../../queries/mediaQueries";
-import { UPDATE_MEDIUM } from "../../queries/mediaMutations";
-import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
-import {
-  LOAD_EVENTS_SELECT,
-  LOAD_EDITIONS,
-  LOAD_SUB_EVENTS
-} from "../../queries/eventQueries";
-import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
+import {GET_MEDIUM} from "../../queries/mediaQueries";
+import {UPDATE_MEDIUM} from "../../queries/mediaMutations";
+import {LOAD_CATEGORIES} from "../../queries/categoryQueries";
+import {LOAD_EDITIONS, LOAD_EVENTS_SELECT, LOAD_SUB_EVENTS} from "../../queries/eventQueries";
+import {LOAD_FURSUITS} from "../../queries/fursuitQueries";
 
 const styles = theme => ({
   brand: {

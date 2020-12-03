@@ -1,6 +1,6 @@
 import React from "react";
-import { Query, Mutation, withApollo } from "react-apollo";
-import { withRouter } from "react-router-dom";
+import {Mutation, Query, withApollo} from "react-apollo";
+import {withRouter} from "react-router-dom";
 
 import Divider from "@material-ui/core/Divider";
 
@@ -19,16 +19,16 @@ import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import themeSelector from "../../themeSelector";
 import GlobalProgress from "../Global/GlobalProgress";
 import withCurrentSession from "../withCurrentSession";
 
-import { DELETE_USER, UPDATE_USER } from "../../queries/userMutations";
-import { GET_BLOCKED_USERS } from "../../queries/userQueries";
-import { GET_SESSION, DELETE_SESSION, UPDATE_PASSWORD } from "../../queries/globalQueries";
-import { Typography, TextField } from "@material-ui/core";
+import {DELETE_USER, UPDATE_USER} from "../../queries/userMutations";
+import {GET_BLOCKED_USERS} from "../../queries/userQueries";
+import {DELETE_SESSION, GET_SESSION, UPDATE_PASSWORD} from "../../queries/globalQueries";
+import {TextField, Typography} from "@material-ui/core";
 import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 
 const styles = theme => ({

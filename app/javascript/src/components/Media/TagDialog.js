@@ -1,5 +1,5 @@
-import React, { useState, memo } from "react";
-import { withRouter } from "react-router-dom";
+import React, {useState} from "react";
+import {withRouter} from "react-router-dom";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -14,26 +14,20 @@ import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 import HelpIcon from "@material-ui/icons/HelpOutline";
 
 import withCurrentSession from "../withCurrentSession";
-import { withStyles } from "@material-ui/core/styles";
-import { GET_MEDIUM } from "../../queries/mediaQueries";
-import { Query, Mutation } from "react-apollo";
-import { UPDATE_MEDIUM } from "../../queries/mediaMutations";
+import {withStyles} from "@material-ui/core/styles";
+import {GET_MEDIUM} from "../../queries/mediaQueries";
+import {Mutation, Query} from "react-apollo";
+import {UPDATE_MEDIUM} from "../../queries/mediaMutations";
 
 import ReportDialog from "../AppDialogs/ReportDialog";
 import TagReportDialog from "../AppDialogs/TagReportDialog";
 import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
-import {
-  withWidth,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  InputAdornment
-} from "@material-ui/core";
-import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
+import {Checkbox, FormControlLabel, InputAdornment, TextField, withWidth} from "@material-ui/core";
+import {LOAD_FURSUITS} from "../../queries/fursuitQueries";
 import SearchBar from "material-ui-search-bar";
-import { LOAD_EVENTS_SELECT, LOAD_SUB_EVENTS, LOAD_EDITIONS } from "../../queries/eventQueries";
+import {LOAD_EDITIONS, LOAD_EVENTS_SELECT, LOAD_SUB_EVENTS} from "../../queries/eventQueries";
 import Select from "../Global/Select";
-import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
+import {LOAD_CATEGORIES} from "../../queries/categoryQueries";
 import LoadMoreButton from "../Global/LoadMoreButton";
 
 const styles = theme => ({

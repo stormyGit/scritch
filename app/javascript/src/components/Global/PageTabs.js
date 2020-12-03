@@ -1,9 +1,7 @@
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import * as React from "react";
-import {Query} from "react-apollo";
 import {withStyles} from "@material-ui/core/styles";
-import gql from "graphql-tag";
 import {Link, withRouter} from "react-router-dom";
 import {pageTitleToIndex} from "../../util/converter";
 

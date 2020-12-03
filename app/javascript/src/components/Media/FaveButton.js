@@ -4,12 +4,12 @@ import NoFavoriteIcon from "@material-ui/icons/StarBorder";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import Tooltip from "@material-ui/core/Tooltip";
-import { Mutation } from "react-apollo";
+import {Mutation} from "react-apollo";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 
-import { GET_MEDIUM } from "../../queries/mediaQueries";
-import { CREATE_FAVE, DELETE_FAVE } from "../../queries/mediaMutations";
+import {GET_MEDIUM} from "../../queries/mediaQueries";
+import {CREATE_FAVE, DELETE_FAVE} from "../../queries/mediaMutations";
 import countContractor from "../../countContractor";
 import withCurrentSession from "../withCurrentSession";
 import FavesDialog from "./FavesDialog";

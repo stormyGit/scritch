@@ -1,7 +1,7 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 
-import { Query } from "react-apollo";
+import {Query} from "react-apollo";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -13,11 +13,7 @@ import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import {
-  LOAD_MAKER_COUNTRIES,
-  LOAD_MAKER_REGIONS,
-  LOAD_COMMISSION_STATUSES
-} from "../../queries/makerQueries";
+import {LOAD_COMMISSION_STATUSES, LOAD_MAKER_COUNTRIES, LOAD_MAKER_REGIONS} from "../../queries/makerQueries";
 
 import SearchBar from "material-ui-search-bar";
 

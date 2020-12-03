@@ -1,8 +1,8 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 
-import { Query } from "react-apollo";
+import {Query} from "react-apollo";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -18,13 +18,9 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 
-import {
-  LOAD_EVENTS_SELECT,
-  LOAD_EDITIONS,
-  LOAD_SUB_EVENTS
-} from "../../queries/eventQueries";
-import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
-import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
+import {LOAD_EDITIONS, LOAD_EVENTS_SELECT, LOAD_SUB_EVENTS} from "../../queries/eventQueries";
+import {LOAD_CATEGORIES} from "../../queries/categoryQueries";
+import {LOAD_FURSUITS} from "../../queries/fursuitQueries";
 
 import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
 

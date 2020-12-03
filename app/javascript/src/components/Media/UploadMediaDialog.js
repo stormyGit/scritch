@@ -1,5 +1,5 @@
 import React from "react";
-import { Query, Mutation } from "react-apollo";
+import {Mutation, Query} from "react-apollo";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -24,19 +24,15 @@ import withWidth from "@material-ui/core/withWidth";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { withRouter, Link } from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import Dropzone from "react-dropzone";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 
-import { CREATE_MEDIUM } from "../../queries/mediaMutations";
-import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
-import {
-  LOAD_EVENTS_SELECT,
-  LOAD_EDITIONS,
-  LOAD_SUB_EVENTS
-} from "../../queries/eventQueries";
+import {CREATE_MEDIUM} from "../../queries/mediaMutations";
+import {LOAD_CATEGORIES} from "../../queries/categoryQueries";
+import {LOAD_EDITIONS, LOAD_EVENTS_SELECT, LOAD_SUB_EVENTS} from "../../queries/eventQueries";
 
 const dropZoneStyles = theme => ({
   root: {

@@ -1,11 +1,11 @@
 import React from "react";
-import { Query } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
+import {Query} from "react-apollo";
+import {withStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 
 import withWidth from "@material-ui/core/withWidth";
 
-import { GET_MEDIA } from "../../queries/mediaQueries";
+import {GET_MEDIA} from "../../queries/mediaQueries";
 
 import MediumCard from "../Media/MediumCard";
 import EmptyList from "../Global/EmptyList";

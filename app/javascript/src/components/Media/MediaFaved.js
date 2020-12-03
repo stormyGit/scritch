@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
-import { Query } from "react-apollo";
-import { GET_MEDIA } from "../../queries/mediaQueries";
+import {Query} from "react-apollo";
+import {GET_MEDIA} from "../../queries/mediaQueries";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 
 import Media from "./Media";
 import MediaFiltersRework from "./MediaFiltersRework";
 import Fab from "@material-ui/core/Fab";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFilter} from "@fortawesome/free-solid-svg-icons";
 
 const styles = theme => ({
   root: {

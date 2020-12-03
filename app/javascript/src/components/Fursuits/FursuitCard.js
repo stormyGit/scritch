@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withApollo } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
+import {withApollo} from "react-apollo";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";

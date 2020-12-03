@@ -1,6 +1,6 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { Query, Mutation } from "react-apollo";
+import {withRouter} from "react-router-dom";
+import {Mutation, Query} from "react-apollo";
 import Divider from "@material-ui/core/Divider";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -20,15 +20,15 @@ import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 import ImageCropper from "../Global/ImageCropper";
 import MakerAvatar from "./MakerAvatar";
 
-import { withStyles } from "@material-ui/core/styles";
-import { countriesList } from "../../countriesList";
+import {withStyles} from "@material-ui/core/styles";
+import {countriesList} from "../../countriesList";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 
-import { UPDATE_MAKER, DELETE_MAKER } from "../../queries/makerMutations";
-import { LOAD_COMMISSION_STATUSES, LOAD_MAKER } from "../../queries/makerQueries";
+import {DELETE_MAKER, UPDATE_MAKER} from "../../queries/makerMutations";
+import {LOAD_COMMISSION_STATUSES} from "../../queries/makerQueries";
 import withCurrentSession from "../withCurrentSession";
-import { FormControlLabel, Checkbox } from "@material-ui/core";
+import {Checkbox, FormControlLabel} from "@material-ui/core";
 
 const AVATAR_SIZE = 96;
 

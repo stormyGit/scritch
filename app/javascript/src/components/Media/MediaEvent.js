@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
-import { Query } from "react-apollo";
-import { GET_EVENT_MEDIA } from "../../queries/mediaQueries";
+import {Query} from "react-apollo";
+import {GET_EVENT_MEDIA} from "../../queries/mediaQueries";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 
 import Media from "./Media";

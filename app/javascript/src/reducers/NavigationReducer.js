@@ -1,4 +1,4 @@
-import {Action, ActionType} from "./Action";
+import {ActionType} from "./Action";
 
 const initialState = {
   isDrawerOpen: false,

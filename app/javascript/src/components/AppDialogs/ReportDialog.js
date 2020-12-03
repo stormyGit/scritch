@@ -1,5 +1,5 @@
 import React from "react";
-import { Mutation, withApollo } from "react-apollo";
+import {Mutation, withApollo} from "react-apollo";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -8,16 +8,12 @@ import TextField from "@material-ui/core/TextField";
 import withWidth from "@material-ui/core/withWidth";
 import Grid from "@material-ui/core/Grid";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 import withCurrentSession from "../withCurrentSession";
 
-import {
-  CREATE_REPORT,
-  CREATE_MEDIUM_REPORT,
-  CREATE_COMMENT_REPORT
-} from "../../queries/reportMutations";
+import {CREATE_COMMENT_REPORT, CREATE_MEDIUM_REPORT, CREATE_REPORT} from "../../queries/reportMutations";
 
 const styles = theme => ({
   pixelImage: {

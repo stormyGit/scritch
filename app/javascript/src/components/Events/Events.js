@@ -2,7 +2,6 @@ import React, {useContext, useState} from "react";
 
 import {LOAD_EVENTS} from "../../queries/eventQueries";
 import {Query} from "react-apollo";
-import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
 import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
 

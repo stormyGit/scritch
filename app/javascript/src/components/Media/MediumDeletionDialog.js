@@ -1,14 +1,14 @@
 import React from "react";
-import { Mutation } from "react-apollo";
+import {Mutation} from "react-apollo";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import GlobalProgress from "../Global/GlobalProgress";
-import { DELETE_MEDIUM } from "../../queries/mediaMutations";
+import {DELETE_MEDIUM} from "../../queries/mediaMutations";
 
 const styles = theme => ({});
 

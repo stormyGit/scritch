@@ -1,6 +1,6 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { Mutation } from "react-apollo";
+import {withRouter} from "react-router-dom";
+import {Mutation} from "react-apollo";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
@@ -10,7 +10,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 import withCurrentSession from "../withCurrentSession";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 import ImageCropper from "../Global/ImageCropper";
@@ -18,8 +18,8 @@ import FursuitAvatar from "./FursuitAvatar";
 import FursuitEditFields from "./FursuitEditFields";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import { UPDATE_FURSUIT, DELETE_FURSUIT } from "../../queries/fursuitMutations";
-import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
+import {DELETE_FURSUIT, UPDATE_FURSUIT} from "../../queries/fursuitMutations";
+import {LOAD_FURSUIT} from "../../queries/fursuitQueries";
 
 const AVATAR_SIZE = 96;
 

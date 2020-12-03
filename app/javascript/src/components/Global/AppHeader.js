@@ -1,8 +1,8 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { withRouter, Link } from "react-router-dom";
-import { Query } from "react-apollo";
-import { GET_ADVERTS, GET_TOOLTIP } from "../../queries/advertQueries";
+import {withStyles} from "@material-ui/core/styles";
+import {withRouter} from "react-router-dom";
+import {Query} from "react-apollo";
+import {GET_ADVERTS} from "../../queries/advertQueries";
 import Grid from "@material-ui/core/Grid";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";

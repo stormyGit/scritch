@@ -1,4 +1,4 @@
-import {NavigationReducer, initialState} from "../reducers/NavigationReducer";
+import {initialState, NavigationReducer} from "../reducers/NavigationReducer";
 import React, {createContext, useReducer} from "react";
 
 const NavigationContext = createContext({isLoggedIn: false, isDrawerOpen: false, scrollAmount: 0, dispatchNavigationChange: undefined});

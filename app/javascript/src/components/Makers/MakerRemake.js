@@ -1,6 +1,6 @@
 import React from "react";
-import { Query, Mutation } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
+import {Mutation, Query} from "react-apollo";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import FursuitCard from "../Fursuits/FursuitCard";
 import DefaultAvatar from "../Users/DefaultAvatar";
@@ -14,11 +14,11 @@ import PageTitle from "../Global/PageTitle";
 import MakerClaimDialog from "./MakerClaimDialog";
 import EditMakerDialog from "./EditMakerDialog";
 
-import { LOAD_MAKER, LOAD_MAKER_DATE } from "../../queries/makerQueries";
-import { CREATE_MAKER_SUBSCRIPTION, DELETE_MAKER_SUBSCRIPTION } from "../../queries/makerMutations";
+import {LOAD_MAKER, LOAD_MAKER_DATE} from "../../queries/makerQueries";
+import {CREATE_MAKER_SUBSCRIPTION, DELETE_MAKER_SUBSCRIPTION} from "../../queries/makerMutations";
 
 import withCurrentSession from "../withCurrentSession";
-import { withRouter, Link } from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 
 const styles = theme => ({
   container: {

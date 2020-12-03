@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Button from "@material-ui/core/Button";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -18,14 +18,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 
 import TelegramLoginButton from "react-telegram-login";
-import { withRouter } from "react-router-dom";
-
-import ResponsiveDialog from "../Global/ResponsiveDialog";
+import {withRouter} from "react-router-dom";
 import SignUpAlternativeDialog from "./SignUpAlternativeDialog";
 
-import { Mutation } from "react-apollo";
+import {Mutation} from "react-apollo";
 
-import { CREATE_SESSION } from "../../queries/globalQueries";
+import {CREATE_SESSION} from "../../queries/globalQueries";
 
 const styles = theme => ({
   brand: {

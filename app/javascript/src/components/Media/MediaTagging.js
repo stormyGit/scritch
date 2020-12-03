@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
-import { Query } from "react-apollo";
-import { GET_TAGGABLE_MEDIA } from "../../queries/mediaQueries";
+import {Query} from "react-apollo";
+import {GET_TAGGABLE_MEDIA} from "../../queries/mediaQueries";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Fab from "@material-ui/core/Fab";
 
 import TaggableMedia from "./TaggableMedia";
 import MediaFiltersRework from "./MediaFiltersRework";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFilter} from "@fortawesome/free-solid-svg-icons";
 import PageTitle from "../Global/PageTitle";
 
 const styles = theme => ({

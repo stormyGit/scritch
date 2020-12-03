@@ -1,23 +1,19 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
-import { Query, Mutation } from "react-apollo";
-import { GET_MEDIA } from "../../queries/mediaQueries";
+import {Mutation, Query} from "react-apollo";
+import {GET_MEDIA} from "../../queries/mediaQueries";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Fab from "@material-ui/core/Fab";
 
 import Media from "./Media";
 import MediaFiltersRework from "./MediaFiltersRework";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
-import PageTitle from "../Global/PageTitle";
-import { Button } from "@material-ui/core";
-import {
-  READ_FURSUIT_NOTIFICATIONS,
-  READ_MEDIA_NOTIFICATIONS
-} from "../../queries/subscriptionMutations";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFilter} from "@fortawesome/free-solid-svg-icons";
+import {Button} from "@material-ui/core";
+import {READ_FURSUIT_NOTIFICATIONS, READ_MEDIA_NOTIFICATIONS} from "../../queries/subscriptionMutations";
 
 const styles = theme => ({
   root: {

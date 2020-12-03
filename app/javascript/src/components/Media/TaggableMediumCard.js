@@ -1,21 +1,16 @@
-import React, { useState, memo } from "react";
+import React, {memo, useState} from "react";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
 
-import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTags} from "@fortawesome/free-solid-svg-icons";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTags } from "@fortawesome/free-solid-svg-icons";
-
-import {
-  TAG_UNLOCK_MEDIUM,
-  TAG_LOCK_MEDIUM
-} from "../../queries/mediaMutations";
+import {TAG_LOCK_MEDIUM, TAG_UNLOCK_MEDIUM} from "../../queries/mediaMutations";
 import TagDialog from "./TagDialog";
-import { Mutation } from "react-apollo";
+import {Mutation} from "react-apollo";
 import countFormat from "../../countFormat";
 
 const styles = theme => ({

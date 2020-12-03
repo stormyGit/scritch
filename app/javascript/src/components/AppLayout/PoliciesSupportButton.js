@@ -1,7 +1,7 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
-import { Link, withRouter } from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -9,7 +9,6 @@ import Button from "@material-ui/core/Button";
 import withCurrentSession from "../withCurrentSession";
 
 import SupportIcon from "@material-ui/icons/ContactSupport";
-import { Typography } from "@material-ui/core";
 
 const styles = theme => ({
   menuButton: {

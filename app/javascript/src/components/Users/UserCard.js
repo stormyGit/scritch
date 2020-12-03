@@ -1,20 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
 import CardHeader from "@material-ui/core/CardHeader";
-import Button from "@material-ui/core/Button";
-import Avatar from "@material-ui/core/Avatar";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import { Link, withRouter } from "react-router-dom";
+import {Link} from "react-router-dom";
 import UserAvatar from "./UserAvatar";
-import TruncatedText from "../Global/TruncatedText";
 import countFormat from "../../countFormat";
 
 const styles = theme => ({

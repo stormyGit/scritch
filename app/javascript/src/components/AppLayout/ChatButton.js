@@ -1,18 +1,17 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
-import { Query } from "react-apollo";
+import {Query} from "react-apollo";
 import IconButton from "@material-ui/core/IconButton";
-import Tooltip from "@material-ui/core/Tooltip";
 import Badge from "@material-ui/core/Badge";
 import Button from "@material-ui/core/Button";
 
 import ChatIcon from "@material-ui/icons/Chat";
 import ChatNoneIcon from "@material-ui/icons/ChatBubbleOutline";
 
-import { GET_UNREAD_ACTIVITY_COUNT } from "../../queries/activityQueries";
-import { GET_UNREAD_CHATS_COUNT } from "../../queries/chatQueries";
+import {GET_UNREAD_ACTIVITY_COUNT} from "../../queries/activityQueries";
+import {GET_UNREAD_CHATS_COUNT} from "../../queries/chatQueries";
 
 const styles = theme => ({
   rightButton: {

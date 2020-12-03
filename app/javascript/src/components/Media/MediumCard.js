@@ -1,6 +1,6 @@
-import React, { useState, memo } from "react";
+import React, {memo, useState} from "react";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -9,8 +9,8 @@ import countContractor from "../../countContractor";
 
 import MediumDialog from "./MediumDialog";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaw, faCommentAlt } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faCommentAlt, faPaw} from "@fortawesome/free-solid-svg-icons";
 
 const styles = theme => ({
   card: {

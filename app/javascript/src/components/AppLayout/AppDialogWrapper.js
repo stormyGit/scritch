@@ -1,23 +1,10 @@
 import {withStyles} from '@material-ui/core/styles'
-import {Link, withRouter} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import withCurrentSession from '../withCurrentSession'
 import withWidth from '@material-ui/core/withWidth'
 import AppDialogs from './AppDialogs'
-import {
-  setActivitiesDialogState,
-  setAdvertisementDialogState,
-  setAssetRequestEventDialogState,
-  setAssetRequestFursuitDialogState,
-  setAssetRequestMakerDialogState,
-  setChatDialogState,
-  setSearchDialogState,
-  setSettingsDialogState,
-  setSignupDialogState,
-  setSpeciesDialogState,
-  setTechDialogState,
-  setUploadDialogState,
-} from '../../reducers/Action'
-import React, {createRef, useContext, useEffect, useRef, useState} from 'react'
+import {setActivitiesDialogState, setAdvertisementDialogState, setAssetRequestEventDialogState, setAssetRequestFursuitDialogState, setAssetRequestMakerDialogState, setChatDialogState, setSearchDialogState, setSettingsDialogState, setSignupDialogState, setSpeciesDialogState, setTechDialogState, setUploadDialogState,} from '../../reducers/Action'
+import React, {useContext, useState} from 'react'
 import {DialogContext} from '../../context/DialogContext'
 import {_HistoryListener} from "../../util/history";
 

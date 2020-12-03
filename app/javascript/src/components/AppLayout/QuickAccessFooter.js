@@ -1,4 +1,4 @@
-import {Divider, Grid, IconButton, Toolbar, withStyles} from "@material-ui/core";
+import {withStyles} from "@material-ui/core";
 import React, {useContext} from "react";
 import MediaIcon from "@material-ui/icons/PhotoLibrary";
 import FursuitIcon from "@material-ui/icons/AccessibilityNew";

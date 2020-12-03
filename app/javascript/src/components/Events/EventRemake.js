@@ -1,6 +1,6 @@
 import React from "react";
-import { Query } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
+import {Query} from "react-apollo";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Select from "../Global/Select";
 import Media from "../Media/Media";
@@ -17,11 +17,11 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import PageTitle from "../Global/PageTitle";
 
-import { LOAD_EVENT } from "../../queries/eventQueries";
-import { GET_EVENT_MEDIA } from "../../queries/mediaQueries";
+import {LOAD_EVENT} from "../../queries/eventQueries";
+import {GET_EVENT_MEDIA} from "../../queries/mediaQueries";
 
 import withCurrentSession from "../withCurrentSession";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 const styles = theme => ({
   container: {

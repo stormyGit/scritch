@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {withStyles} from "@material-ui/core/styles";
 import withCurrentSession from "../withCurrentSession";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -16,7 +16,6 @@ import SpeciesDialog from "../AppDialogs/SpeciesDialog";
 import GlobalSearchDialog from "../AppDialogs/GlobalSearchDialog";
 import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
 import {withRouter} from "react-router-dom";
-import {setSearchDialogState} from "../../reducers/Action";
 
 const styles = theme => ({
   close: {

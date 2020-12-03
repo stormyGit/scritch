@@ -1,8 +1,8 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
-import { Query, Mutation, withApollo } from "react-apollo";
-import { Link } from "react-router-dom";
+import {Mutation, Query, withApollo} from "react-apollo";
+import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -28,14 +28,9 @@ import FormattedText from "../Global/FormattedText";
 import InteractiveTextInput from "../Global/InteractiveTextInput";
 import timeAgo from "../../util/timeAgo";
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
-import Grow from "@material-ui/core/Grow";
-import Popper from "@material-ui/core/Popper";
-import { combineUUIDs } from "../../util/uuid";
-import Divider from "@material-ui/core/Divider";
 
-import { GET_CHATS, GET_MESSAGES, GET_UNREAD_CHATS_COUNT } from "../../queries/chatQueries";
-import { CREATE_MESSAGE, READ_CHAT } from "../../queries/chatMutations";
-import { Paper, ClickAwayListener, MenuList, MenuItem } from "@material-ui/core";
+import {GET_CHATS, GET_MESSAGES, GET_UNREAD_CHATS_COUNT} from "../../queries/chatQueries";
+import {CREATE_MESSAGE, READ_CHAT} from "../../queries/chatMutations";
 import ImageCropper from "../Global/ImageCropper";
 
 const styles = theme => ({

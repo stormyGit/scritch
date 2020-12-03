@@ -11,10 +11,10 @@ import {DELETE_SESSION} from "../../queries/globalQueries";
 import {Mutation} from "react-apollo";
 
 import UserAvatar from "../Users/UserAvatar";
-import {IconButton, useMediaQuery} from "@material-ui/core";
+import {useMediaQuery} from "@material-ui/core";
 import {DialogContext} from "../../context/DialogContext";
 import {setSettingsDialogState, setSignupDialogState} from "../../reducers/Action";
-import {faArrowUp, faDove, faPaw, faStar, faTags, faUsers} from "@fortawesome/free-solid-svg-icons";
+import {faArrowUp, faPaw, faStar, faTags, faUsers} from "@fortawesome/free-solid-svg-icons";
 import Badge from "@material-ui/core/Badge";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import Typography from "@material-ui/core/Typography";

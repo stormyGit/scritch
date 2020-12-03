@@ -1,8 +1,8 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import Linkify, { linkify } from "react-linkify";
-import { withStyles } from "@material-ui/core/styles";
-import { withRouter } from "react-router-dom";
+import Linkify, {linkify} from "react-linkify";
+import {withStyles} from "@material-ui/core/styles";
+import {withRouter} from "react-router-dom";
 
 const styles = theme => ({
   link: {

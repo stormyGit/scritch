@@ -1,6 +1,6 @@
 import React from "react";
-import { Query, Mutation } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
+import {Mutation, Query} from "react-apollo";
+import {withStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
@@ -9,7 +9,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Grid from "@material-ui/core/Grid";
 import CardHeader from "@material-ui/core/CardHeader";
 import Divider from "@material-ui/core/Divider";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import timeAgo from "../../util/timeAgo";
 import UserAvatar from "../Users/UserAvatar";
 import PageTitle from "../Global/PageTitle";
@@ -17,11 +17,8 @@ import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
 import dayjs from "dayjs";
 import * as Scroll from "react-scroll";
 
-import { GET_MEDIUM } from "../../queries/mediaQueries";
-import {
-  TAG_LOCK_MEDIUM,
-  TAG_UNLOCK_MEDIUM
-} from "../../queries/mediaMutations";
+import {GET_MEDIUM} from "../../queries/mediaQueries";
+import {TAG_LOCK_MEDIUM, TAG_UNLOCK_MEDIUM} from "../../queries/mediaMutations";
 
 import RelatedMediumCard from "./RelatedMediumCard";
 import CommentForm from "./CommentForm";

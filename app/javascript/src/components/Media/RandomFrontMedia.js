@@ -1,16 +1,16 @@
 import React from "react";
-import { Query } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
+import {Query} from "react-apollo";
+import {withStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { withRouter, Link } from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import uuidv4 from "uuid/v4";
 
 import queryString from "query-string";
 import withWidth from "@material-ui/core/withWidth";
 
-import { GET_FRONT_MEDIA } from "../../queries/mediaQueries";
+import {GET_FRONT_MEDIA} from "../../queries/mediaQueries";
 
 import MediumCard from "./MediumCard";
 import EmptyList from "../Global/EmptyList";

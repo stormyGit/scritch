@@ -19,7 +19,7 @@ import withWidth from "@material-ui/core/withWidth";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import {withRouter, Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import Dropzone from "react-dropzone";
 
 import {withStyles} from "@material-ui/core/styles";

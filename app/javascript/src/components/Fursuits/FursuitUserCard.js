@@ -1,18 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardHeader from "@material-ui/core/CardHeader";
 import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaw, faStar, faUsers, faTags } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPaw, faStar, faTags, faUsers} from "@fortawesome/free-solid-svg-icons";
 
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import FursuitAvatar from "./FursuitAvatar";
 import UnclaimDialog from "../AppDialogs/UnclaimDialog";
 import withCurrentSession from "../withCurrentSession";

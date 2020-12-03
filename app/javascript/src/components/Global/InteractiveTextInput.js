@@ -1,6 +1,6 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import { withApollo } from "react-apollo";
+import {withApollo} from "react-apollo";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -8,7 +8,7 @@ import uuid from "uuid/v4";
 
 import UserAvatar from "../Users/UserAvatar";
 
-import { GET_USERS } from "../../queries/userQueries";
+import {GET_USERS} from "../../queries/userQueries";
 
 const MENTION_REGEXP = new RegExp("[a-zA-Z0-9-_]");
 

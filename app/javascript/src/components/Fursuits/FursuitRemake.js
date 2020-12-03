@@ -1,6 +1,6 @@
 import React from "react";
-import { Query, Mutation } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
+import {Mutation, Query} from "react-apollo";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 
 import DefaultAvatar from "../Users/DefaultAvatar";
@@ -14,15 +14,15 @@ import PageTitle from "../Global/PageTitle";
 import FursuitClaimDialog from "./FursuitClaimDialog";
 import EditFursuitDialog from "./EditFursuitDialog";
 import MediaFursuit from "../Media/MediaFursuit";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaw, faStar, faUsers, faTags } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPaw, faStar, faTags, faUsers} from "@fortawesome/free-solid-svg-icons";
 
-import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
-import { CREATE_SUBSCRIPTION, DELETE_SUBSCRIPTION } from "../../queries/fursuitMutations";
+import {LOAD_FURSUIT} from "../../queries/fursuitQueries";
+import {CREATE_SUBSCRIPTION, DELETE_SUBSCRIPTION} from "../../queries/fursuitMutations";
 
 import withCurrentSession from "../withCurrentSession";
-import { Link, withRouter } from "react-router-dom";
-import { Avatar } from "@material-ui/core";
+import {Link, withRouter} from "react-router-dom";
+import {Avatar} from "@material-ui/core";
 import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 
 const styles = theme => ({

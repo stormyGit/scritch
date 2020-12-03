@@ -1,7 +1,7 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 
-import { Query } from "react-apollo";
+import {Query} from "react-apollo";
 
 import Grid from "@material-ui/core/Grid";
 import Select from "../Global/Select";
@@ -10,19 +10,11 @@ import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-import { fursuitColors } from "../../fursuitColors";
-import { fursuitEyes } from "../../fursuitEyes";
+import {fursuitColors} from "../../fursuitColors";
+import {fursuitEyes} from "../../fursuitEyes";
 
-import {
-  LOAD_LEG_TYPES,
-  LOAD_STYLES,
-  LOAD_SPECIES,
-  LOAD_BUILDS,
-  LOAD_PADDINGS,
-  LOAD_FINGERS,
-  LOAD_GENDERS
-} from "../../queries/fursuitQueries";
-import { LOAD_MAKERS_SELECT } from "../../queries/makerQueries";
+import {LOAD_BUILDS, LOAD_FINGERS, LOAD_GENDERS, LOAD_LEG_TYPES, LOAD_PADDINGS, LOAD_SPECIES, LOAD_STYLES} from "../../queries/fursuitQueries";
+import {LOAD_MAKERS_SELECT} from "../../queries/makerQueries";
 
 const styles = theme => {
   return {
