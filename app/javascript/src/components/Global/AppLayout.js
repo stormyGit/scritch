@@ -132,7 +132,6 @@ const styles = theme => ({
   },
   appBody: {
     overflowX: "hidden",
-    overflowY: "scroll",
     height: `calc(100vh - ${ToolBarHeight}px)`,
     position: "relative",
     // paddingRight: theme.spacing(1) + 1,

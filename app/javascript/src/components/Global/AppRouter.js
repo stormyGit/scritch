@@ -176,73 +176,70 @@ function AppRouter(props) {
               );
           }
           return (
-            <React.Fragment>
-              <AppLayout>
-                <AppHeader/>
-                {/*{width === "xl" || width === "lg" ? <Padder/> : <MicroPadder/>}*/}
-                <Switch location={location}>
-                  <Route exact path="/">
-                    <LoadLandingPage/>
-                  </Route>
-                  <Route exact path="/announcements">
-                    <LoadAnnouncements/>
-                  </Route>
-                  <Route path="/search">
-                    <LoadSearchPage/>
-                  </Route>
-                  <Route exact path="/terms_of_use">
-                    <LoadTerms/>
-                  </Route>
-                  <Route exact path="/user_guide">
-                    <LoadUserGuide/>
-                  </Route>
-                  <Route exact path="/faq">
-                    <LoadFaq/>
-                  </Route>
-                  <Route exact path="/privacy_policy">
-                    <LoadPrivacyPolicy/>
-                  </Route>
-                  <Route exact path="/fursuits">
-                    <LoadFursuits/>
-                  </Route>
-                  <Route exact path="/makers">
-                    <LoadMakers/>
-                  </Route>
-                  <Route exact path="/events">
-                    <LoadEvents/>
-                  </Route>
-                  <Route exact path="/tag">
-                    <LoadTagPage/>
-                  </Route>
-                  <Route exact path="/subscriptions">
-                    <LoadSubscriptions/>
-                  </Route>
-                  <Route exact path="/pictures">
-                    <LoadMediaAll/>
-                  </Route>
-                  <Route exact path="/favorites">
-                    <LoadFavorites/>
-                  </Route>
-                  <Route exact path="/ads">
-                    <LoadAdsLister/>
-                  </Route>
-                  <Route exact path="/pictures/:id">
-                    <LoadMediumRemake/>
-                  </Route>
-                  <Route exact path="/fursuits/:id"><LoadFursuitRemake/></Route>
-                  <Route exact path="/makers/:id"><LoadMakerRemake/></Route>
-                  <Route exact path="/events/:id"><LoadEventRemake/></Route>
-                  <Route exact path="/:id"><LoadUserRemake/></Route>
-                  <Route exact path="/:id/:tab"><LoadUserRemake/></Route>
-                </Switch>
-              </AppLayout>
-            </React.Fragment>
+            <AppLayout>
+              <AppHeader/>
+              {/*{width === "xl" || width === "lg" ? <Padder/> : <MicroPadder/>}*/}
+              <Switch location={location}>
+                <Route exact path="/">
+                  <LoadLandingPage/>
+                </Route>
+                <Route exact path="/announcements">
+                  <LoadAnnouncements/>
+                </Route>
+                <Route path="/search">
+                  <LoadSearchPage/>
+                </Route>
+                <Route exact path="/terms_of_use">
+                  <LoadTerms/>
+                </Route>
+                <Route exact path="/user_guide">
+                  <LoadUserGuide/>
+                </Route>
+                <Route exact path="/faq">
+                  <LoadFaq/>
+                </Route>
+                <Route exact path="/privacy_policy">
+                  <LoadPrivacyPolicy/>
+                </Route>
+                <Route exact path="/fursuits">
+                  <LoadFursuits/>
+                </Route>
+                <Route exact path="/makers">
+                  <LoadMakers/>
+                </Route>
+                <Route exact path="/events">
+                  <LoadEvents/>
+                </Route>
+                <Route exact path="/tag">
+                  <LoadTagPage/>
+                </Route>
+                <Route exact path="/subscriptions">
+                  <LoadSubscriptions/>
+                </Route>
+                <Route exact path="/pictures">
+                  <LoadMediaAll/>
+                </Route>
+                <Route exact path="/favorites">
+                  <LoadFavorites/>
+                </Route>
+                <Route exact path="/ads">
+                  <LoadAdsLister/>
+                </Route>
+                <Route exact path="/pictures/:id">
+                  <LoadMediumRemake/>
+                </Route>
+                <Route exact path="/fursuits/:id"><LoadFursuitRemake/></Route>
+                <Route exact path="/makers/:id"><LoadMakerRemake/></Route>
+                <Route exact path="/events/:id"><LoadEventRemake/></Route>
+                <Route exact path="/:id"><LoadUserRemake/></Route>
+                <Route exact path="/:id/:tab"><LoadUserRemake/></Route>
+              </Switch>
+            </AppLayout>
           );
         }}
       />
     </BrowserRouter>
-  )
-    ;
+  );
 }
 
 export default withCurrentSession(withWidth()(AppRouter));

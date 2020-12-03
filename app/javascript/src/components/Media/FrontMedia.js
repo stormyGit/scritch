@@ -19,7 +19,7 @@ const loaderJSON = require("../../loaderJSON.json");
 
 const styles = theme => ({
   root: {
-    width: "100%"
+    maxWidth: "80vw"
   },
   filters: {
     padding: theme.spacing(1),

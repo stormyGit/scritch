@@ -32,6 +32,9 @@ const styles = theme => ({
   },
   landingText: {
     maxWidth: "25rem"
+  },
+  frontMedia: {
+    maxWidth: "80vw"
   }
 });
 
