@@ -124,13 +124,11 @@ const DrawerItem = ({classes, label, icon, path, onClick, type}) => {
 };
 
 function DrawerMenu(props) {
-  const {classes, location, currentSession, width, onClose} = props;
+  const {classes, currentSession, width, onClose} = props;
   const user = currentSession && currentSession.user ? currentSession.user : null;
   const [settingsDialog, setSettingsDialog] = useState(false);
   const [sponsorDashboardDialog, setSponsorDashboardDialog] = useState(false);
   const [snack, setSnack] = useState(false);
-
-  if (user && user.sponsor) var sponsorLimit = new Date(user.sponsor.limit * 1000);
 
   const handleClose = () => {
     if (props.onClose) {

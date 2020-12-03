@@ -88,7 +88,7 @@ const styles = theme => ({
 function FursuitMiniCard(props) {
   const {classes, fursuit, onClick} = props;
 
-  var species;
+  let species;
   if (fursuit.isHybrid) {
     species = "Hybrid";
     if (fursuit.species.length > 0) {
@@ -104,7 +104,7 @@ function FursuitMiniCard(props) {
       <Grid item lg={12} xs={12}>
         <Tooltip
           title={
-            !fursuit.creationYear || fursuit.creationYear == 0
+            !fursuit.creationYear || fursuit.creationYear === 0
               ? `${fursuit.name} - ${species}`
               : `${fursuit.name} - ${fursuit.creationYear} - ${species}`
           }

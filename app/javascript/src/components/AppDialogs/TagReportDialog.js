@@ -15,7 +15,7 @@ import withCurrentSession from "../withCurrentSession";
 
 import {CREATE_TAG_REPORT} from "../../queries/reportMutations";
 
-const styles = theme => ({
+const styles = () => ({
   selected: {
     opacity: "50%"
   }
@@ -108,12 +108,12 @@ class TagReportDialog extends React.Component {
           >
             Cancel
           </Button>
-          <Mutation mutation={CREATE_TAG_REPORT} update={cache => {}}>
+          <Mutation mutation={CREATE_TAG_REPORT} update={() => {}}>
             {(createTagReport, { data }) => (
               <Button
                 disabled={
                   !!this.state.description.match(/^\s*$/) &&
-                  this.state.fursuitMediumIds.length == 0
+                  this.state.fursuitMediumIds.length === 0
                 }
                 onClick={() => {
                   createTagReport({

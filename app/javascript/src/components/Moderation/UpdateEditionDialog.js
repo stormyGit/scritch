@@ -319,7 +319,7 @@ class CreateEventDialog extends React.Component {
                           year: parseInt(this.state.year)
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });

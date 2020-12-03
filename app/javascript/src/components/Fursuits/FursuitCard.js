@@ -43,7 +43,7 @@ const styles = theme => ({
 class FursuitCard extends React.Component {
   renderMedia() {
     const { classes, fursuit, horizontal, width, client } = this.props;
-    var image;
+    let image;
 
     return (
       <div className={classes.cardMediaContainer}>

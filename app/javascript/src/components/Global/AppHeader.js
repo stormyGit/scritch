@@ -48,7 +48,7 @@ class AppHeader extends React.Component {
 
   render() {
     const { classes, width, currentSession } = this.props;
-    var limit = width === "xs" || width === "sm" ? 1 : width === "md" ? 2 : 3;
+    const limit = width === "xs" || width === "sm" ? 1 : width === "md" ? 2 : 3;
 
     if (currentSession && !currentSession.user.showAds) return null;
 
@@ -71,7 +71,7 @@ class AppHeader extends React.Component {
                 return <div style={{ height: 125, width: 100 }} />;
               }
               if (data) {
-                if (data.adverts && data.adverts.length == limit)
+                if (data.adverts && data.adverts.length === limit)
                   return (
                     <React.Fragment>
                       <Grid item xs={12} md={6} lg={4}>

@@ -7,7 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTools} from "@fortawesome/free-solid-svg-icons";
 
-const styles = theme => ({});
+const styles = () => ({});
 
 class TechButton extends React.Component {
   state = {

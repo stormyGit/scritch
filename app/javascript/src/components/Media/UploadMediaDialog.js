@@ -82,7 +82,7 @@ class DropZoneField extends React.Component {
     if (this.state.disabled) {
       return;
     }
-    var loadedFiles = [];
+    const loadedFiles = [];
     this.setState({ uploading: true });
     this.setState({ disabled: true });
     const pushFile = index => {
@@ -430,7 +430,7 @@ class UploadMediaDialog extends React.Component {
 
             <div style={{ padding: 5 }} />
             {this.state.mediaEvent &&
-              Object.keys(this.state.mediaEvent).length != 0 &&
+              Object.keys(this.state.mediaEvent).length !== 0 &&
               this.state.mediaEvent.value && (
                 <Query
                   query={LOAD_EDITIONS}
@@ -472,7 +472,7 @@ class UploadMediaDialog extends React.Component {
               )}
             <div style={{ padding: 5 }} />
             {this.state.mediaEdition &&
-              Object.keys(this.state.mediaEdition).length != 0 &&
+              Object.keys(this.state.mediaEdition).length !== 0 &&
               this.state.mediaEdition.value && (
                 <Query
                   query={LOAD_SUB_EVENTS}
@@ -655,11 +655,11 @@ class UploadMediaDialog extends React.Component {
                           !this.state.complete ||
                           this.state.pushing ||
                           this.state.pushed ||
-                          ((Object.keys(this.state.mediaSubEvent).length == 0 &&
-                            Object.keys(this.state.mediaCategory).length ==
+                          ((Object.keys(this.state.mediaSubEvent).length === 0 &&
+                            Object.keys(this.state.mediaCategory).length ===
                               0) ||
-                            (Object.keys(this.state.mediaEvent).length != 0 &&
-                              Object.keys(this.state.mediaSubEvent).length ==
+                            (Object.keys(this.state.mediaEvent).length !== 0 &&
+                              Object.keys(this.state.mediaSubEvent).length ===
                                 0) ||
                             (!this.state.isPhotographer &&
                               (this.state.photographerSlug === "" &&

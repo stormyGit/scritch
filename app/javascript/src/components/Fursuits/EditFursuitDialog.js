@@ -295,7 +295,7 @@ class EditFursuitDialog extends React.Component {
                               id: fursuit.id
                             }
                           }
-                        }).then(updated => {
+                        }).then(() => {
                           location.reload();
                         });
                     }}
@@ -348,7 +348,7 @@ class EditFursuitDialog extends React.Component {
                             : {})
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                     });
                   }}

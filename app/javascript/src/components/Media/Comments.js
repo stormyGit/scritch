@@ -36,7 +36,7 @@ class Comments extends React.Component {
                   comment={comment}
                   medium={medium}
                   key={comment.id}
-                  disableReply={parent ? true : false}
+                  disableReply={!!parent}
                 />
               ))}
               {data.commentsByMedium.length < commentsCount &&

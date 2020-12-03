@@ -2,7 +2,7 @@ import React from "react";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {withStyles} from "@material-ui/core/styles";
 
-const styles = theme => ({
+const styles = () => ({
   colorSecondary: {
     width: "100%",
     backgroundColor: "transparent",

@@ -12,7 +12,7 @@ const styles = theme => ({
 
 linkify.add("@", {
   validate: function(text, pos, self) {
-    var tail = text.slice(pos);
+    const tail = text.slice(pos);
 
     if (!self.re.mentions) {
       self.re.mentions = new RegExp("^[a-zA-Z0-9_-]+");

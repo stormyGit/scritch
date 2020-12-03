@@ -328,7 +328,7 @@ class EditMakerDialog extends React.Component {
                 data.commissionStatuses.map(
                   e => e && commissionsList.push({ value: e.id, label: e.name })
                 );
-                if (commissionsList.length == 0) {
+                if (commissionsList.length === 0) {
                   return null;
                 }
                 return (
@@ -361,7 +361,7 @@ class EditMakerDialog extends React.Component {
                               id: maker.id
                             }
                           }
-                        }).then(updated => {
+                        }).then(() => {
                           location.reload();
                         });
                     }}
@@ -393,7 +393,7 @@ class EditMakerDialog extends React.Component {
                             : {})
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });

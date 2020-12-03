@@ -159,7 +159,7 @@ const styles = theme => ({
   }
 });
 
-var scroll = Scroll.animateScroll;
+const scroll = Scroll.animateScroll;
 
 const Image = ({ classes, orientation, medium }) => {
   
@@ -171,7 +171,6 @@ const Image = ({ classes, orientation, medium }) => {
           "mp4" && (
           <video
             loop="loop"
-            autoplay="autoplay"
             onContextMenu={e => {
               e.preventDefault();
             }}
@@ -241,7 +240,7 @@ class Medium extends React.Component {
             return null;
           }
 
-          var orientation;
+          let orientation;
           if (medium) {
             if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
               orientation = classes.mediaVleft;
@@ -410,7 +409,7 @@ class Medium extends React.Component {
                             currentSession.user.moderator) && (
                             <Mutation
                               mutation={TAG_LOCK_MEDIUM}
-                              update={cache => {}}
+                              update={() => {}}
                               onCompleted={() => {
                                 this.setState({ editMedium: true });
                               }}
@@ -438,10 +437,10 @@ class Medium extends React.Component {
                           )}
                         {currentSession &&
                           medium.user.id !== currentSession.user.id &&
-                          medium.completion != 100 && (
+                          medium.completion !== 100 && (
                             <Mutation
                               mutation={TAG_LOCK_MEDIUM}
-                              update={cache => {}}
+                              update={() => {}}
                               onCompleted={() => {
                                 this.setState({ tagMedium: true });
                               }}
@@ -552,7 +551,7 @@ class Medium extends React.Component {
                               </Grid>
                             </div>
                           )}
-                          {currentSession && medium.fursuits.length != 0 && (
+                          {currentSession && medium.fursuits.length !== 0 && (
                             <div>
                               <div className={classes.padder} />
                               <Divider />
@@ -591,7 +590,7 @@ class Medium extends React.Component {
                           {currentSession && (
                             <div className={classes.tags}>
                               <Grid container spacing={1}>
-                                {medium.fursuits.length != 0 &&
+                                {medium.fursuits.length !== 0 &&
                                   medium.fursuits.map(fursuit => (
                                     <Grid item lg={2} xs={2} key={fursuit.id}>
                                       <Link
@@ -663,7 +662,7 @@ class Medium extends React.Component {
                   </Card>
                   <Mutation
                     mutation={TAG_UNLOCK_MEDIUM}
-                    update={cache => {}}
+                    update={() => {}}
                     onCompleted={() => {
                       this.setState({ editMedium: false });
                     }}
@@ -690,7 +689,7 @@ class Medium extends React.Component {
                   </Mutation>
                   <Mutation
                     mutation={TAG_UNLOCK_MEDIUM}
-                    update={cache => {}}
+                    update={() => {}}
                     onCompleted={() => {
                       this.setState({
                         tagMedium: false

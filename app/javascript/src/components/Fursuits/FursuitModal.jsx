@@ -13,7 +13,7 @@ import GlobalProgress from "../Global/GlobalProgress";
 import {LOAD_FURSUIT} from "../../queries/fursuitQueries";
 import {Query} from "react-apollo";
 
-const styles = theme => ({
+const styles = () => ({
   link: {
     textDecoration: "none"
   },

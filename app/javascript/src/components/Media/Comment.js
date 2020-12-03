@@ -210,7 +210,7 @@ class Comment extends React.Component {
                     )}
                   </Mutation>
                 )}
-                {currentSession && currentSession.user.id != comment.user.id && (
+                {currentSession && currentSession.user.id !== comment.user.id && (
                   <MenuItem
                     onClick={() => {
                       this.setState({

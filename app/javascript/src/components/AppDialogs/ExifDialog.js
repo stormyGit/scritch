@@ -61,7 +61,7 @@ function ExifDialog(props) {
 
   if (!medium.exif || Object.keys(JSON.parse(medium.exif)).length === 0)
     return null;
-  var exif = JSON.parse(medium.exif);
+  const exif = JSON.parse(medium.exif);
 
   return (
     <ResponsiveDialog
@@ -197,7 +197,7 @@ function ExifDialog(props) {
                   <ListItemText
                     className={classes.textGrid}
                     primary={`Flash: ${
-                      parseInt(exif.Flash) % 2 == 0 ? "Did not fire" : "Fired"
+                      parseInt(exif.Flash) % 2 === 0 ? "Did not fire" : "Fired"
                     }`}
                   />
                 </Grid>

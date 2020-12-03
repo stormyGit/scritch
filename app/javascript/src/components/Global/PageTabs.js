@@ -5,7 +5,7 @@ import {withStyles} from "@material-ui/core/styles";
 import {Link, withRouter} from "react-router-dom";
 import {pageTitleToIndex} from "../../util/converter";
 
-const styles = theme => ({
+const styles = () => ({
   tab: {
     minWidth: "20%",
     width: "25%",

@@ -233,7 +233,7 @@ class CreateFursuitDialog extends React.Component {
                             : null
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });

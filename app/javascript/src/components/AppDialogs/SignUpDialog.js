@@ -125,7 +125,7 @@ class SignUpDialog extends React.Component {
             onClose();
           }}
         >
-          {this.state.loginScreen == "all" && (
+          {this.state.loginScreen === "all" && (
             <React.Fragment>
               <DialogTitle className={classes.titleBarContainer}>
                 <Grid container spacing={0} alignItems="center" justify="space-between">
@@ -291,11 +291,11 @@ class SignUpDialog extends React.Component {
                         <Mutation
                           mutation={EMAIL_SIGN_IN}
                           onError={e => {
-                            if (e.message == "GraphQL error: wrong_pwd")
+                            if (e.message === "GraphQL error: wrong_pwd")
                               this.setState({ invalidPass: true });
-                            if (e.message == "GraphQL error: unknown_email")
+                            if (e.message === "GraphQL error: unknown_email")
                               this.setState({ invalidMail: true });
-                            if (e.message == "GraphQL error: no_confirm")
+                            if (e.message === "GraphQL error: no_confirm")
                               this.setState({ noConfirm: true });
                           }}
                           onCompleted={() => location.reload()}
@@ -413,11 +413,11 @@ class SignUpDialog extends React.Component {
                         <Mutation
                           mutation={REGISTER_USER}
                           onError={e => {
-                            if (e.message == "GraphQL error: wrong_pwd")
+                            if (e.message === "GraphQL error: wrong_pwd")
                               this.setState({ invalidPass: true });
-                            if (e.message == "GraphQL error: email_exists")
+                            if (e.message === "GraphQL error: email_exists")
                               this.setState({ invalidMail: true });
-                            if (e.message == "GraphQL error: no_confirm")
+                            if (e.message === "GraphQL error: no_confirm")
                               this.setState({ noConfirm: true });
                           }}
                           onCompleted={() =>
@@ -517,7 +517,7 @@ class SignUpDialog extends React.Component {
                         <Mutation
                           mutation={RESET_PASSWORD}
                           onError={e => {
-                            if (e.message == "GraphQL error: unknown_email")
+                            if (e.message === "GraphQL error: unknown_email")
                               this.setState({ invalidMail: true });
                           }}
                           onCompleted={() => this.setState({ success: true, forgotEmail: "" })}
@@ -571,10 +571,10 @@ class SignUpDialog extends React.Component {
               </DialogContent>
             </React.Fragment>
           )}
-          {this.state.loginScreen == "telegram" && (
+          {this.state.loginScreen === "telegram" && (
             <TelegramLogin onGoBack={() => this.setState({ loginScreen: "all" })} />
           )}
-          {this.state.loginScreen == "facebook" && (
+          {this.state.loginScreen === "facebook" && (
             <FacebookLoginScreen onGoBack={() => this.setState({ loginScreen: "all" })} />
           )}
         </ResponsiveDialog>

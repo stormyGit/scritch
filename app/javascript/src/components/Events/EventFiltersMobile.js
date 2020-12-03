@@ -100,7 +100,7 @@ class EventFilters extends React.Component {
   componentDidMount() {}
 
   clearFilters(filter) {
-    var criteria = {
+    const criteria = {
       name: "",
       country: null
     };
@@ -230,7 +230,7 @@ class EventFilters extends React.Component {
           <ExpansionPanel
             expanded={this.state.expansion}
             onChange={() =>
-              this.state.expansion == false && this.setState({ expansion: !this.state.expansion })
+              this.state.expansion === false && this.setState({ expansion: !this.state.expansion })
             }
           >
             <ExpansionPanelSummary

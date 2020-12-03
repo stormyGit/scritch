@@ -102,7 +102,7 @@ const styles = theme => ({
     paddingBottom: theme.spacing(8)
   },
   emptyChatsIcon: {
-    fontSize: 2,
+    // fontSize: 2,
     display: "block",
     fontSize: "4em",
     marginLeft: "auto",
@@ -374,7 +374,6 @@ class ChatDialog extends React.Component {
                 <img
                   src={message.picture}
                   className={classes.messageText}
-                  onChangeLocation={onClose}
                 />
               </Grid>
               <Grid

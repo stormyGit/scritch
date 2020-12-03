@@ -251,7 +251,7 @@ class CreateEventDialog extends React.Component {
                           status: this.state.status
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });

@@ -471,7 +471,6 @@ const Message = ({ message, last, classes, currentSession, user, onClose }) => {
                 <img
                   src={message.picture}
                   className={classes.messageText}
-                  onChangeLocation={onClose}
                 />
               </a>
             </Grid>

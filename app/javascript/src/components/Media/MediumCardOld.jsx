@@ -27,7 +27,7 @@ const styles = theme => ({
     left: 0,
     width: "100%",
     backgroundImage:
-      theme.type == "dark"
+      theme.type === "dark"
         ? "linear-gradient(#000000ff, #00000000)"
         : "linear-gradient(#000000ff, #00000000)"
   },
@@ -117,7 +117,7 @@ const styles = theme => ({
 const Media = ({ classes, medium, width }) => {
   const [mouseOver, setMouseOver] = useState(false);
 
-  var orientation;
+  let orientation;
   if (medium) {
     if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
       orientation = classes.verticalMedia;

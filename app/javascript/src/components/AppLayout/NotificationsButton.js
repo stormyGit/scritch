@@ -13,7 +13,7 @@ import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 
 import {GET_UNREAD_ACTIVITY_COUNT} from "../../queries/activityQueries";
 
-const styles = theme => ({
+const styles = () => ({
   rightButton: {
     display: "inline-block"
   },

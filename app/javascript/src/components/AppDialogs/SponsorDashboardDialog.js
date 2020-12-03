@@ -60,8 +60,8 @@ function SponsorDashboardDialog(props) {
           currentSession.user.sponsor.status.slice(1)}`}
         </Typography>
         <Typography variant="h6" className={classes.text}>
-          {currentSession.user.sponsor.status == "live" &&
-          currentSession.user.sponsor.plan != "Free Trial" ? (
+          {currentSession.user.sponsor.status === "live" &&
+          currentSession.user.sponsor.plan !== "Free Trial" ? (
             <strong>{`Renews: `}</strong>
           ) : (
             <strong>{`Expires: `}</strong>
@@ -73,8 +73,8 @@ function SponsorDashboardDialog(props) {
         </Typography>
       </DialogContent>
       <DialogActions>
-        {currentSession.user.sponsor.status == "live" &&
-        currentSession.user.sponsor.plan != "Free Trial" && (
+        {currentSession.user.sponsor.status === "live" &&
+        currentSession.user.sponsor.plan !== "Free Trial" && (
           <a
             href={`${process.env.SITE_URL}/sponsors/cancel`}
             className={classes.link}

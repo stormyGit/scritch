@@ -16,7 +16,7 @@ import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 import withCurrentSession from "../withCurrentSession";
 
-const styles = theme => ({
+const styles = () => ({
   link: {
     textDecoration: "none"
   }

@@ -18,7 +18,7 @@ import withCurrentSession from "../withCurrentSession";
 
 import {CREATE_CLAIM} from "../../queries/claimMutations";
 
-const styles = theme => ({});
+const styles = () => ({});
 
 function FursuitClaimDialog(props) {
   const {classes, currentSession, fursuit} = props;
@@ -85,7 +85,7 @@ function FursuitClaimDialog(props) {
         >
           Cancel
         </Button>
-        <Mutation mutation={CREATE_CLAIM} update={cache => {
+        <Mutation mutation={CREATE_CLAIM} update={() => {
         }}>
           {(createClaim, {data}) => (
             <Button

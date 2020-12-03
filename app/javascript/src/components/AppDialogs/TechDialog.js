@@ -116,7 +116,7 @@ class TechDialog extends React.Component {
           >
             Cancel
           </Button>
-          <Mutation mutation={CREATE_TECH_REPORT} update={cache => {}}>
+          <Mutation mutation={CREATE_TECH_REPORT} update={() => {}}>
             {(createReport, { data }) => (
               <Button
                 disabled={

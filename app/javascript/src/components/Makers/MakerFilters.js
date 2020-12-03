@@ -102,7 +102,7 @@ class MakerFilters extends React.Component {
   componentDidMount() {}
 
   clearFilters(filter) {
-    var criteria = {
+    const criteria = {
       name: "",
       country: null,
       commissionStatus: null,
@@ -199,7 +199,7 @@ class MakerFilters extends React.Component {
             error ||
             !data ||
             !data.makersRegion ||
-            data.makersRegion.length == 0
+            data.makersRegion.length === 0
           ) {
             return null;
           }
@@ -215,7 +215,7 @@ class MakerFilters extends React.Component {
           data.makersRegion.map(
             e => e && regionsList.push({ value: e, label: e })
           );
-          if (regionsList.length == 0) {
+          if (regionsList.length === 0) {
             return null;
           }
           return (
@@ -263,7 +263,7 @@ class MakerFilters extends React.Component {
           data.commissionStatuses.map(
             e => e && commissionsList.push({ value: e.id, label: e.name })
           );
-          if (commissionsList.length == 0) {
+          if (commissionsList.length === 0) {
             return null;
           }
           return (
@@ -301,7 +301,7 @@ class MakerFilters extends React.Component {
           <ExpansionPanel
             expanded={this.state.expansion}
             onChange={() =>
-              this.state.expansion == false &&
+              this.state.expansion === false &&
               this.setState({ expansion: !this.state.expansion })
             }
           >

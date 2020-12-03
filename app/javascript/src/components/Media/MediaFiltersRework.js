@@ -126,7 +126,7 @@ class MediaFilters extends React.Component {
   componentDidMount() {}
 
   clearFilters(filter) {
-    var criteria = {
+    const criteria = {
       fursuits: [],
       user: null,
       event: null,
@@ -134,7 +134,7 @@ class MediaFilters extends React.Component {
       category: null,
       subEvent: null,
       gifs: false,
-      sort: { value: "latest", label: "Latest" },
+      sort: {value: "latest", label: "Latest"},
       name: "",
       nameInput: ""
     };
@@ -231,7 +231,7 @@ class MediaFilters extends React.Component {
             data.events.map(
               e => e && eventsList.push({ value: e.id, label: e.name })
             );
-            if (eventsList.length == 0) {
+            if (eventsList.length === 0) {
               return null;
             }
             return (
@@ -275,7 +275,7 @@ class MediaFilters extends React.Component {
           variables={{ eventId: this.state.event.value, limit: 100, offset: 0 }}
         >
           {({ data, loading, error }) => {
-            if (error || !data || !data.editions || data.editions.length == 0) {
+            if (error || !data || !data.editions || data.editions.length === 0) {
               return null;
             }
             if (loading) {
@@ -290,7 +290,7 @@ class MediaFilters extends React.Component {
             data.editions.map(
               e => e && editionsList.push({ value: e.id, label: e.name })
             );
-            if (editionsList.length == 0) {
+            if (editionsList.length === 0) {
               return null;
             }
             return (
@@ -330,7 +330,7 @@ class MediaFilters extends React.Component {
         }}
       >
         {({ data, loading, error }) => {
-          if (error || !data || !data.subEvents || data.subEvents.length == 0) {
+          if (error || !data || !data.subEvents || data.subEvents.length === 0) {
             return null;
           }
           if (loading) {
@@ -345,7 +345,7 @@ class MediaFilters extends React.Component {
           data.subEvents.map(
             e => e && subEventsList.push({ value: e.id, label: e.name })
           );
-          if (subEventsList.length == 0) {
+          if (subEventsList.length === 0) {
             return null;
           }
           return (
@@ -395,7 +395,7 @@ class MediaFilters extends React.Component {
             data.categories.map(
               e => e && categoriesList.push({ value: e.id, label: e.name })
             );
-            if (categoriesList.length == 0) {
+            if (categoriesList.length === 0) {
               return null;
             }
             return (

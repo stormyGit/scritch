@@ -13,7 +13,7 @@ import TagDialog from "./TagDialog";
 import {Mutation} from "react-apollo";
 import countFormat from "../../countFormat";
 
-const styles = theme => ({
+const styles = () => ({
   card: {
     width: "100%",
     borderRadius: 0,
@@ -103,7 +103,7 @@ const Insight = withStyles(styles)(({ classes, medium, children }) => {
         {medium.completion}%
         <br />
         <br />
-        {medium.fursuitsCount == 0
+        {medium.fursuitsCount === 0
           ? "(How many Suits?)"
           : `(${countFormat(
               medium.fursuitsCount - medium.fursuits.length,
@@ -163,7 +163,7 @@ function TaggableMediumCard({ classes, medium }) {
       <Card className={classes.card} elevation={0}>
         <Mutation
           mutation={TAG_LOCK_MEDIUM}
-          update={cache => {}}
+          update={() => {}}
           onCompleted={() => setTagDialog(true)}
           onError={() => setTagDialog(true)}
         >
@@ -187,7 +187,7 @@ function TaggableMediumCard({ classes, medium }) {
       {tagDialog && medium && (
         <Mutation
           mutation={TAG_UNLOCK_MEDIUM}
-          update={cache => {}}
+          update={() => {}}
           onCompleted={() => setTagDialog(false)}
           onError={() => setTagDialog(false)}
         >

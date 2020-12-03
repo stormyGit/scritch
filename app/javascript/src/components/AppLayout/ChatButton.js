@@ -13,7 +13,7 @@ import ChatNoneIcon from "@material-ui/icons/ChatBubbleOutline";
 import {GET_UNREAD_ACTIVITY_COUNT} from "../../queries/activityQueries";
 import {GET_UNREAD_CHATS_COUNT} from "../../queries/chatQueries";
 
-const styles = theme => ({
+const styles = () => ({
   rightButton: {
     display: "inline-block"
   },

@@ -130,7 +130,7 @@ const MakerFilter = React.memo(
       }}
     </Query>
   ),
-  ({ maker: oldMaker }, { maker: newMaker }) => oldMaker == newMaker
+  ({ maker: oldMaker }, { maker: newMaker }) => oldMaker === newMaker
 );
 
 const GenderFilter = React.memo(
@@ -170,7 +170,7 @@ const GenderFilter = React.memo(
       </Query>
     </React.Fragment>
   ),
-  ({ gender: oldGender }, { gender: newGender }) => oldGender == newGender
+  ({ gender: oldGender }, { gender: newGender }) => oldGender === newGender
 );
 
 const PaddingFilter = React.memo(
@@ -210,7 +210,7 @@ const PaddingFilter = React.memo(
       </Query>
     </React.Fragment>
   ),
-  ({ padding: oldPadding }, { padding: newPadding }) => oldPadding == newPadding
+  ({ padding: oldPadding }, { padding: newPadding }) => oldPadding === newPadding
 );
 
 const FingersFilter = React.memo(
@@ -250,7 +250,7 @@ const FingersFilter = React.memo(
       </Query>
     </React.Fragment>
   ),
-  ({ finger: oldFinger }, { finger: newFinger }) => oldFinger == newFinger
+  ({ finger: oldFinger }, { finger: newFinger }) => oldFinger === newFinger
 );
 
 const LegFilter = React.memo(
@@ -290,7 +290,7 @@ const LegFilter = React.memo(
       </Query>
     </React.Fragment>
   ),
-  ({ legType: oldLegType }, { legType: newLegType }) => oldLegType == newLegType
+  ({ legType: oldLegType }, { legType: newLegType }) => oldLegType === newLegType
 );
 
 const BuildFilter = React.memo(
@@ -330,7 +330,7 @@ const BuildFilter = React.memo(
       </Query>
     </React.Fragment>
   ),
-  ({ build: oldBuild }, { build: newBuild }) => oldBuild == newBuild
+  ({ build: oldBuild }, { build: newBuild }) => oldBuild === newBuild
 );
 
 const StyleFilter = React.memo(
@@ -370,7 +370,7 @@ const StyleFilter = React.memo(
       </Query>
     </React.Fragment>
   ),
-  ({ style: oldStyle }, { style: newStyle }) => oldStyle == newStyle
+  ({ style: oldStyle }, { style: newStyle }) => oldStyle === newStyle
 );
 
 const ColorFilter = React.memo(
@@ -388,7 +388,7 @@ const ColorFilter = React.memo(
       />
     </Grid>
   ),
-  ({ color: oldColor }, { color: newColor }) => oldColor == newColor
+  ({ color: oldColor }, { color: newColor }) => oldColor === newColor
 );
 
 const EyesFilter = React.memo(
@@ -406,7 +406,7 @@ const EyesFilter = React.memo(
       />
     </Grid>
   ),
-  ({ color: oldColor }, { color: newColor }) => oldColor == newColor
+  ({ color: oldColor }, { color: newColor }) => oldColor === newColor
 );
 
 const HybridCheckbox = React.memo(
@@ -419,7 +419,7 @@ const HybridCheckbox = React.memo(
     </Grid>
   ),
   ({ hybridSearch: oldHybridSearch }, { hybridSearch: newHybridSearch }) =>
-    oldHybridSearch == newHybridSearch
+    oldHybridSearch === newHybridSearch
 );
 
 const FursuitSpeciesFilter = React.memo(
@@ -459,7 +459,7 @@ const FursuitSpeciesFilter = React.memo(
       </Query>
     </React.Fragment>
   ),
-  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) => oldSpeciesIds == newSpeciesIds
+  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) => oldSpeciesIds === newSpeciesIds
 );
 
 const HybridSpeciesFilter = React.memo(
@@ -500,7 +500,7 @@ const HybridSpeciesFilter = React.memo(
       </Query>
     </React.Fragment>
   ),
-  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) => oldSpeciesIds == newSpeciesIds
+  ({ speciesIds: oldSpeciesIds }, { speciesIds: newSpeciesIds }) => oldSpeciesIds === newSpeciesIds
 );
 
 class FursuitFilters extends React.Component {
@@ -524,7 +524,7 @@ class FursuitFilters extends React.Component {
   componentDidMount() {}
 
   clearFilters(filter) {
-    var criteria = {
+    const criteria = {
       name: "",
       fursuitLegType: null,
       fursuitStyle: null,
@@ -574,7 +574,7 @@ class FursuitFilters extends React.Component {
           <ExpansionPanel
             expanded={this.state.expansion}
             onChange={() =>
-              this.state.expansion == false && this.setState({ expansion: !this.state.expansion })
+              this.state.expansion === false && this.setState({ expansion: !this.state.expansion })
             }
           >
             <ExpansionPanelSummary

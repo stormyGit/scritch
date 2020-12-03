@@ -11,7 +11,7 @@ import {withRouter} from "react-router-dom";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "./withCurrentSession";
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     flexGrow: 1
   }

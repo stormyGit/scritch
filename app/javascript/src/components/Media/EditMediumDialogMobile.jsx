@@ -234,7 +234,7 @@ class EditMediumDialog extends React.Component {
   render() {
     const { classes, open, onClose, loading, width, mediumId } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
-    if (!mediumId || open == false) return null;
+    if (!mediumId || open === false) return null;
 
     return (
       <Query
@@ -467,7 +467,7 @@ class EditMediumDialog extends React.Component {
                                     onChange={mediaEvent => {
                                       let editionSwitch =
                                         this.state.mediaEvent &&
-                                        this.state.mediaEvent.value !=
+                                        this.state.mediaEvent.value !==
                                           mediaEvent;
 
                                       this.setState({ mediaEvent: mediaEvent });
@@ -482,7 +482,7 @@ class EditMediumDialog extends React.Component {
                             </Query>
                             <div style={{ padding: 5 }} />
                             {this.state.mediaEvent &&
-                              Object.keys(this.state.mediaEvent).length != 0 &&
+                              Object.keys(this.state.mediaEvent).length !== 0 &&
                               this.state.mediaEvent.value != null && (
                                 <Query
                                   query={LOAD_EDITIONS}

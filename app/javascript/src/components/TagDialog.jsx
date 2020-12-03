@@ -122,8 +122,8 @@ class TagDialog extends React.Component {
   }
 
   isFormOk() {
-    if (this.state.fursuits.length > this.state.fursuitsCount) return false;
-    return true;
+    return this.state.fursuits.length <= this.state.fursuitsCount;
+
   }
   handleSearch(val) {
     if (this.state.nameInput.length >= 1 && val.length < 1) {
@@ -184,7 +184,7 @@ class TagDialog extends React.Component {
   render() {
     const { classes, open, onClose, loading, width, mediumId, currentSession } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
-    if (!mediumId || open == false) return null;
+    if (!mediumId || open === false) return null;
 
     return (
       <Query
@@ -230,7 +230,7 @@ class TagDialog extends React.Component {
             return null;
           }
 
-          var orientation;
+          let orientation;
           if (medium) {
             if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
               orientation = classes.mediaVleft;

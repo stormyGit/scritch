@@ -10,7 +10,7 @@ import {withStyles} from "@material-ui/core/styles";
 import GlobalProgress from "../Global/GlobalProgress";
 import {DELETE_MEDIUM} from "../../queries/mediaMutations";
 
-const styles = theme => ({});
+const styles = () => ({});
 
 class MediumDeletionDialog extends React.Component {
   render() {

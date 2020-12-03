@@ -122,8 +122,7 @@ class RequestFursuitDialog extends React.Component {
   };
 
   isFormNotOk() {
-    if (
-      !this.state.name ||
+    return !this.state.name ||
       /^\s*$/.test(this.state.name) ||
       !this.state.fursuitFinger ||
       !this.state.fursuitBuild ||
@@ -136,10 +135,8 @@ class RequestFursuitDialog extends React.Component {
       !this.state.eyesColor ||
       !this.state.maker ||
       this.state.maker.length == 0 ||
-      !this.state.creationYear
-    )
-      return true;
-    return false;
+      !this.state.creationYear;
+
   }
 
   render() {
@@ -221,7 +218,7 @@ class RequestFursuitDialog extends React.Component {
                               : null
                           }
                         }
-                      }).then(updated => {
+                      }).then(() => {
                         this.props.onClose();
                         this.props.submitSnack();
                       });

@@ -205,7 +205,7 @@ class MakerRequestDialog extends React.Component {
                           region: this.state.region
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });
@@ -225,7 +225,7 @@ class MakerRequestDialog extends React.Component {
                           id: request.id
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });

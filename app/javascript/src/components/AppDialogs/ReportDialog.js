@@ -15,7 +15,7 @@ import withCurrentSession from "../withCurrentSession";
 
 import {CREATE_COMMENT_REPORT, CREATE_MEDIUM_REPORT, CREATE_REPORT} from "../../queries/reportMutations";
 
-const styles = theme => ({
+const styles = () => ({
   pixelImage: {
     width: "100%"
   }
@@ -40,10 +40,10 @@ class ReportDialog extends React.Component {
 
   render() {
     const { classes, currentSession, user, width } = this.props;
-    var resourceName;
-    if (this.props.resource == "medium") resourceName = "Picture";
-    if (this.props.resource == "comment") resourceName = "Comment";
-    if (this.props.resource == "user") resourceName = "User";
+    let resourceName;
+    if (this.props.resource === "medium") resourceName = "Picture";
+    if (this.props.resource === "comment") resourceName = "Comment";
+    if (this.props.resource === "user") resourceName = "User";
     if (!currentSession) {
       return null;
     }
@@ -88,8 +88,8 @@ class ReportDialog extends React.Component {
           >
             Cancel
           </Button>
-          {this.props.resource == "user" && (
-            <Mutation mutation={CREATE_REPORT} update={cache => {}}>
+          {this.props.resource === "user" && (
+            <Mutation mutation={CREATE_REPORT} update={() => {}}>
               {(createReport, { data }) => (
                 <Button
                   disabled={!!this.state.description.match(/^\s*$/)}
@@ -112,8 +112,8 @@ class ReportDialog extends React.Component {
               )}
             </Mutation>
           )}
-          {this.props.resource == "comment" && (
-            <Mutation mutation={CREATE_COMMENT_REPORT} update={cache => {}}>
+          {this.props.resource === "comment" && (
+            <Mutation mutation={CREATE_COMMENT_REPORT} update={() => {}}>
               {(createCommentReport, { data }) => (
                 <Button
                   disabled={!!this.state.description.match(/^\s*$/)}
@@ -136,8 +136,8 @@ class ReportDialog extends React.Component {
               )}
             </Mutation>
           )}
-          {this.props.resource == "medium" && (
-            <Mutation mutation={CREATE_MEDIUM_REPORT} update={cache => {}}>
+          {this.props.resource === "medium" && (
+            <Mutation mutation={CREATE_MEDIUM_REPORT} update={() => {}}>
               {(createMediumReport, { data }) => (
                 <Button
                   disabled={!!this.state.description.match(/^\s*$/)}

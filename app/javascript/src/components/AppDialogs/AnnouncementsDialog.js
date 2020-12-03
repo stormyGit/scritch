@@ -32,7 +32,7 @@ const styles = theme => ({
     paddingBottom: theme.spacing(8)
   },
   emptyNoficationIcon: {
-    fontSize: 2,
+    // fontSize: 2,
     display: "block",
     fontSize: "4em",
     marginLeft: "auto",

@@ -18,7 +18,7 @@ import withCurrentSession from "../withCurrentSession";
 
 import {CREATE_MAKER_CLAIM} from "../../queries/claimMutations";
 
-const styles = theme => ({});
+const styles = () => ({});
 
 function MakerClaimDialog(props) {
   const {classes, currentSession, maker} = props;
@@ -75,7 +75,7 @@ function MakerClaimDialog(props) {
         >
           Cancel
         </Button>
-        <Mutation mutation={CREATE_MAKER_CLAIM} update={cache => {
+        <Mutation mutation={CREATE_MAKER_CLAIM} update={() => {
         }}>
           {(createMakerClaim, {data}) => (
             <Button

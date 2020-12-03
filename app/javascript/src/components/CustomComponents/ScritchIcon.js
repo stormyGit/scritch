@@ -3,7 +3,7 @@ import {withStyles} from "@material-ui/core/styles";
 import React from "react";
 import {SvgIcon} from '@material-ui/core';
 
-const styles = theme => ({});
+const styles = () => ({});
 
 function ScritchIcon(props) {
   const {classes} = props;

@@ -4,7 +4,7 @@ import {withStyles} from "@material-ui/core/styles";
 
 const DEFAULT_SIZE = 64;
 
-const styles = theme => ({
+const styles = () => ({
   avatar: {
     display: "flex",
     color: "#fff"
@@ -13,7 +13,7 @@ const styles = theme => ({
 
 const DefaultFursuitAvatar = ({ classes, specy, className, size }) => {
   const effectiveSize = size || DEFAULT_SIZE;
-  var image;
+  let image;
 
   try {
     image = require(`images/species/${specy}.png`);

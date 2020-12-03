@@ -8,7 +8,7 @@ import {withStyles} from "@material-ui/core/styles";
 
 const DEFAULT_SIZE = 64;
 
-const styles = theme => ({
+const styles = () => ({
   paper: {
     backgroundColor: "black",
     border: "2px solid white",

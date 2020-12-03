@@ -92,7 +92,7 @@ function MediaAll({ classes, width }) {
             <React.Fragment>
               <div
                 style={{ height: "calc(100vh - 178px)" }}
-                className={width === "sm" || width == "xs" ? classes.mobile_hide_sm : undefined}
+                className={width === "sm" || width === "xs" ? classes.mobile_hide_sm : undefined}
               >
                 <Media
                   media={media}

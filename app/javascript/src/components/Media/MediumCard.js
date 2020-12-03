@@ -12,7 +12,7 @@ import MediumDialog from "./MediumDialog";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCommentAlt, faPaw} from "@fortawesome/free-solid-svg-icons";
 
-const styles = theme => ({
+const styles = () => ({
   card: {
     width: "100%",
     borderRadius: 0,

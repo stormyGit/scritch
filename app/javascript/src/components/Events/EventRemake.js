@@ -420,7 +420,7 @@ class Event extends React.Component {
   renderEventHeader(event, editionsOptions) {
     const { classes, match, currentSession, width } = this.props;
 
-    var selectedEdition = null;
+    let selectedEdition = null;
     if (this.state.edition && this.state.edition.value) {
       selectedEdition = event.editions.find(e => e.id === this.state.edition.value);
     }
@@ -484,7 +484,7 @@ class Event extends React.Component {
   renderEventHeaderMobile(event, editionsOptions) {
     const { classes, match, currentSession, width } = this.props;
 
-    var selectedEdition = null;
+    let selectedEdition = null;
     if (this.state.edition && this.state.edition.value) {
       selectedEdition = event.editions.find(e => e.id === this.state.edition.value);
     }
@@ -570,12 +570,12 @@ class Event extends React.Component {
 
             if (!event) return null;
 
-            var editionsOptions = [];
+            const editionsOptions = [];
             editionsOptions.push({ label: "All Editions", value: null });
             if (!loading && !error && event)
               event.editions
                 .sort((a, b) => {
-                  var _a = parseInt(a.name),
+                  const _a = parseInt(a.name),
                     _b = parseInt(b.name);
                   return _b - _a;
                 })
@@ -598,12 +598,12 @@ class Event extends React.Component {
                   {({ data, loading, error, fetchMore }) => {
                     if (loading || error || !data) return null;
 
-                    var eventMedia = [];
+                    let eventMedia = [];
                     if (!data.eventMedia) {
                       eventMedia = [];
                     } else if (this.state.edition && this.state.edition.value) {
                       eventMedia = data.eventMedia.filter(
-                        e => e.editionId == this.state.edition.value
+                        e => e.editionId === this.state.edition.value
                       );
                     } else {
                       eventMedia = data.eventMedia;
@@ -614,7 +614,7 @@ class Event extends React.Component {
                         <div
                           style={{ height: "calc(100vh - 56px)" }}
                           className={
-                            width === "sm" || width == "xs" ? classes.mobile_hide_sm : undefined
+                            width === "sm" || width === "xs" ? classes.mobile_hide_sm : undefined
                           }
                         >
                           <Media
@@ -654,7 +654,7 @@ class Event extends React.Component {
                   <EventDetail
                     open={this.state.eventDetail}
                     onClose={() => this.setState({ eventDetail: false })}
-                    edition={event.editions.find(e => e.id == this.state.edition.value)}
+                    edition={event.editions.find(e => e.id === this.state.edition.value)}
                     event={event.name}
                   />
                 )}

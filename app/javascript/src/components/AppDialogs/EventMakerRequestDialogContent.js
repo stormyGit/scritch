@@ -184,7 +184,7 @@ class AssetRequestDialog extends React.Component {
           >
             Cancel
           </Button>
-          <Mutation mutation={CREATE_ASSET_REQUEST} update={cache => {}}>
+          <Mutation mutation={CREATE_ASSET_REQUEST} update={() => {}}>
             {(createAssetRequest, { data }) => (
               <Button
                 disabled={

@@ -67,16 +67,16 @@ class Media extends React.Component {
   renderMediaFiltersWithSubsClear() {
     const { classes, width } = this.props;
     let mutation;
-    if (this.props.filter == "subscriptions_users")
+    if (this.props.filter === "subscriptions_users")
       mutation = READ_MEDIA_NOTIFICATIONS;
-    else if (this.props.filter == "subscriptions_fursuits")
+    else if (this.props.filter === "subscriptions_fursuits")
       mutation = READ_FURSUIT_NOTIFICATIONS;
 
     return (
       <Grid spacing={1} container className={classes.filters}>
         <Grid item xs={false} lg={2} />
         <Grid item xs={12} lg={8}>
-          {width === "xs" || width == "sm" ? (
+          {width === "xs" || width === "sm" ? (
             <MediaFiltersMobile
               onChange={value => {
                 this.setState({ [value.label]: value.value });
@@ -85,7 +85,7 @@ class Media extends React.Component {
             />
           ) : (
             <MediaFilters
-              fursuitSubs={this.props.filter == "subscriptions_fursuits"}
+              fursuitSubs={this.props.filter === "subscriptions_fursuits"}
               onChange={value => {
                 this.setState({ [value.label]: value.value });
               }}
@@ -123,7 +123,7 @@ class Media extends React.Component {
 
     return (
       <div className={classes.filters}>
-        {width === "xs" || width == "sm" ? (
+        {width === "xs" || width === "sm" ? (
           <MediaFiltersMobile
             onChange={value => {
               this.setState({ [value.label]: value.value });

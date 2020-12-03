@@ -317,7 +317,7 @@ const SubtitleRow = withStyles(styles)(
         </Typography>
         {(width === "xl" || width === "lg") && fursuit.makers && (
           <div className={classes.dataSpacerLarge}>
-            {fursuit.makers.length == 0 ? (
+            {fursuit.makers.length === 0 ? (
               <Typography variant="subtitle1" className={classes.fursuitTitle}>
                 Made by <em>Redacted</em>
               </Typography>
@@ -352,7 +352,7 @@ const SubtitleRow = withStyles(styles)(
         <React.Fragment>
           <div>
             <React.Fragment>
-              {fursuit.makers.length == 0 ? (
+              {fursuit.makers.length === 0 ? (
                 <Typography variant="subtitle1" className={classes.fursuitTitle}>
                   Made by <em>Redacted</em>
                 </Typography>
@@ -529,7 +529,7 @@ class Fursuit extends React.Component {
         {!fursuit.claimed &&
           !fursuit.claimRejected &&
           !fursuit.possessed &&
-          fursuit.users.length == 0 && (
+          fursuit.users.length === 0 && (
             <Button
               color="primary"
               size="small"

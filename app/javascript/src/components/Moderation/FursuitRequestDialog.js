@@ -163,7 +163,7 @@ class FursuitRequestDialog extends React.Component {
   render() {
     const { classes, request, currentSession } = this.props;
 
-    var fursuit = request;
+    const fursuit = request;
     return (
       <React.Fragment>
         <ResponsiveDialog open={this.props.open} onClose={this.props.onClose}>
@@ -266,7 +266,7 @@ class FursuitRequestDialog extends React.Component {
                             : null
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });
@@ -286,7 +286,7 @@ class FursuitRequestDialog extends React.Component {
                           id: request.id
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });

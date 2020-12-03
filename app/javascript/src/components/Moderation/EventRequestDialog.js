@@ -176,7 +176,7 @@ class EventRequestDialog extends React.Component {
                           status: this.state.status.value
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });
@@ -196,7 +196,7 @@ class EventRequestDialog extends React.Component {
                           id: request.id
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });

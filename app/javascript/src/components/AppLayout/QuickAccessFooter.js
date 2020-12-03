@@ -12,7 +12,7 @@ import Tab from "@material-ui/core/Tab";
 import {Link, withRouter} from "react-router-dom";
 import {pageTitleToIndex} from "../../util/converter";
 
-const styles = theme => ({
+const styles = () => ({
   quickAccessFooter: {
     // height: 48,
     top: 'auto',

@@ -136,7 +136,7 @@ function MediaSubs({ classes, width, filter, switchNewOnlyStatus }) {
               <div
                 style={{ height: "calc(100vh - 178px)" }}
                 className={
-                  width === "sm" || width == "xs"
+                  width === "sm" || width === "xs"
                     ? classes.mobile_hide_sm
                     : undefined
                 }

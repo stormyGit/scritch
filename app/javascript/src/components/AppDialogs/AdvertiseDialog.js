@@ -302,7 +302,7 @@ class AdvertiseDialog extends React.Component {
               onChange={e => {
                 this.setState({
                   url: e.target.value,
-                  dropzoneDisabled: e.target.value.length > 0 ? false : true
+                  dropzoneDisabled: e.target.value.length <= 0
                 });
               }}
               margin="dense"

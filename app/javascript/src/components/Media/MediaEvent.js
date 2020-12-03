@@ -80,7 +80,7 @@ function MediaEvent({ classes, width, eventId, editionId }) {
             <div
               style={{ height: "calc(100vh - 60px)" }}
               className={
-                width === "sm" || width == "xs"
+                width === "sm" || width === "xs"
                   ? classes.mobile_hide_sm
                   : undefined
               }

@@ -274,7 +274,7 @@ class User extends React.Component {
               variables: { userId: user.id },
               data: {
                 followersByUser: followersByUser.filter(
-                  follower => follower.id != this.props.currentSession.user.id
+                  follower => follower.id !== this.props.currentSession.user.id
                 )
               }
             });
@@ -556,7 +556,7 @@ class User extends React.Component {
 
     return (
       <React.Fragment>
-        {currentSession && user.id != currentSession.user.id && (
+        {currentSession && user.id !== currentSession.user.id && (
           <React.Fragment>
             {user.blocked ? (
               <Mutation mutation={UNBLOCK_USER}>
@@ -610,7 +610,7 @@ class User extends React.Component {
             </Tooltip>
           </React.Fragment>
         )}
-        {currentSession && user.id == currentSession.user.id && (
+        {currentSession && user.id === currentSession.user.id && (
           <IconButton
             size="small"
             variant="outlined"
@@ -658,7 +658,7 @@ class User extends React.Component {
                     SCRITCH SPONSOR
                   </Typography>
                 )}
-                {currentSession && user.id != currentSession.user.id && (
+                {currentSession && user.id !== currentSession.user.id && (
                   <div className={classes.actionButtonPadding}>
                     {this.renderFollowButton(user)}
                   </div>
@@ -754,7 +754,7 @@ class User extends React.Component {
               </div>
               <div>
                 {currentSession &&
-                  user.id != currentSession.user.id &&
+                  user.id !== currentSession.user.id &&
                   this.renderFollowButton(user)}
                 {this.renderActionButton(user)}
               </div>
@@ -885,15 +885,9 @@ class User extends React.Component {
 
             let isPrivate;
 
-            if (
-              data.user &&
+            isPrivate = !(data.user &&
               (data.user.public ||
-                (currentSession && data.user.id === currentSession.user.id))
-            ) {
-              isPrivate = false;
-            } else {
-              isPrivate = true;
-            }
+                (currentSession && data.user.id === currentSession.user.id)));
 
             return (
               <React.Fragment>

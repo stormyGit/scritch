@@ -80,7 +80,7 @@ function MediaUser({ classes, width, userId }) {
             <div
               style={{ height: "calc(100vh - 128px)" }}
               className={
-                width === "sm" || width == "xs"
+                width === "sm" || width === "xs"
                   ? classes.mobile_hide_sm
                   : undefined
               }

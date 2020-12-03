@@ -353,7 +353,7 @@ class Maker extends React.Component {
         {!maker.claimed &&
           !maker.claimRejected &&
           !maker.possessed &&
-          (!maker.users || maker.users.length == 0) && (
+          (!maker.users || maker.users.length === 0) && (
             <Button
               color="primary"
               size="small"
@@ -560,7 +560,7 @@ class Maker extends React.Component {
     return (
       <React.Fragment>
         <Query
-          query={this.state.sort == "alpha" ? LOAD_MAKER : LOAD_MAKER_DATE}
+          query={this.state.sort === "alpha" ? LOAD_MAKER : LOAD_MAKER_DATE}
           variables={{
             id: match.params.id,
             sort: this.state.sort

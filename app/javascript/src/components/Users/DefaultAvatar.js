@@ -5,7 +5,7 @@ import {withStyles} from "@material-ui/core/styles";
 
 const DEFAULT_SIZE = 64;
 
-const styles = theme => ({
+const styles = () => ({
   avatar: {
     display: "flex",
     color: "#fff"

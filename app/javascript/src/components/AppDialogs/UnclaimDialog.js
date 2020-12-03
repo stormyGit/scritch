@@ -63,7 +63,7 @@ function UnclaimDialog(props) {
         >
           Cancel
         </Button>
-        <Mutation mutation={DELETE_FURSUIT_USER} update={cache => {
+        <Mutation mutation={DELETE_FURSUIT_USER} update={() => {
         }}>
           {(deleteFursuitUser, {data}) => (
             <Button

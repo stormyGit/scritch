@@ -116,7 +116,7 @@ function Media({ classes, width, media, fetchMore, limit, hasMore }) {
   // Unused
   // const [filters, setFilters] = useState(DEFAULT_FILTERS);
 
-  if (!media || media.length == 0) {
+  if (!media || media.length === 0) {
     return (
       <div style={{ padding: 48, textAlign: "center" }}>
         <Typography variant="h6" style={{ fontWeight: 200 }}>

@@ -195,11 +195,11 @@ const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
       {({ loading, error, data }) => {
         if (loading || error || !data || !data.event) return null;
         const event = data.event;
-        var editionsOptions = [];
+        const editionsOptions = [];
         editionsOptions.push({ label: "All Editions", value: null });
         event.editions
           .sort((a, b) => {
-            var _a = parseInt(a.name),
+            const _a = parseInt(a.name),
               _b = parseInt(b.name);
             return _b - _a;
           })
@@ -261,7 +261,7 @@ const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
                                   id: event.id
                                 }
                               }
-                            }).then(updated => {
+                            }).then(() => {
                               location.reload();
                             });
                         }}
@@ -298,7 +298,7 @@ const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
                   <EventDetail
                     open={edition !== null}
                     onClose={() => setEdition(null)}
-                    edition={event.editions.find(e => e.id == edition.value)}
+                    edition={event.editions.find(e => e.id === edition.value)}
                     event={event.name}
                   />
                 )}
@@ -317,7 +317,7 @@ const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
                                   id: edition.value
                                 }
                               }
-                            }).then(updated => {
+                            }).then(() => {
                               location.reload();
                             });
                         }}
@@ -351,7 +351,7 @@ const ModerationEventDialog = ({ classes, width, open, onClose, event }) => {
             )}
             {editEditionDialog && edition && edition.value !== null && (
               <UpdateEditionDialog
-                edition={event.editions.find(e => e.id == edition.value)}
+                edition={event.editions.find(e => e.id === edition.value)}
                 open={editEditionDialog}
                 onClose={() => setEditEditionDialog(false)}
               />
