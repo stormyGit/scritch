@@ -1,5 +1,5 @@
-import { withStyles } from '@material-ui/core/styles'
-import { withRouter } from 'react-router-dom'
+import {withStyles} from '@material-ui/core/styles'
+import {Link, withRouter} from 'react-router-dom'
 import withCurrentSession from '../withCurrentSession'
 import withWidth from '@material-ui/core/withWidth'
 import AppDialogs from './AppDialogs'
@@ -17,14 +17,9 @@ import {
   setTechDialogState,
   setUploadDialogState,
 } from '../../reducers/Action'
-import React, { createRef, useContext, useEffect, useRef, useState } from 'react'
-import { DialogContext } from '../../context/DialogContext'
-
-// static class HistoryListener {
-//   listener = history.listener()
-
-//   initialize = ()
-// }
+import React, {createRef, useContext, useEffect, useRef, useState} from 'react'
+import {DialogContext} from '../../context/DialogContext'
+import {_HistoryListener} from "../../util/history";
 
 const styles = (theme) => ({})
 const AppDialogWrapper = (props) => {
@@ -46,7 +41,7 @@ const AppDialogWrapper = (props) => {
     getChatDialogState,
     getSpeciesDialogState,
     getSettingsDialogState,
-    getAdvertiseDialogState,
+    getAdvertisementDialogState,
     getTechDialogState,
     getAssetRequestEventDialogState,
     getAssetRequestMakerDialogState,
@@ -57,103 +52,94 @@ const AppDialogWrapper = (props) => {
   const [tempDrawer, setTempDrawer] = useState(false)
   const [searchEnabled, setSearchEnabled] = useState(false)
   const [query, setQuery] = useState({})
-  const ref = createRef()
 
-  // React.useEffect(() => {
-  //   HistoryListener.listener.backButtonPressed(() => {
-  //     let changed = false
-  //     if (dialogState1) {
-  //       dispatch(setDialogState1(false))
-  //       changed = true
-  //     }
-  //     if (dialogState2) {
-  //       dispatch(setDialogState2(false))
-  //       changed = true
-  //     }
-  //     if (dialogState3) {
-  //       dispatch(setDialogState3(false))
-  //       changed = true
-  //     }
-  //     if (dialogState4) {
-  //       dispatch(setDialogState4(false))
-  //       changed = true
-  //     }
+  _HistoryListener.initialize(history);
 
-  //     if (changed) {
-  //       backButtonPress.cancel()
-  //     }
-  //   })
-  // }, [dialogState1, dialogState2, dialogState3, dialogState4])
+  React.useEffect(() => {
+      history.push("", "useEffect");
+      console.log("AppDialogWrapper.useEffect called.")
+      _HistoryListener.stayCondition = () => {
+        return getUploadDialogState ||
+          getSignUpDialogState ||
+          getActivitiesDialogState ||
+          getChatDialogState ||
+          getSpeciesDialogState ||
+          getSettingsDialogState ||
+          getAdvertisementDialogState ||
+          getTechDialogState ||
+          getAssetRequestEventDialogState ||
+          getAssetRequestMakerDialogState ||
+          getAssetRequestFursuitDialogState ||
+          getSearchDialogState;
+      }
+    }, [getUploadDialogState,
+      getSignUpDialogState,
+      getActivitiesDialogState,
+      getChatDialogState,
+      getSpeciesDialogState,
+      getSettingsDialogState,
+      getAdvertisementDialogState,
+      getTechDialogState,
+      getAssetRequestEventDialogState,
+      getAssetRequestMakerDialogState,
+      getAssetRequestFursuitDialogState,
+      getSearchDialogState]
+  )
 
-  // useEffect(() => {
-  //   console.log("useEffect")
-  //   let currentPathname;
-  //   let currentSearch;
-  //   let unlisten = HistoryListener.listener((newLocation, action) => {
-  //     console.log(newLocation, action);
-  //     if (action === "PUSH") {
-  //       if (
-  //         newLocation.pathname !== currentPathname ||
-  //         newLocation.search !== currentSearch
-  //       ) {
-  //         currentPathname = newLocation.pathname;
-  //         currentSearch = newLocation.search;
-
-  //         history.push({
-  //           pathname: newLocation.pathname,
-  //           search: newLocation.search
-  //         });
-  //       }
-  //     } else {
-  //       if (true) { //TODO instead of true, try to check for getSearchDialogState
-  //         dispatchDialogChange(setSearchDialogState(false));
-  //         history.goForward();
-  //         console.log("forward");
-  //       } else {
-  //         // history.goBack();
-  //         console.log("backward");
-  //       }
-  //     }
-  //   });
-
-  //   return () => {
-  //     if (unlisten != null) {
-  //       console.log("unlisten")
-  //       unlisten();
-  //     }
-  //   };
-  // }, []);
-
-  const dispatch = (state) => {
-    dispatchDialogChange(state)
+  if (_HistoryListener.dispatchChange) {
+    if (getUploadDialogState)
+      dispatchDialogChange(setUploadDialogState(false))
+    if (getSignUpDialogState)
+      dispatchDialogChange(setSignupDialogState(false))
+    if (getActivitiesDialogState)
+      dispatchDialogChange(setActivitiesDialogState(false))
+    if (getChatDialogState)
+      dispatchDialogChange(setChatDialogState(false))
+    if (getSpeciesDialogState)
+      dispatchDialogChange(setSpeciesDialogState(false))
+    if (getSettingsDialogState)
+      dispatchDialogChange(setSettingsDialogState(false))
+    if (getAdvertisementDialogState)
+      dispatchDialogChange(setAdvertisementDialogState(false))
+    if (getTechDialogState)
+      dispatchDialogChange(setTechDialogState(false))
+    if (getAssetRequestEventDialogState)
+      dispatchDialogChange(setAssetRequestEventDialogState(false))
+    if (getAssetRequestMakerDialogState)
+      dispatchDialogChange(setAssetRequestMakerDialogState(false))
+    if (getAssetRequestFursuitDialogState)
+      dispatchDialogChange(setAssetRequestFursuitDialogState(false))
+    if (getSearchDialogState)
+      dispatchDialogChange(setSearchDialogState(false))
+    _HistoryListener.dispatchChange = false;
   }
 
   return (
     <AppDialogs
       searchDialog={getSearchDialogState}
-      closeSearchDialog={() => dispatch(setSearchDialogState(false))}
+      closeSearchDialog={() => dispatchDialogChange(setSearchDialogState(false))}
       chatDialog={getChatDialogState}
-      closeChatDialog={() => dispatch(setChatDialogState(false))}
+      closeChatDialog={() => dispatchDialogChange(setChatDialogState(false))}
       signUpDialog={getSignUpDialogState}
-      closeSignUpDialog={() => dispatch(setSignupDialogState(false))}
+      closeSignUpDialog={() => dispatchDialogChange(setSignupDialogState(false))}
       uploadDialog={getUploadDialogState}
-      closeUploadDialog={() => dispatch(setUploadDialogState(false))}
+      closeUploadDialog={() => dispatchDialogChange(setUploadDialogState(false))}
       activitiesDialog={getActivitiesDialogState}
-      closeActivitiesDialog={() => dispatch(setActivitiesDialogState(false))}
-      advertiseDialog={getAdvertiseDialogState}
-      closeAdvertiseDialog={() => dispatch(setAdvertisementDialogState(false))}
+      closeActivitiesDialog={() => dispatchDialogChange(setActivitiesDialogState(false))}
+      advertiseDialog={getAdvertisementDialogState}
+      closeAdvertiseDialog={() => dispatchDialogChange(setAdvertisementDialogState(false))}
       settingsDialog={getSettingsDialogState}
-      closeSettingsDialog={() => dispatch(setSettingsDialogState(false))}
+      closeSettingsDialog={() => dispatchDialogChange(setSettingsDialogState(false))}
       techDialog={getTechDialogState}
-      closeTechDialog={() => dispatch(setTechDialogState(false))}
+      closeTechDialog={() => dispatchDialogChange(setTechDialogState(false))}
       speciesDialog={getSpeciesDialogState}
-      closeSpeciesDialog={() => dispatch(setSpeciesDialogState(false))}
+      closeSpeciesDialog={() => dispatchDialogChange(setSpeciesDialogState(false))}
       assetRequestEventDialog={getAssetRequestEventDialogState}
-      closeAssetRequestEventDialog={() => dispatch(setAssetRequestEventDialogState(false))}
+      closeAssetRequestEventDialog={() => dispatchDialogChange(setAssetRequestEventDialogState(false))}
       assetRequestMakerDialog={getAssetRequestMakerDialogState}
-      closeAssetRequestMakerDialog={() => dispatch(setAssetRequestMakerDialogState(false))}
+      closeAssetRequestMakerDialog={() => dispatchDialogChange(setAssetRequestMakerDialogState(false))}
       assetRequestFursuitDialog={getAssetRequestFursuitDialogState}
-      closeAssetRequestFursuitDialog={() => dispatch(setAssetRequestFursuitDialogState(false))}
+      closeAssetRequestFursuitDialog={() => dispatchDialogChange(setAssetRequestFursuitDialogState(false))}
     />
   )
 }
