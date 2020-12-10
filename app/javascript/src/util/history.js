@@ -1,38 +1,22 @@
 class HistoryListener {
   initialize = (history) => {
     if (this.listener === undefined) {
+      let lastSearch = ""
       this.listener = history.listen((newLocation, action) => {
         console.log(newLocation, action);
         if (action === "PUSH") {
-          if (
-            newLocation.pathname !== this.currentPathname ||
-            newLocation.search !== this.currentSearch
-          ) {
-            this.currentPathname = newLocation.pathname;
-            this.currentSearch = newLocation.search;
-            history.push({
-              pathname: newLocation.pathname,
-              search: newLocation.search
-            });
-          }
         } else {
-          if (this.stayCondition()) {
-            history.goForward();
-            console.log("forward");
+          if (lastSearch === "?dialogOpen" && newLocation.search !== "?dialogOpen") {
             this.dispatchChange = true;
-          } else {
-            // history.goBack();
-            console.log("backward");
           }
         }
+        lastSearch = newLocation.search;
       })
     }
   }
 
   dispatchChange = false;
   listener = undefined;
-  currentPathname = undefined;
-  currentSearch = undefined;
 
   stayCondition() {
   }

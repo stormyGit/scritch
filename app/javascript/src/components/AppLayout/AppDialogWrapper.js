@@ -43,7 +43,6 @@ const AppDialogWrapper = (props) => {
   _HistoryListener.initialize(history);
 
   React.useEffect(() => {
-      history.push("", "useEffect");
       console.log("AppDialogWrapper.useEffect called.")
       _HistoryListener.stayCondition = () => {
         return getUploadDialogState ||
@@ -59,6 +58,8 @@ const AppDialogWrapper = (props) => {
           getAssetRequestFursuitDialogState ||
           getSearchDialogState;
       }
+      if (_HistoryListener.stayCondition())
+        history.push("?dialogOpen", "useEffect");
     }, [getUploadDialogState,
       getSignUpDialogState,
       getActivitiesDialogState,
