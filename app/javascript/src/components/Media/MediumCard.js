@@ -96,7 +96,7 @@ function getMediumOrientation(exif, classes) {
   }
 }
 
-const Insight = withStyles(styles)(({ classes, count, children }) => {
+const Insight = withStyles(styles)(({classes, count, children}) => {
   return (
     <span>
       {children}
@@ -106,7 +106,7 @@ const Insight = withStyles(styles)(({ classes, count, children }) => {
 });
 
 const Overlay = withStyles(styles)(
-  memo(({ classes, likesCount, commentsCount }) => {
+  memo(({classes, likesCount, commentsCount}) => {
     const [mouseOver, setMouseOver] = useState(false);
 
     return (
@@ -118,10 +118,10 @@ const Overlay = withStyles(styles)(
         {mouseOver ? (
           <div className={classes.insight}>
             <Insight count={likesCount}>
-              <FontAwesomeIcon className={classes.insight_icon} icon={faPaw} />
+              <FontAwesomeIcon className={classes.insight_icon} icon={faPaw}/>
             </Insight>
             <Insight count={commentsCount}>
-              <FontAwesomeIcon className={classes.insight_icon} icon={faCommentAlt} />
+              <FontAwesomeIcon className={classes.insight_icon} icon={faCommentAlt}/>
             </Insight>
           </div>
         ) : null}
@@ -131,7 +131,7 @@ const Overlay = withStyles(styles)(
 );
 
 const Medium = withStyles(styles)(
-  ({ classes, medium: { exif, thumbnail, title, likesCount, commentsCount } }) => {
+  ({classes, medium: {exif, thumbnail, title, likesCount, commentsCount}}) => {
     const orientationCSS = getMediumOrientation(exif, classes);
     const isMP4 = thumbnail.substr(thumbnail.lastIndexOf(".") + 1) === "mp4";
 
@@ -143,31 +143,35 @@ const Medium = withStyles(styles)(
           src={thumbnail}
           title={title}
         />
-        <Overlay likesCount={likesCount} commentsCount={commentsCount} />
+        <Overlay likesCount={likesCount} commentsCount={commentsCount}/>
       </div>
     );
   }
 );
 
-function MediaCardRework({ classes, medium }) {
-  const [stateMedium, setStateMedium] = useState(null);
+function MediaCard({classes, medium}) {
+  const [stateMedium, setStateMedium] = useState(false);
+
+  const onClose = () => {
+    setStateMedium(false);
+  };
 
   return (
     <React.Fragment>
       <Card className={classes.card} elevation={0}>
-        <CardActionArea onClick={() => setStateMedium(medium.id)}>
-          <Medium medium={medium} />
+        <CardActionArea onClick={() => setStateMedium(true)}>
+          <Medium medium={medium}/>
         </CardActionArea>
       </Card>
-      {stateMedium && (
+      {(stateMedium &&
         <MediumDialog
-          mediumId={stateMedium}
-          onClose={() => setStateMedium(null)}
-          open={stateMedium != null}
+          mediumId={medium.id}
+          onClose={onClose}
+          open={stateMedium}
         />
       )}
     </React.Fragment>
   );
 }
 
-export default withStyles(styles)(MediaCardRework);
+export default withStyles(styles)(MediaCard);

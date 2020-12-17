@@ -68,7 +68,7 @@ const AppFooter = ({classes, width, currentSession, ...props}) => {
       if (userType === SPONSOR)
         setSponsorDashboardDialog(true);
       else if (userType !== SUSPENDED)
-        setSponsorDialog(true)
+        setSponsorDialog(true);
     },
   };
   const advertiseItem = {
@@ -77,7 +77,7 @@ const AppFooter = ({classes, width, currentSession, ...props}) => {
     icon: <AdsIcon/>,
     onClick: () => {
       if (userType !== SUSPENDED)
-        setAdsDialog(true)
+        setAdsDialog(true);
     },
   };
   const tipsItem = {
@@ -86,7 +86,7 @@ const AppFooter = ({classes, width, currentSession, ...props}) => {
     icon: <TipsIcon/>,
     onClick: () => {
       if (userType !== SUSPENDED)
-        setTipsDialog(true)
+        setTipsDialog(true);
     },
   };
   const workItem = {

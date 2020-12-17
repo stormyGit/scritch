@@ -84,8 +84,8 @@ const GetColumnNumber = width => {
 };
 
 const MediumRow = withStyles(styles)(
-  React.memo(({ data, index, classes, style }) => {
-    const { itemsPerRow, media } = data;
+  React.memo(({data, index, classes, style}) => {
+    const {itemsPerRow, media} = data;
 
     const items = [];
     const fromIndex = index * itemsPerRow;
@@ -94,7 +94,7 @@ const MediumRow = withStyles(styles)(
     for (let i = fromIndex; i < toIndex; i++) {
       items.push(
         <Grid item xs={6} sm={4} md={3} lg={2} key={media[i].id}>
-          <MediumCard medium={media[i]} />
+          <MediumCard medium={media[i]}/>
         </Grid>
       );
     }
@@ -104,7 +104,7 @@ const MediumRow = withStyles(styles)(
         container
         className={classes.root}
         spacing={1}
-        style={{ ...style, paddingTop: 4 }}
+        style={{...style, paddingTop: 4}}
       >
         {items}
       </Grid>
@@ -112,14 +112,14 @@ const MediumRow = withStyles(styles)(
   })
 );
 
-function Media({ classes, width, media, fetchMore, limit, hasMore }) {
+function Media({classes, width, media, fetchMore, limit, hasMore}) {
   // Unused
   // const [filters, setFilters] = useState(DEFAULT_FILTERS);
 
   if (!media || media.length === 0) {
     return (
-      <div style={{ padding: 48, textAlign: "center" }}>
-        <Typography variant="h6" style={{ fontWeight: 200 }}>
+      <div style={{padding: 48, textAlign: "center"}}>
+        <Typography variant="h6" style={{fontWeight: 200}}>
           No Results
         </Typography>
       </div>
@@ -132,7 +132,7 @@ function Media({ classes, width, media, fetchMore, limit, hasMore }) {
   return (
     <React.Fragment>
       <AutoSizer>
-        {({ width: gridWidth, height }) => {
+        {({width: gridWidth, height}) => {
           const itemsPerRow = GetColumnNumber(width);
           const rowCount = Math.ceil(media.length / itemsPerRow) || 1;
 
@@ -146,13 +146,13 @@ function Media({ classes, width, media, fetchMore, limit, hasMore }) {
                 fetchMore();
               }}
             >
-              {({ onItemsRendered, ref }) => (
+              {({onItemsRendered, ref}) => (
                 <List
                   onItemsRendered={onItemsRendered}
                   ref={ref}
                   height={height}
                   itemCount={rowCount}
-                  itemData={{ itemsPerRow: itemsPerRow, media }}
+                  itemData={{itemsPerRow: itemsPerRow, media}}
                   itemSize={(gridWidth - 16) / itemsPerRow}
                   width={gridWidth}
                 >

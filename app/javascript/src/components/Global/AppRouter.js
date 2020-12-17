@@ -14,7 +14,7 @@ import UserRemake from "../Users/UserRemake";
 import MakerRemake from "../Makers/MakerRemake";
 import Makers from "../Makers/Makers";
 
-import EventRemake from "../Events/EventRemake";
+import EventRemake from "../Events/Event";
 import Events from "../Events/Events";
 
 import Unauthorized from "../Global/Unauthorized";

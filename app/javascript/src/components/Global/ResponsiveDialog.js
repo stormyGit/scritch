@@ -11,29 +11,26 @@ function Transition(props) {
 }
 
 function ResponsiveDialog({width, open, onClose, ...props}) {
-  function backButtonAwareOnClose() {
-    console.log("backButtonAwareOnClose")
-    _HistoryListener.dialogClosed();
-    onClose();
-  }
-
   const theme = useTheme();
   const tinyWidth = useMediaQuery(theme.breakpoints.down("md"));
-  const [backButtonAwareOpen, setBackButtonAwareOpen] = useState(open);
 
   React.useEffect(() => {
-      console.log("ResponsiveDialog.useEffect(" + open + ")")
+      if (open === undefined) return;
       if (open)
         _HistoryListener.dialogOpened();
-      if (backButtonAwareOpen !== open)
-        setBackButtonAwareOpen(open);
+      else
+        _HistoryListener.dialogClosed();
     }, [open]
   )
 
-  if (_HistoryListener.dispatchChange && backButtonAwareOpen) {
-    console.log("dispatchChange")
-    setBackButtonAwareOpen(false);
-  }
+  React.useEffect(() => {
+      console.log("ResponsiveDialog.dispatchChange(" + _HistoryListener.dispatchChange + ", " + open + ")")
+      if (_HistoryListener.dispatchChange && open) {
+        console.log("close");
+        onClose();
+      }
+    }, [_HistoryListener.dispatchChange, open]
+  )
 
   let size = props.size ? props.size : 800;
 
@@ -47,8 +44,8 @@ function ResponsiveDialog({width, open, onClose, ...props}) {
           tinyWidth ? {} : {minWidth: size}
       }}
       {...props}
-      open={backButtonAwareOpen}
-      onClose={() => backButtonAwareOnClose()}
+      open={open}
+      onClose={onClose}
     />
   );
 }

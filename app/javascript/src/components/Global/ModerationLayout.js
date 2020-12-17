@@ -119,6 +119,8 @@ const styles = theme => ({
 });
 
 class ModerationLayout extends React.Component {
+  state = {};
+
   componentDidMount() {
     this.handleQuery(this.props);
   }

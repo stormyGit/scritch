@@ -8,35 +8,21 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Badge from "@material-ui/core/Badge";
 import withWidth from "@material-ui/core/withWidth";
 import SubscriptionsIcon from "@material-ui/icons/ViewCarousel";
-import TipsIcon from "@material-ui/icons/AttachMoney";
 import FaveIcon from "@material-ui/icons/Star";
 import SettingsIcon from "@material-ui/icons/Settings";
 import PetsIcon from "@material-ui/icons/Pets";
-import AdsIcon from "@material-ui/icons/BusinessCenter";
 import AnnouncementIcon from "@material-ui/icons/Announcement";
 import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
-
-import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
 import SettingsDialog from "../AppDialogs/SettingsDialog";
-import AdvertiseDialog from "../AppDialogs/AdvertiseDialog";
-import SponsorDashboardDialog from "../AppDialogs/SponsorDashboardDialog";
-import SponsorDialog from "../AppDialogs/SponsorDialog";
-import TipsDialog from "../AppDialogs/TipsDialog";
-import SpeciesDialog from "../AppDialogs/SpeciesDialog";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import HomeIcon from "@material-ui/icons/Home";
-import MediaIcon from "@material-ui/icons/Photo";
-import FursuitIcon from "@material-ui/icons/AccessibilityNew";
-import MakerIcon from "@material-ui/icons/Build";
-import EventIcon from "@material-ui/icons/Business";
-import AddIcon from "@material-ui/icons/Add";
 
 import {Link, withRouter} from "react-router-dom";
 
 import withCurrentSession from "../withCurrentSession";
-import {BASIC, resolveUserType, SPONSOR, SUSPENDED, VISITOR} from "../../util/userCategory";
+import {BASIC, MODERATOR, resolveUserType, SPONSOR, SUSPENDED, VISITOR} from "../../util/userCategory";
 
 const styles = theme => {
   return {
@@ -217,6 +203,7 @@ function DrawerMenu(props) {
       ];
       break;
     case BASIC:
+    case MODERATOR:
       itemsPack = [
         [homeItem],
         [tagItem, subsItem, favesItem],

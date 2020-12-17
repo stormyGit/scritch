@@ -206,11 +206,11 @@ const styles = theme => ({
   }
 });
 
-const Spacer = () => <div style={{ padding: 8 }} />;
+const Spacer = () => <div style={{padding: 8}}/>;
 
-const FatDivider = () => <hr style={{ borderTop: "1px solid", width: "80%", color: "grey" }} />;
+const FatDivider = () => <hr style={{borderTop: "1px solid", width: "80%", color: "grey"}}/>;
 
-const DataDialog = ({ classes, medium, open, onClose }) => {
+const DataDialog = ({classes, medium, open, onClose}) => {
   let exif = null;
   if (medium.exif) exif = JSON.parse(medium.exif);
 
@@ -219,7 +219,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
       <DialogTitle className={classes.dialogTitleRoot}>
         <Typography variant="h6">Media Information</Typography>
         <IconButton aria-label="close" onClick={onClose} className={classes.innerDialogCloseButton}>
-          <CloseIcon />
+          <CloseIcon/>
         </IconButton>
       </DialogTitle>
       <DialogContent>
@@ -236,7 +236,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
             </Typography>
           </Grid>
         )}
-        <Spacer />
+        <Spacer/>
         {medium.photographerString && (
           <Grid item>
             <Typography gutterBottom variant="h6" component="h2" color="primary">
@@ -262,7 +262,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
             </Typography>
           </Grid>
         )}
-        <Spacer />
+        <Spacer/>
         {medium.subEvent && (
           <Grid item>
             <Typography gutterBottom variant="h6" component="h2" color="primary">
@@ -273,7 +273,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
             </Typography>
           </Grid>
         )}
-        <Spacer />
+        <Spacer/>
         {medium.category && (
           <Grid item>
             <Typography gutterBottom variant="h6" component="h2" color="primary">
@@ -284,16 +284,16 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
             </Typography>
           </Grid>
         )}
-        <Spacer />
+        <Spacer/>
         {exif && Object.keys(exif).length !== 0 && exif.DateTimeOriginal && exif.Model && (
           <React.Fragment>
-            <FatDivider />
+            <FatDivider/>
             <List>
               <ListItem>
                 <Grid container spacing={1} className={classes.iconGridRoot}>
                   <Grid item xs={2} className={classes.iconGrid}>
                     <ListItemIcon>
-                      <DateIcon className={classes.leftIcon} />
+                      <DateIcon className={classes.leftIcon}/>
                     </ListItemIcon>
                   </Grid>
                   <Grid item xs={10}>
@@ -308,11 +308,11 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
                 <Grid container spacing={1} className={classes.iconGridRoot}>
                   <Grid item xs={2} className={classes.iconGrid}>
                     <ListItemIcon>
-                      <CameraIcon className={classes.leftIcon} />
+                      <CameraIcon className={classes.leftIcon}/>
                     </ListItemIcon>
                   </Grid>
                   <Grid item xs={10}>
-                    <ListItemText className={classes.textGrid} primary={`Camera: ${exif.Model}`} />
+                    <ListItemText className={classes.textGrid} primary={`Camera: ${exif.Model}`}/>
                   </Grid>
                 </Grid>
               </ListItem>
@@ -329,7 +329,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
                         className={classes.textGrid}
                         primary={`F-Stop: f/${String(
                           parseFloat(exif.FNumber.split("/")[0]) /
-                            parseFloat(exif.FNumber.split("/")[1])
+                          parseFloat(exif.FNumber.split("/")[1])
                         )}`}
                       />
                     </Grid>
@@ -341,7 +341,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
                   <Grid container spacing={1} className={classes.iconGridRoot}>
                     <Grid item xs={2} className={classes.iconGrid}>
                       <ListItemIcon>
-                        <TimerIcon className={classes.leftIcon} />
+                        <TimerIcon className={classes.leftIcon}/>
                       </ListItemIcon>
                     </Grid>
                     <Grid item xs={10}>
@@ -358,7 +358,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
                   <Grid container spacing={1} className={classes.iconGridRoot}>
                     <Grid item xs={2} className={classes.iconGrid}>
                       <ListItemIcon>
-                        <FontAwesomeIcon icon={faRulerHorizontal} className={classes.leftIcon} />
+                        <FontAwesomeIcon icon={faRulerHorizontal} className={classes.leftIcon}/>
                       </ListItemIcon>
                     </Grid>
                     <Grid item xs={10}>
@@ -375,7 +375,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
                   <Grid container spacing={1} className={classes.iconGridRoot}>
                     <Grid item xs={2} className={classes.iconGrid}>
                       <ListItemIcon>
-                        <IsoIcon className={classes.leftIcon} />
+                        <IsoIcon className={classes.leftIcon}/>
                       </ListItemIcon>
                     </Grid>
                     <Grid item xs={10}>
@@ -392,7 +392,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
                   <Grid container spacing={1} className={classes.iconGridRoot}>
                     <Grid item xs={2} className={classes.iconGrid}>
                       <ListItemIcon>
-                        <FlashIcon className={classes.leftIcon} />
+                        <FlashIcon className={classes.leftIcon}/>
                       </ListItemIcon>
                     </Grid>
                     <Grid item xs={10}>
@@ -414,7 +414,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
   );
 };
 
-const DataSection = ({ classes, medium, currentSession }) => {
+const DataSection = ({classes, medium, currentSession}) => {
   const [dataOpen, setDataOpen] = useState(false);
   const [downloadOpen, setDownloadOpen] = useState(false);
 
@@ -426,16 +426,16 @@ const DataSection = ({ classes, medium, currentSession }) => {
         open={dataOpen}
         onClose={() => setDataOpen(false)}
       />
-      <DownloadDialog open={downloadOpen} onClose={() => setDownloadOpen(false)} medium={medium} />
+      <DownloadDialog open={downloadOpen} onClose={() => setDownloadOpen(false)} medium={medium}/>
       <Grid item xs={12} className={classes.flexSectionSpacedCentered}>
         <div>
-          <LikeButton medium={medium} />
-          <FaveButton medium={medium} />
+          <LikeButton medium={medium}/>
+          <FaveButton medium={medium}/>
         </div>
         <div>
           <Tooltip title="Display Media Information">
             <IconButton onClick={() => setDataOpen(true)} color="secondary">
-              <InfoIcon />
+              <InfoIcon/>
             </IconButton>
           </Tooltip>
         </div>
@@ -443,7 +443,7 @@ const DataSection = ({ classes, medium, currentSession }) => {
           <div>
             <Tooltip title="Download Media">
               <IconButton onClick={() => setDownloadOpen(true)} color="secondary">
-                <DownloadIcon />
+                <DownloadIcon/>
               </IconButton>
             </Tooltip>
           </div>
@@ -453,14 +453,14 @@ const DataSection = ({ classes, medium, currentSession }) => {
         item
         xs={12}
         className={classes.flexSectionSpacedCentered}
-        style={{ paddingLeft: "5%", paddingRight: "5%" }}
+        style={{paddingLeft: "5%", paddingRight: "5%"}}
       >
         <div>
           <CardHeader
             className={classes.userInfo}
             avatar={
               <Link to={`/${medium.user.slug}`} className={classes.userLink}>
-                <UserAvatar user={medium.user} size={48} />
+                <UserAvatar user={medium.user} size={48}/>
               </Link>
             }
             title={
@@ -478,7 +478,7 @@ const DataSection = ({ classes, medium, currentSession }) => {
         <div>
           <Tooltip title={`${countFormat(medium.viewsCount, "view", "views")}`}>
             <Typography variant="h6" className={classes.viewsCount}>
-              <FontAwesomeIcon icon={faEye} />
+              <FontAwesomeIcon icon={faEye}/>
               &nbsp;&nbsp;
               {countContractor(medium.viewsCount)}
             </Typography>
@@ -489,7 +489,7 @@ const DataSection = ({ classes, medium, currentSession }) => {
   );
 };
 
-const MediumActionButton = ({ currentSession, classes, medium }) => {
+const MediumActionButton = ({currentSession, classes, medium}) => {
   const [tagDialogOpen, setTagDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
@@ -504,7 +504,7 @@ const MediumActionButton = ({ currentSession, classes, medium }) => {
           setEditDialogOpen(false);
         }}
       >
-        {(tagUnlockMedium, { data, error }) => (
+        {(tagUnlockMedium, {data, error}) => (
           <TagDialog
             editMedium
             open={editDialogOpen}
@@ -530,7 +530,7 @@ const MediumActionButton = ({ currentSession, classes, medium }) => {
           setTagDialogOpen(false);
         }}
       >
-        {(tagUnlockMedium, { data, error }) => (
+        {(tagUnlockMedium, {data, error}) => (
           <TagDialog
             open={tagDialogOpen}
             onClose={() => {
@@ -551,7 +551,8 @@ const MediumActionButton = ({ currentSession, classes, medium }) => {
         {currentSession && medium.completion !== 100 && (
           <Mutation
             mutation={TAG_LOCK_MEDIUM}
-            update={() => {}}
+            update={() => {
+            }}
             onCompleted={() => {
               medium.user.id === currentSession.user.id || currentSession.user.moderator
                 ? setEditDialogOpen(true)
@@ -563,7 +564,7 @@ const MediumActionButton = ({ currentSession, classes, medium }) => {
                 : setTagDialogOpen(true);
             }}
           >
-            {(tagLockMedium, { data }) => (
+            {(tagLockMedium, {data}) => (
               <Grid container spacing={1} justify="center" alignItems="center">
                 <Grid item lg={12} xs={12}>
                   <Tooltip title="Tag Fursuits" placement="top">
@@ -604,7 +605,7 @@ const MediumActionButton = ({ currentSession, classes, medium }) => {
   );
 };
 
-const TagSection = ({ currentSession, classes, medium }) => {
+const TagSection = ({currentSession, classes, medium}) => {
   const [tagReportOpen, setTagReportOpen] = useState(false);
 
   return (
@@ -633,15 +634,16 @@ const TagSection = ({ currentSession, classes, medium }) => {
       <Grid item xs={12} className={classes.flexSection}>
         <Grid container spacing={1} className={classes.flexSectionCentered}>
           {medium.fursuits.length !== 0 &&
-            medium.fursuits.map(fursuit => (
-              <Grid item xs={4} sm={3} lg={4} key={fursuit.id}>
-                <Link to={`/fursuits/${fursuit.slug}`} className={classes.fursuitLink}>
-                  <FursuitMiniCard onClick={() => {}} fursuit={fursuit} />
-                </Link>
-              </Grid>
-            ))}
+          medium.fursuits.map(fursuit => (
+            <Grid item xs={4} sm={3} lg={4} key={fursuit.id}>
+              <Link to={`/fursuits/${fursuit.slug}`} className={classes.fursuitLink}>
+                <FursuitMiniCard onClick={() => {
+                }} fursuit={fursuit}/>
+              </Link>
+            </Grid>
+          ))}
           <Grid item xs={4} sm={3} lg={4}>
-            <MediumActionButton currentSession={currentSession} classes={classes} medium={medium} />
+            <MediumActionButton currentSession={currentSession} classes={classes} medium={medium}/>
           </Grid>
         </Grid>
       </Grid>
@@ -649,18 +651,18 @@ const TagSection = ({ currentSession, classes, medium }) => {
   );
 };
 
-const DeleteDialog = ({ open, onClose, mediumId, classes }) => {
+const DeleteDialog = ({open, onClose, mediumId, classes}) => {
   return (
     <ResponsiveDialog open={open} size={400}>
       <DialogTitle>Delete Media</DialogTitle>
       <DialogContent>
         <Typography variant="h6">Are you sure you want to do this?</Typography>
         <Typography variant="h6">This action is irreversible.</Typography>
-        <div style={{ padding: 16 }} />
+        <div style={{padding: 16}}/>
         <Grid container spacing={6}>
-          <Grid item xs={6} style={{ textAlign: "center" }}>
+          <Grid item xs={6} style={{textAlign: "center"}}>
             <Mutation mutation={DELETE_MEDIUM}>
-              {(deleteMedium, { data }) => (
+              {(deleteMedium, {data}) => (
                 <Button
                   variant="outlined"
                   className={classes.dangerButton}
@@ -679,7 +681,7 @@ const DeleteDialog = ({ open, onClose, mediumId, classes }) => {
               )}
             </Mutation>
           </Grid>
-          <Grid item xs={6} style={{ textAlign: "center" }}>
+          <Grid item xs={6} style={{textAlign: "center"}}>
             <Button onClick={onClose} variant="outlined">
               Cancel
             </Button>
@@ -690,7 +692,7 @@ const DeleteDialog = ({ open, onClose, mediumId, classes }) => {
   );
 };
 
-const CommentSection = ({ currentSession, classes, medium }) => {
+const CommentSection = ({currentSession, classes, medium}) => {
   return (
     <React.Fragment>
       <Grid item xs={12}>
@@ -700,13 +702,13 @@ const CommentSection = ({ currentSession, classes, medium }) => {
               {countFormat(medium.commentsCount, "comment", "comments")}
             </Typography>
             {currentSession ? (
-              <CommentForm medium={medium} />
+              <CommentForm medium={medium}/>
             ) : (
               <Typography gutterBottom variant="caption">
                 {"You must be connected to write a comment."}
               </Typography>
             )}
-            <Comments medium={medium} parent={null} commentsCount={medium.commentsCount} />
+            <Comments medium={medium} parent={null} commentsCount={medium.commentsCount}/>
           </React.Fragment>
         )}
       </Grid>
@@ -714,255 +716,251 @@ const CommentSection = ({ currentSession, classes, medium }) => {
   );
 };
 
-class MediumDialog extends React.Component {
-  state = {
-    copied: false,
-    reportDialog: false,
-    editMedium: false,
-    downloadDialog: false,
-    tagReportDialog: false,
-    deleteDialog: false
-  };
+const MediumDialog = ({classes, width, open, onClose, mediumId, currentSession}) => {
+  const [copied, setCopied] = useState(false);
+  const [reportDialog, setReportDialog] = useState(false);
+  const [editMedium, setEditMedium] = useState(false);
+  const [downloadDialog, setDownloadDialog] = useState(false);
+  const [tagReportDialog, setTagReportDialog] = useState(false);
+  const [deleteDialog, setDeleteDialog] = useState(false);
+  const [exifDialog, setExifDialog] = useState(false);
 
-  render() {
-    const { classes, width, open, onClose, mediumId, currentSession } = this.props;
-    if (!mediumId) return null;
+  if (!mediumId) return null;
 
-    return (
-      <ResponsiveDialog open={open} onClose={onClose} size={1280}>
-        <DialogContent
-          style={{
-            padding: 0,
-            width: "100%"
-          }}
-        >
-          <Query query={GET_MEDIUM} variables={{ id: mediumId }}>
-            {({ error, loading, data }) => {
-              if (error || loading) {
-                return (
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} lg={9} className={classes.masterGridOnLoad}>
-                      <CircularProgress />
-                    </Grid>
-                    <Grid item xs={12} lg={3} className={classes.masterGridOnLoad}>
-                      <CircularProgress />
-                    </Grid>
-                  </Grid>
-                );
-              }
-              const medium = data ? data.medium : null;
-
-              if (!medium) {
-                return (
-                  <Grid container spacing={1}>
-                    <Grid item xs={12} className={classes.masterGridOnLoad}>
-                      <Typography variant="h6">Something went wrong :(</Typography>
-                    </Grid>
-                  </Grid>
-                );
-              }
-
-              let orientation;
-              if (medium) {
-                if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
-                  orientation = classes.mediaVleft;
-                else if (medium.exif && JSON.parse(medium.exif).Orientation === "8")
-                  orientation = classes.mediaVright;
-                else if (medium.exif && JSON.parse(medium.exif).Orientation === "3")
-                  orientation = classes.mediaHflip;
-                else orientation = classes.mediaH;
-              } else orientation = classes.mediaH;
-
+  return (
+    <ResponsiveDialog open={open} onClose={onClose} size={1280}>
+      <DialogContent
+        style={{
+          padding: 0,
+          width: "100%"
+        }}
+      >
+        <Query query={GET_MEDIUM} variables={{id: mediumId}}>
+          {({error, loading, data}) => {
+            if (error || loading) {
               return (
-                <React.Fragment>
-                  <Grid container spacing={0}>
-                    <Grid item xs={12} lg={9} className={classes.masterGridBackdrop}>
-                      {medium.resized.substr(medium.resized.lastIndexOf(".") + 1) === "mp4" && (
-                        <video
-                          loop="loop"
-                          onContextMenu={e => {
-                            e.preventDefault();
-                          }}
-                          className={orientation}
-                          src={medium.resized}
-                        />
-                      )}
-                      {medium.resized.substr(medium.resized.lastIndexOf(".") + 1) !== "mp4" && (
-                        <img
-                          onClick={() => {}}
-                          onContextMenu={e => {
-                            e.preventDefault();
-                          }}
-                          className={orientation}
-                          src={`${medium.resized}`}
-                          title={medium.title}
-                        />
-                      )}
-                    </Grid>
-
-                    <Grid
-                      item
-                      xs={12}
-                      lg={3}
-                      className={classes.dataGrid}
-                      style={{
-                        maxHeight:
-                          width === "xl" || width === "lg"
-                            ? medium.height < medium.width
-                              ? medium.height / (medium.width / 960)
-                              : 920
-                            : "100%"
-                      }}
-                    >
-                      <Grid container spacing={2}>
-                        <Grid item xs={12} className={classes.flexSection}>
-                          {true && (
-                            <CopyToClipboard
-                              text={`${process.env.SITE_URL}/pictures/${medium.id}`}
-                              onCopy={() => {
-                                this.setState({ copied: true });
-                                setTimeout(() => {
-                                  this.setState({ copied: false });
-                                }, 3000);
-                              }}
-                            >
-                              <Button
-                                variant="outlined"
-                                size="small"
-                                className={this.state.copied ? classes.copied : null}
-                              >
-                                {this.state.copied ? "Copied to Clipboard" : "Get Link"}
-                              </Button>
-                            </CopyToClipboard>
-                          )}
-                          {currentSession && (
-                            <Tooltip title="Report Media">
-                              <IconButton onClick={() => this.setState({ reportDialog: true })}>
-                                <OutlinedFlag />
-                              </IconButton>
-                            </Tooltip>
-                          )}
-                          {currentSession &&
-                            (medium.user.id === currentSession.user.id ||
-                              currentSession.user.moderator) && (
-                              <Mutation
-                                mutation={TAG_LOCK_MEDIUM}
-                                update={() => {}}
-                                onCompleted={() => {
-                                  this.setState({ editMedium: true });
-                                }}
-                                onError={() => {
-                                  this.setState({ editMedium: true });
-                                }}
-                              >
-                                {(tagLockMedium, { data }) => (
-                                  <IconButton
-                                    variant="outlined"
-                                    onClick={() => {
-                                      tagLockMedium({
-                                        variables: {
-                                          input: {
-                                            id: medium.id
-                                          }
-                                        }
-                                      });
-                                    }}
-                                  >
-                                    <EditIcon />
-                                  </IconButton>
-                                )}
-                              </Mutation>
-                            )}
-                          {currentSession && currentSession.user.id === medium.user.id && (
-                            <IconButton onClick={() => this.setState({ deleteDialog: true })}>
-                              <DeleteIcon />
-                            </IconButton>
-                          )}
-                          <IconButton onClick={onClose} autoFocus>
-                            <CloseIcon />
-                          </IconButton>
-                        </Grid>
-                        <DataSection
-                          classes={classes}
-                          medium={medium}
-                          currentSession={currentSession}
-                        />
-                        <FatDivider />
-                        <TagSection
-                          currentSession={currentSession}
-                          classes={classes}
-                          medium={medium}
-                        />
-                        <FatDivider />
-                        <CommentSection
-                          currentSession={currentSession}
-                          classes={classes}
-                          medium={medium}
-                        />
-                      </Grid>
-                    </Grid>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} lg={9} className={classes.masterGridOnLoad}>
+                    <CircularProgress/>
                   </Grid>
-                  <DeleteDialog
-                    mediumId={medium.id}
-                    classes={classes}
-                    open={this.state.deleteDialog}
-                    onClose={() => this.setState({ deleteDialog: false })}
-                  />
-                  <ReportDialog
-                    open={this.state.reportDialog}
-                    onClose={() => this.setState({ reportDialog: false })}
-                    resource="medium"
-                    resourceId={medium.id}
-                  />
-                  <TagReportDialog
-                    open={this.state.tagReportDialog}
-                    onClose={() => this.setState({ tagReportDialog: false })}
-                    medium={medium}
-                  />
-                  <ExifDialog
-                    open={this.state.exifDialog}
-                    onClose={() => this.setState({ exifDialog: false })}
-                    medium={medium}
-                  />
-                  <DownloadDialog
-                    open={this.state.downloadDialog}
-                    onClose={() => this.setState({ downloadDialog: false })}
-                    medium={medium}
-                  />
-                  <Mutation
-                    mutation={TAG_UNLOCK_MEDIUM}
-                    onCompleted={() => {
-                      this.setState({ editMedium: false });
-                    }}
-                    onError={() => {
-                      this.setState({ editMedium: false });
-                    }}
-                  >
-                    {(tagUnlockMedium, { data, error }) => (
-                      <TagDialog
-                        editMedium
-                        open={this.state.editMedium}
-                        onClose={() => {
-                          tagUnlockMedium({
-                            variables: {
-                              input: {
-                                id: medium.id
-                              }
-                            }
-                          });
+                  <Grid item xs={12} lg={3} className={classes.masterGridOnLoad}>
+                    <CircularProgress/>
+                  </Grid>
+                </Grid>
+              );
+            }
+            const medium = data ? data.medium : null;
+
+            if (!medium) {
+              return (
+                <Grid container spacing={1}>
+                  <Grid item xs={12} className={classes.masterGridOnLoad}>
+                    <Typography variant="h6">Something went wrong :(</Typography>
+                  </Grid>
+                </Grid>
+              );
+            }
+
+            let orientation;
+            if (medium) {
+              if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
+                orientation = classes.mediaVleft;
+              else if (medium.exif && JSON.parse(medium.exif).Orientation === "8")
+                orientation = classes.mediaVright;
+              else if (medium.exif && JSON.parse(medium.exif).Orientation === "3")
+                orientation = classes.mediaHflip;
+              else orientation = classes.mediaH;
+            } else orientation = classes.mediaH;
+
+            return (
+              <React.Fragment>
+                <Grid container spacing={0}>
+                  <Grid item xs={12} lg={9} className={classes.masterGridBackdrop}>
+                    {medium.resized.substr(medium.resized.lastIndexOf(".") + 1) === "mp4" && (
+                      <video
+                        loop="loop"
+                        onContextMenu={e => {
+                          e.preventDefault();
                         }}
-                        mediumId={medium.id}
+                        className={orientation}
+                        src={medium.resized}
                       />
                     )}
-                  </Mutation>
-                </React.Fragment>
-              );
-            }}
-          </Query>
-        </DialogContent>
-      </ResponsiveDialog>
-    );
-  }
+                    {medium.resized.substr(medium.resized.lastIndexOf(".") + 1) !== "mp4" && (
+                      <img
+                        onClick={() => {
+                        }}
+                        onContextMenu={e => {
+                          e.preventDefault();
+                        }}
+                        className={orientation}
+                        src={`${medium.resized}`}
+                        title={medium.title}
+                      />
+                    )}
+                  </Grid>
+
+                  <Grid
+                    item
+                    xs={12}
+                    lg={3}
+                    className={classes.dataGrid}
+                    style={{
+                      maxHeight:
+                        width === "xl" || width === "lg"
+                          ? medium.height < medium.width
+                          ? medium.height / (medium.width / 960)
+                          : 920
+                          : "100%"
+                    }}
+                  >
+                    <Grid container spacing={2}>
+                      <Grid item xs={12} className={classes.flexSection}>
+                        <CopyToClipboard
+                          text={`${process.env.SITE_URL}/pictures/${medium.id}`}
+                          onCopy={() => {
+                            setCopied(true);
+                            setTimeout(() => {
+                              setCopied(false);
+                            }, 3000);
+                          }}
+                        >
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            className={copied ? classes.copied : null}
+                          >
+                            {copied ? "Copied to Clipboard" : "Get Link"}
+                          </Button>
+                        </CopyToClipboard>
+                        {currentSession && (
+                          <Tooltip title="Report Media">
+                            <IconButton onClick={() => setReportDialog(true)}>
+                              <OutlinedFlag/>
+                            </IconButton>
+                          </Tooltip>
+                        )}
+                        {currentSession &&
+                        (medium.user.id === currentSession.user.id ||
+                          currentSession.user.moderator) && (
+                          <Mutation
+                            mutation={TAG_LOCK_MEDIUM}
+                            update={() => {
+                            }}
+                            onCompleted={() => {
+                              setEditMedium(true);
+                            }}
+                            onError={() => {
+                              setEditMedium(true);
+                            }}
+                          >
+                            {(tagLockMedium, {data}) => (
+                              <IconButton
+                                variant="outlined"
+                                onClick={() => {
+                                  tagLockMedium({
+                                    variables: {
+                                      input: {
+                                        id: medium.id
+                                      }
+                                    }
+                                  });
+                                }}
+                              >
+                                <EditIcon/>
+                              </IconButton>
+                            )}
+                          </Mutation>
+                        )}
+                        {currentSession && currentSession.user.id === medium.user.id && (
+                          <IconButton onClick={() => setDeleteDialog(true)}>
+                            <DeleteIcon/>
+                          </IconButton>
+                        )}
+                        <IconButton onClick={onClose} autoFocus>
+                          <CloseIcon/>
+                        </IconButton>
+                      </Grid>
+                      <DataSection
+                        classes={classes}
+                        medium={medium}
+                        currentSession={currentSession}
+                      />
+                      <FatDivider/>
+                      <TagSection
+                        currentSession={currentSession}
+                        classes={classes}
+                        medium={medium}
+                      />
+                      <FatDivider/>
+                      <CommentSection
+                        currentSession={currentSession}
+                        classes={classes}
+                        medium={medium}
+                      />
+                    </Grid>
+                  </Grid>
+                </Grid>
+                <DeleteDialog
+                  mediumId={medium.id}
+                  classes={classes}
+                  open={deleteDialog}
+                  onClose={() => setDeleteDialog(false)}
+                />
+                <ReportDialog
+                  open={reportDialog}
+                  onClose={() => setReportDialog(false)}
+                  resource="medium"
+                  resourceId={medium.id}
+                />
+                <TagReportDialog
+                  open={tagReportDialog}
+                  onClose={() => setReportDialog(false)}
+                  medium={medium}
+                />
+                <ExifDialog
+                  open={exifDialog}
+                  onClose={() => setExifDialog(false)}
+                  medium={medium}
+                />
+                <DownloadDialog
+                  open={downloadDialog}
+                  onClose={() => setDownloadDialog(false)}
+                  medium={medium}
+                />
+                <Mutation
+                  mutation={TAG_UNLOCK_MEDIUM}
+                  onCompleted={() => {
+                    setEditMedium(false);
+                  }}
+                  onError={() => {
+                    setEditMedium(false);
+                  }}
+                >
+                  {(tagUnlockMedium, {data, error}) => (
+                    <TagDialog
+                      editMedium
+                      open={editMedium}
+                      onClose={() => {
+                        tagUnlockMedium({
+                          variables: {
+                            input: {
+                              id: medium.id
+                            }
+                          }
+                        });
+                      }}
+                      mediumId={medium.id}
+                    />
+                  )}
+                </Mutation>
+              </React.Fragment>
+            );
+          }}
+        </Query>
+      </DialogContent>
+    </ResponsiveDialog>
+  );
 }
 
 export default withStyles(styles)(withRouter(withCurrentSession(withWidth()(MediumDialog))));
