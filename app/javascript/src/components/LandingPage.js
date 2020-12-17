@@ -34,7 +34,8 @@ const styles = theme => ({
     maxWidth: "25rem"
   },
   frontMedia: {
-    maxWidth: "80vw"
+    marginLeft: "7vw",
+    marginRight: "7vw",
   }
 });
 
@@ -61,7 +62,7 @@ const LandingPage = ({classes, width}) => {
         <PageTitle>Home</PageTitle>
         <WelcomeCardNormal/>
       </GridListTile>
-      {!smallToMediumHeight && <GridListTile rows={2}>
+      {!smallToMediumHeight && <GridListTile className={classes.frontMedia} rows={2}>
         <FrontMedia filter="scritched"/>
       </GridListTile>
       }
