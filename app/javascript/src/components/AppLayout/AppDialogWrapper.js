@@ -42,65 +42,65 @@ const AppDialogWrapper = (props) => {
 
   _HistoryListener.initialize(history);
 
-  React.useEffect(() => {
-      console.log("AppDialogWrapper.useEffect called.")
-      _HistoryListener.stayCondition = () => {
-        return getUploadDialogState ||
-          getSignUpDialogState ||
-          getActivitiesDialogState ||
-          getChatDialogState ||
-          getSpeciesDialogState ||
-          getSettingsDialogState ||
-          getAdvertisementDialogState ||
-          getTechDialogState ||
-          getAssetRequestEventDialogState ||
-          getAssetRequestMakerDialogState ||
-          getAssetRequestFursuitDialogState ||
-          getSearchDialogState;
-      }
-      if (_HistoryListener.stayCondition())
-        history.push("?dialogOpen", "useEffect");
-    }, [getUploadDialogState,
-      getSignUpDialogState,
-      getActivitiesDialogState,
-      getChatDialogState,
-      getSpeciesDialogState,
-      getSettingsDialogState,
-      getAdvertisementDialogState,
-      getTechDialogState,
-      getAssetRequestEventDialogState,
-      getAssetRequestMakerDialogState,
-      getAssetRequestFursuitDialogState,
-      getSearchDialogState]
-  )
-
-  if (_HistoryListener.dispatchChange) {
-    if (getUploadDialogState)
-      dispatchDialogChange(setUploadDialogState(false))
-    if (getSignUpDialogState)
-      dispatchDialogChange(setSignupDialogState(false))
-    if (getActivitiesDialogState)
-      dispatchDialogChange(setActivitiesDialogState(false))
-    if (getChatDialogState)
-      dispatchDialogChange(setChatDialogState(false))
-    if (getSpeciesDialogState)
-      dispatchDialogChange(setSpeciesDialogState(false))
-    if (getSettingsDialogState)
-      dispatchDialogChange(setSettingsDialogState(false))
-    if (getAdvertisementDialogState)
-      dispatchDialogChange(setAdvertisementDialogState(false))
-    if (getTechDialogState)
-      dispatchDialogChange(setTechDialogState(false))
-    if (getAssetRequestEventDialogState)
-      dispatchDialogChange(setAssetRequestEventDialogState(false))
-    if (getAssetRequestMakerDialogState)
-      dispatchDialogChange(setAssetRequestMakerDialogState(false))
-    if (getAssetRequestFursuitDialogState)
-      dispatchDialogChange(setAssetRequestFursuitDialogState(false))
-    if (getSearchDialogState)
-      dispatchDialogChange(setSearchDialogState(false))
-    _HistoryListener.dispatchChange = false;
-  }
+  // React.useEffect(() => {
+  //     console.log("AppDialogWrapper.useEffect called.")
+  //     _HistoryListener.stayCondition = () => {
+  //       return getUploadDialogState ||
+  //         getSignUpDialogState ||
+  //         getActivitiesDialogState ||
+  //         getChatDialogState ||
+  //         getSpeciesDialogState ||
+  //         getSettingsDialogState ||
+  //         getAdvertisementDialogState ||
+  //         getTechDialogState ||
+  //         getAssetRequestEventDialogState ||
+  //         getAssetRequestMakerDialogState ||
+  //         getAssetRequestFursuitDialogState ||
+  //         getSearchDialogState;
+  //     }
+  //     if (_HistoryListener.stayCondition())
+  //       history.push("?dialogOpen", "useEffect");
+  //   }, [getUploadDialogState,
+  //     getSignUpDialogState,
+  //     getActivitiesDialogState,
+  //     getChatDialogState,
+  //     getSpeciesDialogState,
+  //     getSettingsDialogState,
+  //     getAdvertisementDialogState,
+  //     getTechDialogState,
+  //     getAssetRequestEventDialogState,
+  //     getAssetRequestMakerDialogState,
+  //     getAssetRequestFursuitDialogState,
+  //     getSearchDialogState]
+  // )
+  //
+  // if (_HistoryListener.dispatchChange) {
+  //   if (getUploadDialogState)
+  //     dispatchDialogChange(setUploadDialogState(false))
+  //   if (getSignUpDialogState)
+  //     dispatchDialogChange(setSignupDialogState(false))
+  //   if (getActivitiesDialogState)
+  //     dispatchDialogChange(setActivitiesDialogState(false))
+  //   if (getChatDialogState)
+  //     dispatchDialogChange(setChatDialogState(false))
+  //   if (getSpeciesDialogState)
+  //     dispatchDialogChange(setSpeciesDialogState(false))
+  //   if (getSettingsDialogState)
+  //     dispatchDialogChange(setSettingsDialogState(false))
+  //   if (getAdvertisementDialogState)
+  //     dispatchDialogChange(setAdvertisementDialogState(false))
+  //   if (getTechDialogState)
+  //     dispatchDialogChange(setTechDialogState(false))
+  //   if (getAssetRequestEventDialogState)
+  //     dispatchDialogChange(setAssetRequestEventDialogState(false))
+  //   if (getAssetRequestMakerDialogState)
+  //     dispatchDialogChange(setAssetRequestMakerDialogState(false))
+  //   if (getAssetRequestFursuitDialogState)
+  //     dispatchDialogChange(setAssetRequestFursuitDialogState(false))
+  //   if (getSearchDialogState)
+  //     dispatchDialogChange(setSearchDialogState(false))
+  //   _HistoryListener.dispatchChange = false;
+  // }
 
   return (
     <AppDialogs
