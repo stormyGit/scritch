@@ -50,17 +50,17 @@ import MustLog from "./MustLog";
 import MediaTagging from "../Media/MediaTagging";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {MicroPadder, Padder} from "../../util/padder";
+import {MODERATOR, resolveUserType, VISITOR} from "../../util/userCategory";
 
 function AppRouter(props) {
   const {currentSession, width} = props;
-  const isSessionValid = currentSession && !currentSession.user.suspendedUser;
+  const userType = resolveUserType(currentSession);
+  const isSessionValid = userType >= VISITOR; //SUSPENDED is -1, VISITOR is 0
+  const isModerator = userType === MODERATOR;
   const isLandscape = useMediaQuery('(orientation:landscape)');
 
   function LoadLandingPage() {
-    if (isLandscape)
-      return <LandingPageNormal/>;
-    else
-      return <LandingPageMobile/>;
+    return isLandscape ? <LandingPageNormal/> : <LandingPageMobile/>;
   }
 
   function LoadAnnouncements() {
@@ -144,7 +144,7 @@ function AppRouter(props) {
       <Route
         render={({location}) => {
           if (location.pathname.match(/^\/react_moderation/)) {
-            if (currentSession.user.isModerator)
+            if (isModerator)
               return (
                 <React.Fragment>
                   <ModerationLayout>
@@ -178,7 +178,6 @@ function AppRouter(props) {
           return (
             <AppLayout>
               <AppHeader/>
-              {/*{width === "xl" || width === "lg" ? <Padder/> : <MicroPadder/>}*/}
               <Switch location={location}>
                 <Route exact path="/">
                   <LoadLandingPage/>
@@ -225,6 +224,9 @@ function AppRouter(props) {
                 <Route exact path="/ads">
                   <LoadAdsLister/>
                 </Route>
+                <Route exact path="/suspended">
+                  <MustLog/>
+                </Route>
                 <Route exact path="/pictures/:id">
                   <LoadMediumRemake/>
                 </Route>
@@ -236,7 +238,8 @@ function AppRouter(props) {
               </Switch>
             </AppLayout>
           );
-        }}
+        }
+        }
       />
     </BrowserRouter>
   );

@@ -36,6 +36,7 @@ import AddIcon from "@material-ui/icons/Add";
 import {Link, withRouter} from "react-router-dom";
 
 import withCurrentSession from "../withCurrentSession";
+import {BASIC, resolveUserType, SPONSOR, SUSPENDED, VISITOR} from "../../util/userCategory";
 
 const styles = theme => {
   return {
@@ -198,23 +199,16 @@ function DrawerMenu(props) {
   };
 
   let itemsPack = [];
-  let userType;
-  if (currentSession) {
-    if (currentSession.user.suspendedUser) userType = "Suspended";
-    else if (currentSession.user.sponsor) userType = "Sponsor";
-    else userType = "Basic";
-  } else {
-    userType = "Visitor";
-  }
+  let userType = resolveUserType(currentSession);
 
   switch (userType) {
-    case "Suspended":
+    case SUSPENDED:
       itemsPack = [
         [homeItem],
         [announcementsItem, dividerItem, settingsItem]
       ];
       break;
-    case "Sponsor":
+    case SPONSOR:
       itemsPack = [
         [homeItem],
         [tagItem, subsItem, favesItem],
@@ -222,14 +216,14 @@ function DrawerMenu(props) {
         [announcementsItem, dividerItem, settingsItem]
       ];
       break;
-    case "Basic":
+    case BASIC:
       itemsPack = [
         [homeItem],
         [tagItem, subsItem, favesItem],
         [announcementsItem, dividerItem, settingsItem]
       ];
       break;
-    case "Visitor":
+    case VISITOR:
       itemsPack = [
         [homeItem],
         [announcementsItem, dividerItem]

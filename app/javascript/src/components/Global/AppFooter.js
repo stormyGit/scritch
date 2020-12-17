@@ -25,6 +25,11 @@ import TipsDialog from "../AppDialogs/TipsDialog";
 import SponsorDialog from "../AppDialogs/SponsorDialog";
 import SpeciesDialog from "../AppDialogs/SpeciesDialog";
 import SponsorDashboardDialog from "../AppDialogs/SponsorDashboardDialog";
+import {BASIC, resolveUserType, SPONSOR, SUSPENDED, VISITOR} from "../../util/userCategory";
+
+const BUTTON_ITEM = 0;
+const LINK_ITEM = 1;
+const EXTERNAL_ITEM = 2;
 
 const styles = theme => ({
   root: {
@@ -40,7 +45,7 @@ const styles = theme => ({
     '&:last-child': {paddingBottom: 0},
   }
 });
-const AppFooter = ({classes, width, currentSession}) => {
+const AppFooter = ({classes, width, currentSession, ...props}) => {
   const [sponsorDialog, setSponsorDialog] = useState(false);
   const [sponsorDashboardDialog, setSponsorDashboardDialog] = useState(false);
   const [tipsDialog, setTipsDialog] = useState(false);
@@ -48,6 +53,7 @@ const AppFooter = ({classes, width, currentSession}) => {
   const [assetDialog, setAssetDialog] = useState(false);
   const [adsDialog, setAdsDialog] = useState(false);
   const [speciesDialog, setSpeciesDialog] = useState(false);
+  let userType = resolveUserType(currentSession);
 
   const handleClose = () => {
     if (props.onClose) {
@@ -55,32 +61,91 @@ const AppFooter = ({classes, width, currentSession}) => {
     }
   };
   const beginSponsorshipItem = {
+    kind: BUTTON_ITEM,
     label: "Become a Sponsor!",
     icon: <PetsIcon/>,
-    onClick: () => setSponsorDialog(true),
+    onClick: () => {
+      if (userType === SPONSOR)
+        setSponsorDashboardDialog(true);
+      else if (userType !== SUSPENDED)
+        setSponsorDialog(true)
+    },
   };
   const advertiseItem = {
+    kind: BUTTON_ITEM,
     label: "Advertise with Scritch",
     icon: <AdsIcon/>,
-    onClick: () => setAdsDialog(true),
+    onClick: () => {
+      if (userType !== SUSPENDED)
+        setAdsDialog(true)
+    },
   };
   const tipsItem = {
+    kind: BUTTON_ITEM,
     label: "Tip Jar",
     icon: <TipsIcon/>,
-    onClick: () => setTipsDialog(true),
+    onClick: () => {
+      if (userType !== SUSPENDED)
+        setTipsDialog(true)
+    },
+  };
+  const workItem = {
+    kind: EXTERNAL_ITEM,
+    label: "Become a Developer!",
+    icon: <WorkIcon/>,
+    ref: (userType !== SUSPENDED) ? "" : "https://t.me/NafiTheBear"
+  };
+  const tosItem = {
+    kind: LINK_ITEM,
+    label: "Terms of Use",
+    // icon: <WorkIcon/>,
+    ref: `/terms_of_use`
+  };
+  const privPolItem = {
+    kind: LINK_ITEM,
+    label: "Privacy Policy",
+    // icon: <WorkIcon/>,
+    ref: `/privacy_policy`
+  };
+  const uGItem = {
+    kind: LINK_ITEM,
+    label: "Website User Guide",
+    // icon: <WorkIcon/>,
+    ref: `/user_guide`
+  };
+  const faqItem = {
+    kind: LINK_ITEM,
+    label: "FAQ",
+    // icon: <WorkIcon/>,
+    ref: `/faq`
   };
 
   const resolveItem = (itemTag) => {
-    return (
-      <ListItem button onClick={itemTag.onClick}>
-        <ListItemIcon>
-          {itemTag.icon}
-        </ListItemIcon>
-        <ListItemText
-          primary={itemTag.label}
-        />
-      </ListItem>
-    );
+    let listItemIcon = <ListItemIcon>{itemTag.icon}</ListItemIcon>;
+    let listItemText = <ListItemText primary={itemTag.label}/>;
+    switch (itemTag.kind) {
+      case BUTTON_ITEM:
+        return (
+          <ListItem button onClick={itemTag.onClick}>
+            {listItemIcon}
+            {listItemText}
+          </ListItem>
+        );
+      case LINK_ITEM:
+        return (
+          <ListItem button component={Link} to={itemTag.ref}>
+            {/*{listItemIcon}*/}
+            {listItemText}
+          </ListItem>
+        );
+      case EXTERNAL_ITEM:
+        return (
+          <ListItem button component={ButtonBase} target="_blank" rel="noreferrer" href={itemTag.ref}>
+            {listItemIcon}
+            {listItemText}
+          </ListItem>
+        );
+    }
   }
 
   return (
@@ -138,14 +203,7 @@ const AppFooter = ({classes, width, currentSession}) => {
               <Typography component="h3"> Work With Us </Typography>
               <List dense={true}>
                 {resolveItem(advertiseItem)}
-                <ListItem button component={ButtonBase} target="_blank" rel="noreferrer" href="https://t.me/NafiTheBear">
-                  <ListItemIcon>
-                    <WorkIcon/>
-                  </ListItemIcon>
-                  <ListItemText
-                    primary="Become a Developer!"
-                  />
-                </ListItem>
+                {resolveItem(workItem)}
               </List>
             </CardContent>
           </Card>
@@ -155,28 +213,12 @@ const AppFooter = ({classes, width, currentSession}) => {
               <Typography component="h3"> Resources & Links </Typography>
               <Grid container>
                 <List dense={true}>
-                  <ListItem button component={Link} to={`/terms_of_use`}>
-                    <ListItemText
-                      primary="Terms of Use"
-                    />
-                  </ListItem>
-                  <ListItem button component={Link} to={`/privacy_policy`}>
-                    <ListItemText
-                      primary="Privacy Policy"
-                    />
-                  </ListItem>
+                  {resolveItem(tosItem)}
+                  {resolveItem(privPolItem)}
                 </List>
                 <List dense={true}>
-                  <ListItem button component={Link} to={`/user_guide`}>
-                    <ListItemText
-                      primary="Website User Guide"
-                    />
-                  </ListItem>
-                  <ListItem button component={Link} to={`/faq`}>
-                    <ListItemText
-                      primary="FAQ"
-                    />
-                  </ListItem>
+                  {resolveItem(uGItem)}
+                  {resolveItem(faqItem)}
                 </List>
               </Grid>
             </CardContent>
