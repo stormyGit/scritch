@@ -55,8 +55,8 @@ const ScritchFab = ({classes}) => {
   const {scrollAmount} = useContext(NavigationContext);
 
   let bottomSpacing = 2;
-  if (pageIndex !== false)
-    bottomSpacing += 6;
+  // if (pageIndex !== false)
+  //   bottomSpacing += 6;
   if (scrollAmount >= 0)
     bottomSpacing += 6;
 

@@ -33,7 +33,7 @@ const styles = theme => ({
   fab: {
     position: "absolute",
     bottom: theme.spacing(3),
-    right: theme.spacing(5),
+    left: theme.spacing(5),
     color: "white"
   },
   extendedIcon: {
