@@ -2,9 +2,7 @@ import React, {useContext, useState} from "react";
 import {withStyles} from "@material-ui/core/styles";
 import Fab from '@material-ui/core/Fab';
 import MediaIcon from "@material-ui/icons/Photo";
-import FursuitIcon from "@material-ui/icons/AccessibilityNew";
-import MakerIcon from "@material-ui/icons/Build";
-import EventIcon from "@material-ui/icons/Business";
+import {EventIcon, MakerIcon, SpeciesIcon} from "./ScritchIcons";
 import useTheme from "@material-ui/core/styles/useTheme";
 import Zoom from '@material-ui/core/Zoom';
 import ScritchButton from "./ScritchButton";
@@ -12,6 +10,7 @@ import {setAssetRequestEventDialogState, setAssetRequestFursuitDialogState, setA
 import {DialogContext} from "../../context/DialogContext";
 import {pageTitleToIndex} from "../../util/converter";
 import {NavigationContext} from "../../context/NavigationContext";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const styles = theme => ({
   root: {
@@ -30,20 +29,20 @@ const styles = theme => ({
   addSuit: {
     position: 'absolute',
     width: 48,
-    bottom: 110,
-    right: 30,
+    bottom: 112,
+    right: 32,
   },
   addMaker: {
     position: 'absolute',
     width: 48,
     bottom: 110,
-    right: 80,
+    right: 81,
   },
   addConvention: {
     position: 'absolute',
     width: 48,
-    bottom: 82,
-    right: 118,
+    bottom: 80,
+    right: 122,
   },
 });
 
@@ -65,25 +64,29 @@ const ScritchFab = ({classes}) => {
       icon: <EventIcon/>,
       label: 'Convention',
       className: classes.addConvention,
-      dialogCallback: setAssetRequestEventDialogState(true)
+      dialogCallback: setAssetRequestEventDialogState(true),
+      tooltipText: "Add a new Event"
     },
     {
-      icon: <FursuitIcon/>,
+      icon: <SpeciesIcon/>,
       label: 'Suit',
       className: classes.addSuit,
-      dialogCallback: setAssetRequestFursuitDialogState(true)
+      dialogCallback: setAssetRequestFursuitDialogState(true),
+      tooltipText: "Add a new Suit"
     },
     {
       icon: <MakerIcon/>,
       label: 'Maker',
       className: classes.addMaker,
-      dialogCallback: setAssetRequestMakerDialogState(true)
+      dialogCallback: setAssetRequestMakerDialogState(true),
+      tooltipText: "Add a new Maker"
     },
     {
       icon: <MediaIcon/>,
       label: 'Media',
       className: classes.addMedia,
-      dialogCallback: setUploadDialogState(true)
+      dialogCallback: setUploadDialogState(true),
+      tooltipText: "Add new Images or Videos"
     },
   ];
 
@@ -92,10 +95,11 @@ const ScritchFab = ({classes}) => {
       <ScritchButton size={64} color="secondary" aria-label="add" onClick={() => setPawClicked(!pawClicked)}/>
       {fabs.map((fab, index) => (
         <Zoom key={index + ""} in={pawClicked}>
-          <Fab aria-label={fab.label} className={fab.className} color={"secondary"} onClick={() => dialogContext.dispatchDialogChange(fab.dialogCallback)}
-          >
-            {fab.icon}
-          </Fab>
+          <Tooltip title={fab.tooltipText} aria-label={fab.tooltipText} placement="left">
+            <Fab aria-label={fab.label} className={fab.className} color={"secondary"} onClick={() => dialogContext.dispatchDialogChange(fab.dialogCallback)}>
+              {fab.icon}
+            </Fab>
+          </Tooltip>
         </Zoom>
       ))}
 
