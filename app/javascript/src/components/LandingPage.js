@@ -12,6 +12,10 @@ import {NavigationContext} from "../context/NavigationContext";
 import {setScrolled} from "../reducers/Action";
 
 const styles = theme => ({
+  landingPage: {
+    height: `100%`,
+    overflowX: "hidden",
+  },
   font: {
     fontWeight: 200,
     cursor: "pointer"
@@ -26,9 +30,6 @@ const styles = theme => ({
   },
   centeredTitle: {
     textAlign: "center"
-  },
-  landingPage: {
-    height: `100%`,
   },
   landingText: {
     maxWidth: "25rem"

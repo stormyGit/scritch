@@ -177,7 +177,7 @@ function AppRouter(props) {
           }
           return (
             <AppLayout>
-              <AppHeader/>
+              <AppHeader isFrontPage={location.pathname === "/"}/>
               <Switch location={location}>
                 <Route exact path="/">
                   <LoadLandingPage/>
