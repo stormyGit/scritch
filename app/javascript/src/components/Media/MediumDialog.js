@@ -728,7 +728,7 @@ const MediumDialog = ({classes, width, open, onClose, mediumId, currentSession})
   if (!mediumId) return null;
 
   return (
-    <ResponsiveDialog open={open} onClose={onClose} size={1280}>
+    <ResponsiveDialog open={open} onClose={onClose} size={1280} isMediumDialog={true}>
       <DialogContent
         style={{
           padding: 0,

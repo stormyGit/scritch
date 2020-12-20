@@ -6,7 +6,6 @@ import AppDialogs from './AppDialogs'
 import {setActivitiesDialogState, setAdvertisementDialogState, setAssetRequestEventDialogState, setAssetRequestFursuitDialogState, setAssetRequestMakerDialogState, setChatDialogState, setSearchDialogState, setSettingsDialogState, setSignupDialogState, setSpeciesDialogState, setTechDialogState, setUploadDialogState,} from '../../reducers/Action'
 import React, {useContext, useState} from 'react'
 import {DialogContext} from '../../context/DialogContext'
-import {_HistoryListener} from "../../util/history";
 
 const styles = (theme) => ({})
 const AppDialogWrapper = (props) => {
@@ -39,8 +38,6 @@ const AppDialogWrapper = (props) => {
   const [tempDrawer, setTempDrawer] = useState(false)
   const [searchEnabled, setSearchEnabled] = useState(false)
   const [query, setQuery] = useState({})
-
-  _HistoryListener.initialize(history);
 
   // React.useEffect(() => {
   //     console.log("AppDialogWrapper.useEffect called.")

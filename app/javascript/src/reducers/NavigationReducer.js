@@ -3,6 +3,7 @@ import {ActionType} from "./Action";
 const initialState = {
   isDrawerOpen: false,
   isLoggedIn: false,
+  isDialogOpen: false,
   scrollAmount: 0
 };
 
@@ -12,6 +13,11 @@ const NavigationReducer = (state = initialState, action) => {
       return {
         ...state,
         isDrawerOpen: action.payload,
+      };
+    case ActionType.DIALOG_CHANGE:
+      return {
+        ...state,
+        isDialogOpen: action.payload,
       };
     case ActionType.QUICKACCESSBAR_SCROLLED:
       return {

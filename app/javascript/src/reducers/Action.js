@@ -21,6 +21,7 @@ export const ActionType = {
   DIALOG_SET_TECH: 19,
   DIALOG_SET_UPLOAD: 20,
   QUICKACCESSBAR_SCROLLED: 21,
+  DIALOG_CHANGE: 22,
 }
 
 export class Action {
@@ -114,3 +115,8 @@ export const setScrolled = (scrollAmount) => ({
   type: ActionType.QUICKACCESSBAR_SCROLLED,
   payload: scrollAmount
 });
+export const setDialogChange = (isDialogOpen) => ({
+  type: ActionType.DIALOG_CHANGE,
+  payload: isDialogOpen
+});
+

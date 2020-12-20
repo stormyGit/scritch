@@ -51,6 +51,7 @@ import MediaTagging from "../Media/MediaTagging";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import {MicroPadder, Padder} from "../../util/padder";
 import {MODERATOR, resolveUserType, VISITOR} from "../../util/userCategory";
+import {HistoryWrapper} from "./HistoryWrapper";
 
 function AppRouter(props) {
   const {currentSession, width} = props;
@@ -141,6 +142,7 @@ function AppRouter(props) {
 
   return (
     <BrowserRouter>
+      <HistoryWrapper>
       <Route
         render={({location}) => {
           if (location.pathname.match(/^\/react_moderation/)) {
@@ -241,6 +243,7 @@ function AppRouter(props) {
         }
         }
       />
+      </HistoryWrapper>
     </BrowserRouter>
   );
 }
