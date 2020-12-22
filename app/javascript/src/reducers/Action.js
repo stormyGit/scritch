@@ -22,6 +22,7 @@ export const ActionType = {
   DIALOG_SET_UPLOAD: 20,
   QUICKACCESSBAR_SCROLLED: 21,
   DIALOG_CHANGE: 22,
+  DIALOG_REQUST_CHANGE: 23
 }
 
 export class Action {
@@ -106,7 +107,6 @@ export const closeDrawer = () => ({
   type: ActionType.TOOLBAR_CLOSE_DRAWER,
   payload: false
 });
-
 export const openDrawer = () => ({
   type: ActionType.TOOLBAR_OPEN_DRAWER,
   payload: true
@@ -117,6 +117,10 @@ export const setScrolled = (scrollAmount) => ({
 });
 export const setDialogChange = (isDialogOpen) => ({
   type: ActionType.DIALOG_CHANGE,
+  payload: isDialogOpen
+});
+export const setRequestDialogChange = (isDialogOpen) => ({
+  type: ActionType.DIALOG_REQUST_CHANGE,
   payload: isDialogOpen
 });
 

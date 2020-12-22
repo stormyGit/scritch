@@ -149,17 +149,15 @@ const Medium = withStyles(styles)(
   }
 );
 
-
 function MediaCard({classes, medium}) {
   const [stateMedium, setStateMedium] = useState(false);
 
-
   const onClose = React.useCallback(() => {
-    console.log("MediaCard.onClose")
+    // console.log("MediaCard.onClose")
     setStateMedium(false);
   }, []);
 
-  console.log("MediaCard: " + stateMedium);
+  // console.log("MediaCard: " + stateMedium);
 
   return (
     <React.Fragment>

@@ -14,7 +14,7 @@ const DialogContext = createContext({
   getAssetRequestMakerDialogState: false,
   getAssetRequestFursuitDialogState: false,
   getSearchDialogState:false,
-  dispatchDialogChange: undefined
+  dispatchDialogChange: ()=>{}
 });
 
 const DialogContextProvider = ({children}) => {
