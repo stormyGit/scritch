@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    font-size: 14px !important;
+}
+@media (min-width: 420px) {
+    html {
+        font-size: 16px !important;
+    }
+}

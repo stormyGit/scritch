@@ -8,8 +8,9 @@
     <% end %>
     <meta name="theme-color" content="<%= ENV["DEFAULT_THEME"] == 'dark' ? "#111" : "#eee" %>">
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500">
-    <link href="https://fonts.googleapis.com/css?family=Monoton" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400&display=swap" rel="stylesheet">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />
 
     <link rel="apple-touch-icon" sizes="57x57" href="<%= image_url('apple-icon-57x57.png') %>">
@@ -31,7 +32,6 @@
     <meta name="description" content="<%= ENV['META_DESCRIPTION'] %>"/>
 
     <meta name="google-site-verification" content="<%= ENV["GOOGLE_SITE_VERIFICATION_CODE"] %>" />
-
     <% @meta.each do |key, value| %>
       <meta name="og:<%= key %>" content="<%= value %>" />
     <% end %>
@@ -41,7 +41,11 @@
     <meta name="og:site_name" content="<%= ENV['SITE_NAME'] %>"/>
 
     <meta name="twitter:card" content="summary_large_image" />
-
+    <style>
+        html {
+            font-family: 'Nunito', sans-serif;
+        }
+    </style>
     <!-- <meta name="twitter:site" content="<%= ENV["META_TWITTER"] %>" /> -->
     <%= javascript_pack_tag 'application' %>
   </head>
