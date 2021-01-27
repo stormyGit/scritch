@@ -48,7 +48,6 @@ class TaggableMedia extends React.Component {
   state = {
     tutoDialog: !this.props.currentSession.user.tagTutorial,
     tagDialog: false,
-    hasMore: true,
     userId: null,
     event: null,
     edition: null,

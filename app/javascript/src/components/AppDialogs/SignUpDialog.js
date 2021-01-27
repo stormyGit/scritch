@@ -1,46 +1,24 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import CheckIcon from "@material-ui/icons/Check";
-import WarningIcon from "@material-ui/icons/Warning";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 import ReCAPTCHA from "react-google-recaptcha";
-
-import TelegramLoginButton from "react-telegram-login";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 import ResponsiveDialog from "../Global/ResponsiveDialog";
-import SignUpAlternativeDialog from "./SignUpAlternativeDialog";
 import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 import TelegramLogin from "./TelegramLogin";
 import FacebookLoginScreen from "./FacebookLoginScreen";
-import themeSelector from "../../themeSelector";
 
-import { Mutation, Query } from "react-apollo";
-
-import Logo from "../CustomComponents/ScritchLogo";
-import {
-  EMAIL_SIGN_IN,
-  REGISTER_USER,
-  RESET_PASSWORD,
-  SEND_NEW_CONFIRM_MAIL
-} from "../../queries/globalQueries";
-import { TextField } from "@material-ui/core";
+import {Mutation} from "react-apollo";
+import {EMAIL_SIGN_IN, REGISTER_USER, RESET_PASSWORD, SEND_NEW_CONFIRM_MAIL} from "../../queries/globalQueries";
+import {TextField} from "@material-ui/core";
 
 const styles = theme => ({
   brand: {
@@ -111,7 +89,6 @@ class SignUpDialog extends React.Component {
     passwordConfirm: "",
     invalidPass: false,
     invalidMail: false,
-    invalidMail: false,
     invalidConfirmPass: false,
     emailDisplay: "sign_in",
     success: false,
@@ -129,7 +106,6 @@ class SignUpDialog extends React.Component {
       password: "",
       passwordConfirm: "",
       invalidPass: false,
-      invalidMail: false,
       invalidMail: false,
       invalidConfirmPass: false,
       success: false,
@@ -149,7 +125,7 @@ class SignUpDialog extends React.Component {
             onClose();
           }}
         >
-          {this.state.loginScreen == "all" && (
+          {this.state.loginScreen === "all" && (
             <React.Fragment>
               <DialogTitle className={classes.titleBarContainer}>
                 <Grid container spacing={0} alignItems="center" justify="space-between">
@@ -315,11 +291,11 @@ class SignUpDialog extends React.Component {
                         <Mutation
                           mutation={EMAIL_SIGN_IN}
                           onError={e => {
-                            if (e.message == "GraphQL error: wrong_pwd")
+                            if (e.message === "GraphQL error: wrong_pwd")
                               this.setState({ invalidPass: true });
-                            if (e.message == "GraphQL error: unknown_email")
+                            if (e.message === "GraphQL error: unknown_email")
                               this.setState({ invalidMail: true });
-                            if (e.message == "GraphQL error: no_confirm")
+                            if (e.message === "GraphQL error: no_confirm")
                               this.setState({ noConfirm: true });
                           }}
                           onCompleted={() => location.reload()}
@@ -437,11 +413,11 @@ class SignUpDialog extends React.Component {
                         <Mutation
                           mutation={REGISTER_USER}
                           onError={e => {
-                            if (e.message == "GraphQL error: wrong_pwd")
+                            if (e.message === "GraphQL error: wrong_pwd")
                               this.setState({ invalidPass: true });
-                            if (e.message == "GraphQL error: email_exists")
+                            if (e.message === "GraphQL error: email_exists")
                               this.setState({ invalidMail: true });
-                            if (e.message == "GraphQL error: no_confirm")
+                            if (e.message === "GraphQL error: no_confirm")
                               this.setState({ noConfirm: true });
                           }}
                           onCompleted={() =>
@@ -541,7 +517,7 @@ class SignUpDialog extends React.Component {
                         <Mutation
                           mutation={RESET_PASSWORD}
                           onError={e => {
-                            if (e.message == "GraphQL error: unknown_email")
+                            if (e.message === "GraphQL error: unknown_email")
                               this.setState({ invalidMail: true });
                           }}
                           onCompleted={() => this.setState({ success: true, forgotEmail: "" })}
@@ -595,10 +571,10 @@ class SignUpDialog extends React.Component {
               </DialogContent>
             </React.Fragment>
           )}
-          {this.state.loginScreen == "telegram" && (
+          {this.state.loginScreen === "telegram" && (
             <TelegramLogin onGoBack={() => this.setState({ loginScreen: "all" })} />
           )}
-          {this.state.loginScreen == "facebook" && (
+          {this.state.loginScreen === "facebook" && (
             <FacebookLoginScreen onGoBack={() => this.setState({ loginScreen: "all" })} />
           )}
         </ResponsiveDialog>

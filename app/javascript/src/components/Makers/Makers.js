@@ -1,26 +1,22 @@
 import React from "react";
 
-import { Query } from "react-apollo";
-import { LOAD_MAKERS } from "../../queries/makerQueries";
-import queryString from "query-string";
+import {Query} from "react-apollo";
+import {LOAD_MAKERS} from "../../queries/makerQueries";
 import withWidth from "@material-ui/core/withWidth";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Grid from "@material-ui/core/Grid";
 import Snackbar from "@material-ui/core/Snackbar";
 import Button from "@material-ui/core/Button";
-import LinearProgress from "@material-ui/core/LinearProgress";
 import PageTitle from "../Global/PageTitle";
 
 import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
 import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
 import MakerCard from "./MakerCard";
-
-import { Link, withRouter } from "react-router-dom";
 
 import MakerFilters from "./MakerFilters";
 import MakerFiltersMobile from "./MakerFiltersMobile";

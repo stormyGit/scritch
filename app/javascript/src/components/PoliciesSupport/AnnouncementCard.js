@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardContent from "@material-ui/core/CardContent";
 import dayjs from "dayjs";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 
 const styles = theme => ({
   card: {
@@ -34,8 +34,6 @@ const styles = theme => ({
 });
 
 class AnnouncementCard extends React.Component {
-  state = {};
-
   renderHeader() {
     const { classes, announcement, width } = this.props;
 

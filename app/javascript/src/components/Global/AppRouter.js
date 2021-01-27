@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
 import withWidth from "@material-ui/core/withWidth";
 
@@ -14,7 +14,7 @@ import UserRemake from "../Users/UserRemake";
 import MakerRemake from "../Makers/MakerRemake";
 import Makers from "../Makers/Makers";
 
-import EventRemake from "../Events/EventRemake";
+import EventRemake from "../Events/Event";
 import Events from "../Events/Events";
 
 import Unauthorized from "../Global/Unauthorized";
@@ -38,223 +38,214 @@ import Terms from "../PoliciesSupport/Terms";
 import UserGuide from "../PoliciesSupport/UserGuide";
 import Faq from "../PoliciesSupport/Faq";
 import PrivacyPolicy from "../PoliciesSupport/PrivacyPolicy";
-
-import TagPage from "../TagPage";
-import LatestPictures from "../LatestPictures";
+import {LandingPageMobile, LandingPageNormal} from "../LandingPage";
 import AdsLister from "../AdsLister";
 import Favorites from "../Favorites";
 import Subscriptions from "../Subscriptions";
 import SearchPage from "../SearchPage";
 
-import AppLayoutRemake from "./AppLayoutRemake";
-import AppFooter from "./AppFooter";
+import AppLayout from "./AppLayout";
 import AppHeader from "./AppHeader";
 import MustLog from "./MustLog";
+import MediaTagging from "../Media/MediaTagging";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import {MicroPadder, Padder} from "../../util/padder";
+import {MODERATOR, resolveUserType, VISITOR} from "../../util/userCategory";
+import {HistoryWrapper} from "./HistoryWrapper";
 
-const Padder = () => <div style={{ padding: 16 }} />;
-const MicroPadder = () => <div style={{ padding: 8 }} />;
+function AppRouter(props) {
+  const {currentSession, width} = props;
+  const userType = resolveUserType(currentSession);
+  const isSessionValid = userType >= VISITOR; //SUSPENDED is -1, VISITOR is 0
+  const isModerator = userType === MODERATOR;
+  const isLandscape = useMediaQuery('(orientation:landscape)');
 
-class AppRouter extends React.Component {
-  render() {
-    const { currentSession, width } = this.props;
-
-    return (
-      <BrowserRouter>
-        <Route
-          render={({ location }) => {
-            if (location.pathname.match(/^\/react_moderation/)) {
-              if (currentSession.user.isModerator)
-                return (
-                  <React.Fragment>
-                    <ModerationLayout>
-                      {width === "xl" || width === "lg" ? <Padder /> : <MicroPadder />}
-                      <Switch location={location}>
-                        <Route exact path="/react_moderation" component={ModerationHome} />
-                        <Route
-                          exact
-                          path="/react_moderation/analytics"
-                          component={ModerationAnalytics}
-                        />
-                        <Route exact path="/react_moderation/assets" component={ModerationAssets} />
-                        <Route exact path="/react_moderation/claims" component={ModerationClaims} />
-                        <Route
-                          exact
-                          path="/react_moderation/requests"
-                          component={ModerationRequests}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/moderators"
-                          component={ModerationModerators}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/sponsors"
-                          component={ModerationSponsors}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/reports"
-                          component={ModerationReports}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/tickets"
-                          component={ModerationTickets}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/suspended_users"
-                          component={ModerationSuspendedUsers}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/adverts"
-                          component={ModerationAdverts}
-                        />
-                        <Route
-                          exact
-                          path="/react_moderation/announcements"
-                          component={ModerationAnnouncements}
-                        />
-                      </Switch>
-                    </ModerationLayout>
-                  </React.Fragment>
-                );
-              else
-                return (
-                  <React.Fragment>
-                    <Switch location={location}>
-                      <Route exact path="/react_moderation" component={Unauthorized} />
-                    </Switch>
-                  </React.Fragment>
-                );
-            }
-            return (
-              <React.Fragment>
-                <AppLayoutRemake>
-                  <AppHeader />
-                  {width === "xl" || width === "lg" ? <Padder /> : <MicroPadder />}
-                  <Switch location={location}>
-                    <Route exact path="/" component={LatestPictures} />
-                    <Route exact path="/announcements" component={Announcements} />
-                    <Route
-                      path="/search"
-                      component={
-                        currentSession && currentSession.user.suspendedUser ? MustLog : SearchPage
-                      }
-                    />
-                    <Route exact path="/terms_of_use" component={Terms} />
-                    <Route exact path="/user_guide" component={UserGuide} />
-                    <Route exact path="/faq" component={Faq} />
-                    <Route exact path="/privacy_policy" component={PrivacyPolicy} />
-                    <Route
-                      exact
-                      path="/fursuits"
-                      component={
-                        currentSession && currentSession.user.suspendedUser ? MustLog : Fursuits
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/makers"
-                      component={
-                        currentSession && currentSession.user.suspendedUser ? MustLog : Makers
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/events"
-                      component={
-                        currentSession && currentSession.user.suspendedUser ? MustLog : Events
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/tag"
-                      component={
-                        currentSession && !currentSession.user.suspendedUser ? TagPage : MustLog
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/search"
-                      component={
-                        currentSession && currentSession.user.suspendedUser ? MustLog : SearchPage
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/subscriptions"
-                      component={
-                        currentSession && !currentSession.user.suspendedUser
-                          ? Subscriptions
-                          : MustLog
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/favorites"
-                      component={
-                        currentSession && !currentSession.user.suspendedUser ? Favorites : MustLog
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/pictures"
-                      component={
-                        currentSession && currentSession.user.suspendedUser ? MustLog : MediaAll
-                      }
-                    />
-                    <Route exact path="/ads" component={AdsLister} />
-                    <Route exact path="/pictures/:id" component={MediumRemake} />
-                    <Route
-                      exact
-                      path="/fursuits/:id"
-                      component={
-                        currentSession && currentSession.user.suspendedUser
-                          ? MustLog
-                          : FursuitRemake
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/makers/:id"
-                      component={
-                        currentSession && currentSession.user.suspendedUser ? MustLog : MakerRemake
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/events/:id"
-                      component={
-                        currentSession && currentSession.user.suspendedUser ? MustLog : EventRemake
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/:id"
-                      component={
-                        currentSession && currentSession.user.suspendedUser ? MustLog : UserRemake
-                      }
-                    />
-                    <Route
-                      exact
-                      path="/:id/:tab"
-                      component={
-                        currentSession && currentSession.user.suspendedUser ? MustLog : UserRemake
-                      }
-                    />
-                  </Switch>
-                  {false && <AppFooter />}
-                </AppLayoutRemake>
-              </React.Fragment>
-            );
-          }}
-        />
-      </BrowserRouter>
-    );
+  function LoadLandingPage() {
+    return isLandscape ? <LandingPageNormal/> : <LandingPageMobile/>;
   }
+
+  function LoadAnnouncements() {
+    return <Announcements/>;
+  }
+
+  function LoadSearchPage() {
+    return isSessionValid ? <SearchPage/> : <MustLog/>;
+  }
+
+  function LoadTerms() {
+    return <Terms/>;
+  }
+
+  function LoadUserGuide() {
+    return <UserGuide/>;
+  }
+
+  function LoadFaq() {
+    return <Faq/>;
+  }
+
+  function LoadPrivacyPolicy() {
+    return <PrivacyPolicy/>;
+  }
+
+  function LoadFursuits() {
+    return isSessionValid ? <Fursuits/> : <MustLog/>;
+  }
+
+  function LoadMakers() {
+    return isSessionValid ? <Makers/> : <MustLog/>;
+  }
+
+  function LoadEvents() {
+    return isSessionValid ? <Events/> : <MustLog/>;
+  }
+
+  function LoadTagPage() {
+    return isSessionValid ? <MediaTagging/> : <MustLog/>;
+  }
+
+  function LoadSubscriptions() {
+    return isSessionValid ? <Subscriptions/> : <MustLog/>;
+  }
+
+  function LoadMediaAll() {
+    return isSessionValid ? <MediaAll/> : <MustLog/>;
+  }
+
+  function LoadFavorites() {
+    return isSessionValid ? <Favorites/> : <MustLog/>;
+  }
+
+  function LoadAdsLister() {
+    return <AdsLister/>;
+  }
+
+  function LoadMediumRemake() {
+    return <MediumRemake/>;
+  }
+
+  function LoadFursuitRemake() {
+    return isSessionValid ? <FursuitRemake/> : <MustLog/>;
+  }
+
+  function LoadMakerRemake() {
+    return isSessionValid ? <MakerRemake/> : <MustLog/>;
+  }
+
+  function LoadEventRemake() {
+    return isSessionValid ? <EventRemake/> : <MustLog/>;
+  }
+
+  function LoadUserRemake() {
+    return isSessionValid ? <UserRemake/> : <MustLog/>;
+  }
+
+  return (
+    <BrowserRouter>
+      <HistoryWrapper>
+      <Route
+        render={({location}) => {
+          if (location.pathname.match(/^\/react_moderation/)) {
+            if (isModerator)
+              return (
+                <React.Fragment>
+                  <ModerationLayout>
+                    {width === "xl" || width === "lg" ? <Padder/> : <MicroPadder/>}
+                    <Switch location={location}>
+                      <Route exact path="/react_moderation" component={ModerationHome}/>
+                      <Route exact path="/react_moderation/analytics" component={ModerationAnalytics}/>
+                      <Route exact path="/react_moderation/assets" component={ModerationAssets}/>
+                      <Route exact path="/react_moderation/claims" component={ModerationClaims}/>
+                      <Route exact path="/react_moderation/requests" component={ModerationRequests}/>
+                      <Route exact path="/react_moderation/moderators" component={ModerationModerators}/>
+                      <Route exact path="/react_moderation/sponsors" component={ModerationSponsors}/>
+                      <Route exact path="/react_moderation/reports" component={ModerationReports}/>
+                      <Route exact path="/react_moderation/tickets" component={ModerationTickets}/>
+                      <Route exact path="/react_moderation/suspended_users" component={ModerationSuspendedUsers}/>
+                      <Route exact path="/react_moderation/adverts" component={ModerationAdverts}/>
+                      <Route exact path="/react_moderation/announcements" component={ModerationAnnouncements}/>
+                    </Switch>
+                  </ModerationLayout>
+                </React.Fragment>
+              );
+            else
+              return (
+                <React.Fragment>
+                  <Switch location={location}>
+                    <Route exact path="/react_moderation" component={Unauthorized}/>
+                  </Switch>
+                </React.Fragment>
+              );
+          }
+          return (
+            <AppLayout>
+              <AppHeader isFrontPage={location.pathname === "/"}/>
+              <Switch location={location}>
+                <Route exact path="/">
+                  <LoadLandingPage/>
+                </Route>
+                <Route exact path="/announcements">
+                  <LoadAnnouncements/>
+                </Route>
+                <Route path="/search">
+                  <LoadSearchPage/>
+                </Route>
+                <Route exact path="/terms_of_use">
+                  <LoadTerms/>
+                </Route>
+                <Route exact path="/user_guide">
+                  <LoadUserGuide/>
+                </Route>
+                <Route exact path="/faq">
+                  <LoadFaq/>
+                </Route>
+                <Route exact path="/privacy_policy">
+                  <LoadPrivacyPolicy/>
+                </Route>
+                <Route exact path="/fursuits">
+                  <LoadFursuits/>
+                </Route>
+                <Route exact path="/makers">
+                  <LoadMakers/>
+                </Route>
+                <Route exact path="/events">
+                  <LoadEvents/>
+                </Route>
+                <Route exact path="/tag">
+                  <LoadTagPage/>
+                </Route>
+                <Route exact path="/subscriptions">
+                  <LoadSubscriptions/>
+                </Route>
+                <Route exact path="/pictures">
+                  <LoadMediaAll/>
+                </Route>
+                <Route exact path="/favorites">
+                  <LoadFavorites/>
+                </Route>
+                <Route exact path="/ads">
+                  <LoadAdsLister/>
+                </Route>
+                <Route exact path="/suspended">
+                  <MustLog/>
+                </Route>
+                <Route exact path="/pictures/:id">
+                  <LoadMediumRemake/>
+                </Route>
+                <Route exact path="/fursuits/:id"><LoadFursuitRemake/></Route>
+                <Route exact path="/makers/:id"><LoadMakerRemake/></Route>
+                <Route exact path="/events/:id"><LoadEventRemake/></Route>
+                <Route exact path="/:id"><LoadUserRemake/></Route>
+                <Route exact path="/:id/:tab"><LoadUserRemake/></Route>
+              </Switch>
+            </AppLayout>
+          );
+        }
+        }
+      />
+      </HistoryWrapper>
+    </BrowserRouter>
+  );
 }
 
 export default withCurrentSession(withWidth()(AppRouter));

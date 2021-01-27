@@ -13,10 +13,10 @@ import withWidth from "@material-ui/core/withWidth";
 import dayjs from "dayjs";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
-import { withStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
+import {withStyles} from "@material-ui/core/styles";
+import {Link} from "react-router-dom";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import { Mutation } from "react-apollo";
+import {Mutation} from "react-apollo";
 
 import FormattedText from "../Global/FormattedText";
 import UserAvatar from "../Users/UserAvatar";
@@ -26,10 +26,10 @@ import ReportDialog from "../AppDialogs/ReportDialog";
 import withCurrentSession from "../withCurrentSession";
 import countFormat from "../../countFormat";
 
-import { GET_MEDIUM, GET_COMMENTS_BY_MEDIUM } from "../../queries/mediaQueries";
-import { DELETE_COMMENT } from "../../queries/mediaMutations";
+import {GET_COMMENTS_BY_MEDIUM, GET_MEDIUM} from "../../queries/mediaQueries";
+import {DELETE_COMMENT} from "../../queries/mediaMutations";
 
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 
 const styles = theme => ({
   comment: {
@@ -210,7 +210,7 @@ class Comment extends React.Component {
                     )}
                   </Mutation>
                 )}
-                {currentSession && currentSession.user.id != comment.user.id && (
+                {currentSession && currentSession.user.id !== comment.user.id && (
                   <MenuItem
                     onClick={() => {
                       this.setState({

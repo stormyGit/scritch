@@ -1,7 +1,7 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 
-import { Query } from "react-apollo";
+import {Query} from "react-apollo";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -13,7 +13,7 @@ import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { LOAD_EVENTS_COUNTRIES, LOAD_EVENTS_STATUSES } from "../../queries/eventQueries";
+import {LOAD_EVENTS_COUNTRIES, LOAD_EVENTS_STATUSES} from "../../queries/eventQueries";
 
 import SearchBar from "material-ui-search-bar";
 
@@ -100,7 +100,7 @@ class EventFilters extends React.Component {
   componentDidMount() {}
 
   clearFilters(filter) {
-    var criteria = {
+    const criteria = {
       name: "",
       country: null
     };
@@ -230,7 +230,7 @@ class EventFilters extends React.Component {
           <ExpansionPanel
             expanded={this.state.expansion}
             onChange={() =>
-              this.state.expansion == false && this.setState({ expansion: !this.state.expansion })
+              this.state.expansion === false && this.setState({ expansion: !this.state.expansion })
             }
           >
             <ExpansionPanelSummary

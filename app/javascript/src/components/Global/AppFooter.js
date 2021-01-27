@@ -1,295 +1,244 @@
-import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { withRouter, Link } from "react-router-dom";
-import { Query } from "react-apollo";
-import { GET_ADVERTS, GET_TOOLTIP } from "../../queries/advertQueries";
-import uuidv4 from "uuid/v4";
+import WorkIcon from '@material-ui/icons/Work';
+import TipsIcon from "@material-ui/icons/AttachMoney";
+import AdsIcon from "@material-ui/icons/BusinessCenter";
+import React, {useState} from "react";
+import {withStyles} from "@material-ui/core/styles";
+import {Link, withRouter} from "react-router-dom";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
 import AdvertiseDialog from "../AppDialogs/AdvertiseDialog";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTwitter, faTelegram } from "@fortawesome/free-brands-svg-icons";
-
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTelegram, faTwitter, faYoutube} from "@fortawesome/free-brands-svg-icons";
+import PetsIcon from "@material-ui/icons/Pets";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import Tooltip from "@material-ui/core/Tooltip";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import IconButton from "@material-ui/core/IconButton";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import Divider from "@material-ui/core/Divider";
+import ButtonBase from "@material-ui/core/ButtonBase";
+import TipsDialog from "../AppDialogs/TipsDialog";
+import SponsorDialog from "../AppDialogs/SponsorDialog";
+import SpeciesDialog from "../AppDialogs/SpeciesDialog";
+import SponsorDashboardDialog from "../AppDialogs/SponsorDashboardDialog";
+import {BASIC, resolveUserType, SPONSOR, SUSPENDED, VISITOR} from "../../util/userCategory";
+
+const BUTTON_ITEM = 0;
+const LINK_ITEM = 1;
+const EXTERNAL_ITEM = 2;
 
 const styles = theme => ({
   root: {
-    flexGrow: 1
+    maxWidth: "60vw",
   },
-  grid: {
-    textAlign: "center",
-    alignItems: "center"
+  card: {
+    backgroundColor: `rgba(0, 0, 0, 0)`,
+    borderStyle: "none",
+    padding: 0
   },
-  icon: {
-    color: theme.palette.text.primary
-  },
-  link: {
-    textDecoration: "none",
-    color: theme.palette.primary.main
-  },
-  toolTip: {
-    height: 125
-  },
-  advert: {
-    width: 300,
-    height: 90
-  },
-  placeholderAdvert: {
-    cursor: "pointer",
-    width: 300,
-    height: 90
-  },
-  socialLeft: {
-    alignItems: "center",
-    textAlign: "right"
-  },
-  socialRight: {
-    alignItems: "center",
-    textAlign: "left"
+  cardContent: {
+    padding: theme.spacing(1),
+    '&:last-child': {paddingBottom: 0},
   }
 });
+const AppFooter = ({classes, width, currentSession, ...props}) => {
+  const [sponsorDialog, setSponsorDialog] = useState(false);
+  const [sponsorDashboardDialog, setSponsorDashboardDialog] = useState(false);
+  const [tipsDialog, setTipsDialog] = useState(false);
+  const [databaseList, setDatabaseList] = useState(false);
+  const [assetDialog, setAssetDialog] = useState(false);
+  const [adsDialog, setAdsDialog] = useState(false);
+  const [speciesDialog, setSpeciesDialog] = useState(false);
+  let userType = resolveUserType(currentSession);
 
-class AppFooter extends React.Component {
-  state = {
-    advertsDialog: false
+  const handleClose = () => {
+    if (props.onClose) {
+      props.onClose();
+    }
   };
-  render() {
-    const { classes, width, currentSession } = this.props;
-    var limit = width !== "xs" ? 2 : 1;
-    var adRibbon;
+  const beginSponsorshipItem = {
+    kind: BUTTON_ITEM,
+    label: "Become a Sponsor!",
+    icon: <PetsIcon/>,
+    onClick: () => {
+      if (userType === SPONSOR)
+        setSponsorDashboardDialog(true);
+      else if (userType !== SUSPENDED)
+        setSponsorDialog(true);
+    },
+  };
+  const advertiseItem = {
+    kind: BUTTON_ITEM,
+    label: "Advertise with Scritch",
+    icon: <AdsIcon/>,
+    onClick: () => {
+      if (userType !== SUSPENDED)
+        setAdsDialog(true);
+    },
+  };
+  const tipsItem = {
+    kind: BUTTON_ITEM,
+    label: "Tip Jar",
+    icon: <TipsIcon/>,
+    onClick: () => {
+      if (userType !== SUSPENDED)
+        setTipsDialog(true);
+    },
+  };
+  const workItem = {
+    kind: EXTERNAL_ITEM,
+    label: "Become a Developer!",
+    icon: <WorkIcon/>,
+    ref: (userType !== SUSPENDED) ? "" : "https://t.me/NafiTheBear"
+  };
+  const tosItem = {
+    kind: LINK_ITEM,
+    label: "Terms of Use",
+    // icon: <WorkIcon/>,
+    ref: `/terms_of_use`
+  };
+  const privPolItem = {
+    kind: LINK_ITEM,
+    label: "Privacy Policy",
+    // icon: <WorkIcon/>,
+    ref: `/privacy_policy`
+  };
+  const uGItem = {
+    kind: LINK_ITEM,
+    label: "Website User Guide",
+    // icon: <WorkIcon/>,
+    ref: `/user_guide`
+  };
+  const faqItem = {
+    kind: LINK_ITEM,
+    label: "FAQ",
+    // icon: <WorkIcon/>,
+    ref: `/faq`
+  };
 
-    if (
-      currentSession &&
-      (!currentSession.user.showAds && !currentSession.user.showTooltips)
-    )
-      adRibbon = null;
-
-    if (
-      currentSession &&
-      !currentSession.user.showAds &&
-      currentSession.user.showTooltips
-    )
-      adRibbon = (
-        <React.Fragment>
-          <Query
-            query={GET_TOOLTIP}
-            variables={{ uuid: uuidv4() }}
-            fetchPolicy="network-only"
-          >
-            {({ loading, error, data }) => {
-              if (loading || error) {
-                return <div style={{ height: 125, width: 100 }} />;
-              }
-              if (data && data.tooltip)
-                return (
-                  <div className={classes.root}>
-                    <Grid
-                      container
-                      spacing={1}
-                      className={classes.grid}
-                      justify="center"
-                      alignItems="center"
-                    >
-                      <Grid item xs={false} lg={4} />
-                      <Grid item xs={false} lg={4}>
-                        <img
-                          src={data.tooltip.file}
-                          className={classes.toolTip}
-                        />
-                      </Grid>
-                      <Grid item xs={false} lg={4} />
-                    </Grid>
-                  </div>
-                );
-            }}
-          </Query>
-          <div style={{ paddingTop: 10 }} />
-        </React.Fragment>
-      );
-
-    return (
-      <React.Fragment>
-        <div className={classes.root}>
-          {false && adRibbon}
-          {false &&
-            (!currentSession ||
-              (currentSession && currentSession.user.showAds)) && (
-              <React.Fragment>
-                <Grid
-                  container
-                  spacing={1}
-                  className={classes.grid}
-                  justify="center"
-                  alignItems="center"
-                >
-                  <Query
-                    query={GET_ADVERTS}
-                    variables={{ uuid: uuidv4(), limit }}
-                    fetchPolicy="network-only"
-                  >
-                    {({ loading, error, data }) => {
-                      if (loading || error) {
-                        return null;
-                      }
-                      if (data) {
-                        if (data.adverts && data.adverts.length == limit)
-                          return (
-                            <React.Fragment>
-                              <Grid item xs={12} sm={6} lg={4}>
-                                {data.adverts[0].isPlaceholder && (
-                                  <img
-                                    src={data.adverts[0].file}
-                                    className={classes.placeholderAdvert}
-                                    onClick={() =>
-                                      this.setState({ advertsDialog: true })
-                                    }
-                                  />
-                                )}
-                                {!data.adverts[0].isPlaceholder && (
-                                  <a href={data.adverts[0].url} target="_blank">
-                                    <img
-                                      src={data.adverts[0].file}
-                                      className={classes.advert}
-                                    />
-                                  </a>
-                                )}
-                              </Grid>
-                              {(width === "xl" || width === "lg") &&
-                                (!currentSession ||
-                                  (currentSession &&
-                                    currentSession.user.showTooltips)) && (
-                                  <Grid item xs={false} lg={4}>
-                                    <Query
-                                      query={GET_TOOLTIP}
-                                      variables={{ uuid: uuidv4() }}
-                                      fetchPolicy="network-only"
-                                    >
-                                      {({ loading, error, data }) => {
-                                        if (loading || error) {
-                                          return (
-                                            <div
-                                              style={{
-                                                height: 125,
-                                                width: 100
-                                              }}
-                                            />
-                                          );
-                                        }
-                                        if (data && data.tooltip)
-                                          return (
-                                            <img
-                                              src={data.tooltip.file}
-                                              className={classes.toolTip}
-                                            />
-                                          );
-                                      }}
-                                    </Query>
-                                  </Grid>
-                                )}
-                              {(width === "xl" || width === "lg") &&
-                                currentSession &&
-                                !currentSession.user.showTooltips && (
-                                  <Grid item xs={false} lg={4} />
-                                )}
-                              {width !== "xs" && (
-                                <Grid item sm={6} lg={4}>
-                                  {data.adverts[1].isPlaceholder && (
-                                    <img
-                                      src={data.adverts[1].file}
-                                      className={classes.placeholderAdvert}
-                                      onClick={() =>
-                                        this.setState({ advertsDialog: true })
-                                      }
-                                    />
-                                  )}
-                                  {!data.adverts[1].isPlaceholder && (
-                                    <a
-                                      href={data.adverts[1].url}
-                                      target="_blank"
-                                    >
-                                      <img
-                                        src={data.adverts[1].file}
-                                        className={classes.advert}
-                                      />
-                                    </a>
-                                  )}
-                                </Grid>
-                              )}
-                            </React.Fragment>
-                          );
-                        else return null;
-                      } else return null;
-                    }}
-                  </Query>
-                </Grid>
-                <div style={{ paddingTop: 10 }} />
-              </React.Fragment>
-            )}
-          <Grid container spacing={1} className={classes.grid}>
-            <Grid item xs={2} md={4} className={classes.socialLeft}>
-              <Typography variant="h4" color="primary">
-                <Tooltip title="Follow us on Twitter!">
-                  <a
-                    href="https://twitter.com/PixelScritch"
-                    target="_blank"
-                    className={classes.link}
-                  >
-                    <FontAwesomeIcon icon={faTwitter} />
-                  </a>
-                </Tooltip>
-              </Typography>
-            </Grid>
-            <Grid item xs={8} md={4}>
-              <Typography>
-                <Link to={"/terms_of_use"} className={classes.link}>
-                  Terms of Use
-                </Link>{" "}
-                -{" "}
-                <Link to={"/privacy_policy"} className={classes.link}>
-                  Privacy Policy
-                </Link>
-              </Typography>
-              <Typography>
-                <Link to={"/user_guide"} className={classes.link}>
-                  Website User Guide
-                </Link>{" "}
-                -{" "}
-                <Link to={"/faq"} className={classes.link}>
-                  FAQ
-                </Link>
-              </Typography>
-              <div style={{ paddingTop: 10 }} />
-              <Typography>
-                Copyright Scritch 2018-2019 | Scritch(v
-                {process.env.SITE_VERSION})
-              </Typography>
-            </Grid>
-            <Grid item xs={2} md={4} className={classes.socialRight}>
-              <Typography variant="h4" color="primary">
-                <Tooltip title="Get the latest News on Telegram!">
-                  <a
-                    href="https://t.me/ScritchNews"
-                    target="_blank"
-                    className={classes.link}
-                  >
-                    <FontAwesomeIcon icon={faTelegram} />
-                  </a>
-                </Tooltip>
-              </Typography>
-            </Grid>
-          </Grid>
-        </div>
-        {currentSession && (
-          <AdvertiseDialog
-            open={this.state.advertsDialog}
-            onClose={() => this.setState({ advertsDialog: false })}
-          />
-        )}
-      </React.Fragment>
-    );
+  const resolveItem = (itemTag) => {
+    let listItemIcon = <ListItemIcon>{itemTag.icon}</ListItemIcon>;
+    let listItemText = <ListItemText primary={itemTag.label}/>;
+    switch (itemTag.kind) {
+      case BUTTON_ITEM:
+        return (
+          <ListItem button onClick={itemTag.onClick}>
+            {listItemIcon}
+            {listItemText}
+          </ListItem>
+        );
+      case LINK_ITEM:
+        return (
+          <ListItem button component={Link} to={itemTag.ref}>
+            {/*{listItemIcon}*/}
+            {listItemText}
+          </ListItem>
+        );
+      case EXTERNAL_ITEM:
+        return (
+          <ListItem button component={ButtonBase} target="_blank" rel="noreferrer" href={itemTag.ref}>
+            {listItemIcon}
+            {listItemText}
+          </ListItem>
+        );
+    }
   }
+
+  return (
+    <React.Fragment>
+      <TipsDialog
+        open={tipsDialog}
+        onClose={() => {
+          setTipsDialog(false);
+          handleClose();
+        }}
+      />
+      <SponsorDialog
+        open={sponsorDialog}
+        onClose={() => {
+          setSponsorDialog(false);
+          handleClose();
+        }}
+      />
+      <SpeciesDialog
+        open={speciesDialog}
+        onClose={() => {
+          setSpeciesDialog(false);
+          handleClose();
+        }}
+      />
+      <AdvertiseDialog
+        open={adsDialog}
+        onClose={() => {
+          setAdsDialog(false);
+          handleClose();
+        }}
+      />
+      <SponsorDashboardDialog
+        open={sponsorDashboardDialog}
+        onClose={() => {
+          setSponsorDashboardDialog(false);
+          handleClose();
+        }}
+      />
+      <Divider/>
+      <Grid container direction="column" justify="flex-start" alignItems="stretch">
+        <Grid container direction="row" justify="center" alignItems="flex-start">
+          <Card className={classes.card} variant="outlined">
+            <CardContent className={classes.cardContent}>
+              <Typography component="h3"> Support Us </Typography>
+              <List dense={true}>
+                {resolveItem(beginSponsorshipItem)}
+                {resolveItem(tipsItem)}
+              </List>
+            </CardContent>
+          </Card>
+          <Divider orientation="vertical" variant="inset"/>
+          <Card className={classes.card} variant="outlined">
+            <CardContent className={classes.cardContent}>
+              <Typography component="h3"> Work With Us </Typography>
+              <List dense={true}>
+                {resolveItem(advertiseItem)}
+                {resolveItem(workItem)}
+              </List>
+            </CardContent>
+          </Card>
+          <Divider orientation="vertical" variant="inset"/>
+          <Card className={classes.card} variant="outlined">
+            <CardContent className={classes.cardContent}>
+              <Typography component="h3"> Resources & Links </Typography>
+              <Grid container>
+                <List dense={true}>
+                  {resolveItem(tosItem)}
+                  {resolveItem(privPolItem)}
+                </List>
+                <List dense={true}>
+                  {resolveItem(uGItem)}
+                  {resolveItem(faqItem)}
+                </List>
+              </Grid>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid container direction="row" justify="center" alignItems="center">
+          <Typography component="h3"> Copyright © 2020 Scritch Ltd.</Typography>
+          <IconButton aria-label="Follow us on Twitter!" target="_blank" rel="noreferrer" href="https://twitter.com/PixelScritch">
+            <FontAwesomeIcon icon={faTwitter}/>
+          </IconButton>
+          <IconButton aria-label="Get the latest News on Telegram!" target="_blank" rel="noreferrer" href="https://t.me/ScritchNews">
+            <FontAwesomeIcon icon={faTelegram}/>
+          </IconButton>
+          <IconButton aria-label="Follow us on Youtube!" target="_blank" rel="noreferrer" href="https://www.youtube.com/channel/UC9haeD7w5jIH0q1wsLmDMmg">
+            <FontAwesomeIcon icon={faYoutube}/>
+          </IconButton>
+        </Grid>
+      </Grid>
+    </React.Fragment>
+  );
 }
 
 export default withStyles(styles)(

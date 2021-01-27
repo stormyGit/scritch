@@ -1,6 +1,6 @@
 import React from "react";
-import { Query, Mutation } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
+import {Mutation, Query} from "react-apollo";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 
 import DefaultAvatar from "../Users/DefaultAvatar";
@@ -14,15 +14,15 @@ import PageTitle from "../Global/PageTitle";
 import FursuitClaimDialog from "./FursuitClaimDialog";
 import EditFursuitDialog from "./EditFursuitDialog";
 import MediaFursuit from "../Media/MediaFursuit";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaw, faStar, faUsers, faTags } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPaw, faStar, faTags, faUsers} from "@fortawesome/free-solid-svg-icons";
 
-import { LOAD_FURSUIT } from "../../queries/fursuitQueries";
-import { CREATE_SUBSCRIPTION, DELETE_SUBSCRIPTION } from "../../queries/fursuitMutations";
+import {LOAD_FURSUIT} from "../../queries/fursuitQueries";
+import {CREATE_SUBSCRIPTION, DELETE_SUBSCRIPTION} from "../../queries/fursuitMutations";
 
 import withCurrentSession from "../withCurrentSession";
-import { Link, withRouter } from "react-router-dom";
-import { Avatar } from "@material-ui/core";
+import {Link, withRouter} from "react-router-dom";
+import {Avatar} from "@material-ui/core";
 import ScritchSpinner from "../CustomComponents/ScritchSpinner";
 
 const styles = theme => ({
@@ -317,7 +317,7 @@ const SubtitleRow = withStyles(styles)(
         </Typography>
         {(width === "xl" || width === "lg") && fursuit.makers && (
           <div className={classes.dataSpacerLarge}>
-            {fursuit.makers.length == 0 ? (
+            {fursuit.makers.length === 0 ? (
               <Typography variant="subtitle1" className={classes.fursuitTitle}>
                 Made by <em>Redacted</em>
               </Typography>
@@ -352,7 +352,7 @@ const SubtitleRow = withStyles(styles)(
         <React.Fragment>
           <div>
             <React.Fragment>
-              {fursuit.makers.length == 0 ? (
+              {fursuit.makers.length === 0 ? (
                 <Typography variant="subtitle1" className={classes.fursuitTitle}>
                   Made by <em>Redacted</em>
                 </Typography>
@@ -529,7 +529,7 @@ class Fursuit extends React.Component {
         {!fursuit.claimed &&
           !fursuit.claimRejected &&
           !fursuit.possessed &&
-          fursuit.users.length == 0 && (
+          fursuit.users.length === 0 && (
             <Button
               color="primary"
               size="small"

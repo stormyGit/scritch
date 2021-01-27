@@ -142,7 +142,7 @@ const Capabilities = React.memo(
                     if (capabilities.includes(cap)) {
                       var array = [];
                       capabilities.map(c => {
-                        if (c != cap) {
+                        if (c !== cap) {
                           array.push(c);
                         }
                       });
@@ -163,7 +163,7 @@ const Capabilities = React.memo(
     );
   },
   ({ capabilities: oldCapabilities }, { capabilities: newCapabilities }) =>
-    oldCapabilities == newCapabilities
+    oldCapabilities === newCapabilities
 );
 
 const ConfirmDeleteDialog = ({ moderator, classes, onClose, open }) => {

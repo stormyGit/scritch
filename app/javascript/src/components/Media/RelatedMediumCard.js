@@ -1,21 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import CardHeader from "@material-ui/core/CardHeader";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import Avatar from "@material-ui/core/Avatar";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Typography from "@material-ui/core/Typography";
-import { Link, withRouter } from "react-router-dom";
+import {Link} from "react-router-dom";
 import dayjs from "dayjs";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 
 const styles = theme => ({
   card: {
@@ -56,8 +50,6 @@ const styles = theme => ({
 });
 
 class MediumCard extends React.Component {
-  state = {};
-
   renderMedia() {
     const { classes, medium, horizontal, width } = this.props;
 

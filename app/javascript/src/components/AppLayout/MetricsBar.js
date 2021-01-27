@@ -1,17 +1,13 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
+import {withRouter} from "react-router-dom";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import withCurrentSession from "../withCurrentSession";
 import Typography from "@material-ui/core/Typography";
 import Tooltip from "@material-ui/core/Tooltip";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faPaw,
-  faStar,
-  faUsers,
-  faTags
-} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faArrowUp, faDove, faPaw, faStar, faTags, faUsers} from "@fortawesome/free-solid-svg-icons";
+import Badge from "@material-ui/core/Badge";
 
 const styles = theme => ({
   link: {
@@ -26,148 +22,74 @@ const styles = theme => ({
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
-    color: theme.palette.text.primary
+    // color: theme.palette.text.primary
   },
   dataSpacer: {
     marginLeft: theme.spacing(2)
   }
 });
 
-class MetricsBar extends React.Component {
-  state = {};
+const MetricsBar = (props) => {
+  const {classes, currentSession} = props;
 
-  render() {
-    const { classes, currentSession, width } = this.props;
-
-    if (width === "xl") {
-      return (
-        <React.Fragment>
-          {currentSession && (
-            <div className={classes.metrics}>
-              <Tooltip title="Involvement Species">
-                <Typography
-                  variant="subtitle1"
-                  className={classes.link}
-                  onClick={() => this.props.openSpeciesDialog()}
-                >
-                  {currentSession.user.metricSpecies}
-                </Typography>
-              </Tooltip>
-              <Tooltip title="Scritch involvement Score">
-                <Typography variant="subtitle1" className={classes.dataSpacer}>
-                  {"Score: "}
-                  {currentSession.user.score + currentSession.user.globalScore}
-                </Typography>
-              </Tooltip>
-              <Tooltip title="Scritches">
-                <Typography variant="subtitle1">
-                  <FontAwesomeIcon
-                    icon={faPaw}
-                    className={classes.dataSpacer}
-                  />{" "}
-                  {currentSession.user.likedCount}
-                </Typography>
-              </Tooltip>
-              <Tooltip title="Favorites">
-                <Typography variant="subtitle1">
-                  <FontAwesomeIcon
-                    icon={faStar}
-                    className={classes.dataSpacer}
-                  />{" "}
-                  {currentSession.user.favedCount}
-                </Typography>
-              </Tooltip>
-              <Tooltip title="Followers">
-                <Typography variant="subtitle1">
-                  <FontAwesomeIcon
-                    icon={faUsers}
-                    className={classes.dataSpacer}
-                  />{" "}
-                  {currentSession.user.followersCount}
-                </Typography>
-              </Tooltip>
-              <Tooltip title="Tagged in">
-                <Typography variant="subtitle1">
-                  <FontAwesomeIcon
-                    icon={faTags}
-                    className={classes.dataSpacer}
-                  />{" "}
-                  {currentSession.user.taggedCount}
-                </Typography>
-              </Tooltip>
-            </div>
-          )}
-        </React.Fragment>
-      );
-    } else {
-      return (
-        <React.Fragment>
-          {currentSession && (
-            <React.Fragment>
-              <div className={classes.metrics}>
-                <Tooltip title="Involvement Species">
-                  <Typography
-                    variant="subtitle1"
-                    className={classes.link}
-                    onClick={() => this.props.openSpeciesDialog()}
-                  >
-                    {currentSession.user.metricSpecies}
-                  </Typography>
-                </Tooltip>
-                <Tooltip title="Scritch involvement Score">
-                  <Typography
-                    variant="subtitle1"
-                    className={classes.dataSpacer}
-                  >
-                    {"Score: "}
-                    {currentSession.user.score +
-                      currentSession.user.globalScore}
-                  </Typography>
-                </Tooltip>
-              </div>
-              <div className={classes.metrics}>
-                <Tooltip title="Scritches">
-                  <Typography variant="subtitle1">
-                    <FontAwesomeIcon icon={faPaw} />{" "}
-                    {currentSession.user.likedCount}
-                  </Typography>
-                </Tooltip>
-                <Tooltip title="Favorites">
-                  <Typography variant="subtitle1">
-                    <FontAwesomeIcon
-                      icon={faStar}
-                      className={classes.dataSpacer}
-                    />{" "}
-                    {currentSession.user.favedCount}
-                  </Typography>
-                </Tooltip>
-                <Tooltip title="Followers">
-                  <Typography variant="subtitle1">
-                    <FontAwesomeIcon
-                      icon={faUsers}
-                      className={classes.dataSpacer}
-                    />{" "}
-                    {currentSession.user.followersCount}
-                  </Typography>
-                </Tooltip>
-                <Tooltip title="Tagged in">
-                  <Typography variant="subtitle1">
-                    <FontAwesomeIcon
-                      icon={faTags}
-                      className={classes.dataSpacer}
-                    />{" "}
-                    {currentSession.user.taggedCount}
-                  </Typography>
-                </Tooltip>
-              </div>
-            </React.Fragment>
-          )}
-        </React.Fragment>
-      );
-    }
+  function BadgeFor(content, icon) {
+    return <Badge
+      badgeContent={content}
+      showZero
+      anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+      }}
+    >
+      <FontAwesomeIcon
+        icon={icon}
+        className={classes.dataSpacer}
+      />
+    </Badge>;
   }
-}
 
-export default withStyles(styles)(
-  withCurrentSession(withRouter(withWidth()(MetricsBar)))
-);
+  return (
+    <React.Fragment>
+      {currentSession && (
+        <div className={classes.metrics}>
+          <Tooltip title="Involvement Species">
+            <Typography
+              variant="subtitle1"
+              className={classes.link}
+              onClick={() => props.openSpeciesDialog()}
+            >
+              {BadgeFor(currentSession.user.metricSpecies, faDove)}
+            </Typography>
+          </Tooltip>
+          <Tooltip title="Scritch involvement Score">
+            <Typography variant="subtitle1" className={classes.dataSpacer}>
+              {BadgeFor(currentSession.user.score + currentSession.user.globalScore, faArrowUp)}
+            </Typography>
+          </Tooltip>
+          <Tooltip title="Scritches">
+            <Typography variant="subtitle1">
+              {BadgeFor(currentSession.user.likedCount, faPaw)}
+            </Typography>
+          </Tooltip>
+          <Tooltip title="Favorites">
+            <Typography variant="subtitle1">
+              {BadgeFor(currentSession.user.favedCount, faStar)}
+            </Typography>
+          </Tooltip>
+          <Tooltip title="Followers">
+            <Typography variant="subtitle1">
+              {BadgeFor(currentSession.user.followersCount, faUsers)}
+            </Typography>
+          </Tooltip>
+          <Tooltip title="Tagged in">
+            <Typography variant="subtitle1">
+              {BadgeFor(currentSession.user.taggedCount, faTags)}
+            </Typography>
+          </Tooltip>
+        </div>
+      )}
+    </React.Fragment>
+  );
+};
+
+export default withStyles(styles)(withCurrentSession(withRouter(withWidth()(MetricsBar))));

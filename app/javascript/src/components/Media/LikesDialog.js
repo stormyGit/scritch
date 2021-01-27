@@ -1,8 +1,8 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
-import { Query } from "react-apollo";
-import { Link } from "react-router-dom";
+import {Query} from "react-apollo";
+import {Link} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -18,9 +18,9 @@ import ResponsiveDialog from "../Global/ResponsiveDialog";
 import EmptyList from "../Global/EmptyList";
 import UserAvatar from "../Users/UserAvatar";
 import withCurrentSession from "../withCurrentSession";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 
-import { GET_LIKES } from "../../queries/mediaQueries";
+import {GET_LIKES} from "../../queries/mediaQueries";
 
 const styles = theme => ({
   likesContainer: {
@@ -37,7 +37,6 @@ const styles = theme => ({
   emptyLikesIcon: {
     fontSize: 2,
     display: "block",
-    fontSize: "4em",
     marginLeft: "auto",
     marginRight: "auto",
     marginBottom: theme.spacing(1),

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
-import { Query } from "react-apollo";
-import { GET_USER_MEDIA } from "../../queries/mediaQueries";
+import {Query} from "react-apollo";
+import {GET_USER_MEDIA} from "../../queries/mediaQueries";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Media from "./Media";
 
@@ -80,7 +80,7 @@ function MediaUser({ classes, width, userId }) {
             <div
               style={{ height: "calc(100vh - 128px)" }}
               className={
-                width === "sm" || width == "xs"
+                width === "sm" || width === "xs"
                   ? classes.mobile_hide_sm
                   : undefined
               }

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactMarkdown from "react-markdown";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -71,62 +71,58 @@ const SpacerWithHR = (
   </React.Fragment>
 );
 
-class Faq extends React.Component {
-  state = {};
+function Faq(props) {
+  const {classes, announcement, width} = props;
 
-  render() {
-    const { classes, announcement, width } = this.props;
-
-    return (
-      <React.Fragment>
-        <PageTitle>FAQ</PageTitle>
-        <Grid
-          container
-          className={
-            width !== "lg" && width !== "xl" ? classes.root : classes.gridPadder
-          }
-          spacing={1}
-          style={{ marginTop: width === "lg" || width === "xl" ? 4 : -4 }}
-        >
-          <Grid item xs={12}>
-            <Card className={classes.card} elevation={0}>
-              <CardContent className={classes.content} className={classes.text}>
-                <React.Fragment>
-                  <Grid container spacing={1}>
-                    <Grid item xs={12} lg={10} xl={9}>
-                      <Typography variant="h2" id="website-user-guide1">
-                        Scritch FAQ
-                      </Typography>
-                      <br />
-                      <Typography variant="subtitle1">
-                        Date of last revision: <strong>09 May 2019</strong>
-                      </Typography>
-                    </Grid>
-                    {width === "xl" && <Grid item xl={1} />}
-                    {(width === "xl" || width === "lg") && (
-                      <Grid item lg={2}>
-                        <img
-                          style={{ width: "100%" }}
-                          src={require("images/pixel/Header - FAQ.png")}
-                        />
-                      </Grid>
-                    )}
+  return (
+    <React.Fragment>
+      <PageTitle>FAQ</PageTitle>
+      <Grid
+        container
+        className={
+          width !== "lg" && width !== "xl" ? classes.root : classes.gridPadder
+        }
+        spacing={1}
+        style={{marginTop: width === "lg" || width === "xl" ? 4 : -4}}
+      >
+        <Grid item xs={12}>
+          <Card className={classes.card} elevation={0}>
+            <CardContent className={classes.content} className={classes.text}>
+              <React.Fragment>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} lg={10} xl={9}>
+                    <Typography variant="h2" id="website-user-guide1">
+                      Scritch FAQ
+                    </Typography>
+                    <br/>
+                    <Typography variant="subtitle1">
+                      Date of last revision: <strong>09 May 2019</strong>
+                    </Typography>
                   </Grid>
-                  {SpacerWithHR}
-                  <ReactMarkdown
-                    renderers={{
-                      link: props => <a className={classes.link} {...props} />
-                    }}
-                    source={faqContent}
-                  />
-                </React.Fragment>
-              </CardContent>
-            </Card>
-          </Grid>
+                  {width === "xl" && <Grid item xl={1}/>}
+                  {(width === "xl" || width === "lg") && (
+                    <Grid item lg={2}>
+                      <img
+                        style={{width: "100%"}}
+                        src={require("images/pixel/Header - FAQ.png")}
+                      />
+                    </Grid>
+                  )}
+                </Grid>
+                {SpacerWithHR}
+                <ReactMarkdown
+                  renderers={{
+                    link: props => <a className={classes.link} {...props} />
+                  }}
+                  source={faqContent}
+                />
+              </React.Fragment>
+            </CardContent>
+          </Card>
         </Grid>
-      </React.Fragment>
-    );
-  }
+      </Grid>
+    </React.Fragment>
+  );
 }
 
 export default withStyles(styles)(withWidth()(Faq));

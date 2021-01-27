@@ -1,14 +1,12 @@
 import React from "react";
 import uuidv4 from "uuid/v4";
 
-import { Query, Mutation } from "react-apollo";
-import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
-import queryString from "query-string";
+import {Mutation, Query} from "react-apollo";
+import {LOAD_FURSUITS} from "../../queries/fursuitQueries";
 import withWidth from "@material-ui/core/withWidth";
-import Tooltip from "@material-ui/core/Tooltip";
 import AssetRequestDialog from "../AppDialogs/AssetRequestDialog";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -21,9 +19,9 @@ import EmptyList from "../Global/EmptyList";
 import LoadMoreButton from "../Global/LoadMoreButton";
 import FursuitCard from "./FursuitCard";
 
-import { READ_MAKER_NOTIFICATIONS } from "../../queries/subscriptionMutations";
+import {READ_MAKER_NOTIFICATIONS} from "../../queries/subscriptionMutations";
 
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import FursuitFilters from "./FursuitFilters";
 import ScritchSpinner from "../CustomComponents/ScritchSpinner";

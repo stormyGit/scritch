@@ -1,5 +1,5 @@
 import React from "react";
-import { withApollo } from "react-apollo";
+import {withApollo} from "react-apollo";
 
 class PageTitle extends React.Component {
   componentDidMount() {

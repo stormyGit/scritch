@@ -2,7 +2,7 @@ import React from "react";
 import PageTitle from "./Global/PageTitle";
 import MediaFaved from "./Media/MediaFaved";
 
-export default props => {
+export default () => {
   return (
     <React.Fragment>
       <PageTitle>Favorites</PageTitle>

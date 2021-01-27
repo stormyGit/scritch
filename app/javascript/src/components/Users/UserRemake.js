@@ -1,6 +1,6 @@
 import React from "react";
-import { Query, Mutation } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
+import {Mutation, Query} from "react-apollo";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import IconButton from "@material-ui/core/IconButton";
 
@@ -20,28 +20,16 @@ import BlockIcon from "@material-ui/icons/NotInterested";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
 import withCurrentSession from "../withCurrentSession";
-import { withRouter } from "react-router-dom";
-import {
-  CREATE_FOLLOW,
-  DELETE_FOLLOW,
-  BLOCK_USER,
-  UNBLOCK_USER
-} from "../../queries/userMutations";
-import { GET_SESSION } from "../../queries/globalQueries";
-import {
-  GET_USER,
-  GET_FOLLOWERS_BY_USER,
-  GET_FOLLOWINGS_PROFILES_BY_USER,
-  GET_FOLLOWINGS_FURSUITS_BY_USER,
-  GET_FOLLOWINGS_MAKERS_BY_USER
-} from "../../queries/userQueries";
+import {Link, withRouter} from "react-router-dom";
+import {BLOCK_USER, CREATE_FOLLOW, DELETE_FOLLOW, UNBLOCK_USER} from "../../queries/userMutations";
+import {GET_SESSION} from "../../queries/globalQueries";
+import {GET_FOLLOWERS_BY_USER, GET_FOLLOWINGS_FURSUITS_BY_USER, GET_FOLLOWINGS_MAKERS_BY_USER, GET_FOLLOWINGS_PROFILES_BY_USER, GET_USER} from "../../queries/userQueries";
 
 import EditProfileDialog from "./EditProfileDialog";
 import ReportDialog from "../AppDialogs/ReportDialog";
 import FursuitUserCard from "../Fursuits/FursuitUserCard";
 import FursuitFollowedCard from "./FursuitFollowedCard";
 import MakerFollowedCard from "./MakerFollowedCard";
-import { Link } from "react-router-dom";
 
 const styles = theme => ({
   container: {
@@ -286,7 +274,7 @@ class User extends React.Component {
               variables: { userId: user.id },
               data: {
                 followersByUser: followersByUser.filter(
-                  follower => follower.id != this.props.currentSession.user.id
+                  follower => follower.id !== this.props.currentSession.user.id
                 )
               }
             });
@@ -568,7 +556,7 @@ class User extends React.Component {
 
     return (
       <React.Fragment>
-        {currentSession && user.id != currentSession.user.id && (
+        {currentSession && user.id !== currentSession.user.id && (
           <React.Fragment>
             {user.blocked ? (
               <Mutation mutation={UNBLOCK_USER}>
@@ -622,7 +610,7 @@ class User extends React.Component {
             </Tooltip>
           </React.Fragment>
         )}
-        {currentSession && user.id == currentSession.user.id && (
+        {currentSession && user.id === currentSession.user.id && (
           <IconButton
             size="small"
             variant="outlined"
@@ -670,7 +658,7 @@ class User extends React.Component {
                     SCRITCH SPONSOR
                   </Typography>
                 )}
-                {currentSession && user.id != currentSession.user.id && (
+                {currentSession && user.id !== currentSession.user.id && (
                   <div className={classes.actionButtonPadding}>
                     {this.renderFollowButton(user)}
                   </div>
@@ -766,7 +754,7 @@ class User extends React.Component {
               </div>
               <div>
                 {currentSession &&
-                  user.id != currentSession.user.id &&
+                  user.id !== currentSession.user.id &&
                   this.renderFollowButton(user)}
                 {this.renderActionButton(user)}
               </div>
@@ -897,15 +885,9 @@ class User extends React.Component {
 
             let isPrivate;
 
-            if (
-              data.user &&
+            isPrivate = !(data.user &&
               (data.user.public ||
-                (currentSession && data.user.id === currentSession.user.id))
-            ) {
-              isPrivate = false;
-            } else {
-              isPrivate = true;
-            }
+                (currentSession && data.user.id === currentSession.user.id)));
 
             return (
               <React.Fragment>

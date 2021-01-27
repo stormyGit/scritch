@@ -24,7 +24,7 @@ import {
 } from "@material-ui/core";
 import ReactMarkdown from "react-markdown";
 import AnnouncementCard from "../PoliciesSupport/AnnouncementCard";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 import dayjs from "dayjs";
 
 const styles = theme => ({

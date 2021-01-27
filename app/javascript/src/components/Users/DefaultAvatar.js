@@ -1,11 +1,11 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import randomColor from "randomcolor";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 
 const DEFAULT_SIZE = 64;
 
-const styles = theme => ({
+const styles = () => ({
   avatar: {
     display: "flex",
     color: "#fff"

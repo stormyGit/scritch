@@ -1,7 +1,7 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
-import { Link, withRouter } from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -9,7 +9,6 @@ import Button from "@material-ui/core/Button";
 import withCurrentSession from "../withCurrentSession";
 
 import SupportIcon from "@material-ui/icons/ContactSupport";
-import { Typography } from "@material-ui/core";
 
 const styles = theme => ({
   menuButton: {
@@ -51,7 +50,7 @@ class PoliciesSupportButton extends React.Component {
             aria-haspopup="true"
             title="Support"
             onClick={event => this.handleMenu(event)}
-            color={this.props.suspended ? "white" : "primary"}
+            color={this.props.suspended ? "white" : "secondary"}
           >
             <SupportIcon />
           </IconButton>
@@ -59,7 +58,7 @@ class PoliciesSupportButton extends React.Component {
         {(this.props.width === "xl" || this.props.width === "lg") && (
           <Button
             onClick={event => this.handleMenu(event)}
-            color={!this.props.suspended && "primary"}
+            color={!this.props.suspended && "secondary"}
             className={classes.buttonPad}
           >
             Support

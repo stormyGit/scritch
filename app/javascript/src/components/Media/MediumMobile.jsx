@@ -1,6 +1,6 @@
 import React from "react";
-import { Query, Mutation } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
+import {Mutation, Query} from "react-apollo";
+import {withStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
@@ -9,19 +9,16 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Grid from "@material-ui/core/Grid";
 import CardHeader from "@material-ui/core/CardHeader";
 import Divider from "@material-ui/core/Divider";
-import { Link } from "react-router-dom";
-import timeAgo from "../../timeAgo";
+import {Link} from "react-router-dom";
+import timeAgo from "../../util/timeAgo";
 import UserAvatar from "../Users/UserAvatar";
 import PageTitle from "../Global/PageTitle";
 import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
 import dayjs from "dayjs";
 import * as Scroll from "react-scroll";
 
-import { GET_MEDIUM } from "../../queries/mediaQueries";
-import {
-  TAG_LOCK_MEDIUM,
-  TAG_UNLOCK_MEDIUM
-} from "../../queries/mediaMutations";
+import {GET_MEDIUM} from "../../queries/mediaQueries";
+import {TAG_LOCK_MEDIUM, TAG_UNLOCK_MEDIUM} from "../../queries/mediaMutations";
 
 import RelatedMediumCard from "./RelatedMediumCard";
 import CommentForm from "./CommentForm";
@@ -156,7 +153,7 @@ const styles = theme => ({
   }
 });
 
-var scroll = Scroll.animateScroll;
+const scroll = Scroll.animateScroll;
 
 class Medium extends React.Component {
   state = {
@@ -256,7 +253,7 @@ class Medium extends React.Component {
                             currentSession.user.moderator) && (
                             <Mutation
                               mutation={TAG_LOCK_MEDIUM}
-                              update={cache => {}}
+                              update={() => {}}
                               onCompleted={() => {
                                 this.setState({ editMedium: true });
                               }}
@@ -284,10 +281,10 @@ class Medium extends React.Component {
                           )}
                         {currentSession &&
                           medium.user.id !== currentSession.user.id &&
-                          medium.completion != 100 && (
+                          medium.completion !== 100 && (
                             <Mutation
                               mutation={TAG_LOCK_MEDIUM}
-                              update={cache => {}}
+                              update={() => {}}
                               onCompleted={() => {
                                 this.setState({ tagMedium: true });
                               }}
@@ -409,7 +406,7 @@ class Medium extends React.Component {
                               </Grid>
                             </div>
                           )}
-                          {medium.fursuits.length != 0 && (
+                          {medium.fursuits.length !== 0 && (
                             <div>
                               <div className={classes.padder} />
                               <Divider />
@@ -451,7 +448,7 @@ class Medium extends React.Component {
                           )}
                           <div className={classes.tags}>
                             <Grid container spacing={1}>
-                              {medium.fursuits.length != 0 &&
+                              {medium.fursuits.length !== 0 &&
                                 medium.fursuits.map(fursuit => (
                                   <Grid item lg={2} xs={2} key={fursuit.id}>
                                     <Link
@@ -534,7 +531,7 @@ class Medium extends React.Component {
                   </Card>
                   <Mutation
                     mutation={TAG_UNLOCK_MEDIUM}
-                    update={cache => {}}
+                    update={() => {}}
                     onCompleted={() => {
                       this.setState({ editMedium: false });
                     }}
@@ -561,7 +558,7 @@ class Medium extends React.Component {
                   </Mutation>
                   <Mutation
                     mutation={TAG_UNLOCK_MEDIUM}
-                    update={cache => {}}
+                    update={() => {}}
                     onCompleted={() => {
                       this.setState({
                         tagMedium: false

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { CopyToClipboard } from "react-copy-to-clipboard";
+import React, {useState} from "react";
+import {Link, withRouter} from "react-router-dom";
+import {CopyToClipboard} from "react-copy-to-clipboard";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -20,8 +20,8 @@ import FlashIcon from "@material-ui/icons/FlashOn";
 import TimerIcon from "@material-ui/icons/Timer";
 import IsoIcon from "@material-ui/icons/Iso";
 import DateIcon from "@material-ui/icons/DateRange";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRulerHorizontal, faEye } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faEye, faRulerHorizontal} from "@fortawesome/free-solid-svg-icons";
 
 import CloseIcon from "@material-ui/icons/Close";
 import InfoIcon from "@material-ui/icons/InfoOutlined";
@@ -30,10 +30,10 @@ import EditIcon from "@material-ui/icons/Edit";
 import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 
 import withCurrentSession from "../withCurrentSession";
-import { withStyles } from "@material-ui/core/styles";
-import { GET_MEDIUM } from "../../queries/mediaQueries";
-import { Query, Mutation } from "react-apollo";
-import { TAG_LOCK_MEDIUM, TAG_UNLOCK_MEDIUM } from "../../queries/mediaMutations";
+import {withStyles} from "@material-ui/core/styles";
+import {GET_MEDIUM} from "../../queries/mediaQueries";
+import {Mutation, Query} from "react-apollo";
+import {TAG_LOCK_MEDIUM, TAG_UNLOCK_MEDIUM} from "../../queries/mediaMutations";
 import countFormat from "../../countFormat";
 
 import ReportDialog from "../AppDialogs/ReportDialog";
@@ -46,9 +46,9 @@ import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
 import TagDialog from "./TagDialog";
 import CommentForm from "./CommentForm";
 import Comments from "./Comments";
-import { withWidth, CardHeader } from "@material-ui/core";
+import {CardHeader, withWidth} from "@material-ui/core";
 import UserAvatar from "../Users/UserAvatar";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 import dayjs from "dayjs";
 import countContractor from "../../countContractor";
 
@@ -395,7 +395,7 @@ const DataDialog = ({ classes, medium, open, onClose }) => {
                       <ListItemText
                         className={classes.textGrid}
                         primary={`Flash: ${
-                          parseInt(exif.Flash) % 2 == 0 ? "Did not fire" : "Fired"
+                          parseInt(exif.Flash) % 2 === 0 ? "Did not fire" : "Fired"
                         }`}
                       />
                     </Grid>
@@ -542,10 +542,10 @@ const MediumActionButton = ({ currentSession, classes, medium }) => {
         )}
       </Mutation>
       <Grid item xs={12} className={classes.flexSection}>
-        {currentSession && medium.completion != 100 && (
+        {currentSession && medium.completion !== 100 && (
           <Mutation
             mutation={TAG_LOCK_MEDIUM}
-            update={cache => {}}
+            update={() => {}}
             onCompleted={() => {
               medium.user.id === currentSession.user.id || currentSession.user.moderator
                 ? setEditDialogOpen(true)
@@ -614,7 +614,7 @@ const TagSection = ({ currentSession, classes, medium }) => {
             {"Fursuits"}
           </Typography>
         </div>
-        {medium.fursuits.length != 0 && (
+        {medium.fursuits.length !== 0 && (
           <div>
             <div className={classes.tagReportButton}>
               <Button variant="outlined" onClick={() => setTagReportOpen(true)}>
@@ -626,7 +626,7 @@ const TagSection = ({ currentSession, classes, medium }) => {
       </Grid>
       <Grid item xs={12} className={classes.flexSection}>
         <Grid container spacing={1} className={classes.flexSectionCentered}>
-          {medium.fursuits.length != 0 &&
+          {medium.fursuits.length !== 0 &&
             medium.fursuits.map(fursuit => (
               <Grid item xs={4} sm={3} lg={4} key={fursuit.id}>
                 <Link to={`/fursuits/${fursuit.slug}`} className={classes.fursuitLink}>
@@ -680,7 +680,7 @@ class MediumDialog extends React.Component {
     let metas = document.getElementsByTagName("meta");
     let oldPicture;
 
-    for (var meta in metas) {
+    for (let meta in metas) {
       if (metas[meta].name === "og:image") {
         metas[meta].content = require("images/stripe_logo.jpg");
       }
@@ -719,14 +719,14 @@ class MediumDialog extends React.Component {
           let metas = document.getElementsByTagName("meta");
           let oldPicture;
 
-          for (var meta in metas) {
+          for (let meta in metas) {
             if (metas[meta].name === "og:image") {
               oldPicture = metas[meta].content;
               metas[meta].content = medium.resized;
             }
           }
 
-          var orientation;
+          let orientation;
           if (medium) {
             if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
               orientation = classes.mediaVleft;
@@ -744,7 +744,6 @@ class MediumDialog extends React.Component {
                   {medium.resized.substr(medium.resized.lastIndexOf(".") + 1) === "mp4" && (
                     <video
                       loop="loop"
-                      autoplay="autoplay"
                       onContextMenu={e => {
                         e.preventDefault();
                       }}
@@ -806,7 +805,7 @@ class MediumDialog extends React.Component {
                           currentSession.user.moderator) && (
                           <Mutation
                             mutation={TAG_LOCK_MEDIUM}
-                            update={cache => {}}
+                            update={() => {}}
                             onCompleted={() => {
                               this.setState({ editMedium: true });
                             }}

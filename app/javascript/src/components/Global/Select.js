@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import Select from "react-select";
 
 class CustomSelect extends Component {

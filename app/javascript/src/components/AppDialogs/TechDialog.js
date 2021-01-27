@@ -1,20 +1,20 @@
 import React from "react";
-import { Mutation, withApollo } from "react-apollo";
+import {Mutation, withApollo} from "react-apollo";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import { withRouter } from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 import withCurrentSession from "../withCurrentSession";
 import Select from "../Global/Select";
 
-import { CREATE_TECH_REPORT } from "../../queries/reportMutations";
+import {CREATE_TECH_REPORT} from "../../queries/reportMutations";
 
 const styles = theme => ({
   blurb: {
@@ -116,7 +116,7 @@ class TechDialog extends React.Component {
           >
             Cancel
           </Button>
-          <Mutation mutation={CREATE_TECH_REPORT} update={cache => {}}>
+          <Mutation mutation={CREATE_TECH_REPORT} update={() => {}}>
             {(createReport, { data }) => (
               <Button
                 disabled={

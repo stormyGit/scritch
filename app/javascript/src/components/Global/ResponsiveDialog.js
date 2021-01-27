@@ -1,27 +1,59 @@
-import React from "react";
+import React, {useContext} from "react";
 import Dialog from "@material-ui/core/Dialog";
 import Slide from "@material-ui/core/Slide";
 import withWidth from "@material-ui/core/withWidth";
+import {useMediaQuery} from "@material-ui/core";
+import useTheme from "@material-ui/core/styles/useTheme";
+import {NavigationContext} from "../../context/NavigationContext";
+import {withRouter} from "react-router-dom";
+import {setDialogChange, setRequestDialogChange} from "../../reducers/Action";
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 
-const ResponsiveDialog = ({ width, ...props }) => (
-  <Dialog
-    TransitionComponent={Transition}
-    scroll="body"
-    fullScreen={width === "md" || width === "sm" || width === "xs"}
-    PaperProps={{
-      style:
-        props.size && (width === "lg" || width === "xl")
-          ? { minWidth: props.size }
-          : width === "lg" || width === "xl"
-          ? { minWidth: 800 }
-          : {}
-    }}
-    {...props}
-  />
-);
+function ResponsiveDialog({width, history, open, onClose, ...props}) {
+  const theme = useTheme();
+  const tinyWidth = useMediaQuery(theme.breakpoints.down("md"));
+  const {isRequestDialogClose, dispatchNavigationChange} = useContext(NavigationContext);
 
-export default withWidth()(ResponsiveDialog);
+  const historyAwareOnClose = () => {
+    dispatchNavigationChange(setDialogChange(false));
+    if (onClose)
+      onClose();
+    dispatchNavigationChange(setRequestDialogChange(false));
+  }
+
+  React.useEffect(() => {
+      if (!!open) {
+        dispatchNavigationChange(setDialogChange(true));
+      }
+    }, [open]
+  )
+
+  React.useEffect(() => {
+      if (isRequestDialogClose && !!open) {
+        historyAwareOnClose();
+      }
+    }, [isRequestDialogClose, open]
+  )
+
+  let size = props.size ? props.size : 800;
+
+  return (
+    <Dialog
+      TransitionComponent={Transition}
+      scroll="body"
+      fullScreen={tinyWidth}
+      PaperProps={{
+        style:
+          tinyWidth ? {} : {minWidth: size}
+      }}
+      {...props}
+      open={open}
+      onClose={historyAwareOnClose}
+    />
+  );
+}
+
+export default withRouter(withWidth()(ResponsiveDialog));

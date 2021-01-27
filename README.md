@@ -62,7 +62,7 @@ bundle exec rake fields:categories
 bundle exec rake fields:sub_event
 bundle exec rake fields:fursuits
 bundle exec rake events:fetch
-bundle exec rake events:editions
+bundle exec rake events:editions  # only let a few run
 bundle exec rake makers:fetch  # only let a few run
 bundle exec rake fursuits:fetch  # only let a few run
 ```

@@ -1,8 +1,8 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
-import Linkify, { linkify } from "react-linkify";
-import { withStyles } from "@material-ui/core/styles";
-import { withRouter } from "react-router-dom";
+import Linkify, {linkify} from "react-linkify";
+import {withStyles} from "@material-ui/core/styles";
+import {withRouter} from "react-router-dom";
 
 const styles = theme => ({
   link: {
@@ -12,7 +12,7 @@ const styles = theme => ({
 
 linkify.add("@", {
   validate: function(text, pos, self) {
-    var tail = text.slice(pos);
+    const tail = text.slice(pos);
 
     if (!self.re.mentions) {
       self.re.mentions = new RegExp("^[a-zA-Z0-9_-]+");

@@ -1,11 +1,11 @@
 import React from "react";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 
-import { FixedSizeList as List } from "react-window";
+import {FixedSizeList as List} from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import InfiniteLoader from "react-window-infinite-loader";
 
@@ -116,7 +116,7 @@ function TaggableMedia({ classes, width, media, fetchMore, limit, hasMore }) {
   // Unused
   // const [filters, setFilters] = useState(DEFAULT_FILTERS);
 
-  if (!media || media.length == 0) {
+  if (!media || media.length === 0) {
     return (
       <div style={{ padding: 48, textAlign: "center" }}>
         <Typography variant="h6" style={{ fontWeight: 200 }}>

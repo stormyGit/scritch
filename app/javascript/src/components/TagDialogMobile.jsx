@@ -127,8 +127,8 @@ class TagDialogMobile extends React.Component {
   }
 
   isFormOk() {
-    if (this.state.fursuits.length > this.state.fursuitsCount) return false;
-    return true;
+    return this.state.fursuits.length <= this.state.fursuitsCount;
+
   }
 
   handleSearch(val) {
@@ -208,7 +208,7 @@ class TagDialogMobile extends React.Component {
       currentSession
     } = this.props;
     let limit = parseInt(process.env.MEDIA_PAGE_SIZE);
-    if (!mediumId || open == false) return null;
+    if (!mediumId || open === false) return null;
 
     return (
       <Query

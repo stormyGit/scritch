@@ -1,6 +1,6 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { Mutation } from "react-apollo";
+import {withRouter} from "react-router-dom";
+import {Mutation} from "react-apollo";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import Button from "@material-ui/core/Button";
@@ -8,10 +8,10 @@ import TextField from "@material-ui/core/TextField";
 import Tooltip from "@material-ui/core/Tooltip";
 import withCurrentSession from "../withCurrentSession";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import FursuitEditFields from "./FursuitEditFields";
 
-import { CREATE_FURSUIT_REQUEST } from "../../queries/fursuitMutations";
+import {CREATE_FURSUIT_REQUEST} from "../../queries/fursuitMutations";
 
 const AVATAR_SIZE = 96;
 
@@ -122,8 +122,7 @@ class RequestFursuitDialog extends React.Component {
   };
 
   isFormNotOk() {
-    if (
-      !this.state.name ||
+    return !this.state.name ||
       /^\s*$/.test(this.state.name) ||
       !this.state.fursuitFinger ||
       !this.state.fursuitBuild ||
@@ -136,10 +135,8 @@ class RequestFursuitDialog extends React.Component {
       !this.state.eyesColor ||
       !this.state.maker ||
       this.state.maker.length == 0 ||
-      !this.state.creationYear
-    )
-      return true;
-    return false;
+      !this.state.creationYear;
+
   }
 
   render() {
@@ -221,7 +218,7 @@ class RequestFursuitDialog extends React.Component {
                               : null
                           }
                         }
-                      }).then(updated => {
+                      }).then(() => {
                         this.props.onClose();
                         this.props.submitSnack();
                       });

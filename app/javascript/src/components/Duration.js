@@ -17,10 +17,10 @@ const styles = theme => ({
 });
 
 function formatDuration(duration) {
-  var date = new Date(duration * 1000);
-  var hh = date.getUTCHours();
-  var mm = date.getUTCMinutes();
-  var ss = date.getSeconds();
+  const date = new Date(duration * 1000);
+  let hh = date.getUTCHours();
+  let mm = date.getUTCMinutes();
+  let ss = date.getSeconds();
 
   if (duration < 60) {
     return `${ss}s`;

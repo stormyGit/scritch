@@ -8,5 +8,4 @@ export function keyToCdnUrl(key) {
   } else {
     return keyToUrl(key);
   }
-  x;
 }

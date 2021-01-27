@@ -1,18 +1,20 @@
-import React from "react";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import React, {useEffect, useState} from "react";
+import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { ApolloProvider, withApollo, Query } from "react-apollo";
-import { MuiPickersUtilsProvider } from "@material-ui/pickers";
+import {ApolloProvider, Query, withApollo} from "react-apollo";
+import {MuiPickersUtilsProvider} from "@material-ui/pickers";
 
 import apolloClient from "../apolloClient";
 import AppRouter from "./Global/AppRouter";
 import themeSelector from "../themeSelector";
 import DateFnsUtils from "@date-io/date-fns";
 
-import { GET_SESSION, GET_THEME } from "../queries/globalQueries";
+import {GET_SESSION, GET_THEME} from "../queries/globalQueries";
+import {NavigationContextProvider} from "../context/NavigationContext";
+import {DialogContextProvider} from "../context/DialogContext";
 
 const makeTheme = type => {
-  const background = type === "dark" ? { paper: "#222", default: "#333" } : {};
+  const background = type === "dark" ? {paper: "#222", default: "#333"} : {};
 
   return createMuiTheme({
     typography: {
@@ -41,61 +43,60 @@ const makeTheme = type => {
   });
 };
 
-class App extends React.Component {
-  state = {
-    loaded: false
-  };
+function App(props) {
+  let [loaded, setLoaded] = useState(false);
+  useEffect(() => componentDidMount())
 
-  componentDidMount() {
-    const token = localStorage.getItem("token");
+  function componentDidMount() {
+    const token = localStorage["token"];
     if (!token || token === "null") {
-      this.setState({ loaded: true });
+      setLoaded(true);
     }
 
-    this.props.client
+    props.client
       .query({
         query: GET_SESSION
       })
-      .then(({ data }) => {
+      .then(({data}) => {
         if (data.session) {
           themeSelector(data.session.user.theme);
         } else {
-          localStorage.getItem("token", null);
+          localStorage["token"] = null;
         }
-        this.setState({ loaded: true });
+        setLoaded(true);
       });
   }
 
-  render() {
-    if (!this.state.loaded) {
-      return null;
-    }
-
-    return (
-      <React.Fragment>
-        <CssBaseline />
-        <AppRouter />
-      </React.Fragment>
-    );
+  if (!loaded) {
+    return null;
   }
+
+  return (
+    <React.Fragment>
+      <CssBaseline/>
+      <AppRouter/>
+    </React.Fragment>
+  );
 }
 
 const ConnectedApp = withApollo(App);
 
-export default class AppBootstrap extends React.Component {
-  render() {
-    return (
-      <ApolloProvider client={apolloClient}>
-        <Query query={GET_THEME}>
-          {({ data, loading, error }) => (
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <MuiThemeProvider theme={makeTheme(data.theme)}>
-                <ConnectedApp />
-              </MuiThemeProvider>
-            </MuiPickersUtilsProvider>
-          )}
-        </Query>
-      </ApolloProvider>
-    );
-  }
+export default function AppBootstrap() {
+  return (
+    <ApolloProvider client={apolloClient}>
+      <Query query={GET_THEME}>
+        {({data, loading, error}) => (
+          <NavigationContextProvider>
+            <DialogContextProvider>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <MuiThemeProvider theme={makeTheme(data.theme)}>
+                  <ConnectedApp/>
+                </MuiThemeProvider>
+              </MuiPickersUtilsProvider>
+            </DialogContextProvider>
+          </NavigationContextProvider>
+        )}
+      </Query>
+    </ApolloProvider>
+  );
 }

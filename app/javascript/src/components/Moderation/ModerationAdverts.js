@@ -110,7 +110,7 @@ const AdvertCard = ({ classes, advert }) => {
                     onClick={() =>
                       rejectAdvert({
                         variables: { input: { id: advert.id } }
-                      }).then(() => location.reload())
+                        }).then(() => location.reload())
                     }
                   >
                     Reject

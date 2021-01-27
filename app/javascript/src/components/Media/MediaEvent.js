@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
-import { Query } from "react-apollo";
-import { GET_EVENT_MEDIA } from "../../queries/mediaQueries";
+import {Query} from "react-apollo";
+import {GET_EVENT_MEDIA} from "../../queries/mediaQueries";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 
 import Media from "./Media";
@@ -80,7 +80,7 @@ function MediaEvent({ classes, width, eventId, editionId }) {
             <div
               style={{ height: "calc(100vh - 60px)" }}
               className={
-                width === "sm" || width == "xs"
+                width === "sm" || width === "xs"
                   ? classes.mobile_hide_sm
                   : undefined
               }

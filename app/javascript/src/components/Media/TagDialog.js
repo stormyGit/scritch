@@ -1,5 +1,5 @@
-import React, { useState, memo } from "react";
-import { withRouter } from "react-router-dom";
+import React, {useState} from "react";
+import {withRouter} from "react-router-dom";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -14,26 +14,20 @@ import OutlinedFlag from "@material-ui/icons/OutlinedFlag";
 import HelpIcon from "@material-ui/icons/HelpOutline";
 
 import withCurrentSession from "../withCurrentSession";
-import { withStyles } from "@material-ui/core/styles";
-import { GET_MEDIUM } from "../../queries/mediaQueries";
-import { Query, Mutation } from "react-apollo";
-import { UPDATE_MEDIUM } from "../../queries/mediaMutations";
+import {withStyles} from "@material-ui/core/styles";
+import {GET_MEDIUM} from "../../queries/mediaQueries";
+import {Mutation, Query} from "react-apollo";
+import {UPDATE_MEDIUM} from "../../queries/mediaMutations";
 
 import ReportDialog from "../AppDialogs/ReportDialog";
 import TagReportDialog from "../AppDialogs/TagReportDialog";
 import FursuitMiniCard from "../Fursuits/FursuitMiniCard";
-import {
-  withWidth,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  InputAdornment
-} from "@material-ui/core";
-import { LOAD_FURSUITS } from "../../queries/fursuitQueries";
+import {Checkbox, FormControlLabel, InputAdornment, TextField, withWidth} from "@material-ui/core";
+import {LOAD_FURSUITS} from "../../queries/fursuitQueries";
 import SearchBar from "material-ui-search-bar";
-import { LOAD_EVENTS_SELECT, LOAD_SUB_EVENTS, LOAD_EDITIONS } from "../../queries/eventQueries";
+import {LOAD_EDITIONS, LOAD_EVENTS_SELECT, LOAD_SUB_EVENTS} from "../../queries/eventQueries";
 import Select from "../Global/Select";
-import { LOAD_CATEGORIES } from "../../queries/categoryQueries";
+import {LOAD_CATEGORIES} from "../../queries/categoryQueries";
 import LoadMoreButton from "../Global/LoadMoreButton";
 
 const styles = theme => ({
@@ -285,9 +279,9 @@ const PhotographerSection = React.memo(
       isPhotographer: newIsPhotographer
     }
   ) =>
-    oldPhotographerSlug == newPhotographerSlug &&
-    oldPhotographerString == newPhotographerString &&
-    oldIsPhotographer == newIsPhotographer
+    oldPhotographerSlug === newPhotographerSlug &&
+    oldPhotographerString === newPhotographerString &&
+    oldIsPhotographer === newIsPhotographer
 );
 
 const EventSection = React.memo(
@@ -330,7 +324,7 @@ const EventSection = React.memo(
                   isSearchable
                   value={mediaEvent}
                   onChange={event => {
-                    let editionSwitch = mediaEvent && mediaEvent.value != event;
+                    let editionSwitch = mediaEvent && mediaEvent.value !== event;
                     setMediaEvent(event);
                     if (editionSwitch) setMediaEdition(null);
                   }}
@@ -341,7 +335,7 @@ const EventSection = React.memo(
             }}
           </Query>
         </Grid>
-        {mediaEvent && Object.keys(mediaEvent).length != 0 && mediaEvent.value != null && (
+        {mediaEvent && Object.keys(mediaEvent).length !== 0 && mediaEvent.value != null && (
           <Grid item xs={12}>
             <Query
               query={LOAD_EDITIONS}
@@ -426,9 +420,9 @@ const EventSection = React.memo(
     { mediaEvent: oldMediaEvent, mediaEdition: oldMediaEdition, mediaSubEvent: oldMediaSubEvent },
     { mediaEvent: newMediaEvent, mediaEdition: newMediaEdition, mediaSubEvent: newMediaSubEvent }
   ) =>
-    oldMediaEvent == newMediaEvent &&
-    oldMediaEdition == newMediaEdition &&
-    oldMediaSubEvent == newMediaSubEvent
+    oldMediaEvent === newMediaEvent &&
+    oldMediaEdition === newMediaEdition &&
+    oldMediaSubEvent === newMediaSubEvent
 );
 
 const CategorySection = React.memo(
@@ -481,7 +475,7 @@ const CategorySection = React.memo(
     );
   },
   ({ mediaCategory: oldMediaCategory }, { mediaCategory: newMediaCategory }) =>
-    oldMediaCategory == newMediaCategory
+    oldMediaCategory === newMediaCategory
 );
 
 function renderResults({
@@ -520,8 +514,8 @@ function renderResults({
   );
 }
 
-var reset;
-var loadEventTimer;
+let reset;
+let loadEventTimer;
 
 function handleSearch(val, query, setQuery, nameInput, setNameInput) {
   if (nameInput.length >= 1 && val.length < 1) {
@@ -550,7 +544,7 @@ const FursuitsSearchSection = React.memo(
     const [hasMore, setHasMore] = useState(true);
     const [query, setQuery] = useState("");
     const [nameInput, setNameInput] = useState("");
-    var limit = 12;
+    const limit = 12;
 
     return (
       <React.Fragment>
@@ -617,7 +611,7 @@ const FursuitsSearchSection = React.memo(
       </React.Fragment>
     );
   },
-  ({ fursuits: oldFursuits }, { fursuits: newFursuits }) => oldFursuits == newFursuits
+  ({ fursuits: oldFursuits }, { fursuits: newFursuits }) => oldFursuits === newFursuits
 );
 
 const FursuitsSection = ({ classes, fursuits, setFursuits, medium }) => {
@@ -732,7 +726,7 @@ function TagDialog({ classes, width, open, onClose, mediumId, editMedium, curren
                   setPhotographerString(medium.photographerString);
                   setPhotographerSlug(medium.photographerSlug);
                   setIsPhotographer(
-                    medium.photographerSlug && medium.photographerSlug == currentSession.user.slug
+                    medium.photographerSlug && medium.photographerSlug === currentSession.user.slug
                   );
                   setMediaEvent(
                     medium.edition
@@ -764,7 +758,7 @@ function TagDialog({ classes, width, open, onClose, mediumId, editMedium, curren
                   setFursuits(medium.fursuits ? medium.fursuits : []);
                 }
 
-                var orientation;
+                let orientation;
                 if (medium) {
                   if (medium.exif && JSON.parse(medium.exif).Orientation === "6")
                     orientation = classes.mediaVleft;
@@ -782,7 +776,6 @@ function TagDialog({ classes, width, open, onClose, mediumId, editMedium, curren
                         {medium.resized.substr(medium.resized.lastIndexOf(".") + 1) === "mp4" && (
                           <video
                             loop="loop"
-                            autoplay="autoplay"
                             onContextMenu={e => {
                               e.preventDefault();
                             }}

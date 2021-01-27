@@ -3,9 +3,9 @@ import Avatar from "@material-ui/core/Avatar";
 
 import DefaultAvatar from "./DefaultAvatar";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 
-const styles = theme => ({
+const styles = () => ({
   avatar: {
     background: "black"
   }

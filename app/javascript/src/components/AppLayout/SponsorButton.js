@@ -1,6 +1,6 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
-import { withRouter } from "react-router-dom";
+import {withStyles} from "@material-ui/core/styles";
+import {withRouter} from "react-router-dom";
 import withCurrentSession from "../withCurrentSession";
 import Typography from "@material-ui/core/Typography";
 
@@ -23,7 +23,7 @@ class SponsorButton extends React.Component {
     if (!currentSession) return <React.Fragment />;
 
     if (currentSession.user.sponsor) {
-      var sponsorLimit = new Date(currentSession.user.sponsor.limit * 1000);
+      const sponsorLimit = new Date(currentSession.user.sponsor.limit * 1000);
     }
 
     return (

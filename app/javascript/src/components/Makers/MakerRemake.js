@@ -1,6 +1,6 @@
 import React from "react";
-import { Query, Mutation } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
+import {Mutation, Query} from "react-apollo";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import FursuitCard from "../Fursuits/FursuitCard";
 import DefaultAvatar from "../Users/DefaultAvatar";
@@ -14,11 +14,11 @@ import PageTitle from "../Global/PageTitle";
 import MakerClaimDialog from "./MakerClaimDialog";
 import EditMakerDialog from "./EditMakerDialog";
 
-import { LOAD_MAKER, LOAD_MAKER_DATE } from "../../queries/makerQueries";
-import { CREATE_MAKER_SUBSCRIPTION, DELETE_MAKER_SUBSCRIPTION } from "../../queries/makerMutations";
+import {LOAD_MAKER, LOAD_MAKER_DATE} from "../../queries/makerQueries";
+import {CREATE_MAKER_SUBSCRIPTION, DELETE_MAKER_SUBSCRIPTION} from "../../queries/makerMutations";
 
 import withCurrentSession from "../withCurrentSession";
-import { withRouter, Link } from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 
 const styles = theme => ({
   container: {
@@ -353,7 +353,7 @@ class Maker extends React.Component {
         {!maker.claimed &&
           !maker.claimRejected &&
           !maker.possessed &&
-          (!maker.users || maker.users.length == 0) && (
+          (!maker.users || maker.users.length === 0) && (
             <Button
               color="primary"
               size="small"
@@ -560,7 +560,7 @@ class Maker extends React.Component {
     return (
       <React.Fragment>
         <Query
-          query={this.state.sort == "alpha" ? LOAD_MAKER : LOAD_MAKER_DATE}
+          query={this.state.sort === "alpha" ? LOAD_MAKER : LOAD_MAKER_DATE}
           variables={{
             id: match.params.id,
             sort: this.state.sort

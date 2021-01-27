@@ -1,6 +1,6 @@
 import React from "react";
-import { Query } from "react-apollo";
-import { GET_COMMENTS_BY_MEDIUM } from "../../queries/mediaQueries";
+import {Query} from "react-apollo";
+import {GET_COMMENTS_BY_MEDIUM} from "../../queries/mediaQueries";
 import Comment from "./Comment";
 import LoadMoreButton from "../Global/LoadMoreButton";
 
@@ -36,7 +36,7 @@ class Comments extends React.Component {
                   comment={comment}
                   medium={medium}
                   key={comment.id}
-                  disableReply={parent ? true : false}
+                  disableReply={!!parent}
                 />
               ))}
               {data.commentsByMedium.length < commentsCount &&

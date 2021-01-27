@@ -1,5 +1,5 @@
 import React from "react";
-import { Mutation } from "react-apollo";
+import {Mutation} from "react-apollo";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -19,14 +19,14 @@ import withWidth from "@material-ui/core/withWidth";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import { withRouter, Link } from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import Dropzone from "react-dropzone";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 
-import { CREATE_ADVERT } from "../../queries/advertMutations";
+import {CREATE_ADVERT} from "../../queries/advertMutations";
 
 const dropZoneStyles = theme => ({
   root: {
@@ -74,7 +74,7 @@ class DropZoneField extends React.Component {
     }
 
     const pushFile = index => {
-      this.setState({ file: files[index], uploading: true });
+      this.setState({file: files[index], uploading: true});
 
       const reader = new FileReader();
       reader.addEventListener("load", () => {
@@ -82,7 +82,7 @@ class DropZoneField extends React.Component {
           if (files[index + 1]) {
             pushFile(index + 1);
           } else {
-            this.setState({ uploaded: true, uploading: false });
+            this.setState({uploaded: true, uploading: false});
             this.props.onComplete();
           }
         });
@@ -90,12 +90,12 @@ class DropZoneField extends React.Component {
       reader.readAsDataURL(files[index]);
     };
     pushFile(0);
-    this.setState({ disabled: true });
+    this.setState({disabled: true});
     this.props.onStart();
   }
 
   render() {
-    const { classes, width } = this.props;
+    const {classes, width} = this.props;
 
     return (
       <Dropzone
@@ -225,7 +225,7 @@ class AdvertiseDialog extends React.Component {
   }
 
   render() {
-    const { classes, uploadEnabled, width } = this.props;
+    const {classes, uploadEnabled, width} = this.props;
 
     return (
       <React.Fragment>
@@ -235,7 +235,7 @@ class AdvertiseDialog extends React.Component {
           disableBackdropClick={this.state.uploading}
           disableEscapeKeyDown={this.state.uploading}
         >
-          <GlobalProgress absolute />
+          <GlobalProgress absolute/>
 
           <DialogTitle>Advertise with Scritch!</DialogTitle>
           <DialogContent>
@@ -248,7 +248,7 @@ class AdvertiseDialog extends React.Component {
                   </Link>
                   .
                 </Typography>
-                <div style={{ padding: 10 }} />
+                <div style={{padding: 10}}/>
                 <Typography variant="h6" className={classes.blurb}>
                   Have an advert that relates to a product or service in the fandom? Upload it here
                   and then select an impressions bundle you have complete control over!
@@ -257,14 +257,14 @@ class AdvertiseDialog extends React.Component {
               {(width === "xl" || width === "lg") && (
                 <Grid item lg={3}>
                   <img
-                    style={{ width: "100%" }}
+                    style={{width: "100%"}}
                     src={require("images/pixel/Header - Advertise With Us Pop-up.png")}
                   />
                 </Grid>
               )}
             </Grid>
 
-            <div style={{ padding: 10 }} />
+            <div style={{padding: 10}}/>
             <Typography variant="h6" className={classes.blurb}>
               Scritch supports 3 randomised advertisement slots on every page of the website.
               Already have a 300x90 advertisement from a previous campaign? You're good to go!
@@ -272,7 +272,7 @@ class AdvertiseDialog extends React.Component {
             <List>
               <ListItem>
                 <ListItemIcon>
-                  <CheckIcon />
+                  <CheckIcon/>
                 </ListItemIcon>
                 <ListItemText
                   inset
@@ -281,15 +281,15 @@ class AdvertiseDialog extends React.Component {
               </ListItem>
               <ListItem>
                 <ListItemIcon>
-                  <CheckIcon />
+                  <CheckIcon/>
                 </ListItemIcon>
-                <ListItemText inset primary="Maximum file size of 10MB" />
+                <ListItemText inset primary="Maximum file size of 10MB"/>
               </ListItem>
               <ListItem>
                 <ListItemIcon>
-                  <CheckIcon />
+                  <CheckIcon/>
                 </ListItemIcon>
-                <ListItemText inset primary="Image type should be JPEG, PNG, or GIF" />
+                <ListItemText inset primary="Image type should be JPEG, PNG, or GIF"/>
               </ListItem>
             </List>
 
@@ -297,12 +297,12 @@ class AdvertiseDialog extends React.Component {
               label="Target URL"
               name="url"
               variant="outlined"
-              style={{ zIndex: 0 }}
+              style={{zIndex: 0}}
               value={this.state.url}
               onChange={e => {
                 this.setState({
                   url: e.target.value,
-                  dropzoneDisabled: e.target.value.length > 0 ? false : true
+                  dropzoneDisabled: e.target.value.length <= 0
                 });
               }}
               margin="dense"
@@ -310,12 +310,12 @@ class AdvertiseDialog extends React.Component {
             />
             {
               <Mutation mutation={CREATE_ADVERT}>
-                {(createAdvert, { called }) => {
+                {(createAdvert, {called}) => {
                   return (
                     <DropZoneFieldWithStyle
                       dropzoneDisabled={this.state.dropzoneDisabled}
                       onStart={() => {
-                        this.setState({ uploading: true });
+                        this.setState({uploading: true});
                       }}
                       onLoaded={(file, result) =>
                         createAdvert({
@@ -328,7 +328,7 @@ class AdvertiseDialog extends React.Component {
                         })
                       }
                       onComplete={() => {
-                        this.setState({ complete: true });
+                        this.setState({complete: true});
                       }}
                     />
                   );
@@ -338,7 +338,7 @@ class AdvertiseDialog extends React.Component {
           </DialogContent>
           <DialogActions>
             <Grid container spacing={0} justify="space-between">
-              <Grid item />
+              <Grid item/>
               <Grid item>
                 {this.state.complete && (
                   <a href="http://scritch.es/adverts" className={classes.link}>
@@ -349,7 +349,7 @@ class AdvertiseDialog extends React.Component {
                   disabled={this.state.uploading}
                   onClick={() => {
                     this.props.onClose();
-                    this.setState({ url: "" });
+                    this.setState({url: ""});
                   }}
                 >
                   Cancel

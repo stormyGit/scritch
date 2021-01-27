@@ -14,6 +14,9 @@
     "@material-ui/lab": "^3.0.0-alpha.19",
     "@material-ui/pickers": "^3.2.10",
     "@rails/webpacker": "3.5",
+    "@types/node": "^14.0.23",
+    "@types/react": "^16.9.43",
+    "@types/react-dom": "^16.9.8",
     "apollo-boost": "^0.1.16",
     "apollo-cache-persist": "^0.1.1",
     "apollo-link-context": "^1.0.9",
@@ -51,6 +54,7 @@
     "react-router-dom": "^4.3.1",
     "react-scroll": "^1.7.10",
     "react-select": "^2.1.2",
+    "react-spring": "^8.0.27",
     "react-stripe-checkout": "^2.6.3",
     "react-stripe-elements": "^2.0.3",
     "react-telegram-login": "^1.0.3",
@@ -68,6 +72,9 @@
     "@graphql-codegen/typescript": "1.8.2",
     "@graphql-codegen/typescript-operations": "1.8.2",
     "@graphql-codegen/typescript-react-apollo": "1.8.2",
+    "images": "^3.2.3",
+    "ts-loader": "^8.0.2",
+    "typescript": "^3.9.7",
     "webpack-dev-server": "2.11.2"
   },
   "scripts": {

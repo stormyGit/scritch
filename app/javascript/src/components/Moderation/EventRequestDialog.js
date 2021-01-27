@@ -110,9 +110,6 @@ const styles = theme => ({
   dangerButton: {
     color: theme.palette.danger.main
   },
-  dialogContent: {
-    marginTop: theme.spacing(2)
-  },
   paperQuote: {
     padding: theme.spacing(3),
     overflowX: "auto"
@@ -179,7 +176,7 @@ class EventRequestDialog extends React.Component {
                           status: this.state.status.value
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });
@@ -199,7 +196,7 @@ class EventRequestDialog extends React.Component {
                           id: request.id
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });

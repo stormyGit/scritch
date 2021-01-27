@@ -1,24 +1,19 @@
-import React, { useState, memo } from "react";
+import React, {memo, useState} from "react";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardMedia from "@material-ui/core/CardMedia";
 
-import TagIcon from "@material-ui/icons/AssignmentTurnedIn";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faTags} from "@fortawesome/free-solid-svg-icons";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTags } from "@fortawesome/free-solid-svg-icons";
-
-import {
-  TAG_UNLOCK_MEDIUM,
-  TAG_LOCK_MEDIUM
-} from "../../queries/mediaMutations";
+import {TAG_LOCK_MEDIUM, TAG_UNLOCK_MEDIUM} from "../../queries/mediaMutations";
 import TagDialog from "./TagDialog";
-import { Mutation } from "react-apollo";
+import {Mutation} from "react-apollo";
 import countFormat from "../../countFormat";
 
-const styles = theme => ({
+const styles = () => ({
   card: {
     width: "100%",
     borderRadius: 0,
@@ -108,7 +103,7 @@ const Insight = withStyles(styles)(({ classes, medium, children }) => {
         {medium.completion}%
         <br />
         <br />
-        {medium.fursuitsCount == 0
+        {medium.fursuitsCount === 0
           ? "(How many Suits?)"
           : `(${countFormat(
               medium.fursuitsCount - medium.fursuits.length,
@@ -168,7 +163,7 @@ function TaggableMediumCard({ classes, medium }) {
       <Card className={classes.card} elevation={0}>
         <Mutation
           mutation={TAG_LOCK_MEDIUM}
-          update={cache => {}}
+          update={() => {}}
           onCompleted={() => setTagDialog(true)}
           onError={() => setTagDialog(true)}
         >
@@ -192,7 +187,7 @@ function TaggableMediumCard({ classes, medium }) {
       {tagDialog && medium && (
         <Mutation
           mutation={TAG_UNLOCK_MEDIUM}
-          update={cache => {}}
+          update={() => {}}
           onCompleted={() => setTagDialog(false)}
           onError={() => setTagDialog(false)}
         >

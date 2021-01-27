@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { withApollo } from "react-apollo";
-import { withStyles } from "@material-ui/core/styles";
+import {withApollo} from "react-apollo";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -41,11 +41,9 @@ const styles = theme => ({
 });
 
 class FursuitCard extends React.Component {
-  state = {};
-
   renderMedia() {
     const { classes, fursuit, horizontal, width, client } = this.props;
-    var image;
+    let image;
 
     return (
       <div className={classes.cardMediaContainer}>

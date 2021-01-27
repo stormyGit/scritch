@@ -110,9 +110,6 @@ const styles = theme => ({
   dangerButton: {
     color: theme.palette.danger.main
   },
-  dialogContent: {
-    marginTop: theme.spacing(2)
-  },
   paperQuote: {
     padding: theme.spacing(3),
     overflowX: "auto"
@@ -208,7 +205,7 @@ class MakerRequestDialog extends React.Component {
                           region: this.state.region
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });
@@ -228,7 +225,7 @@ class MakerRequestDialog extends React.Component {
                           id: request.id
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });

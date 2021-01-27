@@ -1,7 +1,7 @@
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withCurrentSession from "../withCurrentSession";
 import dateFormat from "dateformat";
 import withWidth from "@material-ui/core/withWidth";

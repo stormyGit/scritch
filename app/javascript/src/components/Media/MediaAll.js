@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 
-import { Query } from "react-apollo";
-import { GET_MEDIA } from "../../queries/mediaQueries";
+import {Query} from "react-apollo";
+import {GET_MEDIA} from "../../queries/mediaQueries";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import withWidth from "@material-ui/core/withWidth";
 import Fab from "@material-ui/core/Fab";
 
 import Media from "./Media";
 import MediaFiltersRework from "./MediaFiltersRework";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faFilter} from "@fortawesome/free-solid-svg-icons";
 import PageTitle from "../Global/PageTitle";
 
 const styles = theme => ({
@@ -32,8 +32,8 @@ const styles = theme => ({
   },
   fab: {
     position: "absolute",
-    bottom: "3em",
-    right: "2em",
+    bottom: theme.spacing(3),
+    left: theme.spacing(5),
     color: "white"
   },
   extendedIcon: {
@@ -92,7 +92,7 @@ function MediaAll({ classes, width }) {
             <React.Fragment>
               <div
                 style={{ height: "calc(100vh - 178px)" }}
-                className={width === "sm" || width == "xs" ? classes.mobile_hide_sm : undefined}
+                className={width === "sm" || width === "xs" ? classes.mobile_hide_sm : undefined}
               >
                 <Media
                   media={media}

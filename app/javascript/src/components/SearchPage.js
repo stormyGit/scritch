@@ -7,7 +7,7 @@ import queryString from "query-string";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import withWidth from "@material-ui/core/withWidth";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 
 const styles = theme => ({
   root: {
@@ -27,82 +27,80 @@ const styles = theme => ({
   }
 });
 
-class SearchPage extends React.Component {
-  render() {
-    const query = queryString.parse(this.props.location.search);
-    const searching = query.q && query.q.length > 0;
-    if (!searching) this.props.history.push("/");
-    const { width, classes } = this.props;
+function SearchPage(props) {
+  const query = queryString.parse(props.location.search);
+  const searching = query.q && query.q.length > 0;
+  if (!searching) props.history.push("/");
+  const {width, classes} = props;
 
-    return (
-      <React.Fragment>
-        <PageTitle>{`Searching: ${query.q}`}</PageTitle>
-        <div className={classes.padderTitle}>
-          <Grid
-            container
-            spacing={1}
-            className={classes.flex}
-            justifyContent="space-between"
-          >
-            <Grid item>
-              <Typography variant="h4">Events</Typography>
-            </Grid>
-            {(width === "lg" || width === "xl") && (
-              <Grid item>
-                <img
-                  src={require("images/pixel/Furcon.png")}
-                  className={classes.pixelImage}
-                />
-              </Grid>
-            )}
+  return (
+    <React.Fragment>
+      <PageTitle>{`Searching: ${query.q}`}</PageTitle>
+      <div className={classes.padderTitle}>
+        <Grid
+          container
+          spacing={1}
+          className={classes.flex}
+          justifyContent="space-between"
+        >
+          <Grid item>
+            <Typography variant="h4">Events</Typography>
           </Grid>
-        </div>
-        <Events searching={true} {...this.props} />
-        <div className={classes.padderTitle}>
-          <Grid
-            container
-            spacing={1}
-            className={classes.flex}
-            justifyContent="space-between"
-          >
+          {(width === "lg" || width === "xl") && (
             <Grid item>
-              <Typography variant="h4">Makers</Typography>
+              <img
+                src={require("images/pixel/Furcon.png")}
+                className={classes.pixelImage}
+              />
             </Grid>
-            {(width === "lg" || width === "xl") && (
-              <Grid item>
-                <img
-                  src={require("images/pixel/Header - Search Maker Browse flip.png")}
-                  className={classes.pixelImage}
-                />
-              </Grid>
-            )}
+          )}
+        </Grid>
+      </div>
+      <Events searching={true} {...props} />
+      <div className={classes.padderTitle}>
+        <Grid
+          container
+          spacing={1}
+          className={classes.flex}
+          justifyContent="space-between"
+        >
+          <Grid item>
+            <Typography variant="h4">Makers</Typography>
           </Grid>
-        </div>
-        <Makers searching={true} {...this.props} />
-        <div className={classes.padderTitle}>
-          <Grid
-            container
-            spacing={1}
-            className={classes.flex}
-            justifyContent="space-between"
-          >
+          {(width === "lg" || width === "xl") && (
             <Grid item>
-              <Typography variant="h4">Fursuits</Typography>
+              <img
+                src={require("images/pixel/Header - Search Maker Browse flip.png")}
+                className={classes.pixelImage}
+              />
             </Grid>
-            {(width === "lg" || width === "xl") && (
-              <Grid item>
-                <img
-                  src={require("images/pixel/Header - Search Fursuit Browse flip.png")}
-                  className={classes.pixelImage}
-                />
-              </Grid>
-            )}
+          )}
+        </Grid>
+      </div>
+      <Makers searching={true} {...props} />
+      <div className={classes.padderTitle}>
+        <Grid
+          container
+          spacing={1}
+          className={classes.flex}
+          justifyContent="space-between"
+        >
+          <Grid item>
+            <Typography variant="h4">Fursuits</Typography>
           </Grid>
-        </div>
-        <Fursuits searching={true} {...this.props} />
-      </React.Fragment>
-    );
-  }
+          {(width === "lg" || width === "xl") && (
+            <Grid item>
+              <img
+                src={require("images/pixel/Header - Search Fursuit Browse flip.png")}
+                className={classes.pixelImage}
+              />
+            </Grid>
+          )}
+        </Grid>
+      </div>
+      <Fursuits searching={true} {...props} />
+    </React.Fragment>
+  );
 }
 
 export default withStyles(styles)(withWidth()(SearchPage));

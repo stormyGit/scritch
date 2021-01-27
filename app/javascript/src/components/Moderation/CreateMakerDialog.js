@@ -215,7 +215,7 @@ class CreateMakerDialog extends React.Component {
                           web: this.state.web
                         }
                       }
-                    }).then(updated => {
+                    }).then(() => {
                       this.props.onClose();
                       location.reload();
                     });

@@ -1,7 +1,7 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 
-import { Query } from "react-apollo";
+import {Query} from "react-apollo";
 
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -13,11 +13,7 @@ import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import {
-  LOAD_MAKER_COUNTRIES,
-  LOAD_MAKER_REGIONS,
-  LOAD_COMMISSION_STATUSES
-} from "../../queries/makerQueries";
+import {LOAD_COMMISSION_STATUSES, LOAD_MAKER_COUNTRIES, LOAD_MAKER_REGIONS} from "../../queries/makerQueries";
 
 import SearchBar from "material-ui-search-bar";
 
@@ -106,7 +102,7 @@ class MakerFiltersMobile extends React.Component {
   componentDidMount() {}
 
   clearFilters(filter) {
-    var criteria = {
+    const criteria = {
       name: "",
       commissionStatus: null,
       country: null,
@@ -203,7 +199,7 @@ class MakerFiltersMobile extends React.Component {
             error ||
             !data ||
             !data.makersRegion ||
-            data.makersRegion.length == 0
+            data.makersRegion.length === 0
           ) {
             return null;
           }
@@ -219,7 +215,7 @@ class MakerFiltersMobile extends React.Component {
           data.makersRegion.map(
             e => e && regionsList.push({ value: e, label: e })
           );
-          if (regionsList.length == 0) {
+          if (regionsList.length === 0) {
             return null;
           }
           return (
@@ -267,7 +263,7 @@ class MakerFiltersMobile extends React.Component {
           data.commissionStatuses.map(
             e => e && commissionsList.push({ value: e.id, label: e.name })
           );
-          if (commissionsList.length == 0) {
+          if (commissionsList.length === 0) {
             return null;
           }
           return (
@@ -305,7 +301,7 @@ class MakerFiltersMobile extends React.Component {
           <ExpansionPanel
             expanded={this.state.expansion}
             onChange={() =>
-              this.state.expansion == false &&
+              this.state.expansion === false &&
               this.setState({ expansion: !this.state.expansion })
             }
           >

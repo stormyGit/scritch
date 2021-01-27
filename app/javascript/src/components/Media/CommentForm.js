@@ -1,14 +1,14 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import { Mutation } from "react-apollo";
+import {Mutation} from "react-apollo";
 
 import UserAvatar from "../Users/UserAvatar";
 import withCurrentSession from "../withCurrentSession";
 import InteractiveTextInput from "../Global/InteractiveTextInput";
-import { CREATE_COMMENT } from "../../queries/mediaMutations";
-import { GET_COMMENTS_BY_MEDIUM, GET_MEDIUM } from "../../queries/mediaQueries";
+import {CREATE_COMMENT} from "../../queries/mediaMutations";
+import {GET_COMMENTS_BY_MEDIUM, GET_MEDIUM} from "../../queries/mediaQueries";
 
 const styles = theme => ({
   root: {

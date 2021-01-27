@@ -1,14 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
-import gql from "graphql-tag";
-import { withRouter } from "react-router-dom";
-import { Query, Mutation } from "react-apollo";
+import {withRouter} from "react-router-dom";
+import {Mutation} from "react-apollo";
 import Divider from "@material-ui/core/Divider";
-import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
@@ -22,15 +17,15 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 
 import InsertPhotoIcon from "@material-ui/icons/InsertPhoto";
 
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 import ResponsiveDialog from "../Global/ResponsiveDialog";
 import GlobalProgress from "../Global/GlobalProgress";
 import ImageCropper from "../Global/ImageCropper";
 import BannerPlaceholder from "./BannerPlaceholder";
 import ProfileAvatar from "./ProfileAvatar";
 
-import { UPDATE_USER } from "../../queries/userMutations";
-import { GET_SESSION } from "../../queries/globalQueries";
+import {UPDATE_USER} from "../../queries/userMutations";
+import {GET_SESSION} from "../../queries/globalQueries";
 
 const AVATAR_SIZE = 96;
 

@@ -27,9 +27,9 @@ import EmptyList from "../Global/EmptyList";
 import withCurrentSession from "../withCurrentSession";
 import FormattedText from "../Global/FormattedText";
 import InteractiveTextInput from "../Global/InteractiveTextInput";
-import timeAgo from "../../timeAgo";
+import timeAgo from "../../util/timeAgo";
 
-import { combineUUIDs } from "../../utils";
+import { combineUUIDs } from "../../util/uuid";
 
 import { GET_CHATS, GET_MESSAGES, GET_UNREAD_CHATS_COUNT } from "../../queries/chatQueries";
 import { CREATE_MESSAGE, READ_CHAT } from "../../queries/chatMutations";
@@ -103,7 +103,6 @@ const styles = theme => ({
     paddingBottom: theme.spacing(8)
   },
   emptyChatsIcon: {
-    fontSize: 2,
     display: "block",
     fontSize: "4em",
     marginLeft: "auto",
@@ -472,7 +471,6 @@ const Message = ({ message, last, classes, currentSession, user, onClose }) => {
                 <img
                   src={message.picture}
                   className={classes.messageText}
-                  onChangeLocation={onClose}
                 />
               </a>
             </Grid>

@@ -1,5 +1,5 @@
 import React from "react";
-import { withStyles } from "@material-ui/core/styles";
+import {withStyles} from "@material-ui/core/styles";
 
 import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
@@ -472,30 +472,29 @@ const tagCompletionRows = [
   { field: "Category", percentage: "20%" }
 ];
 
-class WebsiteUserGuide extends React.Component {
-  render() {
-    const { classes, width } = this.props;
+function WebsiteUserGuide(props) {
+  const {classes, width} = props;
 
-    return (
+  return (
       <React.Fragment>
         <Grid container spacing={1}>
           <Grid item xs={12} lg={10} xl={9}>
             <Typography variant="h2" id="website-user-guide1">
               Website User Guide
             </Typography>
-            <br />
+            <br/>
             <Typography variant="subtitle1">
               Date of last revision: <strong>01 May 2019</strong>
             </Typography>
           </Grid>
-          {width === "xl" && <Grid item xl={1} />}
+          {width === "xl" && <Grid item xl={1}/>}
           {(width === "xl" || width === "lg") && (
-            <Grid item lg={2}>
-              <img
-                style={{ width: "100%" }}
-                src={require("images/pixel/Header - Website User Guide.png")}
-              />
-            </Grid>
+              <Grid item lg={2}>
+                <img
+                    style={{width: "100%"}}
+                    src={require("images/pixel/Header - Website User Guide.png")}
+                />
+              </Grid>
           )}
         </Grid>
         {SpacerWithHR}
@@ -506,88 +505,88 @@ class WebsiteUserGuide extends React.Component {
           <a href="#code_conduct" className={classes.link}>
             CODE OF CONDUCT
           </a>
-          <br />
+          <br/>
           <a href="#terminology" className={classes.link}>
             SCRITCH TERMINOLOGY
           </a>
-          <br />
+          <br/>
           <a href="#our_promise" className={classes.link}>
             OUR PROMISE
           </a>
-          <br />
+          <br/>
           <a href="#your_promise" className={classes.link}>
             YOUR PROMISE
           </a>
-          <br />
+          <br/>
           <a href="#content_restrictions" className={classes.link}>
             CONTENT RESTRICTIONS
           </a>
-          <br />
+          <br/>
           <a href="#architecture" className={classes.link}>
             WEBSITE ARCHITECTURE
           </a>
-          <br />
+          <br/>
           {"> Levels of Scritch User Accounts"}
-          <br />
+          <br/>
           {"> User Level Transition"}
-          <br />
+          <br/>
           {"> Involvement Monitoring"}
-          <br />
+          <br/>
           {"> Involvement Action Weighting"}
-          <br />
+          <br/>
           {"> Involvement Species"}
-          <br />
+          <br/>
           <a href="#what_can_i_do" className={classes.link}>
             WHAT CAN I DO WITH SCRITCH?
           </a>
-          <br />
+          <br/>
           {"> View Thumbnail Previews"}
-          <br />
+          <br/>
           {"> Register"}
-          <br />
+          <br/>
           {"> Browse"}
-          <br />
+          <br/>
           {"- Media Filter Data Fields"}
-          <br />
+          <br/>
           {"> Claim a Fursuit Card"}
-          <br />
+          <br/>
           {"- Media Sort Data Fields"}
-          <br />
+          <br/>
           {"> Claim a Maker Card"}
-          <br />
+          <br/>
           {"> Upload"}
-          <br />
+          <br/>
           {"> Scritching"}
-          <br />
+          <br/>
           {"> Upload Guidelines"}
-          <br />
+          <br/>
           {"> Sponsor"}
-          <br />
+          <br/>
           {"- What Following a Fursuit Does"}
-          <br />
+          <br/>
           {"> Follow"}
-          <br />
+          <br/>
           {"- What Following a Maker Does"}
-          <br />
+          <br/>
           {"> Tag"}
-          <br />
+          <br/>
           {"- What Tagging a Fursuit Does"}
-          <br />
+          <br/>
           {"- Tag Completion"}
-          <br />
+          <br/>
           {"> Favourite"}
-          <br />
+          <br/>
           {"> Tip"}
-          <br />
+          <br/>
           {"> Advertise"}
-          <br />
+          <br/>
           {"> Block"}
-          <br />
+          <br/>
           {"> Report"}
-          <br />
+          <br/>
         </Typography>
         {SpacerWithHR}
-        <span id="code_conduct" className={classes.sectionPadder} />
+        <span id="code_conduct" className={classes.sectionPadder}/>
         <Typography variant="h4">CODE OF CONDUCT</Typography>
         <Typography variant="subtitle1">
           Website Administrators police all aspects of Scritch User interaction,
@@ -615,7 +614,7 @@ class WebsiteUserGuide extends React.Component {
           line with the Code of Conduct!
         </Typography>
         {SpacerWithHR}
-        <span id="terminology" className={classes.sectionPadder} />
+        <span id="terminology" className={classes.sectionPadder}/>
         <Typography variant="h4">SCRITCH TERMINOLOGY</Typography>
         <Paper className={classes.tableRoot}>
           <Table className={classes.table}>
@@ -628,22 +627,22 @@ class WebsiteUserGuide extends React.Component {
             </TableHead>
             <TableBody>
               {terminologyTableRows.map(row => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.aspect}
-                  </TableCell>
-                  <TableCell>{row.term}</TableCell>
-                  <TableCell>{row.description}</TableCell>
-                </TableRow>
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {row.aspect}
+                    </TableCell>
+                    <TableCell>{row.term}</TableCell>
+                    <TableCell>{row.description}</TableCell>
+                  </TableRow>
               ))}
             </TableBody>
           </Table>
         </Paper>
         {SpacerWithHR}
-        <span id="our_promise" className={classes.sectionPadder} />
+        <span id="our_promise" className={classes.sectionPadder}/>
         <Typography variant="h4">OUR PROMISE</Typography>
         <Paper className={classes.paperQuote}>
-          <Typography variant="subtitle1" style={{ fontStyle: "italic" }}>
+          <Typography variant="subtitle1" style={{fontStyle: "italic"}}>
             Scritch promises to maintain past, present, and future: Convention,
             Maker, and Fursuit Cards to allow a complete chronicle of all
             Content, able to be tagged also by Category. The Admin Pool ensures
@@ -653,16 +652,16 @@ class WebsiteUserGuide extends React.Component {
           </Typography>
         </Paper>
         {SpacerWithHR}
-        <span id="your_promise" className={classes.sectionPadder} />
+        <span id="your_promise" className={classes.sectionPadder}/>
         <Typography variant="h4">YOUR PROMISE</Typography>
         <Paper className={classes.paperQuote}>
-          <Typography variant="subtitle1" style={{ fontStyle: "italic" }}>
+          <Typography variant="subtitle1" style={{fontStyle: "italic"}}>
             You (the User) promise to adhere to the Code of Conduct and Content
             Restrictions put in place to safeguard all Users of the Website.
           </Typography>
         </Paper>
         {SpacerWithHR}
-        <span id="content_restrictions" className={classes.sectionPadder} />
+        <span id="content_restrictions" className={classes.sectionPadder}/>
         <Typography variant="h4">CONTENT RESTRICTIONS</Typography>
         <Typography variant="subtitle1">
           User Content is laid out in the Terms of Use in section:{" "}
@@ -680,18 +679,18 @@ class WebsiteUserGuide extends React.Component {
             </TableHead>
             <TableBody>
               {contentRestrictionsRows.map(row => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.restriction}
-                  </TableCell>
-                  <TableCell>{row.description}</TableCell>
-                </TableRow>
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {row.restriction}
+                    </TableCell>
+                    <TableCell>{row.description}</TableCell>
+                  </TableRow>
               ))}
             </TableBody>
           </Table>
         </Paper>
         {SpacerWithHR}
-        <span id="architecture" className={classes.sectionPadder} />
+        <span id="architecture" className={classes.sectionPadder}/>
         <Typography variant="h4">WEBSITE ARCHITECTURE</Typography>
         {Spacer}
         <Typography variant="h5">Levels of Scritch User Accounts</Typography>
@@ -705,12 +704,12 @@ class WebsiteUserGuide extends React.Component {
             </TableHead>
             <TableBody>
               {accountLevelsRows.map(row => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.level}
-                  </TableCell>
-                  <TableCell>{row.description}</TableCell>
-                </TableRow>
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {row.level}
+                    </TableCell>
+                    <TableCell>{row.description}</TableCell>
+                  </TableRow>
               ))}
             </TableBody>
           </Table>
@@ -731,13 +730,13 @@ class WebsiteUserGuide extends React.Component {
             </TableHead>
             <TableBody>
               {levelTransitionsRows.map(row => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.start_level}
-                  </TableCell>
-                  <TableCell>{row.action}</TableCell>
-                  <TableCell>{row.end_level}</TableCell>
-                </TableRow>
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {row.start_level}
+                    </TableCell>
+                    <TableCell>{row.action}</TableCell>
+                    <TableCell>{row.end_level}</TableCell>
+                  </TableRow>
               ))}
             </TableBody>
           </Table>
@@ -768,13 +767,13 @@ class WebsiteUserGuide extends React.Component {
             </TableHead>
             <TableBody>
               {involvementActionsRows.map(row => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.action}
-                  </TableCell>
-                  <TableCell>{row.effect}</TableCell>
-                  <TableCell>{row.points}</TableCell>
-                </TableRow>
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {row.action}
+                    </TableCell>
+                    <TableCell>{row.effect}</TableCell>
+                    <TableCell>{row.points}</TableCell>
+                  </TableRow>
               ))}
             </TableBody>
           </Table>
@@ -788,57 +787,57 @@ class WebsiteUserGuide extends React.Component {
           is assigned in Rank up alphabetically through tiers set by the
           following formula:
         </Typography>
-        <Typography variant="subtitle1" style={{ fontWeight: 800 }}>
+        <Typography variant="subtitle1" style={{fontWeight: 800}}>
           Involvement Species User Block = Total Number of Users / Total Number
           of Species
         </Typography>
         {Spacer}
         <Paper className={classes.paperQuote}>
           <Typography
-            variant="subtitle1"
-            style={{ fontStyle: "italic", fontWeight: 800 }}
+              variant="subtitle1"
+              style={{fontStyle: "italic", fontWeight: 800}}
           >
             Example 1
           </Typography>
-          <Typography variant="subtitle1" style={{ fontStyle: "italic" }}>
+          <Typography variant="subtitle1" style={{fontStyle: "italic"}}>
             Total Number of Users: 750
-            <br />
+            <br/>
             Total Number of Species: 180
-            <br />
+            <br/>
             750 / 180 = 4.17 (Rounded Down to 4)
-            <br />
+            <br/>
             Equates to a User Species Block value of 4. Allowing a top heavy top
             user species by addressing the decimal:
-            <br />
+            <br/>
             4 x 180 = 720 (Everything Above 720 Top User Block) = 30 Zebras
-            <br />
+            <br/>
           </Typography>
         </Paper>
         {Spacer}
         <Paper className={classes.paperQuote}>
           <Typography
-            variant="subtitle1"
-            style={{ fontStyle: "italic", fontWeight: 800 }}
+              variant="subtitle1"
+              style={{fontStyle: "italic", fontWeight: 800}}
           >
             Example 2
           </Typography>
-          <Typography variant="subtitle1" style={{ fontStyle: "italic" }}>
+          <Typography variant="subtitle1" style={{fontStyle: "italic"}}>
             Total Number of Users: 17560
-            <br />
+            <br/>
             Total Number of Species: 240
-            <br />
+            <br/>
             17560 / 240 = 73.17 (Rounded Down to 73)
-            <br />
+            <br/>
             Equates to a User Species Block value of 73. Allowing a top heavy
             top user species by addressing the decimal:
-            <br />
+            <br/>
             73 x 239 = 17447 (Everything Above 17447 Top User Block) = 113
             Zebras
-            <br />
+            <br/>
           </Typography>
         </Paper>
         {SpacerWithHR}
-        <span id="what_can_i_do" className={classes.sectionPadder} />
+        <span id="what_can_i_do" className={classes.sectionPadder}/>
         <Typography variant="h4">WHAT CAN I DO WITH SCRITCH</Typography>
         <Typography variant="subtitle1">
           Scritch allows the following User involvement with limitations
@@ -915,14 +914,14 @@ class WebsiteUserGuide extends React.Component {
           </a>
         </List>
         {SpacerWithHR}
-        <span id="thumbnails" className={classes.sectionPadder} />
+        <span id="thumbnails" className={classes.sectionPadder}/>
         <Typography variant="h5">VIEW THUMBNAIL PREVIEWS</Typography>
         <Typography variant="subtitle1">
           Scritch allows thumbnail view of Website Content to allow Unregistered
           User thumbnail preview of content.
         </Typography>
         {SpacerWithHR}
-        <span id="read_doc" className={classes.sectionPadder} />
+        <span id="read_doc" className={classes.sectionPadder}/>
         <Typography variant="h5">READ WEBSITE DOCUMENTATION</Typography>
         <Typography variant="subtitle1">
           Scritch allows perusal of Website Documentation, which includes:
@@ -936,7 +935,7 @@ class WebsiteUserGuide extends React.Component {
           <ListItem>FAQs</ListItem>
         </List>
         {SpacerWithHR}
-        <span id="register" className={classes.sectionPadder} />
+        <span id="register" className={classes.sectionPadder}/>
         <Typography variant="h5">REGISTER</Typography>
         <Typography variant="subtitle1">
           Registering with Scritch through: Telegram Login credentials is
@@ -944,7 +943,7 @@ class WebsiteUserGuide extends React.Component {
           the Homepage.
         </Typography>
         {SpacerWithHR}
-        <span id="browse" className={classes.sectionPadder} />
+        <span id="browse" className={classes.sectionPadder}/>
         <Typography variant="h5">BROWSE</Typography>
         <Typography variant="subtitle1">
           Registered Users can browse the following extensive Databases which
@@ -974,12 +973,12 @@ class WebsiteUserGuide extends React.Component {
             </TableHead>
             <TableBody>
               {mediaFiltersRows.map(row => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.filter}
-                  </TableCell>
-                  <TableCell>{row.result}</TableCell>
-                </TableRow>
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {row.filter}
+                    </TableCell>
+                    <TableCell>{row.result}</TableCell>
+                  </TableRow>
               ))}
             </TableBody>
           </Table>
@@ -996,33 +995,33 @@ class WebsiteUserGuide extends React.Component {
             </TableHead>
             <TableBody>
               {mediaSortRows.map(row => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.sort}
-                  </TableCell>
-                  <TableCell>{row.result}</TableCell>
-                </TableRow>
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {row.sort}
+                    </TableCell>
+                    <TableCell>{row.result}</TableCell>
+                  </TableRow>
               ))}
             </TableBody>
           </Table>
         </Paper>
         {SpacerWithHR}
-        <span id="claim_fursuit" className={classes.sectionPadder} />
+        <span id="claim_fursuit" className={classes.sectionPadder}/>
         <Typography variant="h5">CLAIM A FURSUIT CARD</Typography>
         <Typography variant="subtitle1">
           An Account can Claim Fursuit Cards. Each claim is subject to approval
           or rejection by our Admin pool.
-          <br />
-          <br />
+          <br/>
+          <br/>
           An unclaimed Fursuit Card can be claimed by an Account and must only
           be claimed by Accounts that <strong>{" currently"}</strong> own them
           in real life.
-          <br />
-          <br />
+          <br/>
+          <br/>
           An existing claim can be contested by an Account and is subject to
           investigation by our Admin pool.
-          <br />
-          <br />
+          <br/>
+          <br/>
           To claim a Fursuit Card, locate a Fursuit from the Fursuit Database
           through the Browse Service of the Website, then view the related
           Fursuit Card in full screen. You will see a “Claim” or a “Contest
@@ -1030,21 +1029,21 @@ class WebsiteUserGuide extends React.Component {
           clicking this, you will presented with a Claim Dialog.
         </Typography>
         {SpacerWithHR}
-        <span id="claim_maker" className={classes.sectionPadder} />
+        <span id="claim_maker" className={classes.sectionPadder}/>
         <Typography variant="h5">CLAIM A MAKER CARD</Typography>
         <Typography variant="subtitle1">
           An Account can claim a Maker Card.
-          <br />
-          <br />
+          <br/>
+          <br/>
           An unclaimed Maker Card can be claimed by an Account and Maker Cards
           must only be claimed by Accounts that are/were owned by the Maker
           Studio in real life.
-          <br />
-          <br />
+          <br/>
+          <br/>
           An existing claim can be contested by an Account and is subject to
           investigation by our Admin pool.
-          <br />
-          <br />
+          <br/>
+          <br/>
           To claim a Maker Card, locate a Maker from the Maker Database through
           the Browse Service of the Website, then view the related Maker Card in
           full screen. You will see a “Claim” or a “Contest Claim” button
@@ -1052,25 +1051,25 @@ class WebsiteUserGuide extends React.Component {
           you will presented with a Maker Claim Dialog
         </Typography>
         {SpacerWithHR}
-        <span id="upload" className={classes.sectionPadder} />
+        <span id="upload" className={classes.sectionPadder}/>
         <Typography variant="h5">UPLOAD</Typography>
         <Typography variant="subtitle1">
           Any Account not under Suspension can Upload media files to Scritch. By
           Uploading the media to Scritch you grant the Website the ability to
           host the Content to support all User Involvement.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Accounts that are owned by the media creator in real life are best
           placed to Upload, with the Tagging Service then able to notify Card
           Owners and link Website Assets held in its Databases.
-          <br />
-          <br />
+          <br/>
+          <br/>
           On Uploading media to Scritch, an Event, Edition and Sub Event must be
           assigned and/or a Category selected (if the media was not captured at
           a specific Event), this is because the Uploader is the most likely to
           know where the media was captured.
-          <br />
-          <br />
+          <br/>
+          <br/>
           There is no limit to how many articles of media can be uploaded to
           Scritch, however guidelines apply to media Uploaded onto the Website,
           which safeguards User exposure to inappropriate Content listed out in{" "}
@@ -1095,18 +1094,18 @@ class WebsiteUserGuide extends React.Component {
             </TableHead>
             <TableBody>
               {uploadGuidelinesRows.map(row => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.guideline}
-                  </TableCell>
-                  <TableCell>{row.guidance}</TableCell>
-                </TableRow>
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {row.guideline}
+                    </TableCell>
+                    <TableCell>{row.guidance}</TableCell>
+                  </TableRow>
               ))}
             </TableBody>
           </Table>
         </Paper>
         {SpacerWithHR}
-        <span id="scritch" className={classes.sectionPadder} />
+        <span id="scritch" className={classes.sectionPadder}/>
         <Typography variant="h5">SCRITCHING</Typography>
         <Typography variant="subtitle1">
           Any Registered User can show their like of Content by “Scritching” it.
@@ -1115,7 +1114,7 @@ class WebsiteUserGuide extends React.Component {
           Scritch a Content, click the Scritch icon indicated by a Paw Print.
         </Typography>
         {SpacerWithHR}
-        <span id="sponsor" className={classes.sectionPadder} />
+        <span id="sponsor" className={classes.sectionPadder}/>
         <Typography variant="h5">SPONSOR</Typography>
         <Typography variant="subtitle1">
           Any Registered User can choose to Sponsor Scritch, which unlocks the
@@ -1145,7 +1144,7 @@ class WebsiteUserGuide extends React.Component {
           click “Become a Sponsor!”, then follow the on-screen prompts.
         </Typography>
         {SpacerWithHR}
-        <span id="follow" className={classes.sectionPadder} />
+        <span id="follow" className={classes.sectionPadder}/>
         <Typography variant="h5">FOLLOW</Typography>
         <Typography variant="subtitle1">
           A Sponsor can choose to Follow a:
@@ -1159,8 +1158,8 @@ class WebsiteUserGuide extends React.Component {
         <Typography variant="subtitle1">
           A Follower of a User Account will receive upload feeds of any Content
           linked to that User Account through the Subscriptions Menu.
-          <br />
-          <br />
+          <br/>
+          <br/>
           To Follow User Accounts, navigate to their profile page and click the
           “Follow” button.
         </Typography>
@@ -1169,13 +1168,13 @@ class WebsiteUserGuide extends React.Component {
         <Typography variant="subtitle1">
           Following a Fursuit raises the Fursuit Card Follower metric by 1 and
           Notifies the Fursuit Card Owner that their Fursuit has been Followed.
-          <br />
-          <br />
+          <br/>
+          <br/>
           A Follower of a Fursuit will receive upload feeds of any Content that
           the Fursuit Card is tagged into from that point on through the
           Subscriptions Menu.
-          <br />
-          <br />
+          <br/>
+          <br/>
           To Follow Fursuits, locate them from the Fursuit Database, then view
           the related Fursuit Card full screen and click the “Follow” button.
         </Typography>
@@ -1184,19 +1183,19 @@ class WebsiteUserGuide extends React.Component {
         <Typography variant="subtitle1">
           A Follower of a Maker will receive a feed of newly-added Fursuits by
           that Maker through the Subscriptions Menu.
-          <br />
-          <br />
+          <br/>
+          <br/>
           To Follow Makers, locate them from the Maker Database, then view the
           related Maker Card and click the “Follow” button.
         </Typography>
         {SpacerWithHR}
-        <span id="tag" className={classes.sectionPadder} />
+        <span id="tag" className={classes.sectionPadder}/>
         <Typography variant="h5">TAG</Typography>
         <Typography variant="subtitle1">
           In order to Tag Content, navigate to the Tagging Console in the
           sidebar of Scritch.
-          <br />
-          <br />
+          <br/>
+          <br/>
           The Tagging console allows sort by Tag completion of Content (See Tag
           Completion section of this guide).
         </Typography>
@@ -1206,8 +1205,8 @@ class WebsiteUserGuide extends React.Component {
           Tagging a Fursuit in Content creates a Website link between the
           Content and Fursuit Card and Notifies the Fursuit Card Owner that
           their Fursuit has been Tagged (via Dashboard Notification).
-          <br />
-          <br />
+          <br/>
+          <br/>
           Also, Tagging a Fursuit Notifies Followers of the Fursuit Card that
           their Followed Fursuit has new Content to be seen.
         </Typography>
@@ -1227,12 +1226,12 @@ class WebsiteUserGuide extends React.Component {
             </TableHead>
             <TableBody>
               {tagCompletionRows.map(row => (
-                <TableRow key={row.id}>
-                  <TableCell component="th" scope="row">
-                    {row.field}
-                  </TableCell>
-                  <TableCell>{row.percentage}</TableCell>
-                </TableRow>
+                  <TableRow key={row.id}>
+                    <TableCell component="th" scope="row">
+                      {row.field}
+                    </TableCell>
+                    <TableCell>{row.percentage}</TableCell>
+                  </TableRow>
               ))}
             </TableBody>
           </Table>
@@ -1243,56 +1242,56 @@ class WebsiteUserGuide extends React.Component {
           means all Assets have been Tagged correctly.
         </Typography>
         {SpacerWithHR}
-        <span id="fave" className={classes.sectionPadder} />
+        <span id="fave" className={classes.sectionPadder}/>
         <Typography variant="h5">FAVOURITE</Typography>
         <Typography variant="subtitle1">
           A Sponsor can choose to Favourite an article of media.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Favouriting Content increases the Favourites count of the Uploader
           Account and locates the Content in the Sponsor's Favourites Gallery.
         </Typography>
         {SpacerWithHR}
-        <span id="tip" className={classes.sectionPadder} />
+        <span id="tip" className={classes.sectionPadder}/>
         <Typography variant="h5">TIP</Typography>
         <Typography variant="subtitle1">
           Any Registered User can choose to Tip Scritch.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Tipping is greatly appreciated and supports future development of
           additional Services.
-          <br />
-          <br />
+          <br/>
+          <br/>
           To Tip Scritch, navigate to the Tip menu item of the Website sidebar
           and click the "Donate With Paypal" Button which navigates to{" "}
           <a
-            href="https://paypal.me/ScritchMe"
-            target="_blank"
-            className={classes.link}
+              href="https://paypal.me/ScritchMe"
+              target="_blank"
+              className={classes.link}
           >
             https://paypal.me/ScritchMe
           </a>
           .
         </Typography>
         {SpacerWithHR}
-        <span id="advertise" className={classes.sectionPadder} />
+        <span id="advertise" className={classes.sectionPadder}/>
         <Typography variant="h5">ADVERTISE</Typography>
         <Typography variant="subtitle1">
           Any Registered User can choose to Advertise on Scritch.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Advertisements must adhere to the Website Code of Conduct and be Furry
           related.
-          <br />
-          <br />
+          <br/>
+          <br/>
           To Advertise with Scritch, click Ads &amp; Social in the Website
           header and click on "Advertise with Scritch".
-          <br />
-          <br />
+          <br/>
+          <br/>
           All advertisements must be 300x90 pixels, and not exceed 10MB in size.
         </Typography>
         {SpacerWithHR}
-        <span id="block" className={classes.sectionPadder} />
+        <span id="block" className={classes.sectionPadder}/>
         <Typography variant="h5">BLOCK</Typography>
         <Typography variant="subtitle1">
           Any Registered User can choose to Block another User on Scritch which:
@@ -1309,28 +1308,27 @@ class WebsiteUserGuide extends React.Component {
           User".
         </Typography>
         {SpacerWithHR}
-        <span id="report" className={classes.sectionPadder} />
+        <span id="report" className={classes.sectionPadder}/>
         <Typography variant="h5">REPORT</Typography>
         <Typography variant="subtitle1">
           Scritch will draw upon its Admin Pool to handle any Report Tickets
           generated by Website Users.
-          <br />
-          <br />
+          <br/>
+          <br/>
           Any Registered user can submit a Report to challenge anything that
           does not adhere to the Scritch Code of Conduct or anything that is
           incorrect on the Website.
-          <br />
-          <br />
+          <br/>
+          <br/>
           To submit a Report, click the Flag button wherever it is available.
-          <br />
-          <br />
+          <br/>
+          <br/>
           All reports are handled by the Admin Pool in a timely fashion relative
           to the number of Tickets received and the number of Admins in the
           Admin Pool.
         </Typography>
       </React.Fragment>
-    );
-  }
+  );
 }
 
 export default withStyles(styles)(withWidth()(WebsiteUserGuide));
