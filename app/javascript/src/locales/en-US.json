@@ -4,5 +4,8 @@
         "fursuits": "Fursuits",
         "makers": "Makers",
         "events": "Events"
+    },
+    "actions": {
+        "filters": "Filters"
     }
 }

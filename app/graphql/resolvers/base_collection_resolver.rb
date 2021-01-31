@@ -16,9 +16,9 @@ module Resolvers
       # :nocov:
 
       scope do
-        raise Pundit::NotAuthorizedError unless Pundit::PolicyFinder.new(model).policy.new(context[:current_resource], model.new).index?
+        raise Pundit::NotAuthorizedError unless Pundit::PolicyFinder.new(model).policy.new(context[:current_user], model.new).index?
 
-        Pundit::PolicyFinder.new(model).scope.new(context[:current_resource], model.all).resolve
+        Pundit::PolicyFinder.new(model).scope.new(context[:current_user], model.all).resolve
       end
 
       model.reflect_on_all_associations(:belongs_to).each do |association|
@@ -99,7 +99,8 @@ module Resolvers
       end
 
       # Expose simple matching for text fields
-        model.columns.select do |column|
+      model.columns.select do |column|
+        puts column.name
         column.sql_type_metadata.type == :string
       end.each do |column|
         # multiple match

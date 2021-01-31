@@ -52,7 +52,7 @@ const theme: Theme = {
             danger:
                 'text-light-0 bg-error-500 border-transparent hover:bg-error-300 focus:bg-error-700 active:bg-error-700',
             subtle:
-                'text-dark-100 bg-light-100 border-light-300 hover:bg-light-0 focus:bg-dark-500 focus:text-light-0 active:bg-dark-500 active:text-light-0',
+                'uppercase text-light-100  border-light-300 hover:bg-light-0 hover:text-dark-500 focus:bg-dark-500 focus:text-light-0 active:bg-dark-500 active:text-light-0',
             ghost:
                 'text-dark-100 border-transparent hover:bg-light-0 focus:bg-light-0 active:bg-light-0',
             link:

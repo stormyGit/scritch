@@ -18,7 +18,7 @@ module Types
     field :followed, Boolean, null: false
     field :is_hybrid, Boolean, null: false
     field :media, [MediumType], null: true
-    field :makers, [MakerType], null: true
+    has_many_field :makers, [MakerType], null: true
     field :users, [UserType], null: true
     field :fursuit_style, FursuitStyleType, null: true
     field :fursuit_leg_type, FursuitLegTypeType, null: true

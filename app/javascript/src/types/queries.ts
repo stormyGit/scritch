@@ -76,24 +76,24 @@ export type FursuitQueryVariables = { id: string }
 
 export type FursuitsQuery = Connection<Fursuit>
 export type FursuitsQueryVariables = {
-    name: string
-    speciesIds: string[]
-    hybridSearch: boolean
-    isModerator: boolean
-    uuid: string
-    filter: string
-    fursuitLegType: string
-    fursuitStyle: string
-    fursuitBuild: string
-    fursuitPadding: string
-    fursuitFinger: string
-    fursuitGender: string
-    fursuitColor: string
-    fursuitEyes: string
-    maker: string
-    exclude: string
-    userId: string
+    name?: string[]
+    speciesIds?: string[]
+    hybridSearch?: boolean
+    isModerator?: boolean
+    uuid?: string
+    filter?: string
+    fursuitLegType?: string
+    fursuitStyle?: string
+    fursuitBuild?: string
+    fursuitPadding?: string
+    fursuitFinger?: string
+    fursuitGender?: string
+    fursuitColor?: string
+    fursuitEyes?: string
+    maker?: string
+    exclude?: string
+    userId?: string
     limit: number
-    offset: number
+    page: number
 } & PaginatedVariables &
     TimestampFilterableVariables
