@@ -1,7 +1,7 @@
 module Resolvers
     module Queries
         module GlobalQueries
-            class GetSession < GraphQL::Function
+            class CurrentUser < GraphQL::Function
                 description 'get session'
                 type Types::SessionType
 

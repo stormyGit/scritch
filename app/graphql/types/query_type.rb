@@ -1,22 +1,35 @@
 module Types
-  QueryType = GraphQL::ObjectType.new.tap do |root_type|
-    root_type.name = "Query"
-    root_type.description = "The query root of the schema"
+  class QueryType < Types::BaseObject
+    field :current_user, UserType, null: true
 
-    root_type.interfaces = []
+    def current_user
+        context[:current_user]
+    end
 
-    root_type.fields = Util::FieldCombiner.combine([
-      Types::Query::GlobalQuery,
-      Types::Query::ChatQuery,
-      Types::Query::ModerationQuery,
-      Types::Query::FursuitQuery,
-      Types::Query::MakerQuery,
-      Types::Query::MediumQuery,
-      Types::Query::EventQuery,
-      Types::Query::UserQuery,
-    ])
+    resource_field Fursuit
   end
 end
+
+
+# module Types
+#   QueryType = GraphQL::ObjectType.new.tap do |root_type|
+#     root_type.name = "Query"
+#     root_type.description = "The query root of the schema"
+
+#     root_type.interfaces = []
+
+#     root_type.fields = Util::FieldCombiner.combine([
+#       Types::Query::GlobalQuery,
+#       Types::Query::ChatQuery,
+#       Types::Query::ModerationQuery,
+#       Types::Query::FursuitQuery,
+#       Types::Query::MakerQuery,
+#       Types::Query::MediumQuery,
+#       Types::Query::EventQuery,
+#       Types::Query::UserQuery,
+#     ])
+#   end
+# end
 
 
 #     include ActiveRecord::Sanitization::ClassMethods

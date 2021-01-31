@@ -297,42 +297,42 @@ const theme: Theme = {
     },
     typography: {
         h1: {
-            header: 'text-dark-100 text-4xl font-medium pt-14 first:pt-0 max-w-h1',
-            description: 'text-light-900 text-base font-normal max-w-paragraph pt-2',
+            header: 'text-light-100 text-4xl font-medium pt-14 first:pt-0 max-w-h1',
+            description: 'text-light-700 text-base font-normal max-w-paragraph pt-2',
         },
         h2: {
-            header: 'text-dark-100 text-2xl font-semibold pt-10 first:pt-0 max-w-h2',
-            description: 'text-light-900 text-sm font-normal max-w-paragraph pt-1',
+            header: 'text-light-100 text-2xl font-semibold pt-10 first:pt-0 max-w-h2',
+            description: 'text-light-700 text-sm font-normal max-w-paragraph pt-1',
         },
         h3: {
-            header: 'text-dark-100 text-lg font-semibold pt-8 first:pt-0 max-w-h3',
-            description: 'text-light-900 text-sm font-normal max-w-paragraph',
+            header: 'text-light-100 text-lg font-semibold pt-8 first:pt-0 max-w-h3',
+            description: 'text-light-700 text-sm font-normal max-w-paragraph',
         },
         h4: {
-            header: 'text-dark-100 text-base font-semibold pt-6 first:pt-0 max-w-h4',
-            description: 'text-light-900 text-sm font-normal max-w-paragraph',
+            header: 'text-light-100 text-base font-semibold pt-6 first:pt-0 max-w-h4',
+            description: 'text-light-700 text-sm font-normal max-w-paragraph',
         },
         h5: {
-            header: 'text-light-900 text-sm font-semibold pt-4 first:pt-0 max-w-h5',
-            description: 'text-light-900 text-xs font-normal max-w-paragraph',
+            header: 'text-light-700 text-sm font-semibold pt-4 first:pt-0 max-w-h5',
+            description: 'text-light-700 text-xs font-normal max-w-paragraph',
         },
         h6: {
-            header: 'text-light-900 text-xs font-bold pt-4 first:pt-0 max-w-h6',
-            description: 'text-light-900 text-sm font-normal max-w-paragraph',
+            header: 'text-light-700 text-xs font-bold pt-4 first:pt-0 max-w-h6',
+            description: 'text-light-700 text-sm font-normal max-w-paragraph',
         },
         ul: {
             base:
-                'list-disc text-dark-100 text-base font-normal space-y-1 max-w-paragraph pt-4 pl-10',
+                'list-disc text-light-100 text-base font-normal space-y-1 max-w-paragraph pt-4 pl-10',
             item: '',
         },
         ol: {
             base:
-                'list-decimal text-dark-100 text-base font-normal space-y-1 max-w-paragraph pt-4 pl-10',
+                'list-decimal text-light-100 text-base font-normal space-y-1 max-w-paragraph pt-4 pl-10',
             item: '',
         },
-        p: 'text-dark-100 font-normal max-w-paragraph pt-4',
-        span: 'text-dark-100',
-        base: 'text-dark-100',
+        p: 'text-light-100 font-normal max-w-paragraph pt-4',
+        span: 'text-light-100',
+        base: 'text-light-100',
     },
 }
 

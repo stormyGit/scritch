@@ -103,3 +103,4 @@ gem 'stripe'
 gem 'redcarpet'
 gem 'solargraph', group: :development
 gem 'rest-client'
+gem 'search_object_graphql'
