@@ -15,6 +15,10 @@ export type ScreenHeaderProps = {
      * @default undefined
      */
     description?: ReactNode
+     /**
+     * @default null
+     */
+    details?: ReactNode
     /**
      * Use an icon if it serve the content of the page or as a reminder of the icon used to represent the main ressource of the page.
      * @default undefined
@@ -37,6 +41,7 @@ const ScreenHeader: React.FC<ScreenHeaderProps> = ({
     image,
     title = '',
     description = '',
+    details = null,
     actions = [],
     narrow = false,
 }) => {
@@ -63,6 +68,7 @@ const ScreenHeader: React.FC<ScreenHeaderProps> = ({
                             <H2 className='font-cute' description={description}>
                                 {title}
                             </H2>
+                            {details}
                         </div>
                     )}
                 </div>

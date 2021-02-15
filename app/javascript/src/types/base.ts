@@ -9,13 +9,22 @@ export interface Fursuit extends BaseType {
     creationYear: number
     avatar: string
     /* makers type */
-    makers: any
+    makers: Maker
+    users: any
     isHybrid: boolean
     /* species type */
     species: any
 }
 
 export interface Maker extends BaseType {
+    id: string
+    slug: string
+    name: string
+    country: string
+    avatar: string
+}
+
+export interface Event extends BaseType {
     id: string
     slug: string
     name: string

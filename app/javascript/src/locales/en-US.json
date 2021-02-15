@@ -16,6 +16,10 @@
         "title": "Makers",
         "description": "This is a list of fursuit makers in the fandom. You can filter them by country, name, and even by commission status if the studio owner has provided this data !"
     },
+    "events": {
+        "title": "Events",
+        "description": "We have compiled a list of furry related events that you can find here. Each event contains sub-pages for each edition there was, along with pictures tied to that edition. You can look them up by country !"
+    },
     "landing": {
         "welcome": "Welcome to Scritch !",
         "welcomeDescription1": "Scritch is a brand new website dedicated to hosting Fursuit Convention Media, then providing tag notifications to Fursuit Owners through its comprehensive network of Makers, Suits, and Conventions past and present.",

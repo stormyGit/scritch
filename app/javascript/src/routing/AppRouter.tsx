@@ -1,30 +1,43 @@
-import React from 'react'
-import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { FursuitListScreen } from '../screens/FursuitListScreen'
-import { HomeScreen } from '../screens/HomeScreen'
-import { MakerListScreen } from '../screens/MakerListScreen'
-import { ScreenBase } from '../screens/ScreenBase'
+import React from "react"
+import { BrowserRouter, Route, Switch } from "react-router-dom"
+import { QueryParamProvider } from "use-query-params"
+import { EventListScreen } from "../screens/EventListScreen"
+import { FursuitListScreen } from "../screens/FursuitListScreen"
+import { FursuitScreen } from "../screens/FursuitScreen"
+import { HomeScreen } from "../screens/HomeScreen"
+import { MakerListScreen } from "../screens/MakerListScreen"
+import { ScreenBase } from "../screens/ScreenBase"
 
 export const AppRouter = (props) => {
-    const { currentSession, width } = props
+  const { currentSession, width } = props
 
-    return (
-        <BrowserRouter>
-            <Switch location={location}>
-                <ScreenBase>
-                    <Route exact path='/'>
-                        <HomeScreen />
-                    </Route>
-                    <Route exact path='/fursuits'>
-                        <FursuitListScreen />
-                    </Route>
-                    <Route exact path='/makers'>
-                        <MakerListScreen />
-                    </Route>
-                </ScreenBase>
-            </Switch>
-        </BrowserRouter>
-    )
+  return (
+    <BrowserRouter>
+      <QueryParamProvider ReactRouterRoute={Route}>
+        <Switch location={location}>
+          <ScreenBase>
+            <Route exact path="/">
+              <HomeScreen />
+            </Route>
+            <Route exact path="/fursuits">
+              <FursuitListScreen />
+            </Route>
+            <Route
+              exact
+              path="/fursuits/:fursuitId"
+              component={FursuitScreen}
+            />
+            <Route exact path="/makers">
+              <MakerListScreen />
+            </Route>
+            <Route exact path="/events">
+              <EventListScreen />
+            </Route>
+          </ScreenBase>
+        </Switch>
+      </QueryParamProvider>
+    </BrowserRouter>
+  )
 }
 
 export default AppRouter

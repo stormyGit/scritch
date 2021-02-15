@@ -8,6 +8,7 @@ module Types
 
     resource_field Fursuit
     resource_field Maker
+    resource_field Event
   end
 end
 
