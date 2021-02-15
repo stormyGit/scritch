@@ -16,7 +16,7 @@ const ScreenContainer: React.FC<PropsWithChildren<ScreenContainerProps>> = ({
 }) => {
     return (
         <>
-            <div className='flex-grow px-24 pt-6 overflow-y-auto text-light-100'>
+            <div className='flex-grow px-32 pt-6 overflow-y-auto text-light-100'>
                 <div className={`min-h-layout ${className}`}>{children}</div>
             </div>
             {renderContext && (

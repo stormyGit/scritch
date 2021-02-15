@@ -13,7 +13,7 @@ export const ScreenBase: React.FC = ({ children }) => {
     return (
         <>
             <NavBar />
-            <div className='flex h-screen overflow-hidden font-sans bg-dark-900'>
+            <div className='flex h-screen overflow-hidden font-sans bg-gray-1000'>
                 <div className='flex flex-col flex-1 w-0 overflow-hidden'>
                     <main
                         className='relative flex flex-1 overflow-y-hidden focus:outline-none'

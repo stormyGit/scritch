@@ -7,5 +7,18 @@
     },
     "actions": {
         "filters": "Filters"
+    },
+    "fursuits": {
+        "title": "Fursuits",
+        "description": "Here you can find thousands of existing fursuits. Use any of the many available filters to narrow your search and find that fursuit you're looking for !"
+    },
+    "makers": {
+        "title": "Makers",
+        "description": "This is a list of fursuit makers in the fandom. You can filter them by country, name, and even by commission status if the studio owner has provided this data !"
+    },
+    "landing": {
+        "welcome": "Welcome to Scritch !",
+        "welcomeDescription1": "Scritch is a brand new website dedicated to hosting Fursuit Convention Media, then providing tag notifications to Fursuit Owners through its comprehensive network of Makers, Suits, and Conventions past and present.",
+        "welcomeDescription2": "We are bringing together Suiters, Photographers, and Makers.{br}This is THE place to go for everything Fursuit !"
     }
 }

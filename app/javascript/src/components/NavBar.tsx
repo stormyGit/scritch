@@ -105,9 +105,9 @@ const NavBar: React.FC<SidebarProps> = ({ stripped, visible, onHide }) => {
     )
 
     return (
-        <nav className='bg-gray-800 border-b border-gray-200'>
+        <nav className='bg-gray-800 border-b border-gray-400'>
             <div className='px-2 mx-auto sm:px-6 lg:px-8'>
-                <div className='relative flex items-center justify-between h-16'>
+                <div className='relative flex items-center justify-between h-12'>
                     <div className='flex items-center justify-center flex-1 sm:items-stretch sm:justify-start'>
                         <div className='flex items-center flex-shrink-0'>
                             <img src={Logo} className='h-10' />

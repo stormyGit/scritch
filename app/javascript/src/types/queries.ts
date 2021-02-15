@@ -1,4 +1,4 @@
-import { Fursuit } from '.'
+import { Fursuit, Maker } from '.'
 
 export type Edge<T> = {
     /**
@@ -38,6 +38,8 @@ export type Connection<T> = {
 }
 
 export type PaginatedVariables = {
+    limit: number
+    offset: number
     /**
      * Returns the elements in the list that come after the specified cursor.
      */
@@ -93,7 +95,16 @@ export type FursuitsQueryVariables = {
     maker?: string
     exclude?: string
     userId?: string
-    limit: number
-    page: number
+} & PaginatedVariables &
+    TimestampFilterableVariables
+
+export type MakerQuery = Maker
+export type MakerQueryVariables = { id: string }
+
+export type MakersQuery = Connection<Maker>
+export type MakersQueryVariables = {
+    name?: string[]
+    country?: string[]
+    region?: string[]
 } & PaginatedVariables &
     TimestampFilterableVariables

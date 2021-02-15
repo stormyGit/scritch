@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { FursuitListScreen } from '../screens/FursuitListScreen'
 import { HomeScreen } from '../screens/HomeScreen'
+import { MakerListScreen } from '../screens/MakerListScreen'
 import { ScreenBase } from '../screens/ScreenBase'
 
 export const AppRouter = (props) => {
@@ -16,6 +17,9 @@ export const AppRouter = (props) => {
                     </Route>
                     <Route exact path='/fursuits'>
                         <FursuitListScreen />
+                    </Route>
+                    <Route exact path='/makers'>
+                        <MakerListScreen />
                     </Route>
                 </ScreenBase>
             </Switch>

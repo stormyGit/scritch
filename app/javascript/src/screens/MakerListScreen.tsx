@@ -1,35 +1,33 @@
 import * as React from 'react'
-import { useHistory } from 'react-router'
 import { Link } from 'react-router-dom'
 import Button from '../../wombat-ui/Button'
-import FursuitListHeaderIcon from '../assets/FursuitListScreenHeaderIcon.png'
-import { FursuitCard } from '../components/fursuits/FursuitCard'
+import MakerListHeaderIcon from '../assets/MakerListScreenHeaderIcon.png'
+import { MakerCard } from '../components/makers/MakerCard'
 import ScreenContainer from '../components/ScreenContainer'
 import ScreenHeader from '../components/ScreenHeader'
 import { ErrorDisplay } from '../components/utils/ErrorDisplay'
 import ScritchProgress from '../components/utils/ScritchProgress'
-import useGetFursuits from '../hooks/useGetFursuits'
+import useGetMakers from '../hooks/useGetMakers'
 import useTranslations from '../hooks/useTranslations'
-import { Fursuit } from '../types'
-import { useQueryParams } from '../hooks/useQueryParams'
+import { Maker } from '../types'
 
 const defaultFilters = {}
 
-export const FursuitListScreen: React.FC = () => {
+export const MakerListScreen: React.FC = () => {
     const [filtersModal, setFiltersModal] = React.useState(false)
     const [filters, setFilters] = React.useState(defaultFilters)
     const [pageData, setPageData] = React.useState({ offset: 0, limit: 24 })
     const t = useTranslations()
-    const { data, loading, error } = useGetFursuits({
+    const { data, loading, error } = useGetMakers({
         variables: {
-            ...filters,
+            // ...filters,
             ...pageData,
         },
     })
 
-    console.log(data?.fursuits?.pageInfo)
+    console.log(data?.makers, error)
 
-    const fursuits = data?.fursuits?.nodes
+    const makers = data?.makers?.nodes
 
     const filtersButton = (
         <Button key='filtersAction' onClick={() => setFiltersModal(true)} variant='subtle'>
@@ -41,9 +39,9 @@ export const FursuitListScreen: React.FC = () => {
     return (
         <>
             <ScreenHeader
-                image={FursuitListHeaderIcon}
-                title={t('fursuits.title') as string}
-                description={t('fursuits.description') as string}
+                image={MakerListHeaderIcon}
+                title={t('makers.title') as string}
+                description={t('makers.description') as string}
                 actions={actions}
             />
             {/* <Button
@@ -63,13 +61,13 @@ export const FursuitListScreen: React.FC = () => {
             <ScreenContainer>
                 {loading && <ScritchProgress size={96} />}
                 {error && <ErrorDisplay />}
-                {fursuits && (
+                {makers && (
                     <div className='flex flex-wrap'>
-                        {fursuits.map((fursuit: Fursuit) => {
+                        {makers.map((maker: Maker) => {
                             return (
-                                <div className='w-1/6 px-3 py-3' key={fursuit.id}>
-                                    <Link to={`/fursuits/${fursuit.slug}`}>
-                                        <FursuitCard fursuit={fursuit} />
+                                <div className='w-1/6 px-3 py-3' key={maker.id}>
+                                    <Link to={`/makers/${maker.slug}`}>
+                                        <MakerCard maker={maker} />
                                     </Link>
                                 </div>
                             )

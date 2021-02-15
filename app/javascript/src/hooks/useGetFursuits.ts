@@ -15,9 +15,8 @@ export const LOAD_FURSUITS = gql`
         $fursuitGenderId: ID
         $baseColor: [String!]
         $eyesColor: [String!]
-        $first: Int
-        $after: String
-        $before: String
+        $offset: Int
+        $limit: Int
     ) {
         fursuits(
             name: $name
@@ -29,20 +28,15 @@ export const LOAD_FURSUITS = gql`
             fursuitGenderId: $fursuitGenderId
             baseColor: $baseColor
             eyesColor: $eyesColor
-            first: $first
-            after: $after
-            before: $before
+            offset: $offset
+            limit: $limit
         ) {
             nodes {
                 ...FursuitFragment
             }
             totalCount
-            pageInfo {
-                endCursor
-                startCursor
-                hasNextPage
-                hasPreviousPage
-            }
+            pageNumber
+            totalPageCount
         }
     }
     ${FURSUIT_FRAGMENT}

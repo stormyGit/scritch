@@ -1,7 +1,7 @@
 class FursuitPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      scope
+      scope.order(:name)
     end
   end
 

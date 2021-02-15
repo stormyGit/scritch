@@ -7,6 +7,7 @@ module Types
     end
 
     resource_field Fursuit
+    resource_field Maker
   end
 end
 

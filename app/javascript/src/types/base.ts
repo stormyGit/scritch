@@ -4,8 +4,8 @@ export interface BaseType {}
 
 export interface Fursuit extends BaseType {
     id: string
-    name: string
     slug: string
+    name: string
     creationYear: number
     avatar: string
     /* makers type */
@@ -13,4 +13,12 @@ export interface Fursuit extends BaseType {
     isHybrid: boolean
     /* species type */
     species: any
+}
+
+export interface Maker extends BaseType {
+    id: string
+    slug: string
+    name: string
+    country: string
+    avatar: string
 }

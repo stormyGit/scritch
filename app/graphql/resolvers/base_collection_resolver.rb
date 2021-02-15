@@ -46,6 +46,31 @@ module Resolvers
         end
       end
 
+      # model.reflect_on_all_associations(:has_many).each do |association|
+      #   # simple ID filtering
+      #   option(association.foreign_key, type: ID, null: true) do |scope, value|
+      #     scope.joins(association.klass.to_s.downcase.pluralize.to_sym).where("#{association.klass.to_s.downcase.pluralize}.uuid = ?", value)
+      #   end
+
+      #   # simple IDs filtering
+      #   option(association.foreign_key, type: [ID], null: true) do |scope, value|
+      #     if value.blank?
+      #       scope
+      #     else
+      #       scope.joins(association.klass.to_s.downcase.pluralize.to_sym).where(association.klass.to_s.downcase.pluralize.to_sym => { uuid: value }).group("fursuits.id").having('count(fursuits.id) >= ?', value.size)
+      #     end
+      #   end
+
+      #   option("#{association.foreign_key.pluralize}_strict", type: [ID], null: true) do |scope, value|
+      #     scope.where(association.foreign_key => value)
+      #   end
+
+      #   # simple IDs exclude
+      #   option("not_#{association.foreign_key.pluralize}", type: [ID], null: true) do |scope, value|
+      #     scope.where.not(association.foreign_key => value)
+      #   end
+      # end
+
       model.reflect_on_all_associations(:has_one).each do |association|
         # Simple ID filtering
         option("#{association.name}_id", type: ID, null: true) do |scope, value|
@@ -100,7 +125,6 @@ module Resolvers
 
       # Expose simple matching for text fields
       model.columns.select do |column|
-        puts column.name
         column.sql_type_metadata.type == :string
       end.each do |column|
         # multiple match
@@ -113,6 +137,27 @@ module Resolvers
           scope.where.not(column.name => value)
         end
       end
+
+      model.columns.select do |column|
+        column.sql_type_metadata.type == :boolean
+      end.each do |column|
+        # multiple match
+        option(column.name, type: [Boolean], null: true) do |scope, value|
+          scope.where(column.name => value)
+        end
+
+        # multiple exclusion
+        option("not_#{column.name}", type: [Boolean], null: true) do |scope, value|
+          scope.where.not(column.name => value)
+        end
+      end
+
+      option(:limit, type: Integer, null: true) do |scope, value|
+      end
+
+      option(:offset, type: Integer, null: true) do |scope, value|
+      end
+
     end
   end
 end
