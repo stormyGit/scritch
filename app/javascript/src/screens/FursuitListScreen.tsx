@@ -13,6 +13,7 @@ import useTranslations from "../hooks/useTranslations"
 import { Fursuit } from "../types"
 import { StringParam, useQueryParam } from "use-query-params"
 import { Pagination } from "../components/pagination/Pagination"
+import { PAGE_SIZE } from "../components/pagination/consts"
 
 const defaultFilters = {}
 
@@ -21,8 +22,8 @@ export const FursuitListScreen: React.FC = () => {
   const [filtersModal, setFiltersModal] = React.useState(false)
   const [filters, setFilters] = React.useState(defaultFilters)
   const [pageData, setPageData] = React.useState({
-    offset: ((parseInt(page) || 0) - 1) * 24,
-    limit: 24
+    offset: ((page ? parseInt(page) -1  : 0)) * PAGE_SIZE,
+    limit: PAGE_SIZE
   })
   const t = useTranslations()
 
@@ -34,10 +35,15 @@ export const FursuitListScreen: React.FC = () => {
   })
 
   React.useEffect(() => {
-    setPageData({ offset: ((parseInt(page) - 1 || 0)) * 24, limit: 24 })
+    setPageData({ offset: ((page ? parseInt(page) - 1 : 0)) * PAGE_SIZE, limit: PAGE_SIZE })
   }, [page])
   const fursuits = data?.fursuits?.nodes
 
+  React.useEffect(() => {
+      if (parseInt(page) > data?.fursuits?.totalPageCount)
+        setPage(String(data?.fursuits?.totalPageCount))
+  }, [fursuits])
+  
   const filtersButton = (
     <Button
       key="filtersAction"
@@ -65,6 +71,7 @@ export const FursuitListScreen: React.FC = () => {
             <Pagination
               pageNumber={data?.fursuits.pageNumber}
               totalPageCount={data?.fursuits.totalPageCount}
+              totalCount={data?.fursuits.totalCount}
               setPage={setPage}
             />
             <div className="flex flex-wrap">

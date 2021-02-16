@@ -65,6 +65,7 @@ export const MakerListScreen: React.FC = () => {
             <Pagination
               pageNumber={data?.makers.pageNumber}
               totalPageCount={data?.makers.totalPageCount}
+              totalCount={data?.makers.totalCount}
               setPage={setPage}
             />
             <div className="flex flex-wrap">
