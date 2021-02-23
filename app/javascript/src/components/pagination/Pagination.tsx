@@ -33,6 +33,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   setPage
 }) => {
   let pageArray = []
+  if (totalCount === 0) return null
   if (totalPageCount <= 9)
     pageArray = Array.from({ length: totalPageCount }, (_, i) => i + 1)
   else {
@@ -99,7 +100,8 @@ export const Pagination: React.FC<PaginationProps> = ({
       </div>
       <div className="flex items-center justify-center flex-grow pt-2 space-x-2 ">
         <p>
-          Showing items {(pageNumber - 1) * PAGE_SIZE + 1} -{" "}
+          Showing items{" "}
+          {totalCount === 0 ? 0 : (pageNumber - 1) * PAGE_SIZE + 1} -{" "}
           {(pageNumber - 1) * PAGE_SIZE + PAGE_SIZE > totalCount
             ? totalCount
             : (pageNumber - 1) * PAGE_SIZE + PAGE_SIZE}{" "}

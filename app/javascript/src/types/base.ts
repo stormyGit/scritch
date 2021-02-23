@@ -31,3 +31,9 @@ export interface Event extends BaseType {
     country: string
     avatar: string
 }
+
+export interface Medium extends BaseType {
+    id: string
+    picture: string
+    thumbnail: string
+}

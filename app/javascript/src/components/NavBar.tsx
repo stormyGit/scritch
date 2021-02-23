@@ -82,22 +82,22 @@ const NavBar: React.FC<SidebarProps> = ({ stripped, visible, onHide }) => {
             compact([
                 {
                     to: '/',
-                    icon: MadIcon,
                     label: t('navbar.home'),
                 },
                 {
+                    to: '/pictures',
+                    label: t('navbar.media'),
+                },
+                {
                     to: '/fursuits',
-                    icon: MadIcon,
                     label: t('navbar.fursuits'),
                 },
                 {
                     to: '/makers',
-                    icon: AnalyticsIcon,
                     label: t('navbar.makers'),
                 },
                 {
                     to: '/events',
-                    icon: SettingsIcon,
                     label: t('navbar.events'),
                 },
             ]).map(({ ...props }) => <SidebarLink {...props} key={`${props.label}-${props.to}`} />),

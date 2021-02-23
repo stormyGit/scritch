@@ -1,12 +1,17 @@
 {
     "navbar": {
         "home": "Home",
+        "media": "Media",
         "fursuits": "Fursuits",
         "makers": "Makers",
         "events": "Events"
     },
     "actions": {
         "filters": "Filters"
+    },
+    "media": {
+        "title": "Media",
+        "description": "All the fursuit pictures!"
     },
     "fursuits": {
         "title": "Fursuits",

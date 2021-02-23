@@ -6,6 +6,7 @@ import { FursuitListScreen } from "../screens/FursuitListScreen"
 import { FursuitScreen } from "../screens/FursuitScreen"
 import { HomeScreen } from "../screens/HomeScreen"
 import { MakerListScreen } from "../screens/MakerListScreen"
+import { MediaListScreen } from "../screens/MediaListScreen"
 import { ScreenBase } from "../screens/ScreenBase"
 
 export const AppRouter = (props) => {
@@ -27,6 +28,9 @@ export const AppRouter = (props) => {
               path="/fursuits/:fursuitId"
               component={FursuitScreen}
             />
+            <Route exact path="/pictures">
+              <MediaListScreen />
+            </Route>
             <Route exact path="/makers">
               <MakerListScreen />
             </Route>

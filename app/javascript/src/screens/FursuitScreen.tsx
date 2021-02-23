@@ -13,6 +13,7 @@ import useTranslations from "../hooks/useTranslations"
 import { Fursuit } from "../types"
 import { useQueryParams } from "../hooks/useQueryParams"
 import useGetFursuit from "../hooks/useGetFursuit"
+import { Badge } from "../components/utils/Badge"
 
 const defaultFilters = {}
 
@@ -36,29 +37,21 @@ export const FursuitScreen: React.FC<FursuitScreenProps> = ({ match }) => {
 
   if (fursuit) {
     details = (
-      <div >
-        <div className="flex justify-between space-x-6 text-gray-300">
-          <p>
-            <strong>X</strong>&nbsp;Scritches
-          </p>
-          {dotSpacer}
-          <p>
-            <strong>X</strong>&nbsp;Followers
-          </p>
-          {dotSpacer}
-          <p>
-            <strong>X</strong>&nbsp;Media
-          </p>
+      <div className="pt-2">
+        <div className="flex pb-2 space-x-2 text-gray-300">
+         <Badge label="Scritches" value="X" />
+         <Badge label="Media" value="X" />
+         <Badge label="Followers" value="X" />
         </div>
         <div className="flex justify-between space-x-6 text-gray-300">
-          <div>{fursuit.species[0].name}</div>
+          <div>{fursuit.species?.[0]?.name}</div>
           <div>
             Made by{" "}
             <Link
               className="text-accent-400"
-              to={`/makers/${fursuit.makers[0].slug}`}
+              to={`/makers/${fursuit.makers?.[0]?.slug}`}
             >
-              {fursuit.makers[0].name}
+              {fursuit.makers?.[0]?.name}
             </Link>{" "}
             in {fursuit.creationYear}
           </div>
@@ -67,9 +60,9 @@ export const FursuitScreen: React.FC<FursuitScreenProps> = ({ match }) => {
               Owned by{" "}
               <Link
                 className="text-accent-400"
-                to={`/users/${fursuit.users[0].slug}`}
+                to={`/users/${fursuit.users?.[0]?.slug}`}
               >
-                {fursuit.users[0].name}
+                {fursuit.users?.[0].name}
               </Link>
             </div>
           )}

@@ -1,4 +1,4 @@
-import { Fursuit, Maker } from "."
+import { Fursuit, Maker, Event, Medium } from "."
 
 export type Edge<T> = {
   /**
@@ -114,6 +114,16 @@ export type EventQueryVariables = { id: string }
 
 export type EventsQuery = Connection<Event>
 export type EventsQueryVariables = {
+  name?: string[]
+  country?: string[]
+} & PaginatedVariables &
+  TimestampFilterableVariables
+
+export type MediaQuery = Maker
+export type MediaQueryVariables = { id: string }
+
+export type MediasQuery = Connection<Medium>
+export type MediasQueryVariables = {
   name?: string[]
   country?: string[]
 } & PaginatedVariables &

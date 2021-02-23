@@ -16,7 +16,6 @@ module Types
     field :created_at, String, null: true
     field :user, UserType, null: true
     field :comments, [CommentType], null: false
-    field :related_media, [MediumType], null: false
     field :tagger, ID, null: true
     field :tag_locked, Boolean, null: false
 
@@ -64,16 +63,6 @@ module Types
 
     def exif
       object.exif.to_json.to_s #TODO a proprifier
-    end
-
-    def related_media
-      limit = 10
-
-      MediumPolicy::Scope.new(context[:current_user], Medium.tagged_with(object.tag_list, any: true).where.not(uuid: object.uuid)).resolve.limit(limit).to_a.tap do |media|
-        if media.count < limit
-          media.concat MediumPolicy::Scope.new(context[:current_user], Medium.all).resolve.order("RANDOM()").where.not(uuid: [object.uuid] + media.map(&:uuid)).limit(limit - media.count).to_a
-        end
-      end
     end
 
     def picture

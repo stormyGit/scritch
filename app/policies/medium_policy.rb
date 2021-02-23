@@ -15,6 +15,10 @@ class MediumPolicy < ApplicationPolicy
     end
   end
 
+  def index?
+    true
+  end
+
   def show?
     if user.blank?
       true
