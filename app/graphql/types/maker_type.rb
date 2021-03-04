@@ -33,7 +33,7 @@ module Types
     end
 
     def possessed
-      object.user == context[:current_user]
+      context[:current_user] && object.user == context[:current_user]
     end
 
     def avatar
